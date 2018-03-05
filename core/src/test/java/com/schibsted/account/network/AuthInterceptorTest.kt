@@ -21,13 +21,9 @@ import io.kotlintest.forAll
 import io.kotlintest.matchers.should
 import io.kotlintest.matchers.shouldBe
 import io.kotlintest.matchers.shouldThrow
-import io.kotlintest.matchers.singleElement
 import io.kotlintest.specs.WordSpec
-import kotlinx.coroutines.experimental.CommonPool
 import kotlinx.coroutines.experimental.async
-import kotlinx.coroutines.experimental.delay
 import kotlinx.coroutines.experimental.newFixedThreadPoolContext
-import kotlinx.coroutines.experimental.newSingleThreadContext
 import kotlinx.coroutines.experimental.runBlocking
 import okhttp3.HttpUrl
 import okhttp3.Interceptor
@@ -35,9 +31,6 @@ import okhttp3.MediaType
 import okhttp3.Protocol
 import okhttp3.Request
 import okhttp3.ResponseBody
-import java.util.concurrent.ExecutorService
-import java.util.concurrent.Executors
-import kotlin.coroutines.experimental.CoroutineContext
 
 class AuthInterceptorTest : WordSpec() {
     private val userToken = UserToken(null, "userId", "eyJ0eXAiOiJKV1MiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvaWRlbnRpdHktcHJlLnNjaGlic3RlZC5jb21cLyIsImNsYXNzIjoidG9rZW4uT0F1dGhVc2VyQWNjZXNzVG9rZW4iLCJleHAiOjE1MTA5MTgyNTMsImlhdCI6MTUxMDMxMzQ1MywianRpIjoiODI5Mzc2MDYtMjRiZS00OWMxLWJjZTktNzgzOTgwYWUyZDNiIiwic3ViIjoiZTA2MTYyNzAtMjA5Mi01ZTlkLTg1NmItNDhlMDY1ZDQ4OTlmIiwic2NvcGUiOiIiLCJ1c2VyX2lkIjoiMTEwOTk0NjQiLCJhenAiOiI1OGNmZjk4ZjE3ZTU5Njg2MTU4YjQ1NjciLCJjbGllbnRfaWQiOiI1OGNmZjk4ZjE3ZTU5Njg2MTU4YjQ1NjcifQ.gS0h44PX42hwv6P7TYjaR4Dskl3X0lT716-_iW_Wd2E",
