@@ -1,7 +1,4 @@
 # Ordering is important, last matching rule applies.
 
-# Additional owners for documentation
-*.md karmelaangela-cortez
-
 # Default owners which can review a PR
-* @havard-kindem @antoine-promerova @ali-akhtarzada @oskar-korosec
+* @nexcius @aliak00 @astach
