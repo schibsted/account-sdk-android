@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2018 Schibsted Products & Technology AS. Licensed under the terms of the Apache 2.0 license. See LICENSE in the project root.
+  -->
+
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <public type="string" name="schacc_redirect_scheme"/>
+    <public type="string" name="schacc_redirect_host"/>
+
+    <public type="color" name="schacc_primaryEnabled"/>
+    <public type="color" name="schacc_primaryDisabled"/>
+    <public type="color" name="schacc_primaryHovered"/>
+    <public type="color" name="schacc_primaryActive"/>
+
+    <public type="color" name="schacc_secondaryEnabled"/>
+    <public type="color" name="schacc_secondaryDisabled"/>
+    <public type="color" name="schacc_secondaryHovered"/>
+    <public type="color" name="schacc_secondaryActive"/>
+
+    <public type="color" name="schacc_primaryHeader"/>
+    <public type="color" name="schacc_secondaryHeader"/>
+
+    <public type="color" name="schacc_progressColor"/>
+
+    <public type="color" name="colorPrimary" tools:ignore="ResourceName"/>
+    <public type="color" name="colorPrimaryDark" tools:ignore="ResourceName"/>
+    <public type="color" name="colorAccent" tools:ignore="ResourceName"/>
+</resources>

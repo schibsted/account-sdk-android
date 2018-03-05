@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2018 Schibsted Products & Technology AS. Licensed under the terms of the Apache 2.0 license. See LICENSE in the project root.
+  -->
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/input_field_widget_label"
+        style="@style/schacc_text.label" />
+
+    <EditText
+        android:id="@+id/input"
+        style="@style/schacc_input_field_widget"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/schacc_default_widget_height"
+        android:imeOptions="actionNext" />
+
+    <TextView
+        android:id="@+id/input_error_view"
+        style="@style/schacc_text.error"
+        android:layout_marginTop="4dp"
+        android:visibility="gone"
+        tools:text="error" />
+
+    <TextView
+        android:id="@+id/input_extra_info_view"
+        style="@style/schacc_text.secondary"
+        android:layout_marginTop="4dp"
+        android:visibility="gone"
+        tools:text="info" />
+</LinearLayout>

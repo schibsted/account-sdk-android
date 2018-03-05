@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2018 Schibsted Products & Technology AS. Licensed under the terms of the Apache 2.0 license. See LICENSE in the project root.
+  -->
+
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="UnusedResources">
+    <!--Android color attributes-->
+    <color name="colorPrimary" tools:ignore="ResourceName">@color/schacc_white</color>
+    <color name="colorPrimaryDark" tools:ignore="ResourceName">@color/schacc_mediumGrey</color>
+    <color name="colorAccent" tools:ignore="ResourceName">@color/schacc_secondaryEnabled</color>
+
+    <color name="schacc_primaryEnabled">#1d72db</color>
+    <color name="schacc_primaryDisabled">#8eb8ed</color>
+    <color name="schacc_primaryHovered">#1a66c4</color>
+    <color name="schacc_primaryActive">#175baf</color>
+    <color name="schacc_primaryHeader">@color/schacc_black</color>
+
+    <color name="schacc_secondaryEnabled">#289588</color>
+    <color name="schacc_secondaryDisabled">#96c9c3</color>
+    <color name="schacc_secondaryHovered">#2a867a</color>
+    <color name="schacc_secondaryActive">#25776c</color>
+    <color name="schacc_secondaryHeader">@color/schacc_black</color>
+
+    <color name="schacc_progressColor">@color/schacc_white</color>
+
+    <color name="schacc_error">#c8293d</color>
+    <color name="schacc_lightError">#0dd13649</color>
+
+    <color name="schacc_darkGrey">#666666</color>
+    <color name="schacc_mediumGrey">#b6b6b6</color>
+    <color name="schacc_lightGrey">#eaeaea</color>
+    <color name="schacc_veryLightGrey">#f8f8f8</color>
+
+    <color name="schacc_black">#111</color>
+    <color name="schacc_green">#498A02</color>
+    <color name="schacc_white">#ffffff</color>
+
+</resources>

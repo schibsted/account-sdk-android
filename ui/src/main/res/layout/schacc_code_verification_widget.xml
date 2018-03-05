@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2018 Schibsted Products & Technology AS. Licensed under the terms of the Apache 2.0 license. See LICENSE in the project root.
+  -->
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/schacc_default_widget_height"
+        android:orientation="horizontal"
+        android:weightSum="6">
+
+        <com.schibsted.account.ui.ui.component.CustomEditText
+            android:id="@+id/input_1"
+            style="@style/schacc_code_figure_input"
+            android:layout_height="@dimen/schacc_default_widget_height"
+            android:layout_marginLeft="0dp"
+            android:layout_marginStart="0dp"
+            tools:text="1" />
+
+        <com.schibsted.account.ui.ui.component.CustomEditText
+            android:id="@+id/input_2"
+            style="@style/schacc_code_figure_input"
+            android:layout_height="@dimen/schacc_default_widget_height"
+            tools:text="2" />
+
+        <com.schibsted.account.ui.ui.component.CustomEditText
+            android:id="@+id/input_3"
+            style="@style/schacc_code_figure_input"
+            android:layout_height="@dimen/schacc_default_widget_height"
+            tools:text="3" />
+
+        <com.schibsted.account.ui.ui.component.CustomEditText
+            android:id="@+id/input_4"
+            style="@style/schacc_code_figure_input"
+            android:layout_height="@dimen/schacc_default_widget_height"
+            tools:text="4" />
+
+        <com.schibsted.account.ui.ui.component.CustomEditText
+            android:id="@+id/input_5"
+            style="@style/schacc_code_figure_input"
+            android:layout_height="@dimen/schacc_default_widget_height"
+            tools:text="5" />
+
+        <com.schibsted.account.ui.ui.component.CustomEditText
+            android:id="@+id/input_6"
+            style="@style/schacc_code_figure_input"
+            android:layout_height="@dimen/schacc_default_widget_height"
+            android:imeOptions="actionDone"
+            tools:text="6" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/input_error_view"
+        style="@style/schacc_text.error"
+        android:layout_marginTop="4dp"
+        android:text="@string/schacc_verification_error"
+        android:visibility="gone" />
+
+</LinearLayout>

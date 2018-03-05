@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2018 Schibsted Products & Technology AS. Licensed under the terms of the Apache 2.0 license. See LICENSE in the project root.
+  -->
+
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    style="@style/schacc_container">
+
+    <com.schibsted.account.ui.ui.component.AccountSelectorView
+        android:id="@+id/identifier_modifier"
+        style="@style/schacc_text.bold"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:actionText="@string/schacc_identifier_modifier"
+        tools:text="spiduser@example.com"/>
+
+    <TextView
+        android:id="@+id/code_label"
+        style="@style/schacc_text.label"
+        android:layout_below="@id/identifier_modifier"
+        android:layout_marginTop="24dp"
+        android:text="@string/schacc_verification_code_label"/>
+
+    <com.schibsted.account.ui.ui.component.CodeInputView
+        android:id="@+id/verification_code_input_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/code_label"/>
+
+    <com.schibsted.account.ui.ui.component.LoadingButton
+        android:id="@+id/mobile_verification_button_continue"
+        android:layout_marginTop="8dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/verification_code_input_view"
+        app:text="@string/schacc_next_step"/>
+
+    <Button
+        android:id="@+id/mobile_verification_button_resend"
+        style="@style/schacc_widget.button.secondary"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_below="@id/mobile_verification_button_continue"
+        android:text="@string/schacc_verification_resend_code_value"/>
+</RelativeLayout>

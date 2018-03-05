@@ -1,0 +1,100 @@
+{
+  "name": "SPP Container",
+  "version": "0.2",
+  "api": 2,
+  "object": "User",
+  "type": "element",
+  "code": 200,
+  "request": {
+    "reset": 3600,
+    "limit": 360000,
+    "remaining": 360000
+  },
+  "debug": {
+    "route": {
+      "name": "Get and update users",
+      "url": "/api/2/user/{id}",
+      "controller": "Api/2/User.user"
+    },
+    "params": {
+      "options": [],
+      "where": {
+        "id": "11099464"
+      }
+    }
+  },
+  "meta": null,
+  "error": null,
+  "data": {
+    "id": "588f0d7b9446df411bdde132",
+    "userId": "11099464",
+    "uuid": "e0616270-2092-5e9d-856b-48e065d4899f",
+    "status": 1,
+    "email": "havard.kindem@schibsted.com",
+    "emails": [
+      {
+        "value": "havard.kindem@schibsted.com",
+        "type": "other",
+        "primary": "true",
+        "verified": "true",
+        "verifiedTime": "2017-01-30 10:55:23"
+      }
+    ],
+    "displayName": "kashdkhj2ka2",
+    "preferredUsername": "havard_kindem",
+    "gender": "male",
+    "utcOffset": "+01:00",
+    "birthday": "2013-09-15",
+    "photo": "https://secure.gravatar.com/avatar/4d9594cea54bd1862b2098109faa3e1e?s=200",
+    "url": "",
+    "phoneNumber": "",
+    "name": {
+      "familyName": "Awesome",
+      "givenName": "Håvard Lol",
+      "formatted": "Håvard Lol Awesome"
+    },
+    "accounts": {
+      "4d00e8d6bf92fc8648000000": {
+        "id": "4d00e8d6bf92fc8648000000",
+        "accountName": "SPiD",
+        "domain": "https://identity-pre.schibsted.com/"
+      },
+      "58fe5665af4adf44204cee38": {
+        "id": "58fe5665af4adf44204cee38",
+        "domain": "selfservice.identity-pre.schibsted.com",
+        "accountName": "SelfService"
+      },
+      "58cff98f17e59686158b4567": {
+        "id": "58cff98f17e59686158b4567",
+        "domain": "",
+        "accountName": "Android SDK Integration tests"
+      },
+      "596f6d8cf3f8fd0d8b0a70c4": {
+        "id": "596f6d8cf3f8fd0d8b0a70c4",
+        "domain": "",
+        "accountName": "havard-backend"
+      },
+      "59edab6c90b8a50f420b52c9": {
+        "id": "59edab6c90b8a50f420b52c9",
+        "domain": "",
+        "accountName": "identity-android-sdk",
+        "connected": "2017-10-26 11:53:26"
+      }
+    },
+    "addresses": [],
+    "currentLocation": [],
+    "phoneNumbers": [],
+    "emailVerified": "2017-01-30 10:55:23",
+    "phoneNumberVerified": false,
+    "published": "2017-01-30 10:55:07",
+    "updated": "2017-10-26 11:55:33",
+    "lastAuthenticated": "2017-11-10 12:30:53",
+    "passwordChanged": "2017-07-05 16:41:10",
+    "lastLoggedIn": "2017-11-10 12:30:53",
+    "locale": "en_US",
+    "merchants": [
+      46000
+    ],
+    "verified": "2017-01-30 10:55:23"
+  }
+}

@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<FindBugsFilter>
+    <Match>
+        <Class name="com.schibsted.account.Manager" />
+        <Bug pattern="ME_ENUM_FIELD_SETTER" />
+    </Match>
+    <Match>
+        <Class name="com.schibsted.account.ManagerTest" />
+        <Method name="initWithNullContextThrowsIllegalArgumentException" />
+        <Bug pattern="NP_NULL_PARAM_DEREF_ALL_TARGETS_DANGEROUS" />
+    </Match>
+    <Match>
+        <Class name="com.schibsted.account.util.KeyValueStoreTest" />
+        <Method name="constructorWithNullContextThrowsIllegalArgumentException" />
+        <Bug pattern="NP_NULL_PARAM_DEREF_NONVIRTUAL" />
+    </Match>
+    <Match>
+        <Class name="android.util.Base64" />
+        <Bug pattern="DM_DEFAULT_ENCODING, SF_SWITCH_NO_DEFAULT" />
+    </Match>
+    <Match>
+        <Class name="com.schibsted.account.network.response.ApiContainer" />
+        <Bug pattern="UUF_UNUSED_PUBLIC_OR_PROTECTED_FIELD" />
+    </Match>
+</FindBugsFilter>

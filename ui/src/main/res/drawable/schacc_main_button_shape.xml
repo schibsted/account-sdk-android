@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2018 Schibsted Products & Technology AS. Licensed under the terms of the Apache 2.0 license. See LICENSE in the project root.
+  -->
+
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_enabled="false">
+        <shape android:shape="rectangle">
+            <solid android:color="@color/schacc_primaryDisabled"/>
+            <corners
+                android:bottomLeftRadius="@dimen/schacc_main_button_radius"
+                android:bottomRightRadius="@dimen/schacc_main_button_radius"
+                android:topLeftRadius="@dimen/schacc_main_button_radius"
+                android:topRightRadius="@dimen/schacc_main_button_radius"/>
+        </shape>
+    </item>
+
+    <item android:state_enabled="true">
+        <shape android:shape="rectangle">
+            <solid android:color="@color/schacc_primaryEnabled"/>
+            <corners
+                android:bottomLeftRadius="@dimen/schacc_main_button_radius"
+                android:bottomRightRadius="@dimen/schacc_main_button_radius"
+                android:topLeftRadius="@dimen/schacc_main_button_radius"
+                android:topRightRadius="@dimen/schacc_main_button_radius"/>
+        </shape>
+    </item>
+</selector>
