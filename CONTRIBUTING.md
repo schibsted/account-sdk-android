@@ -19,4 +19,4 @@ such Contributions.
 First of all, you should ensure your environment is set up in compliance with the _ktlint_ style guide. The steps to do this, can be found over at their [Github repo](https://github.com/shyiko/ktlint#option-1-recommended). In our repo, `master` is always the primary branch. To contribute, please make a PR against this branch from your own fork, or another branch if you have write access (which we are happy to grant to contributors).
 
 
-All PR titles should start with one of the following: **Added**, **Changed**, **Deprecated**, **Fixed**, **Removed** or **Security**. The PR will be reviewed by one of the primary contributors and admins of this repository.
+All PR titles should start with one of the following: **Add**, **Change**, **Deprecate**, **Fix**, or **Remove**. The PR will be reviewed by one of the primary contributors and admins of this repository.
