@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+<<<<<<< HEAD
+  ~ Copyright (c) 2018 Schibsted Products & Technology AS. Licensed under the terms of the MIT license. See LICENSE in the project root.
+=======
+  ~ Copyright (c) 2018 Schibsted Products & Technology AS. Licensed under the terms of the Apache 2.0 license. See LICENSE in the project root.
+>>>>>>> Initial commit
+  -->
+
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!--Identification-->
+    <string name="schacc_identification_title">Login or register</string>
+    <string name="schacc_identification_login_only_title">Login</string>
+    <string name="schacc_identification_help_link">https://www.schibstedpayment.com/hc/en/#faq</string>
+    <string name="schacc_identification_help_link_text">Need help?</string>
+
+    <string name="schacc_mobile_privacy_information">We\'ll never share your phone number without your consent.</string>
+    <string name="schacc_mobile_identification_error">Please enter a valid phone number.</string>
+    <string name="schacc_mobile_number_label">Enter your phone number</string>
+    <string name="schacc_mobile_number_hint">123456789</string>
+    <string name="schacc_mobile_prefix_hint">+%1$d</string>
+
+    <string name="schacc_email_privacy_information">We\'ll never share your email address without your consent.</string>
+    <string name="schacc_email_identification_error">Please enter a valid email address.</string>
+    <string name="schacc_email_label">Enter your email address</string>
+    <string name="schacc_email_hint">firstname.lastname@mail.com</string>
+    <!--Verification-->
+    <string name="schacc_verification_title">We sent you a code</string>
+    <string name="schacc_verification_code_label">Enter your code</string>
+    <string name="schacc_verification_error">Please check your code and try again.</string>
+    <string name="schacc_verification_resend_code_value">Resend the code</string>
+    <string name="schacc_verification_dialog_title">We sent you a new verification code</string>
+    <string name="schacc_verification_dialog_information">The code was sent to: \n%1$s</string>
+    <string name="schacc_verification_dialog_ok">OK</string>
+    <string name="schacc_verification_edit_phone_number">Use a different phone number</string>
+    <string name="schacc_verification_edit_email_address">Use a different email address</string>
+    <!--Terms-->
+    <string name="schacc_terms_title">Terms of use</string>
+    <string name="schacc_terms_sign_up_description">To create your account, you need to accept the following terms, conditions and privacy policies</string>
+    <string name="schacc_terms_sign_in_description">To log in, you need to accept the following terms, conditions and privacy policies</string>
+    <string name="schacc_terms_privacy_error">Please accept the terms and conditions to continue.</string>
+    <string name="schacc_terms_terms_error">Please accept the privacy policy to continue.</string>
+    <string name="schacc_terms_policy">I accept the terms and conditions for %1$s and %2$s</string>
+    <string name="schacc_terms_policy_spid_only">I accept the terms and conditions for %1$s</string>
+    <string name="schacc_privacy_policy">I accept the privacy policy for %1$s and %2$s</string>
+    <string name="schacc_privacy_policy_spid_only">I accept the privacy policy for %1$s</string>
+    <string name="schacc_terms_update_link_label">Learn more about the update</string>
+    <string name="schacc_accept">Accept</string>
+    <!--Terms update dialog-->
+    <string name="schacc_terms_update_title">Updated terms and conditions</string>
+    <!--Required fields-->
+    <string name="schacc_required_fields_title">Finalise</string>
+    <string name="schacc_required_fields_description">Fill in some additional details for your profile</string>
+    <string name="schacc_required_fields_error">This field is required.</string>
+    <string name="schacc_required_field_given_name">First name</string>
+    <string name="schacc_required_field_family_name">Last name</string>
+    <string name="schacc_required_field_gender">Gender</string>
+    <string name="schacc_required_field_birthday">Birthday</string>
+    <string name="schacc_required_field_address_home">Home address</string>
+    <string name="schacc_required_field_address_delivery">Delivery Address</string>
+    <string name="schacc_required_field_address_invoice">Invoice address</string>
+    <string name="schacc_required_field_email">Email address</string>
+    <string name="schacc_required_field_display_name">Display Name</string>
+    <string name="schacc_required_field_phone_number">Phone number</string>
+    <string name="schacc_required_fields_birthday_hint">YYYY-MM-DD</string>
+    <string name="schacc_required_fields_birthday_error">@string/schacc_required_fields_birthday_hint</string>
+    <!--Password-->
+    <string name="schacc_password_change_phone_number">Change phone number</string>
+    <string name="schacc_password_change_email">change email</string>
+    <string name="schacc_password_sign_in_label">Enter your password</string>
+    <string name="schacc_password_sign_up_label">Choose your password</string>
+    <string name="schacc_password_error_length">Your password should have at least 8 characters.</string>
+    <string name="schacc_password_forgot_password">Forgot password?</string>
+    <string name="schacc_password_extra_info">Minimum 8 characters</string>
+    <string name="schacc_password_error_incorrect">The password you entered is incorrect. Please try again.</string>
+    <string tools:ignore="MissingTranslation" name="schacc_password_forgot_password_uri">%1$sflow/password?client_id=%2$s&amp;redirect_uri=%3$s</string>
+    <string name="schacc_password_keep_me_logged_in">Keep me logged in</string>
+    <!--Inbox-->
+    <string name="schacc_inbox_information">We sent a verification link to: %1$s</string>
+    <string name="schacc_inbox_change_identifier">Use a different address</string>
+    <string name="schacc_inbox_resend_link">Resend the email</string>
+    <string name="schacc_inbox_dialog_title">We sent you a new verification link</string>
+    <string name="schacc_inbox_dialog_information">The code was sent to: \n%1$s</string>
+    <string name="schacc_inbox_check_inbox_title">Check your inbox</string>
+    <!--Web view-->
+    <string name="schacc_web_forgot_password_title">Forgot password?</string>
+    <string name="schacc_web_need_help_title">Need help?</string>
+    <!--Generic-->
+    <string name="schacc_spid_label">SPiD</string>
+    <string name="schacc_next_step">Continue</string>
+    <string name="schacc_welcome_back_title">Welcome back</string>
+    <string name="schacc_register_title">Register</string>
+    <string name="schacc_ok">OK</string>
+    <string name="schacc_identifier_modifier">Not you?</string>
+    <!--Generic error messages-->
+    <string name="schacc_generic_exception_error_message_title">Something went wrong!</string>
+    <string name="schacc_generic_time_out_error_message">The connection has timed out. Please try again.</string>
+    <string name="schacc_generic_server_error_message">We are experiencing problems at the moment. Please try again later.</string>
+    <string name="schacc_generic_internet_error">Unable to connect to the internet. Please check your connection.</string>
+    <string name="schacc_generic_too_many_code_request_error_message">You have sent too many code requests. Please try again later.</string>
+    <string name="schacc_generic_too_many_login_request_error_message">You have tried to log in too many times. Please try again later.</string>
+    <string name="schacc_generic_too_many_inbox_request_error_message">You have sent too many link requests. Please try again later.</string>
+    <string name="schacc_generic_error">Please try again later.</string>
+    <!--System-->
+    <string name="schacc_close">close</string>
+    <string name="schacc_intent_password_sign_up_link_name">signupDeepLink</string>
+</resources>

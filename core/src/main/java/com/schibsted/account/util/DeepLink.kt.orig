@@ -1,0 +1,92 @@
+/*
+<<<<<<< HEAD
+ * Copyright (c) 2018 Schibsted Products & Technology AS. Licensed under the terms of the MIT license. See LICENSE in the project root.
+=======
+ * Copyright (c) 2018 Schibsted Products & Technology AS. Licensed under the terms of the Apache 2.0 license. See LICENSE in the project root.
+>>>>>>> Initial commit
+ */
+
+package com.schibsted.account.util
+
+import android.util.Patterns
+import com.schibsted.account.common.lib.Try
+import com.schibsted.account.common.lib.getOrDefault
+import com.schibsted.account.common.util.Logger
+import com.schibsted.account.common.util.decodeBase64
+import com.schibsted.account.common.util.encodeBase64
+import com.schibsted.account.common.util.getQueryParam
+import java.net.URI
+import java.net.URLEncoder
+
+sealed class DeepLink {
+    enum class Action(val value: String) {
+        VALIDATE_ACCOUNT("validate-account"),
+        IDENTIFIER_PROVIDED("identifier-provided");
+    }
+
+    class ValidateAccount private constructor(val code: String, val isPersistable: Boolean) : DeepLink() {
+        companion object {
+            private const val PARAM_CODE = "code"
+            private const val PARAM_PERSISTABLE = "pers"
+
+            operator fun invoke(uri: URI): ValidateAccount? {
+                if (uri.getQueryParam(DeepLinkHandler.PARAM_ACTION) == Action.VALIDATE_ACCOUNT.value) {
+                    val code = uri.getQueryParam(PARAM_CODE)
+                            ?.filter(Char::isLetterOrDigit)
+                            ?.takeIf(String::isNotEmpty)
+
+                    if (code == null) {
+                        Logger.info(TAG, { "Action recognized, but code validation failed" })
+                        return null
+                    }
+
+                    val isPersistable = Try { Integer.parseInt(uri.getQueryParam(PARAM_PERSISTABLE)) }.map { it == 1 }.getOrDefault { false }
+
+                    return ValidateAccount(code, isPersistable)
+                }
+                return null
+            }
+
+            /**
+             * Code gets injected by the server
+             */
+            fun create(redirectUri: URI, isPersistable: Boolean): String {
+                return URLEncoder.encode("$redirectUri?" +
+                        "${DeepLinkHandler.PARAM_ACTION}=${Action.VALIDATE_ACCOUNT.value}" +
+                        "&$PARAM_PERSISTABLE=${if (isPersistable) 1 else 0}", "utf-8")
+            }
+        }
+    }
+
+    class IdentifierProvided private constructor(val identifier: String) : DeepLink() {
+        companion object {
+            private const val PARAM_ID = "id"
+
+            operator fun invoke(uri: URI): IdentifierProvided? {
+                if (uri.getQueryParam(DeepLinkHandler.PARAM_ACTION) == Action.IDENTIFIER_PROVIDED.value) {
+                    val result = uri.getQueryParam(PARAM_ID)
+                            ?.let { decodeBase64(it) }
+                            ?.takeIf { Patterns.EMAIL_ADDRESS.matcher(it).matches() }
+                            ?.let { IdentifierProvided(it) }
+
+                    if (result == null) {
+                        Logger.info(TAG, { "Action recognized, but validation failed" })
+                    }
+
+                    return result
+                }
+                return null
+            }
+
+            fun create(redirectUri: URI, identifier: String): String {
+                return URLEncoder.encode("$redirectUri?" +
+                        "${DeepLinkHandler.PARAM_ACTION}=${Action.IDENTIFIER_PROVIDED.value}" +
+                        "&$PARAM_ID=${encodeBase64(identifier)}", "utf-8")
+            }
+        }
+    }
+
+    companion object {
+        protected val TAG = Logger.DEFAULT_TAG + "-DL"
+    }
+}

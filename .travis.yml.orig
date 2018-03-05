@@ -1,0 +1,38 @@
+language: android
+android:
+  components:
+        - android-27
+        - build-tools-27.0.3
+        - tools
+        - extra-android-m2repository
+        - extra-google-m2repository
+        - platform-tools
+script:
+  - ./gradlew check --stacktrace
+before_install:
+  - mkdir "/usr/local/android-sdk/licenses" || true
+  - echo -e "\n8933bad161af4178b1185d1a37fbf41ea5269c55" > "/usr/local/android-sdk/licenses/android-sdk-license"
+  - echo -e "\n84831b9409646a918e30573bab4c9c91346d8abd" > "/usr/local/android-sdk/licenses/android-sdk-preview-license"
+  - yes | sdkmanager "platforms;android-27"
+before_script:
+  - echo org.gradle.jvmargs=-Xmx4608M > gradle.properties;
+before_cache:
+  - rm -f $HOME/.gradle/caches/modules-2/modules-2.lock
+  - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
+cache:
+  directories:
+   - $HOME/.gradle/caches/
+   - $HOME/.gradle/wrapper/
+git:
+  depth: 500
+after_success:
+  - ./release.sh
+<<<<<<< HEAD
+=======
+  - reports-publisher
+after_failure:
+  - reports-publisher
+notifications:
+  webhooks:
+    - https://devhose.spt-engprod-pro.schibsted.io/devhose/travis
+>>>>>>> Initial commit

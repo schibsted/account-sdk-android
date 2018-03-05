@@ -1,0 +1,19 @@
+*.iml
+.gradle
+.idea
+local.properties
+gradle.properties
+.DS_Store
+build
+captures
+javadoc
+dependencyReport
+schibstedid.conf
+<<<<<<< HEAD
+schibsted_account.conf
+=======
+>>>>>>> Initial commit
+/reports
+Gemfile.lock
+_site/
+temp/

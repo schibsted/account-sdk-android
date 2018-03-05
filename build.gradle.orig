@@ -1,0 +1,302 @@
+apply plugin: 'org.ajoberstar.grgit'
+apply from: "shared.gradle"
+
+import org.ajoberstar.grgit.Grgit
+
+buildscript {
+    repositories {
+        google()
+        jcenter()
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
+    }
+
+    ext {
+        kotlinVersion = '1.2.21'
+    }
+
+    dependencies {
+        classpath "com.android.tools.build:gradle:3.0.1"
+        classpath "org.ajoberstar:gradle-git:1.7.2"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
+        classpath "org.jetbrains.dokka:dokka-gradle-plugin:0.9.15"
+        classpath "gradle.plugin.org.jmailen.gradle:kotlinter-gradle:1.7.0"
+<<<<<<< HEAD
+        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.7.3'
+=======
+>>>>>>> Initial commit
+    }
+}
+
+allprojects {
+    repositories {
+        google()
+        jcenter()
+        mavenCentral()
+        maven {
+            url = 'https://artifacts.schibsted.io/artifactory/libs-release'
+            credentials {
+                username = project.hasProperty('artifactory_user') ? artifactory_user : System.getenv('ARTIFACTORY_USER')
+                password = project.hasProperty('artifactory_password') ? artifactory_password : System.getenv('ARTIFACTORY_PWD')
+            }
+        }
+        maven { url "https://maven.google.com" }
+    }
+}
+
+ext {
+    git = Grgit.open(currentDir: projectDir)
+    gitVersionCode = getGitVersionCode(git)
+    gitVersionName = getGitVersionName(git)
+
+<<<<<<< HEAD
+    artifactOrg = 'com.schibsted.account'
+    artifactVersion = gitVersionName
+
+=======
+>>>>>>> Initial commit
+    libs = [
+            assertJ         : "3.6.2",
+            barista         : "2.3.0",
+            constraintLayout: "1.0.2",
+            coroutines      : "0.19.3",
+            identity        : "0.4.0",
+            jUnit           : "4.12",
+            kotlin          : ext.kotlinVersion,
+            kotlintest      : "2.0.7",
+            mockitoKotlin   : "1.5.0",
+            mockitoAndroid  : "2.13.0",
+            multidex        : "1.0.3",
+            retrofit        : "2.3.0",
+            support         : "27.1.0"
+    ]
+
+    conf = [
+            minSdk    : 14,
+            targetSdk : 27,
+            compileSdk: 27,
+            buildTools: "27.0.3"
+    ]
+<<<<<<< HEAD
+
+    pomConfig = {
+        licenses {
+            license {
+                name "MIT License"
+                url "http://www.opensource.org/licenses/mit-license.php"
+            }
+        }
+        developers {
+            developer {
+                name "Håvard Kindem"
+                email "havard.kindem@schibsted.com"
+                organization "Schibsted"
+                organizationUrl "http://www.schibsted.com/"
+            }
+            developer {
+                name "Antoine Promerova"
+                email "antoine.promerova@schibsted.com"
+                organization "Schibsted"
+                organizationUrl "http://www.schibsted.com/"
+            }
+        }
+
+        scm {
+            connection "scm:git:git://github.com/schibsted/account-sdk-android.git"
+            developerConnection "scm:git:ssh://github.com:schibsted/account-sdk-android.git"
+            url "https://github.com/schibsted/account-sdk-android"
+        }
+    }
+=======
+>>>>>>> Initial commit
+}
+
+task clean(type: Delete, group: 'build') {
+    delete rootProject.allprojects.collect { project -> project.buildDir }
+    followSymlinks false
+}
+
+subprojects { proj ->
+    if (proj.name == "example") return
+<<<<<<< HEAD
+
+    apply plugin: 'com.android.library'
+    apply plugin: 'kotlin-android'
+
+    apply plugin: 'org.jmailen.kotlinter'
+    apply plugin: 'org.jetbrains.dokka'
+    apply plugin: 'pmd'
+    apply plugin: 'findbugs'
+
+    apply plugin: 'maven-publish'
+    apply plugin: 'com.jfrog.bintray'
+
+=======
+    apply plugin: 'com.android.library'
+    apply plugin: 'kotlin-android'
+    apply plugin: 'org.jmailen.kotlinter'
+    apply plugin: 'org.jetbrains.dokka'
+
+    apply plugin: 'pmd'
+    apply plugin: 'findbugs'
+
+>>>>>>> Initial commit
+    android {
+        buildToolsVersion conf.buildTools
+        compileSdkVersion conf.compileSdk
+
+        defaultConfig {
+            minSdkVersion conf.minSdk
+            targetSdkVersion conf.targetSdk
+            versionCode gitVersionCode
+            versionName gitVersionName
+            testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
+        }
+
+        lintOptions {
+            lintConfig file("${rootProject.rootDir}/config/lint.xml")
+            htmlOutput file("${buildDir}/reports/checkstyle.html")
+            warningsAsErrors true
+            checkAllWarnings true
+            xmlReport false
+        }
+
+        kotlinOptions {
+            apiVersion = '1.2'
+            languageVersion = '1.2'
+        }
+    }
+
+    task findbugs(type: FindBugs, dependsOn: 'assemble', group: 'verification') {
+        excludeFilter = file("${rootProject.rootDir}/config/findbugs.xml")
+        source = android.sourceSets.main.java.srcDirs
+        classes = fileTree("$buildDir/intermediates/classes")
+        classpath = files()
+
+        reports {
+            xml.enabled = false
+            html.enabled = true
+            html.setDestination(file("$buildDir/reports/findbugs.html"))
+        }
+    }
+
+    task pmd(type: Pmd, dependsOn: 'assemble', group: 'verification') {
+        ruleSetFiles = files("${rootProject.rootDir}/config/pmd.xml")
+        source = android.sourceSets.main.java.srcDirs
+        include '**/*.java'
+        ignoreFailures = false
+
+        reports {
+            xml.enabled = false
+            html.enabled = true
+            html.destination file("$buildDir/reports/pmd.html")
+        }
+    }
+
+    kotlinter {
+        continuationIndentSize = 4
+    }
+
+    dokka {
+        outputFormat = 'html'
+        outputDirectory = "${proj.buildDir}/docs"
+    }
+
+    task dokkaJavadoc(type: org.jetbrains.dokka.gradle.DokkaTask) {
+        outputFormat = 'javadoc'
+        outputDirectory = "${proj.buildDir}/javadoc"
+    }
+
+    task sourceJar(type: Jar) {
+        from android.sourceSets.main.java.srcDirs
+        classifier "source"
+    }
+
+    task javadocJar(type: Jar, dependsOn: dokkaJavadoc) {
+        classifier = 'javadoc'
+        from "$buildDir/javadoc"
+    }
+}
+<<<<<<< HEAD
+=======
+
+apply plugin: 'maven-publish'
+publish.dependsOn ':core:check', ':core:assembleRelease', ':ui:check', ':ui:assembleSingledexRelease', ':common:check', ':common:assembleRelease'
+publish.mustRunAfter ":core:assembleRelease"
+publish.mustRunAfter ":ui:assembleSingledexRelease"
+publish.mustRunAfter ":common:assembleRelease"
+
+publishing {
+    def artifactOrg = 'com.schibsted.account'
+    def isSnapshot = isSnapshot(git)
+    def libKey = isSnapshot ? 'snapshot' : 'release'
+    def artifactVersion = gitVersionName + (isSnapshot ? "-SNAPSHOT" : "")
+
+    repositories {
+        maven {
+            url "https://artifacts.schibsted.io/artifactory/libs-$libKey-local"
+            credentials {
+                username = hasProperty('ARTIFACTORY_USER') ? ARTIFACTORY_USER : System.getenv('ARTIFACTORY_USER')
+                password = hasProperty('ARTIFACTORY_PWD') ? ARTIFACTORY_PWD : System.getenv('ARTIFACTORY_PWD')
+            }
+        }
+    }
+
+    publications {
+        common(MavenPublication) {
+            artifactId 'account-sdk-android-common'
+            groupId artifactOrg
+            version artifactVersion
+            artifact "common/build/outputs/aar/common-release.aar"
+
+            if (!isSnapshot) {
+                artifact(tasks.getByPath(":common:sourceJar"))
+                artifact(tasks.getByPath(":common:javadocJar"))
+            }
+
+            pom.withXml {
+                def dependenciesNode = asNode().appendNode('dependencies')
+                fixDependencies(dependenciesNode, project(":common"))
+            }
+        }
+
+        core(MavenPublication) {
+            artifactId 'account-sdk-android-core'
+            groupId artifactOrg
+            version artifactVersion
+            artifact "core/build/outputs/aar/core-release.aar"
+
+            if (!isSnapshot) {
+                artifact(tasks.getByPath(":core:sourceJar"))
+                artifact(tasks.getByPath(":core:javadocJar"))
+            }
+
+            pom.withXml {
+                def dependenciesNode = asNode().appendNode('dependencies')
+                fixDependencies(dependenciesNode, project(":core"))
+                addDependency(dependenciesNode, artifactOrg, "account-sdk-android-common", artifactVersion)
+            }
+        }
+
+        ui(MavenPublication) {
+            artifactId 'account-sdk-android-ui'
+            groupId artifactOrg
+            version artifactVersion
+            artifact "ui/build/outputs/aar/ui-singledex-release.aar"
+
+            if (!isSnapshot) {
+                artifact(tasks.getByPath(":ui:sourceJar"))
+                artifact(tasks.getByPath(":ui:javadocJar"))
+            }
+
+            pom.withXml {
+                def dependenciesNode = asNode().appendNode('dependencies')
+                fixDependencies(dependenciesNode, project(":ui"))
+                addDependency(dependenciesNode, artifactOrg, "account-sdk-android-common", artifactVersion)
+                addDependency(dependenciesNode, artifactOrg, "account-sdk-android-core", artifactVersion)
+            }
+        }
+    }
+}
+>>>>>>> Initial commit
