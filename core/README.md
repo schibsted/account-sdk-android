@@ -19,7 +19,7 @@ Any errors which occurs when executing a task will will be propagated to the cal
 When the login flow is completed, the `onLoginCompleted` function will be called with your `User` object, which also contains the session.
 
 ### Configuration
-To configure the SDK, you are required to have a `schibstedid.conf` file in your assets. This must contain all values to be able to function. An error will be thrown if the configuration is missing. You can however manually override the configuration if you choose to store your configuration some other way (we'd recommend that you don't store secrets in the manifest).
+To configure the SDK, you are required to have a `schibsted_account.conf` file in your assets. This must contain all values to be able to function. An error will be thrown if the configuration is missing. You can however manually override the configuration if you choose to store your configuration some other way (we'd recommend that you don't store secrets in the manifest).
 
 ```yaml
 environment: PRE

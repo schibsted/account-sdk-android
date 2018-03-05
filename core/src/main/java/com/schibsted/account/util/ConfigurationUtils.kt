@@ -8,7 +8,7 @@ import android.support.annotation.VisibleForTesting
 import java.io.InputStream
 
 object ConfigurationUtils {
-    private const val CONFIG_FILE_PATH = "assets/schibstedid.conf"
+    private const val CONFIG_FILE_PATH = "assets/schibsted_account.conf"
 
     fun paramsFromAssets(): Map<String, Any> {
         val stream = getConfigResourceStream(CONFIG_FILE_PATH)

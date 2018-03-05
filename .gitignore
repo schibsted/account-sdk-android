@@ -9,6 +9,7 @@ captures
 javadoc
 dependencyReport
 schibstedid.conf
+schibsted_account.conf
 /reports
 Gemfile.lock
 _site/
