@@ -27,9 +27,3 @@ git:
   depth: 500
 after_success:
   - ./release.sh
-  - reports-publisher
-after_failure:
-  - reports-publisher
-notifications:
-  webhooks:
-    - https://devhose.spt-engprod-pro.schibsted.io/devhose/travis
