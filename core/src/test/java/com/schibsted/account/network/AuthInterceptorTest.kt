@@ -223,7 +223,7 @@ class AuthInterceptorTest : WordSpec() {
 
                 val mockUserWithSlowResponse: User = mock {
                     on { refreshToken() }.then {
-                        Thread.sleep(2000)
+                        Thread.sleep(3000)
                         true
                     }
                     on { token }.thenReturn(userToken)
@@ -249,7 +249,7 @@ class AuthInterceptorTest : WordSpec() {
 
                 val mockUserWithSlowResponse: User = mock {
                     on { refreshToken() }.then {
-                        Thread.sleep(2000)
+                        Thread.sleep(3000)
                         false
                     }
                     on { token }.thenReturn(userToken)
@@ -257,7 +257,7 @@ class AuthInterceptorTest : WordSpec() {
 
                 val originalResp = failedResp.newBuilder().header("Authorization", "authHeaderValue").build()
 
-                val icpt = AuthInterceptor(mockUserWithSlowResponse, listOf("https://example.com"), timeout = 1000)
+                val icpt = AuthInterceptor(mockUserWithSlowResponse, listOf("https://example.com"), timeout = 100)
                 val refreshes = (1..3).map { async { icpt.refreshToken(originalResp, mockChain, it) } }
 
                 runBlocking {
