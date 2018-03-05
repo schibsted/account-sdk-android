@@ -13,13 +13,6 @@ static def getGitVersionName(git) {
     }
 }
 
-static def isSnapshot(git) {
-    def head = git.head()
-    def headTagMatch = git.tag.list().findAll { it.commit == head }
-
-    return (headTagMatch == null || headTagMatch.empty)
-}
-
 // Dependency helpers
 static def addDependency(dependenciesNode, String group, String name, String version) {
     def dependencyNode = dependenciesNode.appendNode('dependency')
@@ -37,10 +30,17 @@ static def fixDependencies(node, project) {
     }
 }
 
+static def addArtifactMetadata(node, String name, String description, String url, pomConfig) {
+    node.appendNode('name', name)
+    node.appendNode('description', description)
+    node.appendNode('url', url)
+    node.children().last() + pomConfig
+}
+
 ext {
     getGitVersionCode = this.&getGitVersionCode
     getGitVersionName = this.&getGitVersionName
     addDependency = this.&addDependency
     fixDependencies = this.&fixDependencies
-    isSnapshot = this.&isSnapshot
+    addArtifactMetadata = this.&addArtifactMetadata
 }
