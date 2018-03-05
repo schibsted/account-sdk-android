@@ -21,8 +21,10 @@ import io.kotlintest.forAll
 import io.kotlintest.matchers.should
 import io.kotlintest.matchers.shouldBe
 import io.kotlintest.matchers.shouldThrow
+import io.kotlintest.matchers.singleElement
 import io.kotlintest.specs.WordSpec
 import kotlinx.coroutines.experimental.async
+import kotlinx.coroutines.experimental.delay
 import kotlinx.coroutines.experimental.runBlocking
 import okhttp3.HttpUrl
 import okhttp3.Interceptor
@@ -223,7 +225,7 @@ class AuthInterceptorTest : WordSpec() {
 
                 val mockUserWithSlowResponse: User = mock {
                     on { refreshToken() }.then {
-                        Thread.sleep(3000)
+                        Thread.sleep(1000)
                         true
                     }
                     on { token }.thenReturn(userToken)
@@ -249,7 +251,7 @@ class AuthInterceptorTest : WordSpec() {
 
                 val mockUserWithSlowResponse: User = mock {
                     on { refreshToken() }.then {
-                        Thread.sleep(3000)
+                        Thread.sleep(1000)
                         false
                     }
                     on { token }.thenReturn(userToken)
@@ -257,7 +259,7 @@ class AuthInterceptorTest : WordSpec() {
 
                 val originalResp = failedResp.newBuilder().header("Authorization", "authHeaderValue").build()
 
-                val icpt = AuthInterceptor(mockUserWithSlowResponse, listOf("https://example.com"), timeout = 100)
+                val icpt = AuthInterceptor(mockUserWithSlowResponse, listOf("https://example.com"), timeout = 50)
                 val refreshes = (1..3).map { async { icpt.refreshToken(originalResp, mockChain, it) } }
 
                 runBlocking {
