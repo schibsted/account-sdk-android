@@ -96,6 +96,7 @@ bintray {
         userOrg = 'schibsted'
         licenses = ['MIT']
         vcsUrl = 'https://github.com/schibsted/account-sdk-android.git'
+        publish = true
 
         version {
             name = artifactVersion
