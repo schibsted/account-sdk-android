@@ -1,85 +1,92 @@
 ## 0.7.0 (2018-03-02)
-- Added client id to profile summary link (#859)
-- Added functionality to pre-fill identifiers (#850)
-- Added login only error text to UiConfiguration (#869)
-- Added newBuilder function on UiConfigration (#855)
-- Added teaser text to the UIs (#851)
-- Changed message from unknown SPiD errors (#860)
-- Changed parsing of legacy userid. Now preferring idtoken (#854)
-- Changed target and compile version along with buildtools version to 27.0.3 (#856)
-- Changed the deep linking implementation to be more sturdy (#876)
-- Changed the teaser text style as per the design specs (#858)
-- Changed UiTracking to use legacy ID instead of subject ID (#847)
-- Fixed bug in UIs build.gradle where it did not read host properly (#865)
-- Fixed issue where activity would be re-added to the navigation stack (#861)
-- Fixed issue where error text would be shown when editing an input field (#875)
-- Fixed issue where input fields would not trim the content (#848)
-- Fixed issue where invalid tokens would be accepted (#870)
-- Fixed issue where parsing of SPiD errors would fail (#872)
-- Fixed issue where password input was using text suggestions from dictionary (#867)
-- Fixed issue where reading token compat would ignore some tokens (#868)
-- Fixed issue where token would not be updated after refresh (#853)
-- Fixed issue where WebFragment would not launch deep links (#871)
-- Fixed possible issue with classpath inspection where LocalBroadcastManager would be obfuscated (#857)
-- Fixed proguard issue occurring with instrumentation tests (#873)
-- Fixed typo in core/README.md (#852)
-- Removed password validation when signing in (#874)
-- Removed UiOptions and merged it with UiConfiguration (#846)
+**NOTE:** Using versions 0.7.0 and older, uses the following package names:
+```
+implementation "com.schibsted.identity:identity-sdk-android-core:<VERSION>"
+implementation "com.schibsted.identity:identity-sdk-android-ui:<VERSION>"
+implementation "com.schibsted.identity:identity-sdk-android-pulse:<VERSION>"
+```
+
+- Added client id to profile summary link
+- Added functionality to pre-fill identifiers
+- Added login only error text to UiConfiguration
+- Added newBuilder function on UiConfigration
+- Added teaser text to the UIs
+- Changed message from unknown SPiD errors
+- Changed parsing of legacy userid. Now preferring idtoken
+- Changed target and compile version along with buildtools version to 27.0.3
+- Changed the deep linking implementation to be more sturdy
+- Changed the teaser text style as per the design specs
+- Changed UiTracking to use legacy ID instead of subject ID
+- Fixed bug in UIs build.gradle where it did not read host properly
+- Fixed issue where activity would be re-added to the navigation stack
+- Fixed issue where error text would be shown when editing an input field
+- Fixed issue where input fields would not trim the content
+- Fixed issue where invalid tokens would be accepted
+- Fixed issue where parsing of SPiD errors would fail
+- Fixed issue where password input was using text suggestions from dictionary
+- Fixed issue where reading token compat would ignore some tokens
+- Fixed issue where token would not be updated after refresh
+- Fixed issue where WebFragment would not launch deep links
+- Fixed possible issue with classpath inspection where LocalBroadcastManager would be obfuscated
+- Fixed proguard issue occurring with instrumentation tests
+- Fixed typo in core/README.md
+- Removed password validation when signing in
+- Removed UiOptions and merged it with UiConfiguration
 
 
 ## 0.6.0 (2018-02-20)
-- Added copyright notice to source files (#832)
-- Added deploy script for updating the generated docs to gh-pages (#834)
-- Added getAccountSummaryLink to Profile (#837)
-- Added legacy ID to the UserId object (#836)
-- Added missing string translations to the UI (#830)
-- Added option to pre-fill identifiers (#850)
-- Added possibility to cancel ongoing requests (#843)
-- Added teaser text to UIs (#851)
-- Added UI tests (#822)
-- Changed parsing of legacy userid. Now preferring result from ID token (#854)
-- Changed UiTracking to use legacy ID instead of subject ID (#847)
-- Fixed an issue with logout where token would be refreshed before (#842)
+- Added copyright notice to source files
+- Added deploy script for updating the generated docs to gh-pages
+- Added getAccountSummaryLink to Profile
+- Added legacy ID to the UserId object
+- Added missing string translations to the UI
+- Added option to pre-fill identifiers
+- Added possibility to cancel ongoing requests
+- Added teaser text to UIs
+- Added UI tests
+- Changed parsing of legacy userid. Now preferring result from ID token
+- Changed UiTracking to use legacy ID instead of subject ID
+- Fixed an issue with logout where token would be refreshed before
 - Fixed build issue with invalid task name
-- Fixed crash when localizedMessage would be null (#844)
-- Fixed issue when refreshing a token which had an empty refresh token (#838)
-- Fixed issue where input fields would not trim the content (#848)
-- Fixed issue where token would not be updated after refresh (#853)
-- Fixed typo in core/README.md (#852)
-- Removed identifier from UI tracking. Passing account ID when available (#840)
-- Removed obfuscation for released artifacts (#833)
-- Removed UiOptions and merged it with UiConfiguration (#846)
+- Fixed crash when localizedMessage would be null
+- Fixed issue when refreshing a token which had an empty refresh token
+- Fixed issue where input fields would not trim the content
+- Fixed issue where token would not be updated after refresh
+- Fixed typo in core/README.md
+- Removed identifier from UI tracking. Passing account ID when available
+- Removed obfuscation for released artifacts
+- Removed UiOptions and merged it with UiConfiguration
 
 
 ## 0.5.1 (2018-02-14)
-- Added proguard rule to properly access the identityUiOptions class (#829)
+- Added proguard rule to properly access the identityUiOptions class
 
 
 ## 0.5.0 (2018-02-13)
-- Added an example application (#819)
+- Added an example application
 - Added contributors file
 - Added LICENSE and additional info files
-- Added login only feature flag (#826)
-- Added option to allow non-whitelisted domains for authenticated requests (#827)
-- Added refresh event to the broadcast manager (#818)
-- Added SDK and device info to user agent for internal requests (#828)
-- Changed displayName no not be auto generated any longer (#824)
-- Changes in preparation of open sourcing the SDK (#820)
-- Deprecated `bind(builder, urls, allowNonHttps)` in favor of `bind(builder, urls)` and `bind(builder, urls, allowNonHttps, allowNonWhitelistedUrls)` (#827)
+- Added login only feature flag
+- Added option to allow non-whitelisted domains for authenticated requests
+- Added refresh event to the broadcast manager
+- Added SDK and device info to user agent for internal requests
+- Changed displayName no not be auto generated any longer
+- Changes in preparation of open sourcing the SDK
+- Deprecated `bind(builder, urls, allowNonHttps)` in favor of `bind(builder, urls)` and `bind(builder, urls, allowNonHttps, allowNonWhitelistedUrls)`
 - Fixed issue where password field was not honoring it's IME options
-- Fixed issue where password was not hidden by default (#823)
+- Fixed issue where password was not hidden by default
 - Removed unneeded ktlint executable
 
 
 ## 0.4.1 (2018-02-07)
-- Added register/unregister methods to the identity broadcast manager (#812)
-- Fixed issue where PasswordlessActivity's getCallingIntent method wan unreachable form Java (#811)
-- Fixed issue where User's session would not be cleared from service holder (#808)
-- Fixed multiple errors in EncryptionKeyProvider (#816)
-- Fixed publishing and removed unneeded intent filter (#809)
-- Removed the app and pulse modules to separate repositories (#806)
-- Security fix for validating code parameter in deep link (#817)
-- Updated password screen to UI version 4 (#805)
+- Added register/unregister methods to the identity broadcast manager
+- Fixed issue where PasswordlessActivity's getCallingIntent method wan unreachable form Java
+- Fixed issue where User's session would not be cleared from service holder
+- Fixed multiple errors in EncryptionKeyProvider
+- Fixed publishing and removed unneeded intent filter
+- Removed the app and pulse modules to separate repositories
+- Security fix for validating code parameter in deep link
+- Updated password screen to UI version 4
 
 
 ## 0.4.0 (2018-02-01)
@@ -92,139 +99,139 @@ implementation "com.schibsted.identity:identity-sdk-android-pulse:<VERSION>"
 
 **Added**
 - Added a CODEOWNERS file ot require reviews from owners
-- Added article on the user lifecycle in hte docs folder (#779)
-- Added client id to tracked fields in pulsetracker (#778)
-- Added ClientConfiguration to proguard keep (#780)
-- Added customizable colors for the UI in public.xml (#792)
-- Added display name as a required field (#745)
-- Added DSL builder for tracking events (#770)
-- Added error handling in EncryptionKeyProvider (#737)
-- Added fetch agreement operations to controllers (#747)
-- Added functionality to pre-fill required fields if already available (#760)
-- Added hashing to tracking identifier (#776)
-- Added loading indicator to the primary action button (#799)
-- Added method to enable visibility of current action button in of error when onFlowReady is called (#736)
-- Added method to handle view visibility on navigation back (#769)
-- Added missing required fields (#742)
-- Added more logging to the Auth interceptor for easier debugging (#775)
-- Added option to create user from one time code (#761)
-- Added option to navigate back multiple steps (#715)
-- Added prefix to all SDK resources (#728)
-- Added readme to the pulse module (#778)
-- Added rules to not obfuscate agreements (#688)
-- Added the common module (#757)
-- Added tracking implementation to UIs (#749)
-- Added UiConfiguration to proguard (#802)
-- Added validation to allow only digits for birthday field (#729)
+- Added article on the user lifecycle in hte docs folder
+- Added client id to tracked fields in pulsetracker
+- Added ClientConfiguration to proguard keep
+- Added customizable colors for the UI in public.xml
+- Added display name as a required field
+- Added DSL builder for tracking events
+- Added error handling in EncryptionKeyProvider
+- Added fetch agreement operations to controllers
+- Added functionality to pre-fill required fields if already available
+- Added hashing to tracking identifier
+- Added loading indicator to the primary action button
+- Added method to enable visibility of current action button in of error when onFlowReady is called
+- Added method to handle view visibility on navigation back
+- Added missing required fields
+- Added more logging to the Auth interceptor for easier debugging
+- Added option to create user from one time code
+- Added option to navigate back multiple steps
+- Added prefix to all SDK resources
+- Added readme to the pulse module
+- Added rules to not obfuscate agreements
+- Added the common module
+- Added tracking implementation to UIs
+- Added UiConfiguration to proguard
+- Added validation to allow only digits for birthday field
 
 **Changed**
-- Changed all UI resources' visibility to private (#699)
-- Changed architecture of core SDK (#685)
-- Changed back navigation to avoid re-evaluation of the contract when not needed (#768)
-- Changed controllers to have a finalize function before completing (#724)
-- Changed exception handling in key store to catch all key store exceptions (#754)
-- Changed it so that user cannot be persisted if not set specifically (#727)
-- Changed Kotlin version to 1.2.21 (#796)
-- Changed localization strings to reflect recent changes (#782)
-- Changed name of the Core SDK Proguard file (#783)
-- Changed nullity check location in TermsFragment (#759)
-- Changed path were schibstedid.conf has to be generated (#800)
-- Changed persistence to be more readable (#733)
-- Changed proguard rule to keep class members in responses package (#710)
-- Changed setTextAppearence to use the appcompat version (#704)
-- Changed the contents of the UI README to reflect the latest changes (#686)
-- Changed the email validation rule to use android.util.Patterns (#755)
-- Changed UIs to not show soft keyboard when focusing inputview (#772)
+- Changed all UI resources' visibility to private
+- Changed architecture of core SDK
+- Changed back navigation to avoid re-evaluation of the contract when not needed
+- Changed controllers to have a finalize function before completing
+- Changed exception handling in key store to catch all key store exceptions
+- Changed it so that user cannot be persisted if not set specifically
+- Changed Kotlin version to 1.2.21
+- Changed localization strings to reflect recent changes
+- Changed name of the Core SDK Proguard file
+- Changed nullity check location in TermsFragment
+- Changed path were schibstedid.conf has to be generated
+- Changed persistence to be more readable
+- Changed proguard rule to keep class members in responses package
+- Changed setTextAppearence to use the appcompat version
+- Changed the contents of the UI README to reflect the latest changes
+- Changed the email validation rule to use android.util.Patterns
+- Changed UIs to not show soft keyboard when focusing inputview
 
 **Fixed**
-- Fixed #793 where the client configuration and utils would be obfuscated (#798)
-- Fixed a crash when attempting to persist an empty user collection (#725)
-- Fixed bug related to byte array size in user persistence (#733)
-- Fixed compatibility issues with API 16 (#706)
-- Fixed issue where agreements texts were not being shown (#758)
-- Fixed issue where IME options was incorrect in required fields (#795)
-- Fixed issue where required fields container would be hidden behind the continue button (#790)
-- Fixed issue where session classes was obfuscated (#712)
-- Fixed issue where the action button's visibility was not set after animations (#735)
-- Fixed issue where the sign-up controller would ask for required fields even if the client had no field requirements (#744)
-- Fixed issue where the UIs would request unsupported required fields (#784)
-- Fixed issue where updating profile would erase non-provided fields (#698)
-- Fixed issue where User would not be parcelized (#766)
-- Fixed issue with UI input text not being selectable (#719)
-- Fixed issues with the deep link implementation (#774)
-- Fixed issues with the tracking implementation to match the updated tagging plan (#764)
-- Fixed multiple issues with deep links it's format (#794)
-- Fixed proguard issue for preconditions (#694)
-- Fixed proguard issue with pulsetracking (#797)
-- Fixed proguard settings to provide access to session classes (#700)
-- Fixed the hockey app publishing (#713)
-- Fixed UIs to not display forgot password when user is registering (#746)
+- Fixed issue where the client configuration and utils would be obfuscated
+- Fixed a crash when attempting to persist an empty user collection
+- Fixed bug related to byte array size in user persistence
+- Fixed compatibility issues with API 16
+- Fixed issue where agreements texts were not being shown
+- Fixed issue where IME options was incorrect in required fields
+- Fixed issue where required fields container would be hidden behind the continue button
+- Fixed issue where session classes was obfuscated
+- Fixed issue where the action button's visibility was not set after animations
+- Fixed issue where the sign-up controller would ask for required fields even if the client had no field requirements
+- Fixed issue where the UIs would request unsupported required fields
+- Fixed issue where updating profile would erase non-provided fields
+- Fixed issue where User would not be parcelized
+- Fixed issue with UI input text not being selectable
+- Fixed issues with the deep link implementation
+- Fixed issues with the tracking implementation to match the updated tagging plan
+- Fixed multiple issues with deep links it's format
+- Fixed proguard issue for preconditions
+- Fixed proguard issue with pulsetracking
+- Fixed proguard settings to provide access to session classes
+- Fixed the hockey app publishing
+- Fixed UIs to not display forgot password when user is registering
 
 **Removed**
-- Removed identifier option in password flow for now (#709)
-- Removed irrelevant docs and non working links (#781)
-- Removed logger from core, re-added to the common module (#765)
-- Removed parcelize annotation to be compatible with older API levels (#801)
-- Removed singletask activity parameter for the UI (#716)
-- Removed unnecessary fields from values.xml (#720)
-- Removed useless condition in IdentificationPresenter (#707)
+- Removed identifier option in password flow for now
+- Removed irrelevant docs and non working links
+- Removed logger from core, re-added to the common module
+- Removed parcelize annotation to be compatible with older API levels
+- Removed singletask activity parameter for the UI
+- Removed unnecessary fields from values.xml
+- Removed useless condition in IdentificationPresenter
 
 
 ## 0.4.0-preview-3 (2017-12-11)
-- Added birthday as a required field (#669)
-- Added proguard configuration (#674)
-- Added support for rotation in the UIs (#661)
-- Added Finnish string resources (#662)
-- Added argument for signup redirect uri (#649)
-- Added intent to start client application (#636)
-- Added persistence example to readme (#625)
-- Added deep link for confirmation email  (#630)
-- Added encryption to persistence (#623)
-- Added method to close or open keyboard depending on the number of fields (#610)
-- Added tests for LoginController (#608)
-- Added support of custom header (#602)
-- Added function to check account status from identifier (#598)
-- Added tests for the AuthInterceptor (#599)
-- Added tests for client configuration (#597)
-- Added deep link for forgot password feature (#617)
-- Changed email validation rule (#653)
-- Changed layout of terms dialog (#652)
-- Changed names of contracts, tasks and providers (#613)
-- Changed password controller to have separate login and sign up paths (#605)
-- Changed Norwegian and Swedish translations (#638)
-- Changed user token to allow for null tokens. closes #574, fixes #586 (#590)
-- Removed useless dependencies (#671)
-- Removed unnecessary exposure of 3rd party libraries (#639)
-- Removed onError method from LoginContract (#593)
-- Fixed issue where scope was not included when authenticating (#616)
-- Fixed issues where maven dependencies were not added to POM after gradle update (#614)
-- Fixed issue where snapshot versions would not correctly depend on sub-projects (#645)
+- Added birthday as a required field
+- Added proguard configuration
+- Added support for rotation in the UIs
+- Added Finnish string resources
+- Added argument for signup redirect uri
+- Added intent to start client application
+- Added persistence example to readme
+- Added deep link for confirmation email 
+- Added encryption to persistence
+- Added method to close or open keyboard depending on the number of fields
+- Added tests for LoginController
+- Added support of custom header
+- Added function to check account status from identifier
+- Added tests for the AuthInterceptor
+- Added tests for client configuration
+- Added deep link for forgot password feature
+- Changed email validation rule
+- Changed layout of terms dialog
+- Changed names of contracts, tasks and providers
+- Changed password controller to have separate login and sign up paths
+- Changed Norwegian and Swedish translations
+- Changed user token to allow for null tokens
+- Removed useless dependencies
+- Removed unnecessary exposure of 3rd party libraries
+- Removed onError method from LoginContract
+- Fixed issue where scope was not included when authenticating
+- Fixed issues where maven dependencies were not added to POM after gradle update
+- Fixed issue where snapshot versions would not correctly depend on sub-projects
 
 ## 0.4.0-preview-2 (2017-11-14)
-- Added Password flow (#537)
-- Added feature to broadcast logouts (#570)
-- Added kotlintest to library versions (#567)
-- Added methods to check if a session can be resumed in UserPersistence (#523)
-- Added publishing of releases to hockey app (#525)
-- Added username/password flow with signup to the UIs (#565)
-- Changed Kotlin version to 1.1.60 (#571)
-- Changed SDK to align with its iOS counterpart (#566)
-- Changed error field visibility on focus in UIs (#541)
-- Changed location of onIdentifier interface (#547)
-- Changed swap configuration properties (#569)
-- Changed test setup to use KotlinTest instead of Spek (#539)
-- Changed the user persistence and improved networking (#536)
-- Fixed artifact publishing (#544)
-- Fixed correctly adding bearer before access token (#528)
-- Fixed issue where authorization header was missing the bearer keyword (#527)
-- Fixed link in core SDK readme (#513)
-- Fixed navigation onback + onpause/resume in UIs (#551)
-- Fixed refresh issue with interceptor (#539)
-- Fixed wrong parameter name in oauth service (#550)
-- Removed extra interceptor parameter (#529)
-- Removed old configuration object (#531)
-- Removed temporary travis fix (#542)
-- Renamed variable names in integration functions for clarity (#524)
+- Added Password flow
+- Added feature to broadcast logouts
+- Added kotlintest to library versions
+- Added methods to check if a session can be resumed in UserPersistence
+- Added publishing of releases to hockey app
+- Added username/password flow with signup to the UIs
+- Changed Kotlin version to 1.1.60
+- Changed SDK to align with its iOS counterpart
+- Changed error field visibility on focus in UIs
+- Changed location of onIdentifier interface
+- Changed swap configuration properties
+- Changed test setup to use KotlinTest instead of Spek
+- Changed the user persistence and improved networking
+- Fixed artifact publishing
+- Fixed correctly adding bearer before access token
+- Fixed issue where authorization header was missing the bearer keyword
+- Fixed link in core SDK readme
+- Fixed navigation onback + onpause/resume in UIs
+- Fixed refresh issue with interceptor
+- Fixed wrong parameter name in oauth service
+- Removed extra interceptor parameter
+- Removed old configuration object
+- Removed temporary travis fix
+- Renamed variable names in integration functions for clarity
 
 
 ## 0.4.0-preview-1 (2017-10-31)
