@@ -1,0 +1,23 @@
+nav:
+  - title: Core SDK
+    groupitems: 
+    - page: Introduction
+      url: /core/
+    - page: Example usage
+      url: /core/example
+    - page: FAQ
+      url: /core/faq
+  - title: UI SDK
+    groupitems:
+      - page: Introduction
+        url: /ui/
+      - page: Example usage
+        url: /ui/example
+      - page: FAQ
+        url: /ui/faq
+  - title: Guides
+    groupitems:
+      - page: User lifecycle
+        url: /guides/user-lifecycle
+  - title: SPiD Techdocs
+    url: https://techdocs.spid.no
