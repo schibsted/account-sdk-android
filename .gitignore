@@ -1,0 +1,16 @@
+*.iml
+.gradle
+.idea
+local.properties
+gradle.properties
+.DS_Store
+build
+captures
+javadoc
+dependencyReport
+schibstedid.conf
+schibsted_account.conf
+/reports
+Gemfile.lock
+_site/
+temp/

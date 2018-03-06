@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<lint>
+    <issue id="UnusedResources" severity="ignore" />
+    <issue id="IconDensities" severity="ignore" />
+    <issue id="RtlEnabled" severity="warning" />
+    <issue id="GradleDependency" severity="ignore" />
+</lint>

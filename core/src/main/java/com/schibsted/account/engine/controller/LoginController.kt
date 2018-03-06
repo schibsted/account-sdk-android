@@ -1,0 +1,104 @@
+/*
+ * Copyright (c) 2018 Schibsted Products & Technology AS. Licensed under the terms of the MIT license. See LICENSE in the project root.
+ */
+
+package com.schibsted.account.engine.controller
+
+import android.os.Parcel
+import android.os.Parcelable
+import com.schibsted.account.engine.input.Credentials
+import com.schibsted.account.engine.integration.CallbackProvider
+import com.schibsted.account.engine.integration.ResultCallback
+import com.schibsted.account.engine.integration.contract.LoginContract
+import com.schibsted.account.engine.operation.AgreementLinksOperation
+import com.schibsted.account.engine.operation.AgreementsCheckOperation
+import com.schibsted.account.engine.operation.LoginOperation
+import com.schibsted.account.engine.operation.MissingFieldsOperation
+import com.schibsted.account.engine.step.StepLoginIdentify
+import com.schibsted.account.model.LoginResult
+import com.schibsted.account.model.error.ClientError
+import com.schibsted.account.network.OIDCScope
+import com.schibsted.account.session.User
+import com.schibsted.account.common.util.readStack
+
+/**
+ * Controller which administrates the process of a login flow using credentials. This is
+ * parcelable and should be persisted during the login sequence. After the sequence has been
+ * completed, the reference to this can be destroyed.
+ * **Note:** After an Android configuration change, make sure you call [evaluate] again to re-trigger
+ * the currently active task.
+ */
+
+class LoginController @JvmOverloads constructor(private val verifyUser: Boolean,
+    @OIDCScope private val scopes: Array<String> = arrayOf(OIDCScope.SCOPE_OPENID)) : VerificationController<LoginContract>() {
+
+    constructor(parcel: Parcel) : this(parcel.readInt() != 0, parcel.createStringArray()) {
+        super.navigation.addAll(parcel.readStack())
+    }
+
+    override fun evaluate(contract: LoginContract) {
+        val idLoginStep = this.requestCredentials(contract) { credentials, callback ->
+            LoginOperation(credentials, scopes, {
+                if (it.toClientError().errorType == ClientError.ErrorType.ACCOUNT_NOT_VERIFIED) {
+                    contract.onAccountVerificationRequested(credentials.identifier)
+                } else {
+                    callback.onError(it.toClientError())
+                }
+            }) { it ->
+                val user = User(it, credentials.keepLoggedIn)
+
+                if (this.verifyUser) { // Attempt the happy path and proceed straight to login
+                    AgreementsCheckOperation(user, { callback.onError(it.toClientError()) }) { agreementsCheck ->
+                        AgreementLinksOperation({ callback.onError(it) }, { agreementsLink ->
+                            MissingFieldsOperation(user, { callback.onError(it.toClientError()) }) { missingFields ->
+                                super.navigation.push(StepLoginIdentify(credentials, user, agreementsCheck.allAccepted(), missingFields, agreementsLink))
+                                callback.onSuccess()
+                                evaluate(contract)
+                            }
+                        })
+                    }
+                } else {
+                    super.navigation.push(StepLoginIdentify(credentials, user, true, setOf()))
+                    callback.onSuccess()
+                    evaluate(contract)
+                }
+            }
+        } ?: return
+
+        if (this.verifyUser) {
+            if (!idLoginStep.agreementsAccepted) {
+                super.requestAgreements(contract, idLoginStep.user, idLoginStep.agreementLinks!!) ?: return
+            }
+            super.requestRequiredFields(contract, idLoginStep.user, idLoginStep.missingFields) ?: return
+
+            contract.onFlowReady(CallbackProvider { it.onSuccess(LoginResult(idLoginStep.user, false)) })
+        } else {
+            contract.onFlowReady(CallbackProvider { it.onSuccess(LoginResult(idLoginStep.user, false)) })
+        }
+    }
+
+    private fun requestCredentials(provider: LoginContract, onProvided: (Credentials, ResultCallback) -> Unit): StepLoginIdentify? {
+        val res = super.findOnStack<StepLoginIdentify>()
+        if (res == null) {
+            Credentials.request(provider, { input, callback ->
+                onProvided(input, callback)
+            })
+        }
+
+        return res
+    }
+
+    override fun writeToParcel(parcel: Parcel, flags: Int) {
+        parcel.writeInt(if (verifyUser) 1 else 0)
+        parcel.writeStringArray(scopes)
+        super.writeToParcel(parcel, flags)
+    }
+
+    override fun describeContents(): Int = 0
+
+    companion object CREATOR : Parcelable.Creator<LoginController> {
+        override fun createFromParcel(parcel: Parcel): LoginController = LoginController(parcel)
+
+        override fun newArray(size: Int): Array<LoginController?> = arrayOfNulls(size)
+    }
+}

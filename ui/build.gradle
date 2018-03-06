@@ -1,0 +1,107 @@
+apply plugin: 'org.jetbrains.kotlin.android.extensions'
+
+android {
+    buildTypes {
+        release {
+            consumerProguardFiles "ui-rules.pro"
+        }
+    }
+
+    defaultConfig {
+        def spidRedirectScheme = project.hasProperty('schacc_redirect_scheme') ? project.schacc_redirect_scheme : System.getenv('schacc_redirect_scheme')
+        def spidRedirectHost = project.hasProperty('schacc_redirect_host') ? project.schacc_redirect_host : System.getenv('schacc_redirect_host')
+
+        resValue "string", "schacc_redirect_scheme", (spidRedirectScheme && !spidRedirectScheme.allWhitespace) ? spidRedirectScheme : 'spid-dummyclientid'
+        resValue "string", "schacc_redirect_host", (spidRedirectHost && !spidRedirectHost.allWhitespace) ? spidRedirectHost : 'login'
+
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        testProguardFile "ui-rules.pro"
+    }
+
+    flavorDimensions "default"
+
+    productFlavors {
+        singledex {
+            multiDexEnabled false
+        }
+        multidex {
+            multiDexEnabled true
+        }
+    }
+
+    dexOptions {
+        javaMaxHeapSize "4g"
+    }
+
+    resourcePrefix 'schacc_'
+}
+
+dependencies {
+    api project(':core')
+
+    implementation "com.android.support:support-annotations:${libs.support}"
+    implementation "com.android.support:design:${libs.support}"
+    implementation "com.android.support.constraint:constraint-layout:${libs.constraintLayout}"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${libs.kotlin}"
+    implementation "org.jetbrains.kotlin:kotlin-reflect:${libs.kotlin}"
+
+    multidexImplementation "com.android.support:multidex:${libs.multidex}"
+
+    testImplementation "org.assertj:assertj-core:${libs.assertJ}"
+    testImplementation "com.nhaarman:mockito-kotlin:${libs.mockitoKotlin}"
+    testImplementation "io.kotlintest:kotlintest:${libs.kotlintest}"
+    testImplementation "junit:junit:${libs.jUnit}"
+    testImplementation "org.jetbrains.kotlin:kotlin-test-junit:${libs.kotlin}"
+
+    androidTestImplementation "org.mockito:mockito-android:${libs.mockitoAndroid}"
+    androidTestImplementation("com.schibsted.spain:barista:${libs.barista}") {
+        exclude group: 'com.android.support'
+        exclude group: 'org.jetbrains.kotlin'
+    }
+}
+
+bintrayUpload.dependsOn ':ui:check', ':ui:assembleRelease'
+
+publishing {
+    publications {
+        ui(MavenPublication) {
+            artifactId 'account-sdk-android-ui'
+            groupId artifactOrg
+            version artifactVersion
+
+            artifact "$buildDir/outputs/aar/ui-singledex-release.aar"
+            artifact(tasks.getByName("sourceJar"))
+            artifact(tasks.getByName("javadocJar"))
+
+            pom.withXml {
+                def dependenciesNode = asNode().appendNode('dependencies')
+                fixDependencies(dependenciesNode, project)
+                addDependency(dependenciesNode, artifactOrg, "account-sdk-android-common", artifactVersion)
+                addArtifactMetadata(asNode(), "Schibsted Account SDK UI Module",
+                        "The UI module for the Schibsted Account SDK", "https://github.com/schibsted/account-sdk-android", pomConfig)
+            }
+        }
+    }
+}
+
+bintray {
+    user = project.hasProperty('bintrayUser') ? bintrayUser : System.getenv('BINTRAY_USER')
+    key = project.hasProperty('bintrayApiKey') ? bintrayApiKey : System.getenv('BINTRAY_API_KEY')
+    publications = ['ui']
+
+    pkg {
+        repo = 'Account-SDK-Android'
+        name = 'UI'
+        description = "UI module for the Schibsted Account SDK"
+        userOrg = 'schibsted'
+        licenses = ['MIT']
+        vcsUrl = 'https://github.com/schibsted/account-sdk-android.git'
+
+        version {
+            name = artifactVersion
+            desc = "Account SDK Android UI $artifactVersion"
+            released  = new Date()
+            vcsTag = "v$artifactVersion"
+        }
+    }
+}

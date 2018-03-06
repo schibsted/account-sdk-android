@@ -1,0 +1,64 @@
+
+android {
+    buildTypes {
+        release {
+            consumerProguardFiles "common-rules.pro"
+        }
+    }
+}
+
+dependencies {
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${libs.kotlin}"
+    implementation "org.jetbrains.kotlin:kotlin-reflect:${libs.kotlin}"
+
+    compileOnly "com.android.support:support-core-utils:${libs.support}"
+
+    testImplementation "junit:junit:${libs.jUnit}"
+    testImplementation "io.kotlintest:kotlintest:${libs.kotlintest}"
+    testImplementation "com.nhaarman:mockito-kotlin:${libs.mockitoKotlin}"
+}
+
+bintrayUpload.dependsOn ':common:check', ':common:assembleRelease'
+
+publishing {
+    publications {
+        common(MavenPublication) {
+            artifactId 'account-sdk-android-common'
+            groupId artifactOrg
+            version artifactVersion
+
+            artifact "$buildDir/outputs/aar/common-release.aar"
+            artifact(tasks.getByName("sourceJar"))
+            artifact(tasks.getByName("javadocJar"))
+
+            pom.withXml {
+                def dependenciesNode = asNode().appendNode('dependencies')
+                fixDependencies(dependenciesNode, project)
+                addArtifactMetadata(asNode(), "Schibsted Account SDK Common Module",
+                        "The common module for the Schibsted Account SDK", "https://github.com/schibsted/account-sdk-android", pomConfig)
+            }
+        }
+    }
+}
+
+bintray {
+    user = project.hasProperty('bintrayUser') ? bintrayUser : System.getenv('BINTRAY_USER')
+    key = project.hasProperty('bintrayApiKey') ? bintrayApiKey : System.getenv('BINTRAY_API_KEY')
+    publications = ['common']
+
+    pkg {
+        repo = 'Account-SDK-Android'
+        name = 'Common'
+        description = "Common module for the Schibsted Account SDK"
+        userOrg = 'schibsted'
+        licenses = ['MIT']
+        vcsUrl = 'https://github.com/schibsted/account-sdk-android.git'
+
+        version {
+            name = artifactVersion
+            desc = "Account SDK Android Common $artifactVersion"
+            released = new Date()
+            vcsTag = "v$artifactVersion"
+        }
+    }
+}

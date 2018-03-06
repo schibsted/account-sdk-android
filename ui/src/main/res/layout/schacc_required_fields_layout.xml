@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2018 Schibsted Products & Technology AS. Licensed under the terms of the MIT license. See LICENSE in the project root.
+  -->
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                style="@style/schacc_container">
+
+    <TextView
+        android:id="@+id/required_description"
+        style="@style/schacc_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/schacc_required_fields_description"
+        android:textColor="@color/schacc_black"
+        tools:ignore="UnusedIds" />
+
+    <LinearLayout
+        android:id="@+id/fields_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/required_description"
+        android:layout_marginTop="@dimen/schacc_activity_top_padding"
+        android:orientation="vertical"
+        android:paddingBottom="@dimen/schacc_activity_top_padding"
+        tools:ignore="UnusedIds" />
+
+    <com.schibsted.account.ui.ui.component.LoadingButton
+        android:id="@+id/required_fields_button_continue"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        app:text="@string/schacc_next_step"
+        tools:ignore="UnusedIds" />
+</RelativeLayout>

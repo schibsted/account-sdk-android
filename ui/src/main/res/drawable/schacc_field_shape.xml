@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2018 Schibsted Products & Technology AS. Licensed under the terms of the MIT license. See LICENSE in the project root.
+  -->
+
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:drawable="@drawable/schacc_field_shape_focused" android:state_focused="true" />
+    <item android:drawable="@drawable/schacc_field_shape_unfocused" android:state_focused="false" />
+</selector>

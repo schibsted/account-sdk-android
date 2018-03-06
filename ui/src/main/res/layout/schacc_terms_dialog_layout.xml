@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2018 Schibsted Products & Technology AS. Licensed under the terms of the MIT license. See LICENSE in the project root.
+  -->
+
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                                             xmlns:app="http://schemas.android.com/apk/res-auto"
+                                             android:paddingTop="32dp"
+                                             android:paddingLeft="16dp"
+                                             android:paddingRight="16dp"
+                                             android:layout_width="match_parent"
+                                             android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:id="@+id/terms_dialog_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        >
+
+        <TextView
+            android:id="@+id/terms_title"
+            style="@style/schacc_text.dialog.title"
+            android:layout_marginRight="13dp"
+            android:layout_marginEnd="13dp"
+            android:text="@string/schacc_terms_update_title"/>
+
+        <ImageView
+            android:id="@+id/close_dialog_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/schacc_ic_close"
+            android:layout_marginTop="8dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:contentDescription="@null"/>
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/summary_view"
+        style="@style/schacc_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:scrollbars="vertical"
+        app:layout_constraintTop_toBottomOf="@+id/terms_dialog_title"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="24dp"
+        />
+
+</android.support.constraint.ConstraintLayout>

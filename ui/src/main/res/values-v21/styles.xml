@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2018 Schibsted Products & Technology AS. Licensed under the terms of the MIT license. See LICENSE in the project root.
+  -->
+
+<resources>
+
+    <style name="schacc_widget.button.primary" parent="schacc_widget">
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textColor">@color/schacc_white</item>
+        <item name="android:background">@drawable/schacc_main_button_shape</item>
+        <item name="android:stateListAnimator">@null</item>
+    </style>
+</resources>

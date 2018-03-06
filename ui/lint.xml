@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<lint>
+    <issue id="ClickableViewAccessibility" severity="ignore">
+        <ignore regexp="InputFieldView.java" />
+    </issue>
+    <issue id="UnusedIds" severity="ignore">
+        <ignore regexp=".kt" />
+    </issue>
+    <!--make a text selectable cause problems with maxLines and ellipsize-->
+    <issue id="SelectableText" severity="ignore"/>
+    <issue id="IconExpectedSize" severity="ignore"/>
+</lint>

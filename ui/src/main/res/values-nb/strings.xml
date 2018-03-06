@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2018 Schibsted Products & Technology AS. Licensed under the terms of the MIT license. See LICENSE in the project root.
+  -->
+
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!--Identification-->
+    <string name="schacc_identification_title">Logg in eller opprett bruker</string>
+    <string name="schacc_identification_login_only_title">Login</string>
+    <string name="schacc_identification_help_link">https://www.schibstedpayment.com/hc/nb/#faq</string>
+    <string name="schacc_identification_help_link_text">Trenger hjelp?</string>
+
+    <string name="schacc_mobile_privacy_information"> Vi vil aldri dele telefonnummeret ditt uten ditt samtykke.</string>
+    <string name="schacc_mobile_identification_error">Oppgi et gyldig telefonnummer.</string>
+    <string name="schacc_mobile_number_label">Skriv inn din telefonnummer</string>
+    <string name="schacc_mobile_number_hint">123456789</string>
+    <string name="schacc_mobile_prefix_hint">+%1$d</string>
+
+    <string name="schacc_email_privacy_information">Vi vil aldri dele e-postadressen din uten ditt samtykke.</string>
+    <string name="schacc_email_identification_error">Oppgi en gyldig e-postadresse.</string>
+    <string name="schacc_email_label">Skriv inn din e-postadresse</string>
+    <string name="schacc_email_hint">fornavn.etternavn@e-post.com</string>
+    <!--Verification-->
+    <string name="schacc_verification_title">Vi har sendt deg en kode</string>
+    <string name="schacc_verification_code_label">Bekreftelseskode</string>
+    <string name="schacc_verification_error">Sjekk koden din og prøv igjen.</string>
+    <string name="schacc_verification_resend_code_value">Sende</string>
+    <string name="schacc_verification_dialog_title">Vi har sendt deg en ny bekreftelseskode</string>
+    <string name="schacc_verification_dialog_information">Koden ble sendt til: \n%1$s</string>
+    <string name="schacc_verification_dialog_ok">OK</string>
+    <string name="schacc_verification_edit_phone_number">Bruk et annet telefonnummer</string>
+    <string name="schacc_verification_edit_email_address">Bruk en annen e-postadresse</string>
+    <string name="schacc_identifier_modifier">Ikke deg?</string>
+    <!--Terms-->
+    <string name="schacc_terms_title">Bruksvilkår</string>
+    <string name="schacc_terms_sign_up_description">For å kunne opprette kontoen din, må du godta følgende vilkår, betingelser og personvernerklæringer</string>
+    <string name="schacc_terms_sign_in_description">For å logge inn, må du godta følgende vilkår, betingelser og personvernerklæringer</string>
+    <string name="schacc_terms_privacy_error">Vennligst godta vilkårene og betingelsene for å fortsette.</string>
+    <string name="schacc_terms_terms_error">Vennligst godta personvernerklæringen for å fortsette.</string>
+    <string name="schacc_terms_policy">Jeg godtar vilkårene og betingelsene for %1$s og %2$s</string>
+    <string name="schacc_terms_policy_spid_only">Jeg godtar vilkårene og betingelsene for %1$s</string>
+    <string name="schacc_privacy_policy">Jeg godtar personvernerklæringen for %1$s og %2$s</string>
+    <string name="schacc_privacy_policy_spid_only">Jeg godtar personvernerklæringen for %1$s</string>
+    <string name="schacc_terms_update_link_label">Lær mer om oppdateringen</string>
+    <string name="schacc_accept">Godta</string>
+    <!--Terms update dialog-->
+    <string name="schacc_terms_update_title">Oppdaterte brukervilkår og betingelser</string>
+    <!--Required fields-->
+    <string name="schacc_required_fields_title">Fullfør</string>
+    <string name="schacc_required_fields_description">Vennligst legg til mer informasjon i din profil</string>
+    <string name="schacc_required_fields_error">Dette feltet må fylles ut.</string>
+    <string name="schacc_required_field_given_name">Etternavn</string>
+    <string name="schacc_required_field_family_name">Etternavn</string>
+    <string name="schacc_required_field_gender">Kjønn</string>
+    <string name="schacc_required_field_birthday">Fødselsdag</string>
+    <string name="schacc_required_field_address_home">Hjemmeadresse</string>
+    <string name="schacc_required_field_address_delivery">Leveringsadresse</string>
+    <string name="schacc_required_field_address_invoice">Faktura-adresse</string>
+    <string name="schacc_required_field_email">E-postadresse</string>
+    <string name="schacc_required_field_display_name">Visningsnavn</string>
+    <string name="schacc_required_field_phone_number">Telefonnummer</string>
+    <string name="schacc_required_fields_birthday_hint">YYYY-MM-DD</string>
+    <string name="schacc_required_fields_birthday_error">@string/schacc_required_fields_birthday_hint</string>
+    <!--Password-->
+    <string name="schacc_password_change_phone_number">Endre telefonnummer</string>
+    <string name="schacc_password_change_email">Endre e-postadresse</string>
+    <string name="schacc_password_sign_in_label">Vennligst oppgi passordet ditt</string>
+    <string name="schacc_password_sign_up_label">Skriv inn et passord</string>
+    <string name="schacc_password_error_length">Passordet ditt skal ha minst 8 tegn</string>
+    <string name="schacc_password_forgot_password">Glemt passord?</string>
+    <string name="schacc_password_extra_info">Minst 8 tegn</string>
+    <string name="schacc_password_error_incorrect">Passordet du oppga er feil. Prøv igjen senere.</string>
+    <string name="schacc_password_keep_me_logged_in">Forbli innlogget</string>
+    <!--Inbox-->
+    <string name="schacc_inbox_information">Vi har sendt enbekreftelseskobling til: %1$s</string>
+    <string name="schacc_inbox_change_identifier">Bruk annen e-post</string>
+    <string name="schacc_inbox_resend_link">Send e-post igjen</string>
+    <string name="schacc_inbox_dialog_title">Vi har sendt en ny bekreftelseskobling</string>
+    <string name="schacc_inbox_dialog_information">Koden ble sendt til:\n%1$s</string>
+    <string name="schacc_inbox_check_inbox_title">Sjekk innboksen din</string>
+    <!--Web view-->
+    <string name="schacc_web_forgot_password_title">Glemt passord?</string>
+    <string name="schacc_web_need_help_title">Trenger hjelp?</string>
+    <!--Generic-->
+    <string name="schacc_spid_label">SPiD</string>
+    <string name="schacc_next_step">Fortsett</string>
+    <string name="schacc_welcome_back_title">Velkommen tilbake</string>
+    <string name="schacc_register_title">Opprett bruker</string>
+    <string name="schacc_ok">OK</string>
+    <!--Generic error messages-->
+    <string name="schacc_generic_exception_error_message_title">Noe gikk galt!</string>
+    <string name="schacc_generic_time_out_error_message">Tilkoblingen ble tidsavbrutt. Prøv igjen.</string>
+    <string name="schacc_generic_server_error_message">Vi har problemer for øyeblikket. Prøv igjen senere.</string>
+    <string name="schacc_generic_internet_error" tools:ignore="Typos">Kan ikke koble til internett. Sjekk tilkoblingen din.</string>
+    <string name="schacc_generic_too_many_code_request_error_message">Du har sendt for mange kodeforespørsler. Prøv igjen senere.</string>
+    <string name="schacc_generic_too_many_login_request_error_message">Du har forsøkt å logge inn for mange ganger. Prøv igjen senere.</string>
+    <string name="schacc_generic_too_many_inbox_request_error_message">Du har sendt for mange koblingsforespørsler. Prøv igjen senere.</string>
+    <string name="schacc_generic_error">Prøv igjen senere</string>
+
+    <!--System-->
+    <string name="schacc_close">Lukk</string>
+    <string name="schacc_intent_password_sign_up_link_name">signupDeepLink</string>
+</resources>
