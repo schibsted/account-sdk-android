@@ -32,7 +32,6 @@ dependencies {
     testImplementation "com.nhaarman:mockito-kotlin:${libs.mockitoKotlin}"
     testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:${libs.coroutines}"
 }
-<<<<<<< HEAD
 
 bintrayUpload.dependsOn ':core:check', ':core:assembleRelease'
 
@@ -70,7 +69,10 @@ bintray {
         userOrg = 'schibsted'
         licenses = ['MIT']
         vcsUrl = 'https://github.com/schibsted/account-sdk-android.git'
+<<<<<<< HEAD
         publish = true
+=======
+>>>>>>> Changes to the build system, License changes (#1)
 
         version {
             name = artifactVersion
@@ -80,5 +82,3 @@ bintray {
         }
     }
 }
-=======
->>>>>>> Initial commit

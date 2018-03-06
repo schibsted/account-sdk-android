@@ -1,9 +1,3 @@
-<<<<<<< HEAD
-=======
-apply plugin: 'com.android.library'
-apply plugin: 'kotlin-android'
-apply plugin: 'org.jetbrains.dokka'
->>>>>>> Initial commit
 
 android {
     buildTypes {
@@ -23,7 +17,6 @@ dependencies {
     testImplementation "io.kotlintest:kotlintest:${libs.kotlintest}"
     testImplementation "com.nhaarman:mockito-kotlin:${libs.mockitoKotlin}"
 }
-<<<<<<< HEAD
 
 bintrayUpload.dependsOn ':common:check', ':common:assembleRelease'
 
@@ -60,7 +53,10 @@ bintray {
         userOrg = 'schibsted'
         licenses = ['MIT']
         vcsUrl = 'https://github.com/schibsted/account-sdk-android.git'
+<<<<<<< HEAD
         publish = true
+=======
+>>>>>>> Changes to the build system, License changes (#1)
 
         version {
             name = artifactVersion
@@ -70,5 +66,3 @@ bintray {
         }
     }
 }
-=======
->>>>>>> Initial commit
