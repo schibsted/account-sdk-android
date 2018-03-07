@@ -112,9 +112,32 @@ abstract class BaseLoginActivity : AppCompatActivity(), KeyboardManager, Navigat
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val uiConf: UiConfiguration? = intent.getParcelableExtra(KEY_UI_CONFIGURATION)
         credentials = intent.getParcelableExtra(KEY_CREDENTIALS)
 
+        initializeUiConfiguration()
+        initializeUi()
+
+        navigationController = Navigation(this, this)
+
+        initializePropertiesFromBundle(savedInstanceState)
+
+        fragmentProvider = FragmentProvider(uiConfiguration)
+
+        followDeepLink(intent.dataString)
+
+        loginContract = LoginContractImpl(this)
+        initializeSmartlock()
+    }
+
+    private fun initializeUi() {
+        theme.applyStyle(R.style.schacc_NoActionBar, true)
+        setContentView(R.layout.schacc_mobile_activity_layout)
+        setUpActionBar(this.uiConfiguration.headerResource)
+        activityRoot = findViewById(R.id.activity_layout)
+    }
+
+    private fun initializeUiConfiguration() {
+        val uiConf: UiConfiguration? = intent.getParcelableExtra(KEY_UI_CONFIGURATION)
         this.uiConfiguration = if (uiConf != null) {
             uiConf
         } else {
@@ -124,15 +147,9 @@ abstract class BaseLoginActivity : AppCompatActivity(), KeyboardManager, Navigat
             })
             UiConfiguration.Builder.fromManifest(applicationContext).build()
         }
+    }
 
-        theme.applyStyle(R.style.schacc_NoActionBar, true)
-        setContentView(R.layout.schacc_mobile_activity_layout)
-        setUpActionBar(this.uiConfiguration.headerResource)
-
-        activityRoot = findViewById(R.id.activity_layout)
-        progressBar.visibility = if (SmartlockImpl.isSmartlockAvailable()) VISIBLE else GONE
-        navigationController = Navigation(this, this)
-
+    private fun initializePropertiesFromBundle(savedInstanceState: Bundle?) {
         if (savedInstanceState != null) {
             savedInstanceState.getString(KEY_SCREEN)?.let { screen = LoginScreen.valueOf(savedInstanceState.getString(KEY_SCREEN)) }
             savedInstanceState.getParcelable<Parcelable>(KEY_CURRENT_IDENTIFIER)?.let { currentIdentifier = savedInstanceState.getParcelable(KEY_CURRENT_IDENTIFIER) }
@@ -147,18 +164,15 @@ abstract class BaseLoginActivity : AppCompatActivity(), KeyboardManager, Navigat
             BaseLoginActivity.tracker?.resetContext()
             BaseLoginActivity.tracker?.flowVariant = TrackingData.FlowVariant.PASSWORD
         }
+    }
 
-        fragmentProvider = FragmentProvider(uiConfiguration)
-
-        followDeepLink(intent.dataString)
-
-        loginContract = LoginContractImpl(this)
-        if (SmartlockImpl.isSmartlockAvailable() && uiConfiguration.smartlockEnabled) {
+    private fun initializeSmartlock() {
+        val isSmartlockReady = SmartlockImpl.isSmartlockAvailable() && uiConfiguration.smartlockEnabled
+        progressBar.visibility = if (isSmartlockReady) VISIBLE else GONE
+        if (isSmartlockReady) {
             loginController = LoginController(true)
             smartlock = SmartlockImpl(this, loginController, loginContract)
             isResolving = smartlock?.isSmartlockResolving ?: false
-        } else {
-            progressBar.visibility = GONE
         }
     }
 
