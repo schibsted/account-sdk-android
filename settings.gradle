@@ -1,1 +1,1 @@
-include ':core', ':ui', ':common', ':example'
+include ':core', ':ui', ':common', ':example', ':smartlock'

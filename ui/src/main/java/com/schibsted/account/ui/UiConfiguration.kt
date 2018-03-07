@@ -11,7 +11,7 @@ import android.os.Parcelable
 import android.support.annotation.DrawableRes
 import com.schibsted.account.engine.input.Identifier
 import java.net.URI
-import java.util.Locale
+import java.util.*
 
 data class UiConfiguration(
         val clientName: String,
@@ -21,6 +21,7 @@ data class UiConfiguration(
         val identifierType: Identifier.IdentifierType = Identifier.IdentifierType.EMAIL,
         val identifier: String? = null,
         val signUpEnabled: Boolean = true,
+        val smartlockEnabled: Boolean = true,
         @DrawableRes val headerResource: Int = 0,
         val teaserText: String? = null,
         val signUpNotAllowedErrorMessage: String? = null
@@ -38,6 +39,7 @@ data class UiConfiguration(
                 .identifierType(identifierType)
                 .identifier(identifier)
                 .enableSignUp()
+                .enableSmartlock()
                 .headerResource(headerResource)
                 .teaserText(teaserText)
         signUpNotAllowedErrorMessage?.let { builder.disableSignUp(it) }
@@ -51,6 +53,7 @@ data class UiConfiguration(
             source.readSerializable() as Locale,
             source.readSerializable() as Identifier.IdentifierType,
             source.readString(),
+            source.readInt() == 1,
             source.readInt() == 1,
             source.readInt(),
             source.readString(),
@@ -67,6 +70,7 @@ data class UiConfiguration(
         writeSerializable(identifierType)
         writeString(identifier)
         writeInt(if (signUpEnabled) 1 else 0)
+        writeInt(if (smartlockEnabled) 1 else 0)
         writeInt(headerResource)
         writeString(teaserText)
         writeString(signUpNotAllowedErrorMessage)
@@ -82,6 +86,10 @@ data class UiConfiguration(
         fun identifier(identifier: String?) = apply { this.subject = this.subject.copy(identifier = identifier) }
 
         fun enableSignUp() = apply { this.subject = this.subject.copy(signUpEnabled = true) }
+
+        fun enableSmartlock() = apply { this.subject = this.subject.copy(smartlockEnabled = true) }
+
+        fun disableSmartlock() = apply { this.subject = this.subject.copy(smartlockEnabled = false) }
 
         fun disableSignUp(signUpDisabledErrorMessage: String) = apply { this.subject = this.subject.copy(signUpEnabled = false, signUpNotAllowedErrorMessage = signUpDisabledErrorMessage) }
 

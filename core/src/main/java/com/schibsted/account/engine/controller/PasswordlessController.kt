@@ -29,8 +29,8 @@ import com.schibsted.account.session.User
 import java.util.Locale
 
 /**
- * Controller which administrates the process of a login flow using passwordless login. This is
- * parcelable and should be persisted during the login sequence. After the sequence has been
+ * Controller which administrates the process of a requestCredentials flow using passwordless requestCredentials. This is
+ * parcelable and should be persisted during the requestCredentials sequence. After the sequence has been
  * completed, the reference to this can be destroyed.
  * **Note:** After an Android configuration change, make sure you call [evaluate] again to re-trigger
  * the currently active task.

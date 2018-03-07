@@ -10,39 +10,40 @@ import com.schibsted.account.engine.input.Credentials
 import com.schibsted.account.engine.input.Identifier
 import com.schibsted.account.engine.input.RequiredFields
 import com.schibsted.account.engine.integration.CallbackProvider
-import com.schibsted.account.engine.integration.ResultCallbackData
 import com.schibsted.account.engine.integration.InputProvider
+import com.schibsted.account.engine.integration.ResultCallbackData
 import com.schibsted.account.engine.integration.contract.SignUpContract
 import com.schibsted.account.model.error.ClientError
 import com.schibsted.account.network.response.AgreementLinksResponse
 import com.schibsted.account.ui.login.BaseLoginActivity
 import com.schibsted.account.ui.ui.FlowFragment
 
-class SignupContractImpl(private val activity: BaseLoginActivity, private val startIdentificationFragment: () -> Unit) : SignUpContract {
+class SignupContractImpl(private val activity: BaseLoginActivity) : SignUpContract {
     override fun onCredentialsRequested(provider: InputProvider<Credentials>) {
         activity.currentIdentifier?.let { identifier ->
             val fragment = activity.fragmentProvider.getOrCreatePasswordFragment(
-                activity.navigationController.currentFragment,
-                provider = provider,
-                currentIdentifier = identifier,
-                userAvailable = activity.isUserAvailable())
+                    activity.navigationController.currentFragment,
+                    provider = provider,
+                    currentIdentifier = identifier,
+                    userAvailable = activity.isUserAvailable(),
+                    smartlockImpl = null)
             activity.navigationController.navigateToFragment(fragment)
-        } ?: startIdentificationFragment()
+        } ?: activity.startIdentificationFragment(if(activity is FlowSelectionListener) activity else null)
     }
 
     override fun onAgreementsRequested(agreementsProvider: InputProvider<Agreements>, agreementLinks: AgreementLinksResponse) {
         val fragment = activity.fragmentProvider.getOrCreateTermsFragment(activity.navigationController.currentFragment,
-            provider = agreementsProvider,
-            userAvailable = activity.isUserAvailable(),
-            agreementLinks = agreementLinks)
+                provider = agreementsProvider,
+                userAvailable = activity.isUserAvailable(),
+                agreementLinks = agreementLinks)
         activity.navigationController.navigateToFragment(fragment)
     }
 
     override fun onRequiredFieldsRequested(requiredFieldsProvider: InputProvider<RequiredFields>, fields: Set<String>) {
         val fragment = activity.fragmentProvider.getOrCreateRequiredFieldsFragment(
-            activity.navigationController.currentFragment,
-            requiredFieldsProvider,
-            fields)
+                activity.navigationController.currentFragment,
+                requiredFieldsProvider,
+                fields)
         activity.navigationController.navigateToFragment(fragment)
     }
 
@@ -51,7 +52,6 @@ class SignupContractImpl(private val activity: BaseLoginActivity, private val st
             override fun onSuccess(result: Identifier) {
                 val fragment = activity.fragmentProvider.getOrCreateInboxFragment(activity.navigationController.currentFragment, result)
                 activity.navigationController.navigateToFragment(fragment)
-
                 BaseLoginActivity.tracker?.eventActionSuccessful(TrackingData.SpidAction.ACCOUNT_CREATED)
             }
 

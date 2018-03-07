@@ -16,7 +16,7 @@ import com.schibsted.account.common.util.Logger
  * @param environment The SPiD [Environment] to use
  * @param clientId The ID of the SPiD client to use. Can be found in Self-Service
  * @param clientSecret The client's secret. Can be found in Self-Service
- * @see <a href="https://selfservice.login.schibsted.com/login">Self-Service PRO</a>
+ * @see <a href="https://selfservice.requestCredentials.schibsted.com/requestCredentials">Self-Service PRO</a>
  * @see <a href="https://selfservice.identity-pre.schibsted.com">Self-Service PRE</a>
  */
 data class ClientConfiguration(

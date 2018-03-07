@@ -1,0 +1,86 @@
+apply plugin: 'com.android.library'
+
+android {
+    compileSdkVersion 27
+
+
+
+    defaultConfig {
+        minSdkVersion 14
+        targetSdkVersion 27
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation project(":common")
+
+    implementation "com.android.support:appcompat-v7:${libs.support}"
+    implementation("com.google.android.gms:play-services-auth:$libs.smartlock") {
+        exclude group: "com.android.support"
+    }
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${libs.kotlin}"
+    implementation "org.jetbrains.kotlin:kotlin-reflect:${libs.kotlin}"
+}
+
+
+
+bintrayUpload.dependsOn ':smartlock:check', ':smartlock:assembleRelease'
+
+publishing {
+    publications {
+        smartlock(MavenPublication) {
+            artifactId 'account-sdk-android-smartlock'
+            groupId artifactOrg
+            version artifactVersion
+
+            artifact "$buildDir/outputs/aar/smartlock-release.aar"
+            artifact(tasks.getByName("sourceJar"))
+            artifact(tasks.getByName("javadocJar"))
+
+            pom.withXml {
+                def dependenciesNode = asNode().appendNode('dependencies')
+                fixDependencies(dependenciesNode, project)
+                addDependency(dependenciesNode, artifactOrg, "account-sdk-android-common", artifactVersion)
+                addArtifactMetadata(asNode(), "Schibsted Account SDK Smartlock Module",
+                        "The Smartlock module for the Schibsted Account SDK", "https://github.com/schibsted/account-sdk-android", pomConfig)
+            }
+        }
+    }
+}
+
+bintray {
+    user = project.hasProperty('bintrayUser') ? bintrayUser : System.getenv('BINTRAY_USER')
+    key = project.hasProperty('bintrayApiKey') ? bintrayApiKey : System.getenv('BINTRAY_API_KEY')
+    publications = ['smartlock']
+
+    pkg {
+        repo = 'Account-SDK-Android'
+        name = 'Smartlock'
+        description = "Smartlock module for the Schibsted Account SDK"
+        userOrg = 'schibsted'
+        licenses = ['MIT']
+        vcsUrl = 'https://github.com/schibsted/account-sdk-android.git'
+        publish = true
+
+        version {
+            name = artifactVersion
+            desc = "Account SDK Android Smartlock $artifactVersion"
+            released  = new Date()
+            vcsTag = "v$artifactVersion"
+        }
+    }
+}

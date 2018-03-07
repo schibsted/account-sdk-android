@@ -24,6 +24,10 @@
         <item name="colorAccent">@color/schacc_progressColor</item>
     </style>
 
+   <style name="schacc_main_progressBar">
+        <item name="colorAccent">@color/schacc_primaryEnabled</item>
+    </style>
+
     <style name="schacc_text">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>

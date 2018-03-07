@@ -5,11 +5,7 @@
 package com.schibsted.account.ui.login
 
 import com.schibsted.account.engine.controller.PasswordlessController
-import com.schibsted.account.engine.input.Agreements
-import com.schibsted.account.engine.input.Credentials
-import com.schibsted.account.engine.input.Identifier
-import com.schibsted.account.engine.input.RequiredFields
-import com.schibsted.account.engine.input.VerificationCode
+import com.schibsted.account.engine.input.*
 import com.schibsted.account.engine.integration.InputProvider
 import com.schibsted.account.network.response.AgreementLinksResponse
 import com.schibsted.account.ui.UiConfiguration
@@ -27,12 +23,15 @@ import com.schibsted.account.ui.login.screen.term.TermsFragment
 import com.schibsted.account.ui.login.screen.term.TermsPresenter
 import com.schibsted.account.ui.login.screen.verification.VerificationFragment
 import com.schibsted.account.ui.login.screen.verification.VerificationPresenter
+import com.schibsted.account.ui.smartlock.SmartlockImpl
 import com.schibsted.account.ui.ui.BaseFragment
 
 class FragmentProvider(private val uiConfiguration: UiConfiguration) {
 
-    fun getOrCreateIdentificationFragment(currentFragment: BaseFragment?, provider: InputProvider<Identifier>? = null,
-        identifierType: String, flowSelectionListener: FlowSelectionListener? = null): BaseFragment {
+    fun getOrCreateIdentificationFragment(currentFragment: BaseFragment?,
+                                          provider: InputProvider<Identifier>? = null,
+                                          identifierType: String,
+                                          flowSelectionListener: FlowSelectionListener? = null): BaseFragment {
 
         return getFragment<AbstractIdentificationFragment>(currentFragment, {
             it.setPresenter(IdentificationPresenter(it, provider, flowSelectionListener))
@@ -45,10 +44,13 @@ class FragmentProvider(private val uiConfiguration: UiConfiguration) {
         })
     }
 
-    fun getOrCreatePasswordFragment(currentFragment: BaseFragment?, provider: InputProvider<Credentials>,
-        currentIdentifier: Identifier, userAvailable: Boolean): BaseFragment {
+    fun getOrCreatePasswordFragment(currentFragment: BaseFragment?,
+                                    provider: InputProvider<Credentials>,
+                                    currentIdentifier: Identifier,
+                                    userAvailable: Boolean,
+                                    smartlockImpl: SmartlockImpl?): BaseFragment {
         return getFragment(currentFragment, {
-            it.setPresenter(PasswordPresenter(it, provider))
+            it.setPresenter(PasswordPresenter(it, provider, smartlockImpl))
         }, {
             PasswordFragment.newInstance(currentIdentifier, userAvailable, uiConfiguration)
         })
@@ -76,7 +78,7 @@ class FragmentProvider(private val uiConfiguration: UiConfiguration) {
     }
 
     fun getOrCreateVerificationScreen(currentFragment: BaseFragment?, provider: InputProvider<VerificationCode>,
-        identifier: Identifier, passwordlessController: PasswordlessController): BaseFragment {
+                                      identifier: Identifier, passwordlessController: PasswordlessController): BaseFragment {
         return getFragment<VerificationFragment>(currentFragment, {
             it.setPresenter(VerificationPresenter(it, provider))
             it.setPasswordlessController(passwordlessController)
@@ -84,7 +86,7 @@ class FragmentProvider(private val uiConfiguration: UiConfiguration) {
     }
 
     private inline fun <reified T> getFragment(existingFragment: BaseFragment?,
-        applyTo: (T) -> Unit, create: () -> T): T {
+                                               applyTo: (T) -> Unit, create: () -> T): T {
         return if (existingFragment is T) {
             applyTo(existingFragment)
             existingFragment

@@ -4,6 +4,7 @@
 
 package com.schibsted.account.ui.login
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.res.Resources
@@ -21,11 +22,15 @@ import android.support.v7.widget.Toolbar
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import android.view.ViewTreeObserver
 import android.view.inputmethod.InputMethodManager
-import com.schibsted.account.common.tracking.UiTracking
 import com.schibsted.account.common.tracking.TrackingData
+import com.schibsted.account.common.tracking.UiTracking
 import com.schibsted.account.common.util.Logger
+import com.schibsted.account.engine.controller.LoginController
+import com.schibsted.account.engine.input.Credentials
 import com.schibsted.account.engine.input.Identifier
 import com.schibsted.account.engine.integration.ResultCallbackData
 import com.schibsted.account.session.User
@@ -33,14 +38,19 @@ import com.schibsted.account.ui.KeyboardManager
 import com.schibsted.account.ui.R
 import com.schibsted.account.ui.UiConfiguration
 import com.schibsted.account.ui.login.flow.password.FlowSelectionListener
+import com.schibsted.account.ui.login.flow.password.LoginContractImpl
 import com.schibsted.account.ui.login.screen.LoginScreen
+import com.schibsted.account.ui.login.screen.identification.ui.AbstractIdentificationFragment
 import com.schibsted.account.ui.login.screen.identification.ui.EmailIdentificationFragment
-import com.schibsted.account.util.DeepLink
-import com.schibsted.account.util.DeepLinkHandler
 import com.schibsted.account.ui.navigation.Navigation
 import com.schibsted.account.ui.navigation.NavigationListener
+import com.schibsted.account.ui.smartlock.SmartlockImpl
+import com.schibsted.account.ui.smartlock.SmartlockImpl.Companion.RC_HINT
+import com.schibsted.account.ui.smartlock.SmartlockImpl.Companion.RC_READ
 import com.schibsted.account.ui.ui.FlowFragment
 import com.schibsted.account.ui.ui.WebFragment
+import com.schibsted.account.util.DeepLink
+import com.schibsted.account.util.DeepLinkHandler
 import kotlinx.android.synthetic.main.schacc_mobile_activity_layout.*
 
 abstract class BaseLoginActivity : AppCompatActivity(), KeyboardManager, NavigationListener {
@@ -55,6 +65,11 @@ abstract class BaseLoginActivity : AppCompatActivity(), KeyboardManager, Navigat
         val KEY_CURRENT_IDENTIFIER = "CURRENT_IDENTIFIER"
         @JvmField
         val KEY_UI_CONFIGURATION = "UI_CONFIGURATION"
+
+        @JvmField
+        val KEY_CREDENTIALS = "CREDENTIALS"
+
+        const val KEY_SMARTLOCK_RESOLVING = "KEY_SMARTLOCK_RESOLVING"
 
         @Nullable
         @JvmStatic
@@ -73,6 +88,7 @@ abstract class BaseLoginActivity : AppCompatActivity(), KeyboardManager, Navigat
     protected var screen: LoginScreen? = null
     protected var activeFlowType: FlowSelectionListener.FlowType? = null
     var currentIdentifier: Identifier? = null
+    var credentials: Credentials? = null
 
     /**
      * defines the first element of the layout, this is the main container of the activity
@@ -85,10 +101,42 @@ abstract class BaseLoginActivity : AppCompatActivity(), KeyboardManager, Navigat
     lateinit var navigationController: Navigation
         protected set
     lateinit var fragmentProvider: FragmentProvider
-        private set
+        protected set
+    private var isSmartlockResolving: Boolean = false
+
+    protected lateinit var loginController: LoginController
+    protected lateinit var loginContract: LoginContractImpl
+    protected var isResolving = false
+
+    internal var smartlock: SmartlockImpl? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        credentials = intent.getParcelableExtra(KEY_CREDENTIALS)
+
+        initializeUiConfiguration()
+        initializeUi()
+
+        navigationController = Navigation(this, this)
+
+        initializePropertiesFromBundle(savedInstanceState)
+
+        fragmentProvider = FragmentProvider(uiConfiguration)
+
+        followDeepLink(intent.dataString)
+
+        loginContract = LoginContractImpl(this)
+        initializeSmartlock()
+    }
+
+    private fun initializeUi() {
+        theme.applyStyle(R.style.schacc_NoActionBar, true)
+        setContentView(R.layout.schacc_mobile_activity_layout)
+        setUpActionBar(this.uiConfiguration.headerResource)
+        activityRoot = findViewById(R.id.activity_layout)
+    }
+
+    private fun initializeUiConfiguration() {
         val uiConf: UiConfiguration? = intent.getParcelableExtra(KEY_UI_CONFIGURATION)
         this.uiConfiguration = if (uiConf != null) {
             uiConf
@@ -99,17 +147,14 @@ abstract class BaseLoginActivity : AppCompatActivity(), KeyboardManager, Navigat
             })
             UiConfiguration.Builder.fromManifest(applicationContext).build()
         }
+    }
 
-        theme.applyStyle(R.style.schacc_NoActionBar, true)
-        setContentView(R.layout.schacc_mobile_activity_layout)
-        setUpActionBar(this.uiConfiguration.headerResource)
-
-        activityRoot = findViewById(R.id.activity_layout)
-        navigationController = Navigation(this, this)
-
+    private fun initializePropertiesFromBundle(savedInstanceState: Bundle?) {
         if (savedInstanceState != null) {
             savedInstanceState.getString(KEY_SCREEN)?.let { screen = LoginScreen.valueOf(savedInstanceState.getString(KEY_SCREEN)) }
             savedInstanceState.getParcelable<Parcelable>(KEY_CURRENT_IDENTIFIER)?.let { currentIdentifier = savedInstanceState.getParcelable(KEY_CURRENT_IDENTIFIER) }
+            isSmartlockResolving = savedInstanceState.getBoolean(KEY_SMARTLOCK_RESOLVING)
+
             if (savedInstanceState.getInt(KEY_FLOW_TYPE) == 1) {
                 activeFlowType = FlowSelectionListener.FlowType.LOGIN
             } else if (savedInstanceState.getInt(KEY_FLOW_TYPE) == 2) {
@@ -119,10 +164,16 @@ abstract class BaseLoginActivity : AppCompatActivity(), KeyboardManager, Navigat
             BaseLoginActivity.tracker?.resetContext()
             BaseLoginActivity.tracker?.flowVariant = TrackingData.FlowVariant.PASSWORD
         }
+    }
 
-        fragmentProvider = FragmentProvider(uiConfiguration)
-
-        followDeepLink(intent.dataString)
+    private fun initializeSmartlock() {
+        val isSmartlockReady = SmartlockImpl.isSmartlockAvailable() && uiConfiguration.smartlockEnabled
+        progressBar.visibility = if (isSmartlockReady) VISIBLE else GONE
+        if (isSmartlockReady) {
+            loginController = LoginController(true)
+            smartlock = SmartlockImpl(this, loginController, loginContract)
+            isResolving = smartlock?.isSmartlockResolving ?: false
+        }
     }
 
     private fun followDeepLink(dataString: String?) {
@@ -140,6 +191,14 @@ abstract class BaseLoginActivity : AppCompatActivity(), KeyboardManager, Navigat
                 }
             }
         }
+    }
+
+    fun startIdentificationFragment(flowSelectionListener: FlowSelectionListener?) {
+        val fragment = fragmentProvider.getOrCreateIdentificationFragment(
+                navigationController.currentFragment,
+                identifierType = Identifier.IdentifierType.EMAIL.value,
+                flowSelectionListener = flowSelectionListener)
+        navigationController.navigateToFragment(fragment as AbstractIdentificationFragment)
     }
 
     private fun validateAccount(state: DeepLink.ValidateAccount) {
@@ -206,6 +265,7 @@ abstract class BaseLoginActivity : AppCompatActivity(), KeyboardManager, Navigat
         outState.putInt(KEY_FLOW_TYPE, activeFlowType?.let { if (isUserAvailable()) 2 else 1 }
                 ?: 0)
         outState.putParcelable(KEY_CURRENT_IDENTIFIER, currentIdentifier)
+        outState.putBoolean(KEY_SMARTLOCK_RESOLVING, isSmartlockResolving)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -225,6 +285,27 @@ abstract class BaseLoginActivity : AppCompatActivity(), KeyboardManager, Navigat
         menuInflater.inflate(R.menu.schacc_menu, menu)
         updateActionBar()
         return true
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == Activity.RESULT_OK) {
+            data?.let {
+                val smartlockCredentials = data.getParcelableExtra(SmartlockImpl.EXTRA_SMARTLOCK_CREDENTIALS) as Parcelable
+                when (requestCode) {
+                    RC_READ -> smartlock?.provideCredential(smartlockCredentials)
+                    RC_HINT -> {
+                        smartlock?.provideHint(smartlockCredentials)
+                        fragmentProvider = FragmentProvider(uiConfiguration)
+                        startIdentificationFragment(null)
+                        progressBar.visibility = GONE
+                    }
+                }
+                isResolving = false
+            }
+        } else {
+            smartlock?.onFailure()
+        }
     }
 
     /**
@@ -290,7 +371,7 @@ abstract class BaseLoginActivity : AppCompatActivity(), KeyboardManager, Navigat
             LoginScreen.WEB_NEED_HELP_SCREEN -> R.string.schacc_web_need_help_title
             LoginScreen.VERIFICATION_SCREEN -> R.string.schacc_verification_title
             LoginScreen.WEB_TC_SCREEN -> return
-            else -> throw Resources.NotFoundException("Resource not found")
+            else -> if (SmartlockImpl.isSmartlockAvailable()) R.string.schacc_identification_login_only_title else throw Resources.NotFoundException("Resource not found")
         }
         toolbar_title.setText(title)
     }
