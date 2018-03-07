@@ -1,7 +1,4 @@
 ---
-# You don't need to edit this file, it's empty on purpose.
-# Edit theme's home layout instead if you wanna make some changes
-# See: https://jekyllrb.com/docs/themes/#overriding-theme-defaults
 layout: docs
 title: Account SDK for Android
 sidebar: navigation
@@ -18,16 +15,16 @@ To get started with either SDK, you'll need to request access to SPiD before you
 
 ### Gradle setup
 ```
-ext { // Optional, but recommended
+ext {
     account_redirect_scheme = your_redirect_scheme // spid-58....89
     account_redirect_host = your_redirect_host // login
 }
 
 dependencies {
-    implementation "com.schibsted.account:account-sdk-android-core:<VERSION>"
-    // or
     implementation "com.schibsted.account:account-sdk-android-ui:<VERSION>"
-    // (optional)
+    // or without the UIs
+    implementation "com.schibsted.account:account-sdk-android-core:<VERSION>"
+    // (optional Pulse tracking module, available in the Schibsted Artifactory only )
     implementation "com.schibsted.account:account-sdk-android-pulse:<VERSION>"
 }
 ```
