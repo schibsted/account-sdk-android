@@ -110,7 +110,7 @@ public abstract class AbstractIdentificationFragment extends FlowFragment<Identi
         return view;
     }
 
-    abstract protected void prefillIdentifier(String identifier);
+    abstract void prefillIdentifier(String identifier);
 
     /**
      * ties a presenter to this view

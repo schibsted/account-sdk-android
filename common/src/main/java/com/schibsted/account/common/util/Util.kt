@@ -10,7 +10,7 @@ import android.util.Base64
 import java.io.UnsupportedEncodingException
 import java.net.URI
 import java.security.GeneralSecurityException
-import java.util.Stack
+import java.util.*
 import javax.crypto.Cipher
 import javax.crypto.SecretKeyFactory
 import javax.crypto.spec.PBEKeySpec

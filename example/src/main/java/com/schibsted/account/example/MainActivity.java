@@ -20,7 +20,6 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.schibsted.account.engine.integration.ResultCallback;
 import com.schibsted.account.model.UserId;
 import com.schibsted.account.model.error.ClientError;
 import com.schibsted.account.persistence.UserPersistence;
@@ -30,6 +29,7 @@ import com.schibsted.account.ui.UiConfiguration;
 import com.schibsted.account.ui.login.BaseLoginActivity;
 import com.schibsted.account.ui.login.flow.password.PasswordActivity;
 
+import static com.schibsted.account.ui.smartlock.SmartlockImpl.SMARTLOCK_FAILED;
 import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
@@ -40,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
     private IdentityReceiver identityReceiver;
     private TextView userState;
     private Button logoutButton;
+    private UiConfiguration uiConfiguration;
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -50,13 +51,13 @@ public class MainActivity extends AppCompatActivity {
         //_____________________IDENTITY SDK INIT__________________
 
         // Get the UiConfiguration
-        final UiConfiguration uiConfiguration = UiConfiguration.Builder.fromManifest(getApplicationContext())
+        uiConfiguration = UiConfiguration.Builder.fromManifest(getApplicationContext())
                 .enableSignUp()
                 .teaserText(getString(R.string.example_teaser_text))
                 .build();
 
         // Create the intent for the desired flow
-        final Intent passwordIntent = PasswordActivity.getCallingIntent(this, uiConfiguration);
+        final Intent passwordIntent = com.schibsted.account.ui.login.flow.password.PasswordActivity.getCallingIntent(this, uiConfiguration);
 
         // We want to manage user persistence
         userPersistence = new UserPersistence(getApplicationContext());
@@ -80,7 +81,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //We want to intentionally logout the user
-                user.logout(new ResultCallback() {
+                user.logout(new com.schibsted.account.engine.integration.ResultCallback() {
                     @Override
                     public void onSuccess() {
                         //we remove the user from persistence
@@ -134,15 +135,20 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == PASSWORD_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
+        if (requestCode == PASSWORD_REQUEST_CODE) {
+            if (resultCode == Activity.RESULT_OK) {
 
-            // when the flow was performed without any issue, you can get the newly created user.
-            user = data.getParcelableExtra(BaseLoginActivity.EXTRA_USER);
-            // Persist the user if possible
-            persistUser();
+                // when the flow was performed without any issue, you can get the newly created user.
+                user = data.getParcelableExtra(BaseLoginActivity.EXTRA_USER);
+                // Persist the user if possible
+                persistUser();
 
-            userState.setText(getString(R.string.example_app_user_logged_in, user.getUserId().getId()));
-            logoutButton.setVisibility(View.VISIBLE);
+                userState.setText(getString(R.string.example_app_user_logged_in, user.getUserId().getId()));
+                logoutButton.setVisibility(View.VISIBLE);
+            } else if (resultCode == SMARTLOCK_FAILED) {
+                final Intent pwdIntent = PasswordActivity.getCallingIntent(this, uiConfiguration.newBuilder().disableSmartlock().build());
+                startActivityForResult(pwdIntent, PASSWORD_REQUEST_CODE);
+            }
         }
     }
 

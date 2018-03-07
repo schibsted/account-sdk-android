@@ -14,8 +14,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 
-import com.schibsted.account.common.tracking.UiTracking;
 import com.schibsted.account.common.tracking.TrackingData;
+import com.schibsted.account.common.tracking.UiTracking;
 import com.schibsted.account.common.util.Logger;
 import com.schibsted.account.engine.input.Identifier;
 import com.schibsted.account.ui.R;
@@ -76,9 +76,8 @@ public class EmailIdentificationFragment extends AbstractIdentificationFragment 
             Logger.INSTANCE.info(tag, "email wasn't found", null);
         } else {
             if (EmailValidationRule.INSTANCE.isValid(identifier)) {
-                inputFieldView.getInputView().setText(identifier);
+                inputFieldView.getInputView().setText(uiConf.getIdentifier());
                 Logger.INSTANCE.info(tag, "email has been prefilled", null);
-
             } else {
                 Logger.INSTANCE.warn(tag, "Failed to prefill the email - Wrong format", null);
             }

@@ -4,6 +4,7 @@
 
 package com.schibsted.account.ui.login.flow.passwordless
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -15,8 +16,8 @@ import com.schibsted.account.engine.input.Identifier
 import com.schibsted.account.engine.input.RequiredFields
 import com.schibsted.account.engine.input.VerificationCode
 import com.schibsted.account.engine.integration.CallbackProvider
-import com.schibsted.account.engine.integration.ResultCallbackData
 import com.schibsted.account.engine.integration.InputProvider
+import com.schibsted.account.engine.integration.ResultCallbackData
 import com.schibsted.account.engine.integration.contract.PasswordlessContract
 import com.schibsted.account.model.LoginResult
 import com.schibsted.account.model.error.ClientError
@@ -29,7 +30,7 @@ import com.schibsted.account.ui.navigation.Navigation
 import com.schibsted.account.ui.ui.FlowFragment
 
 /**
- * an Activity use as navigation controller for the UI login flow.
+ * an Activity use as navigation controller for the UI requestCredentials flow.
  * This activity manage the keyboard visibility.
  *
  * @see MobileIdentificationFragment
@@ -47,7 +48,9 @@ class PasswordlessActivity : BaseLoginActivity(), PasswordlessContract {
         }
         identifierType = super.uiConfiguration.identifierType.value
         navigationController = Navigation(this, this)
-        passwordlessController.start(this)
+        if (credentials == null && !isResolving) {
+            passwordlessController.start(this)
+        }
     }
 
     override fun onIdentifierRequested(provider: InputProvider<Identifier>) {
@@ -94,6 +97,13 @@ class PasswordlessActivity : BaseLoginActivity(), PasswordlessContract {
                 }
             }
         })
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == Activity.RESULT_OK) {
+
+        }
     }
 
     public override fun onSaveInstanceState(outState: Bundle) {

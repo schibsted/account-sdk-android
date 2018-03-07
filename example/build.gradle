@@ -4,7 +4,6 @@ apply plugin: 'findbugs'
 
 android {
 
-    buildToolsVersion conf.buildTools
     compileSdkVersion conf.compileSdk
 
     defaultConfig {
@@ -31,6 +30,7 @@ android {
         checkAllWarnings true
         xmlReport false
     }
+    buildToolsVersion '27.0.3'
 }
 
 dependencies {
@@ -38,6 +38,7 @@ dependencies {
     implementation"com.android.support:appcompat-v7:$libs.support"
     implementation "com.android.support.constraint:constraint-layout:$libs.constraintLayout"
     implementation project(':ui')
+    implementation project(':smartlock')
 }
 
 task findbugs(type: FindBugs, dependsOn: 'assemble', group: 'verification') {

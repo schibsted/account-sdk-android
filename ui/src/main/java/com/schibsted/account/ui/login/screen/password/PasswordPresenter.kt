@@ -7,15 +7,16 @@ package com.schibsted.account.ui.login.screen.password
 import com.schibsted.account.common.tracking.TrackingData
 import com.schibsted.account.engine.input.Credentials
 import com.schibsted.account.engine.input.Identifier
-import com.schibsted.account.engine.integration.ResultCallback
 import com.schibsted.account.engine.integration.InputProvider
+import com.schibsted.account.engine.integration.ResultCallback
 import com.schibsted.account.model.error.ClientError
 import com.schibsted.account.ui.ErrorUtil
 import com.schibsted.account.ui.R
 import com.schibsted.account.ui.login.BaseLoginActivity
+import com.schibsted.account.ui.smartlock.SmartlockImpl
 import com.schibsted.account.ui.ui.InputField
 
-class PasswordPresenter(private val view: PasswordContract.View, credentialsTask: InputProvider<Credentials>) : PasswordContract.Presenter {
+class PasswordPresenter(private val view: PasswordContract.View, credentialsTask: InputProvider<Credentials>,private val smartlockImpl: SmartlockImpl?) : PasswordContract.Presenter {
 
     private var provider: InputProvider<Credentials> = credentialsTask
 
@@ -25,7 +26,9 @@ class PasswordPresenter(private val view: PasswordContract.View, credentialsTask
         requireNotNull(identifier, { "Identifier can't be null at this stage" })
         if (inputField.isInputValid) {
             provider.provide(Credentials(identifier!!, inputField.input!!, keepUserLoggedIn), object : ResultCallback {
-                override fun onSuccess() {}
+                override fun onSuccess() {
+                    smartlockImpl?.saveCredential(identifier.identifier, inputField.input!!)
+                }
                 override fun onError(error: ClientError) {
                     when {
                         ErrorUtil.isServerError(error.errorType) -> view.showErrorDialog(error)
