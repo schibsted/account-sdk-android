@@ -26,7 +26,7 @@ class UiSmartlockController(activity: AppCompatActivity, smartLockCallback: Smar
     }
 
     fun convertToIdentityCredential(parcelable: Parcelable) : Credentials?{
-        return smartlockController.convertToIdentityCredentials(parcelable)
+        return smartlockController.mapToIdentityCredentials(parcelable)
     }
 
     fun extractCredentialData(parcelable: Parcelable) : Pair<String?,String?>?{

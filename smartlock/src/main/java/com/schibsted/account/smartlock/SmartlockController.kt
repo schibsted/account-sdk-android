@@ -45,7 +45,7 @@ class SmartlockController(private val activity: AppCompatActivity, private val s
         credentialsClient.request(credentialRequest).addOnCompleteListener(
                 OnCompleteListener<CredentialRequestResponse> { task ->
                     if (task.isSuccessful) {
-                        getCredentials(task.result.credential)
+                        retrieveCredential(task.result.credential)
                         return@OnCompleteListener
                     }
                     val exception = task.exception
@@ -65,7 +65,7 @@ class SmartlockController(private val activity: AppCompatActivity, private val s
                 })
     }
 
-    private fun getCredentials(credential: Parcelable?) {
+    private fun retrieveCredential(credential: Parcelable?) {
         val cred = credential as? Credential
         cred?.let {
             val id = Identifier(Identifier.IdentifierType.EMAIL, credential.id)
@@ -104,6 +104,9 @@ class SmartlockController(private val activity: AppCompatActivity, private val s
         saveCredential(credential)
     }
 
+    /**
+     * Save credential to smartlock manager
+     */
     private fun saveCredential(credential: Credential) {
         credentialsClient.save(credential).addOnCompleteListener(
                 OnCompleteListener<Void> { task ->
@@ -121,6 +124,9 @@ class SmartlockController(private val activity: AppCompatActivity, private val s
                 })
     }
 
+    /**
+     * Delete stored credential
+     */
     fun deleteCredential() {
         currentSmartlockCredential?.let {
             credentialsClient.delete(currentSmartlockCredential!!).addOnCompleteListener({ task ->
@@ -135,7 +141,11 @@ class SmartlockController(private val activity: AppCompatActivity, private val s
         }
     }
 
-    fun convertToIdentityCredentials(parcelable: Parcelable): com.schibsted.account.engine.input.Credentials? {
+    /**
+     * Convert a [Parcelable] object to [com.schibsted.account.engine.input.Credentials]
+     * @return null if the mapping failed, [com.schibsted.account.engine.input.Credentials] otherwise
+     */
+    fun mapToIdentityCredentials(parcelable: Parcelable): com.schibsted.account.engine.input.Credentials? {
         val credential = parcelable as? Credential
         credential?.id?.let {
             val id = Identifier(Identifier.IdentifierType.EMAIL, it)
@@ -146,10 +156,15 @@ class SmartlockController(private val activity: AppCompatActivity, private val s
         return null
     }
 
-    fun extractCredentialData(parcelable: Parcelable): Pair<String?,String?>? {
+    /**
+     * Extract a [String] identifier and a [String] password from a [Parcelable] object
+     * @return a [Pair] of [String] containing the identifier and the password if the extract was successful
+     * null otherwise
+     */
+    fun extractCredentialData(parcelable: Parcelable): Pair<String?, String?>? {
         val credential = parcelable as? Credential
         credential?.let {
-            return Pair(credential.id,credential.password)
+            return Pair(credential.id, credential.password)
         }
         return null
     }

@@ -29,6 +29,7 @@ All flows requires a `UiConfiguration` object to be initialized. This can be cre
 - `locale` the locale to use for the UIs. Defaults to `Locale.getDefault()`
 - `identifierType` which identifier to use for the UIs. `Identifier.IdentifierType.EMAIL` or `Identifier.IdentifierType.SMS`. Defaults to email.
 - `signUpEnabled` option to enable or disable sign-up, only allowing existing users. Defaults to true.
+- `smartlockEnabled` option to enable or disable smartlock, Defaults to true.
 - `headerResource` a drawable resource to use as the banner icon.
 - `teaserText` a text to display in the first screen. Limited to 3 lines.
 
@@ -56,6 +57,12 @@ BaseLoginActivity.setTracker(myTracker);
 You can read more about Pulse at [pulse.schibsted.io](https://pulse.schibsted.io).
 
 ## Advanced usage
+
+### Smartlock
+The smartlock feature can be enabled by adding the following dependency :
+```
+implementation "com.schibsted.account:account-sdk-android-smartlock:<VERSION>"
+```
 
 ### Customize colors
 The provided UI come with fully configurable colors. If you want to change these colors to match with your application you need to override the following values in your res/colors.xml file:
