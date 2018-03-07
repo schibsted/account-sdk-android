@@ -10,26 +10,41 @@ import com.schibsted.account.engine.input.Credentials
 import com.schibsted.account.engine.input.Identifier
 import com.schibsted.account.engine.input.RequiredFields
 import com.schibsted.account.engine.integration.CallbackProvider
-import com.schibsted.account.engine.integration.ResultCallback
 import com.schibsted.account.engine.integration.InputProvider
+import com.schibsted.account.engine.integration.ResultCallback
 import com.schibsted.account.engine.integration.contract.LoginContract
 import com.schibsted.account.model.LoginResult
+import com.schibsted.account.model.NoValue
 import com.schibsted.account.model.error.ClientError
 import com.schibsted.account.network.response.AgreementLinksResponse
 import com.schibsted.account.ui.login.BaseLoginActivity
 import com.schibsted.account.ui.ui.FlowFragment
 
-class LoginContractImpl(private val loginActivity: BaseLoginActivity, private val startIdentificationFragment: () -> Unit) : LoginContract {
+class LoginContractImpl(private val loginActivity: BaseLoginActivity) : LoginContract {
     override fun onCredentialsRequested(provider: InputProvider<Credentials>) {
+        val credentials = loginActivity.credentials
+        if (credentials != null) {
+            provider.provide(credentials, object : ResultCallback<NoValue> {
+                override fun onSuccess(result: NoValue) {
+                }
 
-        loginActivity.currentIdentifier?.let { identifier ->
-            val fragment = loginActivity.fragmentProvider.getOrCreatePasswordFragment(
-                loginActivity.navigationController.currentFragment,
-                provider,
-                identifier,
-                loginActivity.isUserAvailable())
-            loginActivity.navigationController.navigateToFragment(fragment)
-        } ?: startIdentificationFragment()
+                override fun onError(error: ClientError) {
+                    loginActivity.smartlock?.deleteCredential()
+                    loginActivity.smartlock?.onFailure()
+                }
+            })
+        } else {
+            loginActivity.currentIdentifier?.let { identifier ->
+                val fragment = loginActivity.fragmentProvider.getOrCreatePasswordFragment(
+                    loginActivity.navigationController.currentFragment,
+                    provider,
+                    identifier,
+                    loginActivity.isUserAvailable(),
+                    loginActivity.smartlock)
+                loginActivity.navigationController.navigateToFragment(fragment)
+            }
+                ?: loginActivity.startIdentificationFragment(if (loginActivity is FlowSelectionListener) loginActivity else null)
+        }
     }
 
     override fun onAccountVerificationRequested(identifier: Identifier) {

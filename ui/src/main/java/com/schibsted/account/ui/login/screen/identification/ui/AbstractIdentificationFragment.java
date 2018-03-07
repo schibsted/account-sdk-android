@@ -13,8 +13,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.TextView;
-import com.schibsted.account.common.tracking.TrackingData;
 import com.schibsted.account.common.tracking.UiTracking;
+import com.schibsted.account.common.tracking.TrackingData;
 import com.schibsted.account.common.util.Logger;
 import com.schibsted.account.model.error.ClientError;
 import com.schibsted.account.ui.R;
@@ -119,7 +119,7 @@ public abstract class AbstractIdentificationFragment extends FlowFragment<Identi
         identificationPresenter.verifyInput(inputField, uiConf.getIdentifierType(), uiConf.getSignUpEnabled(), uiConf.getSignUpNotAllowedErrorMessage());
     }
 
-    abstract protected void prefillIdentifier(String identifier);
+    abstract void prefillIdentifier(String identifier);
 
     /**
      * ties a presenter to this view

@@ -7,9 +7,9 @@ package com.schibsted.account
 import android.os.Parcel
 import android.os.Parcelable
 import android.support.annotation.VisibleForTesting
+import com.schibsted.account.common.util.Logger
 import com.schibsted.account.network.Environment
 import com.schibsted.account.util.ConfigurationUtils
-import com.schibsted.account.common.util.Logger
 
 /**
  * This contains the client configuration as found in the self service pages in SPiD

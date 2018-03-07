@@ -12,13 +12,13 @@ import com.schibsted.account.engine.input.VerificationCode
 import com.schibsted.account.engine.integration.CallbackProvider
 import com.schibsted.account.engine.integration.ResultCallback
 import com.schibsted.account.engine.integration.contract.PasswordlessContract
-import com.schibsted.account.engine.operation.AccountStatusOperation
-import com.schibsted.account.engine.operation.AgreementLinksOperation
 import com.schibsted.account.engine.operation.AgreementsCheckOperation
 import com.schibsted.account.engine.operation.MissingFieldsOperation
-import com.schibsted.account.engine.operation.ResendCodeOperation
-import com.schibsted.account.engine.operation.SendValidationCodeOperation
 import com.schibsted.account.engine.operation.VerifyCodeOperation
+import com.schibsted.account.engine.operation.AccountStatusOperation
+import com.schibsted.account.engine.operation.AgreementLinksOperation
+import com.schibsted.account.engine.operation.SendValidationCodeOperation
+import com.schibsted.account.engine.operation.ResendCodeOperation
 import com.schibsted.account.engine.step.StepNoPwIdentify
 import com.schibsted.account.engine.step.StepNoPwValidationCode
 import com.schibsted.account.model.LoginResult

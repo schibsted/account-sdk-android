@@ -32,6 +32,8 @@ import com.schibsted.account.ui.login.flow.password.PasswordActivity;
 
 import java.util.Locale;
 
+import static com.schibsted.account.ui.smartlock.SmartlockImpl.SMARTLOCK_FAILED;
+
 public class MainActivity extends AppCompatActivity {
     final static int PASSWORD_REQUEST_CODE = 1;
     private User user;
@@ -136,15 +138,19 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == PASSWORD_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
+        if (requestCode == PASSWORD_REQUEST_CODE) {
+            if (resultCode == Activity.RESULT_OK) {
 
-            // when the flow was performed without any issue, you can get the newly created user.
-            user = data.getParcelableExtra(BaseLoginActivity.EXTRA_USER);
-            // Persist the user if possible
-            persistUser();
+                // when the flow was performed without any issue, you can get the newly created user.
+                user = data.getParcelableExtra(BaseLoginActivity.EXTRA_USER);
+                // Persist the user if possible
+                persistUser();
 
-            userState.setText(getString(R.string.example_app_user_logged_in, user.getUserId().getId()));
-            logoutButton.setVisibility(View.VISIBLE);
+                userState.setText(getString(R.string.example_app_user_logged_in, user.getUserId().getId()));
+                logoutButton.setVisibility(View.VISIBLE);
+            } else if (resultCode == SMARTLOCK_FAILED) {
+                startActivityForResult(data, PASSWORD_REQUEST_CODE);
+            }
         }
     }
 

@@ -73,7 +73,7 @@ public class EmailIdentificationFragment extends AbstractIdentificationFragment 
             Logger.INSTANCE.info(tag, "email wasn't found", null);
         } else {
             if (EmailValidationRule.INSTANCE.isValid(identifier)) {
-                inputFieldView.getInputView().setText(identifier);
+                inputFieldView.getInputView().setText(uiConf.getIdentifier());
                 Logger.INSTANCE.info(tag, "email has been prefilled", null);
 
             } else {

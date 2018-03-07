@@ -27,12 +27,15 @@ import com.schibsted.account.ui.login.screen.term.TermsFragment
 import com.schibsted.account.ui.login.screen.term.TermsPresenter
 import com.schibsted.account.ui.login.screen.verification.VerificationFragment
 import com.schibsted.account.ui.login.screen.verification.VerificationPresenter
+import com.schibsted.account.ui.smartlock.SmartlockImpl
 import com.schibsted.account.ui.ui.BaseFragment
 
 class FragmentProvider(private val uiConfiguration: UiConfiguration) {
 
-    fun getOrCreateIdentificationFragment(currentFragment: BaseFragment?, provider: InputProvider<Identifier>? = null,
-        identifierType: String, flowSelectionListener: FlowSelectionListener? = null): BaseFragment {
+    fun getOrCreateIdentificationFragment(currentFragment: BaseFragment?,
+        provider: InputProvider<Identifier>? = null,
+        identifierType: String,
+        flowSelectionListener: FlowSelectionListener? = null): BaseFragment {
 
         return getFragment<AbstractIdentificationFragment>(currentFragment, {
             it.setPresenter(IdentificationPresenter(it, provider, flowSelectionListener))
@@ -45,10 +48,13 @@ class FragmentProvider(private val uiConfiguration: UiConfiguration) {
         })
     }
 
-    fun getOrCreatePasswordFragment(currentFragment: BaseFragment?, provider: InputProvider<Credentials>,
-        currentIdentifier: Identifier, userAvailable: Boolean): BaseFragment {
+    fun getOrCreatePasswordFragment(currentFragment: BaseFragment?,
+        provider: InputProvider<Credentials>,
+        currentIdentifier: Identifier,
+        userAvailable: Boolean,
+        smartlockImpl: SmartlockImpl?): BaseFragment {
         return getFragment(currentFragment, {
-            it.setPresenter(PasswordPresenter(it, provider))
+            it.setPresenter(PasswordPresenter(it, provider, smartlockImpl))
         }, {
             PasswordFragment.newInstance(currentIdentifier, userAvailable, uiConfiguration)
         })
