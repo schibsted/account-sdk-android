@@ -19,7 +19,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.schibsted.account.engine.integration.ResultCallback;
 import com.schibsted.account.model.UserId;
 import com.schibsted.account.model.error.ClientError;
@@ -66,7 +65,9 @@ public class MainActivity extends AppCompatActivity {
         identityReceiver = new IdentityReceiver();
 
         // Start the flow
-        startActivityForResult(passwordIntent, PASSWORD_REQUEST_CODE);
+        if (savedInstanceState == null) {
+            startActivityForResult(passwordIntent, PASSWORD_REQUEST_CODE);
+        }
 
         //____________________________________________________
 
