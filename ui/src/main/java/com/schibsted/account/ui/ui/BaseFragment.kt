@@ -6,8 +6,6 @@ package com.schibsted.account.ui.ui
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import android.view.View
-import android.view.ViewGroup
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import com.schibsted.account.model.error.ClientError
@@ -16,7 +14,6 @@ import com.schibsted.account.ui.KeyboardManager
 import com.schibsted.account.ui.R
 import com.schibsted.account.ui.login.screen.LoginScreen
 import com.schibsted.account.ui.navigation.NavigationListener
-import com.schibsted.account.ui.ui.component.InputFieldView
 import com.schibsted.account.ui.ui.dialog.InformationDialogFragment
 
 abstract class BaseFragment : Fragment(), Animation.AnimationListener {
@@ -58,7 +55,6 @@ abstract class BaseFragment : Fragment(), Animation.AnimationListener {
     }
 
     override fun onAnimationEnd(animation: Animation?) {
-        view?.let { shouldOpenKeyBoard(getAllInputFields(it)) }
     }
 
     override fun onAnimationRepeat(animation: Animation?) {
@@ -83,36 +79,5 @@ abstract class BaseFragment : Fragment(), Animation.AnimationListener {
                 message,
                 R.drawable.schacc_ic_error, null)
         navigationListener?.onDialogNavigationRequested(dialog)
-    }
-
-    private fun shouldOpenKeyBoard(fields: ArrayList<InputField>) {
-        if (fields.count() == 1) {
-            if (fields[0].input.isNullOrEmpty()) {
-                fields[0].giveFocus()
-                keyboardManager.openKeyboard()
-            } else {
-                closeKeyboard(fields)
-            }
-        } else {
-            closeKeyboard(fields)
-        }
-    }
-
-    private fun closeKeyboard(fields: ArrayList<InputField>) {
-        fields.filter { it is InputFieldView }.map { (it as InputFieldView).showKeyboard(true) }
-        keyboardManager.closeKeyboard()
-    }
-
-    private fun getAllInputFields(v: View): ArrayList<InputField> {
-        if (v is InputField) {
-            val viewArrayList = ArrayList<InputField>()
-            viewArrayList.add(v)
-            return viewArrayList
-        }
-        val result = ArrayList<InputField>()
-        if (v is ViewGroup) {
-            (0 until v.childCount).map { v.getChildAt(it) }.forEach { result.addAll(getAllInputFields(it)) }
-        }
-        return result
     }
 }
