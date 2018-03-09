@@ -12,12 +12,12 @@ import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.never
 import com.nhaarman.mockito_kotlin.verify
 import com.schibsted.account.ClientConfiguration
+import com.schibsted.account.common.util.Logger
 import com.schibsted.account.engine.input.Credentials
 import com.schibsted.account.engine.input.Identifier
 import com.schibsted.account.engine.integration.CallbackProvider
-import com.schibsted.account.engine.integration.ResultCallback
-import com.schibsted.account.engine.integration.ResultCallbackData
 import com.schibsted.account.engine.integration.InputProvider
+import com.schibsted.account.engine.integration.ResultCallback
 import com.schibsted.account.engine.integration.contract.LoginContract
 import com.schibsted.account.engine.step.StepLoginIdentify
 import com.schibsted.account.model.LoginResult
@@ -34,7 +34,6 @@ import com.schibsted.account.network.service.authentication.OAuthService
 import com.schibsted.account.network.service.user.UserService
 import com.schibsted.account.session.User
 import com.schibsted.account.test.TestUtil
-import com.schibsted.account.common.util.Logger
 import io.kotlintest.matchers.fail
 import io.kotlintest.specs.WordSpec
 import retrofit2.Call
@@ -42,12 +41,12 @@ import retrofit2.Call
 class LoginControllerTest : WordSpec({
     val userToken = Gson().fromJson<UserToken>(TestUtil.readResource("json/user_token.json"), UserToken::class.java)
 
-    fun getMockContract(callback: ResultCallbackData<LoginResult>): LoginContract = mock {
+    fun getMockContract(callback: ResultCallback<LoginResult>): LoginContract = mock {
         on { onCredentialsRequested(any()) }.then {
             it.getArgument<InputProvider<Credentials>>(0)
                 .provide(Credentials(Identifier(Identifier.IdentifierType.EMAIL, "someone@example.com"), "password", true),
-                    object : ResultCallback {
-                        override fun onSuccess() {}
+                    object : ResultCallback<Void?> {
+                        override fun onSuccess(result: Void?) {}
                         override fun onError(error: ClientError) {
                             fail("An error occurred: $error")
                         }
@@ -95,7 +94,7 @@ class LoginControllerTest : WordSpec({
     "calling perform" should {
         "perform tasks resulting in a user" {
             val controller = LoginController(false)
-            val mockCallback: ResultCallbackData<LoginResult> = mock()
+            val mockCallback: ResultCallback<LoginResult> = mock()
             val mockContract = getMockContract(mockCallback)
 
             controller.evaluate(mockContract)
@@ -114,7 +113,7 @@ class LoginControllerTest : WordSpec({
                 setOf()
             ))
 
-            val mockCallback: ResultCallbackData<LoginResult> = mock()
+            val mockCallback: ResultCallback<LoginResult> = mock()
             val mockContract = getMockContract(mockCallback)
             controller.evaluate(mockContract)
 

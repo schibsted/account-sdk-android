@@ -10,7 +10,6 @@ import android.support.annotation.WorkerThread
 import com.schibsted.account.ClientConfiguration
 import com.schibsted.account.common.util.Logger
 import com.schibsted.account.engine.integration.ResultCallback
-import com.schibsted.account.engine.integration.ResultCallbackData
 import com.schibsted.account.model.UserId
 import com.schibsted.account.model.UserToken
 import com.schibsted.account.model.error.ClientError
@@ -55,7 +54,7 @@ class User(token: UserToken, val isPersistable: Boolean) : Parcelable {
      * session afterwards will cause errors
      * @param callback A callback with the result of the logout
      */
-    fun logout(callback: ResultCallback?) {
+    fun logout(callback: ResultCallback<Void?>?) {
         val token = this.token
         if (token != null) {
             EventManager.broadcast(BroadcastEvent.LogoutEvent(userId))
@@ -67,7 +66,7 @@ class User(token: UserToken, val isPersistable: Boolean) : Parcelable {
                         }
 
                         override fun onSuccess(result: Unit) {
-                            callback?.onSuccess()
+                            callback?.onSuccess(null)
                             this@User.token = null
                         }
                     })
@@ -164,7 +163,7 @@ class User(token: UserToken, val isPersistable: Boolean) : Parcelable {
          * @param callback The callback to which we provide the User
          */
         @JvmStatic
-        fun fromSessionCode(code: String, redirectUri: String, isPersistable: Boolean, callback: ResultCallbackData<User>) {
+        fun fromSessionCode(code: String, redirectUri: String, isPersistable: Boolean, callback: ResultCallback<User>) {
             val conf = ClientConfiguration.get()
             ServiceHolder.oAuthService().tokenFromAuthCode(conf.clientId, conf.clientSecret, code, redirectUri)
                     .enqueue(NetworkCallback.lambda("Resuming session from session code",

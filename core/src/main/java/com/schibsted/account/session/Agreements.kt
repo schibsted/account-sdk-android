@@ -6,7 +6,6 @@ package com.schibsted.account.session
 
 import com.schibsted.account.ClientConfiguration
 import com.schibsted.account.engine.integration.ResultCallback
-import com.schibsted.account.engine.integration.ResultCallbackData
 import com.schibsted.account.model.error.ClientError
 import com.schibsted.account.model.error.NetworkError
 import com.schibsted.account.network.NetworkCallback
@@ -20,7 +19,7 @@ class Agreements(private val user: User) {
     /**
      * Gets the agreements status for the current user
      */
-    fun getAgreementsStatus(callback: ResultCallbackData<AgreementsResponse.Agreements>) {
+    fun getAgreementsStatus(callback: ResultCallback<AgreementsResponse.Agreements>) {
         val token = user.token
         if (token == null) {
             callback.onError(ClientError.USER_LOGGED_OUT_ERROR)
@@ -44,7 +43,7 @@ class Agreements(private val user: User) {
      * Accept the agreements of the user.
      * @param callback Provide this callback to get the result of the action
      */
-    fun acceptAgreements(callback: ResultCallback) {
+    fun acceptAgreements(callback: ResultCallback<Void?>) {
         val token = user.token
         if (token == null) {
             callback.onError(ClientError.USER_LOGGED_OUT_ERROR)
@@ -55,7 +54,7 @@ class Agreements(private val user: User) {
             .enqueue(
                 object : NetworkCallback<ApiContainer<AcceptAgreementResponse>>("Accepting terms for user") {
                     override fun onSuccess(result: ApiContainer<AcceptAgreementResponse>) {
-                        callback.onSuccess()
+                        callback.onSuccess(null)
                     }
 
                     override fun onError(error: NetworkError) {
@@ -69,7 +68,7 @@ class Agreements(private val user: User) {
          * Gets the agreements links for the current client
          */
         @JvmStatic
-        fun getAgreementLinks(callback: ResultCallbackData<AgreementLinksResponse>) {
+        fun getAgreementLinks(callback: ResultCallback<AgreementLinksResponse>) {
             ServiceHolder.clientService().getClientAgreementsUrls(ClientConfiguration.get().clientId)
                 .enqueue(object : NetworkCallback<ApiContainer<AgreementLinksResponse>>("Fetching agreements links") {
                     override fun onSuccess(result: ApiContainer<AgreementLinksResponse>) {

@@ -4,7 +4,7 @@
 
 package com.schibsted.account.engine.operation
 
-import com.schibsted.account.engine.integration.ResultCallbackData
+import com.schibsted.account.engine.integration.ResultCallback
 import com.schibsted.account.model.error.ClientError
 import com.schibsted.account.network.response.AgreementLinksResponse
 import com.schibsted.account.session.Agreements
@@ -14,7 +14,7 @@ internal class AgreementLinksOperation(
     success: (AgreementLinksResponse) -> Unit) {
 
     init {
-        Agreements.getAgreementLinks(object : ResultCallbackData<AgreementLinksResponse> {
+        Agreements.getAgreementLinks(object : ResultCallback<AgreementLinksResponse> {
             override fun onSuccess(result: AgreementLinksResponse) {
                 success(result)
             }

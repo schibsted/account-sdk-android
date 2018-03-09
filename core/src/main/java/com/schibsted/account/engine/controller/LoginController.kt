@@ -6,6 +6,7 @@ package com.schibsted.account.engine.controller
 
 import android.os.Parcel
 import android.os.Parcelable
+import com.schibsted.account.common.util.readStack
 import com.schibsted.account.engine.input.Credentials
 import com.schibsted.account.engine.integration.CallbackProvider
 import com.schibsted.account.engine.integration.ResultCallback
@@ -19,7 +20,6 @@ import com.schibsted.account.model.LoginResult
 import com.schibsted.account.model.error.ClientError
 import com.schibsted.account.network.OIDCScope
 import com.schibsted.account.session.User
-import com.schibsted.account.common.util.readStack
 
 /**
  * Controller which administrates the process of a login flow using credentials. This is
@@ -52,14 +52,14 @@ class LoginController @JvmOverloads constructor(private val verifyUser: Boolean,
                         AgreementLinksOperation({ callback.onError(it) }, { agreementsLink ->
                             MissingFieldsOperation(user, { callback.onError(it.toClientError()) }) { missingFields ->
                                 super.navigation.push(StepLoginIdentify(credentials, user, agreementsCheck.allAccepted(), missingFields, agreementsLink))
-                                callback.onSuccess()
+                                callback.onSuccess(null)
                                 evaluate(contract)
                             }
                         })
                     }
                 } else {
                     super.navigation.push(StepLoginIdentify(credentials, user, true, setOf()))
-                    callback.onSuccess()
+                    callback.onSuccess(null)
                     evaluate(contract)
                 }
             }
@@ -77,7 +77,7 @@ class LoginController @JvmOverloads constructor(private val verifyUser: Boolean,
         }
     }
 
-    private fun requestCredentials(provider: LoginContract, onProvided: (Credentials, ResultCallback) -> Unit): StepLoginIdentify? {
+    private fun requestCredentials(provider: LoginContract, onProvided: (Credentials, ResultCallback<Void?>) -> Unit): StepLoginIdentify? {
         val res = super.findOnStack<StepLoginIdentify>()
         if (res == null) {
             Credentials.request(provider, { input, callback ->

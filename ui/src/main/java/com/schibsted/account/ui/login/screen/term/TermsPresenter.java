@@ -5,14 +5,15 @@
 package com.schibsted.account.ui.login.screen.term;
 
 
+import com.schibsted.account.common.tracking.TrackingData;
+import com.schibsted.account.common.tracking.UiTracking;
 import com.schibsted.account.engine.input.Agreements;
-import com.schibsted.account.engine.integration.ResultCallback;
 import com.schibsted.account.engine.integration.InputProvider;
+import com.schibsted.account.engine.integration.ResultCallback;
 import com.schibsted.account.model.error.ClientError;
 import com.schibsted.account.ui.login.BaseLoginActivity;
-import com.schibsted.account.common.tracking.UiTracking;
-import com.schibsted.account.common.tracking.TrackingData;
 import com.schibsted.account.ui.ui.component.CheckBoxView;
+
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -69,9 +70,9 @@ public class TermsPresenter implements TermsContract.Presenter {
      */
     private void acceptAgreements() {
         termsView.showProgress();
-        provider.provide(new Agreements(true), new ResultCallback() {
+        provider.provide(new Agreements(true), new ResultCallback<Void>() {
             @Override
-            public void onSuccess() {
+            public void onSuccess(Void res) {
                 final UiTracking tracker = BaseLoginActivity.getTracker();
                 if (tracker != null) {
                     tracker.eventActionSuccessful(TrackingData.SpidAction.AGREEMENTS_ACCEPTED);

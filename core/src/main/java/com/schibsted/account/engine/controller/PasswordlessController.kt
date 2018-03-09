@@ -71,7 +71,7 @@ class PasswordlessController @JvmOverloads constructor(private val verifyUser: B
                     SendValidationCodeOperation(identifier, this.locale, { callback.onError(it.toClientError()) }, { passwordlessToken ->
                         AgreementLinksOperation({ callback.onError(it) }, { agreementsLinks ->
                             super.navigation.push(StepNoPwIdentify(identifier, passwordlessToken, accountStatus.isAvailable, agreementsLinks))
-                            callback.onSuccess()
+                            callback.onSuccess(null)
                             evaluate(provider)
                         })
                     })
@@ -94,13 +94,13 @@ class PasswordlessController @JvmOverloads constructor(private val verifyUser: B
                             AgreementsCheckOperation(user, { callback.onError(it.toClientError()) }) { agreementsCheck ->
                                 MissingFieldsOperation(user, { callback.onError(it.toClientError()) }) { missingFields ->
                                     super.navigation.push(StepNoPwValidationCode(verificationCode, user, agreementsCheck.allAccepted(), missingFields))
-                                    callback.onSuccess()
+                                    callback.onSuccess(null)
                                     evaluate(provider)
                                 }
                             }
                         } else {
                             super.navigation.push(StepNoPwValidationCode(verificationCode, user, true, setOf()))
-                            callback.onSuccess()
+                            callback.onSuccess(null)
                             evaluate(provider)
                         }
                     })
@@ -115,14 +115,14 @@ class PasswordlessController @JvmOverloads constructor(private val verifyUser: B
      * back-end and will fail if requested too often
      */
     @Suppress("unused")
-    fun resendCode(resultCallback: ResultCallback) {
+    fun resendCode(resultCallback: ResultCallback<Void?>) {
         val top = super.navigation.peek()
 
         if (top is StepNoPwIdentify) {
             ResendCodeOperation(top.passwordlessToken, { resultCallback.onError(it.toClientError()) }, {
                 super.navigation.pop()
                 super.navigation.push(top.copy(passwordlessToken = it))
-                resultCallback.onSuccess()
+                resultCallback.onSuccess(null)
             })
         } else {
             resultCallback.onError(ClientError(ClientError.ErrorType.INVALID_STATE,

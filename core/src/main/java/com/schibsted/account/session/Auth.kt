@@ -5,7 +5,7 @@
 package com.schibsted.account.session
 
 import com.schibsted.account.ClientConfiguration
-import com.schibsted.account.engine.integration.ResultCallbackData
+import com.schibsted.account.engine.integration.ResultCallback
 import com.schibsted.account.model.error.ClientError
 import com.schibsted.account.model.error.NetworkError
 import com.schibsted.account.network.NetworkCallback
@@ -24,7 +24,7 @@ class Auth(val user: User) {
      * @param callback A callback with the one time session URL
      * @see <a href="http://techdocs.spid.no/endpoints/POST/oauth/exchange/">POST /oauth/exchange</a>
      */
-    fun oneTimeSessionUrl(targetClientId: String, redirectUri: String, callback: ResultCallbackData<String>) {
+    fun oneTimeSessionUrl(targetClientId: String, redirectUri: String, callback: ResultCallback<String>) {
         val token = user.token
         if (token == null) {
             callback.onError(ClientError.USER_LOGGED_OUT_ERROR)
@@ -48,7 +48,7 @@ class Auth(val user: User) {
      * 30 seconds. This can be used to authenticate from for example a back-end server
      * @param callback Callback containing the one time code
      */
-    fun oneTimeCode(callback: ResultCallbackData<String>) {
+    fun oneTimeCode(callback: ResultCallback<String>) {
         val token = user.token
         if (token == null) {
             callback.onError(ClientError.USER_LOGGED_OUT_ERROR)
@@ -74,7 +74,7 @@ class Auth(val user: User) {
      * @param callback Callback containing the one time code
      */
     @Deprecated("Part of the migration compatibility for Blocket")
-    fun oneTimeCode(serverClientId: String, callback: ResultCallbackData<String>) {
+    fun oneTimeCode(serverClientId: String, callback: ResultCallback<String>) {
         val token = user.token
         if (token == null) {
             callback.onError(ClientError.USER_LOGGED_OUT_ERROR)

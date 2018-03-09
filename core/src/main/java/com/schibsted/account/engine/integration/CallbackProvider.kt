@@ -4,9 +4,9 @@
 
 package com.schibsted.account.engine.integration
 
-class CallbackProvider<out T>(private val onProvided: (callback: ResultCallbackData<T>) -> Unit) {
+class CallbackProvider<out T>(private val onProvided: (callback: ResultCallback<T>) -> Unit) {
 
-    fun provide(callback: ResultCallbackData<T>) {
+    fun provide(callback: ResultCallback<T>) {
         onProvided(callback)
     }
 }

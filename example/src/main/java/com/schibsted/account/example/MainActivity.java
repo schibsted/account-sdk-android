@@ -81,9 +81,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //We want to intentionally logout the user
-                user.logout(new ResultCallback() {
+                user.logout(new ResultCallback<Void>() {
                     @Override
-                    public void onSuccess() {
+                    public void onSuccess(Void res) {
                         //we remove the user from persistence
                         userPersistence.remove(user.getUserId().getId());
 

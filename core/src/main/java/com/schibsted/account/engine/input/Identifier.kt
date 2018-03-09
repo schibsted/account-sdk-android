@@ -6,9 +6,8 @@ package com.schibsted.account.engine.input
 
 import android.os.Parcel
 import android.os.Parcelable
-import com.schibsted.account.engine.integration.ResultCallback
-import com.schibsted.account.engine.integration.ResultCallbackData
 import com.schibsted.account.engine.integration.InputProvider
+import com.schibsted.account.engine.integration.ResultCallback
 import com.schibsted.account.engine.operation.AccountStatusOperation
 import com.schibsted.account.network.response.AccountStatusResponse
 
@@ -22,7 +21,7 @@ data class Identifier(val identifierType: IdentifierType, val identifier: String
     /**
      * Asks SPiD for the account status of this identifier
      */
-    fun getAccountStatus(callbackData: ResultCallbackData<AccountStatusResponse>) {
+    fun getAccountStatus(callbackData: ResultCallback<AccountStatusResponse>) {
         AccountStatusOperation(this, { callbackData.onError(it.toClientError()) }, {
             callbackData.onSuccess(it)
         })
@@ -54,7 +53,7 @@ data class Identifier(val identifierType: IdentifierType, val identifier: String
             override fun newArray(size: Int): Array<Identifier?> = arrayOfNulls(size)
         }
 
-        internal fun request(provider: Provider, onProvided: (Identifier, ResultCallback) -> Unit) {
+        internal fun request(provider: Provider, onProvided: (Identifier, ResultCallback<Void?>) -> Unit) {
             provider.onIdentifierRequested(InputProvider(onProvided))
         }
     }

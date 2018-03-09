@@ -77,7 +77,7 @@ class SignUpController(private val baseRedirectUri: URI) : Controller<SignUpCont
 
                         ClientInfoOperation({ callback.onError(it.toClientError()) }, { clientInfo ->
                             super.navigation.push(StepSignUpCredentials(input, clientInfo.requiredFields(), agreementsLinks))
-                            callback.onSuccess()
+                            callback.onSuccess(null)
                             this.evaluate(contract)
                         })
                     })
@@ -92,7 +92,7 @@ class SignUpController(private val baseRedirectUri: URI) : Controller<SignUpCont
         if (res == null) {
             Agreements.request(contract, { input, callback ->
                 super.navigation.push(StepValidateAgreements(input))
-                callback.onSuccess()
+                callback.onSuccess(null)
                 this.evaluate(contract)
             }, agreementsLink)
         }
@@ -119,7 +119,7 @@ class SignUpController(private val baseRedirectUri: URI) : Controller<SignUpCont
             if (supportedFields.isNotEmpty()) {
                 RequiredFields.request(contract, supportedFields, { input, callback ->
                     super.navigation.push(StepValidateReqFields(RequiredFields(input.fields + preFilledValues)))
-                    callback.onSuccess()
+                    callback.onSuccess(null)
                     this.evaluate(contract)
                 })
             } else {

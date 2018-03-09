@@ -10,7 +10,7 @@ import com.schibsted.account.engine.input.Credentials
 import com.schibsted.account.engine.input.Identifier
 import com.schibsted.account.engine.input.RequiredFields
 import com.schibsted.account.engine.integration.CallbackProvider
-import com.schibsted.account.engine.integration.ResultCallbackData
+import com.schibsted.account.engine.integration.ResultCallback
 import com.schibsted.account.engine.integration.InputProvider
 import com.schibsted.account.engine.integration.contract.LoginContract
 import com.schibsted.account.model.LoginResult
@@ -54,7 +54,7 @@ class LoginContractImpl(private val loginActivity: BaseLoginActivity, private va
     }
 
     override fun onFlowReady(callbackProvider: CallbackProvider<LoginResult>) {
-        callbackProvider.provide(object : ResultCallbackData<LoginResult> {
+        callbackProvider.provide(object : ResultCallback<LoginResult> {
             override fun onSuccess(result: LoginResult) {
                 loginActivity.navigationController.finishFlow(result.user)
 
