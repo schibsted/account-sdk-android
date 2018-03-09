@@ -16,13 +16,13 @@ import com.schibsted.account.ui.R
 import com.schibsted.account.ui.UiConfiguration
 import com.schibsted.account.ui.login.BaseLoginActivity
 import com.schibsted.account.ui.login.screen.LoginScreen
-import com.schibsted.account.util.DeepLink
 import com.schibsted.account.ui.ui.FlowFragment
 import com.schibsted.account.ui.ui.WebFragment
 import com.schibsted.account.ui.ui.component.AccountSelectorView
 import com.schibsted.account.ui.ui.dialog.SelectorDialog
 import com.schibsted.account.ui.ui.rule.BasicValidationRule
 import com.schibsted.account.ui.ui.rule.PasswordValidationRule
+import com.schibsted.account.util.DeepLink
 import kotlinx.android.synthetic.main.schacc_password_fragment_layout.*
 
 private const val KEY_IDENTIFIER = "IDENTIFIER"
@@ -60,11 +60,11 @@ class PasswordFragment : FlowFragment<PasswordContract.Presenter>(), PasswordCon
             val conf = ClientConfiguration.get()
 
             val redirectUri = DeepLink.IdentifierProvided.create(uiConf!!.redirectUri, identifier?.identifier ?: "") +
-                    "&client_id=${conf.clientId}"
+                "&client_id=${conf.clientId}"
             val url = getString(R.string.schacc_password_forgot_password_uri, conf.environment, conf.clientId, redirectUri)
 
             navigationListener?.onWebViewNavigationRequested(
-                    WebFragment.newInstance(url, uiConf?.redirectUri), LoginScreen.WEB_FORGOT_PASSWORD_SCREEN)
+                WebFragment.newInstance(url, uiConf?.redirectUri), LoginScreen.WEB_FORGOT_PASSWORD_SCREEN)
         }
 
         account_selector_view.setAccountIdentifier(arrayListOf(identifier))

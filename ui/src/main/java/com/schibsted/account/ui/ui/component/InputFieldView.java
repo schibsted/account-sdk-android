@@ -166,7 +166,6 @@ public class InputFieldView extends LinearLayout implements InputField {
 
         infoView.setVisibility(TextUtils.isEmpty(infoView.getText()) ? GONE : VISIBLE);
 
-        labelView.setTextIsSelectable(true);
     }
 
     public EditText getInputView() {
@@ -293,10 +292,6 @@ public class InputFieldView extends LinearLayout implements InputField {
         } else {
             view.setBackgroundResource(R.drawable.schacc_field_shape_unfocused);
         }
-    }
-
-    public void showKeyboard(boolean showKeyboard) {
-        labelView.setTextIsSelectable(!showKeyboard);
     }
 
     /**

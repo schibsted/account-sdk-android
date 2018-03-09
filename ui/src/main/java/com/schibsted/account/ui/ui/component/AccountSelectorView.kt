@@ -47,6 +47,7 @@ class AccountSelectorView : LinearLayout {
         actionView.setOnClickListener {
             actionListener?.onDialogRequested(SelectorDialog.newInstance(identifier, Pair(action_button.x, (parent as View).y), Pair(action_button.width, action_button.height)))
         }
+        ta.recycle()
     }
 
     init {
