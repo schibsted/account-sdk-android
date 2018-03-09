@@ -103,7 +103,6 @@ public class TermsFragment extends FlowFragment<TermsContract.Presenter> impleme
             savedInstanceState) {
         final View view = inflater.inflate(R.layout.schacc_terms_fragment_layout, container, false);
         initViews(view);
-        setAgreementLinks(agreements);
         return view;
     }
 
@@ -210,6 +209,12 @@ public class TermsFragment extends FlowFragment<TermsContract.Presenter> impleme
         //we assign text to the view
         termsCheckView.getTextView().setText(spannableTermsText);
         privacyCheckView.getTextView().setText(spannablePrivacyText);
+    }
+
+    @Override
+    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
+        super.onViewStateRestored(savedInstanceState);
+        setAgreementLinks(agreements);
     }
 
     /**
