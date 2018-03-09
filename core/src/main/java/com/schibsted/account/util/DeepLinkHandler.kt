@@ -10,7 +10,6 @@ import com.schibsted.account.common.util.Logger
 import com.schibsted.account.common.util.getQueryParam
 import com.schibsted.account.common.util.safeUrl
 import java.net.URI
-import java.net.URLDecoder
 
 object DeepLinkHandler {
     private val TAG = Logger.DEFAULT_TAG + "-DLH"
@@ -24,7 +23,7 @@ object DeepLinkHandler {
             Logger.info(TAG, { "Received deep link: ${dataString.safeUrl()}" })
         }
 
-        val uri: URI? = Try { URI.create(URLDecoder.decode(dataString, "utf-8")) }.getOrElse {
+        val uri: URI? = Try { URI.create(dataString) }.getOrElse {
             Logger.info(TAG, { "Unable to parse deep link: ${dataString.safeUrl()}" }, it)
             null
         }?.takeIf { it -> it.host == null && it.path.startsWith("/login") || it.host == "login" }

@@ -8,7 +8,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.schibsted.account.ClientConfiguration
+import com.schibsted.account.Routes
 import com.schibsted.account.common.tracking.TrackingData
 import com.schibsted.account.engine.input.Identifier
 import com.schibsted.account.model.error.ClientError
@@ -57,14 +57,10 @@ class PasswordFragment : FlowFragment<PasswordContract.Presenter>(), PasswordCon
 
         mobile_password_button_forgot.setOnClickListener {
             BaseLoginActivity.tracker?.eventEngagement(TrackingData.Engagement.CLICK, TrackingData.UIElement.FORGOT_PASSWORD, TrackingData.Screen.PASSWORD)
-            val conf = ClientConfiguration.get()
 
-            val redirectUri = DeepLink.IdentifierProvided.create(uiConf!!.redirectUri, identifier?.identifier ?: "") +
-                "&client_id=${conf.clientId}"
-            val url = getString(R.string.schacc_password_forgot_password_uri, conf.environment, conf.clientId, redirectUri)
-
+            val redirectUri = DeepLink.IdentifierProvided.create(uiConf!!.redirectUri, identifier?.identifier ?: "")
             navigationListener?.onWebViewNavigationRequested(
-                WebFragment.newInstance(url, uiConf?.redirectUri), LoginScreen.WEB_FORGOT_PASSWORD_SCREEN)
+                WebFragment.newInstance(Routes.forgotPasswordUrl(redirectUri).toString(), uiConf?.redirectUri), LoginScreen.WEB_FORGOT_PASSWORD_SCREEN)
         }
 
         account_selector_view.setAccountIdentifier(arrayListOf(identifier))

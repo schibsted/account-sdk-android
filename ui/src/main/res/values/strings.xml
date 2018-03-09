@@ -68,7 +68,6 @@
     <string name="schacc_password_forgot_password">Forgot password?</string>
     <string name="schacc_password_extra_info">Minimum 8 characters</string>
     <string name="schacc_password_error_incorrect">The password you entered is incorrect. Please try again.</string>
-    <string tools:ignore="MissingTranslation" name="schacc_password_forgot_password_uri">%1$sflow/password?client_id=%2$s&amp;redirect_uri=%3$s</string>
     <string name="schacc_password_keep_me_logged_in">Keep me logged in</string>
     <!--Inbox-->
     <string name="schacc_inbox_information">We sent a verification link to: %1$s</string>
