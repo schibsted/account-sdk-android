@@ -23,7 +23,8 @@ data class UiConfiguration(
         val signUpEnabled: Boolean = true,
         @DrawableRes val headerResource: Int = 0,
         val teaserText: String? = null,
-        val signUpNotAllowedErrorMessage: String? = null
+        val signUpNotAllowedErrorMessage: String? = null,
+        val isClosingAllowed: Boolean = true
 ) : Parcelable {
 
     init {
@@ -54,7 +55,8 @@ data class UiConfiguration(
             source.readInt() == 1,
             source.readInt(),
             source.readString(),
-            source.readString()
+            source.readString(),
+            source.readInt() == 1
     )
 
     override fun describeContents() = 0
@@ -70,6 +72,7 @@ data class UiConfiguration(
         writeInt(headerResource)
         writeString(teaserText)
         writeString(signUpNotAllowedErrorMessage)
+        writeInt(if (isClosingAllowed) 1 else 0)
     }
 
     class Builder(clientName: String, redirectUri: URI, defaultPhonePrefix: Int) {
@@ -88,6 +91,8 @@ data class UiConfiguration(
         fun headerResource(@DrawableRes headerResource: Int) = apply { this.subject = this.subject.copy(headerResource = headerResource) }
 
         fun teaserText(teaserText: String?) = apply { this.subject = this.subject.copy(teaserText = teaserText) }
+
+        fun allowClosing(allowClosing: Boolean) = apply { this.subject = this.subject.copy(isClosingAllowed = allowClosing) }
 
         fun build() = subject
 
