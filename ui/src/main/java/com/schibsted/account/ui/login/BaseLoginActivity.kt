@@ -23,8 +23,8 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewTreeObserver
 import android.view.inputmethod.InputMethodManager
-import com.schibsted.account.common.tracking.UiTracking
 import com.schibsted.account.common.tracking.TrackingData
+import com.schibsted.account.common.tracking.UiTracking
 import com.schibsted.account.common.util.Logger
 import com.schibsted.account.engine.input.Identifier
 import com.schibsted.account.engine.integration.ResultCallbackData
@@ -35,12 +35,12 @@ import com.schibsted.account.ui.UiConfiguration
 import com.schibsted.account.ui.login.flow.password.FlowSelectionListener
 import com.schibsted.account.ui.login.screen.LoginScreen
 import com.schibsted.account.ui.login.screen.identification.ui.EmailIdentificationFragment
-import com.schibsted.account.util.DeepLink
-import com.schibsted.account.util.DeepLinkHandler
 import com.schibsted.account.ui.navigation.Navigation
 import com.schibsted.account.ui.navigation.NavigationListener
 import com.schibsted.account.ui.ui.FlowFragment
 import com.schibsted.account.ui.ui.WebFragment
+import com.schibsted.account.util.DeepLink
+import com.schibsted.account.util.DeepLinkHandler
 import kotlinx.android.synthetic.main.schacc_mobile_activity_layout.*
 
 abstract class BaseLoginActivity : AppCompatActivity(), KeyboardManager, NavigationListener {
@@ -258,18 +258,14 @@ abstract class BaseLoginActivity : AppCompatActivity(), KeyboardManager, Navigat
         imm.hideSoftInputFromWindow(window.decorView.windowToken, InputMethodManager.HIDE_IMPLICIT_ONLY)
     }
 
-    override fun openKeyboard() {
-        if (!isKeyboardOpen) {
-            val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-            imm.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, InputMethodManager.HIDE_IMPLICIT_ONLY)
-        }
-    }
-
     private fun updateActionBar() {
         updateTitle(screen)
-        val canBenEnded = screen?.canBeEnded ?: false
-        menu?.findItem(R.id.close_flow)?.isVisible = canBenEnded
-        toolbar_back_arrow.visibility = if (canBenEnded) View.GONE else View.VISIBLE
+        menu?.findItem(R.id.close_flow)?.isVisible = uiConfiguration.isClosingAllowed
+        if (screen == LoginScreen.IDENTIFICATION_SCREEN) {
+            toolbar_back_arrow.visibility = View.GONE
+        } else {
+            toolbar_back_arrow.visibility = View.VISIBLE
+        }
     }
 
     /**

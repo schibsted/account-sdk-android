@@ -4,7 +4,7 @@
 
 package com.schibsted.account.ui.login.screen
 
-enum class LoginScreen constructor(val value: String, val canBeEnded: Boolean = false) {
+enum class LoginScreen constructor(val value: String) {
     /**
      * Represents the screen used to ask the phone number or the email address
      *
@@ -14,7 +14,7 @@ enum class LoginScreen constructor(val value: String, val canBeEnded: Boolean = 
      *
      * @see com.schibsted.account.ui.passwordless.identification.ui.MobileIdentificationFragment
      */
-    IDENTIFICATION_SCREEN("IDENTIFICATION_SCREEN", true),
+    IDENTIFICATION_SCREEN("IDENTIFICATION_SCREEN"),
 
     /**
      * Represents the screen used to perform the code verification
@@ -41,9 +41,9 @@ enum class LoginScreen constructor(val value: String, val canBeEnded: Boolean = 
      *
      * @see com.schibsted.account.ui.passwordless.information.RequiredFieldsFragment
      */
-    REQUIRED_FIELDS_SCREEN("REQUIRED_FIELDS_SCREEN", true),
+    REQUIRED_FIELDS_SCREEN("REQUIRED_FIELDS_SCREEN"),
 
-    CHECK_INBOX_SCREEN("CHECK_INBOX_SCREEN", true),
+    CHECK_INBOX_SCREEN("CHECK_INBOX_SCREEN"),
 
     WEB_TC_SCREEN("WEB_TC_SCREEN"),
 
