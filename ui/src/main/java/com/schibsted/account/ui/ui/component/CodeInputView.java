@@ -336,12 +336,12 @@ public class CodeInputView extends RelativeLayout implements InputField, View.On
         setInputViewsTextWatcher(textWatcher, inputViews);
     }
 
-    /* no-op */
     @Override
-    public void setOnEditorActionListener(TextView.OnEditorActionListener onEditorActionListener) {
-
+    public void setImeAction(int imeOption, TextView.OnEditorActionListener editorActionListener) {
+        CustomEditText lastDigit = inputViews.get(inputViews.size() - 1);
+        lastDigit.setImeOptions(imeOption);
+        lastDigit.setOnEditorActionListener(editorActionListener);
     }
-
     /**
      * Calls {@link #hideErrorView()} if {@link #isErrorVisible()} return true
      *
@@ -358,11 +358,6 @@ public class CodeInputView extends RelativeLayout implements InputField, View.On
     public void onDeleteKeyPressed() {
         setFocusOnPreviousInputView();
         inputViews.get(focusedViewPosition).setText("");
-    }
-
-    @Override
-    public void giveFocus() {
-        digit1.requestFocus();
     }
 
     @Override

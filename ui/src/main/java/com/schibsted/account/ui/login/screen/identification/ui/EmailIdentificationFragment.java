@@ -9,18 +9,15 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.text.InputType;
 import android.text.TextUtils;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
-
-import com.schibsted.account.common.tracking.UiTracking;
-import com.schibsted.account.common.tracking.TrackingData;
+import android.widget.TextView;
 import com.schibsted.account.common.util.Logger;
-import com.schibsted.account.engine.input.Identifier;
 import com.schibsted.account.ui.R;
 import com.schibsted.account.ui.UiConfiguration;
-import com.schibsted.account.ui.login.BaseLoginActivity;
 import com.schibsted.account.ui.login.screen.identification.IdentificationContract;
 import com.schibsted.account.ui.ui.component.InputFieldView;
 import com.schibsted.account.ui.ui.rule.EmailValidationRule;
@@ -98,12 +95,17 @@ public class EmailIdentificationFragment extends AbstractIdentificationFragment 
         primaryActionView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                final UiTracking tracker = BaseLoginActivity.getTracker();
-                if (tracker != null) {
-                    tracker.eventInteraction(TrackingData.InteractionType.SEND, TrackingData.Screen.IDENTIFICATION);
-                }
+                identifyUser(inputFieldView);
+            }
+        });
 
-                identificationPresenter.verifyInput(inputFieldView, Identifier.IdentifierType.EMAIL, uiConf.getSignUpEnabled(), uiConf.getSignUpNotAllowedErrorMessage());
+        inputFieldView.setImeAction(EditorInfo.IME_ACTION_NEXT, new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_NEXT) {
+                    identifyUser(inputFieldView);
+                }
+                return false;
             }
         });
     }
