@@ -6,6 +6,6 @@ package com.schibsted.account.common.smartlock
 
 interface Smartlock {
     fun requestCredentials()
-    fun saveCredential(username: String, password: String)
-    fun deleteCredential()
+    fun saveCredentials(username: String, password: String)
+    fun deleteCredentials()
 }

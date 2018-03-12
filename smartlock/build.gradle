@@ -25,9 +25,8 @@ android {
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation project(":common")
-    compileOnly project(":core")
+    implementation project(":core")
     implementation "com.android.support:appcompat-v7:${libs.support}"
     implementation("com.google.android.gms:play-services-auth:$libs.smartlock") {
         exclude group: "com.android.support"

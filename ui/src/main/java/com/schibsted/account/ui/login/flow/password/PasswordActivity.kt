@@ -33,7 +33,7 @@ class PasswordActivity : BaseLoginActivity(), FlowSelectionListener {
             signUpController = savedSignUpController as SignUpController
         }
 
-        if (credentials == null && !isResolving) {
+        if (smartlockCredentials == null && !isSmartlockRunning) {
             if (activeFlowType == null) {
                 startIdentificationFragment(this)
             } else {
@@ -42,7 +42,7 @@ class PasswordActivity : BaseLoginActivity(), FlowSelectionListener {
             }
         }
 
-        credentials?.let {
+        smartlockCredentials?.let {
             this.activeFlowType = FlowSelectionListener.FlowType.LOGIN
             BaseLoginActivity.tracker?.intent = TrackingData.UserIntent.LOGIN
             loginController.start(this@PasswordActivity.loginContract)

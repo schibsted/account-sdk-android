@@ -47,7 +47,7 @@ class PasswordlessActivity : BaseLoginActivity(), PasswordlessContract {
         }
         identifierType = super.uiConfiguration.identifierType.value
         navigationController = Navigation(this, this)
-        if (credentials == null && !isResolving) {
+        if (smartlockCredentials == null && !isSmartlockRunning) {
             passwordlessController.start(this)
         }
     }

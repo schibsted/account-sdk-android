@@ -18,11 +18,11 @@ class UiSmartlockController(activity: AppCompatActivity, smartLockCallback: Smar
     }
 
     fun saveCredential(identifier: String, password: String) {
-        smartlockController.saveCredential(identifier, password)
+        smartlockController.saveCredentials(identifier, password)
     }
 
     fun deleteCredential() {
-        smartlockController.deleteCredential()
+        smartlockController.deleteCredentials()
     }
 
     fun convertToIdentityCredential(parcelable: Parcelable): Credentials? {

@@ -49,7 +49,7 @@ class SmartlockImpl(private val loginActivity: BaseLoginActivity, val loginContr
 
     override fun onCredentialRetrieved(credential: Credentials) {
         isSmartlockResolving = false
-        loginActivity.credentials = credential
+        loginActivity.smartlockCredentials = credential
         loginController.start(loginContract)
     }
 
@@ -59,7 +59,7 @@ class SmartlockImpl(private val loginActivity: BaseLoginActivity, val loginContr
     }
 
     override fun onCredentialDeleted() {
-        loginActivity.credentials = null
+        loginActivity.smartlockCredentials = null
     }
 
     override fun onFailure() {

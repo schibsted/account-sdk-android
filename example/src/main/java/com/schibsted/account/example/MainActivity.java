@@ -29,10 +29,9 @@ import com.schibsted.account.session.event.EventManager;
 import com.schibsted.account.ui.UiConfiguration;
 import com.schibsted.account.ui.login.BaseLoginActivity;
 import com.schibsted.account.ui.login.flow.password.PasswordActivity;
+import com.schibsted.account.ui.smartlock.SmartlockImpl;
 
 import java.util.Locale;
-
-import static com.schibsted.account.ui.smartlock.SmartlockImpl.SMARTLOCK_FAILED;
 
 public class MainActivity extends AppCompatActivity {
     final static int PASSWORD_REQUEST_CODE = 1;
@@ -148,7 +147,7 @@ public class MainActivity extends AppCompatActivity {
 
                 userState.setText(getString(R.string.example_app_user_logged_in, user.getUserId().getId()));
                 logoutButton.setVisibility(View.VISIBLE);
-            } else if (resultCode == SMARTLOCK_FAILED) {
+            } else if (resultCode == SmartlockImpl.SMARTLOCK_FAILED) {
                 startActivityForResult(data, PASSWORD_REQUEST_CODE);
             }
         }

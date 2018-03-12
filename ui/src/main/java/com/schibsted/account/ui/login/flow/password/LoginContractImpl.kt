@@ -22,7 +22,7 @@ import com.schibsted.account.ui.ui.FlowFragment
 
 class LoginContractImpl(private val loginActivity: BaseLoginActivity) : LoginContract {
     override fun onCredentialsRequested(provider: InputProvider<Credentials>) {
-        val credentials = loginActivity.credentials
+        val credentials = loginActivity.smartlockCredentials
         if (credentials != null) {
             provider.provide(credentials, object : ResultCallback<NoValue> {
                 override fun onSuccess(result: NoValue) {

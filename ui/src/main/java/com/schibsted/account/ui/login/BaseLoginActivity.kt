@@ -67,7 +67,7 @@ abstract class BaseLoginActivity : AppCompatActivity(), KeyboardManager, Navigat
         val KEY_UI_CONFIGURATION = "UI_CONFIGURATION"
 
         @JvmField
-        val KEY_CREDENTIALS = "CREDENTIALS"
+        val KEY_SMARTLOCK_CREDENTIALS = "CREDENTIALS"
 
         const val KEY_SMARTLOCK_RESOLVING = "KEY_SMARTLOCK_RESOLVING"
 
@@ -88,7 +88,7 @@ abstract class BaseLoginActivity : AppCompatActivity(), KeyboardManager, Navigat
     protected var screen: LoginScreen? = null
     protected var activeFlowType: FlowSelectionListener.FlowType? = null
     var currentIdentifier: Identifier? = null
-    var credentials: Credentials? = null
+    var smartlockCredentials: Credentials? = null
 
     /**
      * defines the first element of the layout, this is the main container of the activity
@@ -106,13 +106,13 @@ abstract class BaseLoginActivity : AppCompatActivity(), KeyboardManager, Navigat
 
     protected lateinit var loginController: LoginController
     protected lateinit var loginContract: LoginContractImpl
-    protected var isResolving = false
+    protected var isSmartlockRunning = false
 
     internal var smartlock: SmartlockImpl? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        credentials = intent.getParcelableExtra(KEY_CREDENTIALS)
+        smartlockCredentials = intent.getParcelableExtra(KEY_SMARTLOCK_CREDENTIALS)
 
         initializeUiConfiguration()
         initializeUi()
@@ -153,7 +153,7 @@ abstract class BaseLoginActivity : AppCompatActivity(), KeyboardManager, Navigat
         if (savedInstanceState != null) {
             savedInstanceState.getString(KEY_SCREEN)?.let { screen = LoginScreen.valueOf(savedInstanceState.getString(KEY_SCREEN)) }
             savedInstanceState.getParcelable<Parcelable>(KEY_CURRENT_IDENTIFIER)?.let { currentIdentifier = savedInstanceState.getParcelable(KEY_CURRENT_IDENTIFIER) }
-            isSmartlockResolving = savedInstanceState.getBoolean(KEY_SMARTLOCK_RESOLVING)
+            this.isSmartlockRunning = savedInstanceState.getBoolean(KEY_SMARTLOCK_RESOLVING)
 
             if (savedInstanceState.getInt(KEY_FLOW_TYPE) == 1) {
                 activeFlowType = FlowSelectionListener.FlowType.LOGIN
@@ -168,11 +168,13 @@ abstract class BaseLoginActivity : AppCompatActivity(), KeyboardManager, Navigat
 
     private fun initializeSmartlock() {
         val isSmartlockReady = SmartlockImpl.isSmartlockAvailable() && uiConfiguration.smartlockEnabled
-        progressBar.visibility = if (isSmartlockReady) VISIBLE else GONE
         if (isSmartlockReady) {
+            progressBar.visibility = VISIBLE
             loginController = LoginController(true)
             smartlock = SmartlockImpl(this, loginController, loginContract)
-            isResolving = smartlock?.isSmartlockResolving ?: false
+            this.isSmartlockRunning = smartlock?.isSmartlockResolving ?: false
+        } else {
+            progressBar.visibility = GONE
         }
     }
 
@@ -265,7 +267,7 @@ abstract class BaseLoginActivity : AppCompatActivity(), KeyboardManager, Navigat
         outState.putInt(KEY_FLOW_TYPE, activeFlowType?.let { if (isUserAvailable()) 2 else 1 }
             ?: 0)
         outState.putParcelable(KEY_CURRENT_IDENTIFIER, currentIdentifier)
-        outState.putBoolean(KEY_SMARTLOCK_RESOLVING, isSmartlockResolving)
+        outState.putBoolean(KEY_SMARTLOCK_RESOLVING, this.isSmartlockRunning)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -301,7 +303,7 @@ abstract class BaseLoginActivity : AppCompatActivity(), KeyboardManager, Navigat
                         progressBar.visibility = GONE
                     }
                 }
-                isResolving = false
+                this.isSmartlockRunning = false
             }
         } else {
             smartlock?.onFailure()
