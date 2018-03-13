@@ -72,7 +72,7 @@ class PasswordlessController @JvmOverloads constructor(private val verifyUser: B
                     SendValidationCodeOperation(identifier, this.locale, { callback.onError(it.toClientError()) }, { passwordlessToken ->
                         AgreementLinksOperation({ callback.onError(it) }, { agreementsLinks ->
                             super.navigation.push(StepNoPwIdentify(identifier, passwordlessToken, accountStatus.isAvailable, agreementsLinks))
-                            callback.onSuccess(null)
+                            callback.onSuccess(NoValue)
                             evaluate(provider)
                         })
                     })
@@ -95,13 +95,13 @@ class PasswordlessController @JvmOverloads constructor(private val verifyUser: B
                             AgreementsCheckOperation(user, { callback.onError(it.toClientError()) }) { agreementsCheck ->
                                 MissingFieldsOperation(user, { callback.onError(it.toClientError()) }) { missingFields ->
                                     super.navigation.push(StepNoPwValidationCode(verificationCode, user, agreementsCheck.allAccepted(), missingFields))
-                                    callback.onSuccess(null)
+                                    callback.onSuccess(NoValue)
                                     evaluate(provider)
                                 }
                             }
                         } else {
                             super.navigation.push(StepNoPwValidationCode(verificationCode, user, true, setOf()))
-                            callback.onSuccess(null)
+                            callback.onSuccess(NoValue)
                             evaluate(provider)
                         }
                     })

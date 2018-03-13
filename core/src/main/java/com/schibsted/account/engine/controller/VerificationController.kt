@@ -65,7 +65,7 @@ abstract class VerificationController<in T> : Controller<T>()
                     user.profile.update(RequiredFields.transformFieldsToProfile(providedFieldsAndPreFill.fields), object : ResultCallback<NoValue> {
                         override fun onSuccess(result: NoValue) {
                             this@VerificationController.navigation.push(StepValidateReqFields(providedFieldsAndPreFill))
-                            callback.onSuccess(null)
+                            callback.onSuccess(NoValue)
                             evaluate(contract)
                         }
 

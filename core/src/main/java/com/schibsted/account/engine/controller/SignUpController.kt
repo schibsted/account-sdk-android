@@ -21,6 +21,7 @@ import com.schibsted.account.engine.operation.SignUpOperation
 import com.schibsted.account.engine.step.StepSignUpCredentials
 import com.schibsted.account.engine.step.StepValidateAgreements
 import com.schibsted.account.engine.step.StepValidateReqFields
+import com.schibsted.account.model.NoValue
 import com.schibsted.account.model.SignUpParams
 import com.schibsted.account.model.error.ClientError
 import com.schibsted.account.network.response.AccountStatusResponse
@@ -77,7 +78,7 @@ class SignUpController(private val baseRedirectUri: URI) : Controller<SignUpCont
 
                         ClientInfoOperation({ callback.onError(it.toClientError()) }, { clientInfo ->
                             super.navigation.push(StepSignUpCredentials(input, clientInfo.requiredFields(), agreementsLinks))
-                            callback.onSuccess(null)
+                            callback.onSuccess(NoValue)
                             this.evaluate(contract)
                         })
                     })
@@ -92,7 +93,7 @@ class SignUpController(private val baseRedirectUri: URI) : Controller<SignUpCont
         if (res == null) {
             Agreements.request(contract, { input, callback ->
                 super.navigation.push(StepValidateAgreements(input))
-                callback.onSuccess(null)
+                callback.onSuccess(NoValue)
                 this.evaluate(contract)
             }, agreementsLink)
         }
@@ -119,7 +120,7 @@ class SignUpController(private val baseRedirectUri: URI) : Controller<SignUpCont
             if (supportedFields.isNotEmpty()) {
                 RequiredFields.request(contract, supportedFields, { input, callback ->
                     super.navigation.push(StepValidateReqFields(RequiredFields(input.fields + preFilledValues)))
-                    callback.onSuccess(null)
+                    callback.onSuccess(NoValue)
                     this.evaluate(contract)
                 })
             } else {

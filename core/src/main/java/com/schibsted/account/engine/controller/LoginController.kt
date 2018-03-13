@@ -53,14 +53,14 @@ class LoginController @JvmOverloads constructor(private val verifyUser: Boolean,
                         AgreementLinksOperation({ callback.onError(it) }, { agreementsLink ->
                             MissingFieldsOperation(user, { callback.onError(it.toClientError()) }) { missingFields ->
                                 super.navigation.push(StepLoginIdentify(credentials, user, agreementsCheck.allAccepted(), missingFields, agreementsLink))
-                                callback.onSuccess(null)
+                                callback.onSuccess(NoValue)
                                 evaluate(contract)
                             }
                         })
                     }
                 } else {
                     super.navigation.push(StepLoginIdentify(credentials, user, true, setOf()))
-                    callback.onSuccess(null)
+                    callback.onSuccess(NoValue)
                     evaluate(contract)
                 }
             }
