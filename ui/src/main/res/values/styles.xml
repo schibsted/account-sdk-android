@@ -19,7 +19,7 @@
         <item name="windowNoTitle">true</item>
         <item name="windowActionBarOverlay">false</item>
     </style>
-    
+
     <style name="schacc_progressBar">
         <item name="colorAccent">@color/schacc_progressColor</item>
     </style>

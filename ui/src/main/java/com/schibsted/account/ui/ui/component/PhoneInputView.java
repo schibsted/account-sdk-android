@@ -128,6 +128,12 @@ public class PhoneInputView extends LinearLayout implements InputField {
         prefixView.setText(String.format(prefixText, phonePrefix));
     }
 
+    @Override
+    public void setImeAction(final int imeOption, final TextView.OnEditorActionListener editorActionListener){
+        mobileNumberView.inputField.setImeOptions(imeOption);
+        mobileNumberView.inputField.setOnEditorActionListener(editorActionListener);
+    }
+
     public void setPhoneNumber(String phoneNumber) {
         mobileNumberView.getInputView().setText(phoneNumber);
     }
@@ -201,16 +207,6 @@ public class PhoneInputView extends LinearLayout implements InputField {
     public void setTextWatcher(TextWatcher textWatcher) {
         mobileNumberView.setTextWatcher(textWatcher);
         prefixView.addTextChangedListener(textWatcher);
-    }
-
-    @Override
-    public void giveFocus() {
-        prefixView.requestFocus();
-    }
-
-    @Override
-    public void setOnEditorActionListener(TextView.OnEditorActionListener onEditorActionListener) {
-
     }
 
     @Override

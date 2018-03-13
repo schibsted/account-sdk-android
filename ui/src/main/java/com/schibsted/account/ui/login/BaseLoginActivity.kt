@@ -267,9 +267,12 @@ abstract class BaseLoginActivity : AppCompatActivity(), KeyboardManager, Navigat
 
     private fun updateActionBar() {
         updateTitle(screen)
-        val canBenEnded = screen?.canBeEnded ?: false
-        menu?.findItem(R.id.close_flow)?.isVisible = canBenEnded
-        toolbar_back_arrow.visibility = if (canBenEnded) View.GONE else View.VISIBLE
+        menu?.findItem(R.id.close_flow)?.isVisible = uiConfiguration.isClosingAllowed
+        if (screen == LoginScreen.IDENTIFICATION_SCREEN) {
+            toolbar_back_arrow.visibility = View.GONE
+        } else {
+            toolbar_back_arrow.visibility = View.VISIBLE
+        }
     }
 
     /**

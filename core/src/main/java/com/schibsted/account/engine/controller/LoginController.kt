@@ -6,6 +6,7 @@ package com.schibsted.account.engine.controller
 
 import android.os.Parcel
 import android.os.Parcelable
+import com.schibsted.account.common.util.readStack
 import com.schibsted.account.engine.input.Credentials
 import com.schibsted.account.engine.integration.CallbackProvider
 import com.schibsted.account.engine.integration.ResultCallback
@@ -19,7 +20,6 @@ import com.schibsted.account.model.LoginResult
 import com.schibsted.account.model.error.ClientError
 import com.schibsted.account.network.OIDCScope
 import com.schibsted.account.session.User
-import com.schibsted.account.common.util.readStack
 
 /**
  * Controller which administrates the process of a login flow using credentials. This is
@@ -33,7 +33,7 @@ class LoginController @JvmOverloads constructor(private val verifyUser: Boolean,
     @OIDCScope private val scopes: Array<String> = arrayOf(OIDCScope.SCOPE_OPENID)) : VerificationController<LoginContract>() {
 
     constructor(parcel: Parcel) : this(parcel.readInt() != 0, parcel.createStringArray()) {
-        super.navigation.addAll(parcel.readStack())
+        super.navigation.addAll(parcel.readStack(LoginController::class.java.classLoader))
     }
 
     override fun evaluate(contract: LoginContract) {

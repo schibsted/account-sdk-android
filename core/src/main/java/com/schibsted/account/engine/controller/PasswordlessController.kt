@@ -43,7 +43,7 @@ class PasswordlessController @JvmOverloads constructor(private val verifyUser: B
         parcel.readInt() != 0,
         Locale(parcel.readString()),
         parcel.createStringArray()) {
-        super.navigation.addAll(parcel.readStack())
+        super.navigation.addAll(parcel.readStack(PasswordlessController::class.java.classLoader))
     }
 
     override fun evaluate(contract: PasswordlessContract) {

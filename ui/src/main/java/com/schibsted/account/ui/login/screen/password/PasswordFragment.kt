@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.schibsted.account.Routes
+import android.view.inputmethod.EditorInfo
 import com.schibsted.account.common.tracking.TrackingData
 import com.schibsted.account.engine.input.Identifier
 import com.schibsted.account.model.error.ClientError
@@ -67,12 +68,19 @@ class PasswordFragment : FlowFragment<PasswordContract.Presenter>(), PasswordCon
         account_selector_view.actionListener = this
 
         password_input_view.setValidationRule(if (isUserAvailable) PasswordValidationRule else BasicValidationRule)
-        uiConf?.let {
-            primaryActionView.setOnClickListener {
-                BaseLoginActivity.tracker?.eventInteraction(TrackingData.InteractionType.SEND, TrackingData.Screen.PASSWORD)
-                presenter.sign(password_input_view, identifier, keep_me_logged_in.isChecked)
+        primaryActionView.setOnClickListener { signUser() }
+
+        password_input_view.setImeAction(EditorInfo.IME_ACTION_NEXT, { _, actionId, _ ->
+            if (actionId == EditorInfo.IME_ACTION_NEXT) {
+                signUser()
             }
-        }
+            return@setImeAction false
+        })
+    }
+
+    private fun signUser() {
+        BaseLoginActivity.tracker?.eventInteraction(TrackingData.InteractionType.SEND, TrackingData.Screen.PASSWORD)
+        presenter.sign(password_input_view, identifier, keep_me_logged_in.isChecked)
     }
 
     private fun addUserOptions(isUserAvailable: Boolean) {

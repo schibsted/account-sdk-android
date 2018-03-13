@@ -55,9 +55,9 @@ fun String.safeUrl(): String {
     return domain + hiddenParams
 }
 
-fun <T> Parcel.readStack(): Stack<T> {
+fun <T> Parcel.readStack(loader: ClassLoader): Stack<T> {
     val items = mutableListOf<T>()
-    this.readList(items, null)
+    this.readList(items, loader)
     return Stack<T>().apply { addAll(items) }
 }
 
