@@ -54,7 +54,7 @@ class SignUpController(private val baseRedirectUri: URI) : Controller<SignUpCont
                             password = credentialsStep.credentials.password,
                             acceptTerms = agreementsStep.agreements.acceptAgreements).getParams()
 
-            val deepLink = DeepLink.ValidateAccount.create(baseRedirectUri, credentialsStep.credentials.keepLoggedIn)
+            val deepLink = DeepLink.ValidateAccount.createDeepLinkUri(baseRedirectUri, credentialsStep.credentials.keepLoggedIn)
 
             SignUpOperation(credentialsStep.credentials.identifier.identifier, deepLink, params,
                     { callback.onError(it.toClientError()) },

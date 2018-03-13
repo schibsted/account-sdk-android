@@ -21,10 +21,4 @@ public interface KeyboardManager {
      * call this method to close down the soft keyboard
      */
     void closeKeyboard();
-
-    /**
-     * call this method to open up the soft keyboard
-     *
-     */
-    void openKeyboard();
 }

@@ -14,20 +14,17 @@ import io.kotlintest.matchers.shouldNotBe
 import io.kotlintest.matchers.startWith
 import io.kotlintest.specs.WordSpec
 import java.net.URI
-import java.net.URLEncoder
 
 class DeepLinkTest : WordSpec({
     Logger.loggingEnabled = false
 
     val redir = URI.create("spid-myapp://login")
 
-    fun String.urlEnc() = URLEncoder.encode(this, "utf-8")
-
     "ValidateAccount" should {
         "be created correctly" {
-            val result = DeepLink.ValidateAccount.create(redir, true)
-            result should startWith(redir.toString().urlEnc())
-            result should haveSubstring("act=validate-account".urlEnc())
+            val result = DeepLink.ValidateAccount.createDeepLinkUri(redir, true).toString()
+            result should startWith(redir.toString())
+            result should haveSubstring("act=validate-account")
         }
 
         "not allow non alphanumeric characters" {
@@ -38,10 +35,10 @@ class DeepLinkTest : WordSpec({
 
     "IdentifierProvided" should {
         "be created correctly" {
-            val result = DeepLink.IdentifierProvided.create(redir, "me@email.com")
-            result should startWith(redir.toString().urlEnc())
-            result should haveSubstring("act=identifier-provided".urlEnc())
-            result should haveSubstring("id=${encodeBase64("me@email.com")}".urlEnc())
+            val result = DeepLink.IdentifierProvided.createDeepLinkUri(redir, "me@email.com").toString()
+            result should startWith(redir.toString())
+            result should haveSubstring("act=identifier-provided")
+            result should haveSubstring("id=${encodeBase64("me@email.com")}")
         }
 
         "be parsed correctly" {
