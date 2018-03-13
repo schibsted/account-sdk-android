@@ -34,7 +34,7 @@ data class UiConfiguration(
             throw IllegalArgumentException("The property signUpNotAllowedErrorMessage must be specified if signUpEnabled is set to false")
         }
         if (smartlockEnabled && !SmartlockImpl.isSmartlockAvailable()) {
-            throw IllegalAccessException("The smartlock dependency wasn't found")
+            throw IllegalStateException("Smartlock was enabled, but not found on the classpath. Please verify that the smartlock module is included in your build")
         }
     }
 
@@ -44,7 +44,7 @@ data class UiConfiguration(
             .identifierType(identifierType)
             .identifier(identifier)
             .enableSignUp()
-            .enableSmartlock()
+            .disableSmartlock()
             .headerResource(headerResource)
             .teaserText(teaserText)
             .allowClosing(isClosingAllowed)
