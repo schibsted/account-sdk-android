@@ -10,53 +10,61 @@ import android.os.Parcel
 import android.os.Parcelable
 import android.support.annotation.DrawableRes
 import com.schibsted.account.engine.input.Identifier
+import com.schibsted.account.ui.smartlock.SmartlockImpl
 import java.net.URI
 import java.util.Locale
 
 data class UiConfiguration(
-        val clientName: String,
-        val redirectUri: URI,
-        val defaultPhonePrefix: Int,
-        val locale: Locale = Locale.getDefault(),
-        val identifierType: Identifier.IdentifierType = Identifier.IdentifierType.EMAIL,
-        val identifier: String? = null,
-        val signUpEnabled: Boolean = true,
-        @DrawableRes val headerResource: Int = 0,
-        val teaserText: String? = null,
-        val signUpNotAllowedErrorMessage: String? = null,
-        val isClosingAllowed: Boolean = true
+    val clientName: String,
+    val redirectUri: URI,
+    val defaultPhonePrefix: Int,
+    val locale: Locale = Locale.getDefault(),
+    val identifierType: Identifier.IdentifierType = Identifier.IdentifierType.EMAIL,
+    val identifier: String? = null,
+    val signUpEnabled: Boolean = true,
+    val smartlockEnabled: Boolean = false,
+    @DrawableRes val headerResource: Int = 0,
+    val teaserText: String? = null,
+    val signUpNotAllowedErrorMessage: String? = null,
+    val isClosingAllowed: Boolean = true
 ) : Parcelable {
 
     init {
         if (!signUpEnabled && signUpNotAllowedErrorMessage.isNullOrEmpty()) {
             throw IllegalArgumentException("The property signUpNotAllowedErrorMessage must be specified if signUpEnabled is set to false")
         }
+        if (smartlockEnabled && !SmartlockImpl.isSmartlockAvailable()) {
+            throw IllegalStateException("Smartlock was enabled, but not found on the classpath. Please verify that the smartlock module is included in your build")
+        }
     }
 
     fun newBuilder(): UiConfiguration.Builder {
         val builder = UiConfiguration.Builder(clientName, redirectUri, defaultPhonePrefix)
-                .locale(locale)
-                .identifierType(identifierType)
-                .identifier(identifier)
-                .enableSignUp()
-                .headerResource(headerResource)
-                .teaserText(teaserText)
+            .locale(locale)
+            .identifierType(identifierType)
+            .identifier(identifier)
+            .enableSignUp()
+            .disableSmartlock()
+            .headerResource(headerResource)
+            .teaserText(teaserText)
+            .allowClosing(isClosingAllowed)
         signUpNotAllowedErrorMessage?.let { builder.disableSignUp(it) }
         return builder
     }
 
     constructor(source: Parcel) : this(
-            source.readString(),
-            source.readSerializable() as URI,
-            source.readInt(),
-            source.readSerializable() as Locale,
-            source.readSerializable() as Identifier.IdentifierType,
-            source.readString(),
-            source.readInt() == 1,
-            source.readInt(),
-            source.readString(),
-            source.readString(),
-            source.readInt() == 1
+        source.readString(),
+        source.readSerializable() as URI,
+        source.readInt(),
+        source.readSerializable() as Locale,
+        source.readSerializable() as Identifier.IdentifierType,
+        source.readString(),
+        source.readInt() == 1,
+        source.readInt() == 1,
+        source.readInt(),
+        source.readString(),
+        source.readString(),
+        source.readInt() == 1
     )
 
     override fun describeContents() = 0
@@ -69,6 +77,7 @@ data class UiConfiguration(
         writeSerializable(identifierType)
         writeString(identifier)
         writeInt(if (signUpEnabled) 1 else 0)
+        writeInt(if (smartlockEnabled) 1 else 0)
         writeInt(headerResource)
         writeString(teaserText)
         writeString(signUpNotAllowedErrorMessage)
@@ -85,6 +94,10 @@ data class UiConfiguration(
         fun identifier(identifier: String?) = apply { this.subject = this.subject.copy(identifier = identifier) }
 
         fun enableSignUp() = apply { this.subject = this.subject.copy(signUpEnabled = true) }
+
+        fun enableSmartlock() = apply { this.subject = this.subject.copy(smartlockEnabled = true) }
+
+        fun disableSmartlock() = apply { this.subject = this.subject.copy(smartlockEnabled = false) }
 
         fun disableSignUp(signUpDisabledErrorMessage: String) = apply { this.subject = this.subject.copy(signUpEnabled = false, signUpNotAllowedErrorMessage = signUpDisabledErrorMessage) }
 
@@ -105,7 +118,7 @@ data class UiConfiguration(
                 val defaultPhonePrefix = appInfo.metaData.getInt(CLIENT_PHONE_PREFIX)
                 val redirectScheme = appInfo.metaData.getString(REDIRECT_SCHEME)
                 val redirectHost = appInfo.metaData.getString(REDIRECT_HOST)
-                val uriScheme = redirectScheme + "://" + redirectHost
+                val uriScheme = "$redirectScheme://$redirectHost"
 
                 requireNotNull(clientName, { "The field $CLIENT_NAME must be specified in the manifest" })
                 requireNotNull(defaultPhonePrefix, { "The field $CLIENT_PHONE_PREFIX must be specified in the manifest" })

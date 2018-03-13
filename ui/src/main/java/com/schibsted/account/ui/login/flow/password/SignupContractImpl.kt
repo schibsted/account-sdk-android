@@ -10,24 +10,25 @@ import com.schibsted.account.engine.input.Credentials
 import com.schibsted.account.engine.input.Identifier
 import com.schibsted.account.engine.input.RequiredFields
 import com.schibsted.account.engine.integration.CallbackProvider
-import com.schibsted.account.engine.integration.ResultCallback
 import com.schibsted.account.engine.integration.InputProvider
+import com.schibsted.account.engine.integration.ResultCallback
 import com.schibsted.account.engine.integration.contract.SignUpContract
 import com.schibsted.account.model.error.ClientError
 import com.schibsted.account.network.response.AgreementLinksResponse
 import com.schibsted.account.ui.login.BaseLoginActivity
 import com.schibsted.account.ui.ui.FlowFragment
 
-class SignupContractImpl(private val activity: BaseLoginActivity, private val startIdentificationFragment: () -> Unit) : SignUpContract {
+class SignupContractImpl(private val activity: BaseLoginActivity) : SignUpContract {
     override fun onCredentialsRequested(provider: InputProvider<Credentials>) {
         activity.currentIdentifier?.let { identifier ->
             val fragment = activity.fragmentProvider.getOrCreatePasswordFragment(
                 activity.navigationController.currentFragment,
                 provider = provider,
                 currentIdentifier = identifier,
-                userAvailable = activity.isUserAvailable())
+                userAvailable = activity.isUserAvailable(),
+                smartlockImpl = null)
             activity.navigationController.navigateToFragment(fragment)
-        } ?: startIdentificationFragment()
+        } ?: activity.startIdentificationFragment(if (activity is FlowSelectionListener) activity else null)
     }
 
     override fun onAgreementsRequested(agreementsProvider: InputProvider<Agreements>, agreementLinks: AgreementLinksResponse) {
@@ -51,7 +52,6 @@ class SignupContractImpl(private val activity: BaseLoginActivity, private val st
             override fun onSuccess(result: Identifier) {
                 val fragment = activity.fragmentProvider.getOrCreateInboxFragment(activity.navigationController.currentFragment, result)
                 activity.navigationController.navigateToFragment(fragment)
-
                 BaseLoginActivity.tracker?.eventActionSuccessful(TrackingData.SpidAction.ACCOUNT_CREATED)
             }
 

@@ -38,6 +38,7 @@ android {
 
 dependencies {
     api project(':core')
+    compileOnly project(':smartlock')
 
     implementation "com.android.support:support-annotations:${libs.support}"
     implementation "com.android.support:design:${libs.support}"
