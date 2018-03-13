@@ -28,7 +28,7 @@ class DeepLinkHandlerTest : WordSpec({
         }
 
         "correctly handle the validate account action" {
-            val uri = DeepLink.ValidateAccount.create(URI.create("spid-myClientId://login"), true).toString() + "&code=12345"
+            val uri = DeepLink.ValidateAccount.createDeepLinkUri(URI.create("spid-myClientId://login"), true).toString() + "&code=12345"
             val res = DeepLinkHandler.resolveDeepLink(uri)
 
             res shouldBe instanceOf(DeepLink.ValidateAccount::class)
@@ -38,7 +38,7 @@ class DeepLinkHandlerTest : WordSpec({
         }
 
         "correctly handle the identifier provided action" {
-            val uri = DeepLink.IdentifierProvided.create(URI.create("spid-myClientId://login"), "myid@mail.com")
+            val uri = DeepLink.IdentifierProvided.createDeepLinkUri(URI.create("spid-myClientId://login"), "myid@mail.com")
             val res = DeepLinkHandler.resolveDeepLink(uri.toString())
 
             res shouldBe instanceOf(DeepLink.IdentifierProvided::class)

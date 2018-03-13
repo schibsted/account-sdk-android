@@ -45,7 +45,7 @@ sealed class DeepLink {
             /**
              * Code gets injected by the server
              */
-            fun create(redirectUri: URI, isPersistable: Boolean): URI {
+            fun createDeepLinkUri(redirectUri: URI, isPersistable: Boolean): URI {
                 return URI.create("$redirectUri?" +
                         "${DeepLinkHandler.PARAM_ACTION}=${Action.VALIDATE_ACCOUNT.value}" +
                         "&$PARAM_PERSISTABLE=${if (isPersistable) 1 else 0}")
@@ -73,7 +73,7 @@ sealed class DeepLink {
                 return null
             }
 
-            fun create(redirectUri: URI, identifier: String): URI {
+            fun createDeepLinkUri(redirectUri: URI, identifier: String): URI {
                 return URI.create("$redirectUri?" +
                         "${DeepLinkHandler.PARAM_ACTION}=${Action.IDENTIFIER_PROVIDED.value}" +
                         "&$PARAM_ID=${encodeBase64(identifier)}")

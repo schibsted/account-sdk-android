@@ -22,7 +22,7 @@ class DeepLinkTest : WordSpec({
 
     "ValidateAccount" should {
         "be created correctly" {
-            val result = DeepLink.ValidateAccount.create(redir, true).toString()
+            val result = DeepLink.ValidateAccount.createDeepLinkUri(redir, true).toString()
             result should startWith(redir.toString())
             result should haveSubstring("act=validate-account")
         }
@@ -35,7 +35,7 @@ class DeepLinkTest : WordSpec({
 
     "IdentifierProvided" should {
         "be created correctly" {
-            val result = DeepLink.IdentifierProvided.create(redir, "me@email.com").toString()
+            val result = DeepLink.IdentifierProvided.createDeepLinkUri(redir, "me@email.com").toString()
             result should startWith(redir.toString())
             result should haveSubstring("act=identifier-provided")
             result should haveSubstring("id=${encodeBase64("me@email.com")}")

@@ -19,7 +19,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.schibsted.account.engine.integration.ResultCallback;
 import com.schibsted.account.model.UserId;
 import com.schibsted.account.model.error.ClientError;
@@ -40,8 +39,6 @@ public class MainActivity extends AppCompatActivity {
     private IdentityReceiver identityReceiver;
     private TextView userState;
     private Button logoutButton;
-
-
 
     @SuppressLint("SetTextI18n")
     @Override
