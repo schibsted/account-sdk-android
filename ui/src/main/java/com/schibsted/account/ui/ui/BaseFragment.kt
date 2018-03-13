@@ -55,6 +55,7 @@ abstract class BaseFragment : Fragment(), Animation.AnimationListener {
     }
 
     override fun onAnimationEnd(animation: Animation?) {
+        keyboardManager.closeKeyboard()
     }
 
     override fun onAnimationRepeat(animation: Animation?) {

@@ -107,12 +107,6 @@ public class TermsFragment extends FlowFragment<TermsContract.Presenter> impleme
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        keyboardManager.closeKeyboard();
-    }
-
-    @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putParcelable(KEY_LINKS, agreements);
