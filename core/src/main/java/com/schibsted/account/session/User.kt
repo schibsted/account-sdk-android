@@ -169,7 +169,12 @@ class User(token: UserToken, val isPersistable: Boolean) : Parcelable {
             ServiceHolder.oAuthService().tokenFromAuthCode(conf.clientId, conf.clientSecret, code, redirectUri)
                     .enqueue(NetworkCallback.lambda("Resuming session from session code",
                             { callback.onError(it.toClientError()) },
-                            { callback.onSuccess(User(it, isPersistable)) }
+                            { token ->
+                                val user = User(token, isPersistable)
+                                user.agreements.ensureAccepted(ResultCallback.fromLambda({ callback.onError(it) }) {
+                                    callback.onSuccess(user)
+                                })
+                            }
                     ))
         }
     }

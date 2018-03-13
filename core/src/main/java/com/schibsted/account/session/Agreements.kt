@@ -41,6 +41,23 @@ class Agreements(private val user: User) {
     }
 
     /**
+     * Verifies that a user has accepted agreements.
+     * @param callback Calls onSuccess when the agreements are accepted, calls onError for any errors or if the agreements are not accepted
+     */
+    internal fun ensureAccepted(callback: ResultCallback<NoValue>) {
+        this.getAgreementsStatus(ResultCallback.fromLambda(
+                { callback.onError(it) },
+                { agreementsStatus ->
+                    if (agreementsStatus.allAccepted()) {
+                        callback.onSuccess(NoValue)
+                    } else {
+                        callback.onError(ClientError(ClientError.ErrorType.AGREEMENTS_NOT_ACCEPTED,
+                                "User has not accepted agreements, please log in again."))
+                    }
+                }))
+    }
+
+    /**
      * Accept the agreements of the user.
      * @param callback Provide this callback to get the result of the action
      */
