@@ -4,7 +4,7 @@
 
 package com.schibsted.account.session
 
-import com.schibsted.account.ClientConfiguration
+import com.schibsted.account.Routes
 import com.schibsted.account.engine.integration.ResultCallback
 import com.schibsted.account.engine.integration.ResultCallbackData
 import com.schibsted.account.model.error.ClientError
@@ -14,15 +14,14 @@ import com.schibsted.account.network.ServiceHolder
 import com.schibsted.account.network.response.ApiContainer
 import com.schibsted.account.network.response.ProfileData
 import com.schibsted.account.network.response.RequiredFieldsResponse
+import java.net.URI
 
 class Profile(val user: User) {
     /**
      * Returns a link to the account summary pages
      */
-    fun getAccountSummaryLink(redirectURI: String? = null): String {
-        val queryParam = redirectURI?.let { "&redirect_uri=$it" } ?: ""
-        return "${ClientConfiguration.get().environment}account/summary?client_id=${ClientConfiguration.get().clientId}$queryParam"
-    }
+    @Deprecated("Deprecated since 0.8.0, in favor of the Routes class", ReplaceWith("Routes.accountSummaryUrl(redirectURI)", "com.schibsted.account.Routes"))
+    fun getAccountSummaryLink(redirectURI: String? = null) = Routes.accountSummaryUrl(URI.create(redirectURI))
 
     fun get(callback: ResultCallbackData<ProfileData>) {
         val token = user.token

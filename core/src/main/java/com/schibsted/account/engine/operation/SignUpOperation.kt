@@ -10,13 +10,14 @@ import com.schibsted.account.network.NetworkCallback
 import com.schibsted.account.network.ServiceHolder
 import com.schibsted.account.network.response.ApiContainer
 import com.schibsted.account.network.response.ProfileData
+import java.net.URI
 
 /**
  * Signs up a new user
  */
 internal class SignUpOperation(
         email: String,
-        redirectUri: String,
+        redirectUri: URI,
         params: Map<String, Any>,
         resError: (NetworkError) -> Unit,
         resSuccess: (ProfileData) -> Unit) {
@@ -25,7 +26,7 @@ internal class SignUpOperation(
         ClientTokenOperation(
                 { resError(it) },
                 { token: ClientToken ->
-                    ServiceHolder.clientService().signUp(token, email, redirectUri, params).enqueue(object : NetworkCallback<ApiContainer<ProfileData>>("Signing up user") {
+                    ServiceHolder.clientService().signUp(token, email, redirectUri.toString(), params).enqueue(object : NetworkCallback<ApiContainer<ProfileData>>("Signing up user") {
                         override fun onSuccess(result: ApiContainer<ProfileData>) {
                             resSuccess(result.data)
                         }

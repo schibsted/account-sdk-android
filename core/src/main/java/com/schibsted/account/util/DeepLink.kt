@@ -12,7 +12,6 @@ import com.schibsted.account.common.util.decodeBase64
 import com.schibsted.account.common.util.encodeBase64
 import com.schibsted.account.common.util.getQueryParam
 import java.net.URI
-import java.net.URLEncoder
 
 sealed class DeepLink {
     enum class Action(val value: String) {
@@ -46,10 +45,10 @@ sealed class DeepLink {
             /**
              * Code gets injected by the server
              */
-            fun create(redirectUri: URI, isPersistable: Boolean): String {
-                return URLEncoder.encode("$redirectUri?" +
+            fun createDeepLinkUri(redirectUri: URI, isPersistable: Boolean): URI {
+                return URI.create("$redirectUri?" +
                         "${DeepLinkHandler.PARAM_ACTION}=${Action.VALIDATE_ACCOUNT.value}" +
-                        "&$PARAM_PERSISTABLE=${if (isPersistable) 1 else 0}", "utf-8")
+                        "&$PARAM_PERSISTABLE=${if (isPersistable) 1 else 0}")
             }
         }
     }
@@ -74,10 +73,10 @@ sealed class DeepLink {
                 return null
             }
 
-            fun create(redirectUri: URI, identifier: String): String {
-                return URLEncoder.encode("$redirectUri?" +
+            fun createDeepLinkUri(redirectUri: URI, identifier: String): URI {
+                return URI.create("$redirectUri?" +
                         "${DeepLinkHandler.PARAM_ACTION}=${Action.IDENTIFIER_PROVIDED.value}" +
-                        "&$PARAM_ID=${encodeBase64(identifier)}", "utf-8")
+                        "&$PARAM_ID=${encodeBase64(identifier)}")
             }
         }
     }
