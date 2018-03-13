@@ -37,7 +37,7 @@ import java.net.URI
  */
 class SignUpController(private val baseRedirectUri: URI) : Controller<SignUpContract>() {
     constructor(parcel: Parcel) : this(URI.create(parcel.readString())) {
-        this.navigation.addAll(parcel.readStack())
+        this.navigation.addAll(parcel.readStack(SignUpController::class.java.classLoader))
     }
 
     override fun evaluate(contract: SignUpContract) {
