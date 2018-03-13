@@ -9,12 +9,14 @@ import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
-import com.schibsted.account.common.tracking.UiTracking;
+import android.view.inputmethod.EditorInfo;
+import android.widget.TextView;
 import com.schibsted.account.common.tracking.TrackingData;
+import com.schibsted.account.common.tracking.UiTracking;
 import com.schibsted.account.engine.controller.PasswordlessController;
 import com.schibsted.account.engine.input.Identifier;
 import com.schibsted.account.model.error.ClientError;
@@ -25,7 +27,6 @@ import com.schibsted.account.ui.ui.component.AccountSelectorView;
 import com.schibsted.account.ui.ui.component.CodeInputView;
 import com.schibsted.account.ui.ui.dialog.InformationDialogFragment;
 import com.schibsted.account.ui.ui.dialog.SelectorDialog;
-
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -109,12 +110,7 @@ public class VerificationFragment extends FlowFragment<VerificationContract.Pres
         primaryActionView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                UiTracking tracker = BaseLoginActivity.getTracker();
-                if (tracker != null) {
-                    tracker.eventInteraction(TrackingData.InteractionType.SEND, TrackingData.Screen.VERIFICATION_CODE);
-                }
-
-                mobileVerificationPresenter.verifyCode(codeInputView);
+                verifyCode();
             }
         });
         if (secondaryActionView != null) {
@@ -130,6 +126,24 @@ public class VerificationFragment extends FlowFragment<VerificationContract.Pres
                 }
             });
         }
+
+        codeInputView.setImeAction(EditorInfo.IME_ACTION_NEXT, new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_NEXT) {
+                    verifyCode();
+                }
+                return false;
+            }
+        });
+    }
+
+    private void verifyCode() {
+        UiTracking tracker = BaseLoginActivity.getTracker();
+        if (tracker != null) {
+            tracker.eventInteraction(TrackingData.InteractionType.SEND, TrackingData.Screen.VERIFICATION_CODE);
+        }
+        mobileVerificationPresenter.verifyCode(codeInputView);
     }
 
     /**
