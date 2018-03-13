@@ -6,8 +6,9 @@ package com.schibsted.account.engine.input
 
 import android.os.Parcel
 import android.os.Parcelable
-import com.schibsted.account.engine.integration.ResultCallback
 import com.schibsted.account.engine.integration.InputProvider
+import com.schibsted.account.engine.integration.ResultCallback
+import com.schibsted.account.model.NoValue
 
 data class VerificationCode(val verificationCode: String, val keepLoggedIn: Boolean) : Parcelable {
     constructor(source: Parcel) : this(source.readString(), source.readInt() != 0)
@@ -33,7 +34,7 @@ data class VerificationCode(val verificationCode: String, val keepLoggedIn: Bool
             override fun newArray(size: Int): Array<VerificationCode?> = arrayOfNulls(size)
         }
 
-        internal fun request(provider: Provider, identifier: Identifier, onProvided: (VerificationCode, ResultCallback) -> Unit) {
+        internal fun request(provider: Provider, identifier: Identifier, onProvided: (VerificationCode, ResultCallback<NoValue>) -> Unit) {
             provider.onVerificationCodeRequested(InputProvider(onProvided), identifier)
         }
     }

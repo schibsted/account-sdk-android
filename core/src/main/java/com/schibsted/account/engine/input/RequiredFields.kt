@@ -7,8 +7,9 @@ package com.schibsted.account.engine.input
 import android.os.Parcel
 import android.os.Parcelable
 import com.google.gson.JsonObject
-import com.schibsted.account.engine.integration.ResultCallback
 import com.schibsted.account.engine.integration.InputProvider
+import com.schibsted.account.engine.integration.ResultCallback
+import com.schibsted.account.model.NoValue
 
 data class RequiredFields(val fields: Map<String, String>) : Parcelable {
     @Suppress("UNCHECKED_CAST")
@@ -51,7 +52,7 @@ data class RequiredFields(val fields: Map<String, String>) : Parcelable {
             override fun newArray(size: Int): Array<RequiredFields?> = arrayOfNulls(size)
         }
 
-        internal fun request(provider: Provider, missingFields: Set<String>, onProvided: (RequiredFields, ResultCallback) -> Unit) {
+        internal fun request(provider: Provider, missingFields: Set<String>, onProvided: (RequiredFields, ResultCallback<NoValue>) -> Unit) {
             provider.onRequiredFieldsRequested(InputProvider(onProvided, { validation ->
                 when {
                     !validation.fields.keys.containsAll(missingFields) -> {

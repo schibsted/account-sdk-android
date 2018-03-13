@@ -15,7 +15,7 @@ import com.schibsted.account.engine.input.Identifier
 import com.schibsted.account.engine.input.RequiredFields
 import com.schibsted.account.engine.input.VerificationCode
 import com.schibsted.account.engine.integration.CallbackProvider
-import com.schibsted.account.engine.integration.ResultCallbackData
+import com.schibsted.account.engine.integration.ResultCallback
 import com.schibsted.account.engine.integration.InputProvider
 import com.schibsted.account.engine.integration.contract.PasswordlessContract
 import com.schibsted.account.model.LoginResult
@@ -74,7 +74,7 @@ class PasswordlessActivity : BaseLoginActivity(), PasswordlessContract {
     }
 
     override fun onFlowReady(callbackProvider: CallbackProvider<LoginResult>) {
-        callbackProvider.provide(object : ResultCallbackData<LoginResult> {
+        callbackProvider.provide(object : ResultCallback<LoginResult> {
             override fun onSuccess(result: LoginResult) {
                 navigationController.finishFlow(result.user)
 

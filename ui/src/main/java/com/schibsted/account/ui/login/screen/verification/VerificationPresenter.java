@@ -4,15 +4,16 @@
 
 package com.schibsted.account.ui.login.screen.verification;
 
+import com.schibsted.account.common.tracking.TrackingData;
+import com.schibsted.account.common.tracking.UiTracking;
 import com.schibsted.account.engine.controller.PasswordlessController;
 import com.schibsted.account.engine.input.VerificationCode;
-import com.schibsted.account.engine.integration.ResultCallback;
 import com.schibsted.account.engine.integration.InputProvider;
+import com.schibsted.account.engine.integration.ResultCallback;
+import com.schibsted.account.model.NoValue;
 import com.schibsted.account.model.error.ClientError;
 import com.schibsted.account.ui.ErrorUtil;
 import com.schibsted.account.ui.login.BaseLoginActivity;
-import com.schibsted.account.common.tracking.UiTracking;
-import com.schibsted.account.common.tracking.TrackingData;
 import com.schibsted.account.ui.ui.ErrorField;
 import com.schibsted.account.ui.ui.component.CodeInputView;
 
@@ -44,9 +45,9 @@ public class VerificationPresenter implements VerificationContract.Presenter {
      */
     @Override
     public void resendCode(PasswordlessController passwordlessController) {
-        passwordlessController.resendCode(new ResultCallback() {
+        passwordlessController.resendCode(new ResultCallback<NoValue>() {
             @Override
-            public void onSuccess() {
+            public void onSuccess(NoValue res) {
                 if (verificationView.isActive()) {
                     verificationView.showResendCodeView();
 
@@ -89,9 +90,9 @@ public class VerificationPresenter implements VerificationContract.Presenter {
                 verificationView.showProgress();
 
                 // TODO: Change keepLoggedIn to use result from UI
-                provider.provide(new VerificationCode(codeInputView.getInput(), true), new ResultCallback() {
+                provider.provide(new VerificationCode(codeInputView.getInput(), true), new ResultCallback<NoValue>() {
                     @Override
-                    public void onSuccess() {
+                    public void onSuccess(NoValue res) {
                         final UiTracking tracker = BaseLoginActivity.getTracker();
                         if (tracker != null) {
                             tracker.eventActionSuccessful(TrackingData.SpidAction.VERIFICATION_CODE_SENT);

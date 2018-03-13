@@ -6,7 +6,7 @@ package com.schibsted.account.session
 
 import com.schibsted.account.Routes
 import com.schibsted.account.engine.integration.ResultCallback
-import com.schibsted.account.engine.integration.ResultCallbackData
+import com.schibsted.account.model.NoValue
 import com.schibsted.account.model.error.ClientError
 import com.schibsted.account.model.error.NetworkError
 import com.schibsted.account.network.NetworkCallback
@@ -23,7 +23,7 @@ class Profile(val user: User) {
     @Deprecated("Deprecated since 0.8.0, in favor of the Routes class", ReplaceWith("Routes.accountSummaryUrl(redirectURI)", "com.schibsted.account.Routes"))
     fun getAccountSummaryLink(redirectURI: String? = null) = Routes.accountSummaryUrl(URI.create(redirectURI))
 
-    fun get(callback: ResultCallbackData<ProfileData>) {
+    fun get(callback: ResultCallback<ProfileData>) {
         val token = user.token
         if (token == null) {
             callback.onError(ClientError.USER_LOGGED_OUT_ERROR)
@@ -42,7 +42,7 @@ class Profile(val user: User) {
                 })
     }
 
-    fun update(data: Map<String, Any>, callback: ResultCallback? = null) {
+    fun update(data: Map<String, Any>, callback: ResultCallback<NoValue>? = null) {
         val token = user.token
         if (token == null) {
             callback?.onError(ClientError.USER_LOGGED_OUT_ERROR)
@@ -56,12 +56,12 @@ class Profile(val user: User) {
                     }
 
                     override fun onSuccess(result: Unit) {
-                        callback?.onSuccess()
+                        callback?.onSuccess(NoValue)
                     }
                 })
     }
 
-    fun getMissingFields(callback: ResultCallbackData<Set<String>>) {
+    fun getMissingFields(callback: ResultCallback<Set<String>>) {
         val token = user.token
         if (token == null) {
             callback.onError(ClientError.USER_LOGGED_OUT_ERROR)

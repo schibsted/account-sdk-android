@@ -17,6 +17,7 @@ import com.schibsted.account.engine.operation.LoginOperation
 import com.schibsted.account.engine.operation.MissingFieldsOperation
 import com.schibsted.account.engine.step.StepLoginIdentify
 import com.schibsted.account.model.LoginResult
+import com.schibsted.account.model.NoValue
 import com.schibsted.account.model.error.ClientError
 import com.schibsted.account.network.OIDCScope
 import com.schibsted.account.session.User
@@ -52,14 +53,14 @@ class LoginController @JvmOverloads constructor(private val verifyUser: Boolean,
                         AgreementLinksOperation({ callback.onError(it) }, { agreementsLink ->
                             MissingFieldsOperation(user, { callback.onError(it.toClientError()) }) { missingFields ->
                                 super.navigation.push(StepLoginIdentify(credentials, user, agreementsCheck.allAccepted(), missingFields, agreementsLink))
-                                callback.onSuccess()
+                                callback.onSuccess(NoValue)
                                 evaluate(contract)
                             }
                         })
                     }
                 } else {
                     super.navigation.push(StepLoginIdentify(credentials, user, true, setOf()))
-                    callback.onSuccess()
+                    callback.onSuccess(NoValue)
                     evaluate(contract)
                 }
             }
@@ -77,7 +78,7 @@ class LoginController @JvmOverloads constructor(private val verifyUser: Boolean,
         }
     }
 
-    private fun requestCredentials(provider: LoginContract, onProvided: (Credentials, ResultCallback) -> Unit): StepLoginIdentify? {
+    private fun requestCredentials(provider: LoginContract, onProvided: (Credentials, ResultCallback<NoValue>) -> Unit): StepLoginIdentify? {
         val res = super.findOnStack<StepLoginIdentify>()
         if (res == null) {
             Credentials.request(provider, { input, callback ->

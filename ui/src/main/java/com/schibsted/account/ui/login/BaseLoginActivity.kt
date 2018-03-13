@@ -27,7 +27,7 @@ import com.schibsted.account.common.tracking.TrackingData
 import com.schibsted.account.common.tracking.UiTracking
 import com.schibsted.account.common.util.Logger
 import com.schibsted.account.engine.input.Identifier
-import com.schibsted.account.engine.integration.ResultCallbackData
+import com.schibsted.account.engine.integration.ResultCallback
 import com.schibsted.account.session.User
 import com.schibsted.account.ui.KeyboardManager
 import com.schibsted.account.ui.R
@@ -147,7 +147,7 @@ abstract class BaseLoginActivity : AppCompatActivity(), KeyboardManager, Navigat
         BaseLoginActivity.tracker?.eventActionSuccessful(TrackingData.SpidAction.ACCOUNT_VERIFIED)
 
         User.fromSessionCode(state.code, uiConfiguration.redirectUri.toString(), state.isPersistable,
-                ResultCallbackData.fromLambda(
+                ResultCallback.fromLambda(
                         { error ->
                             Logger.info(TAG, { "Automatic login after account validation failed: ${error.message}" })
                         },

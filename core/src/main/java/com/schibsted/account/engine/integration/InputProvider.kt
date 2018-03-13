@@ -4,12 +4,13 @@
 
 package com.schibsted.account.engine.integration
 
+import com.schibsted.account.model.NoValue
 import com.schibsted.account.model.error.ClientError
 
-class InputProvider<in T>(private val onProvided: (T, callback: ResultCallback) -> Unit, private val validation: (T) -> String?) {
-    constructor(onProvided: (T, callback: ResultCallback) -> Unit) : this(onProvided, { null })
+class InputProvider<in T>(private val onProvided: (T, callback: ResultCallback<NoValue>) -> Unit, private val validation: (T) -> String?) {
+    constructor(onProvided: (T, callback: ResultCallback<NoValue>) -> Unit) : this(onProvided, { null })
 
-    fun provide(input: T, callback: ResultCallback) {
+    fun provide(input: T, callback: ResultCallback<NoValue>) {
         val validationResult = validation(input)
 
         if (validationResult == null) {

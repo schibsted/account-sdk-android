@@ -20,6 +20,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.schibsted.account.engine.integration.ResultCallback;
+import com.schibsted.account.model.NoValue;
 import com.schibsted.account.model.UserId;
 import com.schibsted.account.model.error.ClientError;
 import com.schibsted.account.persistence.UserPersistence;
@@ -81,9 +82,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //We want to intentionally logout the user
-                user.logout(new ResultCallback() {
+                user.logout(new ResultCallback<NoValue>() {
                     @Override
-                    public void onSuccess() {
+                    public void onSuccess(NoValue res) {
                         //we remove the user from persistence
                         userPersistence.remove(user.getUserId().getId());
 

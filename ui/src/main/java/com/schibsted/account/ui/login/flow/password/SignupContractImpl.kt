@@ -10,7 +10,7 @@ import com.schibsted.account.engine.input.Credentials
 import com.schibsted.account.engine.input.Identifier
 import com.schibsted.account.engine.input.RequiredFields
 import com.schibsted.account.engine.integration.CallbackProvider
-import com.schibsted.account.engine.integration.ResultCallbackData
+import com.schibsted.account.engine.integration.ResultCallback
 import com.schibsted.account.engine.integration.InputProvider
 import com.schibsted.account.engine.integration.contract.SignUpContract
 import com.schibsted.account.model.error.ClientError
@@ -47,7 +47,7 @@ class SignupContractImpl(private val activity: BaseLoginActivity, private val st
     }
 
     override fun onFlowReady(callbackProvider: CallbackProvider<Identifier>) {
-        callbackProvider.provide(object : ResultCallbackData<Identifier> {
+        callbackProvider.provide(object : ResultCallback<Identifier> {
             override fun onSuccess(result: Identifier) {
                 val fragment = activity.fragmentProvider.getOrCreateInboxFragment(activity.navigationController.currentFragment, result)
                 activity.navigationController.navigateToFragment(fragment)

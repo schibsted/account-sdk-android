@@ -4,13 +4,13 @@
 
 package com.schibsted.account.ui.login.screen.identification;
 
-import com.schibsted.account.common.tracking.UiTracking;
 import com.schibsted.account.common.tracking.TrackingData;
+import com.schibsted.account.common.tracking.UiTracking;
 import com.schibsted.account.engine.input.Identifier;
 import com.schibsted.account.engine.input.Identifier.IdentifierType;
-import com.schibsted.account.engine.integration.ResultCallback;
-import com.schibsted.account.engine.integration.ResultCallbackData;
 import com.schibsted.account.engine.integration.InputProvider;
+import com.schibsted.account.engine.integration.ResultCallback;
+import com.schibsted.account.model.NoValue;
 import com.schibsted.account.model.error.ClientError;
 import com.schibsted.account.network.response.AccountStatusResponse;
 import com.schibsted.account.ui.ErrorUtil;
@@ -56,9 +56,9 @@ public class IdentificationPresenter implements IdentificationContract.Presenter
     }
 
     private void identifyUser(final Identifier.IdentifierType identifierType, final String input, final InputField identifier) {
-        provider.provide(new Identifier(identifierType, input), new ResultCallback() {
+        provider.provide(new Identifier(identifierType, input), new ResultCallback<NoValue>() {
             @Override
-            public void onSuccess() {
+            public void onSuccess(NoValue res) {
                 identificationView.clearField();
             }
 
@@ -79,7 +79,7 @@ public class IdentificationPresenter implements IdentificationContract.Presenter
 
     private void getAccountStatus(final IdentifierType identifierType, final String input, final InputField identifier, final boolean allowSignUp, final String signUpErrorMessage) {
         final Identifier id = new Identifier(identifierType, input);
-        id.getAccountStatus(new ResultCallbackData<AccountStatusResponse>() {
+        id.getAccountStatus(new ResultCallback<AccountStatusResponse>() {
             @Override
             public void onSuccess(AccountStatusResponse result) {
                 final UiTracking tracker = BaseLoginActivity.getTracker();
