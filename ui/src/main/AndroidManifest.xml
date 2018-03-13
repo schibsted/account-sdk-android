@@ -12,7 +12,6 @@
         <meta-data
             android:name="schacc_redirect_host"
             android:value="@string/schacc_redirect_host" />
-
         <activity android:name="com.schibsted.account.ui.login.flow.passwordless.PasswordlessActivity" android:launchMode="singleTask" />
         <activity android:name="com.schibsted.account.ui.login.flow.password.PasswordActivity" android:launchMode="singleTask">
             <intent-filter android:label="@string/schacc_intent_password_sign_up_link_name">

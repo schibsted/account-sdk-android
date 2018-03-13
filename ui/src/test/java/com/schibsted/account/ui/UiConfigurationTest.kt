@@ -14,8 +14,16 @@ class UiConfigurationTest : StringSpec({
         val newConfig = config.newBuilder().build()
 
         newConfig.clientName shouldBe config.clientName
-        newConfig.redirectUri shouldBe config.redirectUri
         newConfig.defaultPhonePrefix shouldBe config.defaultPhonePrefix
+        newConfig.redirectUri shouldBe config.redirectUri
         newConfig.teaserText shouldBe config.teaserText
+        newConfig.headerResource shouldBe config.headerResource
+        newConfig.identifier shouldBe config.identifier
+        newConfig.identifierType shouldBe config.identifierType
+        newConfig.signUpEnabled shouldBe config.signUpEnabled
+        newConfig.signUpNotAllowedErrorMessage shouldBe config.signUpNotAllowedErrorMessage
+        newConfig.isClosingAllowed shouldBe config.isClosingAllowed
+        newConfig.smartlockEnabled shouldBe config.smartlockEnabled
+        newConfig.locale shouldBe config.locale
     }
 })

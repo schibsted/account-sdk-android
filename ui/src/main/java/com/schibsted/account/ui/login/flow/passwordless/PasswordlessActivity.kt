@@ -15,8 +15,8 @@ import com.schibsted.account.engine.input.Identifier
 import com.schibsted.account.engine.input.RequiredFields
 import com.schibsted.account.engine.input.VerificationCode
 import com.schibsted.account.engine.integration.CallbackProvider
-import com.schibsted.account.engine.integration.ResultCallback
 import com.schibsted.account.engine.integration.InputProvider
+import com.schibsted.account.engine.integration.ResultCallback
 import com.schibsted.account.engine.integration.contract.PasswordlessContract
 import com.schibsted.account.model.LoginResult
 import com.schibsted.account.model.error.ClientError
@@ -47,14 +47,16 @@ class PasswordlessActivity : BaseLoginActivity(), PasswordlessContract {
         }
         identifierType = super.uiConfiguration.identifierType.value
         navigationController = Navigation(this, this)
-        passwordlessController.start(this)
+        if (smartlockCredentials == null && !isSmartlockRunning) {
+            passwordlessController.start(this)
+        }
     }
 
     override fun onIdentifierRequested(provider: InputProvider<Identifier>) {
         val fragment = fragmentProvider.getOrCreateIdentificationFragment(
-                navigationController.currentFragment,
-                provider,
-                identifierType = identifierType)
+            navigationController.currentFragment,
+            provider,
+            identifierType = identifierType)
         navigationController.navigateToFragment(fragment as AbstractIdentificationFragment)
     }
 
@@ -117,8 +119,8 @@ class PasswordlessActivity : BaseLoginActivity(), PasswordlessContract {
          */
         @JvmStatic
         fun getCallingIntent(context: Context, uiConfiguration: UiConfiguration): Intent =
-                Intent(context, PasswordlessActivity::class.java).apply {
-                    putExtra(KEY_UI_CONFIGURATION, uiConfiguration)
-                }
+            Intent(context, PasswordlessActivity::class.java).apply {
+                putExtra(KEY_UI_CONFIGURATION, uiConfiguration)
+            }
     }
 }

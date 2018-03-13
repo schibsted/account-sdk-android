@@ -6,6 +6,7 @@ if [ "$TRAVIS_PULL_REQUEST" = "false" ] && [ ! -z "$TRAVIS_TAG" ]; then
     ./gradlew :common:bintrayUpload
     ./gradlew :core:bintrayUpload
     ./gradlew :ui:bintrayUpload
+    ./gradlew :smartlock:bintrayUpload
 else
     echo "Not publishing any releases."
     echo "Branch is $TRAVIS_BRANCH and tag is $TRAVIS_TAG"

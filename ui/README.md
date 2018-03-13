@@ -1,11 +1,11 @@
 ---
 layout: docs
-title: Identity SDK UI
+title: Account SDK UI
 sidebar: navigation
 ---
-This is the UI part of the Identity SDK, which provides customizable UI flows. The responsibility of UI flows is to provide an authenticated user back to the client thanks to a prebuilt UI.
+This is the UI part of the Account SDK, which provides customizable UI flows. The responsibility of UI flows is to provide an authenticated user back to the client thanks to a prebuilt UI.
 
-__Note:__ You should familiarize yourself with the [Core SDK Readme](https://pages.github.schibsted.io/spt-identity/identity-sdk-android/core/) which covers topics like persisting user sessions, logging out and debugging.
+__Note:__ You should familiarize yourself with the [Core SDK Readme](https://github.com/schibsted/account-sdk-android/tree/master/core) which covers topics like persisting user sessions, logging out and debugging.
 
 ## Getting started
 The currently available UI flows are:
@@ -17,7 +17,7 @@ The currently available UI flows are:
     - A password is needed to login/sign-up.
 
 ### Configuration
-All flows requires a `UiConfiguration` object to be initialized. This can be created by using the `UiConfiguration.Builder`. Instanciate this either by using the constructor or read the required fields from the manifest like this: `UiConfiguration.Builder.fromManifest(appContext)`.
+All flows requires a `UiConfiguration` object to be initialized. This can be created by using the `UiConfiguration.Builder`. Instantiate this either by using the constructor or read the required fields from the manifest like this: `UiConfiguration.Builder.fromManifest(appContext)`.
 
 #### Reading the configuring from the manifest
  * `schacc_client_name` is the name of your application, for instance it is displayed on the terms and conditions screen as "I accept the terms and conditions for SPID and _yourAppName_"
@@ -29,14 +29,15 @@ All flows requires a `UiConfiguration` object to be initialized. This can be cre
 - `locale` the locale to use for the UIs. Defaults to `Locale.getDefault()`
 - `identifierType` which identifier to use for the UIs. `Identifier.IdentifierType.EMAIL` or `Identifier.IdentifierType.SMS`. Defaults to email.
 - `signUpEnabled` option to enable or disable sign-up, only allowing existing users. Defaults to true.
+- `smartlockEnabled` option to enable or disable smartlock, Defaults to true.
 - `headerResource` a drawable resource to use as the banner icon.
 - `teaserText` a text to display in the first screen. Limited to 3 lines.
 
     
 ### Start the flow
 * Create the desired intent
-    - Login/Signup with password `PasswordActivity.getCallingIntent(@NonNull final Context context, final identityUiOptions identityUiOptions)`.
-    - Login passwordless `PasswordlessActivity.getCallingIntent(@NonNull final Context context, final identityUiOptions identityUiOptions)`.
+    - Login/Signup with password `PasswordActivity.getCallingIntent(@NonNull final Context context, final UiConfiguration uiConfiguration)`.
+    - Login passwordless `PasswordlessActivity.getCallingIntent(@NonNull final Context context, final UiConfiguration uiConfiguration)`.
 
 Once you have initialized the the UI flow, you can start it by calling
 `startActivityForResult(myCreatedIntent, yourCode);`
@@ -47,13 +48,24 @@ Once you have initialized the the UI flow, you can start it by calling
 
 
 ## Tracking
-The UIs support tracking for most events and interactions. To use this, you need to implement the `IdentityUiTracking` interface and pass the data off to your tracker of choice. We do provide a default implementation for this using [Pulse](https://github.schibsted.io/spt-identity/identity-sdk-android-internal), which unfortunately is only available internally in Schibsted.
+The UIs support tracking for most events and interactions. To use this, you need to implement the `UiTracking` interface and pass the data off to your tracker of choice. We do provide a default implementation for this using [Pulse](https://github.schibsted.io/spt-identity/identity-sdk-android-internal), which unfortunately is only available internally in Schibsted.
 
 ```java
 BaseLoginActivity.setTracker(myTracker);
 ```
 
 You can read more about Pulse at [pulse.schibsted.io](https://pulse.schibsted.io).
+
+## Smartlock
+The smartlock feature can be added with the following dependency :
+```
+implementation "com.schibsted.account:account-sdk-android-smartlock:<VERSION>"
+```
+To enabled the smartlock feature you have to call `UiConfiguration`
+
+In case of failure you will be notified in `onActivityResult` with the result code `SmartlockImpl.SMARTLOCK_FAILED`.
+Then you should re-start your flow without smartlock simply by calling `startActivityForResult(data, YOUR_REQUEST_CODE);` where `data` is the intent provided by
+`onActivityResult`.
 
 ## Advanced usage
 

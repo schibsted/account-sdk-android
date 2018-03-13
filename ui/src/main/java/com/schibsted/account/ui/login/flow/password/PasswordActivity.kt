@@ -15,15 +15,12 @@ import com.schibsted.account.engine.controller.SignUpController
 import com.schibsted.account.engine.input.Identifier
 import com.schibsted.account.ui.UiConfiguration
 import com.schibsted.account.ui.login.BaseLoginActivity
-import com.schibsted.account.ui.login.screen.identification.ui.AbstractIdentificationFragment
 
 class PasswordActivity : BaseLoginActivity(), FlowSelectionListener {
 
-    private var loginController: LoginController? = null
     private var signUpController: SignUpController? = null
 
-    private val loginContract = LoginContractImpl(this, ::startIdentificationFragment)
-    private val signUpContract = SignupContractImpl(this, ::startIdentificationFragment)
+    private val signUpContract = SignupContractImpl(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,11 +33,19 @@ class PasswordActivity : BaseLoginActivity(), FlowSelectionListener {
             signUpController = savedSignUpController as SignUpController
         }
 
-        if (activeFlowType == null) {
-            startIdentificationFragment()
-        } else {
-            signUpController?.start(this.signUpContract)
-            loginController?.start(this.loginContract)
+        if (smartlockCredentials == null && !isSmartlockRunning) {
+            if (activeFlowType == null) {
+                startIdentificationFragment(this)
+            } else {
+                signUpController?.start(this.signUpContract)
+                loginController?.start(this.loginContract)
+            }
+        }
+
+        smartlockCredentials?.let {
+            this.activeFlowType = FlowSelectionListener.FlowType.LOGIN
+            BaseLoginActivity.tracker?.intent = TrackingData.UserIntent.LOGIN
+            loginController?.start(this@PasswordActivity.loginContract)
         }
     }
 
@@ -56,18 +61,9 @@ class PasswordActivity : BaseLoginActivity(), FlowSelectionListener {
 
             FlowSelectionListener.FlowType.SIGN_UP -> {
                 BaseLoginActivity.tracker?.intent = TrackingData.UserIntent.CREATE
-                this.signUpController = SignUpController(uiConfiguration.redirectUri)
-                        .apply { start(this@PasswordActivity.signUpContract) }
+                this.signUpController = SignUpController(uiConfiguration.redirectUri).apply { start(this@PasswordActivity.signUpContract) }
             }
         }
-    }
-
-    private fun startIdentificationFragment() {
-        val fragment = fragmentProvider.getOrCreateIdentificationFragment(
-                navigationController.currentFragment,
-                identifierType = Identifier.IdentifierType.EMAIL.value,
-                flowSelectionListener = this)
-        navigationController.navigateToFragment(fragment as AbstractIdentificationFragment)
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -96,7 +92,7 @@ class PasswordActivity : BaseLoginActivity(), FlowSelectionListener {
          * Provides an [Intent] that can be used to launch the visual authentication flow.
          *
          * @param context The context.
-         * @param identityUiOptions The identityUiOptions for this [Activity].
+         * @param uiConfiguration The [UiConfiguration] for this [Activity].
          * @return An [Intent] that can be used to launch the visual authentication flow.
          */
         @JvmStatic
