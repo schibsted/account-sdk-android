@@ -19,4 +19,5 @@
     <dimen name="schacc_checkbox_padding">14dp</dimen>
     <dimen name="schacc_activity_top_padding">40dp</dimen>
     <dimen name="schacc_secondary_text_size">14sp</dimen>
+    <dimen name="schacc_container_radius">12dp</dimen>
 </resources>

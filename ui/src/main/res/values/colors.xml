@@ -26,13 +26,17 @@
     <color name="schacc_error">#c8293d</color>
     <color name="schacc_lightError">#0dd13649</color>
 
+    <color name="schacc_veryLightBlack">#10CCCCCC</color>
+    <color name="schacc_lightBlack">#20CCCCCC</color>
+    <color name="schacc_lightDarkGrey">#30CCCCCC</color>
+    <color name="schacc_veryLightDarkGrey">#50CCCCCC</color>
     <color name="schacc_darkGrey">#666666</color>
     <color name="schacc_mediumGrey">#b6b6b6</color>
+    <color name="schacc_grey">#f3f3f3</color>
     <color name="schacc_lightGrey">#eaeaea</color>
     <color name="schacc_veryLightGrey">#f8f8f8</color>
 
     <color name="schacc_black">#111</color>
     <color name="schacc_green">#498A02</color>
     <color name="schacc_white">#ffffff</color>
-
 </resources>
