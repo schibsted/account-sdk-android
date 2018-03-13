@@ -7,7 +7,6 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:id="@+id/close_flow"
         android:icon="@drawable/schacc_ic_close"
-        android:visible="false"
         app:showAsAction="always"
         android:title="@string/schacc_close" />
 </menu>
