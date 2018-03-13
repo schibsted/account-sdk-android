@@ -33,7 +33,7 @@ class LoginController @JvmOverloads constructor(private val verifyUser: Boolean,
     @OIDCScope private val scopes: Array<String> = arrayOf(OIDCScope.SCOPE_OPENID)) : VerificationController<LoginContract>() {
 
     constructor(parcel: Parcel) : this(parcel.readInt() != 0, parcel.createStringArray()) {
-        super.navigation.addAll(parcel.readStack())
+        super.navigation.addAll(parcel.readStack(LoginController::class.java.classLoader))
     }
 
     override fun evaluate(contract: LoginContract) {

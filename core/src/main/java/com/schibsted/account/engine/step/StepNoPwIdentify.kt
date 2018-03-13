@@ -13,7 +13,7 @@ import com.schibsted.account.network.response.PasswordlessToken
 data class StepNoPwIdentify(val identifier: Identifier,
     val passwordlessToken: PasswordlessToken,
     val isNewUser: Boolean,
-    val agreementLinks: AgreementLinksResponse) : Step(), Parcelable {
+    val agreementLinks: AgreementLinksResponse) : Step() {
 
     constructor(source: Parcel) : this(
         source.readParcelable<Identifier>(Identifier::class.java.classLoader),
