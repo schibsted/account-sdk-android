@@ -100,9 +100,8 @@ abstract class BaseLoginActivity : AppCompatActivity(), KeyboardManager, Navigat
         protected set
     lateinit var fragmentProvider: FragmentProvider
         protected set
-    private var isSmartlockResolving: Boolean = false
 
-    protected lateinit var loginController: LoginController
+    protected var loginController: LoginController? = null
     protected lateinit var loginContract: LoginContractImpl
     protected var isSmartlockRunning = false
 
@@ -169,7 +168,7 @@ abstract class BaseLoginActivity : AppCompatActivity(), KeyboardManager, Navigat
         if (isSmartlockReady) {
             progressBar.visibility = VISIBLE
             loginController = LoginController(true)
-            smartlock = SmartlockImpl(this, loginController, loginContract)
+            smartlock = SmartlockImpl(this, loginController!!, loginContract)
             this.isSmartlockRunning = smartlock?.isSmartlockResolving ?: false
         } else {
             progressBar.visibility = GONE

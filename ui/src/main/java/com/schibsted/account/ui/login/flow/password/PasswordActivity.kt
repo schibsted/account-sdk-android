@@ -38,14 +38,14 @@ class PasswordActivity : BaseLoginActivity(), FlowSelectionListener {
                 startIdentificationFragment(this)
             } else {
                 signUpController?.start(this.signUpContract)
-                loginController.start(this.loginContract)
+                loginController?.start(this.loginContract)
             }
         }
 
         smartlockCredentials?.let {
             this.activeFlowType = FlowSelectionListener.FlowType.LOGIN
             BaseLoginActivity.tracker?.intent = TrackingData.UserIntent.LOGIN
-            loginController.start(this@PasswordActivity.loginContract)
+            loginController?.start(this@PasswordActivity.loginContract)
         }
     }
 
@@ -92,7 +92,7 @@ class PasswordActivity : BaseLoginActivity(), FlowSelectionListener {
          * Provides an [Intent] that can be used to launch the visual authentication flow.
          *
          * @param context The context.
-         * @param identityUiOptions The identityUiOptions for this [Activity].
+         * @param uiConfiguration The [UiConfiguration] for this [Activity].
          * @return An [Intent] that can be used to launch the visual authentication flow.
          */
         @JvmStatic

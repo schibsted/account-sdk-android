@@ -14,7 +14,7 @@ import com.schibsted.account.smartlock.SmartLockCallback
 import com.schibsted.account.ui.login.BaseLoginActivity
 import com.schibsted.account.ui.login.BaseLoginActivity.Companion.KEY_UI_CONFIGURATION
 
-class SmartlockImpl(private val loginActivity: BaseLoginActivity, val loginController: LoginController, val loginContract: LoginContract) : SmartLockCallback {
+class SmartlockImpl(private val loginActivity: BaseLoginActivity, private val loginController: LoginController, private val loginContract: LoginContract) : SmartLockCallback {
     private var uiSmartlockController: UiSmartlockController? = null
     var isSmartlockResolving: Boolean = false
 
