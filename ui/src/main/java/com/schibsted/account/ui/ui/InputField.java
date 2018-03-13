@@ -39,7 +39,5 @@ public interface InputField extends ErrorField {
      */
     void setTextWatcher(TextWatcher textWatcher);
 
-    void giveFocus();
-
-    void setOnEditorActionListener(TextView.OnEditorActionListener onEditorActionListener);
+    void setImeAction(final int imeOption, final TextView.OnEditorActionListener editorActionListener);
 }

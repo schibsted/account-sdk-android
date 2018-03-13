@@ -25,7 +25,6 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
 import com.schibsted.account.ui.R;
 import com.schibsted.account.ui.ui.InputField;
 import com.schibsted.account.ui.ui.rule.BasicValidationRule;
@@ -267,13 +266,9 @@ public class InputFieldView extends LinearLayout implements InputField {
     }
 
     @Override
-    public void giveFocus() {
-        inputField.requestFocus();
-    }
-
-    @Override
-    public void setOnEditorActionListener(TextView.OnEditorActionListener onEditorActionListener) {
-        inputField.setOnEditorActionListener(onEditorActionListener);
+    public void setImeAction(int imeOption, TextView.OnEditorActionListener editorActionListener) {
+        inputField.setImeOptions(imeOption);
+        inputField.setOnEditorActionListener(editorActionListener);
     }
 
     public void setInformationMessage(@NonNull String message) {
