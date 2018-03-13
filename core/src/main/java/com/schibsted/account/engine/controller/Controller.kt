@@ -6,17 +6,17 @@ package com.schibsted.account.engine.controller
 
 import android.os.Parcel
 import android.os.Parcelable
-import com.schibsted.account.engine.integration.contract.Contract
-import com.schibsted.account.engine.step.Step
 import com.schibsted.account.common.util.Logger
 import com.schibsted.account.common.util.readStack
+import com.schibsted.account.engine.integration.contract.Contract
+import com.schibsted.account.engine.step.Step
 import java.util.Stack
 
 abstract class Controller<in T : Contract<*>>() : Parcelable {
     internal val navigation: Stack<Step> = Stack()
 
     protected constructor(parcel: Parcel) : this() {
-        val inStack = parcel.readStack<Step>()
+        val inStack = parcel.readStack<Step>(Controller::class.java.classLoader)
         navigation.addAll(inStack)
     }
 
