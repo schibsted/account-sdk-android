@@ -21,6 +21,7 @@ import com.schibsted.account.engine.integration.ResultCallback
 import com.schibsted.account.engine.integration.contract.LoginContract
 import com.schibsted.account.engine.step.StepLoginIdentify
 import com.schibsted.account.model.LoginResult
+import com.schibsted.account.model.NoValue
 import com.schibsted.account.model.UserToken
 import com.schibsted.account.model.error.ClientError
 import com.schibsted.account.network.NetworkCallback
@@ -45,8 +46,8 @@ class LoginControllerTest : WordSpec({
         on { onCredentialsRequested(any()) }.then {
             it.getArgument<InputProvider<Credentials>>(0)
                 .provide(Credentials(Identifier(Identifier.IdentifierType.EMAIL, "someone@example.com"), "password", true),
-                    object : ResultCallback<Void?> {
-                        override fun onSuccess(result: Void?) {}
+                    object : ResultCallback<NoValue> {
+                        override fun onSuccess(result: NoValue) {}
                         override fun onError(error: ClientError) {
                             fail("An error occurred: $error")
                         }

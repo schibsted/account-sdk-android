@@ -10,6 +10,7 @@ import android.support.annotation.WorkerThread
 import com.schibsted.account.ClientConfiguration
 import com.schibsted.account.common.util.Logger
 import com.schibsted.account.engine.integration.ResultCallback
+import com.schibsted.account.model.NoValue
 import com.schibsted.account.model.UserId
 import com.schibsted.account.model.UserToken
 import com.schibsted.account.model.error.ClientError
@@ -54,7 +55,7 @@ class User(token: UserToken, val isPersistable: Boolean) : Parcelable {
      * session afterwards will cause errors
      * @param callback A callback with the result of the logout
      */
-    fun logout(callback: ResultCallback<Void?>?) {
+    fun logout(callback: ResultCallback<NoValue>?) {
         val token = this.token
         if (token != null) {
             EventManager.broadcast(BroadcastEvent.LogoutEvent(userId))
@@ -66,7 +67,7 @@ class User(token: UserToken, val isPersistable: Boolean) : Parcelable {
                         }
 
                         override fun onSuccess(result: Unit) {
-                            callback?.onSuccess(null)
+                            callback?.onSuccess(NoValue)
                             this@User.token = null
                         }
                     })

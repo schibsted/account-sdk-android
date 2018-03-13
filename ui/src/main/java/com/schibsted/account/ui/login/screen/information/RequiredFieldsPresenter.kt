@@ -8,6 +8,7 @@ import com.schibsted.account.common.tracking.TrackingData
 import com.schibsted.account.engine.input.RequiredFields
 import com.schibsted.account.engine.integration.InputProvider
 import com.schibsted.account.engine.integration.ResultCallback
+import com.schibsted.account.model.NoValue
 import com.schibsted.account.model.error.ClientError
 import com.schibsted.account.ui.ErrorUtil
 import com.schibsted.account.ui.login.BaseLoginActivity
@@ -24,8 +25,8 @@ class RequiredFieldsPresenter(val view: RequiredFieldsContract.View, private val
             if (fields.all { it.value.isInputValid }) {
                 view.hideErrors()
                 view.showProgress()
-                provider.provide(RequiredFields(fields.mapValues { it.value.input!! }), object : ResultCallback<Void?> {
-                    override fun onSuccess(result: Void?) {
+                provider.provide(RequiredFields(fields.mapValues { it.value.input!! }), object : ResultCallback<NoValue> {
+                    override fun onSuccess(result: NoValue) {
                         BaseLoginActivity.tracker?.eventActionSuccessful(TrackingData.SpidAction.REQUIRED_FIELDS_PROVIDED)
                     }
 

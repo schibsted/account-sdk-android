@@ -9,6 +9,7 @@ import android.os.Parcelable
 import com.schibsted.account.engine.integration.InputProvider
 import com.schibsted.account.engine.integration.ResultCallback
 import com.schibsted.account.engine.operation.AccountStatusOperation
+import com.schibsted.account.model.NoValue
 import com.schibsted.account.network.response.AccountStatusResponse
 
 data class Identifier(val identifierType: IdentifierType, val identifier: String) : Parcelable {
@@ -53,7 +54,7 @@ data class Identifier(val identifierType: IdentifierType, val identifier: String
             override fun newArray(size: Int): Array<Identifier?> = arrayOfNulls(size)
         }
 
-        internal fun request(provider: Provider, onProvided: (Identifier, ResultCallback<Void?>) -> Unit) {
+        internal fun request(provider: Provider, onProvided: (Identifier, ResultCallback<NoValue>) -> Unit) {
             provider.onIdentifierRequested(InputProvider(onProvided))
         }
     }

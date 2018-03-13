@@ -10,6 +10,7 @@ import com.schibsted.account.engine.input.Identifier;
 import com.schibsted.account.engine.input.Identifier.IdentifierType;
 import com.schibsted.account.engine.integration.InputProvider;
 import com.schibsted.account.engine.integration.ResultCallback;
+import com.schibsted.account.model.NoValue;
 import com.schibsted.account.model.error.ClientError;
 import com.schibsted.account.network.response.AccountStatusResponse;
 import com.schibsted.account.ui.ErrorUtil;
@@ -55,9 +56,9 @@ public class IdentificationPresenter implements IdentificationContract.Presenter
     }
 
     private void identifyUser(final Identifier.IdentifierType identifierType, final String input, final InputField identifier) {
-        provider.provide(new Identifier(identifierType, input), new ResultCallback<Void>() {
+        provider.provide(new Identifier(identifierType, input), new ResultCallback<NoValue>() {
             @Override
-            public void onSuccess(Void res) {
+            public void onSuccess(NoValue res) {
                 identificationView.clearField();
             }
 

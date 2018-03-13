@@ -8,6 +8,7 @@ import android.os.Parcel
 import android.os.Parcelable
 import com.schibsted.account.engine.integration.InputProvider
 import com.schibsted.account.engine.integration.ResultCallback
+import com.schibsted.account.model.NoValue
 
 data class Credentials(val identifier: Identifier, val password: String, val keepLoggedIn: Boolean) : Parcelable {
     constructor(source: Parcel) : this(
@@ -38,7 +39,7 @@ data class Credentials(val identifier: Identifier, val password: String, val kee
             override fun newArray(size: Int): Array<Credentials?> = arrayOfNulls(size)
         }
 
-        internal fun request(provider: Provider, onProvided: (Credentials, ResultCallback<Void?>) -> Unit) {
+        internal fun request(provider: Provider, onProvided: (Credentials, ResultCallback<NoValue>) -> Unit) {
             provider.onCredentialsRequested(InputProvider(onProvided))
         }
     }

@@ -6,6 +6,7 @@ package com.schibsted.account.session
 
 import com.schibsted.account.ClientConfiguration
 import com.schibsted.account.engine.integration.ResultCallback
+import com.schibsted.account.model.NoValue
 import com.schibsted.account.model.error.ClientError
 import com.schibsted.account.model.error.NetworkError
 import com.schibsted.account.network.NetworkCallback
@@ -43,7 +44,7 @@ class Agreements(private val user: User) {
      * Accept the agreements of the user.
      * @param callback Provide this callback to get the result of the action
      */
-    fun acceptAgreements(callback: ResultCallback<Void?>) {
+    fun acceptAgreements(callback: ResultCallback<NoValue>) {
         val token = user.token
         if (token == null) {
             callback.onError(ClientError.USER_LOGGED_OUT_ERROR)
@@ -54,7 +55,7 @@ class Agreements(private val user: User) {
             .enqueue(
                 object : NetworkCallback<ApiContainer<AcceptAgreementResponse>>("Accepting terms for user") {
                     override fun onSuccess(result: ApiContainer<AcceptAgreementResponse>) {
-                        callback.onSuccess(null)
+                        callback.onSuccess(NoValue)
                     }
 
                     override fun onError(error: NetworkError) {

@@ -13,6 +13,7 @@ import com.schibsted.account.engine.integration.contract.Contract
 import com.schibsted.account.engine.step.StepSignUpCredentials
 import com.schibsted.account.engine.step.StepValidateAgreements
 import com.schibsted.account.engine.step.StepValidateReqFields
+import com.schibsted.account.model.NoValue
 import com.schibsted.account.model.error.ClientError
 import com.schibsted.account.network.response.AgreementLinksResponse
 import com.schibsted.account.session.User
@@ -24,10 +25,10 @@ abstract class VerificationController<in T> : Controller<T>()
         val res = findOnStack<StepValidateAgreements>()
         if (res == null) {
             Agreements.request(contract, { input, callback ->
-                user.agreements.acceptAgreements(object : ResultCallback<Void?> {
-                    override fun onSuccess(result: Void?) {
+                user.agreements.acceptAgreements(object : ResultCallback<NoValue> {
+                    override fun onSuccess(result: NoValue) {
                         this@VerificationController.navigation.push(StepValidateAgreements(input))
-                        callback.onSuccess(null)
+                        callback.onSuccess(NoValue)
                         evaluate(contract)
                     }
 
@@ -61,8 +62,8 @@ abstract class VerificationController<in T> : Controller<T>()
                 RequiredFields.request(contract, supportedFields, { input, callback ->
 
                     val providedFieldsAndPreFill = RequiredFields(input.fields + preFilledValues)
-                    user.profile.update(RequiredFields.transformFieldsToProfile(providedFieldsAndPreFill.fields), object : ResultCallback<Void?> {
-                        override fun onSuccess(result: Void?) {
+                    user.profile.update(RequiredFields.transformFieldsToProfile(providedFieldsAndPreFill.fields), object : ResultCallback<NoValue> {
+                        override fun onSuccess(result: NoValue) {
                             this@VerificationController.navigation.push(StepValidateReqFields(providedFieldsAndPreFill))
                             callback.onSuccess(null)
                             evaluate(contract)

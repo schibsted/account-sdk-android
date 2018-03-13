@@ -22,6 +22,7 @@ import com.schibsted.account.engine.operation.VerifyCodeOperation
 import com.schibsted.account.engine.step.StepNoPwIdentify
 import com.schibsted.account.engine.step.StepNoPwValidationCode
 import com.schibsted.account.model.LoginResult
+import com.schibsted.account.model.NoValue
 import com.schibsted.account.model.error.ClientError
 import com.schibsted.account.network.OIDCScope
 import com.schibsted.account.network.response.PasswordlessToken
@@ -115,14 +116,14 @@ class PasswordlessController @JvmOverloads constructor(private val verifyUser: B
      * back-end and will fail if requested too often
      */
     @Suppress("unused")
-    fun resendCode(resultCallback: ResultCallback<Void?>) {
+    fun resendCode(resultCallback: ResultCallback<NoValue>) {
         val top = super.navigation.peek()
 
         if (top is StepNoPwIdentify) {
             ResendCodeOperation(top.passwordlessToken, { resultCallback.onError(it.toClientError()) }, {
                 super.navigation.pop()
                 super.navigation.push(top.copy(passwordlessToken = it))
-                resultCallback.onSuccess(null)
+                resultCallback.onSuccess(NoValue)
             })
         } else {
             resultCallback.onError(ClientError(ClientError.ErrorType.INVALID_STATE,

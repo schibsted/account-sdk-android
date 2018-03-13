@@ -9,6 +9,7 @@ import com.schibsted.account.engine.input.Credentials
 import com.schibsted.account.engine.input.Identifier
 import com.schibsted.account.engine.integration.InputProvider
 import com.schibsted.account.engine.integration.ResultCallback
+import com.schibsted.account.model.NoValue
 import com.schibsted.account.model.error.ClientError
 import com.schibsted.account.ui.ErrorUtil
 import com.schibsted.account.ui.R
@@ -24,8 +25,8 @@ class PasswordPresenter(private val view: PasswordContract.View, credentialsTask
         view.showProgress()
         requireNotNull(identifier, { "Identifier can't be null at this stage" })
         if (inputField.isInputValid) {
-            provider.provide(Credentials(identifier!!, inputField.input!!, keepUserLoggedIn), object : ResultCallback<Void?> {
-                override fun onSuccess(result: Void?) {}
+            provider.provide(Credentials(identifier!!, inputField.input!!, keepUserLoggedIn), object : ResultCallback<NoValue> {
+                override fun onSuccess(result: NoValue) {}
                 override fun onError(error: ClientError) {
                     when {
                         ErrorUtil.isServerError(error.errorType) -> view.showErrorDialog(error)

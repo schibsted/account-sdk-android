@@ -6,6 +6,7 @@ package com.schibsted.account.session
 
 import com.schibsted.account.ClientConfiguration
 import com.schibsted.account.engine.integration.ResultCallback
+import com.schibsted.account.model.NoValue
 import com.schibsted.account.model.error.ClientError
 import com.schibsted.account.model.error.NetworkError
 import com.schibsted.account.network.NetworkCallback
@@ -42,7 +43,7 @@ class Profile(val user: User) {
                 })
     }
 
-    fun update(data: Map<String, Any>, callback: ResultCallback<Void?>? = null) {
+    fun update(data: Map<String, Any>, callback: ResultCallback<NoValue>? = null) {
         val token = user.token
         if (token == null) {
             callback?.onError(ClientError.USER_LOGGED_OUT_ERROR)
@@ -56,7 +57,7 @@ class Profile(val user: User) {
                     }
 
                     override fun onSuccess(result: Unit) {
-                        callback?.onSuccess(null)
+                        callback?.onSuccess(NoValue)
                     }
                 })
     }

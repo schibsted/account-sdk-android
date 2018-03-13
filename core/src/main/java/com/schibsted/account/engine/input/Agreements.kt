@@ -8,6 +8,7 @@ import android.os.Parcel
 import android.os.Parcelable
 import com.schibsted.account.engine.integration.InputProvider
 import com.schibsted.account.engine.integration.ResultCallback
+import com.schibsted.account.model.NoValue
 import com.schibsted.account.network.response.AgreementLinksResponse
 
 data class Agreements(val acceptAgreements: Boolean) : Parcelable {
@@ -35,7 +36,7 @@ data class Agreements(val acceptAgreements: Boolean) : Parcelable {
             override fun newArray(size: Int): Array<Agreements?> = arrayOfNulls(size)
         }
 
-        internal fun request(provider: Provider, onProvided: (Agreements, ResultCallback<Void?>) -> Unit, agreementLinks: AgreementLinksResponse) {
+        internal fun request(provider: Provider, onProvided: (Agreements, ResultCallback<NoValue>) -> Unit, agreementLinks: AgreementLinksResponse) {
             provider.onAgreementsRequested(InputProvider(onProvided, { validation ->
                 if (!validation.acceptAgreements) "Agreements must be accepted" else null
             }), agreementLinks)
