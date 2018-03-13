@@ -33,7 +33,7 @@ data class UiConfiguration(
         if (!signUpEnabled && signUpNotAllowedErrorMessage.isNullOrEmpty()) {
             throw IllegalArgumentException("The property signUpNotAllowedErrorMessage must be specified if signUpEnabled is set to false")
         }
-        if (!SmartlockImpl.isSmartlockAvailable()) {
+        if (smartlockEnabled && !SmartlockImpl.isSmartlockAvailable()) {
             throw IllegalAccessException("The smartlock dependency wasn't found")
         }
     }
