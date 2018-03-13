@@ -69,9 +69,27 @@ class SmartlockImpl(private val loginActivity: BaseLoginActivity, val loginContr
     }
 
     companion object {
-        const val RC_READ = 3
-        const val RC_HINT = 4
+        /**
+         * Request code sent by the smartlock controller when the user has to choose between multiple account the one to login with.
+         * This must be checked in [BaseLoginActivity.onActivityResult]
+         */
+        const val RC_CHOOSE_ACCOUNT = 3
+        /**
+         * Request code sent by the smartlock controller when the user has to choose which account must be used to pre-fill the identifier field.
+         * This must be checked in [BaseLoginActivity.onActivityResult]
+         */
+        const val RC_IDENTIFIER_ONLY = 4
+        /**
+         * Key used to extract the Parcelable credential object from an Intent
+         * Note that you should not directly cast the object as Credential [com.google.android.gms.credentials.Credential], that would bring a dependency
+         * which might not be resolvable if the smartlock dependency isn't added by the client.
+         * This must be checked in [BaseLoginActivity.onActivityResult]
+         */
         const val EXTRA_SMARTLOCK_CREDENTIALS = "com.google.android.gms.credentials.Credential"
+        /**
+         * Result code sent through [BaseLoginActivity.onActivityResult] to notify the client application that the smartlock login
+         * failed
+         */
         const val SMARTLOCK_FAILED = RESULT_FIRST_USER + 1
 
         fun isSmartlockAvailable(): Boolean = existsOnClasspath("com.schibsted.account.smartlock.SmartlockController")

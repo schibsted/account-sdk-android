@@ -22,9 +22,18 @@ class SmartlockController(private val activity: AppCompatActivity, private val s
 
     companion object {
         private val TAG = Logger.DEFAULT_TAG + " - " + SmartlockController::class.java.simpleName
-        private const val RC_READ = 3
-        private const val RC_HINT = 4
-        private const val RC_SAVE = 5
+        /**
+         * Request code to send when the user has to choose between multiple account the one to login with.
+         */
+        private const val RC_CHOOSE_ACCOUNT = 3
+        /**
+         * Request code to send when the user has to choose which account must be used to pre-fill the identifier field.
+         */
+        private const val RC_IDENTIFIER_ONLY = 4
+        /**
+         * Request code to send when the user has to decide if he wants to save his credentials with smartlock.
+         */
+        private const val RC_SAVE_CREDENTIALS = 5
     }
 
     private val credentialsClient = Credentials.getClient(activity)
@@ -52,10 +61,10 @@ class SmartlockController(private val activity: AppCompatActivity, private val s
                 if (exception is ResolvableApiException) {
                     if (exception.statusCode == CommonStatusCodes.SIGN_IN_REQUIRED) {
                         Logger.info(TAG, { "cannot silently log-in, providing the account identifier" })
-                        resolveException(exception, RC_HINT)
+                        resolveException(exception, RC_IDENTIFIER_ONLY)
                     } else {
                         Logger.info(TAG, { "multiple accounts are found, prompting the user to choose one" })
-                        resolveException(exception, RC_READ)
+                        resolveException(exception, RC_CHOOSE_ACCOUNT)
                     }
                 } else {
                     Logger.info(TAG, { "unable to get credentials from smartlock" })
@@ -114,7 +123,7 @@ class SmartlockController(private val activity: AppCompatActivity, private val s
                 val rae = task.exception
                 if (rae is ResolvableApiException) {
                     Logger.info(TAG, { "Ask user agreement to save credentials" })
-                    resolveException(rae, RC_SAVE)
+                    resolveException(rae, RC_SAVE_CREDENTIALS)
                 } else {
                     Logger.error(TAG, { "Failed attempt to save credentials" }, rae)
                 }

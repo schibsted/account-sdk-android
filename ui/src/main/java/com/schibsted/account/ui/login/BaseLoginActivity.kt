@@ -45,8 +45,6 @@ import com.schibsted.account.ui.login.screen.identification.ui.EmailIdentificati
 import com.schibsted.account.ui.navigation.Navigation
 import com.schibsted.account.ui.navigation.NavigationListener
 import com.schibsted.account.ui.smartlock.SmartlockImpl
-import com.schibsted.account.ui.smartlock.SmartlockImpl.Companion.RC_HINT
-import com.schibsted.account.ui.smartlock.SmartlockImpl.Companion.RC_READ
 import com.schibsted.account.ui.ui.FlowFragment
 import com.schibsted.account.ui.ui.WebFragment
 import com.schibsted.account.util.DeepLink
@@ -295,8 +293,8 @@ abstract class BaseLoginActivity : AppCompatActivity(), KeyboardManager, Navigat
             data?.let {
                 val smartlockCredentials = data.getParcelableExtra(SmartlockImpl.EXTRA_SMARTLOCK_CREDENTIALS) as Parcelable
                 when (requestCode) {
-                    RC_READ -> smartlock?.provideCredential(smartlockCredentials)
-                    RC_HINT -> {
+                    SmartlockImpl.RC_CHOOSE_ACCOUNT -> smartlock?.provideCredential(smartlockCredentials)
+                    SmartlockImpl.RC_IDENTIFIER_ONLY -> {
                         smartlock?.provideHint(smartlockCredentials)
                         fragmentProvider = FragmentProvider(uiConfiguration)
                         startIdentificationFragment(if (this is FlowSelectionListener) this else null)
