@@ -23,6 +23,8 @@ open class ClientError(val errorType: ErrorType, val message: String) {
         INVALID_CLIENT_CREDENTIALS,
         UNAUTHORIZED,
         FORBIDDEN,
+        AGREEMENTS_NOT_ACCEPTED,
+        SESSION_NOT_FOUND,
 
         ALREADY_REGISTERED,
         ACCOUNT_NOT_VERIFIED,

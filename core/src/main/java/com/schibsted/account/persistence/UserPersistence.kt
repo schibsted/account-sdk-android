@@ -12,6 +12,8 @@ import com.schibsted.account.network.response.TokenResponse
 import com.schibsted.account.session.User
 import com.schibsted.account.util.KeyValueStore
 import com.schibsted.account.common.util.Logger
+import com.schibsted.account.engine.integration.ResultCallback
+import com.schibsted.account.model.error.ClientError
 
 /**
  * Handles persisting and resuming user's sessions. This supports multiple users, so you can resume
@@ -29,6 +31,8 @@ class UserPersistence(private val appContext: Context) {
      * @param userId The user ID of the session to resume
      * @return The user object of the resumed session. Can be null
      */
+    @Deprecated("Deprecated due to GDPR compatibility where we needed to verify that the user had accepted agreements",
+            ReplaceWith("this.resume(userId, object : ResultCallback<User> {})"))
     fun resume(userId: String): User? {
         val session = sessions.find { it.userId == userId }
 
@@ -38,15 +42,55 @@ class UserPersistence(private val appContext: Context) {
     }
 
     /**
+     * Resume a specific user's session. The session will be resumed and the required checks will
+     * be done before a user object is returned through the contract
+     * @param userId The user ID of the session to resume
+     * @param callback The callback to which hte user is provided
+     * @return The user object of the resumed session. Can be null
+     */
+    fun resume(userId: String, callback: ResultCallback<User>) {
+        val session = sessions.find { it.userId == userId }
+        if (session == null) {
+            callback.onError(ClientError(ClientError.ErrorType.SESSION_NOT_FOUND, "Could not find a previous session for the provided user id"))
+        } else {
+            val user = User(session.token, true)
+            user.agreements.ensureAccepted(ResultCallback.fromLambda({ callback.onError(it) }) {
+                callback.onSuccess(user)
+            })
+        }
+    }
+
+    /**
      * Resume the most recently active user session. The session will be resumed and the required checks will
      * be done before a user object is returned through the contract
      * @return The user object of the resumed session. Can be null
      */
+    @Deprecated("Deprecated due to GDPR compatibility where we needed to verify that the user had accepted agreements",
+            ReplaceWith("this.resumeLast(object : ResultCallback<User> {})"))
     fun resumeLast(): User? {
         val lastActiveSession = sessions.sortedByDescending { it.lastActive }.firstOrNull()?.token ?: readTokenCompat()
 
         return lastActiveSession?.let {
             User(it, true)
+        }
+    }
+
+    /**
+     * Resume the most recently active user session. The session will be resumed and the required checks will
+     * be done before a user object is returned through the contract
+     * @param callback The callback to which hte user is provided
+     * @return The user object of the resumed session. Can be null
+     */
+    fun resumeLast(callback: ResultCallback<User>) {
+        val lastActiveSession = sessions.sortedByDescending { it.lastActive }.firstOrNull()?.token ?: readTokenCompat()
+
+        if (lastActiveSession == null) {
+            callback.onError(ClientError(ClientError.ErrorType.SESSION_NOT_FOUND, "Could not find any previous sessions"))
+        } else {
+            val user = User(lastActiveSession, true)
+            user.agreements.ensureAccepted(ResultCallback.fromLambda({ callback.onError(it) }) {
+                callback.onSuccess(user)
+            })
         }
     }
 
