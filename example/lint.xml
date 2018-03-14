@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <lint>
     <issue id="IconExpectedSize" severity="ignore"/>
+
+    <issue id="UnusedAttribute" severity="ignore" />
+    <issue id="VectorPath" severity="ignore" />
 </lint>

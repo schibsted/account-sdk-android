@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright (c) 2018 Schibsted Products & Technology AS. Licensed under the terms of the MIT license. See LICENSE in the project root.
   -->
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -28,8 +27,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 android:background="?colorPrimary"
-                 app:titleTextColor="@color/schacc_primaryHeader"
-            app:subtitleTextColor="@color/schacc_secondaryHeader">
+                app:titleTextColor="@color/schacc_primaryHeader"
+                app:subtitleTextColor="@color/schacc_secondaryHeader">
 
                 <ImageView
                     android:id="@+id/toolbar_back_arrow"
@@ -37,12 +36,6 @@
                     android:layout_height="match_parent"
                     android:contentDescription="@null"
                     android:src="@drawable/schacc_ic_arrow_back" />
-
-                <ImageView
-                    android:id="@+id/toolbar_logo"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:contentDescription="@null" />
 
                 <TextView
                     android:id="@+id/toolbar_title"
@@ -58,8 +51,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"
                 android:background="@color/schacc_lightGrey" />
-
-
         </android.support.design.widget.AppBarLayout>
 
         <ScrollView
@@ -75,6 +66,7 @@
         android:layout_width="48dp"
         android:layout_height="48dp"
         android:padding="10dp"
+        tools:visibility="gone"
         android:theme="@style/schacc_main_progressBar"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
