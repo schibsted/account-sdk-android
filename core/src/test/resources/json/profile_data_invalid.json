@@ -44,7 +44,7 @@
     "preferredUsername": "havard_kindem",
     "gender": "male",
     "utcOffset": "+01:00",
-    "birthday": "1988-11-10",
+    "birthday": "2013-09-15",
     "photo": "https://secure.gravatar.com/avatar/4d9594cea54bd1862b2098109faa3e1e?s=200",
     "url": "",
     "phoneNumber": "",
@@ -79,62 +79,21 @@
         "domain": "",
         "accountName": "identity-android-sdk",
         "connected": "2017-10-26 11:53:26"
-      },
-      "58e4d6e6bf76d0102aac9114": {
-        "id": "58e4d6e6bf76d0102aac9114",
-        "domain": "",
-        "accountName": "antoine-android-client",
-        "connected": "2017-11-13 13:01:41"
-      },
-      "59ccaf051502570eab07d52c": {
-        "id": "59ccaf051502570eab07d52c",
-        "domain": "",
-        "accountName": "Steinkjer-Avisa (Android)",
-        "connected": "2017-11-23 15:48:40"
-      },
-      "51389d0eefd04b485e000001": {
-        "id": "51389d0eefd04b485e000001",
-        "domain": "demosite.dev",
-        "accountName": "spidDemo",
-        "connected": "2018-02-21 12:22:25"
-      },
-      "5a8d58947d5b260e563ff26c": {
-        "id": "5a8d58947d5b260e563ff26c",
-        "domain": "login",
-        "accountName": "Android SDK Web version",
-        "connected": "2018-02-21 15:34:44"
       }
     },
-    "addresses": {
-      "home": {
-        "type": "home",
-        "latitude": "",
-        "longitude": "",
-        "formatted": "",
-        "streetAddress": "",
-        "streetNumber": "",
-        "streetEntrance": "",
-        "floor": "",
-        "apartment": "",
-        "locality": "",
-        "region": "",
-        "postalCode": "",
-        "country": ""
-      }
-    },
+    "addresses": [],
     "currentLocation": [],
     "phoneNumbers": [],
     "emailVerified": "2017-01-30 10:55:23",
     "phoneNumberVerified": false,
     "published": "2017-01-30 10:55:07",
-    "updated": "2018-03-01 14:05:18",
-    "lastAuthenticated": "2018-03-15 12:10:44",
-    "passwordChanged": "2018-03-01 14:05:18",
-    "lastLoggedIn": "2018-03-15 12:10:44",
+    "updated": "2017-10-26 11:55:33",
+    "lastAuthenticated": "2017-11-10 12:30:53",
+    "passwordChanged": "2017-07-05 16:41:10",
+    "lastLoggedIn": "2017-11-10 12:30:53",
     "locale": "en_US",
     "merchants": [
-      46000,
-      47009
+      46000
     ],
     "verified": "2017-01-30 10:55:23"
   }
