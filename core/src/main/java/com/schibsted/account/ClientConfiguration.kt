@@ -71,7 +71,7 @@ data class ClientConfiguration(
                 "DEV" -> Environment.ENVIRONMENT_DEVELOPMENT
                 "PRE" -> Environment.ENVIRONMENT_PREPRODUCTION
                 "PRO" -> Environment.ENVIRONMENT_PRODUCTION
-                "PRO_NORWAY" -> Environment.ENVIRONMENT_PRODUCTION
+                "PRO_NORWAY" -> Environment.ENVIRONMENT_PRODUCTION_NORWAY
                 else -> rawEnv
             }.trim('/') + "/"
 

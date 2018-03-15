@@ -11,6 +11,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.schibsted.account.network.Environment;
 import com.schibsted.account.util.Preconditions;
+import com.schibsted.account.util.LenientAccountsDeserializer;
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -46,7 +47,9 @@ public class BaseNetworkService {
      */
     protected <T> T createService(@NonNull final Class<T> service) {
         Preconditions.checkNotNull(service);
-        final Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+        final Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd")
+                .registerTypeAdapter(LenientAccountsDeserializer.type, new LenientAccountsDeserializer())
+                .create();
         return new Retrofit.Builder()
                 .client(this.okHttpClient)
                 .baseUrl(this.environment)
