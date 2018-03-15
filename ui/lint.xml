@@ -9,8 +9,4 @@
     <!--make a text selectable cause problems with maxLines and ellipsize-->
     <issue id="SelectableText" severity="ignore"/>
     <issue id="IconExpectedSize" severity="ignore"/>
-
-    <issue id="UnusedAttribute" severity="ignore" />
-    <issue id="VectorPath" severity="ignore" />
-
 </lint>
