@@ -25,5 +25,5 @@ public @interface Environment {
     String ENVIRONMENT_DEVELOPMENT = "https://identity-dev.schibsted.com/";
     String ENVIRONMENT_PREPRODUCTION = "https://identity-pre.schibsted.com/";
     String ENVIRONMENT_PRODUCTION = "https://login.schibsted.com/";
-    String ENVIRONMENT_PRODUCTION_NORWAY = "https://payment.schibsted.com/";
+    String ENVIRONMENT_PRODUCTION_NORWAY = "https://payment.schibsted.no/";
 }
