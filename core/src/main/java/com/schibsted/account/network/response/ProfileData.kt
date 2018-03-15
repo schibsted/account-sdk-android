@@ -23,7 +23,7 @@ data class ProfileData(
         val phoneNumber: String? = null,
         val name: Name? = null,
         val accounts: Map<String, Account>? = null,
-        val addresses: List<Address>? = null,
+        val addresses: Map<String, Address>? = null,
         val currentLocation: List<Address>? = null,
         val phoneNumbers: List<PhoneNumber>? = null,
         val emailVerified: String? = null,
@@ -66,7 +66,7 @@ data class ProfileData(
             val type: AddressType? = null) {
 
         enum class AddressType {
-            HOME, DELIVERY, INVOICE;
+            @SerializedName("home") HOME, @SerializedName("delivery") DELIVERY, @SerializedName("invoice") INVOICE;
 
             override fun toString(): String = super.toString().toLowerCase()
         }
