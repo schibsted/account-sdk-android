@@ -15,34 +15,32 @@ import com.schibsted.account.ui.login.BaseLoginActivity
 import com.schibsted.account.ui.login.BaseLoginActivity.Companion.KEY_UI_CONFIGURATION
 
 class SmartlockImpl(private val loginActivity: BaseLoginActivity, private val loginController: LoginController, private val loginContract: LoginContract) : SmartLockCallback {
-    private var uiSmartlockController: UiSmartlockController? = null
+    private var uiSmartlockController: UiSmartlockController = UiSmartlockController(loginActivity, this)
     var isSmartlockResolving: Boolean = false
 
-    init {
-        uiSmartlockController = uiSmartlockController ?: UiSmartlockController(loginActivity, this).apply {
-            if (!isSmartlockResolving) {
-                requestCredentials()
-                isSmartlockResolving = true
-            }
+    fun start() {
+        if (!isSmartlockResolving) {
+            uiSmartlockController.requestCredentials()
+            isSmartlockResolving = true
         }
     }
 
     fun deleteCredential() {
-        uiSmartlockController?.deleteCredential()
+        uiSmartlockController.deleteCredential()
     }
 
     fun saveCredential(identifier: String, password: String) {
-        uiSmartlockController?.saveCredential(identifier, password)
+        uiSmartlockController.saveCredential(identifier, password)
     }
 
     fun provideCredential(parcelable: Parcelable) {
-        uiSmartlockController?.convertToIdentityCredential(parcelable)?.let {
+        uiSmartlockController.convertToIdentityCredential(parcelable)?.let {
             onCredentialRetrieved(it)
         } ?: onFailure()
     }
 
     fun provideHint(parcelable: Parcelable) {
-        uiSmartlockController?.extractCredentialData(parcelable)?.first?.let {
+        uiSmartlockController.extractCredentialData(parcelable)?.first?.let {
             onHintRetrieved(it)
         } ?: onFailure()
     }
