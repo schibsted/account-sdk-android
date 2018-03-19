@@ -74,6 +74,9 @@ ext {
             buildTools: "27.0.3"
     ]
 
+    spidRedirectScheme = project.hasProperty('schacc_redirect_scheme') ? project.schacc_redirect_scheme : System.getenv('schacc_redirect_scheme')
+    spidRedirectHost = project.hasProperty('schacc_redirect_host') ? project.schacc_redirect_host : System.getenv('schacc_redirect_host')
+
     pomConfig = {
         licenses {
             license {
