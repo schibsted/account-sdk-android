@@ -8,11 +8,9 @@ android {
     }
 
     defaultConfig {
-        def spidRedirectScheme = project.hasProperty('schacc_redirect_scheme') ? project.schacc_redirect_scheme : System.getenv('schacc_redirect_scheme')
-        def spidRedirectHost = project.hasProperty('schacc_redirect_host') ? project.schacc_redirect_host : System.getenv('schacc_redirect_host')
 
-        resValue "string", "schacc_redirect_scheme", (spidRedirectScheme && !spidRedirectScheme.allWhitespace) ? spidRedirectScheme : 'spid-dummyclientid'
-        resValue "string", "schacc_redirect_host", (spidRedirectHost && !spidRedirectHost.allWhitespace) ? spidRedirectHost : 'login'
+        resValue "string", "schacc_redirect_scheme", (rootProject.ext.spidRedirectScheme && !rootProject.ext.spidRedirectScheme.allWhitespace) ? spidRedirectScheme : 'spid-dummyclientid'
+        resValue "string", "schacc_redirect_host", (rootProject.ext.spidRedirectHost && !rootProject.ext.spidRedirectHost.allWhitespace) ? spidRedirectHost : 'login'
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         testProguardFile "ui-rules.pro"
