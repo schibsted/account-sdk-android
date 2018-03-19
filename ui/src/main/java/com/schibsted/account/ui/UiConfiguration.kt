@@ -23,7 +23,7 @@ data class UiConfiguration(
     val identifier: String? = null,
     val signUpEnabled: Boolean = true,
     val smartlockEnabled: Boolean = false,
-    @DrawableRes val headerResource: Int = 0,
+    @DrawableRes val clientLogo: Int = 0,
     val teaserText: String? = null,
     val signUpNotAllowedErrorMessage: String? = null,
     val isClosingAllowed: Boolean = true
@@ -45,7 +45,7 @@ data class UiConfiguration(
             .identifier(identifier)
             .enableSignUp()
             .disableSmartlock()
-            .headerResource(headerResource)
+            .logo(clientLogo)
             .teaserText(teaserText)
             .allowClosing(isClosingAllowed)
         signUpNotAllowedErrorMessage?.let { builder.disableSignUp(it) }
@@ -78,7 +78,7 @@ data class UiConfiguration(
         writeString(identifier)
         writeInt(if (signUpEnabled) 1 else 0)
         writeInt(if (smartlockEnabled) 1 else 0)
-        writeInt(headerResource)
+        writeInt(clientLogo)
         writeString(teaserText)
         writeString(signUpNotAllowedErrorMessage)
         writeInt(if (isClosingAllowed) 1 else 0)
@@ -101,7 +101,7 @@ data class UiConfiguration(
 
         fun disableSignUp(signUpDisabledErrorMessage: String) = apply { this.subject = this.subject.copy(signUpEnabled = false, signUpNotAllowedErrorMessage = signUpDisabledErrorMessage) }
 
-        fun headerResource(@DrawableRes headerResource: Int) = apply { this.subject = this.subject.copy(headerResource = headerResource) }
+        fun logo(@DrawableRes headerResource: Int) = apply { this.subject = this.subject.copy(clientLogo = headerResource) }
 
         fun teaserText(teaserText: String?) = apply { this.subject = this.subject.copy(teaserText = teaserText) }
 

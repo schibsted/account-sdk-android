@@ -7,14 +7,16 @@ package com.schibsted.account.ui.login.screen.identification.ui;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.TextView;
-import com.schibsted.account.common.tracking.UiTracking;
 import com.schibsted.account.common.tracking.TrackingData;
+import com.schibsted.account.common.tracking.UiTracking;
 import com.schibsted.account.common.util.Logger;
 import com.schibsted.account.model.error.ClientError;
 import com.schibsted.account.ui.R;
@@ -87,6 +89,8 @@ public abstract class AbstractIdentificationFragment extends FlowFragment<Identi
         primaryActionView = view.findViewById(R.id.identification_button_continue);
         inputViewContainer = view.findViewById(R.id.identification_input_view);
         identificationPolicy = view.findViewById(R.id.identification_share_policy);
+        final ImageView schibstedLogo = view.findViewById(R.id.schibsted_logo);
+        final ImageView clientLogo = view.findViewById(R.id.client_logo);
         linkView = view.findViewById(R.id.help_link);
         linkView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -106,6 +110,13 @@ public abstract class AbstractIdentificationFragment extends FlowFragment<Identi
         if (!TextUtils.isEmpty(uiConf.getTeaserText())) {
             this.teaserText.setText(uiConf.getTeaserText());
             this.teaserText.setVisibility(View.VISIBLE);
+        }
+        if (uiConf.getClientLogo() != 0) {
+            clientLogo.setVisibility(View.VISIBLE);
+            clientLogo.setImageDrawable(ContextCompat.getDrawable(getContext(), uiConf.getClientLogo()));
+        } else {
+            clientLogo.setVisibility(View.GONE);
+            schibstedLogo.setLayoutParams(clientLogo.getLayoutParams());
         }
 
         return view;
@@ -143,7 +154,7 @@ public abstract class AbstractIdentificationFragment extends FlowFragment<Identi
     }
 
     @Override
-    public void showErrorDialog(@NotNull ClientError error, @Nullable String errorMessage ) {
+    public void showErrorDialog(@NotNull ClientError error, @Nullable String errorMessage) {
         displayErrorDialog(error, errorMessage);
     }
 }
