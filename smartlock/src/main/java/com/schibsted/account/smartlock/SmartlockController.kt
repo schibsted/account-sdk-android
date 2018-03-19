@@ -11,6 +11,7 @@ import com.google.android.gms.auth.api.credentials.Credential
 import com.google.android.gms.auth.api.credentials.CredentialRequest
 import com.google.android.gms.auth.api.credentials.Credentials
 import com.google.android.gms.auth.api.credentials.IdentityProviders
+import com.google.android.gms.auth.api.credentials.CredentialsOptions
 import com.google.android.gms.common.api.CommonStatusCodes
 import com.google.android.gms.common.api.ResolvableApiException
 import com.google.android.gms.tasks.OnCompleteListener
@@ -36,11 +37,14 @@ class SmartlockController(private val activity: AppCompatActivity, private val s
         private const val RC_SAVE_CREDENTIALS = 5
     }
 
-    private val credentialsClient = Credentials.getClient(activity)
+    var options = CredentialsOptions.Builder()
+            .forceEnableSaveDialog()
+            .build()
+    private val credentialsClient = Credentials.getClient(activity, options)
     private val mCredentialRequest: CredentialRequest = CredentialRequest.Builder()
-        .setPasswordLoginSupported(true)
-        .setAccountTypes(IdentityProviders.GOOGLE)
-        .build()
+            .setPasswordLoginSupported(true)
+            .setAccountTypes(IdentityProviders.GOOGLE)
+            .build()
 
     private var currentSmartlockCredential: Credential? = null
 
@@ -67,7 +71,7 @@ class SmartlockController(private val activity: AppCompatActivity, private val s
                         resolveException(exception, RC_CHOOSE_ACCOUNT)
                     }
                 } else {
-                    Logger.info(TAG, { "unable to get credentials from smartlock" })
+                    Logger.info(TAG, { "unable to get credentials from smartlock" }, exception)
                     smartLockCallback.onFailure()
                 }
             }
@@ -111,23 +115,23 @@ class SmartlockController(private val activity: AppCompatActivity, private val s
      */
     override fun saveCredentials(username: String, password: String) {
         val credential = Credential.Builder(username)
-            .setPassword(password)
-            .build()
+                .setPassword(password)
+                .build()
 
         credentialsClient.save(credential).addOnCompleteListener(
-            OnCompleteListener<Void> { task ->
-                if (task.isSuccessful) {
-                    Logger.info(TAG, { "Credential saved." })
-                    return@OnCompleteListener
-                }
-                val rae = task.exception
-                if (rae is ResolvableApiException) {
-                    Logger.info(TAG, { "Ask user agreement to save credentials" })
-                    resolveException(rae, RC_SAVE_CREDENTIALS)
-                } else {
-                    Logger.error(TAG, { "Failed attempt to save credentials" }, rae)
-                }
-            })
+                OnCompleteListener<Void> { task ->
+                    if (task.isSuccessful) {
+                        Logger.info(TAG, { "Credential saved." })
+                        return@OnCompleteListener
+                    }
+                    val rae = task.exception
+                    if (rae is ResolvableApiException) {
+                        Logger.info(TAG, { "Ask user agreement to save credentials" })
+                        resolveException(rae, RC_SAVE_CREDENTIALS)
+                    } else {
+                        Logger.error(TAG, { "Failed attempt to save credentials" }, rae)
+                    }
+                })
     }
 
     /**
