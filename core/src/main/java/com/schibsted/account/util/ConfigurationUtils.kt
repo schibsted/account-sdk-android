@@ -30,6 +30,7 @@ object ConfigurationUtils {
     internal fun parseConfigFile(lines: List<String>): Map<String, Any> {
         return lines
                 .filter { it.trim().isNotEmpty() }
+                .filterNot { it.startsWith('#') }
                 .map {
                     val parts = it.split(delimiters = *charArrayOf(':'), limit = 2)
                     require(parts.size == 2, { "Invalid config file format. Should be <key: value>" })
