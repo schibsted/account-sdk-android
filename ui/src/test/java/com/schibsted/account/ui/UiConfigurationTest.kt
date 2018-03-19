@@ -17,7 +17,7 @@ class UiConfigurationTest : StringSpec({
         newConfig.defaultPhonePrefix shouldBe config.defaultPhonePrefix
         newConfig.redirectUri shouldBe config.redirectUri
         newConfig.teaserText shouldBe config.teaserText
-        newConfig.headerResource shouldBe config.headerResource
+        newConfig.clientLogo shouldBe config.clientLogo
         newConfig.identifier shouldBe config.identifier
         newConfig.identifierType shouldBe config.identifierType
         newConfig.signUpEnabled shouldBe config.signUpEnabled
