@@ -61,7 +61,7 @@ The smartlock feature can be added with the following dependency :
 ```
 implementation "com.schibsted.account:account-sdk-android-smartlock:<VERSION>"
 ```
-To enabled the smartlock feature you have to call `UiConfiguration`
+To enable the smartlock feature you have to call `UiConfiguration.Builder.fromManifest(getApplicationContext()).enableSmartlock()`
 
 In case of failure you will be notified in `onActivityResult` with the result code `SmartlockImpl.SMARTLOCK_FAILED`.
 Then you should re-start your flow without smartlock simply by calling `startActivityForResult(data, YOUR_REQUEST_CODE);` where `data` is the intent provided by
