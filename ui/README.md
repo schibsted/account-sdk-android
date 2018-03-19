@@ -30,7 +30,7 @@ All flows requires a `UiConfiguration` object to be initialized. This can be cre
 - `identifierType` which identifier to use for the UIs. `Identifier.IdentifierType.EMAIL` or `Identifier.IdentifierType.SMS`. Defaults to email.
 - `signUpEnabled` option to enable or disable sign-up, only allowing existing users. Defaults to true.
 - `smartlockEnabled` option to enable or disable smartlock, Defaults to true.
-- `headerResource` a drawable resource to use as the banner icon.
+- `logo` a drawable resource to display your brand icon.
 - `teaserText` a text to display in the first screen. Limited to 3 lines.
 
     

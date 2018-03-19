@@ -11,7 +11,6 @@ import android.content.res.Resources
 import android.graphics.Rect
 import android.os.Bundle
 import android.os.Parcelable
-import android.support.annotation.DrawableRes
 import android.support.annotation.Nullable
 import android.support.annotation.StringRes
 import android.support.annotation.VisibleForTesting
@@ -129,7 +128,7 @@ abstract class BaseLoginActivity : AppCompatActivity(), KeyboardManager, Navigat
     private fun initializeUi() {
         theme.applyStyle(R.style.schacc_NoActionBar, true)
         setContentView(R.layout.schacc_mobile_activity_layout)
-        setUpActionBar(this.uiConfiguration.headerResource)
+        setUpActionBar()
         activityRoot = findViewById(R.id.activity_layout)
     }
 
@@ -308,21 +307,16 @@ abstract class BaseLoginActivity : AppCompatActivity(), KeyboardManager, Navigat
     }
 
     /**
-     * setup the [ActionBar] depending on client configurations
-     * if the [ActionBar] is provided by the Theme the UI flow will use it
+     * setup the [Toolbar] depending on client configurations
+     * if the [Toolbar] is provided by the Theme the UI flow will use it
      * else a [Toolbar] need to be set up.
      */
-    private fun setUpActionBar(@DrawableRes headerResource: Int) {
+    private fun setUpActionBar() {
         setSupportActionBar(toolbar)
-        supportActionBar?.let {
-            headerResource.takeIf { it != 0 }?.apply {
-                toolbar_logo.setImageResource(headerResource)
-            }
-            supportActionBar!!.setDisplayShowTitleEnabled(false)
-            toolbar_title.setTextColor(ContextCompat.getColor(this, R.color.schacc_primaryHeader))
-            toolbar_back_arrow.setOnClickListener { onBackPressed() }
-            supportActionBar!!.elevation = 1f
-        }
+        toolbar_title.setTextColor(ContextCompat.getColor(this, R.color.schacc_primaryHeader))
+        toolbar_back_arrow.setOnClickListener { onBackPressed() }
+        supportActionBar?.setDisplayShowTitleEnabled(false)
+        supportActionBar?.elevation = 1f
     }
 
     override fun isKeyboardOpen(): Boolean = keyboardIsOpen
@@ -368,7 +362,7 @@ abstract class BaseLoginActivity : AppCompatActivity(), KeyboardManager, Navigat
             LoginScreen.WEB_TC_SCREEN -> return
             else -> if (SmartlockImpl.isSmartlockAvailable()) R.string.schacc_identification_login_only_title else throw Resources.NotFoundException("Resource not found")
         }
-        toolbar_title.setText(title)
+        toolbar_title.text = getString(title)
     }
 
     fun onKeyboardVisibilityChanged(keyboardOpen: Boolean) {
