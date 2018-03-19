@@ -166,7 +166,7 @@ abstract class BaseLoginActivity : AppCompatActivity(), KeyboardManager, Navigat
         val isSmartlockReady = SmartlockImpl.isSmartlockAvailable() && uiConfiguration.smartlockEnabled
         loginController = LoginController(true)
         smartlock = SmartlockImpl(this, loginController!!, loginContract)
-        if (isSmartlockReady) {
+        if (isSmartlockReady && !isSmartlockRunning) {
             progressBar.visibility = VISIBLE
             smartlock?.start()
             this.isSmartlockRunning = smartlock?.isSmartlockResolving ?: false
