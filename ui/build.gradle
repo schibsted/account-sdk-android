@@ -16,6 +16,7 @@ android {
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         testProguardFile "ui-rules.pro"
+        vectorDrawables.useSupportLibrary = true
     }
 
     flavorDimensions "default"

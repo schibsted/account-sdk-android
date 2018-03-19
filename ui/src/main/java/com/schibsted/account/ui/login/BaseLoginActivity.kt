@@ -11,7 +11,6 @@ import android.content.res.Resources
 import android.graphics.Rect
 import android.os.Bundle
 import android.os.Parcelable
-import android.support.annotation.DrawableRes
 import android.support.annotation.Nullable
 import android.support.annotation.StringRes
 import android.support.annotation.VisibleForTesting
@@ -129,7 +128,7 @@ abstract class BaseLoginActivity : AppCompatActivity(), KeyboardManager, Navigat
     private fun initializeUi() {
         theme.applyStyle(R.style.schacc_NoActionBar, true)
         setContentView(R.layout.schacc_mobile_activity_layout)
-        setUpActionBar(this.uiConfiguration.headerResource)
+        setUpActionBar()
         activityRoot = findViewById(R.id.activity_layout)
     }
 
@@ -140,7 +139,7 @@ abstract class BaseLoginActivity : AppCompatActivity(), KeyboardManager, Navigat
         } else {
             Logger.warn(Logger.DEFAULT_TAG, {
                 "Configuration not found in intent, falling back to parsing the manifest. " +
-                    "If the activity is created from a deep link, this is to be expected."
+                        "If the activity is created from a deep link, this is to be expected."
             })
             UiConfiguration.Builder.fromManifest(applicationContext).build()
         }
@@ -165,10 +164,11 @@ abstract class BaseLoginActivity : AppCompatActivity(), KeyboardManager, Navigat
 
     private fun initializeSmartlock() {
         val isSmartlockReady = SmartlockImpl.isSmartlockAvailable() && uiConfiguration.smartlockEnabled
-        if (isSmartlockReady) {
+        loginController = LoginController(true)
+        smartlock = SmartlockImpl(this, loginController!!, loginContract)
+        if (isSmartlockReady && !isSmartlockRunning) {
             progressBar.visibility = VISIBLE
-            loginController = LoginController(true)
-            smartlock = SmartlockImpl(this, loginController!!, loginContract)
+            smartlock?.start()
             this.isSmartlockRunning = smartlock?.isSmartlockResolving ?: false
         } else {
             progressBar.visibility = GONE
@@ -194,9 +194,9 @@ abstract class BaseLoginActivity : AppCompatActivity(), KeyboardManager, Navigat
 
     fun startIdentificationFragment(flowSelectionListener: FlowSelectionListener?) {
         val fragment = fragmentProvider.getOrCreateIdentificationFragment(
-            navigationController.currentFragment,
-            identifierType = Identifier.IdentifierType.EMAIL.value,
-            flowSelectionListener = flowSelectionListener)
+                navigationController.currentFragment,
+                identifierType = Identifier.IdentifierType.EMAIL.value,
+                flowSelectionListener = flowSelectionListener)
         navigationController.navigateToFragment(fragment as AbstractIdentificationFragment)
     }
 
@@ -205,16 +205,16 @@ abstract class BaseLoginActivity : AppCompatActivity(), KeyboardManager, Navigat
         BaseLoginActivity.tracker?.eventActionSuccessful(TrackingData.SpidAction.ACCOUNT_VERIFIED)
 
         User.fromSessionCode(state.code, uiConfiguration.redirectUri.toString(), state.isPersistable,
-            ResultCallback.fromLambda(
-                { error ->
-                    Logger.info(TAG, { "Automatic login after account validation failed: ${error.message}" })
-                },
-                { user ->
-                    Logger.info(TAG, { "Automatic login after account validation was successful" })
-                    BaseLoginActivity.tracker?.eventActionSuccessful(TrackingData.SpidAction.LOGIN_COMPLETED, user.userId.legacyId)
-                    navigationController.finishFlow(user)
-                }
-            ))
+                ResultCallback.fromLambda(
+                        { error ->
+                            Logger.info(TAG, { "Automatic login after account validation failed: ${error.message}" })
+                        },
+                        { user ->
+                            Logger.info(TAG, { "Automatic login after account validation was successful" })
+                            BaseLoginActivity.tracker?.eventActionSuccessful(TrackingData.SpidAction.LOGIN_COMPLETED, user.userId.legacyId)
+                            navigationController.finishFlow(user)
+                        }
+                ))
     }
 
     /**
@@ -262,7 +262,7 @@ abstract class BaseLoginActivity : AppCompatActivity(), KeyboardManager, Navigat
         super.onSaveInstanceState(outState)
         outState.putString(KEY_SCREEN, screen?.value)
         outState.putInt(KEY_FLOW_TYPE, activeFlowType?.let { if (isUserAvailable()) 2 else 1 }
-            ?: 0)
+                ?: 0)
         outState.putParcelable(KEY_CURRENT_IDENTIFIER, currentIdentifier)
         outState.putBoolean(KEY_SMARTLOCK_RESOLVING, this.isSmartlockRunning)
     }
@@ -308,21 +308,16 @@ abstract class BaseLoginActivity : AppCompatActivity(), KeyboardManager, Navigat
     }
 
     /**
-     * setup the [ActionBar] depending on client configurations
-     * if the [ActionBar] is provided by the Theme the UI flow will use it
+     * setup the [Toolbar] depending on client configurations
+     * if the [Toolbar] is provided by the Theme the UI flow will use it
      * else a [Toolbar] need to be set up.
      */
-    private fun setUpActionBar(@DrawableRes headerResource: Int) {
+    private fun setUpActionBar() {
         setSupportActionBar(toolbar)
-        supportActionBar?.let {
-            headerResource.takeIf { it != 0 }?.apply {
-                toolbar_logo.setImageResource(headerResource)
-            }
-            supportActionBar!!.setDisplayShowTitleEnabled(false)
-            toolbar_title.setTextColor(ContextCompat.getColor(this, R.color.schacc_primaryHeader))
-            toolbar_back_arrow.setOnClickListener { onBackPressed() }
-            supportActionBar!!.elevation = 1f
-        }
+        toolbar_title.setTextColor(ContextCompat.getColor(this, R.color.schacc_primaryHeader))
+        toolbar_back_arrow.setOnClickListener { onBackPressed() }
+        supportActionBar?.setDisplayShowTitleEnabled(false)
+        supportActionBar?.elevation = 1f
     }
 
     override fun isKeyboardOpen(): Boolean = keyboardIsOpen
@@ -368,7 +363,7 @@ abstract class BaseLoginActivity : AppCompatActivity(), KeyboardManager, Navigat
             LoginScreen.WEB_TC_SCREEN -> return
             else -> if (SmartlockImpl.isSmartlockAvailable()) R.string.schacc_identification_login_only_title else throw Resources.NotFoundException("Resource not found")
         }
-        toolbar_title.setText(title)
+        toolbar_title.text = getString(title)
     }
 
     fun onKeyboardVisibilityChanged(keyboardOpen: Boolean) {
