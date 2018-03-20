@@ -4,9 +4,10 @@
 
 package com.schibsted.account.ui
 
+import android.content.Context
 import com.schibsted.account.common.tracking.TrackingData
-import com.schibsted.account.engine.input.Identifier
 import com.schibsted.account.ui.login.screen.LoginScreen
+import java.util.Locale
 
 object UiUtil {
     @JvmStatic
@@ -21,8 +22,10 @@ object UiUtil {
     }
 
     @JvmStatic
-    fun getTrackerIdType(idType: Identifier.IdentifierType): TrackingData.IdentifierType = when (idType) {
-        Identifier.IdentifierType.EMAIL -> TrackingData.IdentifierType.EMAIL
-        Identifier.IdentifierType.SMS -> TrackingData.IdentifierType.PHONE
+    fun setLanguage(context: Context, locale: Locale) {
+        val resources = context.resources
+        val conf = resources.configuration
+        conf.locale = locale
+        resources.updateConfiguration(conf, resources.displayMetrics)
     }
 }

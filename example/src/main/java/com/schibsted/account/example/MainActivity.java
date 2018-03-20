@@ -54,6 +54,7 @@ public class MainActivity extends AppCompatActivity {
         final UiConfiguration uiConfiguration = UiConfiguration.Builder.fromManifest(getApplicationContext())
                 .enableSignUp()
                 .logo(R.drawable.ic_example_logo)
+                .locale(new Locale("nb", "NO"))
                 .teaserText(getString(R.string.example_teaser_text))
                 .build();
 

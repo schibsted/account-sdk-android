@@ -36,6 +36,7 @@ import com.schibsted.account.session.User
 import com.schibsted.account.ui.KeyboardManager
 import com.schibsted.account.ui.R
 import com.schibsted.account.ui.UiConfiguration
+import com.schibsted.account.ui.UiUtil
 import com.schibsted.account.ui.login.flow.password.FlowSelectionListener
 import com.schibsted.account.ui.login.flow.password.LoginContractImpl
 import com.schibsted.account.ui.login.screen.LoginScreen
@@ -130,6 +131,7 @@ abstract class BaseLoginActivity : AppCompatActivity(), KeyboardManager, Navigat
         setContentView(R.layout.schacc_mobile_activity_layout)
         setUpActionBar()
         activityRoot = findViewById(R.id.activity_layout)
+        UiUtil.setLanguage(this, uiConfiguration.locale)
     }
 
     private fun initializeUiConfiguration() {
