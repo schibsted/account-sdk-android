@@ -69,5 +69,6 @@ abstract class FlowFragment<in T> : BaseFragment(), KeyboardVisibilityListener, 
 
     override fun showProgress() {
         primaryActionView.showProgress()
+        keyboardManager.closeKeyboard()
     }
 }
