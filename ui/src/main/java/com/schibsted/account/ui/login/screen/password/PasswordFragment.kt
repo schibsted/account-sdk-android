@@ -8,8 +8,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.schibsted.account.Routes
 import android.view.inputmethod.EditorInfo
+import com.schibsted.account.Routes
 import com.schibsted.account.common.tracking.TrackingData
 import com.schibsted.account.engine.input.Identifier
 import com.schibsted.account.model.error.ClientError
@@ -76,6 +76,8 @@ class PasswordFragment : FlowFragment<PasswordContract.Presenter>(), PasswordCon
             }
             return@setImeAction false
         })
+
+        keep_me_logged_in.isChecked = true
     }
 
     private fun signUser() {

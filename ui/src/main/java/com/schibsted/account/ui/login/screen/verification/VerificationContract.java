@@ -42,7 +42,7 @@ public interface VerificationContract {
         /**
          * Verify the code filled in by the user
          */
-        void verifyCode(CodeInputView codeInputView);
+        void verifyCode(CodeInputView codeInputView, boolean checked);
     }
 
 }

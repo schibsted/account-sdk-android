@@ -24,6 +24,7 @@ import com.schibsted.account.ui.R;
 import com.schibsted.account.ui.login.BaseLoginActivity;
 import com.schibsted.account.ui.ui.FlowFragment;
 import com.schibsted.account.ui.ui.component.AccountSelectorView;
+import com.schibsted.account.ui.ui.component.CheckBoxView;
 import com.schibsted.account.ui.ui.component.CodeInputView;
 import com.schibsted.account.ui.ui.dialog.InformationDialogFragment;
 import com.schibsted.account.ui.ui.dialog.SelectorDialog;
@@ -56,6 +57,7 @@ public class VerificationFragment extends FlowFragment<VerificationContract.Pres
      */
     private Identifier identifier;
     private PasswordlessController passwordlessController;
+    private CheckBoxView keepMeLoggedInView;
 
     /**
      * provide a new instance of this {@link Fragment}
@@ -86,12 +88,16 @@ public class VerificationFragment extends FlowFragment<VerificationContract.Pres
         primaryActionView = view.findViewById(R.id.mobile_verification_button_continue);
         secondaryActionView = view.findViewById(R.id.mobile_verification_button_resend);
         codeInputView = view.findViewById(R.id.verification_code_input_view);
+        keepMeLoggedInView = view.findViewById(R.id.keep_me_logged_in);
 
         final AccountSelectorView accountSelectorView = view.findViewById(R.id.identifier_modifier);
         ArrayList<Identifier> identifiers = new ArrayList<>();
         identifiers.add(identifier);
         accountSelectorView.setAccountIdentifier(identifiers);
         accountSelectorView.setActionListener(this);
+
+        keepMeLoggedInView.setChecked(true);
+        keepMeLoggedInView.getTextView().setText(getString(R.string.schacc_password_keep_me_logged_in));
 
         registerListeners();
         return view;
@@ -143,7 +149,7 @@ public class VerificationFragment extends FlowFragment<VerificationContract.Pres
         if (tracker != null) {
             tracker.eventInteraction(TrackingData.InteractionType.SEND, TrackingData.Screen.VERIFICATION_CODE);
         }
-        mobileVerificationPresenter.verifyCode(codeInputView);
+        mobileVerificationPresenter.verifyCode(codeInputView, keepMeLoggedInView.isChecked());
     }
 
     /**
