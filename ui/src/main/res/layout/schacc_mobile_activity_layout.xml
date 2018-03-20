@@ -28,7 +28,7 @@
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                android:background="?colorPrimary"
+                android:background="@color/schacc_toolbarColor"
                 app:titleTextColor="@color/schacc_primaryHeader"
                 app:subtitleTextColor="@color/schacc_secondaryHeader">
 
@@ -37,6 +37,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:contentDescription="@null"
+                    android:tint="@color/schacc_toolbarArrowIconColor"
                     android:src="@drawable/schacc_ic_arrow_back" />
 
                 <TextView
