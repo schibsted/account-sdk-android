@@ -22,8 +22,7 @@
     <color name="schacc_secondaryHeader">@color/schacc_black</color>
 
     <color name="schacc_progressColor">@color/schacc_white</color>
-    <color name="schacc_toolbarArrowIconColor">@color/schacc_darkGrey</color>
-    <color name="schacc_toolbarCloseIconColor">@color/schacc_darkGrey</color>
+    <color name="schacc_toolbarIconsColor">@color/schacc_darkGrey</color>
     <color name="schacc_toolbarColor">@color/colorPrimary</color>
 
 

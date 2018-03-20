@@ -41,7 +41,7 @@ object UiUtil {
     }
 
     @JvmStatic
-    fun getTintDrawable(context: Context, drawable : Drawable, @ColorRes color: Int): Drawable {
+    fun getTintDrawable(context: Context, drawable: Drawable, @ColorRes color: Int): Drawable {
         val tintDrawable = DrawableCompat.wrap(drawable)
         DrawableCompat.setTint(tintDrawable, ContextCompat.getColor(context, color))
         return tintDrawable

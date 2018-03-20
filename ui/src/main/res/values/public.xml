@@ -21,8 +21,7 @@
     <public type="color" name="schacc_secondaryHeader"/>
 
     <public type="color" name="schacc_progressColor"/>
-    <public type="color" name="schacc_toolbarArrowIconColor"/>
-    <public type="color" name="schacc_toolbarCloseIconColor"/>
+    <public type="color" name="schacc_toolbarIconsColor"/>
     <public type="color" name="schacc_toolbarColor"/>
 
 

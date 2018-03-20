@@ -92,13 +92,9 @@ To apply you own color you need to override the following values in your res/col
     <color name="schacc_primaryHeader">myColor</color>
     <color name="schacc_secondaryHeader">myColor</color>
 ```
-- To change the color of the back arrow icon
+- To change the color of icons
 ```
-    <color name="schacc_toolbarArrowIconColor">myColor</color>
-```
-- To change the color of the close icon
-```
-    <color name="schacc_toolbarCloseIconColor">myColor</color>
+    <color name="schacc_toolbarIconsColor">myColor</color>
 ```
 - To change the color of the toolbar itself
 ```

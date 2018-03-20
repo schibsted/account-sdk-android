@@ -285,7 +285,7 @@ abstract class BaseLoginActivity : AppCompatActivity(), KeyboardManager, Navigat
         this.menu = menu
         menuInflater.inflate(R.menu.schacc_menu, menu)
         val closeItem = menu.findItem(R.id.close_flow)
-        closeItem.icon = UiUtil.getTintDrawable(this, closeItem.icon, R.color.schacc_toolbarCloseIconColor)
+        closeItem.icon = UiUtil.getTintDrawable(this, closeItem.icon, R.color.schacc_toolbarIconsColor)
         updateActionBar()
         return true
     }
