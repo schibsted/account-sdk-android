@@ -30,6 +30,13 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/code_label"/>
 
+    <com.schibsted.account.ui.ui.component.CheckBoxView
+        android:id="@+id/keep_me_logged_in"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_below="@+id/verification_code_input_view" />
+
     <com.schibsted.account.ui.ui.component.LoadingButton
         android:id="@+id/mobile_verification_button_continue"
         android:layout_marginTop="8dp"
