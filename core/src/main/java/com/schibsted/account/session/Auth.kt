@@ -48,32 +48,18 @@ class Auth(val user: User) {
      * 30 seconds. This can be used to authenticate from for example a back-end server
      * @param callback Callback containing the one time code
      */
+    @Deprecated("Duplicate entry", ReplaceWith("this.oneTimeCode(clientId, callback)"))
     fun oneTimeCode(callback: ResultCallback<String>) {
-        val token = user.token
-        if (token == null) {
-            callback.onError(ClientError.USER_LOGGED_OUT_ERROR)
-            return
-        }
-
-        ServiceHolder.sessionService(user).oneTimeCode(ClientConfiguration.get().clientId, token)
-                .enqueue(object : NetworkCallback<TokenExchangeResponse>("Requesting one time code") {
-                    override fun onError(error: NetworkError) {
-                        callback.onError(error.toClientError())
-                    }
-
-                    override fun onSuccess(result: TokenExchangeResponse) {
-                        callback.onSuccess(result.code)
-                    }
-                })
+        oneTimeCode(ClientConfiguration.get().clientId, callback)
     }
 
     /**
      * Requests a one-time authentication code for the current user. The code expires after
-     * 30 seconds. Uses a supplied server client id to create the code.
+     * 30 seconds. This can be used to authenticate from a back-end server.
+     * Uses a supplied server client id to create the code.
      * @param serverClientId The client ID of the server
      * @param callback Callback containing the one time code
      */
-    @Deprecated("Part of the migration compatibility for Blocket")
     fun oneTimeCode(serverClientId: String, callback: ResultCallback<String>) {
         val token = user.token
         if (token == null) {
