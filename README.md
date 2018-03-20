@@ -13,8 +13,8 @@ To get started with either SDK, you'll need to request access to SPiD before you
 ### Gradle setup
 ```
 ext {
-    identity_redirect_scheme = your_redirect_scheme // spid-58....89
-    identity_redirect_host = your_redirect_host // login
+    spidRedirectScheme = your_redirect_scheme // spid-58....89
+    spidRedirectHost = your_redirect_host // login
 }
 
 dependencies {
