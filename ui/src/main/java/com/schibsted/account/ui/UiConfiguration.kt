@@ -124,10 +124,10 @@ data class UiConfiguration(
                 requireNotNull(defaultPhonePrefix, { "The field $CLIENT_PHONE_PREFIX must be specified in the manifest" })
 
                 if (redirectHost.isNullOrEmpty()) {
-                   throw IllegalArgumentException("The field $REDIRECT_HOST must be specified in your string.xml")
+                    throw IllegalArgumentException("The field $REDIRECT_HOST must be specified in your strings.xml")
                 }
                 if (redirectScheme.isNullOrEmpty()) {
-                    throw IllegalArgumentException("The field $REDIRECT_SCHEME must be specified in your string.xml")
+                    throw IllegalArgumentException("The field $REDIRECT_SCHEME must be specified in your strings.xml")
                 }
                 return Builder(clientName, URI.create(uriScheme), defaultPhonePrefix)
             }

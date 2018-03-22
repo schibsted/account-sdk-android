@@ -17,16 +17,37 @@ The currently available UI flows are:
     - A password is needed to login/sign-up.
 
 ### Configuration
-All flows requires a `UiConfiguration` object to be initialized. This can be created by using the `UiConfiguration.Builder`. Instantiate this either by using the constructor or read the required fields from the `AndroidManifest.xml` like this: `UiConfiguration.Builder.fromManifest(appContext)`.
 
-#### Reading the configuring from the manifest
+`AndroidManifest.xml`
+```xml
+<application>
+    <meta-data
+        android:name="schacc_client_name"
+        android:value="@string/application_label" />
+    <meta-data
+        android:name="schacc_phone_prefix"
+        android:value="47" />
+</application>
+```
+
  * `schacc_client_name` is the name of your application, for instance it is displayed on the terms and conditions screen as "I accept the terms and conditions for SPID and _yourAppName_"
  * `schacc_phone_prefix` is used as the default phone prefix to display in case of passwordless login using a phone number.
  
-#### Deeplink
-You have to define two strings in your `string.xml` file which will be used by the ui sdk manifest to build the deeplink intent filters.
- * `schacc_redirect_scheme` is the scheme used for redirects (and deep links back to your application). This can be found in SPiD Self Service. Example: `spid-xxxxxxxxxxxxx`
- * `schacc_redirect_host` The host used for redirects. Can be found in Self Service. Example: `login`.
+ `strings.xml`
+ ```xml
+ <resources>
+    <string name="schacc_redirect_host">host</string>
+    <string name="schacc_redirect_scheme">spid-scheme</string>
+</resources>
+```
+ 
+ * `schacc_redirect_host` This can be found in Self Service. Example: `login`.
+ * `schacc_redirect_scheme` This can be found in SPiD Self Service. Example: `spid-xxxxxxxxxxxxx`
+ 
+To build the `UiConfiguration` : 
+ ```java
+    UiConfiguration.Builder.fromManifest(getApplicationContext()).build();
+```
 
 #### Additional configuration parameters
 - `locale` the locale to use for the UIs. Defaults to `Locale.getDefault()`
@@ -36,6 +57,13 @@ You have to define two strings in your `string.xml` file which will be used by t
 - `logo` a drawable resource to display your brand icon.
 - `teaserText` a text to display in the first screen. Limited to 3 lines.
 
+ Example :
+ ```java
+ UiConfiguration.Builder.fromManifest(getApplicationContext())
+                .enableSignUp()
+                .logo(R.drawable.ic_example_logo)
+                .build()
+```
     
 ### Start the flow
 * Create the desired intent
