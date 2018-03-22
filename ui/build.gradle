@@ -9,8 +9,8 @@ android {
 
     defaultConfig {
 
-        resValue "string", "schacc_redirect_scheme", (rootProject.ext.spidRedirectScheme && !rootProject.ext.spidRedirectScheme.allWhitespace) ? spidRedirectScheme : 'spid-dummyclientid'
-        resValue "string", "schacc_redirect_host", (rootProject.ext.spidRedirectHost && !rootProject.ext.spidRedirectHost.allWhitespace) ? spidRedirectHost : 'login'
+        resValue "string", "schacc_redirect_scheme", ""
+        resValue "string", "schacc_redirect_host", ""
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         testProguardFile "ui-rules.pro"
@@ -101,7 +101,7 @@ bintray {
         version {
             name = artifactVersion
             desc = "Account SDK Android UI $artifactVersion"
-            released  = new Date()
+            released = new Date()
             vcsTag = "v$artifactVersion"
         }
     }

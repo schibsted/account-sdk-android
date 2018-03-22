@@ -12,11 +12,6 @@ To get started with either SDK, you'll need to request access to SPiD before you
 
 ### Gradle setup
 ```
-ext {
-    spidRedirectScheme = your_redirect_scheme // spid-58....89
-    spidRedirectHost = your_redirect_host // login
-}
-
 dependencies {
     implementation "com.schibsted.account:account-sdk-android-core:<VERSION>"
     // or
