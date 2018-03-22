@@ -115,13 +115,23 @@ The provided UI come with fully configurable colors. If you want to change these
     <color name="schacc_secondaryActive">myColor</color>
 ```
 ### Customize the toolbar
-If needed the color of the toolbar text can be customized.
+If needed the color of the toolbar's elements can be customized.
 To apply you own color you need to override the following values in your res/colors.xml file:
 
+- To change the color of the primary and secondary text
 ```
     <color name="schacc_primaryHeader">myColor</color>
     <color name="schacc_secondaryHeader">myColor</color>
 ```
+- To change the color of icons
+```
+    <color name="schacc_toolbarIconsColor">myColor</color>
+```
+- To change the color of the toolbar itself
+```
+    <color name="schacc_toolbarIconColor">myColor</color>
+```
+
 ### Customize the loader color
 Next to the CTA button a loader appears when an action is performed, you might need to change this color to match your branding.
 To apply you own color you need to override the following values in your res/colors.xml file:

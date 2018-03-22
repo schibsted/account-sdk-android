@@ -83,14 +83,13 @@ public class VerificationPresenter implements VerificationContract.Presenter {
      * @param codeInputView the provided code
      */
     @Override
-    public void verifyCode(final CodeInputView codeInputView) {
+    public void verifyCode(final CodeInputView codeInputView, boolean keepMeLoggedIn) {
         if (verificationView.isActive()) {
             verificationView.hideError(codeInputView);
             if (codeInputView.isInputValid()) {
                 verificationView.showProgress();
 
-                // TODO: Change keepLoggedIn to use result from UI
-                provider.provide(new VerificationCode(codeInputView.getInput(), true), new ResultCallback<NoValue>() {
+                provider.provide(new VerificationCode(codeInputView.getInput(), keepMeLoggedIn), new ResultCallback<NoValue>() {
                     @Override
                     public void onSuccess(NoValue res) {
                         final UiTracking tracker = BaseLoginActivity.getTracker();

@@ -69,16 +69,19 @@
 
         <android.support.constraint.ConstraintLayout
             style="@style/schacc_container"
+            android:focusable="true"
             android:paddingTop="24dp"
             android:paddingBottom="0dp">
 
             <FrameLayout
                 android:id="@+id/identification_input_view"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
+                app:layout_constraintStart_toStartOf="parent"/>
 
             <TextView
                 android:id="@+id/identification_share_policy"

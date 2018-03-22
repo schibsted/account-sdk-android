@@ -97,6 +97,10 @@ public class CheckBoxView extends LinearLayout implements ErrorField {
         return checkbox.isChecked();
     }
 
+    public void setChecked(boolean checked){
+        checkbox.setChecked(checked);
+    }
+
     /**
      * @return <code>true</code> if {@link #errorView} is visible <code>false</code> otherwise
      */

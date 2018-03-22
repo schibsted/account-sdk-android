@@ -284,6 +284,8 @@ abstract class BaseLoginActivity : AppCompatActivity(), KeyboardManager, Navigat
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         this.menu = menu
         menuInflater.inflate(R.menu.schacc_menu, menu)
+        val closeItem = menu.findItem(R.id.close_flow)
+        closeItem.icon = UiUtil.getTintDrawable(this, closeItem.icon, R.color.schacc_toolbarIconsColor)
         updateActionBar()
         return true
     }
@@ -332,7 +334,7 @@ abstract class BaseLoginActivity : AppCompatActivity(), KeyboardManager, Navigat
      */
     override fun closeKeyboard() {
         val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        imm.hideSoftInputFromWindow(window.decorView.windowToken, InputMethodManager.HIDE_IMPLICIT_ONLY)
+        imm.hideSoftInputFromWindow(window.decorView.windowToken, 0)
     }
 
     private fun updateActionBar() {
