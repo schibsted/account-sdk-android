@@ -6,7 +6,7 @@ package com.schibsted.account.common.smartlock
 
 interface SmartLockCallback {
 
-    fun onCredentialRetrieved(id : String, password : String, keepMeLoggedIn : Boolean)
+    fun onCredentialRetrieved(id: String, password: String, keepMeLoggedIn: Boolean)
     fun onHintRetrieved(id: String)
     fun onCredentialDeleted()
     fun onFailure()

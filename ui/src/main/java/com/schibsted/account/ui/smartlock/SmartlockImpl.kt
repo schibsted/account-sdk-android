@@ -46,7 +46,7 @@ class SmartlockImpl(private val loginActivity: BaseLoginActivity, private val lo
         } ?: onFailure()
     }
 
-      override fun onCredentialRetrieved(id: String, password: String, keepMeLoggedIn: Boolean) {
+    override fun onCredentialRetrieved(id: String, password: String, keepMeLoggedIn: Boolean) {
         isSmartlockResolving = false
         loginActivity.smartlockCredentials = Credentials(Identifier(Identifier.IdentifierType.EMAIL, id), password, keepMeLoggedIn)
         loginController.start(loginContract)
