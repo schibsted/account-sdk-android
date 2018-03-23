@@ -1,3 +1,6 @@
+## 0.9.0-beta2 (2018-03-23)
+- Fixed crash caused by missing smartlock dependency (#55)
+
 ## 0.9.0-beta1 (2018-03-22)
 - Added possibility to customize toolbar colors (#46)
 - Added # to filtering of configuration file to allow for comments in the file(#41)
