@@ -53,6 +53,7 @@ public class MainActivity extends AppCompatActivity {
         // Get the UiConfiguration
         final UiConfiguration uiConfiguration = UiConfiguration.Builder.fromManifest(getApplicationContext())
                 .enableSignUp()
+                .enableSmartlock()
                 .logo(R.drawable.ic_example_logo)
                 .locale(new Locale("nb", "NO"))
                 .teaserText(getString(R.string.example_teaser_text))

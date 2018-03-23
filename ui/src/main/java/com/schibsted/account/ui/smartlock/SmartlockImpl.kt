@@ -6,11 +6,12 @@ package com.schibsted.account.ui.smartlock
 
 import android.app.Activity.RESULT_FIRST_USER
 import android.os.Parcelable
+import com.schibsted.account.common.smartlock.SmartLockCallback
 import com.schibsted.account.common.util.existsOnClasspath
 import com.schibsted.account.engine.controller.LoginController
 import com.schibsted.account.engine.input.Credentials
+import com.schibsted.account.engine.input.Identifier
 import com.schibsted.account.engine.integration.contract.LoginContract
-import com.schibsted.account.smartlock.SmartLockCallback
 import com.schibsted.account.ui.login.BaseLoginActivity
 import com.schibsted.account.ui.login.BaseLoginActivity.Companion.KEY_UI_CONFIGURATION
 
@@ -35,7 +36,7 @@ class SmartlockImpl(private val loginActivity: BaseLoginActivity, private val lo
 
     fun provideCredential(parcelable: Parcelable) {
         uiSmartlockController.convertToIdentityCredential(parcelable)?.let {
-            onCredentialRetrieved(it)
+            onCredentialRetrieved(it.identifier.identifier, it.password, it.keepLoggedIn)
         } ?: onFailure()
     }
 
@@ -45,9 +46,9 @@ class SmartlockImpl(private val loginActivity: BaseLoginActivity, private val lo
         } ?: onFailure()
     }
 
-    override fun onCredentialRetrieved(credential: Credentials) {
+      override fun onCredentialRetrieved(id: String, password: String, keepMeLoggedIn: Boolean) {
         isSmartlockResolving = false
-        loginActivity.smartlockCredentials = credential
+        loginActivity.smartlockCredentials = Credentials(Identifier(Identifier.IdentifierType.EMAIL, id), password, keepMeLoggedIn)
         loginController.start(loginContract)
     }
 
