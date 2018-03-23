@@ -141,7 +141,7 @@ abstract class BaseLoginActivity : AppCompatActivity(), KeyboardManager, Navigat
         } else {
             Logger.warn(Logger.DEFAULT_TAG, {
                 "Configuration not found in intent, falling back to parsing the manifest. " +
-                        "If the activity is created from a deep link, this is to be expected."
+                    "If the activity is created from a deep link, this is to be expected."
             })
             UiConfiguration.Builder.fromManifest(applicationContext).build()
         }
@@ -165,13 +165,18 @@ abstract class BaseLoginActivity : AppCompatActivity(), KeyboardManager, Navigat
     }
 
     private fun initializeSmartlock() {
-        val isSmartlockReady = SmartlockImpl.isSmartlockAvailable() && uiConfiguration.smartlockEnabled
-        loginController = LoginController(true)
-        smartlock = SmartlockImpl(this, loginController!!, loginContract)
-        if (isSmartlockReady && !isSmartlockRunning) {
-            progressBar.visibility = VISIBLE
-            smartlock?.start()
-            this.isSmartlockRunning = smartlock?.isSmartlockResolving ?: false
+        if (SmartlockImpl.isSmartlockAvailable()) {
+            val isSmartlockReady = uiConfiguration.smartlockEnabled && !isSmartlockRunning
+            loginController = LoginController(true)
+            smartlock = SmartlockImpl(this, loginController!!, loginContract)
+
+            if (isSmartlockReady) {
+                progressBar.visibility = VISIBLE
+                smartlock?.start()
+                this.isSmartlockRunning = smartlock?.isSmartlockResolving ?: false
+            } else {
+                progressBar.visibility = GONE
+            }
         } else {
             progressBar.visibility = GONE
         }
@@ -196,9 +201,9 @@ abstract class BaseLoginActivity : AppCompatActivity(), KeyboardManager, Navigat
 
     fun startIdentificationFragment(flowSelectionListener: FlowSelectionListener?) {
         val fragment = fragmentProvider.getOrCreateIdentificationFragment(
-                navigationController.currentFragment,
-                identifierType = Identifier.IdentifierType.EMAIL.value,
-                flowSelectionListener = flowSelectionListener)
+            navigationController.currentFragment,
+            identifierType = Identifier.IdentifierType.EMAIL.value,
+            flowSelectionListener = flowSelectionListener)
         navigationController.navigateToFragment(fragment as AbstractIdentificationFragment)
     }
 
@@ -207,16 +212,16 @@ abstract class BaseLoginActivity : AppCompatActivity(), KeyboardManager, Navigat
         BaseLoginActivity.tracker?.eventActionSuccessful(TrackingData.SpidAction.ACCOUNT_VERIFIED)
 
         User.fromSessionCode(state.code, uiConfiguration.redirectUri.toString(), state.isPersistable,
-                ResultCallback.fromLambda(
-                        { error ->
-                            Logger.info(TAG, { "Automatic login after account validation failed: ${error.message}" })
-                        },
-                        { user ->
-                            Logger.info(TAG, { "Automatic login after account validation was successful" })
-                            BaseLoginActivity.tracker?.eventActionSuccessful(TrackingData.SpidAction.LOGIN_COMPLETED, user.userId.legacyId)
-                            navigationController.finishFlow(user)
-                        }
-                ))
+            ResultCallback.fromLambda(
+                { error ->
+                    Logger.info(TAG, { "Automatic login after account validation failed: ${error.message}" })
+                },
+                { user ->
+                    Logger.info(TAG, { "Automatic login after account validation was successful" })
+                    BaseLoginActivity.tracker?.eventActionSuccessful(TrackingData.SpidAction.LOGIN_COMPLETED, user.userId.legacyId)
+                    navigationController.finishFlow(user)
+                }
+            ))
     }
 
     /**
@@ -264,7 +269,7 @@ abstract class BaseLoginActivity : AppCompatActivity(), KeyboardManager, Navigat
         super.onSaveInstanceState(outState)
         outState.putString(KEY_SCREEN, screen?.value)
         outState.putInt(KEY_FLOW_TYPE, activeFlowType?.let { if (isUserAvailable()) 2 else 1 }
-                ?: 0)
+            ?: 0)
         outState.putParcelable(KEY_CURRENT_IDENTIFIER, currentIdentifier)
         outState.putBoolean(KEY_SMARTLOCK_RESOLVING, this.isSmartlockRunning)
     }

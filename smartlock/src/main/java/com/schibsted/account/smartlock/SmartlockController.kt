@@ -10,11 +10,12 @@ import android.util.Log
 import com.google.android.gms.auth.api.credentials.Credential
 import com.google.android.gms.auth.api.credentials.CredentialRequest
 import com.google.android.gms.auth.api.credentials.Credentials
-import com.google.android.gms.auth.api.credentials.IdentityProviders
 import com.google.android.gms.auth.api.credentials.CredentialsOptions
+import com.google.android.gms.auth.api.credentials.IdentityProviders
 import com.google.android.gms.common.api.CommonStatusCodes
 import com.google.android.gms.common.api.ResolvableApiException
 import com.google.android.gms.tasks.OnCompleteListener
+import com.schibsted.account.common.smartlock.SmartLockCallback
 import com.schibsted.account.common.smartlock.Smartlock
 import com.schibsted.account.common.util.Logger
 import com.schibsted.account.engine.input.Identifier
@@ -81,14 +82,12 @@ class SmartlockController(private val activity: AppCompatActivity, private val s
     private fun retrieveCredential(credential: Parcelable?) {
         val cred = credential as? Credential
         cred?.let {
-            val id = Identifier(Identifier.IdentifierType.EMAIL, credential.id)
             val password = credential.password ?: ""
             if (password.isEmpty()) {
                 smartLockCallback.onHintRetrieved(credential.id)
                 Logger.info(TAG, { "hint was successfully retrieved" })
             } else {
-                val identityCredentials = com.schibsted.account.engine.input.Credentials(id, password, true)
-                smartLockCallback.onCredentialRetrieved(identityCredentials)
+                smartLockCallback.onCredentialRetrieved(credential.id, password, true)
                 currentSmartlockCredential = cred
                 Logger.info(TAG, { "credentials were successfully retrieved" })
             }
