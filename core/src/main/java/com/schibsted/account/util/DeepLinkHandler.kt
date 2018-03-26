@@ -26,7 +26,9 @@ object DeepLinkHandler {
         val uri: URI? = Try { URI.create(dataString) }.getOrElse {
             Logger.info(TAG, { "Unable to parse deep link: ${dataString.safeUrl()}" }, it)
             null
-        }?.takeIf { it -> it.path.startsWith("/login") || it.host == "login" }
+        }?.takeIf { it -> it.host == null && it.path.startsWith("/login")
+            || it.host == "spid" && it.path.startsWith("/login")
+            || it.host == "login" }
 
         if (uri == null) {
             Logger.info(TAG, { "Deep link did not match the login path or host" })
