@@ -93,6 +93,12 @@ class EncryptionKeyProvider(private val appContext: Context) {
         return key
     }
 
+    /**
+     * This lint rule only makes sense for API 4.3 and older
+     * @see https://sites.google.com/a/android.com/tools/tips/lint-checks
+     * "TrulyRandom" section
+     */
+    @SuppressLint("TrulyRandom")
     @RequiresApi(Build.VERSION_CODES.M)
     private fun generateEncryptionKeyM(): KeyPair? {
         try {
