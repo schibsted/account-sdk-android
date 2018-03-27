@@ -138,3 +138,6 @@ To apply you own color you need to override the following values in your res/col
 ```
     <color name="schacc_progressColor">myColor</color>
 ```
+
+### Hooking UI events
+If you need to perform some additional operations before closing the UIs, you can implement `UiHooks` in your application class. These functions will be called before certain events and will not continue before the `OnReadyListener`'s `onReady` function has been called.

@@ -8,10 +8,12 @@ import android.app.Activity
 import android.support.v4.app.DialogFragment
 import android.support.v4.app.FragmentManager
 import com.schibsted.account.common.tracking.TrackingData
+import com.schibsted.account.common.util.Logger
 import com.schibsted.account.engine.controller.Controller
 import com.schibsted.account.engine.integration.contract.Contract
 import com.schibsted.account.session.User
 import com.schibsted.account.ui.R
+import com.schibsted.account.ui.UiHoks
 import com.schibsted.account.ui.UiUtil
 import com.schibsted.account.ui.login.BaseLoginActivity
 import com.schibsted.account.ui.login.BaseLoginActivity.Companion.EXTRA_USER
@@ -101,14 +103,20 @@ class Navigation(
     }
 
     fun finishFlow(user: User) {
-        if (activity.callingActivity == null) {
-            val intent = activity.packageManager.getLaunchIntentForPackage(activity.application.packageName)
-            intent?.putExtra(EXTRA_USER, user)
-            activity.startActivity(intent)
-        } else {
-            activity.setResult(Activity.RESULT_OK, activity.intent.putExtra(EXTRA_USER, user))
-            activity.finish()
-        }
+        val hooks = (this.activity.application as? UiHoks)
+                .also { Logger.info("${Logger.DEFAULT_TAG}-NAV", { "Resolving UI hooks: $it" }) }
+                ?: UiHoks.DEFAULT
+
+        hooks.onUiClosing(user, UiHoks.OnReadyListener {
+            if (activity.callingActivity == null) {
+                val intent = activity.packageManager.getLaunchIntentForPackage(activity.application.packageName)
+                intent?.putExtra(EXTRA_USER, user)
+                activity.startActivity(intent)
+            } else {
+                activity.setResult(Activity.RESULT_OK, activity.intent.putExtra(EXTRA_USER, user))
+                activity.finish()
+            }
+        })
     }
 
     fun <T : Contract<*>, C : Controller<T>> handleBackPressed(controller: C?, contract: T) {

@@ -19,6 +19,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.schibsted.account.engine.integration.ResultCallback;
 import com.schibsted.account.model.NoValue;
 import com.schibsted.account.model.UserId;
