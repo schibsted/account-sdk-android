@@ -3,10 +3,12 @@
   -->
 
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.schibsted.account.ui">
 
     <application
         android:name="android.support.multidex.MultiDexApplication"
+        tools:ignore="GoogleAppIndexingWarning"
         android:theme="@style/Theme.AppCompat.Light">
         <meta-data
             android:name="schacc_client_name"

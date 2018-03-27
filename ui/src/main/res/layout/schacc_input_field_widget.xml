@@ -18,7 +18,8 @@
         style="@style/schacc_input_field_widget"
         android:layout_width="match_parent"
         android:layout_height="@dimen/schacc_default_widget_height"
-        android:imeOptions="actionNext" />
+        android:imeOptions="actionNext"
+        tools:ignore="LabelFor" />
 
     <TextView
         android:id="@+id/input_error_view"

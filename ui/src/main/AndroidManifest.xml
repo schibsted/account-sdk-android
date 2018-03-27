@@ -3,7 +3,7 @@
   -->
 
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.schibsted.account.ui">
+    package="com.schibsted.account.ui">
 
     <application>
         <meta-data
