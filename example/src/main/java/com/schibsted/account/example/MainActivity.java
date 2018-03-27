@@ -33,6 +33,8 @@ import com.schibsted.account.ui.smartlock.SmartlockImpl;
 
 import java.util.Locale;
 
+import static com.schibsted.account.ui.login.BaseLoginActivity.EXTRA_USER;
+
 public class MainActivity extends AppCompatActivity {
     final static int PASSWORD_REQUEST_CODE = 1;
     private User user;
@@ -69,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
         identityReceiver = new IdentityReceiver();
 
         // Start the flow
-        if (savedInstanceState == null) {
+        if (savedInstanceState == null && !getIntent().hasExtra(EXTRA_USER)) {
             startActivityForResult(passwordIntent, PASSWORD_REQUEST_CODE);
         }
 
@@ -121,6 +123,7 @@ public class MainActivity extends AppCompatActivity {
 
         if (user != null) {
             logoutButton.setVisibility(View.VISIBLE);
+            userState.setText(R.string.example_app_user_logged_in);
         }
     }
 
