@@ -2,10 +2,10 @@
   ~ Copyright (c) 2018 Schibsted Products & Technology AS. Licensed under the terms of the MIT license. See LICENSE in the project root.
   -->
 
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
     <!--Identification-->
-    <string name="schacc_identification_title">Login or register</string>
-    <string name="schacc_identification_login_only_title">Login</string>
+    <string name="schacc_identification_title">Log in or create account</string>
+    <string name="schacc_identification_login_only_title">Log in</string>
     <string name="schacc_identification_help_link">https://www.schibstedpayment.com/hc/en/#faq</string>
     <string name="schacc_identification_help_link_text">Need help?</string>
 
@@ -18,7 +18,6 @@
     <string name="schacc_email_privacy_information">We\'ll never share your email address without your consent.</string>
     <string name="schacc_email_identification_error">Please enter a valid email address.</string>
     <string name="schacc_email_label">Enter your email address</string>
-    <string name="schacc_email_hint">firstname.lastname@mail.com</string>
     <!--Verification-->
     <string name="schacc_verification_title">We sent you a code</string>
     <string name="schacc_verification_code_label">Enter your code</string>
@@ -61,7 +60,7 @@
     <string name="schacc_required_fields_birthday_error">@string/schacc_required_fields_birthday_hint</string>
     <!--Password-->
     <string name="schacc_password_change_phone_number">Change phone number</string>
-    <string name="schacc_password_change_email">change email</string>
+    <string name="schacc_password_change_email">Change email</string>
     <string name="schacc_password_sign_in_label">Enter your password</string>
     <string name="schacc_password_sign_up_label">Choose your password</string>
     <string name="schacc_password_error_length">Your password should have at least 8 characters.</string>
@@ -80,10 +79,10 @@
     <string name="schacc_web_forgot_password_title">Forgot password?</string>
     <string name="schacc_web_need_help_title">Need help?</string>
     <!--Generic-->
-    <string name="schacc_spid_label">SPiD</string>
+    <string name="schacc_spid_label">Schibsted account</string>
     <string name="schacc_next_step">Continue</string>
     <string name="schacc_welcome_back_title">Welcome back</string>
-    <string name="schacc_register_title">Register</string>
+    <string name="schacc_register_title">Create account</string>
     <string name="schacc_ok">OK</string>
     <string name="schacc_identifier_modifier">Not you?</string>
     <!--Generic error messages-->
@@ -96,6 +95,6 @@
     <string name="schacc_generic_too_many_inbox_request_error_message">You have sent too many link requests. Please try again later.</string>
     <string name="schacc_generic_error">Please try again later.</string>
     <!--System-->
-    <string name="schacc_close">close</string>
+    <string name="schacc_close">Close</string>
     <string name="schacc_intent_password_sign_up_link_name">signupDeepLink</string>
 </resources>

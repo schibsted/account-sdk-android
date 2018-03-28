@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.TextView;
+
 import com.schibsted.account.common.util.Logger;
 import com.schibsted.account.ui.R;
 import com.schibsted.account.ui.UiConfiguration;
@@ -55,7 +56,6 @@ public class EmailIdentificationFragment extends AbstractIdentificationFragment 
                 .setCancelable(true)
                 .setInputType(InputType.TYPE_TEXT_VARIATION_WEB_EMAIL_ADDRESS)
                 .setImeOption(EditorInfo.IME_ACTION_DONE)
-                .setHint(R.string.schacc_email_hint)
                 .setError(R.string.schacc_email_identification_error)
                 .setTitle(R.string.schacc_email_label)
                 .build();
