@@ -31,6 +31,7 @@ open class ClientError(val errorType: ErrorType, val message: String) {
         INVALID_PHONE_NUMBER,
         INVALID_EMAIL,
         INVALID_GRANT,
+        INVALID_CODE,
         MISSING_FIELDS,
         SIGNUP_FORBIDDEN,
 
