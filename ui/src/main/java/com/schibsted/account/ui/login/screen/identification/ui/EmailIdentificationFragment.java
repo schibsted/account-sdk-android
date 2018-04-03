@@ -67,17 +67,17 @@ public class EmailIdentificationFragment extends AbstractIdentificationFragment 
 
     @Override
     public void prefillIdentifier(String identifier) {
-        final String tag = Logger.getDEFAULT_TAG() + "-" + this.getClass().getSimpleName();
-        Logger.INSTANCE.info(tag, "Attempting to prefill  email", null);
+        final String tag = Logger.DEFAULT_TAG + "-" + this.getClass().getSimpleName();
+        Logger.info(tag, "Attempting to prefill  email");
         if (TextUtils.isEmpty(identifier)) {
-            Logger.INSTANCE.info(tag, "email wasn't found", null);
+            Logger.info(tag, "email wasn't found");
         } else {
             if (EmailValidationRule.INSTANCE.isValid(identifier)) {
                 inputFieldView.getInputView().setText(uiConf.getIdentifier());
-                Logger.INSTANCE.info(tag, "email has been prefilled", null);
+                Logger.info(tag, "email has been prefilled");
 
             } else {
-                Logger.INSTANCE.warn(tag, "Failed to prefill the email - Wrong format", null);
+                Logger.warn(tag, "Failed to prefill the email - Wrong format");
             }
         }
     }

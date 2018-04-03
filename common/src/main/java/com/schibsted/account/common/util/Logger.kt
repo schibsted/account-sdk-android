@@ -16,7 +16,7 @@ object Logger {
         fun log(level: Level, tag: String, message: String, throwable: Throwable?)
     }
 
-    @JvmStatic
+    @JvmField
     val DEFAULT_LOG_WORKER = object : LogWorker {
         override fun log(level: Level, tag: String, message: String, throwable: Throwable?) {
             when (level) {
@@ -29,8 +29,7 @@ object Logger {
         }
     }
 
-    @JvmStatic
-    val DEFAULT_TAG = "IDSDK"
+    const val DEFAULT_TAG = "IDSDK"
 
     @JvmStatic
     var loggingEnabled: Boolean = BuildConfig.DEBUG
@@ -46,6 +45,8 @@ object Logger {
         }
     }
 
+    @JvmStatic
+    @JvmOverloads
     fun error(tag: String, message: String, throwable: Throwable? = null) {
         error(tag, { message }, throwable)
     }
@@ -54,6 +55,8 @@ object Logger {
         if (loggingEnabled) logWorker.log(Level.ERROR, tag, message.safeString(), throwable)
     }
 
+    @JvmStatic
+    @JvmOverloads
     fun warn(tag: String, message: String, throwable: Throwable? = null) {
         warn(tag, { message }, throwable)
     }
@@ -62,6 +65,8 @@ object Logger {
         if (loggingEnabled) logWorker.log(Level.WARNING, tag, message.safeString(), throwable)
     }
 
+    @JvmStatic
+    @JvmOverloads
     fun info(tag: String, message: String, throwable: Throwable? = null) {
         info(tag, { message }, throwable)
     }
@@ -70,6 +75,8 @@ object Logger {
         if (loggingEnabled) logWorker.log(Level.INFO, tag, message.safeString(), throwable)
     }
 
+    @JvmStatic
+    @JvmOverloads
     fun debug(tag: String, message: String, throwable: Throwable? = null) {
         debug(tag, { message }, throwable)
     }
@@ -78,6 +85,8 @@ object Logger {
         if (loggingEnabled) logWorker.log(Level.DEBUG, tag, message.safeString(), throwable)
     }
 
+    @JvmStatic
+    @JvmOverloads
     fun verbose(tag: String, message: String, throwable: Throwable? = null) {
         verbose(tag, { message }, throwable)
     }
