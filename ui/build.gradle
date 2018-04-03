@@ -28,10 +28,6 @@ android {
         }
     }
 
-    dexOptions {
-        javaMaxHeapSize "4g"
-    }
-
     resourcePrefix 'schacc_'
 }
 
