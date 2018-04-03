@@ -24,7 +24,10 @@ internal data class NetworkError(val code: Int, val type: String, val descriptio
             "invalid_user_credentials" -> ClientError(ClientError.ErrorType.INVALID_USER_CREDENTIALS, "Invalid user credentials")
             "invalid_client_credentials" -> ClientError(ClientError.ErrorType.INVALID_CLIENT_CREDENTIALS, "Invalid client credentials")
             "unverified_user" -> ClientError(ClientError.ErrorType.ACCOUNT_NOT_VERIFIED, "The user's account is not verified")
-            "invalid_grant" -> ClientError(ClientError.ErrorType.INVALID_GRANT, "Invalid grant")
+            "invalid_grant" -> when {
+                description.startsWith("Invalid code", ignoreCase = true) -> ClientError(ClientError.ErrorType.INVALID_CODE, "Invalid code")
+                else -> ClientError(ClientError.ErrorType.INVALID_GRANT, "Invalid grant")
+            }
             else -> unknownSpidError()
         }
         code == 401 -> ClientError(ClientError.ErrorType.UNAUTHORIZED, "Invalid access token")
