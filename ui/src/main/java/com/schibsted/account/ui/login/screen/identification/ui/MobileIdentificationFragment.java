@@ -58,17 +58,17 @@ public class MobileIdentificationFragment extends AbstractIdentificationFragment
 
     @Override
     protected void prefillIdentifier(String phoneNumber) {
-        final String tag = Logger.getDEFAULT_TAG() + "-" + this.getClass().getSimpleName();
-        Logger.INSTANCE.info(tag, "Attempting to prefill the phone number", null);
+        final String tag = Logger.DEFAULT_TAG + "-" + this.getClass().getSimpleName();
+        Logger.info(tag, "Attempting to prefill the phone number");
         if (TextUtils.isEmpty(phoneNumber)) {
-            Logger.INSTANCE.info(tag, "The phone number wasn't found", null);
+            Logger.info(tag, "The phone number wasn't found");
         } else {
             if (TextUtils.isDigitsOnly(phoneNumber)) {
                 inputFieldView.setPhonePrefix(uiConf.getDefaultPhonePrefix());
                 inputFieldView.setPhoneNumber(uiConf.getIdentifier());
-                Logger.INSTANCE.info(tag, "The phone number has been prefilled", null);
+                Logger.info(tag, "The phone number has been prefilled");
             } else {
-                Logger.INSTANCE.warn(tag, "Failed to prefill the phone number - Wrong format", null);
+                Logger.warn(tag, "Failed to prefill the phone number - Wrong format");
             }
         }
     }

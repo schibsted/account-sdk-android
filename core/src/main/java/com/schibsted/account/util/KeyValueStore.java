@@ -264,7 +264,7 @@ public class KeyValueStore {
         Preconditions.checkNotNull(editor, key);
         if (!editor.commit()) {
             String msg = String.format("Failed to commit editor for preference %s with value %s.", key, value);
-            Logger.INSTANCE.error(Logger.getDEFAULT_TAG(), msg, null);
+            Logger.error(Logger.DEFAULT_TAG, msg);
         }
     }
 
