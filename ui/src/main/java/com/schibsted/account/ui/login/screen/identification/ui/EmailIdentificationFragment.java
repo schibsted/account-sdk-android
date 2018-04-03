@@ -15,7 +15,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.TextView;
-
 import com.schibsted.account.common.util.Logger;
 import com.schibsted.account.ui.R;
 import com.schibsted.account.ui.UiConfiguration;
