@@ -1,9 +1,16 @@
 // Git helpers
 static def getGitVersionCode(git) {
+    if (!System.getenv('CI')) {
+        return 1
+    }
     return git.log(includes: ['HEAD']).size()
 }
 
 static def getGitVersionName(git) {
+    if (!System.getenv('CI')) {
+        return "0.0.0"
+    }
+
     def tags = git.tag.list().sort {it.commit.time}
 
     if (tags.size() > 0) {
