@@ -4,10 +4,13 @@
 
 package com.schibsted.account.session
 
+import android.content.Intent
 import android.os.Parcel
 import android.os.Parcelable
 import android.support.annotation.WorkerThread
+import com.schibsted.account.AccountService
 import com.schibsted.account.ClientConfiguration
+import com.schibsted.account.Events
 import com.schibsted.account.common.util.Logger
 import com.schibsted.account.engine.integration.ResultCallback
 import com.schibsted.account.model.NoValue
@@ -20,8 +23,6 @@ import com.schibsted.account.network.InfoInterceptor
 import com.schibsted.account.network.NetworkCallback
 import com.schibsted.account.network.ServiceHolder
 import com.schibsted.account.network.response.TokenResponse
-import com.schibsted.account.session.event.BroadcastEvent
-import com.schibsted.account.session.event.EventManager
 import okhttp3.OkHttpClient
 
 /**
@@ -58,7 +59,8 @@ class User(token: UserToken, val isPersistable: Boolean) : Parcelable {
     fun logout(callback: ResultCallback<NoValue>?) {
         val token = this.token
         if (token != null) {
-            EventManager.broadcast(BroadcastEvent.LogoutEvent(userId))
+            AccountService.localBroadcastManager?.sendBroadcast(Intent(Events.ACTION_USER_LOGOUT).putExtra(Events.EXTRA_USER_ID, userId))
+
             ServiceHolder.userService(this).logout(token)
                     .enqueue(object : NetworkCallback<Unit>("Logging out user") {
                         override fun onError(error: NetworkError) {
@@ -127,7 +129,7 @@ class User(token: UserToken, val isPersistable: Boolean) : Parcelable {
         return if (resp.isSuccessful) {
             this.token = requireNotNull(resp.body(), { "Unable to parse token from successful response" })
             Logger.verbose(Logger.DEFAULT_TAG, { "Refreshing user token was successful" })
-            EventManager.broadcast(BroadcastEvent.RefreshEvent(userId))
+            AccountService.localBroadcastManager?.sendBroadcast(Intent(Events.ACTION_USER_TOKEN_REFRESH).putExtra(Events.EXTRA_USER, this))
             true
         } else {
             Logger.verbose(Logger.DEFAULT_TAG, { "User token refreshing failed" })
@@ -136,7 +138,7 @@ class User(token: UserToken, val isPersistable: Boolean) : Parcelable {
                 ServiceHolder.userService(this).logout(token).execute()
                 this@User.token = null
 
-                EventManager.broadcast(BroadcastEvent.LogoutEvent(userId))
+                AccountService.localBroadcastManager?.sendBroadcast(Intent(Events.ACTION_USER_LOGOUT).putExtra(Events.EXTRA_USER_ID, userId))
             }
             false
         }
