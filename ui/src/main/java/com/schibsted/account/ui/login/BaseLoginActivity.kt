@@ -113,6 +113,8 @@ abstract class BaseLoginActivity : AppCompatActivity(), KeyboardManager, Navigat
         super.onCreate(savedInstanceState)
 
         accountService = AccountService(applicationContext)
+        lifecycle.addObserver(accountService)
+
         smartlockCredentials = intent.getParcelableExtra(KEY_SMARTLOCK_CREDENTIALS)
 
         initializeUiConfiguration()
@@ -255,11 +257,6 @@ abstract class BaseLoginActivity : AppCompatActivity(), KeyboardManager, Navigat
         activityRoot.viewTreeObserver.addOnGlobalLayoutListener(layoutListener)
     }
 
-    override fun onStart() {
-        super.onStart()
-        this.accountService.bind()
-    }
-
     override fun onResume() {
         super.onResume()
         setUpKeyboardListener()
@@ -270,11 +267,6 @@ abstract class BaseLoginActivity : AppCompatActivity(), KeyboardManager, Navigat
         super.onPause()
         activityRoot.viewTreeObserver.removeGlobalOnLayoutListener(layoutListener)
         navigationController.unregister()
-    }
-
-    override fun onStop() {
-        super.onStop()
-        this.accountService.unbind()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {

@@ -53,17 +53,19 @@ public class MyActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         accountService = new AccountService(getApplicationContext());
+        getLifecycle().addObserver(accountService)
     }
 
-    @Override
-    protected void onStart() {
-        accountService.bind();
-    }
+    // If you for some reason don't have the most recent support library, you can call these manually instead
+    // @Override
+    // protected void onStart() {
+    //     accountService.bind();
+    // }
 
-    @Override
-    protected void onStop() {
-        accountService.unbind();
-    }
+    // @Override
+    // protected void onStop() {
+    //     accountService.unbind();
+    // }
 }
 ```
 

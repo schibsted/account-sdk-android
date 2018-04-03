@@ -14,7 +14,7 @@ import com.schibsted.account.common.util.Logger
 import com.schibsted.account.model.UserId
 import com.schibsted.account.session.User
 
-class AutomaticUserPersistence(appContext: Context) : BroadcastReceiver() {
+class UserPersistenceReceiver(appContext: Context) : BroadcastReceiver() {
     private val TAG = Logger.DEFAULT_TAG + "-AUP"
 
     private val userPersistence = UserPersistence(appContext)

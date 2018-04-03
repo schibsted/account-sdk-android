@@ -47,6 +47,7 @@ public class MainActivity extends AppCompatActivity {
         //_____________________IDENTITY SDK INIT__________________
 
         accountService = new AccountService(getApplicationContext());
+        getLifecycle().addObserver(accountService);
 
         // Get the UiConfiguration
         final UiConfiguration uiConfiguration = UiConfiguration.Builder.fromManifest(getApplicationContext())
@@ -102,18 +103,6 @@ public class MainActivity extends AppCompatActivity {
             logoutButton.setVisibility(View.VISIBLE);
             userState.setText(R.string.example_app_user_logged_in);
         }
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        accountService.bind();
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        accountService.unbind();
     }
 
     @Override

@@ -38,11 +38,11 @@ class UserPersistenceService : Service() {
 
     override fun onBind(intent: Intent) = ServiceBinder()
 
-    private lateinit var automaticUserPersistence: AutomaticUserPersistence
+    private lateinit var automaticUserPersistence: UserPersistenceReceiver
 
     override fun onCreate() {
         super.onCreate()
-        automaticUserPersistence = AutomaticUserPersistence(applicationContext)
+        automaticUserPersistence = UserPersistenceReceiver(applicationContext)
         automaticUserPersistence.register()
     }
 
