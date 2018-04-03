@@ -9,4 +9,7 @@
     <!--make a text selectable cause problems with maxLines and ellipsize-->
     <issue id="SelectableText" severity="ignore"/>
     <issue id="IconExpectedSize" severity="ignore"/>
+
+    <issue id="GoogleAppIndexingWarning" severity="ignore"/>
+    <issue id="GoogleAppIndexingApiWarning" severity="ignore"/>
 </lint>
