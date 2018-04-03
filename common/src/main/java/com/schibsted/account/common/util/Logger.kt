@@ -29,7 +29,7 @@ object Logger {
         }
     }
 
-    const val DEFAULT_TAG = "IDSDK"
+    const val DEFAULT_TAG = "SCHACC"
 
     @JvmStatic
     var loggingEnabled: Boolean = BuildConfig.DEBUG
