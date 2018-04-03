@@ -1,12 +1,11 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright (c) 2018 Schibsted Products & Technology AS. Licensed under the terms of the MIT license. See LICENSE in the project root.
   -->
 
 <resources>
     <!--Identification-->
     <string name="schacc_identification_title">Kirjaudu sisään tai luo tili</string>
-    <string name="schacc_identification_login_only_title">Login</string>
+    <string name="schacc_identification_login_only_title">Kirjaudu</string>
     <string name="schacc_identification_help_link">https://www.schibstedpayment.com/hc/fi/#faq</string>
     <string name="schacc_identification_help_link_text">Tarvitsetko apua?</string>
 
@@ -19,18 +18,16 @@
     <string name="schacc_email_privacy_information">Emme koskaan anna sähköpostiosoitettasi eteenpäin ilman lupaasi.</string>
     <string name="schacc_email_identification_error">Anna kelvollinen sähköpostiosoite.</string>
     <string name="schacc_email_label">Anna sähköpostiosoitteesi</string>
-    <string name="schacc_email_hint">firstname.lastname@mail.com</string>
     <!--Verification-->
     <string name="schacc_verification_title">Koodi on lähetetty sinulle</string>
-    <string name="schacc_verification_code_label">Vahvistuskoodi</string>
+    <string name="schacc_verification_code_label">Anna koodi</string>
     <string name="schacc_verification_error">Tarkista koodi ja yritä uudelleen.</string>
-    <string name="schacc_verification_resend_code_value">Lähetä uudelleen</string>
+    <string name="schacc_verification_resend_code_value">Lähetä koodi uudelleen</string>
     <string name="schacc_verification_dialog_title">Uusi vahvistuskoodi on lähetetty sinulle</string>
     <string name="schacc_verification_dialog_information">Koodi on lähetetty, vastaanottaja: \n%1$s</string>
     <string name="schacc_verification_dialog_ok">OK</string>
     <string name="schacc_verification_edit_phone_number">Käytä toista puhelinnumeroa</string>
     <string name="schacc_verification_edit_email_address">Käytä toista sähköpostiosoitetta</string>
-    <string name="schacc_identifier_modifier">Et sinä?</string>
     <!--Terms-->
     <string name="schacc_terms_title">Käyttöehdot</string>
     <string name="schacc_terms_sign_up_description">Jotta voit luoda tilin, sinun tulee hyväksyä seuraavat käyttöehdot ja tietosuojalausunnot</string>
@@ -63,7 +60,7 @@
     <string name="schacc_required_fields_birthday_error">@string/schacc_required_fields_birthday_hint</string>
     <!--Password-->
     <string name="schacc_password_change_phone_number">Vaihda puhelinnumero</string>
-    <string name="schacc_password_change_email">Vaihda Sähköpostiosoite</string>
+    <string name="schacc_password_change_email">Vaihda sähköpostiosoite</string>
     <string name="schacc_password_sign_in_label">Kirjoita salasanasi</string>
     <string name="schacc_password_sign_up_label">Valitse salasana</string>
     <string name="schacc_password_error_length">Salasanassa tulee olla vähintään 8 merkkiä.</string>
@@ -82,11 +79,12 @@
     <string name="schacc_web_forgot_password_title">Unohtuiko salasana?</string>
     <string name="schacc_web_need_help_title">Tarvitsetko apua?</string>
     <!--Generic-->
-    <string name="schacc_spid_label">SPiD</string>
+    <string name="schacc_spid_label">Schibsted-tili</string>
     <string name="schacc_next_step">Jatka</string>
     <string name="schacc_welcome_back_title">Tervetuloa takaisin</string>
     <string name="schacc_register_title">Luo tili</string>
     <string name="schacc_ok">OK</string>
+    <string name="schacc_identifier_modifier">Et sinä?</string>
     <!--Generic error messages-->
     <string name="schacc_generic_exception_error_message_title">Jokin meni pieleen!</string>
     <string name="schacc_generic_time_out_error_message">Yhteys on aikakatkaistu. Yritä uudelleen.</string>
@@ -96,8 +94,7 @@
     <string name="schacc_generic_too_many_login_request_error_message">Olet yrittänyt kirjautua sisään liian monta kertaa. Yritä myöhemmin uudelleen.</string>
     <string name="schacc_generic_too_many_inbox_request_error_message">Olet lähettänyt liian monta linkkipyyntöä. Yritä myöhemmin uudelleen.</string>
     <string name="schacc_generic_error">Yritä myöhemmin uudelleen.</string>
-
     <!--System-->
-    <string name="schacc_close">sulje</string>
+    <string name="schacc_close">Sulje</string>
     <string name="schacc_intent_password_sign_up_link_name">signupDeepLink</string>
 </resources>

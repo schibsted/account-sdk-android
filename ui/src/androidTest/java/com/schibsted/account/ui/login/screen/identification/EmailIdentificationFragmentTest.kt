@@ -14,7 +14,6 @@ import com.schibsted.account.ui.UiConfiguration
 import com.schibsted.account.ui.login.flow.passwordless.PasswordlessActivity
 import com.schibsted.spain.barista.assertion.BaristaEnabledAssertions.assertEnabled
 import com.schibsted.spain.barista.assertion.BaristaFocusedAssertions.assertFocused
-import com.schibsted.spain.barista.assertion.BaristaHintAssertions.assertHint
 import com.schibsted.spain.barista.assertion.BaristaVisibilityAssertions.assertContains
 import com.schibsted.spain.barista.assertion.BaristaVisibilityAssertions.assertDisplayed
 import com.schibsted.spain.barista.assertion.BaristaVisibilityAssertions.assertNotDisplayed
@@ -59,11 +58,6 @@ class EmailIdentificationFragmentTest {
     @Test
     fun buttonShouldNotBeVisible() {
         assertNotDisplayed(R.id.identification_button_continue)
-    }
-
-    @Test
-    fun fieldShouldHasAHint() {
-        assertHint(R.id.input, R.string.schacc_email_hint)
     }
 
     @Test

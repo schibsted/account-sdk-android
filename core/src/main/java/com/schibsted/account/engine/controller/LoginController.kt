@@ -4,6 +4,7 @@
 
 package com.schibsted.account.engine.controller
 
+import android.content.Intent
 import android.os.Parcel
 import android.os.Parcelable
 import com.schibsted.account.common.util.readStack
@@ -20,7 +21,9 @@ import com.schibsted.account.model.LoginResult
 import com.schibsted.account.model.NoValue
 import com.schibsted.account.model.error.ClientError
 import com.schibsted.account.network.OIDCScope
+import com.schibsted.account.AccountService
 import com.schibsted.account.session.User
+import com.schibsted.account.Events
 
 /**
  * Controller which administrates the process of a login flow using credentials. This is
@@ -72,9 +75,15 @@ class LoginController @JvmOverloads constructor(private val verifyUser: Boolean,
             }
             super.requestRequiredFields(contract, idLoginStep.user, idLoginStep.missingFields) ?: return
 
-            contract.onFlowReady(CallbackProvider { it.onSuccess(LoginResult(idLoginStep.user, false)) })
+            contract.onFlowReady(CallbackProvider {
+                it.onSuccess(LoginResult(idLoginStep.user, false))
+                AccountService.localBroadcastManager?.sendBroadcast(Intent(Events.ACTION_USER_LOGIN).putExtra(Events.EXTRA_USER, idLoginStep.user))
+            })
         } else {
-            contract.onFlowReady(CallbackProvider { it.onSuccess(LoginResult(idLoginStep.user, false)) })
+            contract.onFlowReady(CallbackProvider {
+                it.onSuccess(LoginResult(idLoginStep.user, false))
+                AccountService.localBroadcastManager?.sendBroadcast(Intent(Events.ACTION_USER_LOGIN).putExtra(Events.EXTRA_USER, idLoginStep.user))
+            })
         }
     }
 

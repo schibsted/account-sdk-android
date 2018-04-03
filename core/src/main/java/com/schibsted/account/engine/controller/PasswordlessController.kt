@@ -4,6 +4,7 @@
 
 package com.schibsted.account.engine.controller
 
+import android.content.Intent
 import android.os.Parcel
 import android.os.Parcelable
 import com.schibsted.account.common.util.readStack
@@ -26,7 +27,9 @@ import com.schibsted.account.model.NoValue
 import com.schibsted.account.model.error.ClientError
 import com.schibsted.account.network.OIDCScope
 import com.schibsted.account.network.response.PasswordlessToken
+import com.schibsted.account.AccountService
 import com.schibsted.account.session.User
+import com.schibsted.account.Events
 import java.util.Locale
 
 /**
@@ -58,9 +61,15 @@ class PasswordlessController @JvmOverloads constructor(private val verifyUser: B
             }
             super.requestRequiredFields(contract, validationStep.user, validationStep.missingFields) ?: return
 
-            contract.onFlowReady(CallbackProvider { it.onSuccess(LoginResult(validationStep.user, idStep.isNewUser)) })
+            contract.onFlowReady(CallbackProvider {
+                it.onSuccess(LoginResult(validationStep.user, idStep.isNewUser))
+                AccountService.localBroadcastManager?.sendBroadcast(Intent(Events.ACTION_USER_LOGIN).putExtra(Events.EXTRA_USER, validationStep.user))
+            })
         } else {
-            contract.onFlowReady(CallbackProvider { it.onSuccess(LoginResult(validationStep.user, idStep.isNewUser)) })
+            contract.onFlowReady(CallbackProvider {
+                it.onSuccess(LoginResult(validationStep.user, idStep.isNewUser))
+                AccountService.localBroadcastManager?.sendBroadcast(Intent(Events.ACTION_USER_LOGIN).putExtra(Events.EXTRA_USER, validationStep.user))
+            })
         }
     }
 

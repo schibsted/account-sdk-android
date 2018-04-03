@@ -32,6 +32,7 @@ import com.schibsted.account.engine.controller.LoginController
 import com.schibsted.account.engine.input.Credentials
 import com.schibsted.account.engine.input.Identifier
 import com.schibsted.account.engine.integration.ResultCallback
+import com.schibsted.account.AccountService
 import com.schibsted.account.session.User
 import com.schibsted.account.ui.KeyboardManager
 import com.schibsted.account.ui.R
@@ -106,9 +107,14 @@ abstract class BaseLoginActivity : AppCompatActivity(), KeyboardManager, Navigat
     protected var isSmartlockRunning = false
 
     internal var smartlock: SmartlockImpl? = null
+    private lateinit var accountService: AccountService
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        accountService = AccountService(applicationContext)
+        lifecycle.addObserver(accountService)
+
         smartlockCredentials = intent.getParcelableExtra(KEY_SMARTLOCK_CREDENTIALS)
 
         initializeUiConfiguration()
