@@ -21,6 +21,8 @@ The currently available UI flows are:
 `AndroidManifest.xml`
 ```xml
 <application>
+    <service android:name="com.schibsted.account.persistence.UserPersistenceService" />
+
     <meta-data
         android:name="schacc_client_name"
         android:value="@string/application_label" />

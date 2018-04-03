@@ -39,6 +39,11 @@ You can also bind a user session to an `OkHttpClient`, so that you can perform a
 ### Persisting user sessions
 The SDK provides the `AccountService` which includes the `UserPersistenceService`. This automates persisting and refreshing the stored user on token updates etc as well as logouts. To use this, you should bind this anywhere where your user is active. 
 
+__Note:__ Remember to add this service to your manifest if you're using the `AccountService`.
+```xml
+<service android:name="com.schibsted.account.persistence.UserPersistenceService" />
+```
+
 __Example__
 
 ```java
