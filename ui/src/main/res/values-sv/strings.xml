@@ -1,14 +1,13 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright (c) 2018 Schibsted Products & Technology AS. Licensed under the terms of the MIT license. See LICENSE in the project root.
   -->
 
 <resources>
     <!--Identification-->
     <string name="schacc_identification_title">Logga in eller skapa konto</string>
-    <string name="schacc_identification_login_only_title">Login</string>
+    <string name="schacc_identification_login_only_title">Logga in</string>
     <string name="schacc_identification_help_link">https://www.schibstedpayment.com/hc/sv/#faq</string>
-    <string name="schacc_identification_help_link_text">Behövs hjälp?</string>
+    <string name="schacc_identification_help_link_text">Behöver du hjälp?</string>
 
     <string name="schacc_mobile_privacy_information">Vi kommer aldrig dela ditt telefonnummer med någon utan ditt medgivande.</string>
     <string name="schacc_mobile_identification_error">Ange ett giltigt telefonnummer.</string>
@@ -19,18 +18,16 @@
     <string name="schacc_email_privacy_information">Vi kommer aldrig att dela din e-postadress med någon utan ditt medgivande.</string>
     <string name="schacc_email_identification_error">Ange en giltig e-postadress.</string>
     <string name="schacc_email_label">Ange din e-postadress</string>
-    <string name="schacc_email_hint">förnamn.efternamn@mail.se</string>
     <!--Verification-->
     <string name="schacc_verification_title">Vi har skickat en kod till dig</string>
-    <string name="schacc_verification_code_label">Verifieringskod</string>
+    <string name="schacc_verification_code_label">Ange din verifieringskod</string>
     <string name="schacc_verification_error">Kontrollera koden och försök igen.</string>
-    <string name="schacc_verification_resend_code_value">Skicka igen</string>
+    <string name="schacc_verification_resend_code_value">Skicka koden igen</string>
     <string name="schacc_verification_dialog_title">Vi har skickat en ny verifieringskod</string>
     <string name="schacc_verification_dialog_information">Koden skickades till: \n%1$s</string>
     <string name="schacc_verification_dialog_ok">OK</string>
     <string name="schacc_verification_edit_phone_number">Använd ett annat telefonnummer</string>
     <string name="schacc_verification_edit_email_address">Använd en annan e-postadress</string>
-    <string name="schacc_identifier_modifier">Inte du?</string>
     <!--Terms-->
     <string name="schacc_terms_title">Användarvillkor</string>
     <string name="schacc_terms_sign_up_description">För att kunna skapa ett konto måste du godkänna följande användarvillkor och sekretesspolicyer</string>
@@ -44,7 +41,7 @@
     <string name="schacc_terms_update_link_label">Läs mer om uppdateringen</string>
     <string name="schacc_accept">Godkänn</string>
     <!--Terms update dialog-->
-    <string name="schacc_terms_update_title">Uppdaterade Användarvillkoren</string>
+    <string name="schacc_terms_update_title">Uppdaterade användarvillkoren</string>
     <!--Required fields-->
     <string name="schacc_required_fields_title">Avsluta</string>
     <string name="schacc_required_fields_description">Fyll i kompleterande uppgifter för din användarprofil</string>
@@ -63,7 +60,7 @@
     <string name="schacc_required_fields_birthday_error">@string/schacc_required_fields_birthday_hint</string>
     <!--Password-->
     <string name="schacc_password_change_phone_number">Ändra telefonnummer</string>
-    <string name="schacc_password_change_email">Ändra E-postadress</string>
+    <string name="schacc_password_change_email">Ändra e-postadress</string>
     <string name="schacc_password_sign_in_label">Ange ditt lösenord</string>
     <string name="schacc_password_sign_up_label">Välj ett lösenord</string>
     <string name="schacc_password_error_length">Ditt lösenord måste ha minst 8 tecken</string>
@@ -80,13 +77,14 @@
     <string name="schacc_inbox_check_inbox_title">Kolla din inkorg</string>
     <!--Web view-->
     <string name="schacc_web_forgot_password_title">Glömt lösenordet?</string>
-    <string name="schacc_web_need_help_title">Behövs hjälp?</string>
+    <string name="schacc_web_need_help_title">Behöver du hjälp?</string>
     <!--Generic-->
-    <string name="schacc_spid_label">SPiD</string>
+    <string name="schacc_spid_label">Schibsted-konto</string>
     <string name="schacc_next_step">Fortsätt</string>
     <string name="schacc_welcome_back_title">Välkommen tillbaka</string>
     <string name="schacc_register_title">Skapa konto</string>
     <string name="schacc_ok">OK</string>
+    <string name="schacc_identifier_modifier">Inte du?</string>
     <!--Generic error messages-->
     <string name="schacc_generic_exception_error_message_title">Någonting gick fel!</string>
     <string name="schacc_generic_time_out_error_message">Uppkopplingen avbröts. Försök igen.</string>
@@ -96,7 +94,6 @@
     <string name="schacc_generic_too_many_login_request_error_message">Du har försökt att logga in för många gånger. Försök igen senare.</string>
     <string name="schacc_generic_too_many_inbox_request_error_message">Du har begärt för många länk. Försök igen senare.</string>
     <string name="schacc_generic_error">Försök igen senare.</string>
-
     <!--System-->
     <string name="schacc_close">Stänga</string>
     <string name="schacc_intent_password_sign_up_link_name">signupDeepLink</string>
