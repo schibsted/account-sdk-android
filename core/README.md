@@ -36,15 +36,38 @@ The user object is responsible for doing user actions like updating profile data
 
 You can also bind a user session to an `OkHttpClient`, so that you can perform authenticated requests. Please read more about this in the [Authenticated requests](#authenticated-requests) section.
 
-### Persisting and resuming sessions
-The SDK does not persist your user sessions automatically, so you need to choose when and which user sessions to persist. Usually this would be when you receive an `onLoginCompleted` event. To persist or resume sessions, you should use the `UserPersistence` class. This provides everything necessary to resume a session and will check if the session is still valid.
+### Persisting user sessions
+The SDK provides the `AccountService` which includes the `UserPersistenceService`. This automates persisting and refreshing the stored user on token updates etc as well as logouts. To use this, you should bind this anywhere where your user is active. 
+
+__Example__
+
+```java
+public class MyActivity extends AppCompatActivity {
+    private AccountService accountService;
+    
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        accountService = new AccountService(getApplicationContext());
+    }
+
+    @Override
+    protected void onStart() {
+        accountService.bind();
+    }
+
+    @Override
+    protected void onStop() {
+        accountService.unbind();
+    }
+}
+```
+
+### Resuming user sessions
+You can manage user sessions by using the `UserPersistence` class. This allows you to resume sessions, remove sessions and manually persist them.
 
 __Example__
 ```java
 UserPersistence persistence = new UserPersistence(getApplicationContext());
-
-// Storing a user
-persistence.persist(user);
 
 // Resuming a specific session
 User resumedUser = persistence.resume("someUserId-123");
@@ -57,17 +80,15 @@ persistence.remove("someUserId-123");
 ```
 
 ### Logging out
-To logout a user, you call the `logout(...)` function on the `User` object. This will invalidate the token with SPiD and your session will no longer be valid. To catch this event, you can listen for the logout event broadcast with the id found in `IdentityEventManager.LOGOUT_EVENT_ID`, you can read more about [listening for events](#listening-for-events).
+To logout a user, you call the `logout(...)` function on the `User` object. This will invalidate the token with SPiD and your session will no longer be valid. The `AccountService` will pick this up and remove the session from persistence.
 
 ## Advanced usage
 
 ### Listening for events
-We are broadcasting events locally in the application, so to listen for events, you are going to need to include the `support-core-utils` library from Google.
-```
-implementation "com.android.support:support-core-utils:<VERSION>"
-```
-
-We will inspect the class path and only broadcast if this is available. Furthermore, you should create an instance of `IdentityEventManager` and keep a reference to this in you main `Application` class. This will ensure that it stays loaded as long as you application is active. Please note that you should pass in the application context, not the application itself. You can now register `BroadcastReceivers` for any event you're interested in. The list of event IDs can be found as static constants in `IdentityEventManager`.
+If you need to respond to events when a user logs in etc, you can register a `BroadcastReceiver` to the `LocalBroadcastManager` to get the event. The event actions are available in the `Events` class
+- User logs in (Extra: User)
+- User logs out (Extra: UserId)
+- User's token refreshes (Extra: User)
 
 ### Authenticated requests
 You can authenticate your requests by binding a session to an `OkHttpClient`. As long as the user session is not logged out, this will manage authentication requests and keep your session alive. To bind a session, you need to provide an `OkHttpClient.Builder` to the User session which we will attach the required interceptor.
