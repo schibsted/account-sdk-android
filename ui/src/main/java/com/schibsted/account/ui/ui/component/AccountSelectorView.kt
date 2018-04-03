@@ -5,6 +5,7 @@
 package com.schibsted.account.ui.ui.component
 
 import android.content.Context
+import android.support.v4.content.ContextCompat
 import android.support.v4.widget.TextViewCompat
 import android.util.AttributeSet
 import android.view.LayoutInflater
@@ -40,7 +41,7 @@ class AccountSelectorView : LinearLayout {
             actionView = ImageView(context)
             with(actionView as ImageView) {
                 setImageResource(R.drawable.schacc_ic_expand_more)
-                setBackgroundColor(android.R.color.transparent)
+                setBackgroundColor(ContextCompat.getColor(context, android.R.color.transparent))
             }
         }
         action_button.addView(actionView)
