@@ -29,7 +29,7 @@
 
     <TextView
         android:id="@+id/example_app_user_state_view"
-        tools:text="Logged as user : 12343434sdfsldfjsclfj3rd"
+        tools:text="Logged in as: Someone"
         android:textIsSelectable="true"
         android:textColor="@color/schacc_black"
         android:layout_width="wrap_content"
@@ -44,7 +44,7 @@
         android:layout_marginRight="8dp" />
 
     <Button
-        android:id="@+id/example_app_logout_button"
+        android:id="@+id/example_app_button"
         android:text="@string/example_app_logout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -56,6 +56,5 @@
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginTop="32dp"
-        android:visibility="gone"
         app:layout_constraintTop_toBottomOf="@+id/example_app_user_state_view" />
 </android.support.constraint.ConstraintLayout>

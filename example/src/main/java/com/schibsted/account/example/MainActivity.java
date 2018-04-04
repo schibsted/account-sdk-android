@@ -16,8 +16,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.schibsted.account.AccountService;
 import com.schibsted.account.Events;
+import com.schibsted.account.engine.integration.ResultCallback;
+import com.schibsted.account.model.error.ClientError;
+import com.schibsted.account.network.response.ProfileData;
+import com.schibsted.account.persistence.UserPersistence;
 import com.schibsted.account.session.User;
 import com.schibsted.account.ui.UiConfiguration;
 import com.schibsted.account.ui.login.BaseLoginActivity;
@@ -26,77 +32,113 @@ import com.schibsted.account.ui.smartlock.SmartlockImpl;
 
 import java.util.Locale;
 
-import static com.schibsted.account.ui.login.BaseLoginActivity.EXTRA_USER;
-
 public class MainActivity extends AppCompatActivity {
     final static int PASSWORD_REQUEST_CODE = 1;
 
     private User user;
     private TextView userState;
-    private Button logoutButton;
-    private LocalBroadcastManager localBroadcastManager;
+    private Button button;
+
     private AccountSdkReceiver accountSdkReceiver;
+    private UiConfiguration uiConfiguration;
 
     @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        userState = findViewById(R.id.example_app_user_state_view);
-        logoutButton = findViewById(R.id.example_app_logout_button);
 
+        userState = findViewById(R.id.example_app_user_state_view);
+        button = findViewById(R.id.example_app_button);
+
+        final TextView sdkVersion = findViewById(R.id.example_app_sdk_version_view);
+        sdkVersion.setText(BuildConfig.VERSION_NAME + " - " + BuildConfig.BUILD_TYPE.toUpperCase(Locale.getDefault()));
+
+        // Bind the AccountService
         final AccountService accountService = new AccountService(getApplicationContext());
         getLifecycle().addObserver(accountService);
 
-
         // Build the UiConfiguration
-        final UiConfiguration uiConfiguration = UiConfiguration.Builder.fromManifest(getApplicationContext())
+        uiConfiguration = UiConfiguration.Builder.fromManifest(getApplicationContext())
                 .enableSignUp()
                 .logo(R.drawable.ic_example_logo)
                 .locale(new Locale("nb", "NO"))
                 .teaserText(getString(R.string.example_teaser_text))
                 .build();
 
-        // Create the intent for the desired flow
-        final Intent passwordIntent = PasswordActivity.getCallingIntent(this, uiConfiguration);
-
-        //To listen for logout events
-        localBroadcastManager = LocalBroadcastManager.getInstance(this);
+        // To listen for logout events (optional)
         accountSdkReceiver = new AccountSdkReceiver();
 
-        //User can be sent through an Intent coming from a deeplink or smartlock
-        if (getIntent().hasExtra(EXTRA_USER)) {
-            user = getIntent().getParcelableExtra(BaseLoginActivity.EXTRA_USER);
-            logoutButton.setVisibility(View.VISIBLE);
-            userState.setText(getString(R.string.example_app_user_logged_in, user.getUserId().getId()));
-        } else if (savedInstanceState == null) {
-            //if the flow wasn't already started, start it.
-            startActivityForResult(passwordIntent, PASSWORD_REQUEST_CODE);
-        }
-
-
-        final TextView sdkVersion = findViewById(R.id.example_app_sdk_version_view);
-        sdkVersion.setText(BuildConfig.VERSION_NAME + " - " + BuildConfig.BUILD_TYPE.toUpperCase(Locale.getDefault()));
-        userState.setText(getString(R.string.example_app_user_logout));
-        logoutButton.setOnClickListener(new View.OnClickListener() {
+        // Attempt to resume any previous sessions
+        new UserPersistence(getApplicationContext()).resumeLast(new ResultCallback<User>() {
             @Override
-            public void onClick(View v) {
-                user.logout(null);
+            public void onSuccess(User result) {
+                user = result;
+                updateUi();
+            }
+
+            @Override
+            public void onError(ClientError error) {
+                user = null;
+                updateUi();
             }
         });
-
     }
+
+    private void updateUi() {
+        if(user != null){
+            userState.setText(getString(R.string.example_app_user_logged_in, "<fetching>"));
+
+            user.getProfile().get(new ResultCallback<ProfileData>() {
+                @Override
+                public void onSuccess(ProfileData result) {
+                    userState.setText(getString(R.string.example_app_user_logged_in, result.getDisplayName()));
+                }
+
+                @Override
+                public void onError(ClientError error) {
+                    Toast.makeText(getApplicationContext(), "Failed to get profile: " + error.getMessage(), Toast.LENGTH_LONG).show();
+                }
+            });
+
+            button.setText("Logout");
+            button.setOnClickListener(logoutListener);
+        } else {
+            userState.setText(getString(R.string.example_app_user_logout));
+            button.setText("Login");
+            button.setOnClickListener(loginListener);
+        }
+    }
+
+    private View.OnClickListener loginListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            // Create the intent for the desired flow
+            final Intent passwordIntent = PasswordActivity.getCallingIntent(getApplicationContext(), uiConfiguration);
+            startActivityForResult(passwordIntent, PASSWORD_REQUEST_CODE);
+        }
+    };
+
+
+    private View.OnClickListener logoutListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            // We want log out the user, but we don't care about the result as we catch this in
+            // our broadcast listener
+            user.logout(null);
+        }
+    };
 
     @Override
     protected void onStart() {
         super.onStart();
-        localBroadcastManager.registerReceiver(accountSdkReceiver, new IntentFilter(Events.ACTION_USER_LOGOUT));
+        LocalBroadcastManager.getInstance(getApplicationContext()).registerReceiver(accountSdkReceiver, new IntentFilter(Events.ACTION_USER_LOGOUT));
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        localBroadcastManager.unregisterReceiver(accountSdkReceiver);
+        LocalBroadcastManager.getInstance(getApplicationContext()).unregisterReceiver(accountSdkReceiver);
     }
 
     @Override
@@ -106,9 +148,8 @@ public class MainActivity extends AppCompatActivity {
             if (resultCode == Activity.RESULT_OK) {
                 // when the flow was performed without any issue, you can get the newly created user.
                 user = data.getParcelableExtra(BaseLoginActivity.EXTRA_USER);
+                updateUi();
 
-                userState.setText(getString(R.string.example_app_user_logged_in, user.getUserId().getId()));
-                logoutButton.setVisibility(View.VISIBLE);
             } else if (resultCode == SmartlockImpl.SMARTLOCK_FAILED) {
                 startActivityForResult(data, PASSWORD_REQUEST_CODE);
             }
@@ -120,8 +161,8 @@ public class MainActivity extends AppCompatActivity {
         public void onReceive(Context context, Intent intent) {
             final String action = intent.getAction();
             if (action != null && action.equals(Events.ACTION_USER_LOGOUT)) {
-                userState.setText(getString(R.string.example_app_user_logout));
-                logoutButton.setVisibility(View.GONE);
+                user = null;
+                updateUi();
             }
         }
     }
