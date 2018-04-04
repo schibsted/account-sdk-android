@@ -69,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
         // To listen for logout events (optional)
         accountSdkReceiver = new AccountSdkReceiver();
 
-        // Attempt to resume any previous sessions
+        // Attempt to resume any previous sessions, that includes sessions coming from deeplink or smartlock
         new UserPersistence(getApplicationContext()).resumeLast(new ResultCallback<User>() {
             @Override
             public void onSuccess(User result) {

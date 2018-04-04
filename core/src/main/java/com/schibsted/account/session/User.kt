@@ -174,6 +174,7 @@ class User(token: UserToken, val isPersistable: Boolean) : Parcelable {
                                 val user = User(token, isPersistable)
                                 user.agreements.ensureAccepted(ResultCallback.fromLambda({ callback.onError(it) }) {
                                     callback.onSuccess(user)
+                                    AccountService.localBroadcastManager?.sendBroadcast(Intent(Events.ACTION_USER_LOGIN).putExtra(Events.EXTRA_USER, user))
                                 })
                             }
                     ))
