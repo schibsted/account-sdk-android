@@ -74,6 +74,7 @@ object ServiceHolder {
     }
 
     fun sessionService(user: User): SessionService {
+
         val service = sessionService
                 ?: SessionService(ClientConfiguration.get().environment, getOrCreateAuthClient(user))
         this.sessionService = service
@@ -82,6 +83,7 @@ object ServiceHolder {
 
     @JvmStatic
     fun resetServices() {
+        authClient = null
         userService = null
         sessionService = null
     }
