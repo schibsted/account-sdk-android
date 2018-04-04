@@ -107,11 +107,13 @@ abstract class BaseLoginActivity : AppCompatActivity(), KeyboardManager, Navigat
     protected var isSmartlockRunning = false
 
     internal var smartlock: SmartlockImpl? = null
+    lateinit var accountService: AccountService
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        accountService = AccountService(applicationContext)
 
-        lifecycle.addObserver(AccountService(applicationContext))
+        lifecycle.addObserver(accountService)
 
         smartlockCredentials = intent.getParcelableExtra(KEY_SMARTLOCK_CREDENTIALS)
 
