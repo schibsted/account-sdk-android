@@ -5,12 +5,12 @@ import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.schibsted.account.session.User;
-import com.schibsted.account.ui.UiHoks;
+import com.schibsted.account.ui.AccountUiHook;
 
-public class App extends Application implements UiHoks {
+public class App extends Application implements AccountUiHook {
     @Override
-    public void onUiClosing(@NonNull User user, @NonNull OnReadyListener onReadyListener) {
+    public void onUiClosing(@NonNull User user, @NonNull OnProceedListener onProceedListener) {
         Log.d("XXX", "IU can see the UIs are closing! " + user.getUserId().getId());
-        onReadyListener.onReady();
+        onProceedListener.proceed();
     }
 }

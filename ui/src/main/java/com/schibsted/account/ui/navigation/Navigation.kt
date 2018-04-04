@@ -13,7 +13,7 @@ import com.schibsted.account.engine.controller.Controller
 import com.schibsted.account.engine.integration.contract.Contract
 import com.schibsted.account.session.User
 import com.schibsted.account.ui.R
-import com.schibsted.account.ui.UiHoks
+import com.schibsted.account.ui.AccountUiHook
 import com.schibsted.account.ui.UiUtil
 import com.schibsted.account.ui.login.BaseLoginActivity
 import com.schibsted.account.ui.login.BaseLoginActivity.Companion.EXTRA_USER
@@ -103,11 +103,11 @@ class Navigation(
     }
 
     fun finishFlow(user: User) {
-        val hooks = (this.activity.application as? UiHoks)
+        val hooks = (this.activity.application as? AccountUiHook)
                 .also { Logger.info("${Logger.DEFAULT_TAG}-NAV", { "Resolving UI hooks: $it" }) }
-                ?: UiHoks.DEFAULT
+                ?: AccountUiHook.DEFAULT
 
-        hooks.onUiClosing(user, UiHoks.OnReadyListener {
+        hooks.onUiClosing(user, AccountUiHook.OnProceedListener {
             if (activity.callingActivity == null) {
                 val intent = activity.packageManager.getLaunchIntentForPackage(activity.application.packageName)
                 intent?.putExtra(EXTRA_USER, user)
