@@ -5,9 +5,10 @@
 <resources>
     <string name="app_name">Account SDK Example</string>
     <string name="application_label">my company name</string>
+    <string name="example_app_login">Login</string>
     <string name="example_app_logout">Logout</string>
     <string name="example_app_user_logged_in">Logged in as: %1$s</string>
-    <string name="example_app_user_logout">User not logged in</string>
+    <string name="example_app_user_logged_out">User not logged in</string>
     <string name="example_teaser_text">Hello and welcome. This is a teaser text limited to three lines which can be customized.</string>
 
     <string name="schacc_redirect_host">host</string>

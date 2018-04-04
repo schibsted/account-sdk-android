@@ -101,11 +101,11 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
 
-            button.setText("Logout");
+            button.setText(R.string.example_app_logout);
             button.setOnClickListener(logoutListener);
         } else {
-            userState.setText(getString(R.string.example_app_user_logout));
-            button.setText("Login");
+            userState.setText(getString(R.string.example_app_user_logged_out));
+            button.setText(R.string.example_app_login);
             button.setOnClickListener(loginListener);
         }
     }
