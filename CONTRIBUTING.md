@@ -9,7 +9,12 @@ The Account SDK for Android is released under the [MIT License](LICENSE). Any co
 ## Practical information
 First of all, you should ensure your environment is set up in compliance with the _ktlint_ style guide. The steps to do this, can be found over at their [Github repo](https://github.com/shyiko/ktlint#option-1-recommended). In our repo, `master` is always the primary branch. To contribute, please make a PR against this branch from your own fork, or another branch if you have write access (which we are happy to grant to contributors).
 
-Commit messages should clearly reflect it's changes and formatted as per https://git-scm.com/book/en/v2/Distributed-Git-Contributing-to-a-Project. 
+Commit messages should clearly reflect it's changes in the format **If applied, this commit will &lt;your changes&gt;>**. Some examples include:
+- Add events hooks to the UI module
+- Fix an issue where token refreshing failed
+- Improve the logging in the AuthInterceptor class
+
+A good example of a commit message can be found over at https://git-scm.com/book/en/v2/Distributed-Git-Contributing-to-a-Project. 
 
 ```
 Short (50 chars or less) summary of changes
