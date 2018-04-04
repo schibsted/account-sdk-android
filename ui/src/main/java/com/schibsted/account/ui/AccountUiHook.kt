@@ -9,7 +9,11 @@ interface AccountUiHook {
         }
     }
 
-    fun onUiClosing(user: User, onProceedListener: OnProceedListener) {
+    fun onLoginCompleted(user: User, onProceedListener: OnProceedListener) {
+        onProceedListener.proceed()
+    }
+
+    fun onLoginAborted(onProceedListener: OnProceedListener) {
         onProceedListener.proceed()
     }
 

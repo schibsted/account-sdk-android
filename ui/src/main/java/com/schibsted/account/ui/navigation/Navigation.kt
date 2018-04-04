@@ -59,7 +59,13 @@ class Navigation(
             }
         }
 
-        activity.finish()
+        val hooks = (this.activity.application as? AccountUiHook)
+                .also { Logger.info("${Logger.DEFAULT_TAG}-NAV", { "Resolving UI hooks: $it" }) }
+                ?: AccountUiHook.DEFAULT
+
+        hooks.onLoginAborted(AccountUiHook.OnProceedListener {
+            activity.finish()
+        })
     }
 
     /**
@@ -107,7 +113,7 @@ class Navigation(
                 .also { Logger.info("${Logger.DEFAULT_TAG}-NAV", { "Resolving UI hooks: $it" }) }
                 ?: AccountUiHook.DEFAULT
 
-        hooks.onUiClosing(user, AccountUiHook.OnProceedListener {
+        hooks.onLoginCompleted(user, AccountUiHook.OnProceedListener {
             if (activity.callingActivity == null) {
                 val intent = activity.packageManager.getLaunchIntentForPackage(activity.application.packageName)
                 intent?.putExtra(EXTRA_USER, user)
