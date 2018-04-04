@@ -6,20 +6,18 @@ package com.schibsted.account.example;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import com.schibsted.account.engine.integration.ResultCallback;
-import com.schibsted.account.model.NoValue;
-import com.schibsted.account.model.error.ClientError;
 import com.schibsted.account.AccountService;
+import com.schibsted.account.Events;
 import com.schibsted.account.session.User;
 import com.schibsted.account.ui.UiConfiguration;
 import com.schibsted.account.ui.login.BaseLoginActivity;
@@ -33,23 +31,25 @@ import static com.schibsted.account.ui.login.BaseLoginActivity.EXTRA_USER;
 public class MainActivity extends AppCompatActivity {
     final static int PASSWORD_REQUEST_CODE = 1;
 
-    private AccountService accountService;
     private User user;
     private TextView userState;
     private Button logoutButton;
+    private LocalBroadcastManager localBroadcastManager;
+    private AccountSdkReceiver accountSdkReceiver;
 
     @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        userState = findViewById(R.id.example_app_user_state_view);
+        logoutButton = findViewById(R.id.example_app_logout_button);
 
-        //_____________________IDENTITY SDK INIT__________________
-
-        accountService = new AccountService(getApplicationContext());
+        final AccountService accountService = new AccountService(getApplicationContext());
         getLifecycle().addObserver(accountService);
 
-        // Get the UiConfiguration
+
+        // Build the UiConfiguration
         final UiConfiguration uiConfiguration = UiConfiguration.Builder.fromManifest(getApplicationContext())
                 .enableSignUp()
                 .logo(R.drawable.ic_example_logo)
@@ -60,49 +60,43 @@ public class MainActivity extends AppCompatActivity {
         // Create the intent for the desired flow
         final Intent passwordIntent = PasswordActivity.getCallingIntent(this, uiConfiguration);
 
-        // Start the flow
-        if (savedInstanceState == null && !getIntent().hasExtra(EXTRA_USER)) {
+        //To listen for logout events
+        localBroadcastManager = LocalBroadcastManager.getInstance(this);
+        accountSdkReceiver = new AccountSdkReceiver();
+
+        //User can be sent through an Intent coming from a deeplink or smartlock
+        if (getIntent().hasExtra(EXTRA_USER)) {
+            user = getIntent().getParcelableExtra(BaseLoginActivity.EXTRA_USER);
+            logoutButton.setVisibility(View.VISIBLE);
+            userState.setText(getString(R.string.example_app_user_logged_in, user.getUserId().getId()));
+        } else if (savedInstanceState == null) {
+            //if the flow wasn't already started, start it.
             startActivityForResult(passwordIntent, PASSWORD_REQUEST_CODE);
         }
 
-        //____________________________________________________
 
         final TextView sdkVersion = findViewById(R.id.example_app_sdk_version_view);
-        userState = findViewById(R.id.example_app_user_state_view);
-        logoutButton = findViewById(R.id.example_app_logout_button);
-
         sdkVersion.setText(BuildConfig.VERSION_NAME + " - " + BuildConfig.BUILD_TYPE.toUpperCase(Locale.getDefault()));
         userState.setText(getString(R.string.example_app_user_logout));
         logoutButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //We want to intentionally logout the user
-                user.logout(new ResultCallback<NoValue>() {
-                    @Override
-                    public void onSuccess(NoValue res) {
-                        userState.setText(getString(R.string.example_app_user_logout));
-                        logoutButton.setVisibility(View.GONE);
-                    }
-
-                    @Override
-                    public void onError(@NonNull ClientError error) {
-                        Toast.makeText(MainActivity.this, error.getErrorType().toString(), Toast.LENGTH_LONG).show();
-                    }
-                });
+                user.logout(null);
             }
         });
+
     }
 
     @Override
-    protected void onPostCreate(@Nullable Bundle savedInstanceState) {
-        super.onPostCreate(savedInstanceState);
-        //User can be sent through an Intent coming from a deeplink
-        user = getIntent().getParcelableExtra(BaseLoginActivity.EXTRA_USER);
+    protected void onStart() {
+        super.onStart();
+        localBroadcastManager.registerReceiver(accountSdkReceiver, new IntentFilter(Events.ACTION_USER_LOGOUT));
+    }
 
-        if (user != null) {
-            logoutButton.setVisibility(View.VISIBLE);
-            userState.setText(R.string.example_app_user_logged_in);
-        }
+    @Override
+    protected void onStop() {
+        super.onStop();
+        localBroadcastManager.unregisterReceiver(accountSdkReceiver);
     }
 
     @Override
@@ -117,6 +111,17 @@ public class MainActivity extends AppCompatActivity {
                 logoutButton.setVisibility(View.VISIBLE);
             } else if (resultCode == SmartlockImpl.SMARTLOCK_FAILED) {
                 startActivityForResult(data, PASSWORD_REQUEST_CODE);
+            }
+        }
+    }
+
+    private class AccountSdkReceiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            final String action = intent.getAction();
+            if (action != null && action.equals(Events.ACTION_USER_LOGOUT)) {
+                userState.setText(getString(R.string.example_app_user_logout));
+                logoutButton.setVisibility(View.GONE);
             }
         }
     }

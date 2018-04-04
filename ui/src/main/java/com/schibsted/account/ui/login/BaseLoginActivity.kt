@@ -25,6 +25,7 @@ import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.ViewTreeObserver
 import android.view.inputmethod.InputMethodManager
+import com.schibsted.account.AccountService
 import com.schibsted.account.common.tracking.TrackingData
 import com.schibsted.account.common.tracking.UiTracking
 import com.schibsted.account.common.util.Logger
@@ -32,7 +33,6 @@ import com.schibsted.account.engine.controller.LoginController
 import com.schibsted.account.engine.input.Credentials
 import com.schibsted.account.engine.input.Identifier
 import com.schibsted.account.engine.integration.ResultCallback
-import com.schibsted.account.AccountService
 import com.schibsted.account.session.User
 import com.schibsted.account.ui.KeyboardManager
 import com.schibsted.account.ui.R
@@ -107,13 +107,11 @@ abstract class BaseLoginActivity : AppCompatActivity(), KeyboardManager, Navigat
     protected var isSmartlockRunning = false
 
     internal var smartlock: SmartlockImpl? = null
-    private lateinit var accountService: AccountService
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        accountService = AccountService(applicationContext)
-        lifecycle.addObserver(accountService)
+        lifecycle.addObserver(AccountService(applicationContext))
 
         smartlockCredentials = intent.getParcelableExtra(KEY_SMARTLOCK_CREDENTIALS)
 
