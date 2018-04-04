@@ -64,7 +64,7 @@ class SmartlockImpl(private val loginActivity: BaseLoginActivity, private val lo
     override fun onFailure() {
         val intent = loginActivity.intent.putExtra(KEY_UI_CONFIGURATION, loginActivity.uiConfiguration.newBuilder().disableSmartlock().build())
         loginActivity.setResult(SMARTLOCK_FAILED, intent)
-        loginActivity.navigationController.finishNavigation()
+        loginActivity.finish()
     }
 
     companion object {
