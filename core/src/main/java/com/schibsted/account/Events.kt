@@ -5,10 +5,10 @@
 package com.schibsted.account
 
 object Events {
-    const val ACTION_USER_LOGIN = "AccountSdkActionUserLogin"
+    internal const val ACTION_USER_LOGIN = "AccountSdkActionUserLogin"
     const val ACTION_USER_LOGOUT = "AccountSdkActionUserLogout"
-    const val ACTION_USER_TOKEN_REFRESH = "AccountSdkActionUserTokenRefresh"
+    internal const val ACTION_USER_TOKEN_REFRESH = "AccountSdkActionUserTokenRefresh"
 
-    const val EXTRA_USER = "AccountSdkExtraUser"
+    internal const val EXTRA_USER = "AccountSdkExtraUser"
     const val EXTRA_USER_ID = "AccountSdkExtraUserId"
 }
