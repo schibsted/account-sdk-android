@@ -73,7 +73,7 @@ public abstract class AbstractIdentificationFragment extends FlowFragment<Identi
 
         if (this.uiConf == null && getContext() != null) {
             this.uiConf = UiConfiguration.Builder.fromManifest(getContext().getApplicationContext()).build();
-            Logger.INSTANCE.warn(Logger.getDEFAULT_TAG(), "AbstractIdentificationFragment: Falling back to UiConfiguration from manifest", null);
+            Logger.warn(Logger.DEFAULT_TAG, "AbstractIdentificationFragment: Falling back to UiConfiguration from manifest");
         }
     }
 

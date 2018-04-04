@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <lint>
     <issue id="IconExpectedSize" severity="ignore"/>
-    <issue id="LogConditional" severity="ignore" />
+    <issue id="MissingRegistered" severity="ignore" />
 </lint>

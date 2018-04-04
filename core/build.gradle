@@ -6,10 +6,6 @@ android {
             consumerProguardFiles "core-rules.pro"
         }
     }
-
-    dexOptions {
-        javaMaxHeapSize "4g"
-    }
 }
 
 androidExtensions {
@@ -24,8 +20,7 @@ dependencies {
     implementation "com.squareup.retrofit2:converter-gson:${libs.retrofit}"
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${libs.kotlin}"
     implementation "org.jetbrains.kotlin:kotlin-reflect:${libs.kotlin}"
-
-    compileOnly "com.android.support:support-core-utils:${libs.support}"
+    implementation "com.android.support:support-core-utils:${libs.support}"
 
     testImplementation "junit:junit:${libs.jUnit}"
     testImplementation "io.kotlintest:kotlintest:${libs.kotlintest}"
