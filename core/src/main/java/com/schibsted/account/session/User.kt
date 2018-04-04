@@ -60,7 +60,6 @@ class User(token: UserToken, val isPersistable: Boolean) : Parcelable {
         val token = this.token
         if (token != null) {
             AccountService.localBroadcastManager?.sendBroadcast(Intent(Events.ACTION_USER_LOGOUT).putExtra(Events.EXTRA_USER_ID, userId))
-
             ServiceHolder.userService(this).logout(token)
                     .enqueue(object : NetworkCallback<Unit>("Logging out user") {
                         override fun onError(error: NetworkError) {
@@ -175,6 +174,7 @@ class User(token: UserToken, val isPersistable: Boolean) : Parcelable {
                                 val user = User(token, isPersistable)
                                 user.agreements.ensureAccepted(ResultCallback.fromLambda({ callback.onError(it) }) {
                                     callback.onSuccess(user)
+                                    AccountService.localBroadcastManager?.sendBroadcast(Intent(Events.ACTION_USER_LOGIN).putExtra(Events.EXTRA_USER, user))
                                 })
                             }
                     ))
