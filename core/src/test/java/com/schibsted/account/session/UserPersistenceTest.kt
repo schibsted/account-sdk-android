@@ -15,15 +15,14 @@ import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.spy
 import com.nhaarman.mockito_kotlin.whenever
 import com.schibsted.account.ClientConfiguration
+import com.schibsted.account.common.util.Logger
 import com.schibsted.account.model.UserToken
 import com.schibsted.account.network.Environment
 import com.schibsted.account.persistence.UserPersistence
 import com.schibsted.account.test.TestUtil
-import com.schibsted.account.common.util.Logger
 import io.kotlintest.matchers.haveSubstring
 import io.kotlintest.matchers.should
 import io.kotlintest.matchers.shouldBe
-import io.kotlintest.matchers.shouldNotBe
 import io.kotlintest.specs.BehaviorSpec
 
 class UserPersistenceTest : BehaviorSpec({
@@ -58,23 +57,6 @@ class UserPersistenceTest : BehaviorSpec({
     doNothing().whenever(userPersistence).clearTokenCompat()
 
     Given("A fresh UserPersistence instance") {
-        When("storing a user which is persistable") {
-            val user = User(UserToken(null, "myUser", "accessToken", "refreshToken", "scope", "type", 123), true)
-            userPersistence.persist(user)
-
-            Then("it should be retrieved successfully using the resumeLast function") {
-                val res = userPersistence.resumeLast()
-                res shouldNotBe null
-                res!!.userId.id shouldBe "myUser"
-            }
-
-            Then("it should be successfully retrieved using the user id") {
-                val res = userPersistence.resume("myUser")
-                res shouldNotBe null
-                res!!.userId.id shouldBe "myUser"
-            }
-        }
-
         When("the user is not persistable") {
             val user = User(UserToken(null, "myUser", "accessToken", "refreshToken", "scope", "type", 123), false)
 

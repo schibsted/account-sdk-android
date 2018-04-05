@@ -4,6 +4,7 @@
 
 package com.schibsted.account.session
 
+import android.content.Context
 import android.content.Intent
 import android.os.Parcel
 import android.os.Parcelable
@@ -23,6 +24,7 @@ import com.schibsted.account.network.InfoInterceptor
 import com.schibsted.account.network.NetworkCallback
 import com.schibsted.account.network.ServiceHolder
 import com.schibsted.account.network.response.TokenResponse
+import com.schibsted.account.persistence.UserPersistence
 import okhttp3.OkHttpClient
 
 /**
@@ -178,6 +180,54 @@ class User(token: UserToken, val isPersistable: Boolean) : Parcelable {
                                 })
                             }
                     ))
+        }
+
+        /**
+         * Resumes the last active user's session. This verifies that the user has accepted terms
+         * and that all required fields are provided. If this fails, onError will be called
+         * @param callback The callback for which to return the result
+         */
+        @JvmStatic
+        fun resumeLastSession(appContext: Context, callback: ResultCallback<User>) {
+            UserPersistence(appContext).resumeLast(callback)
+        }
+
+        /**
+         * Resumes the last active user's session. This verifies that the user has accepted terms
+         * and that all required fields are provided. If this fails, onError will be called. If no
+         * session is found for the user id, onError will be called.
+         * @param userId The ID of the user to resume a session for
+         * @param callback The callback for which to return the result
+         */
+        @JvmStatic
+        fun resumeSession(appContext: Context, userId: String, callback: ResultCallback<User>) {
+            UserPersistence(appContext).resume(userId, callback)
+        }
+
+        /**
+         * Removes the last user's session, causing it not be be able to be resumed. If your purpose is
+         * to to log out the user, call [User.logout] instead.
+         */
+        @JvmStatic
+        fun removeLastSession(appContext: Context) {
+            UserPersistence(appContext).removeLast()
+        }
+
+        /**
+         * Removes a user's session, causing it not be be able to be resumed. If your purpose is
+         * to to log out the user, call [User.logout] instead.
+         */
+        @JvmStatic
+        fun removeSession(appContext: Context, userId: String) {
+            UserPersistence(appContext).remove(userId)
+        }
+
+        /**
+         * Clears all stored user sessions
+         */
+        @JvmStatic
+        fun removeAllSession(appContext: Context) {
+            UserPersistence(appContext).removeAll()
         }
     }
 }
