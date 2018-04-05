@@ -7,12 +7,10 @@ package com.schibsted.account.ui.login.screen.identification.ui
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.text.TextUtils
-import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
-import android.widget.TextView
 import com.schibsted.account.common.util.Logger
 import com.schibsted.account.ui.R
 import com.schibsted.account.ui.UiConfiguration
@@ -26,7 +24,7 @@ class MobileIdentificationFragment : AbstractIdentificationFragment() {
     /**
      * Provides a way to the user to enter his identifier.
      */
-    lateinit var inputFieldView: PhoneInputView
+    private lateinit var inputFieldView: PhoneInputView
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = super.onCreateView(inflater, container, savedInstanceState)
@@ -39,13 +37,13 @@ class MobileIdentificationFragment : AbstractIdentificationFragment() {
         return view
     }
 
-    override fun prefillIdentifier(phoneNumber: String?) {
+    override fun prefillIdentifier(identifier: String?) {
         val tag = Logger.DEFAULT_TAG + "-" + this.javaClass.simpleName
         Logger.info(tag, "Attempting to prefill the phone number")
-        if (phoneNumber.isNullOrEmpty()) {
+        if (identifier.isNullOrEmpty()) {
             Logger.info(tag, "The phone number wasn't found")
         } else {
-            if (TextUtils.isDigitsOnly(phoneNumber)) {
+            if (TextUtils.isDigitsOnly(identifier)) {
                 inputFieldView.setPhonePrefix(uiConf.defaultPhonePrefix)
                 inputFieldView.setPhoneNumber(uiConf.identifier)
                 Logger.info(tag, "The phone number has been prefilled")

@@ -169,8 +169,8 @@ class TermsFragment : FlowFragment<TermsContract.Presenter>(), TermsContract.Vie
     /**
      * take a text then colorize and underline words in order to get a text looking like a link to click on
      *
-     * @param fullText        the text where we have to find the text to colorize
-     * @param color           the color we want to apply
+     * @param fullText the text where we have to find the text to colorize
+     * @param color the color we want to apply
      * @param textToCustomize the text to colorize
      * @return [Spannable] the colorized text
      */
@@ -192,7 +192,7 @@ class TermsFragment : FlowFragment<TermsContract.Presenter>(), TermsContract.Vie
      *
      * @param fullText the original text containing the text to click on
      * @param linkText the text the user has to click on to display the website
-     * @param link     the website link
+     * @param link the website link
      */
     private fun makeTextClickable(fullText: SpannableString, linkText: String, link: String) {
         val pattern = Pattern.compile(linkText, Pattern.CASE_INSENSITIVE)
@@ -213,7 +213,6 @@ class TermsFragment : FlowFragment<TermsContract.Presenter>(), TermsContract.Vie
                 }
 
                 override fun updateDrawState(ds: TextPaint) {
-
                 }
             }, matcher.start(), matcher.end(), Spannable.SPAN_INCLUSIVE_INCLUSIVE)
         }

@@ -7,7 +7,6 @@ package com.schibsted.account.ui.login.screen.identification.ui
 import android.os.Bundle
 import android.os.Parcelable
 import android.support.v4.content.ContextCompat
-import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -25,7 +24,6 @@ import com.schibsted.account.ui.login.screen.identification.IdentificationContra
 import com.schibsted.account.ui.ui.FlowFragment
 import com.schibsted.account.ui.ui.InputField
 import com.schibsted.account.ui.ui.WebFragment
-import com.schibsted.account.ui.ui.component.LoadingButton
 
 /**
  * Abstract class containing the common logic and ui for the identification process
@@ -55,7 +53,7 @@ abstract class AbstractIdentificationFragment : FlowFragment<IdentificationContr
     protected lateinit var identificationPolicy: TextView
 
     private lateinit var linkView: TextView
-    protected var uiConf: UiConfiguration? = null
+    protected lateinit var uiConf: UiConfiguration
 
     override val isActive: Boolean
         get() = isAdded
@@ -69,7 +67,7 @@ abstract class AbstractIdentificationFragment : FlowFragment<IdentificationContr
             }
         }
 
-        if (this.uiConf == null && context != null) {
+        if (!::uiConf.isInitialized && context != null) {
             this.uiConf = UiConfiguration.Builder.fromManifest(context!!.applicationContext).build()
             Logger.warn(Logger.DEFAULT_TAG, "AbstractIdentificationFragment: Falling back to UiConfiguration from manifest")
         }
@@ -89,18 +87,18 @@ abstract class AbstractIdentificationFragment : FlowFragment<IdentificationContr
         linkView = view.findViewById(R.id.help_link)
         linkView.setOnClickListener {
             navigationListener?.let {
-                navigationListener?.onWebViewNavigationRequested(WebFragment.newInstance(getString(R.string.schacc_identification_help_link), uiConf?.redirectUri), LoginScreen.WEB_NEED_HELP_SCREEN)
+                navigationListener?.onWebViewNavigationRequested(WebFragment.newInstance(getString(R.string.schacc_identification_help_link), uiConf.redirectUri), LoginScreen.WEB_NEED_HELP_SCREEN)
                 BaseLoginActivity.tracker?.eventEngagement(TrackingData.Engagement.CLICK, TrackingData.UIElement.HELP, TrackingData.Screen.IDENTIFICATION)
             }
         }
 
-        if (uiConf?.teaserText?.isNotEmpty() == true) {
-            this.teaserText.text = uiConf!!.teaserText
+        if (uiConf.teaserText?.isNotEmpty() == true) {
+            this.teaserText.text = uiConf.teaserText
             this.teaserText.visibility = View.VISIBLE
         }
-        if (uiConf?.clientLogo != 0) {
+        if (uiConf.clientLogo != 0) {
             clientLogo.visibility = View.VISIBLE
-            clientLogo.setImageDrawable(ContextCompat.getDrawable(context!!, uiConf!!.clientLogo))
+            clientLogo.setImageDrawable(ContextCompat.getDrawable(context!!, uiConf.clientLogo))
         } else {
             clientLogo.visibility = View.GONE
             schibstedLogo.layoutParams = clientLogo.layoutParams
@@ -111,13 +109,10 @@ abstract class AbstractIdentificationFragment : FlowFragment<IdentificationContr
 
     protected fun identifyUser(inputField: InputField) {
         BaseLoginActivity.tracker?.eventInteraction(TrackingData.InteractionType.SEND, TrackingData.Screen.IDENTIFICATION)
-        val conf = uiConf
-        conf?.let {
-            identificationPresenter.verifyInput(inputField, conf.identifierType, conf.signUpEnabled, conf.signUpNotAllowedErrorMessage!!)
-        }
+        identificationPresenter.verifyInput(inputField, uiConf.identifierType, uiConf.signUpEnabled, uiConf.signUpNotAllowedErrorMessage)
     }
 
-    protected abstract fun prefillIdentifier(identifier: String)
+    protected abstract fun prefillIdentifier(identifier: String?)
 
     /**
      * ties a presenter to this view
@@ -138,6 +133,6 @@ abstract class AbstractIdentificationFragment : FlowFragment<IdentificationContr
     }
 
     companion object {
-        protected const val KEY_UI_CONF = "UI_CONF"
+        const val KEY_UI_CONF = "UI_CONF"
     }
 }

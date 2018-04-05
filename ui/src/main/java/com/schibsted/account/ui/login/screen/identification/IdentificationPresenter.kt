@@ -25,7 +25,7 @@ import com.schibsted.account.ui.ui.component.PhoneInputView
 class IdentificationPresenter(
         private val identificationView: IdentificationContract.View,
         private val provider: InputProvider<Identifier>?,
-        private val flowSelectionListener: FlowSelectionListener) : IdentificationContract.Presenter {
+        private val flowSelectionListener: FlowSelectionListener?) : IdentificationContract.Presenter {
 
     init {
         identificationView.setPresenter(this)
@@ -51,7 +51,7 @@ class IdentificationPresenter(
         })
     }
 
-    private fun getAccountStatus(identifierType: IdentifierType, input: String?, identifier: InputField, allowSignUp: Boolean, signUpErrorMessage: String) {
+    private fun getAccountStatus(identifierType: IdentifierType, input: String?, identifier: InputField, allowSignUp: Boolean, signUpErrorMessage: String?) {
         val id = Identifier(identifierType, input!!)
         id.getAccountStatus(object : ResultCallback<AccountStatusResponse> {
             override fun onSuccess(result: AccountStatusResponse) {
@@ -67,7 +67,7 @@ class IdentificationPresenter(
                 if (provider == null) { // Having no provider means we have a password flow
                     identificationView.clearField()
                     val flowType = if (result.isAvailable) FlowSelectionListener.FlowType.SIGN_UP else FlowSelectionListener.FlowType.LOGIN
-                    flowSelectionListener.onFlowSelected(flowType, id)
+                    flowSelectionListener?.onFlowSelected(flowType, id)
                 } else { // Otherwise, passwordless
                     identifyUser(identifierType, input, identifier)
                 }
@@ -102,14 +102,13 @@ class IdentificationPresenter(
      * @param identifier [InputField] representing the input
      * @see PhoneInputView.getInput
      */
-    override fun verifyInput(identifier: InputField, identifierType: Identifier.IdentifierType, allowSignup: Boolean, signUpErrorMessage: String) {
+    override fun verifyInput(identifier: InputField, identifierType: Identifier.IdentifierType, allowSignup: Boolean, signUpErrorMessage: String?) {
         if (identificationView.isActive) {
             identificationView.hideError(identifier)
             if (identifier.isInputValid) {
                 identificationView.showProgress()
                 val input = identifier.input
                 getAccountStatus(identifierType, input, identifier, allowSignup, signUpErrorMessage)
-
             } else {
                 BaseLoginActivity.tracker?.let {
                     val event = if (identifierType === Identifier.IdentifierType.SMS) {
@@ -130,9 +129,9 @@ class IdentificationPresenter(
                 error.errorType === ClientError.ErrorType.NETWORK_ERROR -> it.eventError(TrackingData.UIError.NetworkError, TrackingData.Screen.IDENTIFICATION)
                 error.errorType === ClientError.ErrorType.INVALID_EMAIL -> it.eventError(TrackingData.UIError.InvalidEmail, TrackingData.Screen.IDENTIFICATION)
                 error.errorType === ClientError.ErrorType.INVALID_PHONE_NUMBER -> it.eventError(TrackingData.UIError.InvalidPhone, TrackingData.Screen.IDENTIFICATION)
-                else -> { }
+                else -> {
+                }
             }
         }
     }
-
 }

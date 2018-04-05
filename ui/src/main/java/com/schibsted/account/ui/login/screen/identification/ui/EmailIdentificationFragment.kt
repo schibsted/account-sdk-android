@@ -7,13 +7,10 @@ package com.schibsted.account.ui.login.screen.identification.ui
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.text.InputType
-import android.text.TextUtils
-import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
-import android.widget.TextView
 import com.schibsted.account.common.util.Logger
 import com.schibsted.account.ui.R
 import com.schibsted.account.ui.UiConfiguration
@@ -29,7 +26,7 @@ class EmailIdentificationFragment : AbstractIdentificationFragment(), Identifica
     /**
      * Provides a way to the user to enter his identifier.
      */
-    lateinit var inputFieldView: InputFieldView
+    private lateinit var inputFieldView: InputFieldView
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = super.onCreateView(inflater, container, savedInstanceState)
@@ -102,4 +99,3 @@ class EmailIdentificationFragment : AbstractIdentificationFragment(), Identifica
         }
     }
 }
-

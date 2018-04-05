@@ -30,7 +30,7 @@ interface TermsContract {
     }
 
     /**
-     * defines methods implemented by presenters performing terns and conditions business
+     * defines methods implemented by presenters performing terms and conditions business
      *
      * @see com.schibsted.account.ui.login.screen.term.TermsFragment
      */
@@ -40,7 +40,7 @@ interface TermsContract {
          * Depending on the state of checkboxes this method should change the state of the desired [android.view.View]
          *
          * @param privacyBox the state of the privacy checkbox could be checked or unchecked
-         * @param termsBox   the state of the terms checkbox could be checked or unchecked
+         * @param termsBox the state of the terms checkbox could be checked or unchecked
          */
         fun verifyBoxes(privacyBox: CheckBoxView, termsBox: CheckBoxView)
     }

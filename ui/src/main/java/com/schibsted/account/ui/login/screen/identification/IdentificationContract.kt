@@ -29,14 +29,14 @@ interface IdentificationContract {
          * This method should request a navigation to the next step in case of success
          * and should ask the view to show an error if any failure occurs
          *
-         * @param identifier         the identifier use to signup the user, it could be a phone number or
+         * @param identifier the identifier use to signup the user, it could be a phone number or
          * an email address
-         * @param identifierType     the type of verification to perform, this is used to make a call to
+         * @param identifierType the type of verification to perform, this is used to make a call to
          * the server side
-         * @param allowSignup        a flag used to know if the signup option is allowed
+         * @param allowSignup a flag used to know if the signup option is allowed
          * @param signUpErrorMessage an optional error message to show if the user want to signup but it's not allowed
          */
-        fun verifyInput(identifier: InputField, identifierType: IdentifierType, allowSignup: Boolean, signUpErrorMessage: String)
+        fun verifyInput(identifier: InputField, identifierType: IdentifierType, allowSignup: Boolean, signUpErrorMessage: String?)
     }
 
     /**

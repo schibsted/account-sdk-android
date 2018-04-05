@@ -4,7 +4,6 @@
 
 package com.schibsted.account.ui.login.screen.term
 
-
 import com.schibsted.account.common.tracking.TrackingData
 import com.schibsted.account.engine.input.Agreements
 import com.schibsted.account.engine.integration.InputProvider
@@ -30,7 +29,7 @@ class TermsPresenter(private val termsView: TermsContract.View, private val prov
      * Shows errors if `false`
      *
      * @param privacyBox [CheckBoxView]  the privacy checkbox
-     * @param termsBox   [CheckBoxView]  the terms checkbox
+     * @param termsBox [CheckBoxView]  the terms checkbox
      */
     override fun verifyBoxes(privacyBox: CheckBoxView, termsBox: CheckBoxView) {
         if (termsView.isActive) {
