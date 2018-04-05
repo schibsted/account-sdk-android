@@ -123,7 +123,7 @@ class IdentificationPresenter(
             }
         }
     }
-    
+
     private fun trackError(error: ClientError) {
         BaseLoginActivity.tracker?.let {
             when {
