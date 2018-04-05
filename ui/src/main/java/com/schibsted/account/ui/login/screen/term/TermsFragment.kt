@@ -5,6 +5,7 @@
 package com.schibsted.account.ui.login.screen.term
 
 import android.os.Bundle
+import android.os.Parcelable
 import android.support.annotation.ColorRes
 import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
@@ -13,7 +14,6 @@ import android.text.SpannableString
 import android.text.TextPaint
 import android.text.TextUtils
 import android.text.method.LinkMovementMethod
-import android.text.method.MovementMethod
 import android.text.style.ClickableSpan
 import android.text.style.ForegroundColorSpan
 import android.text.style.UnderlineSpan
@@ -22,7 +22,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.CheckBox
 import android.widget.TextView
-import com.schibsted.account.common.tracking.UiTracking
 import com.schibsted.account.common.tracking.TrackingData
 import com.schibsted.account.model.error.ClientError
 import com.schibsted.account.network.response.AgreementLinksResponse
@@ -33,10 +32,7 @@ import com.schibsted.account.ui.login.screen.LoginScreen
 import com.schibsted.account.ui.ui.FlowFragment
 import com.schibsted.account.ui.ui.WebFragment
 import com.schibsted.account.ui.ui.component.CheckBoxView
-import com.schibsted.account.ui.ui.component.LoadingButton
 import com.schibsted.account.ui.ui.component.TermsUpdateDialog
-
-import java.util.regex.Matcher
 import java.util.regex.Pattern
 
 /**
@@ -48,20 +44,20 @@ class TermsFragment : FlowFragment<TermsContract.Presenter>(), TermsContract.Vie
      *
      * @see TermsPresenter
      */
-    private var presenter: TermsContract.Presenter? = null
+    private lateinit var presenter: TermsContract.Presenter
 
     /**
      * [CheckBox] allowing the use to accept terms policy
      */
-    private var termsCheckView: CheckBoxView? = null
+    private lateinit var termsCheckView: CheckBoxView
 
     /**
      * [CheckBox] allowing the use to accept privacy policy
      */
-    private var privacyCheckView: CheckBoxView? = null
+    private lateinit var privacyCheckView: CheckBoxView
 
-    private var agreements: AgreementLinksResponse? = null
-    private var uiConf: UiConfiguration? = null
+    private lateinit var agreements: AgreementLinksResponse
+    private lateinit var uiConf: UiConfiguration
     private var isUserAvailable: Boolean = false
 
     override val isActive: Boolean
@@ -70,16 +66,9 @@ class TermsFragment : FlowFragment<TermsContract.Presenter>(), TermsContract.Vie
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val args = savedInstanceState ?: arguments
-        if (args != null) {
-            if (args.getParcelable<Parcelable>(KEY_UI_CONF) != null) {
-                uiConf = args.get(KEY_UI_CONF) as UiConfiguration
-            }
-
-            if (args.getParcelable<Parcelable>(KEY_LINKS) != null) {
-                agreements = args.getParcelable(KEY_LINKS)
-            }
-            isUserAvailable = args.getBoolean(KEY_USER_AVAILABLE)
-        }
+        args?.get(KEY_UI_CONF)?.let { uiConf = it as UiConfiguration }
+        args?.getParcelable<Parcelable>(KEY_LINKS).let { agreements = it as AgreementLinksResponse }
+        isUserAvailable = args?.getBoolean(KEY_USER_AVAILABLE) ?: false
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -104,24 +93,22 @@ class TermsFragment : FlowFragment<TermsContract.Presenter>(), TermsContract.Vie
 
     private fun initViews(view: View) {
         //find view
-        primaryActionView = view.findViewById<LoadingButton>(R.id.terms_button_continue)
+        primaryActionView = view.findViewById(R.id.terms_button_continue)
         termsCheckView = view.findViewById(R.id.terms_box)
         privacyCheckView = view.findViewById(R.id.privacy_box)
         val updateLinkView = view.findViewById<TextView>(R.id.terms_update_link)
 
         val linkMovementMethod = LinkMovementMethod.getInstance()
-        termsCheckView!!.textView.movementMethod = linkMovementMethod
-        privacyCheckView!!.textView.movementMethod = linkMovementMethod
-        termsCheckView!!.setError(R.string.schacc_terms_terms_error)
-        privacyCheckView!!.setError(R.string.schacc_terms_privacy_error)
+        termsCheckView.textView.movementMethod = linkMovementMethod
+        privacyCheckView.textView.movementMethod = linkMovementMethod
+        termsCheckView.setError(R.string.schacc_terms_terms_error)
+        privacyCheckView.setError(R.string.schacc_terms_privacy_error)
 
         updateLinkView.visibility = if (isUserAvailable) View.GONE else View.VISIBLE
         updateLinkView.setOnClickListener {
-            if (navigationListener != null) {
-                val tracker = BaseLoginActivity.tracker
-                tracker?.eventEngagement(TrackingData.Engagement.CLICK, TrackingData.UIElement.AGREEMENTS_SUMMARY, TrackingData.Screen.AGREEMENTS)
-
-                navigationListener!!.onDialogNavigationRequested(TermsUpdateDialog.newInstance(agreements!!.summaryText))
+            navigationListener?.let {
+                BaseLoginActivity.tracker?.eventEngagement(TrackingData.Engagement.CLICK, TrackingData.UIElement.AGREEMENTS_SUMMARY, TrackingData.Screen.AGREEMENTS)
+                navigationListener?.onDialogNavigationRequested(TermsUpdateDialog.newInstance(agreements.summaryText))
             }
         }
 
@@ -129,10 +116,8 @@ class TermsFragment : FlowFragment<TermsContract.Presenter>(), TermsContract.Vie
         termsDescription.setText(if (isUserAvailable) R.string.schacc_terms_sign_up_description else R.string.schacc_terms_sign_in_description)
 
         primaryActionView.setOnClickListener {
-            val tracker = BaseLoginActivity.tracker
-            tracker?.eventInteraction(TrackingData.InteractionType.SEND, TrackingData.Screen.AGREEMENTS)
-
-            presenter!!.verifyBoxes(termsCheckView!!, privacyCheckView!!)
+            BaseLoginActivity.tracker?.eventInteraction(TrackingData.InteractionType.SEND, TrackingData.Screen.AGREEMENTS)
+            presenter.verifyBoxes(termsCheckView, privacyCheckView)
         }
     }
 
@@ -146,20 +131,20 @@ class TermsFragment : FlowFragment<TermsContract.Presenter>(), TermsContract.Vie
 
         //get data to build texts
         val spidLabel = getString(R.string.schacc_spid_label)
-        val clientLabel = uiConf!!.clientName
+        val clientLabel = uiConf.clientName
         val privacyText: String
         val termsText: String
 
-        if (TextUtils.isEmpty(agreements.clientPrivacyUrl)) {
-            privacyText = getString(R.string.schacc_privacy_policy_spid_only, spidLabel)
+        privacyText = if (TextUtils.isEmpty(agreements.clientPrivacyUrl)) {
+            getString(R.string.schacc_privacy_policy_spid_only, spidLabel)
         } else {
-            privacyText = getString(R.string.schacc_privacy_policy, spidLabel, clientLabel)
+            getString(R.string.schacc_privacy_policy, spidLabel, clientLabel)
         }
 
-        if (TextUtils.isEmpty(agreements.clientTermsUrl)) {
-            termsText = getString(R.string.schacc_terms_policy_spid_only, spidLabel)
+        termsText = if (TextUtils.isEmpty(agreements.clientTermsUrl)) {
+            getString(R.string.schacc_terms_policy_spid_only, spidLabel)
         } else {
-            termsText = getString(R.string.schacc_terms_policy, spidLabel, clientLabel)
+            getString(R.string.schacc_terms_policy, spidLabel, clientLabel)
         }
 
         //build texts
@@ -172,13 +157,13 @@ class TermsFragment : FlowFragment<TermsContract.Presenter>(), TermsContract.Vie
         makeTextClickable(spannableTermsText, spidLabel, agreements.spidTermsUrl)
         makeTextClickable(spannableTermsText, clientLabel, agreements.clientTermsUrl)
         //we assign text to the view
-        termsCheckView!!.textView.text = spannableTermsText
-        privacyCheckView!!.textView.text = spannablePrivacyText
+        termsCheckView.textView.text = spannableTermsText
+        privacyCheckView.textView.text = spannablePrivacyText
     }
 
     override fun onViewStateRestored(savedInstanceState: Bundle?) {
         super.onViewStateRestored(savedInstanceState)
-        setAgreementLinks(agreements!!)
+        setAgreementLinks(agreements)
     }
 
     /**
@@ -215,22 +200,15 @@ class TermsFragment : FlowFragment<TermsContract.Presenter>(), TermsContract.Vie
         if (matcher.find()) {
             fullText.setSpan(object : ClickableSpan() {
                 override fun onClick(widget: View) {
-                    val tracker = BaseLoginActivity.tracker
-                    val element: TrackingData.UIElement
-                    if (tracker != null) {
-                        if (link == agreements!!.spidTermsUrl) {
-                            element = TrackingData.UIElement.AGREEMENTS_SPID
-                        } else if (link == agreements!!.spidPrivacyUrl) {
-                            element = TrackingData.UIElement.PRIVACY_SPID
-                        } else if (link == agreements!!.clientTermsUrl) {
-                            element = TrackingData.UIElement.AGREEMENTS_CLIENT
-                        } else {
-                            element = TrackingData.UIElement.PRIVACY_CLIENT
+                    BaseLoginActivity.tracker?.let {
+                        val element = when (link) {
+                            agreements.spidTermsUrl -> TrackingData.UIElement.AGREEMENTS_SPID
+                            agreements.spidPrivacyUrl -> TrackingData.UIElement.PRIVACY_SPID
+                            agreements.clientTermsUrl -> TrackingData.UIElement.AGREEMENTS_CLIENT
+                            else -> TrackingData.UIElement.PRIVACY_CLIENT
                         }
-
-                        tracker.eventEngagement(TrackingData.Engagement.CLICK, element, TrackingData.Screen.AGREEMENTS)
+                        it.eventEngagement(TrackingData.Engagement.CLICK, element, TrackingData.Screen.AGREEMENTS)
                     }
-
                     requestNavigationToWebView(link)
                 }
 
@@ -257,7 +235,7 @@ class TermsFragment : FlowFragment<TermsContract.Presenter>(), TermsContract.Vie
      */
     override fun requestNavigationToWebView(link: String) {
         if (navigationListener != null) {
-            navigationListener!!.onWebViewNavigationRequested(WebFragment.newInstance(link, uiConf!!.redirectUri), LoginScreen.WEB_TC_SCREEN)
+            navigationListener!!.onWebViewNavigationRequested(WebFragment.newInstance(link, uiConf.redirectUri), LoginScreen.WEB_TC_SCREEN)
         }
     }
 
@@ -267,9 +245,9 @@ class TermsFragment : FlowFragment<TermsContract.Presenter>(), TermsContract.Vie
 
     companion object {
 
-        private val KEY_LINKS = "LINKS"
-        private val KEY_UI_CONF = "UI_CONF"
-        private val KEY_USER_AVAILABLE = "USER_AVAILABLE"
+        private const val KEY_LINKS = "LINKS"
+        private const val KEY_UI_CONF = "UI_CONF"
+        private const val KEY_USER_AVAILABLE = "USER_AVAILABLE"
 
         fun newInstance(uiConfiguration: UiConfiguration, isUserAvailable: Boolean, agreementLinks: AgreementLinksResponse): TermsFragment {
             val fragment = TermsFragment()
