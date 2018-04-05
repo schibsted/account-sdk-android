@@ -23,7 +23,6 @@ import com.schibsted.account.Events;
 import com.schibsted.account.engine.integration.ResultCallback;
 import com.schibsted.account.model.error.ClientError;
 import com.schibsted.account.network.response.ProfileData;
-import com.schibsted.account.persistence.UserPersistence;
 import com.schibsted.account.session.User;
 import com.schibsted.account.ui.UiConfiguration;
 import com.schibsted.account.ui.login.BaseLoginActivity;
@@ -70,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
         accountSdkReceiver = new AccountSdkReceiver();
 
         // Attempt to resume any previous sessions, that includes sessions coming from deeplink or smartlock
-        new UserPersistence(getApplicationContext()).resumeLast(new ResultCallback<User>() {
+        User.resumeLastSession(getApplicationContext(), new ResultCallback<User>() {
             @Override
             public void onSuccess(User result) {
                 user = result;

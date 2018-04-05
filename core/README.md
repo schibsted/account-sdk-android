@@ -70,20 +70,13 @@ public class MyActivity extends AppCompatActivity {
 ```
 
 ### Resuming user sessions
-You can manage user sessions by using the `UserPersistence` class. This allows you to resume sessions, remove sessions and manually persist them.
+You can manage user sessions by using the static functions of the `User` class. Normal use cases are usually limited to resuming sessions, but it's also possible to remove previous sessions or clear all sessions. Please note that if your intention is to log out the user, you should call `user.logout(...)` to ensure the tokens are invalidated with the back-end.
 
 __Example__
 ```java
-UserPersistence persistence = new UserPersistence(getApplicationContext());
+User user = User.resumeSession(context, myUserId, new new ResultCallback<User>() { ... })
 
-// Resuming a specific session
-User resumedUser = persistence.resume("someUserId-123");
-
-// Resuming the last session
-User lastUser = persistence.resumeLast();
-
-// Remove user form persistence (should be done on logout etc)
-persistence.remove("someUserId-123");
+User user = User.resumeLastSession(context, new new ResultCallback<User>() { ... })
 ```
 
 ### Logging out
