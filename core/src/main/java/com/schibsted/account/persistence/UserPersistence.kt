@@ -20,26 +20,10 @@ import com.schibsted.account.model.error.ClientError
  * a specific user's session if required.
  * @param appContext The application context
  */
-class UserPersistence(private val appContext: Context) {
+internal class UserPersistence(private val appContext: Context) {
     internal data class Session(val lastActive: Long, val userId: String, val token: UserToken)
 
     private var sessions: List<Session> by SessionStorageDelegate(appContext, PREFERENCE_FILENAME, SAVED_SESSIONS_KEY)
-
-    /**
-     * Resume a specific user's session. The session will be resumed and the required checks will
-     * be done before a user object is returned through the contract
-     * @param userId The user ID of the session to resume
-     * @return The user object of the resumed session. Can be null
-     */
-    @Deprecated("Deprecated due to GDPR compatibility where we needed to verify that the user had accepted agreements",
-            ReplaceWith("this.resume(userId, object : ResultCallback<User> {})"))
-    fun resume(userId: String): User? {
-        val session = sessions.find { it.userId == userId }
-
-        return session?.let {
-            User(it.token, true)
-        }
-    }
 
     /**
      * Resume a specific user's session. The session will be resumed and the required checks will
@@ -57,21 +41,6 @@ class UserPersistence(private val appContext: Context) {
             user.agreements.ensureAccepted(ResultCallback.fromLambda({ callback.onError(it) }) {
                 callback.onSuccess(user)
             })
-        }
-    }
-
-    /**
-     * Resume the most recently active user session. The session will be resumed and the required checks will
-     * be done before a user object is returned through the contract
-     * @return The user object of the resumed session. Can be null
-     */
-    @Deprecated("Deprecated due to GDPR compatibility where we needed to verify that the user had accepted agreements",
-            ReplaceWith("this.resumeLast(object : ResultCallback<User> {})"))
-    fun resumeLast(): User? {
-        val lastActiveSession = sessions.sortedByDescending { it.lastActive }.firstOrNull()?.token ?: readTokenCompat()
-
-        return lastActiveSession?.let {
-            User(it, true)
         }
     }
 
