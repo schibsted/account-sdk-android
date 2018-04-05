@@ -144,7 +144,7 @@ public class TermsFragment extends FlowFragment<TermsContract.Presenter> impleme
                         tracker.eventEngagement(TrackingData.Engagement.CLICK, TrackingData.UIElement.AGREEMENTS_SUMMARY, TrackingData.Screen.AGREEMENTS);
                     }
 
-                    navigationListener.onDialogNavigationRequested(TermsUpdateDialog.newInstance(agreements.getSummaryText()));
+                    navigationListener.onDialogNavigationRequested(TermsUpdateDialog.newInstance(agreements.getSummary()));
                 }
             }
         });
