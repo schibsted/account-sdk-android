@@ -6,8 +6,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/identification_container"
-    android:theme="@color/schacc_grey"
-    android:layout_height="match_parent"
+    android:windowBackground="@color/schacc_grey"
+    android:layout_height="wrap_content"
     android:layout_width="match_parent">
 
 

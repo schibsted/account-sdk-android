@@ -6,7 +6,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 xmlns:tools="http://schemas.android.com/tools"
                 xmlns:app="http://schemas.android.com/apk/res-auto"
-                style="@style/schacc_container">
+                style="@style/schacc_container.scrollable">
 
     <TextView
         android:id="@+id/required_description"

@@ -14,6 +14,10 @@
         <item name="android:paddingTop">@dimen/schacc_activity_top_padding</item>
     </style>
 
+    <style name="schacc_container.scrollable" parent="schacc_container">
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
     <style name="schacc_NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>

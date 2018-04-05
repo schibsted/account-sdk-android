@@ -6,12 +6,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/identification_container"
-    android:theme="@color/schacc_grey"
-    android:layout_height="match_parent"
+    android:windowBackground="@color/schacc_grey"
+    android:layout_height="wrap_content"
     android:layout_width="match_parent">
 
     <android.support.constraint.ConstraintLayout
-
         android:id="@+id/logos_container"
         android:padding="@dimen/schacc_activity_padding"
         android:paddingBottom="24dp"
@@ -44,21 +43,23 @@
         style="@style/schacc_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="40dp"
-        android:layout_marginRight="40dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginStart="16dp"
         android:ellipsize="none"
         android:maxLines="3"
         android:paddingBottom="20dp"
         android:visibility="gone"
-        android:layout_marginEnd="16dp"
         app:layout_constraintEnd_toEndOf="@+id/logos_container"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce malesuada tristique dolor, vel lacinia justo semper eget. Curabitur non urna non felis tincidunt faucibus at non dui." />
+        app:layout_constraintTop_toBottomOf="@id/logos_container"
+        tools:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce malesuada tristique dolor, vel lacinia justo semper eget. Curabitur non urna non felis tincidunt faucibus at non dui."
+        tools:visibility="visible" />
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:background="@drawable/schacc_rounded_container"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/schacc_teaser_text"
@@ -67,8 +68,7 @@
 
         <android.support.constraint.ConstraintLayout
             style="@style/schacc_container"
-            android:paddingTop="24dp"
-            android:paddingBottom="0dp">
+            android:paddingTop="24dp">
 
             <FrameLayout
                 android:id="@+id/identification_input_view"
