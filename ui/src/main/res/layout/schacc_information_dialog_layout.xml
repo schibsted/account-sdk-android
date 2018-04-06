@@ -30,11 +30,11 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:orientation="vertical"
-            android:paddingBottom="@dimen/schacc_activity_padding"
-            android:paddingEnd="@dimen/schacc_activity_padding"
-            android:paddingLeft="@dimen/schacc_activity_padding"
-            android:paddingRight="@dimen/schacc_activity_padding"
-            android:paddingStart="@dimen/schacc_activity_padding"
+            android:paddingBottom="@dimen/schacc_medium_spacing"
+            android:paddingEnd="@dimen/schacc_medium_spacing"
+            android:paddingLeft="@dimen/schacc_medium_spacing"
+            android:paddingRight="@dimen/schacc_medium_spacing"
+            android:paddingStart="@dimen/schacc_medium_spacing"
             app:layout_constraintTop_toBottomOf="@+id/information_image">
 
             <TextView

@@ -22,9 +22,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/required_description"
-        android:layout_marginTop="@dimen/schacc_activity_top_padding"
+        android:layout_marginTop="@dimen/schacc_extra_large_spacing"
         android:orientation="vertical"
-        android:paddingBottom="@dimen/schacc_activity_top_padding"
+        android:paddingBottom="@dimen/schacc_extra_large_spacing"
         tools:ignore="UnusedIds" />
 
     <com.schibsted.account.ui.ui.component.LoadingButton

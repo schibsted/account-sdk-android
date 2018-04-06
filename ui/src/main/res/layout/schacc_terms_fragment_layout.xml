@@ -22,7 +22,7 @@
         style="@style/schacc_text.link"
         android:textSize="@dimen/schacc_default_text_size"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="@dimen/schacc_medium_spacing"
         android:visibility="gone"
         android:layout_below="@+id/terms_description"
         android:text="@string/schacc_terms_update_link_label"/>
@@ -32,7 +32,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/terms_update_link"
-        android:layout_marginTop="24dp"/>
+        android:layout_marginTop="@dimen/schacc_large_spacing"/>
 
     <com.schibsted.account.ui.ui.component.CheckBoxView
         android:id="@+id/privacy_box"

@@ -8,10 +8,10 @@
     <style name="schacc_container">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">match_parent</item>
-        <item name="android:paddingLeft">@dimen/schacc_activity_padding</item>
-        <item name="android:paddingRight">@dimen/schacc_activity_padding</item>
-        <item name="android:paddingBottom">@dimen/schacc_activity_padding</item>
-        <item name="android:paddingTop">@dimen/schacc_activity_top_padding</item>
+        <item name="android:paddingLeft">@dimen/schacc_medium_spacing</item>
+        <item name="android:paddingRight">@dimen/schacc_medium_spacing</item>
+        <item name="android:paddingBottom">@dimen/schacc_medium_spacing</item>
+        <item name="android:paddingTop">@dimen/schacc_extra_large_spacing</item>
     </style>
 
     <style name="schacc_container.scrollable" parent="schacc_container">
@@ -96,15 +96,15 @@
 
     <style name="schacc_widget.field" parent="schacc_widget">
         <item name="android:background">@drawable/schacc_field_shape</item>
-        <item name="android:paddingLeft">@dimen/schacc_field_padding_horizontal</item>
-        <item name="android:layout_marginBottom">@dimen/schacc_main_button_margin_bottom</item>
+        <item name="android:paddingLeft">@dimen/schacc_medium_spacing</item>
+        <item name="android:layout_marginBottom">@dimen/schacc_large_spacing</item>
     </style>
 
     <style name="schacc_input_field_widget">
         <item name="android:paddingTop">@dimen/schacc_field_padding_vertical</item>
         <item name="android:paddingBottom">@dimen/schacc_field_padding_vertical</item>
-        <item name="android:paddingLeft">@dimen/schacc_field_padding_horizontal</item>
-        <item name="android:paddingRight">@dimen/schacc_field_padding_horizontal</item>
+        <item name="android:paddingLeft">@dimen/schacc_medium_spacing</item>
+        <item name="android:paddingRight">@dimen/schacc_medium_spacing</item>
         <item name="android:background">@drawable/schacc_field_shape_unfocused</item>
         <item name="android:textColor">@color/schacc_black</item>
         <item name="android:textSize">@dimen/schacc_default_text_size</item>

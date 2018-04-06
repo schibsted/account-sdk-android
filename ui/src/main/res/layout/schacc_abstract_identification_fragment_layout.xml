@@ -10,12 +10,11 @@
     android:layout_height="wrap_content"
     android:layout_width="match_parent">
 
-
     <android.support.constraint.ConstraintLayout
 
         android:id="@+id/logos_container"
-        android:padding="@dimen/schacc_activity_padding"
-        android:paddingBottom="24dp"
+        android:padding="@dimen/schacc_medium_spacing"
+        android:paddingBottom="@dimen/schacc_large_spacing"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent">
@@ -35,8 +34,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginEnd="8dp"
-            android:layout_marginRight="8dp"
+            android:layout_marginEnd="@dimen/schacc_small_spacing"
+            android:layout_marginRight="@dimen/schacc_small_spacing"
             app:layout_constraintTop_toTopOf="parent" />
     </android.support.constraint.ConstraintLayout>
 
@@ -45,7 +44,7 @@
         style="@style/schacc_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginRight="16dp"
+        android:layout_marginRight="@dimen/schacc_medium_spacing"
         android:ellipsize="none"
         android:maxLines="3"
         android:paddingBottom="20dp"
@@ -53,10 +52,10 @@
         app:layout_constraintTop_toBottomOf="@id/logos_container"
         tools:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce malesuada tristique dolor, vel lacinia justo semper eget. Curabitur non urna non felis tincidunt faucibus at non dui."
         app:layout_constraintEnd_toEndOf="@+id/logos_container"
-        android:layout_marginEnd="16dp"
+        android:layout_marginEnd="@dimen/schacc_medium_spacing"
         app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginLeft="16dp"
-        android:layout_marginStart="16dp" />
+        android:layout_marginLeft="@dimen/schacc_medium_spacing"
+        android:layout_marginStart="@dimen/schacc_medium_spacing" />
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -70,7 +69,7 @@
         <android.support.constraint.ConstraintLayout
             style="@style/schacc_container"
             android:focusable="true"
-            android:paddingTop="24dp"
+            android:paddingTop="@dimen/schacc_large_spacing"
             android:paddingBottom="0dp">
 
             <FrameLayout
@@ -88,15 +87,15 @@
                 style="@style/schacc_text.secondary"
                 android:layout_marginTop="20dp"
                 android:drawableLeft="@drawable/schacc_ic_lock_outline"
-                android:drawablePadding="16dp"
+                android:drawablePadding="@dimen/schacc_medium_spacing"
                 android:drawableStart="@drawable/schacc_ic_lock_outline"
                 app:layout_constraintTop_toBottomOf="@+id/identification_input_view" />
 
             <TextView
                 android:id="@+id/help_link"
                 style="@style/schacc_text.link"
-                android:layout_marginLeft="40dp"
-                android:layout_marginStart="40dp"
+                android:layout_marginLeft="@dimen/schacc_extra_large_spacing"
+                android:layout_marginStart="@dimen/schacc_extra_large_spacing"
                 android:text="@string/schacc_identification_help_link_text"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/identification_share_policy" />
@@ -108,7 +107,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:text="@string/schacc_next_step"
-                android:layout_marginBottom="16dp" />
+                android:layout_marginBottom="@dimen/schacc_medium_spacing" />
         </android.support.constraint.ConstraintLayout>
     </FrameLayout>
 </android.support.constraint.ConstraintLayout>
