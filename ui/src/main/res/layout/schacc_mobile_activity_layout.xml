@@ -56,12 +56,11 @@
                 android:background="@color/schacc_lightGrey" />
         </android.support.design.widget.AppBarLayout>
 
-        <ScrollView
+        <android.support.v4.widget.NestedScrollView
             android:id="@+id/fragment_container"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:fillViewport="true"
-            tools:ignore="MergeRootFrame" />
+            android:fillViewport="true" />
     </LinearLayout>
 
     <ProgressBar

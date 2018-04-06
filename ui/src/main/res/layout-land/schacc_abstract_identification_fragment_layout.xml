@@ -6,15 +6,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/identification_container"
-    android:theme="@color/schacc_grey"
-    android:layout_height="match_parent"
+    android:windowBackground="@color/schacc_grey"
+    android:layout_height="wrap_content"
     android:layout_width="match_parent">
 
     <android.support.constraint.ConstraintLayout
-
         android:id="@+id/logos_container"
-        android:padding="@dimen/schacc_activity_padding"
-        android:paddingBottom="24dp"
+        android:padding="@dimen/schacc_medium_spacing"
+        android:paddingBottom="@dimen/schacc_extra_large_spacing"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent">
@@ -34,8 +33,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginEnd="8dp"
-            android:layout_marginRight="8dp"
+            android:layout_marginEnd="@dimen/schacc_small_spacing"
+            android:layout_marginRight="@dimen/schacc_small_spacing"
             app:layout_constraintTop_toTopOf="parent" />
     </android.support.constraint.ConstraintLayout>
 
@@ -44,21 +43,23 @@
         style="@style/schacc_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="40dp"
-        android:layout_marginRight="40dp"
+        android:layout_marginEnd="@dimen/schacc_medium_spacing"
+        android:layout_marginLeft="@dimen/schacc_medium_spacing"
+        android:layout_marginRight="@dimen/schacc_medium_spacing"
+        android:layout_marginStart="@dimen/schacc_medium_spacing"
         android:ellipsize="none"
         android:maxLines="3"
         android:paddingBottom="20dp"
         android:visibility="gone"
-        android:layout_marginEnd="16dp"
         app:layout_constraintEnd_toEndOf="@+id/logos_container"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce malesuada tristique dolor, vel lacinia justo semper eget. Curabitur non urna non felis tincidunt faucibus at non dui." />
+        app:layout_constraintTop_toBottomOf="@id/logos_container"
+        tools:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce malesuada tristique dolor, vel lacinia justo semper eget. Curabitur non urna non felis tincidunt faucibus at non dui."
+        tools:visibility="visible" />
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:background="@drawable/schacc_rounded_container"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/schacc_teaser_text"
@@ -67,8 +68,7 @@
 
         <android.support.constraint.ConstraintLayout
             style="@style/schacc_container"
-            android:paddingTop="24dp"
-            android:paddingBottom="0dp">
+            android:paddingTop="@dimen/schacc_extra_large_spacing">
 
             <FrameLayout
                 android:id="@+id/identification_input_view"
@@ -85,15 +85,15 @@
                 style="@style/schacc_text.secondary"
                 android:layout_marginTop="20dp"
                 android:drawableLeft="@drawable/schacc_ic_lock_outline"
-                android:drawablePadding="16dp"
+                android:drawablePadding="@dimen/schacc_medium_spacing"
                 android:drawableStart="@drawable/schacc_ic_lock_outline"
                 app:layout_constraintTop_toBottomOf="@+id/identification_input_view" />
 
             <TextView
                 android:id="@+id/help_link"
                 style="@style/schacc_text.link"
-                android:layout_marginStart="40dp"
-                android:layout_marginLeft="40dp"
+                android:layout_marginStart="@dimen/schacc_extra_large_spacing"
+                android:layout_marginLeft="@dimen/schacc_extra_large_spacing"
                 android:text="@string/schacc_identification_help_link_text"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/identification_share_policy" />
@@ -104,8 +104,8 @@
                 android:layout_height="wrap_content"
                 app:text="@string/schacc_next_step"
                 app:layout_constraintTop_toBottomOf="@+id/help_link"
-                android:layout_marginBottom="16dp"
-                android:layout_marginTop="16dp" />
+                android:layout_marginBottom="@dimen/schacc_medium_spacing"
+                android:layout_marginTop="@dimen/schacc_medium_spacing" />
         </android.support.constraint.ConstraintLayout>
     </FrameLayout>
 </android.support.constraint.ConstraintLayout>
