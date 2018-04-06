@@ -131,7 +131,7 @@ To apply you own color you need to override the following values in your res/col
 ```
 - To change the color of the toolbar itself
 ```
-    <color name="schacc_toolbarIconColor">myColor</color>
+    <color name="schacc_toolbarColor">myColor</color>
 ```
 
 ### Customize the loader color
