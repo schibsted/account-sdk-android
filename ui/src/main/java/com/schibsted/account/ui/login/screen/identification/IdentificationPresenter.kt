@@ -31,8 +31,8 @@ class IdentificationPresenter(
         identificationView.setPresenter(this)
     }
 
-    private fun identifyUser(identifierType: Identifier.IdentifierType, input: String?, identifier: InputField) {
-        provider?.provide(Identifier(identifierType, input!!), object : ResultCallback<NoValue> {
+    private fun identifyUser(identifierType: Identifier.IdentifierType, input: String, identifier: InputField) {
+        provider?.provide(Identifier(identifierType, input), object : ResultCallback<NoValue> {
             override fun onSuccess(result: NoValue) {
                 identificationView.clearField()
             }
@@ -51,8 +51,8 @@ class IdentificationPresenter(
         })
     }
 
-    private fun getAccountStatus(identifierType: IdentifierType, input: String?, identifier: InputField, allowSignUp: Boolean, signUpErrorMessage: String?) {
-        val id = Identifier(identifierType, input!!)
+    private fun getAccountStatus(identifierType: IdentifierType, input: String, identifier: InputField, allowSignUp: Boolean, signUpErrorMessage: String?) {
+        val id = Identifier(identifierType, input)
         id.getAccountStatus(object : ResultCallback<AccountStatusResponse> {
             override fun onSuccess(result: AccountStatusResponse) {
                 BaseLoginActivity.tracker?.let {
@@ -75,7 +75,7 @@ class IdentificationPresenter(
 
             override fun onError(error: ClientError) {
                 if (identificationView.isActive) {
-                    val isSignUpForbidden = error.errorType === ClientError.ErrorType.SIGNUP_FORBIDDEN
+                    val isSignUpForbidden = error.errorType == ClientError.ErrorType.SIGNUP_FORBIDDEN
                     val showDialog = isSignUpForbidden || ErrorUtil.isServerError(error.errorType)
                     if (showDialog) {
                         if (isSignUpForbidden) {
@@ -107,11 +107,10 @@ class IdentificationPresenter(
             identificationView.hideError(identifier)
             if (identifier.isInputValid) {
                 identificationView.showProgress()
-                val input = identifier.input
-                getAccountStatus(identifierType, input, identifier, allowSignup, signUpErrorMessage)
+                identifier.input?.let { getAccountStatus(identifierType, it, identifier, allowSignup, signUpErrorMessage) }
             } else {
                 BaseLoginActivity.tracker?.let {
-                    val event = if (identifierType === Identifier.IdentifierType.SMS) {
+                    val event = if (identifierType == Identifier.IdentifierType.SMS) {
                         TrackingData.UIError.InvalidPhone
                     } else {
                         TrackingData.UIError.InvalidEmail
@@ -126,9 +125,9 @@ class IdentificationPresenter(
     private fun trackError(error: ClientError) {
         BaseLoginActivity.tracker?.let {
             when {
-                error.errorType === ClientError.ErrorType.NETWORK_ERROR -> it.eventError(TrackingData.UIError.NetworkError, TrackingData.Screen.IDENTIFICATION)
-                error.errorType === ClientError.ErrorType.INVALID_EMAIL -> it.eventError(TrackingData.UIError.InvalidEmail, TrackingData.Screen.IDENTIFICATION)
-                error.errorType === ClientError.ErrorType.INVALID_PHONE_NUMBER -> it.eventError(TrackingData.UIError.InvalidPhone, TrackingData.Screen.IDENTIFICATION)
+                error.errorType == ClientError.ErrorType.NETWORK_ERROR -> it.eventError(TrackingData.UIError.NetworkError, TrackingData.Screen.IDENTIFICATION)
+                error.errorType == ClientError.ErrorType.INVALID_EMAIL -> it.eventError(TrackingData.UIError.InvalidEmail, TrackingData.Screen.IDENTIFICATION)
+                error.errorType == ClientError.ErrorType.INVALID_PHONE_NUMBER -> it.eventError(TrackingData.UIError.InvalidPhone, TrackingData.Screen.IDENTIFICATION)
                 else -> {
                 }
             }

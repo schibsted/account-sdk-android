@@ -67,7 +67,7 @@ abstract class AbstractIdentificationFragment : FlowFragment<IdentificationContr
             }
         }
 
-        if (!::uiConf.isInitialized && context != null) {
+        if (!this::uiConf.isInitialized && context != null) {
             this.uiConf = UiConfiguration.Builder.fromManifest(context!!.applicationContext).build()
             Logger.warn(Logger.DEFAULT_TAG, "AbstractIdentificationFragment: Falling back to UiConfiguration from manifest")
         }
