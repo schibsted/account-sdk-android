@@ -13,7 +13,7 @@ The currently available UI flows are:
     - Email or a phone number can be used.
     - A code is sent to verify the user
  * Signup or Login with password
-    - Only email can be user 
+    - Only email can be used 
     - A password is needed to login/sign-up.
 
 ### Configuration
@@ -77,7 +77,7 @@ Once you have initialized the the UI flow, you can start it by calling
 
 ### Get the authenticated user
  To get the `User` back when the flow is successfully finished you have to override `onActivityResult(final int requestCode, final int resultCode, final Intent data)` . Once the flow is finished the `User` can be retrieved by calling
- `data.getParcelableExtra(EXTRA_USER)`. please see the [user-lifecycle]({{ "/guides/user-lifecycle" | relative_url }}) guide for more information about the user.
+ `data.getParcelableExtra(EXTRA_USER)`.
 
 
 ## Tracking
@@ -131,7 +131,7 @@ To apply you own color you need to override the following values in your res/col
 ```
 - To change the color of the toolbar itself
 ```
-    <color name="schacc_toolbarIconColor">myColor</color>
+    <color name="schacc_toolbarColor">myColor</color>
 ```
 
 ### Customize the loader color
@@ -140,3 +140,6 @@ To apply you own color you need to override the following values in your res/col
 ```
     <color name="schacc_progressColor">myColor</color>
 ```
+
+### Hooking UI events
+If you need to perform some additional operations before closing the UIs, you can implement `UiHooks` in your application class. These functions will be called before certain events and will not continue before the `OnProceedListener`'s `proceed` function has been called.

@@ -7,7 +7,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    style="@style/schacc_container">
+    style="@style/schacc_container.scrollable">
 
     <com.schibsted.account.ui.ui.component.AccountSelectorView
         android:id="@+id/identifier_modifier"
@@ -21,7 +21,7 @@
         android:id="@+id/code_label"
         style="@style/schacc_text.label"
         android:layout_below="@id/identifier_modifier"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="@dimen/schacc_large_spacing"
         android:textIsSelectable="true"
         android:text="@string/schacc_verification_code_label"/>
 
@@ -35,12 +35,12 @@
         android:id="@+id/keep_me_logged_in"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="@dimen/schacc_medium_spacing"
         android:layout_below="@+id/verification_code_input_view" />
 
     <com.schibsted.account.ui.ui.component.LoadingButton
         android:id="@+id/mobile_verification_button_continue"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="@dimen/schacc_small_spacing"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/verification_code_input_view"
@@ -51,7 +51,7 @@
         style="@style/schacc_widget.button.secondary"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="@dimen/schacc_medium_spacing"
         android:layout_below="@id/mobile_verification_button_continue"
         android:text="@string/schacc_verification_resend_code_value"/>
 </RelativeLayout>

@@ -1,7 +1,7 @@
-# Identity SDK Core
-This is the core part of the Identity SDK, which simplifies accessing and using the SPiD platform. The core SDK has two responsibilities: Controlling login flows for users and providing easy to use network calls. This provides the login engine, which is used by our UIs and can optionally be used to do custom implementation
+# Account SDK Core
+This is the core part of the Account SDK, which simplifies accessing and using the SPiD platform. The core SDK has two responsibilities: Controlling login flows for users and providing easy to use network calls. This provides the login engine, which is used by our UIs and can optionally be used to do custom implementation
 
-Please note that using the APIs alone is neither recommended or supported by the Identity team. If you choose not to use the controllers, you do so at your own peril. The APIs will not be covered in this readme, but you can have look at the _service package_, which provides Retrofit2 calls for the SPiD APIs.
+Please note that using the APIs alone is neither recommended or supported by the Account team. If you choose not to use the controllers, you do so at your own peril. The APIs will not be covered in this readme, but you can have look at the _service package_, which provides Retrofit2 calls for the SPiD APIs.
 
 
 ## Getting started
@@ -70,20 +70,13 @@ public class MyActivity extends AppCompatActivity {
 ```
 
 ### Resuming user sessions
-You can manage user sessions by using the `UserPersistence` class. This allows you to resume sessions, remove sessions and manually persist them.
+You can manage user sessions by using the static functions of the `User` class. Normal use cases are usually limited to resuming sessions, but it's also possible to remove previous sessions or clear all sessions. Please note that if your intention is to log out the user, you should call `user.logout(...)` to ensure the tokens are invalidated with the back-end.
 
 __Example__
 ```java
-UserPersistence persistence = new UserPersistence(getApplicationContext());
+User user = User.resumeSession(context, myUserId, new new ResultCallback<User>() { ... })
 
-// Resuming a specific session
-User resumedUser = persistence.resume("someUserId-123");
-
-// Resuming the last session
-User lastUser = persistence.resumeLast();
-
-// Remove user form persistence (should be done on logout etc)
-persistence.remove("someUserId-123");
+User user = User.resumeLastSession(context, new new ResultCallback<User>() { ... })
 ```
 
 ### Logging out

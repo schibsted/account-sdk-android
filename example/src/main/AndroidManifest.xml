@@ -8,6 +8,7 @@
     package="com.schibsted.account.example">
 
     <application
+        android:name=".App"
         android:allowBackup="false"
         android:fullBackupContent="false"
         android:icon="@mipmap/ic_launcher"
