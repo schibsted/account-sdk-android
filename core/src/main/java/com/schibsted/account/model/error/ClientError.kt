@@ -8,7 +8,7 @@ import com.schibsted.account.common.util.Logger
 import com.schibsted.account.model.error.ClientError.ErrorType
 
 /**
- * A human readable error, produced by the Identity SDK. The creation of these errors will be logged
+ * A human readable error, produced by the Account SDK. The creation of these errors will be logged
  * when running a debug build. This can be overwritten by setting [Logger.loggingEnabled]
  * @param errorType The [ErrorType] of the error
  * @param message A human readable message of the error
@@ -36,6 +36,7 @@ open class ClientError(val errorType: ErrorType, val message: String) {
         SIGNUP_FORBIDDEN,
 
         TOO_MANY_REQUESTS,
+        TIME_OUT_ERROR,
         UNKNOWN_SPID_ERROR,
 
         NETWORK_ERROR,

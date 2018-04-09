@@ -33,9 +33,11 @@ internal data class NetworkError(val code: Int, val type: String, val descriptio
         code == 401 -> ClientError(ClientError.ErrorType.UNAUTHORIZED, "Invalid access token")
         code == 403 -> ClientError(ClientError.ErrorType.FORBIDDEN, "Client is not authorized to access this API endpoint. Contact SPiD to request access")
         code == 429 && type == "too_many_requests" -> ClientError(ClientError.ErrorType.TOO_MANY_REQUESTS, "Too many requests")
+        code == 503 || code == 504 -> ClientError(ClientError.ErrorType.TIME_OUT_ERROR, "The connection has timed out")
         code == -1 -> when (type) {
             "network_error" -> ClientError(ClientError.ErrorType.NETWORK_ERROR, "A network error occurred")
             "parse_error" -> ClientError(ClientError.ErrorType.UNKNOWN_ERROR, "Response from network request could not be parsed")
+            "time_out_error" -> ClientError(ClientError.ErrorType.TIME_OUT_ERROR, "The connection has timed out")
             else -> unknownSpidError()
         }
         type == "invalid_request" -> when {

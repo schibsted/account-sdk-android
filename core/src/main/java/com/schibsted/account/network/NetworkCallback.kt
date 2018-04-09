@@ -4,13 +4,15 @@
 
 package com.schibsted.account.network
 
+import com.google.gson.JsonSyntaxException
 import com.schibsted.account.common.util.Logger
+import com.schibsted.account.common.util.safeUrl
 import com.schibsted.account.model.error.NetworkError
 import com.schibsted.account.network.response.ApiContainer
-import com.schibsted.account.common.util.safeUrl
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.net.SocketTimeoutException
 
 internal abstract class NetworkCallback<T>(val intent: String) : Callback<T> {
     init {
@@ -18,8 +20,22 @@ internal abstract class NetworkCallback<T>(val intent: String) : Callback<T> {
     }
 
     override fun onFailure(call: Call<T>, t: Throwable) {
-        Logger.error(Logger.DEFAULT_TAG, { "A network error occurred: ${t.message ?: "Unknown"}" }, t)
-        onError(NetworkError(-1, "network_error", t.message ?: "Unknown", call.request().url().toString().safeUrl()))
+        val description = t.message ?: "Unknown"
+        val endpoint = call.request().url().toString().safeUrl()
+
+        Logger.error(Logger.DEFAULT_TAG, { "A network error occurred: $description" }, t)
+
+        when (t) {
+            is JsonSyntaxException -> {
+                onError(NetworkError(-1, "parse_error", description, endpoint))
+            }
+            is SocketTimeoutException -> {
+                onError(NetworkError(-1, "time_out_error", description, endpoint))
+            }
+            else -> {
+                onError(NetworkError(-1, "network_error", description, endpoint))
+            }
+        }
     }
 
     override fun onResponse(call: Call<T>, response: Response<T>) {
