@@ -2,7 +2,7 @@
 
 set -ex
 
-REPO="git@github.schibsted.io:spt-identity/identity-sdk-android.git"
+REPO="git@github.com:schibsted/account-sdk-android.git"
 DIR=temp
 
 # Delete any existing temporary website clone
