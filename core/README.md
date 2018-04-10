@@ -12,22 +12,11 @@ There currently available flows are:
 
 To initialize the login flows you need to implement the corresponding contract, `PasswordlessContract`, `LoginContract` or `SignUpContract`. These contain all the required steps which might be requested by the engine, to which a user must provide additional input. The callbacks themselves receive tasks as parameters, on which you can do different actions, like provide additional fields, accept user agreements etc. 
 
-Once you have implemented the contracts, you should initialize the controller you want to use, i.e. `PasswordlessController` or `LoginController`. To start the login routine, call the `perform(...)` function and the controller will try to perform as many tasks as possible automatically and will prompt the contract if it needs additional input.
+Once you have implemented the contracts, you should initialize the controller you want to use, i.e. `PasswordlessController` or `LoginController`. To start the login routine, call the `start(...)` function and the controller will try to perform as many tasks as possible automatically and will prompt the contract if it needs additional input.
 
 Any errors which occurs when executing a task will will be propagated to the callbacks provided to those actions. 
 
 When the login flow is completed, the `onLoginCompleted` function will be called with your `User` object, which also contains the session.
-
-### Configuration
-To configure the SDK, you are required to have a `schibsted_account.conf` file in your assets. This must contain all values to be able to function. An error will be thrown if the configuration is missing. You can however manually override the configuration if you choose to store your configuration some other way (we'd recommend that you don't store secrets in the manifest).
-
-```yaml
-environment: PRE
-clientId: 58xxxxxxxxxxxxxxxx27
-clientSecret: k8xxxxxxxxxxxxxLm
-```
-
-The environment can be one of `DEV|PRE|PRO|PRO_NORWAY|<CUSTOM_URL>`.
 
 ### Managing user sessions
 After a successful login, you get a `User` object. This object is parcelable, so it will survive rotations etc. Please note that the core SDK does not persist your sessions automatically, but provides a way to persist and resume this. 

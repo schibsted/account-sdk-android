@@ -20,3 +20,16 @@ dependencies {
     implementation "com.schibsted.account:account-sdk-android-pulse:<VERSION>"
 }
 ```
+### SDK setup
+To configure the SDK, you are required to have a `schibsted_account.conf` file in your assets. This must contain all values to be able to function. An error will be thrown if the configuration is missing. You can however manually override the configuration if you choose to store your configuration some other way (we'd recommend that you don't store secrets in the manifest).
+
+```yaml
+environment: PRE
+clientId: 58xxxxxxxxxxxxxxxx27
+clientSecret: k8xxxxxxxxxxxxxLm
+```
+
+The environment can be one of `DEV|PRE|PRO|PRO_NORWAY|<CUSTOM_URL>`.
+
+#### How can I debug my implementation?
+By default, the SDK will output information about any errors which occurs with detailed information about the exception, network request and the context. To see these, please ensure your log level is set to debug for the errors, and to verbose if you want to know the context of them as well as seeing the operations the SDK is performing. You can filter on the `SCHACC` tag in Logcat. The debug mode of the SDK is taken from the `BuildConfig.DEBUG` fields, but can be overwritten by changing the value of `Logger.loggingEnabled` so that you can enable logging in a release version as well.
