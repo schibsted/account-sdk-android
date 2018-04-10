@@ -1,4 +1,3 @@
-# Account SDK Core
 This is the core part of the Account SDK, which simplifies accessing and using the SPiD platform. The core SDK has two responsibilities: Controlling login flows for users and providing easy to use network calls. This provides the login engine, which is used by our UIs and can optionally be used to do custom implementation
 
 Please note that using the APIs alone is neither recommended or supported by the Account team. If you choose not to use the controllers, you do so at your own peril. The APIs will not be covered in this readme, but you can have look at the _service package_, which provides Retrofit2 calls for the SPiD APIs.
