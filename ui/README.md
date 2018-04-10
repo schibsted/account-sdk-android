@@ -1,8 +1,3 @@
----
-layout: docs
-title: Account SDK UI
-sidebar: navigation
----
 This is the UI part of the Account SDK, which provides customizable UI flows. The responsibility of UI flows is to provide an authenticated user back to the client thanks to a prebuilt UI.
 
 __Note:__ You should familiarize yourself with the [Core SDK Readme](https://github.com/schibsted/account-sdk-android/tree/master/core) which covers topics like persisting user sessions, logging out and debugging.
