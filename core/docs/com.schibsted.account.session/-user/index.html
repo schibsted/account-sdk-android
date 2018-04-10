@@ -1,0 +1,189 @@
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>User - core</title>
+<link rel="stylesheet" href="../../../style.css">
+</HEAD>
+<BODY>
+<a href="../../index.html">core</a>&nbsp;/&nbsp;<a href="../index.html">com.schibsted.account.session</a>&nbsp;/&nbsp;<a href="./index.html">User</a><br/>
+<br/>
+<h1>User</h1>
+<code><span class="keyword">class </span><span class="identifier">User</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="https://developer.android.com/reference/android/os/Parcelable.html"><span class="identifier">Parcelable</span></a></code>
+<p>Represents a user and the actions a user can take. Actions are grouped under <em>auth</em>, <em>agreements</em> and <em>profile</em>,</p>
+<h3>Constructors</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="-init-.html">&lt;init&gt;</a></p>
+</td>
+<td>
+<code><span class="identifier">User</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.session.User$<init>(android.os.Parcel)/parcel">parcel</span><span class="symbol">:</span>&nbsp;<a href="https://developer.android.com/reference/android/os/Parcel.html"><span class="identifier">Parcel</span></a><span class="symbol">)</span></code><code><span class="identifier">User</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.session.User$<init>(com.schibsted.account.network.response.TokenResponse, kotlin.Boolean)/token">token</span><span class="symbol">:</span>&nbsp;<a href="../../com.schibsted.account.model/-user-token.html"><span class="identifier">UserToken</span></a><span class="symbol">, </span><span class="identifier" id="com.schibsted.account.session.User$<init>(com.schibsted.account.network.response.TokenResponse, kotlin.Boolean)/isPersistable">isPersistable</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><span class="identifier">Boolean</span></a><span class="symbol">)</span></code>
+<p>Represents a user and the actions a user can take. Actions are grouped under <em>auth</em>, <em>agreements</em> and <em>profile</em>,</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3>Properties</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="agreements.html">agreements</a></p>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">agreements</span><span class="symbol">: </span><a href="../-agreements/index.html"><span class="identifier">Agreements</span></a></code></td>
+</tr>
+<tr>
+<td>
+<p><a href="auth.html">auth</a></p>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">auth</span><span class="symbol">: </span><a href="../-auth/index.html"><span class="identifier">Auth</span></a></code></td>
+</tr>
+<tr>
+<td>
+<p><a href="is-persistable.html">isPersistable</a></p>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">isPersistable</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><span class="identifier">Boolean</span></a></code></td>
+</tr>
+<tr>
+<td>
+<p><a href="profile.html">profile</a></p>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">profile</span><span class="symbol">: </span><a href="../-profile/index.html"><span class="identifier">Profile</span></a></code></td>
+</tr>
+<tr>
+<td>
+<p><a href="user-id.html">userId</a></p>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">userId</span><span class="symbol">: </span><a href="../../com.schibsted.account.model/-user-id/index.html"><span class="identifier">UserId</span></a></code></td>
+</tr>
+</tbody>
+</table>
+<h3>Functions</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="bind.html">bind</a></p>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">bind</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.session.User$bind(okhttp3.OkHttpClient.Builder, kotlin.collections.List((kotlin.String)))/builder">builder</span><span class="symbol">:</span>&nbsp;<span class="identifier">Builder</span><span class="symbol">, </span><span class="identifier" id="com.schibsted.account.session.User$bind(okhttp3.OkHttpClient.Builder, kotlin.collections.List((kotlin.String)))/urls">urls</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html"><span class="identifier">List</span></a><span class="symbol">&lt;</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">&gt;</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Builder</span></code><br/>
+<code><span class="keyword">fun </span><span class="identifier">bind</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.session.User$bind(okhttp3.OkHttpClient.Builder, kotlin.collections.List((kotlin.String)), kotlin.Boolean, kotlin.Boolean)/builder">builder</span><span class="symbol">:</span>&nbsp;<span class="identifier">Builder</span><span class="symbol">, </span><span class="identifier" id="com.schibsted.account.session.User$bind(okhttp3.OkHttpClient.Builder, kotlin.collections.List((kotlin.String)), kotlin.Boolean, kotlin.Boolean)/urls">urls</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html"><span class="identifier">List</span></a><span class="symbol">&lt;</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">&gt;</span><span class="symbol">, </span><span class="identifier" id="com.schibsted.account.session.User$bind(okhttp3.OkHttpClient.Builder, kotlin.collections.List((kotlin.String)), kotlin.Boolean, kotlin.Boolean)/allowNonHttps">allowNonHttps</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><span class="identifier">Boolean</span></a><span class="symbol">, </span><span class="identifier" id="com.schibsted.account.session.User$bind(okhttp3.OkHttpClient.Builder, kotlin.collections.List((kotlin.String)), kotlin.Boolean, kotlin.Boolean)/allowNonWhitelistedDomains">allowNonWhitelistedDomains</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><span class="identifier">Boolean</span></a><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Builder</span></code>
+<p>Bind this session to an <a href="#">OkHttpClient</a>. This will add an interceptor and override any
+authenticators already defined. Any requests not matching the host will be denied.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="describe-contents.html">describeContents</a></p>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">describeContents</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html"><span class="identifier">Int</span></a></code></td>
+</tr>
+<tr>
+<td>
+<p><a href="is-active.html">isActive</a></p>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">isActive</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><span class="identifier">Boolean</span></a></code></td>
+</tr>
+<tr>
+<td>
+<p><a href="logout.html">logout</a></p>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">logout</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.session.User$logout(com.schibsted.account.engine.integration.ResultCallback((com.schibsted.account.model.NoValue)))/callback">callback</span><span class="symbol">:</span>&nbsp;<a href="../../com.schibsted.account.engine.integration/-result-callback/index.html"><span class="identifier">ResultCallback</span></a><span class="symbol">&lt;</span><a href="../../com.schibsted.account.model/-no-value.html"><span class="identifier">NoValue</span></a><span class="symbol">&gt;</span><span class="symbol">?</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code>
+<p>Destroys the current session and removes it's access tokens from SPiD. Attempting to use this
+session afterwards will cause errors</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="write-to-parcel.html">writeToParcel</a></p>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">writeToParcel</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.session.User$writeToParcel(android.os.Parcel, kotlin.Int)/parcel">parcel</span><span class="symbol">:</span>&nbsp;<a href="https://developer.android.com/reference/android/os/Parcel.html"><span class="identifier">Parcel</span></a><span class="symbol">, </span><span class="identifier" id="com.schibsted.account.session.User$writeToParcel(android.os.Parcel, kotlin.Int)/flags">flags</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html"><span class="identifier">Int</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code></td>
+</tr>
+</tbody>
+</table>
+<h3>Companion Object Properties</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="-c-r-e-a-t-o-r.html">CREATOR</a></p>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">CREATOR</span><span class="symbol">: </span><a href="https://developer.android.com/reference/android/os/Parcelable/Creator.html"><span class="identifier">Creator</span></a><span class="symbol">&lt;</span><a href="./index.html"><span class="identifier">User</span></a><span class="symbol">&gt;</span></code></td>
+</tr>
+</tbody>
+</table>
+<h3>Companion Object Functions</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="from-session-code.html">fromSessionCode</a></p>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">fromSessionCode</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.session.User.Companion$fromSessionCode(kotlin.String, kotlin.String, kotlin.Boolean, com.schibsted.account.engine.integration.ResultCallback((com.schibsted.account.session.User)))/code">code</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">, </span><span class="identifier" id="com.schibsted.account.session.User.Companion$fromSessionCode(kotlin.String, kotlin.String, kotlin.Boolean, com.schibsted.account.engine.integration.ResultCallback((com.schibsted.account.session.User)))/redirectUri">redirectUri</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">, </span><span class="identifier" id="com.schibsted.account.session.User.Companion$fromSessionCode(kotlin.String, kotlin.String, kotlin.Boolean, com.schibsted.account.engine.integration.ResultCallback((com.schibsted.account.session.User)))/isPersistable">isPersistable</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><span class="identifier">Boolean</span></a><span class="symbol">, </span><span class="identifier" id="com.schibsted.account.session.User.Companion$fromSessionCode(kotlin.String, kotlin.String, kotlin.Boolean, com.schibsted.account.engine.integration.ResultCallback((com.schibsted.account.session.User)))/callback">callback</span><span class="symbol">:</span>&nbsp;<a href="../../com.schibsted.account.engine.integration/-result-callback/index.html"><span class="identifier">ResultCallback</span></a><span class="symbol">&lt;</span><a href="./index.html"><span class="identifier">User</span></a><span class="symbol">&gt;</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code></td>
+</tr>
+<tr>
+<td>
+<p><a href="remove-all-session.html">removeAllSession</a></p>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">removeAllSession</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.session.User.Companion$removeAllSession(android.content.Context)/appContext">appContext</span><span class="symbol">:</span>&nbsp;<a href="https://developer.android.com/reference/android/content/Context.html"><span class="identifier">Context</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code>
+<p>Clears all stored user sessions</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="remove-last-session.html">removeLastSession</a></p>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">removeLastSession</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.session.User.Companion$removeLastSession(android.content.Context)/appContext">appContext</span><span class="symbol">:</span>&nbsp;<a href="https://developer.android.com/reference/android/content/Context.html"><span class="identifier">Context</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code>
+<p>Removes the last user's session, causing it not be be able to be resumed. If your purpose is
+to to log out the user, call <a href="logout.html">User.logout</a> instead.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="remove-session.html">removeSession</a></p>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">removeSession</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.session.User.Companion$removeSession(android.content.Context, kotlin.String)/appContext">appContext</span><span class="symbol">:</span>&nbsp;<a href="https://developer.android.com/reference/android/content/Context.html"><span class="identifier">Context</span></a><span class="symbol">, </span><span class="identifier" id="com.schibsted.account.session.User.Companion$removeSession(android.content.Context, kotlin.String)/userId">userId</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code>
+<p>Removes a user's session, causing it not be be able to be resumed. If your purpose is
+to to log out the user, call <a href="logout.html">User.logout</a> instead.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="resume-last-session.html">resumeLastSession</a></p>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">resumeLastSession</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.session.User.Companion$resumeLastSession(android.content.Context, com.schibsted.account.engine.integration.ResultCallback((com.schibsted.account.session.User)))/appContext">appContext</span><span class="symbol">:</span>&nbsp;<a href="https://developer.android.com/reference/android/content/Context.html"><span class="identifier">Context</span></a><span class="symbol">, </span><span class="identifier" id="com.schibsted.account.session.User.Companion$resumeLastSession(android.content.Context, com.schibsted.account.engine.integration.ResultCallback((com.schibsted.account.session.User)))/callback">callback</span><span class="symbol">:</span>&nbsp;<a href="../../com.schibsted.account.engine.integration/-result-callback/index.html"><span class="identifier">ResultCallback</span></a><span class="symbol">&lt;</span><a href="./index.html"><span class="identifier">User</span></a><span class="symbol">&gt;</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code>
+<p>Resumes the last active user's session. This verifies that the user has accepted terms
+and that all required fields are provided. If this fails, onError will be called</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="resume-session.html">resumeSession</a></p>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">resumeSession</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.session.User.Companion$resumeSession(android.content.Context, kotlin.String, com.schibsted.account.engine.integration.ResultCallback((com.schibsted.account.session.User)))/appContext">appContext</span><span class="symbol">:</span>&nbsp;<a href="https://developer.android.com/reference/android/content/Context.html"><span class="identifier">Context</span></a><span class="symbol">, </span><span class="identifier" id="com.schibsted.account.session.User.Companion$resumeSession(android.content.Context, kotlin.String, com.schibsted.account.engine.integration.ResultCallback((com.schibsted.account.session.User)))/userId">userId</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">, </span><span class="identifier" id="com.schibsted.account.session.User.Companion$resumeSession(android.content.Context, kotlin.String, com.schibsted.account.engine.integration.ResultCallback((com.schibsted.account.session.User)))/callback">callback</span><span class="symbol">:</span>&nbsp;<a href="../../com.schibsted.account.engine.integration/-result-callback/index.html"><span class="identifier">ResultCallback</span></a><span class="symbol">&lt;</span><a href="./index.html"><span class="identifier">User</span></a><span class="symbol">&gt;</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code>
+<p>Resumes the last active user's session. This verifies that the user has accepted terms
+and that all required fields are provided. If this fails, onError will be called. If no
+session is found for the user id, onError will be called.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</BODY>
+</HTML>

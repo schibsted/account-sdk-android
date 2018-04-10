@@ -1,0 +1,150 @@
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>KeyValueStore - core</title>
+<link rel="stylesheet" href="../../../style.css">
+</HEAD>
+<BODY>
+<a href="../../index.html">core</a>&nbsp;/&nbsp;<a href="../index.html">com.schibsted.account.util</a>&nbsp;/&nbsp;<a href="./index.html">KeyValueStore</a><br/>
+<br/>
+<h1>KeyValueStore</h1>
+<code><span class="keyword">open</span> <span class="keyword">class </span><span class="identifier">KeyValueStore</span></code>
+<p>DAO for sdk-related shared preferences.</p>
+<h3>Constructors</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="-init-.html">&lt;init&gt;</a></p>
+</td>
+<td>
+<code><span class="identifier">KeyValueStore</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.util.KeyValueStore$<init>(android.content.Context)/context">context</span><span class="symbol">:</span>&nbsp;<a href="https://developer.android.com/reference/android/content/Context.html"><span class="identifier">Context</span></a><span class="symbol">)</span></code>
+<p>Constructor.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3>Functions</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="clear.html">clear</a></p>
+</td>
+<td>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">clear</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code>
+<p>Clears all preferences in the file</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="clear-access-token.html">clearAccessToken</a></p>
+</td>
+<td>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">clearAccessToken</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code>
+<p>Clears the currently stored access token.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="read-access-token.html">readAccessToken</a></p>
+</td>
+<td>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">readAccessToken</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="../../com.schibsted.account.network.response/-token-response/index.html"><span class="identifier">TokenResponse</span></a><span class="symbol">?</span></code>
+<p>Reads the stored access token, if a valid one is stored.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="read-access-token-compat.html">readAccessTokenCompat</a></p>
+</td>
+<td>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">readAccessTokenCompat</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.util.KeyValueStore$readAccessTokenCompat(kotlin.String)/clientSecret">clientSecret</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="../../com.schibsted.account.network.response/-token-response/index.html"><span class="identifier">TokenResponse</span></a><span class="symbol">?</span></code>
+<p>Reads the stored access token, if a valid one is stored.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="read-auth-code.html">readAuthCode</a></p>
+</td>
+<td>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">readAuthCode</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">?</span></code>
+<p>Gets the last auth code provided to the sdk</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="read-client-access-token.html">readClientAccessToken</a></p>
+</td>
+<td>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">readClientAccessToken</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="../../com.schibsted.account.network.response/-token-response/index.html"><span class="identifier">TokenResponse</span></a><span class="symbol">?</span></code>
+<p>Reads the stored client token, if a valid one is stored.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="read-connection.html">readConnection</a></p>
+</td>
+<td>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">readConnection</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">?</span></code>
+<p>Gets the currently active connection type</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="read-passwordless-token.html">readPasswordlessToken</a></p>
+</td>
+<td>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">readPasswordlessToken</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="../../com.schibsted.account.network.response/-passwordless-token/index.html"><span class="identifier">PasswordlessToken</span></a><span class="symbol">?</span></code>
+<p>Reads the stored passwordless token, if a valid one is stored.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="write-access-token.html">writeAccessToken</a></p>
+</td>
+<td>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">writeAccessToken</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.util.KeyValueStore$writeAccessToken(com.schibsted.account.network.response.TokenResponse)/jsonWebToken">jsonWebToken</span><span class="symbol">:</span>&nbsp;<a href="../../com.schibsted.account.network.response/-token-response/index.html"><span class="identifier">TokenResponse</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code>
+<p>Stores an access token.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="write-auth-code.html">writeAuthCode</a></p>
+</td>
+<td>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">writeAuthCode</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.util.KeyValueStore$writeAuthCode(kotlin.String)/authCode">authCode</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code>
+<p>Sets the last auth code provided to the sdk</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="write-client-token.html">writeClientToken</a></p>
+</td>
+<td>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">writeClientToken</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.util.KeyValueStore$writeClientToken(com.schibsted.account.network.response.TokenResponse)/clientCredentials">clientCredentials</span><span class="symbol">:</span>&nbsp;<a href="../../com.schibsted.account.network.response/-token-response/index.html"><span class="identifier">TokenResponse</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code>
+<p>Stores a token representing client credentials.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="write-connection.html">writeConnection</a></p>
+</td>
+<td>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">writeConnection</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.util.KeyValueStore$writeConnection(kotlin.String)/connection">connection</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code>
+<p>Writes the currently active connection type</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="write-passwordless-token.html">writePasswordlessToken</a></p>
+</td>
+<td>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">writePasswordlessToken</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.util.KeyValueStore$writePasswordlessToken(com.schibsted.account.network.response.PasswordlessToken)/passwordlessToken">passwordlessToken</span><span class="symbol">:</span>&nbsp;<a href="../../com.schibsted.account.network.response/-passwordless-token/index.html"><span class="identifier">PasswordlessToken</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code>
+<p>Stores a passwordless token.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</BODY>
+</HTML>

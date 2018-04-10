@@ -1,0 +1,21 @@
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>ClientContract.signUp - core</title>
+<link rel="stylesheet" href="../../../style.css">
+</HEAD>
+<BODY>
+<a href="../../index.html">core</a>&nbsp;/&nbsp;<a href="../index.html">com.schibsted.account.network.service.client</a>&nbsp;/&nbsp;<a href="index.html">ClientContract</a>&nbsp;/&nbsp;<a href="./sign-up.html">signUp</a><br/>
+<br/>
+<h1>signUp</h1>
+<a name="com.schibsted.account.network.service.client.ClientContract$signUp(kotlin.String, kotlin.collections.Map((kotlin.String, kotlin.Any)))"></a>
+<code><span class="identifier">@FormUrlEncoded</span> <span class="identifier">@POST</span><span class="symbol">(</span>"api/2/signup"<span class="symbol">)</span> <span class="keyword">abstract</span> <span class="keyword">fun </span><span class="identifier">signUp</span><span class="symbol">(</span><span class="identifier">@Header</span><span class="symbol">(</span>"Authorization"<span class="symbol">)</span> <span class="identifier" id="com.schibsted.account.network.service.client.ClientContract$signUp(kotlin.String, kotlin.collections.Map((kotlin.String, kotlin.Any)))/clientBearer">clientBearer</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">, </span><span class="identifier">@FieldMap</span> <span class="identifier" id="com.schibsted.account.network.service.client.ClientContract$signUp(kotlin.String, kotlin.collections.Map((kotlin.String, kotlin.Any)))/params">params</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-map/index.html"><span class="identifier">Map</span></a><span class="symbol">&lt;</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">,</span>&nbsp;<span class="identifier">@JvmSuppressWildcards</span> <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><span class="identifier">Any</span></a><span class="symbol">&gt;</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Call</span><span class="symbol">&lt;</span><a href="../../com.schibsted.account.network.response/-api-container/index.html"><span class="identifier">ApiContainer</span></a><span class="symbol">&lt;</span><a href="../../com.schibsted.account.network.response/-profile-data/index.html"><span class="identifier">ProfileData</span></a><span class="symbol">&gt;</span><span class="symbol">&gt;</span></code>
+<p>Creates a user and associates it to an e-mail identifier (should it not be associated to any
+yet) and requests the backend to send a confirmation e-mail to it.</p>
+<h3>Parameters</h3>
+<p><a name="params"></a>
+<code>params</code> - The parameters to send along the request.</p>
+<p><strong>Return</strong><br/>
+A representation of the request ready for execution.</p>
+</BODY>
+</HTML>

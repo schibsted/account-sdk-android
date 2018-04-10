@@ -1,0 +1,77 @@
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>com.schibsted.account.network - core</title>
+<link rel="stylesheet" href="../../style.css">
+</HEAD>
+<BODY>
+<a href="../index.html">core</a>&nbsp;/&nbsp;<a href="./index.html">com.schibsted.account.network</a><br/>
+<br/>
+<h2>Package com.schibsted.account.network</h2>
+<h3>Types</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="-auth-interceptor/index.html">AuthInterceptor</a></p>
+</td>
+<td>
+<code><span class="keyword">class </span><span class="identifier">AuthInterceptor</span>&nbsp;<span class="symbol">:</span>&nbsp;<span class="identifier">Interceptor</span></code>
+<p>Creates an interceptor which will do authenticated requests to whitelisted urls. By default, requests to non-whitelisted
+domains will be rejected as well as non-https requests. This can be overridden using <a href="#">allowNonWhitelistedDomains</a> and
+<a href="#">allowNonHttps</a>. Will throw an <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-illegal-argument-exception/index.html">IllegalArgumentException</a> if whitelisted domains are not over HTTPS if non-https is not allowed</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="-info-interceptor/index.html">InfoInterceptor</a></p>
+</td>
+<td>
+<code><span class="keyword">class </span><span class="identifier">InfoInterceptor</span>&nbsp;<span class="symbol">:</span>&nbsp;<span class="identifier">Interceptor</span></code></td>
+</tr>
+<tr>
+<td>
+<p><a href="-service-holder/index.html">ServiceHolder</a></p>
+</td>
+<td>
+<code><span class="keyword">object </span><span class="identifier">ServiceHolder</span></code></td>
+</tr>
+</tbody>
+</table>
+<h3>Annotations</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="-environment/index.html">Environment</a></p>
+</td>
+<td>
+<code><span class="keyword">class </span><span class="identifier">Environment</span></code>
+<p>Contains the set of environments that can be used.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="-o-i-d-c-scope/index.html">OIDCScope</a></p>
+</td>
+<td>
+<code><span class="keyword">class </span><span class="identifier">OIDCScope</span></code>
+<p>Groups together the scopes defined by OpenID Connect supported by the SDK. See <a href="#">OpenID Connect Scope Claims</a>.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3>Exceptions</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="-auth-exception/index.html">AuthException</a></p>
+</td>
+<td>
+<code><span class="keyword">class </span><span class="identifier">AuthException</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="https://developer.android.com/reference/java/io/IOException.html"><span class="identifier">IOException</span></a></code></td>
+</tr>
+</tbody>
+</table>
+</BODY>
+</HTML>

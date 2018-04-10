@@ -1,0 +1,72 @@
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>Profile - core</title>
+<link rel="stylesheet" href="../../../style.css">
+</HEAD>
+<BODY>
+<a href="../../index.html">core</a>&nbsp;/&nbsp;<a href="../index.html">com.schibsted.account.session</a>&nbsp;/&nbsp;<a href="./index.html">Profile</a><br/>
+<br/>
+<h1>Profile</h1>
+<code><span class="keyword">class </span><span class="identifier">Profile</span></code>
+<h3>Constructors</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="-init-.html">&lt;init&gt;</a></p>
+</td>
+<td>
+<code><span class="identifier">Profile</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.session.Profile$<init>(com.schibsted.account.session.User)/user">user</span><span class="symbol">:</span>&nbsp;<a href="../-user/index.html"><span class="identifier">User</span></a><span class="symbol">)</span></code></td>
+</tr>
+</tbody>
+</table>
+<h3>Properties</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="user.html">user</a></p>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">user</span><span class="symbol">: </span><a href="../-user/index.html"><span class="identifier">User</span></a></code></td>
+</tr>
+</tbody>
+</table>
+<h3>Functions</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="get.html">get</a></p>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">get</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.session.Profile$get(com.schibsted.account.engine.integration.ResultCallback((com.schibsted.account.network.response.ProfileData)))/callback">callback</span><span class="symbol">:</span>&nbsp;<a href="../../com.schibsted.account.engine.integration/-result-callback/index.html"><span class="identifier">ResultCallback</span></a><span class="symbol">&lt;</span><a href="../../com.schibsted.account.network.response/-profile-data/index.html"><span class="identifier">ProfileData</span></a><span class="symbol">&gt;</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code></td>
+</tr>
+<tr>
+<td>
+<p><a href="get-account-summary-link.html">getAccountSummaryLink</a></p>
+</td>
+<td>
+<code><span class="keyword">fun </span><s><span class="identifier">getAccountSummaryLink</span></s><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.session.Profile$getAccountSummaryLink(kotlin.String)/redirectURI">redirectURI</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">?</span>&nbsp;<span class="symbol">=</span>&nbsp;null<span class="symbol">)</span><span class="symbol">: </span><a href="https://developer.android.com/reference/java/net/URI.html"><span class="identifier">URI</span></a></code>
+<p>Returns a link to the account summary pages</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="get-missing-fields.html">getMissingFields</a></p>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">getMissingFields</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.session.Profile$getMissingFields(com.schibsted.account.engine.integration.ResultCallback((kotlin.collections.Set((kotlin.String)))))/callback">callback</span><span class="symbol">:</span>&nbsp;<a href="../../com.schibsted.account.engine.integration/-result-callback/index.html"><span class="identifier">ResultCallback</span></a><span class="symbol">&lt;</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-set/index.html"><span class="identifier">Set</span></a><span class="symbol">&lt;</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">&gt;</span><span class="symbol">&gt;</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code></td>
+</tr>
+<tr>
+<td>
+<p><a href="update.html">update</a></p>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">update</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.session.Profile$update(kotlin.collections.Map((kotlin.String, kotlin.Any)), com.schibsted.account.engine.integration.ResultCallback((com.schibsted.account.model.NoValue)))/data">data</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-map/index.html"><span class="identifier">Map</span></a><span class="symbol">&lt;</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">,</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><span class="identifier">Any</span></a><span class="symbol">&gt;</span><span class="symbol">, </span><span class="identifier" id="com.schibsted.account.session.Profile$update(kotlin.collections.Map((kotlin.String, kotlin.Any)), com.schibsted.account.engine.integration.ResultCallback((com.schibsted.account.model.NoValue)))/callback">callback</span><span class="symbol">:</span>&nbsp;<a href="../../com.schibsted.account.engine.integration/-result-callback/index.html"><span class="identifier">ResultCallback</span></a><span class="symbol">&lt;</span><a href="../../com.schibsted.account.model/-no-value.html"><span class="identifier">NoValue</span></a><span class="symbol">&gt;</span><span class="symbol">?</span>&nbsp;<span class="symbol">=</span>&nbsp;null<span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code></td>
+</tr>
+</tbody>
+</table>
+</BODY>
+</HTML>

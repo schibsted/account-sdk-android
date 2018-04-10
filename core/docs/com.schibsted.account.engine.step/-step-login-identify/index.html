@@ -1,0 +1,97 @@
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>StepLoginIdentify - core</title>
+<link rel="stylesheet" href="../../../style.css">
+</HEAD>
+<BODY>
+<a href="../../index.html">core</a>&nbsp;/&nbsp;<a href="../index.html">com.schibsted.account.engine.step</a>&nbsp;/&nbsp;<a href="./index.html">StepLoginIdentify</a><br/>
+<br/>
+<h1>StepLoginIdentify</h1>
+<code><span class="keyword">data</span> <span class="keyword">class </span><span class="identifier">StepLoginIdentify</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../-step/index.html"><span class="identifier">Step</span></a><span class="symbol">, </span><a href="https://developer.android.com/reference/android/os/Parcelable.html"><span class="identifier">Parcelable</span></a></code>
+<h3>Constructors</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="-init-.html">&lt;init&gt;</a></p>
+</td>
+<td>
+<code><span class="identifier">StepLoginIdentify</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.engine.step.StepLoginIdentify$<init>(android.os.Parcel)/source">source</span><span class="symbol">:</span>&nbsp;<a href="https://developer.android.com/reference/android/os/Parcel.html"><span class="identifier">Parcel</span></a><span class="symbol">)</span></code><br/>
+<code><span class="identifier">StepLoginIdentify</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.engine.step.StepLoginIdentify$<init>(com.schibsted.account.engine.input.Credentials, com.schibsted.account.session.User, kotlin.Boolean, kotlin.collections.Set((kotlin.String)), com.schibsted.account.network.response.AgreementLinksResponse)/credentials">credentials</span><span class="symbol">:</span>&nbsp;<a href="../../com.schibsted.account.engine.input/-credentials/index.html"><span class="identifier">Credentials</span></a><span class="symbol">, </span><span class="identifier" id="com.schibsted.account.engine.step.StepLoginIdentify$<init>(com.schibsted.account.engine.input.Credentials, com.schibsted.account.session.User, kotlin.Boolean, kotlin.collections.Set((kotlin.String)), com.schibsted.account.network.response.AgreementLinksResponse)/user">user</span><span class="symbol">:</span>&nbsp;<a href="../../com.schibsted.account.session/-user/index.html"><span class="identifier">User</span></a><span class="symbol">, </span><span class="identifier" id="com.schibsted.account.engine.step.StepLoginIdentify$<init>(com.schibsted.account.engine.input.Credentials, com.schibsted.account.session.User, kotlin.Boolean, kotlin.collections.Set((kotlin.String)), com.schibsted.account.network.response.AgreementLinksResponse)/agreementsAccepted">agreementsAccepted</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><span class="identifier">Boolean</span></a><span class="symbol">, </span><span class="identifier" id="com.schibsted.account.engine.step.StepLoginIdentify$<init>(com.schibsted.account.engine.input.Credentials, com.schibsted.account.session.User, kotlin.Boolean, kotlin.collections.Set((kotlin.String)), com.schibsted.account.network.response.AgreementLinksResponse)/missingFields">missingFields</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-set/index.html"><span class="identifier">Set</span></a><span class="symbol">&lt;</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">&gt;</span><span class="symbol">, </span><span class="identifier" id="com.schibsted.account.engine.step.StepLoginIdentify$<init>(com.schibsted.account.engine.input.Credentials, com.schibsted.account.session.User, kotlin.Boolean, kotlin.collections.Set((kotlin.String)), com.schibsted.account.network.response.AgreementLinksResponse)/agreementLinks">agreementLinks</span><span class="symbol">:</span>&nbsp;<a href="../../com.schibsted.account.network.response/-agreement-links-response/index.html"><span class="identifier">AgreementLinksResponse</span></a><span class="symbol">?</span>&nbsp;<span class="symbol">=</span>&nbsp;null<span class="symbol">)</span></code></td>
+</tr>
+</tbody>
+</table>
+<h3>Properties</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="agreement-links.html">agreementLinks</a></p>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">agreementLinks</span><span class="symbol">: </span><a href="../../com.schibsted.account.network.response/-agreement-links-response/index.html"><span class="identifier">AgreementLinksResponse</span></a><span class="symbol">?</span></code></td>
+</tr>
+<tr>
+<td>
+<p><a href="agreements-accepted.html">agreementsAccepted</a></p>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">agreementsAccepted</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><span class="identifier">Boolean</span></a></code></td>
+</tr>
+<tr>
+<td>
+<p><a href="credentials.html">credentials</a></p>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">credentials</span><span class="symbol">: </span><a href="../../com.schibsted.account.engine.input/-credentials/index.html"><span class="identifier">Credentials</span></a></code></td>
+</tr>
+<tr>
+<td>
+<p><a href="missing-fields.html">missingFields</a></p>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">missingFields</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-set/index.html"><span class="identifier">Set</span></a><span class="symbol">&lt;</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">&gt;</span></code></td>
+</tr>
+<tr>
+<td>
+<p><a href="user.html">user</a></p>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">user</span><span class="symbol">: </span><a href="../../com.schibsted.account.session/-user/index.html"><span class="identifier">User</span></a></code></td>
+</tr>
+</tbody>
+</table>
+<h3>Functions</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="describe-contents.html">describeContents</a></p>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">describeContents</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html"><span class="identifier">Int</span></a></code></td>
+</tr>
+<tr>
+<td>
+<p><a href="write-to-parcel.html">writeToParcel</a></p>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">writeToParcel</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.engine.step.StepLoginIdentify$writeToParcel(android.os.Parcel, kotlin.Int)/dest">dest</span><span class="symbol">:</span>&nbsp;<a href="https://developer.android.com/reference/android/os/Parcel.html"><span class="identifier">Parcel</span></a><span class="symbol">, </span><span class="identifier" id="com.schibsted.account.engine.step.StepLoginIdentify$writeToParcel(android.os.Parcel, kotlin.Int)/flags">flags</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html"><span class="identifier">Int</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code></td>
+</tr>
+</tbody>
+</table>
+<h3>Companion Object Properties</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="-c-r-e-a-t-o-r.html">CREATOR</a></p>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">CREATOR</span><span class="symbol">: </span><a href="https://developer.android.com/reference/android/os/Parcelable/Creator.html"><span class="identifier">Creator</span></a><span class="symbol">&lt;</span><a href="./index.html"><span class="identifier">StepLoginIdentify</span></a><span class="symbol">&gt;</span></code></td>
+</tr>
+</tbody>
+</table>
+</BODY>
+</HTML>

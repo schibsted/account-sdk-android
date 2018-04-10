@@ -1,0 +1,82 @@
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>ClientError - core</title>
+<link rel="stylesheet" href="../../../style.css">
+</HEAD>
+<BODY>
+<a href="../../index.html">core</a>&nbsp;/&nbsp;<a href="../index.html">com.schibsted.account.model.error</a>&nbsp;/&nbsp;<a href="./index.html">ClientError</a><br/>
+<br/>
+<h1>ClientError</h1>
+<code><span class="keyword">open</span> <span class="keyword">class </span><span class="identifier">ClientError</span></code>
+<p>A human readable error, produced by the Account SDK. The creation of these errors will be logged
+when running a debug build. This can be overwritten by setting <a href="#">Logger.loggingEnabled</a></p>
+<h3>Parameters</h3>
+<p><a name="errorType"></a>
+<code>errorType</code> - The <a href="-error-type/index.html">ErrorType</a> of the error</p>
+<p><a name="message"></a>
+<code>message</code> - A human readable message of the error</p>
+<h3>Types</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="-error-type/index.html">ErrorType</a></p>
+</td>
+<td>
+<code><span class="keyword">enum</span> <span class="keyword">class </span><span class="identifier">ErrorType</span></code></td>
+</tr>
+</tbody>
+</table>
+<h3>Constructors</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="-init-.html">&lt;init&gt;</a></p>
+</td>
+<td>
+<code><span class="identifier">ClientError</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.model.error.ClientError$<init>(com.schibsted.account.model.error.ClientError.ErrorType, kotlin.String)/errorType">errorType</span><span class="symbol">:</span>&nbsp;<a href="-error-type/index.html"><span class="identifier">ErrorType</span></a><span class="symbol">, </span><span class="identifier" id="com.schibsted.account.model.error.ClientError$<init>(com.schibsted.account.model.error.ClientError.ErrorType, kotlin.String)/message">message</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">)</span></code>
+<p>A human readable error, produced by the Account SDK. The creation of these errors will be logged
+when running a debug build. This can be overwritten by setting <a href="#">Logger.loggingEnabled</a></p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3>Properties</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="error-type.html">errorType</a></p>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">errorType</span><span class="symbol">: </span><a href="-error-type/index.html"><span class="identifier">ErrorType</span></a></code>
+<p>The <a href="-error-type/index.html">ErrorType</a> of the error</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="message.html">message</a></p>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">message</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a></code>
+<p>A human readable message of the error</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3>Companion Object Properties</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="-u-s-e-r_-l-o-g-g-e-d_-o-u-t_-e-r-r-o-r.html">USER_LOGGED_OUT_ERROR</a></p>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">USER_LOGGED_OUT_ERROR</span><span class="symbol">: </span><a href="./index.html"><span class="identifier">ClientError</span></a></code></td>
+</tr>
+</tbody>
+</table>
+</BODY>
+</HTML>

@@ -1,0 +1,74 @@
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>ClientService - core</title>
+<link rel="stylesheet" href="../../../style.css">
+</HEAD>
+<BODY>
+<a href="../../index.html">core</a>&nbsp;/&nbsp;<a href="../index.html">com.schibsted.account.network.service.client</a>&nbsp;/&nbsp;<a href="./index.html">ClientService</a><br/>
+<br/>
+<h1>ClientService</h1>
+<code><span class="keyword">class </span><span class="identifier">ClientService</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../../com.schibsted.account.network.service/-base-network-service.html"><span class="identifier">BaseNetworkService</span></a></code>
+<p>This network service is used to perform client token based operations</p>
+<h3>Constructors</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="-init-.html">&lt;init&gt;</a></p>
+</td>
+<td>
+<code><span class="identifier">ClientService</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.network.service.client.ClientService$<init>(kotlin.String, okhttp3.OkHttpClient)/environment">environment</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">, </span><span class="identifier" id="com.schibsted.account.network.service.client.ClientService$<init>(kotlin.String, okhttp3.OkHttpClient)/okHttpClient">okHttpClient</span><span class="symbol">:</span>&nbsp;<span class="identifier">OkHttpClient</span><span class="symbol">)</span></code>
+<p>This network service is used to perform client token based operations</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3>Functions</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="get-client-agreements-urls.html">getClientAgreementsUrls</a></p>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">getClientAgreementsUrls</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.network.service.client.ClientService$getClientAgreementsUrls(kotlin.String)/clientId">clientId</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Call</span><span class="symbol">&lt;</span><a href="../../com.schibsted.account.network.response/-api-container/index.html"><span class="identifier">ApiContainer</span></a><span class="symbol">&lt;</span><a href="../../com.schibsted.account.network.response/-agreement-links-response/index.html"><span class="identifier">AgreementLinksResponse</span></a><span class="symbol">&gt;</span><span class="symbol">&gt;</span></code></td>
+</tr>
+<tr>
+<td>
+<p><a href="get-client-info.html">getClientInfo</a></p>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">getClientInfo</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.network.service.client.ClientService$getClientInfo(com.schibsted.account.network.response.TokenResponse, kotlin.String)/clientToken">clientToken</span><span class="symbol">:</span>&nbsp;<a href="../../com.schibsted.account.model/-client-token.html"><span class="identifier">ClientToken</span></a><span class="symbol">, </span><span class="identifier" id="com.schibsted.account.network.service.client.ClientService$getClientInfo(com.schibsted.account.network.response.TokenResponse, kotlin.String)/clientId">clientId</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Call</span><span class="symbol">&lt;</span><a href="../../com.schibsted.account.network.response/-api-container/index.html"><span class="identifier">ApiContainer</span></a><span class="symbol">&lt;</span><a href="../../com.schibsted.account.network.response/-client-info/index.html"><span class="identifier">ClientInfo</span></a><span class="symbol">&gt;</span><span class="symbol">&gt;</span></code></td>
+</tr>
+<tr>
+<td>
+<p><a href="get-email-sign-up-status.html">getEmailSignUpStatus</a></p>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">getEmailSignUpStatus</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.network.service.client.ClientService$getEmailSignUpStatus(com.schibsted.account.network.response.TokenResponse, kotlin.String)/clientToken">clientToken</span><span class="symbol">:</span>&nbsp;<a href="../../com.schibsted.account.model/-client-token.html"><span class="identifier">ClientToken</span></a><span class="symbol">, </span><span class="identifier" id="com.schibsted.account.network.service.client.ClientService$getEmailSignUpStatus(com.schibsted.account.network.response.TokenResponse, kotlin.String)/email">email</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Call</span><span class="symbol">&lt;</span><a href="../../com.schibsted.account.network.response/-api-container/index.html"><span class="identifier">ApiContainer</span></a><span class="symbol">&lt;</span><a href="../../com.schibsted.account.network.response/-account-status-response/index.html"><span class="identifier">AccountStatusResponse</span></a><span class="symbol">&gt;</span><span class="symbol">&gt;</span></code>
+<p>Queries for the signup checkPhoneStatus of an e-mail address.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="get-phone-sign-up-status.html">getPhoneSignUpStatus</a></p>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">getPhoneSignUpStatus</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.network.service.client.ClientService$getPhoneSignUpStatus(com.schibsted.account.network.response.TokenResponse, kotlin.String)/clientToken">clientToken</span><span class="symbol">:</span>&nbsp;<a href="../../com.schibsted.account.model/-client-token.html"><span class="identifier">ClientToken</span></a><span class="symbol">, </span><span class="identifier" id="com.schibsted.account.network.service.client.ClientService$getPhoneSignUpStatus(com.schibsted.account.network.response.TokenResponse, kotlin.String)/phone">phone</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Call</span><span class="symbol">&lt;</span><a href="../../com.schibsted.account.network.response/-api-container/index.html"><span class="identifier">ApiContainer</span></a><span class="symbol">&lt;</span><a href="../../com.schibsted.account.network.response/-account-status-response/index.html"><span class="identifier">AccountStatusResponse</span></a><span class="symbol">&gt;</span><span class="symbol">&gt;</span></code>
+<p>Queries for the signup checkPhoneStatus of a phone number.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="sign-up.html">signUp</a></p>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">signUp</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.network.service.client.ClientService$signUp(com.schibsted.account.network.response.TokenResponse, kotlin.String, kotlin.String, kotlin.collections.Map((kotlin.String, kotlin.Any)))/clientToken">clientToken</span><span class="symbol">:</span>&nbsp;<a href="../../com.schibsted.account.model/-client-token.html"><span class="identifier">ClientToken</span></a><span class="symbol">, </span><span class="identifier" id="com.schibsted.account.network.service.client.ClientService$signUp(com.schibsted.account.network.response.TokenResponse, kotlin.String, kotlin.String, kotlin.collections.Map((kotlin.String, kotlin.Any)))/email">email</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">, </span><span class="identifier" id="com.schibsted.account.network.service.client.ClientService$signUp(com.schibsted.account.network.response.TokenResponse, kotlin.String, kotlin.String, kotlin.collections.Map((kotlin.String, kotlin.Any)))/redirectUri">redirectUri</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">, </span><span class="identifier" id="com.schibsted.account.network.service.client.ClientService$signUp(com.schibsted.account.network.response.TokenResponse, kotlin.String, kotlin.String, kotlin.collections.Map((kotlin.String, kotlin.Any)))/inputParams">inputParams</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-map/index.html"><span class="identifier">Map</span></a><span class="symbol">&lt;</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">,</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><span class="identifier">Any</span></a><span class="symbol">&gt;</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Call</span><span class="symbol">&lt;</span><a href="../../com.schibsted.account.network.response/-api-container/index.html"><span class="identifier">ApiContainer</span></a><span class="symbol">&lt;</span><a href="../../com.schibsted.account.network.response/-profile-data/index.html"><span class="identifier">ProfileData</span></a><span class="symbol">&gt;</span><span class="symbol">&gt;</span></code>
+<p>Creates a user profile and associates it to an e-mail address if there is no such association yet.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</BODY>
+</HTML>

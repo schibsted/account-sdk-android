@@ -1,0 +1,65 @@
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>NavigationListener - ui</title>
+<link rel="stylesheet" href="../../../style.css">
+</HEAD>
+<BODY>
+<a href="../../index.html">ui</a>&nbsp;/&nbsp;<a href="../index.html">com.schibsted.account.ui.navigation</a>&nbsp;/&nbsp;<a href="./index.html">NavigationListener</a><br/>
+<br/>
+<h1>NavigationListener</h1>
+<code><span class="keyword">interface </span><span class="identifier">NavigationListener</span></code>
+<p>a actionListener of navigation events</p>
+<h3>Functions</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="on-dialog-navigation-requested.html">onDialogNavigationRequested</a></p>
+</td>
+<td>
+<code><span class="keyword">abstract</span> <span class="keyword">fun </span><span class="identifier">onDialogNavigationRequested</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.ui.navigation.NavigationListener$onDialogNavigationRequested(android.support.v4.app.DialogFragment)/where">where</span><span class="symbol">:</span>&nbsp;<span class="identifier">DialogFragment</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code>
+<p>Use this method to listen to navigation event involving a <a href="../../com.schibsted.account.ui.ui.dialog/-information-dialog-fragment/index.html">InformationDialogFragment</a>.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="on-navigate-back-requested.html">onNavigateBackRequested</a></p>
+</td>
+<td>
+<code><span class="keyword">abstract</span> <span class="keyword">fun </span><span class="identifier">onNavigateBackRequested</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code>
+<p>Use this method to navigate back to the previous defined screen</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="on-navigation-done.html">onNavigationDone</a></p>
+</td>
+<td>
+<code><span class="keyword">abstract</span> <span class="keyword">fun </span><span class="identifier">onNavigationDone</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.ui.navigation.NavigationListener$onNavigationDone(com.schibsted.account.ui.login.screen.LoginScreen)/screen">screen</span><span class="symbol">:</span>&nbsp;<a href="../../com.schibsted.account.ui.login.screen/-login-screen/index.html"><span class="identifier">LoginScreen</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code></td>
+</tr>
+<tr>
+<td>
+<p><a href="on-web-view-navigation-requested.html">onWebViewNavigationRequested</a></p>
+</td>
+<td>
+<code><span class="keyword">abstract</span> <span class="keyword">fun </span><span class="identifier">onWebViewNavigationRequested</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.ui.navigation.NavigationListener$onWebViewNavigationRequested(com.schibsted.account.ui.ui.WebFragment, com.schibsted.account.ui.login.screen.LoginScreen)/where">where</span><span class="symbol">:</span>&nbsp;<a href="../../com.schibsted.account.ui.ui/-web-fragment/index.html"><span class="identifier">WebFragment</span></a><span class="symbol">, </span><span class="identifier" id="com.schibsted.account.ui.navigation.NavigationListener$onWebViewNavigationRequested(com.schibsted.account.ui.ui.WebFragment, com.schibsted.account.ui.login.screen.LoginScreen)/loginScreen">loginScreen</span><span class="symbol">:</span>&nbsp;<a href="../../com.schibsted.account.ui.login.screen/-login-screen/index.html"><span class="identifier">LoginScreen</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code>
+<p>Use this method to listen to navigation event involving a <a href="../../com.schibsted.account.ui.ui/-flow-fragment/index.html">FlowFragment</a>.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3>Inheritors</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="../../com.schibsted.account.ui.login/-base-login-activity/index.html">BaseLoginActivity</a></p>
+</td>
+<td>
+<code><span class="keyword">abstract</span> <span class="keyword">class </span><span class="identifier">BaseLoginActivity</span>&nbsp;<span class="symbol">:</span>&nbsp;<span class="identifier">AppCompatActivity</span><span class="symbol">, </span><a href="../../com.schibsted.account.ui/-keyboard-manager/index.html"><span class="identifier">KeyboardManager</span></a><span class="symbol">, </span><a href="./index.html"><span class="identifier">NavigationListener</span></a></code></td>
+</tr>
+</tbody>
+</table>
+</BODY>
+</HTML>

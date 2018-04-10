@@ -1,0 +1,24 @@
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>Auth.oneTimeSessionUrl - core</title>
+<link rel="stylesheet" href="../../../style.css">
+</HEAD>
+<BODY>
+<a href="../../index.html">core</a>&nbsp;/&nbsp;<a href="../index.html">com.schibsted.account.session</a>&nbsp;/&nbsp;<a href="index.html">Auth</a>&nbsp;/&nbsp;<a href="./one-time-session-url.html">oneTimeSessionUrl</a><br/>
+<br/>
+<h1>oneTimeSessionUrl</h1>
+<a name="com.schibsted.account.session.Auth$oneTimeSessionUrl(kotlin.String, kotlin.String, com.schibsted.account.engine.integration.ResultCallback((kotlin.String)))"></a>
+<code><span class="keyword">fun </span><span class="identifier">oneTimeSessionUrl</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.session.Auth$oneTimeSessionUrl(kotlin.String, kotlin.String, com.schibsted.account.engine.integration.ResultCallback((kotlin.String)))/targetClientId">targetClientId</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">, </span><span class="identifier" id="com.schibsted.account.session.Auth$oneTimeSessionUrl(kotlin.String, kotlin.String, com.schibsted.account.engine.integration.ResultCallback((kotlin.String)))/redirectUri">redirectUri</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">, </span><span class="identifier" id="com.schibsted.account.session.Auth$oneTimeSessionUrl(kotlin.String, kotlin.String, com.schibsted.account.engine.integration.ResultCallback((kotlin.String)))/callback">callback</span><span class="symbol">:</span>&nbsp;<a href="../../com.schibsted.account.engine.integration/-result-callback/index.html"><span class="identifier">ResultCallback</span></a><span class="symbol">&lt;</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">&gt;</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code>
+<p>Requests a one-time session URL to be used in for example WebViews for the
+current user. The code expires after 60 seconds.</p>
+<h3>Parameters</h3>
+<p><a name="targetClientId"></a>
+<code>targetClientId</code> - The client ID this token is intended for. Note: Will not work for other clients</p>
+<p><a name="redirectUri"></a>
+<code>redirectUri</code> - The desired redirect to receive from /session/ when the
+    session represented by the code received is created.</p>
+<p><a name="callback"></a>
+<code>callback</code> - A callback with the one time session URL</p>
+</BODY>
+</HTML>

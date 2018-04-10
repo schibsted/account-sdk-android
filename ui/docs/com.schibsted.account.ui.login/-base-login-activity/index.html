@@ -1,0 +1,318 @@
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>BaseLoginActivity - ui</title>
+<link rel="stylesheet" href="../../../style.css">
+</HEAD>
+<BODY>
+<a href="../../index.html">ui</a>&nbsp;/&nbsp;<a href="../index.html">com.schibsted.account.ui.login</a>&nbsp;/&nbsp;<a href="./index.html">BaseLoginActivity</a><br/>
+<br/>
+<h1>BaseLoginActivity</h1>
+<code><span class="keyword">abstract</span> <span class="keyword">class </span><span class="identifier">BaseLoginActivity</span>&nbsp;<span class="symbol">:</span>&nbsp;<span class="identifier">AppCompatActivity</span><span class="symbol">, </span><a href="../../com.schibsted.account.ui/-keyboard-manager/index.html"><span class="identifier">KeyboardManager</span></a><span class="symbol">, </span><a href="../../com.schibsted.account.ui.navigation/-navigation-listener/index.html"><span class="identifier">NavigationListener</span></a></code>
+<h3>Constructors</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="-init-.html">&lt;init&gt;</a></p>
+</td>
+<td>
+<code><span class="identifier">BaseLoginActivity</span><span class="symbol">(</span><span class="symbol">)</span></code></td>
+</tr>
+</tbody>
+</table>
+<h3>Properties</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="account-service.html">accountService</a></p>
+</td>
+<td>
+<code><span class="keyword">lateinit</span> <span class="keyword">var </span><span class="identifier">accountService</span><span class="symbol">: </span><span class="identifier">AccountService</span></code></td>
+</tr>
+<tr>
+<td>
+<p><a href="active-flow-type.html">activeFlowType</a></p>
+</td>
+<td>
+<code><span class="keyword">var </span><span class="identifier">activeFlowType</span><span class="symbol">: </span><a href="../../com.schibsted.account.ui.login.flow.password/-flow-selection-listener/-flow-type/index.html"><span class="identifier">FlowType</span></a><span class="symbol">?</span></code></td>
+</tr>
+<tr>
+<td>
+<p><a href="current-identifier.html">currentIdentifier</a></p>
+</td>
+<td>
+<code><span class="keyword">var </span><span class="identifier">currentIdentifier</span><span class="symbol">: </span><span class="identifier">Identifier</span><span class="symbol">?</span></code></td>
+</tr>
+<tr>
+<td>
+<p><a href="fragment-provider.html">fragmentProvider</a></p>
+</td>
+<td>
+<code><span class="keyword">lateinit</span> <span class="keyword">var </span><span class="identifier">fragmentProvider</span><span class="symbol">: </span><a href="../-fragment-provider/index.html"><span class="identifier">FragmentProvider</span></a></code></td>
+</tr>
+<tr>
+<td>
+<p><a href="is-smartlock-running.html">isSmartlockRunning</a></p>
+</td>
+<td>
+<code><span class="keyword">var </span><span class="identifier">isSmartlockRunning</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><span class="identifier">Boolean</span></a></code></td>
+</tr>
+<tr>
+<td>
+<p><a href="login-contract.html">loginContract</a></p>
+</td>
+<td>
+<code><span class="keyword">lateinit</span> <span class="keyword">var </span><span class="identifier">loginContract</span><span class="symbol">: </span><a href="../../com.schibsted.account.ui.login.flow.password/-login-contract-impl/index.html"><span class="identifier">LoginContractImpl</span></a></code></td>
+</tr>
+<tr>
+<td>
+<p><a href="login-controller.html">loginController</a></p>
+</td>
+<td>
+<code><span class="keyword">var </span><span class="identifier">loginController</span><span class="symbol">: </span><span class="identifier">LoginController</span><span class="symbol">?</span></code></td>
+</tr>
+<tr>
+<td>
+<p><a href="menu.html">menu</a></p>
+</td>
+<td>
+<code><span class="keyword">var </span><span class="identifier">menu</span><span class="symbol">: </span><a href="https://developer.android.com/reference/android/view/Menu.html"><span class="identifier">Menu</span></a><span class="symbol">?</span></code></td>
+</tr>
+<tr>
+<td>
+<p><a href="navigation-controller.html">navigationController</a></p>
+</td>
+<td>
+<code><span class="keyword">lateinit</span> <span class="keyword">var </span><span class="identifier">navigationController</span><span class="symbol">: </span><a href="../../com.schibsted.account.ui.navigation/-navigation/index.html"><span class="identifier">Navigation</span></a></code></td>
+</tr>
+<tr>
+<td>
+<p><a href="screen.html">screen</a></p>
+</td>
+<td>
+<code><span class="keyword">var </span><span class="identifier">screen</span><span class="symbol">: </span><a href="../../com.schibsted.account.ui.login.screen/-login-screen/index.html"><span class="identifier">LoginScreen</span></a><span class="symbol">?</span></code></td>
+</tr>
+<tr>
+<td>
+<p><a href="smartlock-credentials.html">smartlockCredentials</a></p>
+</td>
+<td>
+<code><span class="keyword">var </span><span class="identifier">smartlockCredentials</span><span class="symbol">: </span><span class="identifier">Credentials</span><span class="symbol">?</span></code></td>
+</tr>
+</tbody>
+</table>
+<h3>Functions</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="close-keyboard.html">closeKeyboard</a></p>
+</td>
+<td>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">closeKeyboard</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code>
+<p>Closes down the keyboard
+On some devices keyboard may still be showing up, even on screen without field to fill in
+Because the keyboard is not part of the application a different behavior might occurs depending
+on the system implementation.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="is-keyboard-open.html">isKeyboardOpen</a></p>
+</td>
+<td>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">isKeyboardOpen</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><span class="identifier">Boolean</span></a></code></td>
+</tr>
+<tr>
+<td>
+<p><a href="is-user-available.html">isUserAvailable</a></p>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">isUserAvailable</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><span class="identifier">Boolean</span></a></code></td>
+</tr>
+<tr>
+<td>
+<p><a href="on-activity-result.html">onActivityResult</a></p>
+</td>
+<td>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">onActivityResult</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.ui.login.BaseLoginActivity$onActivityResult(kotlin.Int, kotlin.Int, android.content.Intent)/requestCode">requestCode</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html"><span class="identifier">Int</span></a><span class="symbol">, </span><span class="identifier" id="com.schibsted.account.ui.login.BaseLoginActivity$onActivityResult(kotlin.Int, kotlin.Int, android.content.Intent)/resultCode">resultCode</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html"><span class="identifier">Int</span></a><span class="symbol">, </span><span class="identifier" id="com.schibsted.account.ui.login.BaseLoginActivity$onActivityResult(kotlin.Int, kotlin.Int, android.content.Intent)/data">data</span><span class="symbol">:</span>&nbsp;<a href="https://developer.android.com/reference/android/content/Intent.html"><span class="identifier">Intent</span></a><span class="symbol">?</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code></td>
+</tr>
+<tr>
+<td>
+<p><a href="on-back-pressed.html">onBackPressed</a></p>
+</td>
+<td>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">onBackPressed</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code></td>
+</tr>
+<tr>
+<td>
+<p><a href="on-create.html">onCreate</a></p>
+</td>
+<td>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">onCreate</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.ui.login.BaseLoginActivity$onCreate(android.os.Bundle)/savedInstanceState">savedInstanceState</span><span class="symbol">:</span>&nbsp;<a href="https://developer.android.com/reference/android/os/Bundle.html"><span class="identifier">Bundle</span></a><span class="symbol">?</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code></td>
+</tr>
+<tr>
+<td>
+<p><a href="on-create-options-menu.html">onCreateOptionsMenu</a></p>
+</td>
+<td>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">onCreateOptionsMenu</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.ui.login.BaseLoginActivity$onCreateOptionsMenu(android.view.Menu)/menu">menu</span><span class="symbol">:</span>&nbsp;<a href="https://developer.android.com/reference/android/view/Menu.html"><span class="identifier">Menu</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><span class="identifier">Boolean</span></a></code></td>
+</tr>
+<tr>
+<td>
+<p><a href="on-dialog-navigation-requested.html">onDialogNavigationRequested</a></p>
+</td>
+<td>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">onDialogNavigationRequested</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.ui.login.BaseLoginActivity$onDialogNavigationRequested(android.support.v4.app.DialogFragment)/where">where</span><span class="symbol">:</span>&nbsp;<span class="identifier">DialogFragment</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code>
+<p>Use this method to listen to navigation event involving a <a href="#">InformationDialogFragment</a>.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="on-keyboard-visibility-changed.html">onKeyboardVisibilityChanged</a></p>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">onKeyboardVisibilityChanged</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.ui.login.BaseLoginActivity$onKeyboardVisibilityChanged(kotlin.Boolean)/keyboardOpen">keyboardOpen</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><span class="identifier">Boolean</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code></td>
+</tr>
+<tr>
+<td>
+<p><a href="on-navigate-back-requested.html">onNavigateBackRequested</a></p>
+</td>
+<td>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">onNavigateBackRequested</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code>
+<p>Use this method to navigate back to the previous defined screen</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="on-navigation-done.html">onNavigationDone</a></p>
+</td>
+<td>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">onNavigationDone</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.ui.login.BaseLoginActivity$onNavigationDone(com.schibsted.account.ui.login.screen.LoginScreen)/screen">screen</span><span class="symbol">:</span>&nbsp;<a href="../../com.schibsted.account.ui.login.screen/-login-screen/index.html"><span class="identifier">LoginScreen</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code></td>
+</tr>
+<tr>
+<td>
+<p><a href="on-new-intent.html">onNewIntent</a></p>
+</td>
+<td>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">onNewIntent</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.ui.login.BaseLoginActivity$onNewIntent(android.content.Intent)/intent">intent</span><span class="symbol">:</span>&nbsp;<a href="https://developer.android.com/reference/android/content/Intent.html"><span class="identifier">Intent</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code></td>
+</tr>
+<tr>
+<td>
+<p><a href="on-options-item-selected.html">onOptionsItemSelected</a></p>
+</td>
+<td>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">onOptionsItemSelected</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.ui.login.BaseLoginActivity$onOptionsItemSelected(android.view.MenuItem)/item">item</span><span class="symbol">:</span>&nbsp;<a href="https://developer.android.com/reference/android/view/MenuItem.html"><span class="identifier">MenuItem</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><span class="identifier">Boolean</span></a></code></td>
+</tr>
+<tr>
+<td>
+<p><a href="on-pause.html">onPause</a></p>
+</td>
+<td>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">onPause</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code></td>
+</tr>
+<tr>
+<td>
+<p><a href="on-resume.html">onResume</a></p>
+</td>
+<td>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">onResume</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code></td>
+</tr>
+<tr>
+<td>
+<p><a href="on-save-instance-state.html">onSaveInstanceState</a></p>
+</td>
+<td>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">onSaveInstanceState</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.ui.login.BaseLoginActivity$onSaveInstanceState(android.os.Bundle)/outState">outState</span><span class="symbol">:</span>&nbsp;<a href="https://developer.android.com/reference/android/os/Bundle.html"><span class="identifier">Bundle</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code></td>
+</tr>
+<tr>
+<td>
+<p><a href="on-web-view-navigation-requested.html">onWebViewNavigationRequested</a></p>
+</td>
+<td>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">onWebViewNavigationRequested</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.ui.login.BaseLoginActivity$onWebViewNavigationRequested(com.schibsted.account.ui.ui.WebFragment, com.schibsted.account.ui.login.screen.LoginScreen)/where">where</span><span class="symbol">:</span>&nbsp;<a href="../../com.schibsted.account.ui.ui/-web-fragment/index.html"><span class="identifier">WebFragment</span></a><span class="symbol">, </span><span class="identifier" id="com.schibsted.account.ui.login.BaseLoginActivity$onWebViewNavigationRequested(com.schibsted.account.ui.ui.WebFragment, com.schibsted.account.ui.login.screen.LoginScreen)/loginScreen">loginScreen</span><span class="symbol">:</span>&nbsp;<a href="../../com.schibsted.account.ui.login.screen/-login-screen/index.html"><span class="identifier">LoginScreen</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code>
+<p>Use this method to listen to navigation event involving a <a href="../../com.schibsted.account.ui.ui/-flow-fragment/index.html">FlowFragment</a>.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="start-identification-fragment.html">startIdentificationFragment</a></p>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">startIdentificationFragment</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.ui.login.BaseLoginActivity$startIdentificationFragment(com.schibsted.account.ui.login.flow.password.FlowSelectionListener)/flowSelectionListener">flowSelectionListener</span><span class="symbol">:</span>&nbsp;<a href="../../com.schibsted.account.ui.login.flow.password/-flow-selection-listener/index.html"><span class="identifier">FlowSelectionListener</span></a><span class="symbol">?</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code></td>
+</tr>
+</tbody>
+</table>
+<h3>Companion Object Properties</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="-e-x-t-r-a_-u-s-e-r.html">EXTRA_USER</a></p>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">EXTRA_USER</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a></code></td>
+</tr>
+<tr>
+<td>
+<p><a href="-k-e-y_-c-u-r-r-e-n-t_-i-d-e-n-t-i-f-i-e-r.html">KEY_CURRENT_IDENTIFIER</a></p>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">KEY_CURRENT_IDENTIFIER</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a></code></td>
+</tr>
+<tr>
+<td>
+<p><a href="-k-e-y_-s-m-a-r-t-l-o-c-k_-c-r-e-d-e-n-t-i-a-l-s.html">KEY_SMARTLOCK_CREDENTIALS</a></p>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">KEY_SMARTLOCK_CREDENTIALS</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a></code></td>
+</tr>
+<tr>
+<td>
+<p><a href="-k-e-y_-s-m-a-r-t-l-o-c-k_-r-e-s-o-l-v-i-n-g.html">KEY_SMARTLOCK_RESOLVING</a></p>
+</td>
+<td>
+<code><span class="keyword">const</span> <span class="keyword">val </span><span class="identifier">KEY_SMARTLOCK_RESOLVING</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a></code></td>
+</tr>
+<tr>
+<td>
+<p><a href="-k-e-y_-u-i_-c-o-n-f-i-g-u-r-a-t-i-o-n.html">KEY_UI_CONFIGURATION</a></p>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">KEY_UI_CONFIGURATION</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a></code></td>
+</tr>
+<tr>
+<td>
+<p><a href="tracker.html">tracker</a></p>
+</td>
+<td>
+<code><span class="keyword">var </span><span class="identifier">tracker</span><span class="symbol">: </span><span class="identifier">UiTracking</span><span class="symbol">?</span></code></td>
+</tr>
+</tbody>
+</table>
+<h3>Inheritors</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="../../com.schibsted.account.ui.login.flow.password/-password-activity/index.html">PasswordActivity</a></p>
+</td>
+<td>
+<code><span class="keyword">class </span><span class="identifier">PasswordActivity</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="./index.html"><span class="identifier">BaseLoginActivity</span></a><span class="symbol">, </span><a href="../../com.schibsted.account.ui.login.flow.password/-flow-selection-listener/index.html"><span class="identifier">FlowSelectionListener</span></a></code></td>
+</tr>
+<tr>
+<td>
+<p><a href="../../com.schibsted.account.ui.login.flow.passwordless/-passwordless-activity/index.html">PasswordlessActivity</a></p>
+</td>
+<td>
+<code><span class="keyword">class </span><span class="identifier">PasswordlessActivity</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="./index.html"><span class="identifier">BaseLoginActivity</span></a><span class="symbol">, </span><span class="identifier">PasswordlessContract</span></code>
+<p>an Activity use as navigation controller for the UI login flow.
+This activity manage the keyboard visibility.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</BODY>
+</HTML>

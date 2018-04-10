@@ -1,0 +1,40 @@
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>User.bind - core</title>
+<link rel="stylesheet" href="../../../style.css">
+</HEAD>
+<BODY>
+<a href="../../index.html">core</a>&nbsp;/&nbsp;<a href="../index.html">com.schibsted.account.session</a>&nbsp;/&nbsp;<a href="index.html">User</a>&nbsp;/&nbsp;<a href="./bind.html">bind</a><br/>
+<br/>
+<h1>bind</h1>
+<a name="com.schibsted.account.session.User$bind(okhttp3.OkHttpClient.Builder, kotlin.collections.List((kotlin.String)))"></a>
+<code><span class="keyword">fun </span><span class="identifier">bind</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.session.User$bind(okhttp3.OkHttpClient.Builder, kotlin.collections.List((kotlin.String)))/builder">builder</span><span class="symbol">:</span>&nbsp;<span class="identifier">Builder</span><span class="symbol">, </span><span class="identifier" id="com.schibsted.account.session.User$bind(okhttp3.OkHttpClient.Builder, kotlin.collections.List((kotlin.String)))/urls">urls</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html"><span class="identifier">List</span></a><span class="symbol">&lt;</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">&gt;</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Builder</span></code>
+<p>Bind this session to an <a href="#">OkHttpClient</a>. This will add an interceptor and override any
+authenticators already defined. Any requests not matching the host will be denied.</p>
+<h3>Parameters</h3>
+<p><a name="builder"></a>
+<code>builder</code> - An instance of the <a href="#">OkHttpClient.Builder</a> to use</p>
+<p><a name="urls"></a>
+<code>urls</code> - A list of urls the <a href="#">OkHttpClient</a> will be used for. This will match sub-paths as well</p>
+<p><strong>Return</strong><br/>
+An <a href="#">OkHttpClient.Builder</a> to which the authenticator and interceptor are attached</p>
+<a name="com.schibsted.account.session.User$bind(okhttp3.OkHttpClient.Builder, kotlin.collections.List((kotlin.String)), kotlin.Boolean, kotlin.Boolean)"></a>
+<code><span class="keyword">fun </span><span class="identifier">bind</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.session.User$bind(okhttp3.OkHttpClient.Builder, kotlin.collections.List((kotlin.String)), kotlin.Boolean, kotlin.Boolean)/builder">builder</span><span class="symbol">:</span>&nbsp;<span class="identifier">Builder</span><span class="symbol">, </span><span class="identifier" id="com.schibsted.account.session.User$bind(okhttp3.OkHttpClient.Builder, kotlin.collections.List((kotlin.String)), kotlin.Boolean, kotlin.Boolean)/urls">urls</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html"><span class="identifier">List</span></a><span class="symbol">&lt;</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">&gt;</span><span class="symbol">, </span><span class="identifier" id="com.schibsted.account.session.User$bind(okhttp3.OkHttpClient.Builder, kotlin.collections.List((kotlin.String)), kotlin.Boolean, kotlin.Boolean)/allowNonHttps">allowNonHttps</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><span class="identifier">Boolean</span></a><span class="symbol">, </span><span class="identifier" id="com.schibsted.account.session.User$bind(okhttp3.OkHttpClient.Builder, kotlin.collections.List((kotlin.String)), kotlin.Boolean, kotlin.Boolean)/allowNonWhitelistedDomains">allowNonWhitelistedDomains</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><span class="identifier">Boolean</span></a><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Builder</span></code>
+<p>Bind this session to an <a href="#">OkHttpClient</a>. This will add an interceptor and override any
+authenticators already defined. Any requests not matching the host will be denied.</p>
+<h3>Parameters</h3>
+<p><a name="builder"></a>
+<code>builder</code> - An instance of the <a href="#">OkHttpClient.Builder</a> to use</p>
+<p><a name="urls"></a>
+<code>urls</code> - A list of urls the <a href="#">OkHttpClient</a> will be used for. This will match sub-paths as well</p>
+<p><a name="allowNonHttps"></a>
+<code>allowNonHttps</code> - By default, non-HTTPS requests are denied. Setting this to true will override this.
+This is not recommended and is done at your own risk.</p>
+<p><a name="allowNonWhitelistedDomains"></a>
+<code>allowNonWhitelistedDomains</code> - By default, requests to non-whitelisted domains is not allowed. Set this
+to true to override that.</p>
+<p><strong>Return</strong><br/>
+An <a href="#">OkHttpClient.Builder</a> to which the authenticator and interceptor are attached</p>
+</BODY>
+</HTML>

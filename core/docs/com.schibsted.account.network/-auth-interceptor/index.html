@@ -1,0 +1,52 @@
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>AuthInterceptor - core</title>
+<link rel="stylesheet" href="../../../style.css">
+</HEAD>
+<BODY>
+<a href="../../index.html">core</a>&nbsp;/&nbsp;<a href="../index.html">com.schibsted.account.network</a>&nbsp;/&nbsp;<a href="./index.html">AuthInterceptor</a><br/>
+<br/>
+<h1>AuthInterceptor</h1>
+<code><span class="keyword">class </span><span class="identifier">AuthInterceptor</span>&nbsp;<span class="symbol">:</span>&nbsp;<span class="identifier">Interceptor</span></code>
+<p>Creates an interceptor which will do authenticated requests to whitelisted urls. By default, requests to non-whitelisted
+domains will be rejected as well as non-https requests. This can be overridden using <a href="#">allowNonWhitelistedDomains</a> and
+<a href="#">allowNonHttps</a>. Will throw an <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-illegal-argument-exception/index.html">IllegalArgumentException</a> if whitelisted domains are not over HTTPS if non-https is not allowed</p>
+<h3>Parameters</h3>
+<p><a name="user"></a>
+<code>user</code> - The user session to bind</p>
+<p><a name="urlWhitelist"></a>
+<code>urlWhitelist</code> - The whitelist of URLs which be authenticated against</p>
+<p><a name="allowNonWhitelistedDomains"></a>
+<code>allowNonWhitelistedDomains</code> - By default, all non-whitelisted domains will be rejected unless this is set to true.
+Please note that the auth header will not be injected for any domains not in the whitelist. Defaults to false</p>
+<p><a name="allowNonHttps"></a>
+<code>allowNonHttps</code> - Whether or not non-https domains should be allowed. Defaults to false</p>
+<p><a name="timeout"></a>
+<code>timeout</code> - The timeout for token refreshing</p>
+<h3>Functions</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="intercept.html">intercept</a></p>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">intercept</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.network.AuthInterceptor$intercept(okhttp3.Interceptor.Chain)/chain">chain</span><span class="symbol">:</span>&nbsp;<span class="identifier">Chain</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Response</span></code></td>
+</tr>
+</tbody>
+</table>
+<h3>Companion Object Properties</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="-t-a-g.html">TAG</a></p>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">TAG</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a></code></td>
+</tr>
+</tbody>
+</table>
+</BODY>
+</HTML>

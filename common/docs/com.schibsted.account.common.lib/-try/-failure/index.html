@@ -1,0 +1,89 @@
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>Try.Failure - common</title>
+<link rel="stylesheet" href="../../../../style.css">
+</HEAD>
+<BODY>
+<a href="../../../index.html">common</a>&nbsp;/&nbsp;<a href="../../index.html">com.schibsted.account.common.lib</a>&nbsp;/&nbsp;<a href="../index.html">Try</a>&nbsp;/&nbsp;<a href="./index.html">Failure</a><br/>
+<br/>
+<h1>Failure</h1>
+<code><span class="keyword">data</span> <span class="keyword">class </span><span class="identifier">Failure</span><span class="symbol">&lt;</span><span class="keyword">out</span>&nbsp;<span class="identifier">T</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../index.html"><span class="identifier">Try</span></a><span class="symbol">&lt;</span><a href="index.html#T"><span class="identifier">T</span></a><span class="symbol">&gt;</span></code>
+<h3>Constructors</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="-init-.html">&lt;init&gt;</a></p>
+</td>
+<td>
+<code><span class="identifier">Failure</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.common.lib.Try.Failure$<init>(kotlin.Throwable)/exception">exception</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-throwable/index.html"><span class="identifier">Throwable</span></a><span class="symbol">)</span></code></td>
+</tr>
+</tbody>
+</table>
+<h3>Properties</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="exception.html">exception</a></p>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">exception</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-throwable/index.html"><span class="identifier">Throwable</span></a></code></td>
+</tr>
+</tbody>
+</table>
+<h3>Functions</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="get.html">get</a></p>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">get</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="index.html#T"><span class="identifier">T</span></a></code></td>
+</tr>
+<tr>
+<td>
+<p><a href="is-failure.html">isFailure</a></p>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">isFailure</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><span class="identifier">Boolean</span></a></code></td>
+</tr>
+<tr>
+<td>
+<p><a href="is-success.html">isSuccess</a></p>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">isSuccess</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><span class="identifier">Boolean</span></a></code></td>
+</tr>
+</tbody>
+</table>
+<h3>Inherited Functions</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="../flat-map.html">flatMap</a></p>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="symbol">&lt;</span><span class="identifier">O</span><span class="symbol">&gt;</span> <span class="identifier">flatMap</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.common.lib.Try$flatMap(kotlin.Function1((com.schibsted.account.common.lib.Try.T, com.schibsted.account.common.lib.Try((com.schibsted.account.common.lib.Try.flatMap.O)))))/block">block</span><span class="symbol">:</span>&nbsp;<span class="symbol">(</span><a href="../index.html#T"><span class="identifier">T</span></a><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<a href="../index.html"><span class="identifier">Try</span></a><span class="symbol">&lt;</span><a href="../flat-map.html#O"><span class="identifier">O</span></a><span class="symbol">&gt;</span><span class="symbol">)</span><span class="symbol">: </span><a href="../index.html"><span class="identifier">Try</span></a><span class="symbol">&lt;</span><a href="../flat-map.html#O"><span class="identifier">O</span></a><span class="symbol">&gt;</span></code></td>
+</tr>
+<tr>
+<td>
+<p><a href="../fold.html">fold</a></p>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="symbol">&lt;</span><span class="identifier">O</span><span class="symbol">&gt;</span> <span class="identifier">fold</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.common.lib.Try$fold(kotlin.Function1((kotlin.Throwable, com.schibsted.account.common.lib.Try.fold.O)), kotlin.Function1((com.schibsted.account.common.lib.Try.T, com.schibsted.account.common.lib.Try.fold.O)))/onError">onError</span><span class="symbol">:</span>&nbsp;<span class="symbol">(</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-throwable/index.html"><span class="identifier">Throwable</span></a><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<a href="../fold.html#O"><span class="identifier">O</span></a><span class="symbol">, </span><span class="identifier" id="com.schibsted.account.common.lib.Try$fold(kotlin.Function1((kotlin.Throwable, com.schibsted.account.common.lib.Try.fold.O)), kotlin.Function1((com.schibsted.account.common.lib.Try.T, com.schibsted.account.common.lib.Try.fold.O)))/onSuccess">onSuccess</span><span class="symbol">:</span>&nbsp;<span class="symbol">(</span><a href="../index.html#T"><span class="identifier">T</span></a><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<a href="../fold.html#O"><span class="identifier">O</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="../fold.html#O"><span class="identifier">O</span></a></code></td>
+</tr>
+<tr>
+<td>
+<p><a href="../map.html">map</a></p>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="symbol">&lt;</span><span class="identifier">O</span><span class="symbol">&gt;</span> <span class="identifier">map</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.common.lib.Try$map(kotlin.Function1((com.schibsted.account.common.lib.Try.T, com.schibsted.account.common.lib.Try.map.O)))/block">block</span><span class="symbol">:</span>&nbsp;<span class="symbol">(</span><a href="../index.html#T"><span class="identifier">T</span></a><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<a href="../map.html#O"><span class="identifier">O</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="../index.html"><span class="identifier">Try</span></a><span class="symbol">&lt;</span><a href="../map.html#O"><span class="identifier">O</span></a><span class="symbol">&gt;</span></code></td>
+</tr>
+</tbody>
+</table>
+</BODY>
+</HTML>

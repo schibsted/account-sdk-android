@@ -1,0 +1,24 @@
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>SessionService.oneTimeSessionCode - core</title>
+<link rel="stylesheet" href="../../../style.css">
+</HEAD>
+<BODY>
+<a href="../../index.html">core</a>&nbsp;/&nbsp;<a href="../index.html">com.schibsted.account.network.service.session</a>&nbsp;/&nbsp;<a href="index.html">SessionService</a>&nbsp;/&nbsp;<a href="./one-time-session-code.html">oneTimeSessionCode</a><br/>
+<br/>
+<h1>oneTimeSessionCode</h1>
+<a name="com.schibsted.account.network.service.session.SessionService$oneTimeSessionCode(kotlin.String, com.schibsted.account.network.response.TokenResponse, kotlin.String)"></a>
+<code><span class="keyword">fun </span><span class="identifier">oneTimeSessionCode</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.network.service.session.SessionService$oneTimeSessionCode(kotlin.String, com.schibsted.account.network.response.TokenResponse, kotlin.String)/clientId">clientId</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">, </span><span class="identifier" id="com.schibsted.account.network.service.session.SessionService$oneTimeSessionCode(kotlin.String, com.schibsted.account.network.response.TokenResponse, kotlin.String)/accessToken">accessToken</span><span class="symbol">:</span>&nbsp;<a href="../../com.schibsted.account.network.response/-token-response/index.html"><span class="identifier">TokenResponse</span></a><span class="symbol">, </span><span class="identifier" id="com.schibsted.account.network.service.session.SessionService$oneTimeSessionCode(kotlin.String, com.schibsted.account.network.response.TokenResponse, kotlin.String)/redirectUri">redirectUri</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Call</span><span class="symbol">&lt;</span><a href="../../com.schibsted.account.network.response/-token-exchange-response/index.html"><span class="identifier">TokenExchangeResponse</span></a><span class="symbol">&gt;</span></code>
+<p>Requests a one-time session code with 60 seconds validity.</p>
+<h3>Parameters</h3>
+<p><a name="clientId"></a>
+<code>clientId</code> - The client id of the app.</p>
+<p><a name="accessToken"></a>
+<code>accessToken</code> - The access token for the user that the code is requested for.</p>
+<p><a name="redirectUri"></a>
+<code>redirectUri</code> - The desired redirect to receive from /session/ when the
+session represented by the code received is created.
+</p>
+</BODY>
+</HTML>

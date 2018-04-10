@@ -1,0 +1,115 @@
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>LoginController - core</title>
+<link rel="stylesheet" href="../../../style.css">
+</HEAD>
+<BODY>
+<a href="../../index.html">core</a>&nbsp;/&nbsp;<a href="../index.html">com.schibsted.account.engine.controller</a>&nbsp;/&nbsp;<a href="./index.html">LoginController</a><br/>
+<br/>
+<h1>LoginController</h1>
+<code><span class="keyword">class </span><span class="identifier">LoginController</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../-verification-controller/index.html"><span class="identifier">VerificationController</span></a><span class="symbol">&lt;</span><a href="../../com.schibsted.account.engine.integration.contract/-login-contract/index.html"><span class="identifier">LoginContract</span></a><span class="symbol">&gt;</span></code>
+<p>Controller which administrates the process of a login flow using credentials. This is
+parcelable and should be persisted during the login sequence. After the sequence has been
+completed, the reference to this can be destroyed.
+<strong>Note:</strong> After an Android configuration change, make sure you call <a href="evaluate.html">evaluate</a> again to re-trigger
+the currently active task.</p>
+<h3>Types</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="-c-r-e-a-t-o-r/index.html">CREATOR</a></p>
+</td>
+<td>
+<code><span class="keyword">companion</span> <span class="keyword">object </span><span class="identifier">CREATOR</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="https://developer.android.com/reference/android/os/Parcelable/Creator.html"><span class="identifier">Creator</span></a><span class="symbol">&lt;</span><a href="./index.html"><span class="identifier">LoginController</span></a><span class="symbol">&gt;</span></code></td>
+</tr>
+</tbody>
+</table>
+<h3>Constructors</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="-init-.html">&lt;init&gt;</a></p>
+</td>
+<td>
+<code><span class="identifier">LoginController</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.engine.controller.LoginController$<init>(android.os.Parcel)/parcel">parcel</span><span class="symbol">:</span>&nbsp;<a href="https://developer.android.com/reference/android/os/Parcel.html"><span class="identifier">Parcel</span></a><span class="symbol">)</span></code><code><span class="identifier">LoginController</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.engine.controller.LoginController$<init>(kotlin.Boolean, kotlin.Array((kotlin.String)))/verifyUser">verifyUser</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><span class="identifier">Boolean</span></a><span class="symbol">, </span><span class="identifier" id="com.schibsted.account.engine.controller.LoginController$<init>(kotlin.Boolean, kotlin.Array((kotlin.String)))/scopes">scopes</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-array/index.html"><span class="identifier">Array</span></a><span class="symbol">&lt;</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">&gt;</span>&nbsp;<span class="symbol">=</span>&nbsp;arrayOf(OIDCScope.SCOPE_OPENID)<span class="symbol">)</span></code>
+<p>Controller which administrates the process of a login flow using credentials. This is
+parcelable and should be persisted during the login sequence. After the sequence has been
+completed, the reference to this can be destroyed.
+<strong>Note:</strong> After an Android configuration change, make sure you call <a href="evaluate.html">evaluate</a> again to re-trigger
+the currently active task.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3>Functions</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="describe-contents.html">describeContents</a></p>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">describeContents</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html"><span class="identifier">Int</span></a></code></td>
+</tr>
+<tr>
+<td>
+<p><a href="evaluate.html">evaluate</a></p>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">evaluate</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.engine.controller.LoginController$evaluate(com.schibsted.account.engine.integration.contract.LoginContract)/contract">contract</span><span class="symbol">:</span>&nbsp;<a href="../../com.schibsted.account.engine.integration.contract/-login-contract/index.html"><span class="identifier">LoginContract</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code>
+<p>Perform the login sequence. Additional calls to this function will re-trigger the currently
+active task.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="write-to-parcel.html">writeToParcel</a></p>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">writeToParcel</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.engine.controller.LoginController$writeToParcel(android.os.Parcel, kotlin.Int)/parcel">parcel</span><span class="symbol">:</span>&nbsp;<a href="https://developer.android.com/reference/android/os/Parcel.html"><span class="identifier">Parcel</span></a><span class="symbol">, </span><span class="identifier" id="com.schibsted.account.engine.controller.LoginController$writeToParcel(android.os.Parcel, kotlin.Int)/flags">flags</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html"><span class="identifier">Int</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code></td>
+</tr>
+</tbody>
+</table>
+<h3>Inherited Functions</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="../-verification-controller/request-agreements.html">requestAgreements</a></p>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">requestAgreements</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.engine.controller.VerificationController$requestAgreements(com.schibsted.account.engine.controller.VerificationController.T, com.schibsted.account.session.User, com.schibsted.account.network.response.AgreementLinksResponse)/contract">contract</span><span class="symbol">:</span>&nbsp;<a href="../-verification-controller/index.html#T"><span class="identifier">T</span></a><span class="symbol">, </span><span class="identifier" id="com.schibsted.account.engine.controller.VerificationController$requestAgreements(com.schibsted.account.engine.controller.VerificationController.T, com.schibsted.account.session.User, com.schibsted.account.network.response.AgreementLinksResponse)/user">user</span><span class="symbol">:</span>&nbsp;<a href="../../com.schibsted.account.session/-user/index.html"><span class="identifier">User</span></a><span class="symbol">, </span><span class="identifier" id="com.schibsted.account.engine.controller.VerificationController$requestAgreements(com.schibsted.account.engine.controller.VerificationController.T, com.schibsted.account.session.User, com.schibsted.account.network.response.AgreementLinksResponse)/agreementsLinks">agreementsLinks</span><span class="symbol">:</span>&nbsp;<a href="../../com.schibsted.account.network.response/-agreement-links-response/index.html"><span class="identifier">AgreementLinksResponse</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="../../com.schibsted.account.engine.step/-step-validate-agreements/index.html"><span class="identifier">StepValidateAgreements</span></a><span class="symbol">?</span></code></td>
+</tr>
+<tr>
+<td>
+<p><a href="../-verification-controller/request-required-fields.html">requestRequiredFields</a></p>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">requestRequiredFields</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.engine.controller.VerificationController$requestRequiredFields(com.schibsted.account.engine.controller.VerificationController.T, com.schibsted.account.session.User, kotlin.collections.Set((kotlin.String)))/contract">contract</span><span class="symbol">:</span>&nbsp;<a href="../-verification-controller/index.html#T"><span class="identifier">T</span></a><span class="symbol">, </span><span class="identifier" id="com.schibsted.account.engine.controller.VerificationController$requestRequiredFields(com.schibsted.account.engine.controller.VerificationController.T, com.schibsted.account.session.User, kotlin.collections.Set((kotlin.String)))/user">user</span><span class="symbol">:</span>&nbsp;<a href="../../com.schibsted.account.session/-user/index.html"><span class="identifier">User</span></a><span class="symbol">, </span><span class="identifier" id="com.schibsted.account.engine.controller.VerificationController$requestRequiredFields(com.schibsted.account.engine.controller.VerificationController.T, com.schibsted.account.session.User, kotlin.collections.Set((kotlin.String)))/missingFields">missingFields</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-set/index.html"><span class="identifier">Set</span></a><span class="symbol">&lt;</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">&gt;</span><span class="symbol">)</span><span class="symbol">: </span><a href="../../com.schibsted.account.engine.step/-step-validate-req-fields/index.html"><span class="identifier">StepValidateReqFields</span></a><span class="symbol">?</span></code></td>
+</tr>
+</tbody>
+</table>
+<h3>Companion Object Functions</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="create-from-parcel.html">createFromParcel</a></p>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">createFromParcel</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.engine.controller.LoginController.CREATOR$createFromParcel(android.os.Parcel)/parcel">parcel</span><span class="symbol">:</span>&nbsp;<a href="https://developer.android.com/reference/android/os/Parcel.html"><span class="identifier">Parcel</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="./index.html"><span class="identifier">LoginController</span></a></code></td>
+</tr>
+<tr>
+<td>
+<p><a href="new-array.html">newArray</a></p>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">newArray</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.engine.controller.LoginController.CREATOR$newArray(kotlin.Int)/size">size</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html"><span class="identifier">Int</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-array/index.html"><span class="identifier">Array</span></a><span class="symbol">&lt;</span><a href="./index.html"><span class="identifier">LoginController</span></a><span class="symbol">?</span><span class="symbol">&gt;</span></code></td>
+</tr>
+</tbody>
+</table>
+</BODY>
+</HTML>

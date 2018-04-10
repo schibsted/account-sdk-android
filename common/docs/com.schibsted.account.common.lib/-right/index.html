@@ -1,0 +1,103 @@
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>Right - common</title>
+<link rel="stylesheet" href="../../../style.css">
+</HEAD>
+<BODY>
+<a href="../../index.html">common</a>&nbsp;/&nbsp;<a href="../index.html">com.schibsted.account.common.lib</a>&nbsp;/&nbsp;<a href="./index.html">Right</a><br/>
+<br/>
+<h1>Right</h1>
+<code><span class="keyword">data</span> <span class="keyword">class </span><span class="identifier">Right</span><span class="symbol">&lt;</span><span class="keyword">out</span>&nbsp;<span class="identifier">T</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../-either/index.html"><span class="identifier">Either</span></a><span class="symbol">&lt;</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-nothing/index.html"><span class="identifier">Nothing</span></a><span class="symbol">,</span>&nbsp;<a href="index.html#T"><span class="identifier">T</span></a><span class="symbol">&gt;</span></code>
+<h3>Constructors</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="-init-.html">&lt;init&gt;</a></p>
+</td>
+<td>
+<code><span class="identifier">Right</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.common.lib.Right$<init>(com.schibsted.account.common.lib.Right.T)/right">right</span><span class="symbol">:</span>&nbsp;<a href="index.html#T"><span class="identifier">T</span></a><span class="symbol">)</span></code></td>
+</tr>
+</tbody>
+</table>
+<h3>Properties</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="right.html">right</a></p>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">right</span><span class="symbol">: </span><a href="index.html#T"><span class="identifier">T</span></a></code></td>
+</tr>
+</tbody>
+</table>
+<h3>Functions</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="is-left.html">isLeft</a></p>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">isLeft</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><span class="identifier">Boolean</span></a></code></td>
+</tr>
+<tr>
+<td>
+<p><a href="is-right.html">isRight</a></p>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">isRight</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><span class="identifier">Boolean</span></a></code></td>
+</tr>
+<tr>
+<td>
+<p><a href="to-string.html">toString</a></p>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">toString</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a></code></td>
+</tr>
+</tbody>
+</table>
+<h3>Extension Functions</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="../apply.html">apply</a></p>
+</td>
+<td>
+<code><span class="keyword">infix</span> <span class="keyword">fun </span><span class="symbol">&lt;</span><span class="identifier">L</span><span class="symbol">, </span><span class="identifier">R</span><span class="symbol">, </span><span class="identifier">O</span><span class="symbol">&gt;</span> <a href="../-either/index.html"><span class="identifier">Either</span></a><span class="symbol">&lt;</span><a href="../apply.html#L"><span class="identifier">L</span></a><span class="symbol">,</span>&nbsp;<span class="symbol">(</span><a href="../apply.html#R"><span class="identifier">R</span></a><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<a href="../apply.html#O"><span class="identifier">O</span></a><span class="symbol">&gt;</span><span class="symbol">.</span><span class="identifier">apply</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.common.lib$apply(com.schibsted.account.common.lib.Either((com.schibsted.account.common.lib.apply.L, kotlin.Function1((com.schibsted.account.common.lib.apply.R, com.schibsted.account.common.lib.apply.O)))), com.schibsted.account.common.lib.Either((com.schibsted.account.common.lib.apply.L, com.schibsted.account.common.lib.apply.R)))/f">f</span><span class="symbol">:</span>&nbsp;<a href="../-either/index.html"><span class="identifier">Either</span></a><span class="symbol">&lt;</span><a href="../apply.html#L"><span class="identifier">L</span></a><span class="symbol">,</span>&nbsp;<a href="../apply.html#R"><span class="identifier">R</span></a><span class="symbol">&gt;</span><span class="symbol">)</span><span class="symbol">: </span><a href="../-either/index.html"><span class="identifier">Either</span></a><span class="symbol">&lt;</span><a href="../apply.html#L"><span class="identifier">L</span></a><span class="symbol">,</span>&nbsp;<a href="../apply.html#O"><span class="identifier">O</span></a><span class="symbol">&gt;</span></code></td>
+</tr>
+<tr>
+<td>
+<p><a href="../flat-map.html">flatMap</a></p>
+</td>
+<td>
+<code><span class="keyword">infix</span> <span class="keyword">fun </span><span class="symbol">&lt;</span><span class="identifier">L</span><span class="symbol">, </span><span class="identifier">R</span><span class="symbol">, </span><span class="identifier">O</span><span class="symbol">&gt;</span> <a href="../-either/index.html"><span class="identifier">Either</span></a><span class="symbol">&lt;</span><a href="../flat-map.html#L"><span class="identifier">L</span></a><span class="symbol">,</span>&nbsp;<a href="../flat-map.html#R"><span class="identifier">R</span></a><span class="symbol">&gt;</span><span class="symbol">.</span><span class="identifier">flatMap</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.common.lib$flatMap(com.schibsted.account.common.lib.Either((com.schibsted.account.common.lib.flatMap.L, com.schibsted.account.common.lib.flatMap.R)), kotlin.Function1((com.schibsted.account.common.lib.flatMap.R, com.schibsted.account.common.lib.Either((com.schibsted.account.common.lib.flatMap.L, com.schibsted.account.common.lib.flatMap.O)))))/f">f</span><span class="symbol">:</span>&nbsp;<span class="symbol">(</span><a href="../flat-map.html#R"><span class="identifier">R</span></a><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<a href="../-either/index.html"><span class="identifier">Either</span></a><span class="symbol">&lt;</span><a href="../flat-map.html#L"><span class="identifier">L</span></a><span class="symbol">,</span>&nbsp;<a href="../flat-map.html#O"><span class="identifier">O</span></a><span class="symbol">&gt;</span><span class="symbol">)</span><span class="symbol">: </span><a href="../-either/index.html"><span class="identifier">Either</span></a><span class="symbol">&lt;</span><a href="../flat-map.html#L"><span class="identifier">L</span></a><span class="symbol">,</span>&nbsp;<a href="../flat-map.html#O"><span class="identifier">O</span></a><span class="symbol">&gt;</span></code></td>
+</tr>
+<tr>
+<td>
+<p><a href="../fold.html">fold</a></p>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="symbol">&lt;</span><span class="identifier">L</span><span class="symbol">, </span><span class="identifier">R</span><span class="symbol">, </span><span class="identifier">O</span><span class="symbol">&gt;</span> <a href="../-either/index.html"><span class="identifier">Either</span></a><span class="symbol">&lt;</span><a href="../fold.html#L"><span class="identifier">L</span></a><span class="symbol">,</span>&nbsp;<a href="../fold.html#R"><span class="identifier">R</span></a><span class="symbol">&gt;</span><span class="symbol">.</span><span class="identifier">fold</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.common.lib$fold(com.schibsted.account.common.lib.Either((com.schibsted.account.common.lib.fold.L, com.schibsted.account.common.lib.fold.R)), kotlin.Function1((com.schibsted.account.common.lib.fold.L, com.schibsted.account.common.lib.fold.O)), kotlin.Function1((com.schibsted.account.common.lib.fold.R, com.schibsted.account.common.lib.fold.O)))/lf">lf</span><span class="symbol">:</span>&nbsp;<span class="symbol">(</span><a href="../fold.html#L"><span class="identifier">L</span></a><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<a href="../fold.html#O"><span class="identifier">O</span></a><span class="symbol">, </span><span class="identifier" id="com.schibsted.account.common.lib$fold(com.schibsted.account.common.lib.Either((com.schibsted.account.common.lib.fold.L, com.schibsted.account.common.lib.fold.R)), kotlin.Function1((com.schibsted.account.common.lib.fold.L, com.schibsted.account.common.lib.fold.O)), kotlin.Function1((com.schibsted.account.common.lib.fold.R, com.schibsted.account.common.lib.fold.O)))/rf">rf</span><span class="symbol">:</span>&nbsp;<span class="symbol">(</span><a href="../fold.html#R"><span class="identifier">R</span></a><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<a href="../fold.html#O"><span class="identifier">O</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="../fold.html#O"><span class="identifier">O</span></a></code></td>
+</tr>
+<tr>
+<td>
+<p><a href="../map.html">map</a></p>
+</td>
+<td>
+<code><span class="keyword">infix</span> <span class="keyword">fun </span><span class="symbol">&lt;</span><span class="identifier">L</span><span class="symbol">, </span><span class="identifier">R</span><span class="symbol">, </span><span class="identifier">O</span><span class="symbol">&gt;</span> <a href="../-either/index.html"><span class="identifier">Either</span></a><span class="symbol">&lt;</span><a href="../map.html#L"><span class="identifier">L</span></a><span class="symbol">,</span>&nbsp;<a href="../map.html#R"><span class="identifier">R</span></a><span class="symbol">&gt;</span><span class="symbol">.</span><span class="identifier">map</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.common.lib$map(com.schibsted.account.common.lib.Either((com.schibsted.account.common.lib.map.L, com.schibsted.account.common.lib.map.R)), kotlin.Function1((com.schibsted.account.common.lib.map.R, com.schibsted.account.common.lib.map.O)))/f">f</span><span class="symbol">:</span>&nbsp;<span class="symbol">(</span><a href="../map.html#R"><span class="identifier">R</span></a><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<a href="../map.html#O"><span class="identifier">O</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="../-either/index.html"><span class="identifier">Either</span></a><span class="symbol">&lt;</span><a href="../map.html#L"><span class="identifier">L</span></a><span class="symbol">,</span>&nbsp;<a href="../map.html#O"><span class="identifier">O</span></a><span class="symbol">&gt;</span></code></td>
+</tr>
+<tr>
+<td>
+<p><a href="../map-left.html">mapLeft</a></p>
+</td>
+<td>
+<code><span class="keyword">infix</span> <span class="keyword">fun </span><span class="symbol">&lt;</span><span class="identifier">L</span><span class="symbol">, </span><span class="identifier">R</span><span class="symbol">, </span><span class="identifier">O</span><span class="symbol">&gt;</span> <a href="../-either/index.html"><span class="identifier">Either</span></a><span class="symbol">&lt;</span><a href="../map-left.html#L"><span class="identifier">L</span></a><span class="symbol">,</span>&nbsp;<a href="../map-left.html#O"><span class="identifier">O</span></a><span class="symbol">&gt;</span><span class="symbol">.</span><span class="identifier">mapLeft</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.common.lib$mapLeft(com.schibsted.account.common.lib.Either((com.schibsted.account.common.lib.mapLeft.L, com.schibsted.account.common.lib.mapLeft.O)), kotlin.Function1((com.schibsted.account.common.lib.mapLeft.L, com.schibsted.account.common.lib.mapLeft.R)))/f">f</span><span class="symbol">:</span>&nbsp;<span class="symbol">(</span><a href="../map-left.html#L"><span class="identifier">L</span></a><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<a href="../map-left.html#R"><span class="identifier">R</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="../-either/index.html"><span class="identifier">Either</span></a><span class="symbol">&lt;</span><a href="../map-left.html#R"><span class="identifier">R</span></a><span class="symbol">,</span>&nbsp;<a href="../map-left.html#O"><span class="identifier">O</span></a><span class="symbol">&gt;</span></code></td>
+</tr>
+</tbody>
+</table>
+</BODY>
+</HTML>

@@ -1,0 +1,120 @@
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>VerificationController - core</title>
+<link rel="stylesheet" href="../../../style.css">
+</HEAD>
+<BODY>
+<a href="../../index.html">core</a>&nbsp;/&nbsp;<a href="../index.html">com.schibsted.account.engine.controller</a>&nbsp;/&nbsp;<a href="./index.html">VerificationController</a><br/>
+<br/>
+<h1>VerificationController</h1>
+<code><span class="keyword">abstract</span> <span class="keyword">class </span><span class="identifier">VerificationController</span><span class="symbol">&lt;</span><span class="keyword">in</span>&nbsp;<span class="identifier">T</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../-controller/index.html"><span class="identifier">Controller</span></a><span class="symbol">&lt;</span><a href="index.html#T"><span class="identifier">T</span></a><span class="symbol">&gt;</span><span class="keyword"> where </span><span class="identifier">T</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../../com.schibsted.account.engine.input/-agreements/-provider/index.html"><span class="identifier">Provider</span></a><span class="symbol">, </span><span class="identifier">T</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../../com.schibsted.account.engine.input/-required-fields/-provider/index.html"><span class="identifier">Provider</span></a><span class="symbol">, </span><span class="identifier">T</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../../com.schibsted.account.engine.integration.contract/-contract/index.html"><span class="identifier">Contract</span></a><span class="symbol">&lt;</span><span class="identifier">*</span><span class="symbol">&gt;</span></code>
+<h3>Constructors</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="-init-.html">&lt;init&gt;</a></p>
+</td>
+<td>
+<code><span class="identifier">VerificationController</span><span class="symbol">(</span><span class="symbol">)</span></code></td>
+</tr>
+</tbody>
+</table>
+<h3>Functions</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="request-agreements.html">requestAgreements</a></p>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">requestAgreements</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.engine.controller.VerificationController$requestAgreements(com.schibsted.account.engine.controller.VerificationController.T, com.schibsted.account.session.User, com.schibsted.account.network.response.AgreementLinksResponse)/contract">contract</span><span class="symbol">:</span>&nbsp;<a href="index.html#T"><span class="identifier">T</span></a><span class="symbol">, </span><span class="identifier" id="com.schibsted.account.engine.controller.VerificationController$requestAgreements(com.schibsted.account.engine.controller.VerificationController.T, com.schibsted.account.session.User, com.schibsted.account.network.response.AgreementLinksResponse)/user">user</span><span class="symbol">:</span>&nbsp;<a href="../../com.schibsted.account.session/-user/index.html"><span class="identifier">User</span></a><span class="symbol">, </span><span class="identifier" id="com.schibsted.account.engine.controller.VerificationController$requestAgreements(com.schibsted.account.engine.controller.VerificationController.T, com.schibsted.account.session.User, com.schibsted.account.network.response.AgreementLinksResponse)/agreementsLinks">agreementsLinks</span><span class="symbol">:</span>&nbsp;<a href="../../com.schibsted.account.network.response/-agreement-links-response/index.html"><span class="identifier">AgreementLinksResponse</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="../../com.schibsted.account.engine.step/-step-validate-agreements/index.html"><span class="identifier">StepValidateAgreements</span></a><span class="symbol">?</span></code></td>
+</tr>
+<tr>
+<td>
+<p><a href="request-required-fields.html">requestRequiredFields</a></p>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">requestRequiredFields</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.engine.controller.VerificationController$requestRequiredFields(com.schibsted.account.engine.controller.VerificationController.T, com.schibsted.account.session.User, kotlin.collections.Set((kotlin.String)))/contract">contract</span><span class="symbol">:</span>&nbsp;<a href="index.html#T"><span class="identifier">T</span></a><span class="symbol">, </span><span class="identifier" id="com.schibsted.account.engine.controller.VerificationController$requestRequiredFields(com.schibsted.account.engine.controller.VerificationController.T, com.schibsted.account.session.User, kotlin.collections.Set((kotlin.String)))/user">user</span><span class="symbol">:</span>&nbsp;<a href="../../com.schibsted.account.session/-user/index.html"><span class="identifier">User</span></a><span class="symbol">, </span><span class="identifier" id="com.schibsted.account.engine.controller.VerificationController$requestRequiredFields(com.schibsted.account.engine.controller.VerificationController.T, com.schibsted.account.session.User, kotlin.collections.Set((kotlin.String)))/missingFields">missingFields</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-set/index.html"><span class="identifier">Set</span></a><span class="symbol">&lt;</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">&gt;</span><span class="symbol">)</span><span class="symbol">: </span><a href="../../com.schibsted.account.engine.step/-step-validate-req-fields/index.html"><span class="identifier">StepValidateReqFields</span></a><span class="symbol">?</span></code></td>
+</tr>
+</tbody>
+</table>
+<h3>Inherited Functions</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="../-controller/back.html">back</a></p>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">back</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.engine.controller.Controller$back(com.schibsted.account.engine.controller.Controller.T, kotlin.Int)/contract">contract</span><span class="symbol">:</span>&nbsp;<a href="../-controller/index.html#T"><span class="identifier">T</span></a><span class="symbol">, </span><span class="identifier" id="com.schibsted.account.engine.controller.Controller$back(com.schibsted.account.engine.controller.Controller.T, kotlin.Int)/step">step</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html"><span class="identifier">Int</span></a>&nbsp;<span class="symbol">=</span>&nbsp;1<span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code>
+<p>Goes back one step in the controller.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="../-controller/describe-contents.html">describeContents</a></p>
+</td>
+<td>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">describeContents</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html"><span class="identifier">Int</span></a></code></td>
+</tr>
+<tr>
+<td>
+<p><a href="../-controller/evaluate.html">evaluate</a></p>
+</td>
+<td>
+<code><span class="keyword">abstract</span> <span class="keyword">fun </span><span class="identifier">evaluate</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.engine.controller.Controller$evaluate(com.schibsted.account.engine.controller.Controller.T)/contract">contract</span><span class="symbol">:</span>&nbsp;<a href="../-controller/index.html#T"><span class="identifier">T</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code>
+<p>Perform the login sequence. Additional calls to this function will re-trigger the currently
+active task.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="../-controller/start.html">start</a></p>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">start</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.engine.controller.Controller$start(com.schibsted.account.engine.controller.Controller.T)/contract">contract</span><span class="symbol">:</span>&nbsp;<a href="../-controller/index.html#T"><span class="identifier">T</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code></td>
+</tr>
+<tr>
+<td>
+<p><a href="../-controller/write-to-parcel.html">writeToParcel</a></p>
+</td>
+<td>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">writeToParcel</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.engine.controller.Controller$writeToParcel(android.os.Parcel, kotlin.Int)/parcel">parcel</span><span class="symbol">:</span>&nbsp;<a href="https://developer.android.com/reference/android/os/Parcel.html"><span class="identifier">Parcel</span></a><span class="symbol">, </span><span class="identifier" id="com.schibsted.account.engine.controller.Controller$writeToParcel(android.os.Parcel, kotlin.Int)/flags">flags</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html"><span class="identifier">Int</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code></td>
+</tr>
+</tbody>
+</table>
+<h3>Inheritors</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="../-login-controller/index.html">LoginController</a></p>
+</td>
+<td>
+<code><span class="keyword">class </span><span class="identifier">LoginController</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="./index.html"><span class="identifier">VerificationController</span></a><span class="symbol">&lt;</span><a href="../../com.schibsted.account.engine.integration.contract/-login-contract/index.html"><span class="identifier">LoginContract</span></a><span class="symbol">&gt;</span></code>
+<p>Controller which administrates the process of a login flow using credentials. This is
+parcelable and should be persisted during the login sequence. After the sequence has been
+completed, the reference to this can be destroyed.
+<strong>Note:</strong> After an Android configuration change, make sure you call <a href="../-login-controller/evaluate.html">evaluate</a> again to re-trigger
+the currently active task.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="../-passwordless-controller/index.html">PasswordlessController</a></p>
+</td>
+<td>
+<code><span class="keyword">class </span><span class="identifier">PasswordlessController</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="./index.html"><span class="identifier">VerificationController</span></a><span class="symbol">&lt;</span><a href="../../com.schibsted.account.engine.integration.contract/-passwordless-contract.html"><span class="identifier">PasswordlessContract</span></a><span class="symbol">&gt;</span></code>
+<p>Controller which administrates the process of a login flow using passwordless login. This is
+parcelable and should be persisted during the login sequence. After the sequence has been
+completed, the reference to this can be destroyed.
+<strong>Note:</strong> After an Android configuration change, make sure you call <a href="../-passwordless-controller/evaluate.html">evaluate</a> again to re-trigger
+the currently active task.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</BODY>
+</HTML>

@@ -1,0 +1,9 @@
+$dokka.format:html
+$dokka.linkExtension:html
+$dokka.location:com.schibsted.account.common.util$getQueryParam(java.net.URI, kotlin.String)com.schibsted.account.common.util/java.net.-u-r-i/get-query-param.html
+$dokka.location:com.schibsted.account.common.util$readStack(android.os.Parcel, java.lang.ClassLoader)com.schibsted.account.common.util/android.os.-parcel/read-stack.html
+$dokka.location:com.schibsted.account.common.util$safeUrl(kotlin.String)com.schibsted.account.common.util/kotlin.-string/safe-url.html
+com.schibsted.account.common.lib
+com.schibsted.account.common.smartlock
+com.schibsted.account.common.tracking
+com.schibsted.account.common.util

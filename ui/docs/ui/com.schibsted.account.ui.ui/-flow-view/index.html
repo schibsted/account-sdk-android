@@ -1,0 +1,138 @@
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>FlowView - ui</title>
+<link rel="stylesheet" href="../../../style.css">
+</HEAD>
+<BODY>
+<a href="../../index.html">ui</a>&nbsp;/&nbsp;<a href="../index.html">com.schibsted.account.ui.ui</a>&nbsp;/&nbsp;<a href="./index.html">FlowView</a><br/>
+<br/>
+<h1>FlowView</h1>
+<code><span class="keyword">interface </span><span class="identifier">FlowView</span><span class="symbol">&lt;</span><span class="keyword">in</span>&nbsp;<span class="identifier">T</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../../com.schibsted.account.ui.contract/-base-view/index.html"><span class="identifier">BaseView</span></a><span class="symbol">&lt;</span><a href="index.html#T"><span class="identifier">T</span></a><span class="symbol">&gt;</span></code>
+<h3>Inherited Properties</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="../../com.schibsted.account.ui.contract/-base-view/is-active.html">isActive</a></p>
+</td>
+<td>
+<code><span class="keyword">abstract</span> <span class="keyword">val </span><span class="identifier">isActive</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><span class="identifier">Boolean</span></a></code>
+<p>Return the state of the fragment, this method should be use to know if an UI update could be
+performed.
+Call this method before every intention of UI update</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3>Functions</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="hide-error.html">hideError</a></p>
+</td>
+<td>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">hideError</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.ui.ui.FlowView$hideError(com.schibsted.account.ui.ui.ErrorField)/errorField">errorField</span><span class="symbol">:</span>&nbsp;<a href="../-error-field/index.html"><span class="identifier">ErrorField</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code>
+<p>Hides a previously shown error</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="hide-progress.html">hideProgress</a></p>
+</td>
+<td>
+<code><span class="keyword">abstract</span> <span class="keyword">fun </span><span class="identifier">hideProgress</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code>
+<p>allow the user to click on the <a href="#">.primaryActionView</a></p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="show-error.html">showError</a></p>
+</td>
+<td>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">showError</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.ui.ui.FlowView$showError(com.schibsted.account.ui.ui.ErrorField)/errorField">errorField</span><span class="symbol">:</span>&nbsp;<a href="../-error-field/index.html"><span class="identifier">ErrorField</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code>
+<p>Shows a contextual error related to the user's actions</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="show-progress.html">showProgress</a></p>
+</td>
+<td>
+<code><span class="keyword">abstract</span> <span class="keyword">fun </span><span class="identifier">showProgress</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code>
+<p>prevent the user to click on the <a href="#">.primaryActionView</a></p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3>Inherited Functions</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="../../com.schibsted.account.ui.contract/-base-view/set-presenter.html">setPresenter</a></p>
+</td>
+<td>
+<code><span class="keyword">abstract</span> <span class="keyword">fun </span><span class="identifier">setPresenter</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.ui.contract.BaseView$setPresenter(com.schibsted.account.ui.contract.BaseView.T)/presenter">presenter</span><span class="symbol">:</span>&nbsp;<a href="../../com.schibsted.account.ui.contract/-base-view/index.html#T"><span class="identifier">T</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code>
+<p>Ties a Presenter to a view</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="../../com.schibsted.account.ui.contract/-base-view/show-error-dialog.html">showErrorDialog</a></p>
+</td>
+<td>
+<code><span class="keyword">abstract</span> <span class="keyword">fun </span><span class="identifier">showErrorDialog</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.ui.contract.BaseView$showErrorDialog(com.schibsted.account.model.error.ClientError, kotlin.String)/error">error</span><span class="symbol">:</span>&nbsp;<span class="identifier">ClientError</span><span class="symbol">, </span><span class="identifier" id="com.schibsted.account.ui.contract.BaseView$showErrorDialog(com.schibsted.account.model.error.ClientError, kotlin.String)/errorMessage">errorMessage</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">?</span>&nbsp;<span class="symbol">=</span>&nbsp;null<span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code></td>
+</tr>
+</tbody>
+</table>
+<h3>Inheritors</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="../-flow-fragment/index.html">FlowFragment</a></p>
+</td>
+<td>
+<code><span class="keyword">abstract</span> <span class="keyword">class </span><span class="identifier">FlowFragment</span><span class="symbol">&lt;</span><span class="keyword">in</span>&nbsp;<span class="identifier">T</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../-base-fragment/index.html"><span class="identifier">BaseFragment</span></a><span class="symbol">, </span><a href="../../com.schibsted.account.ui.login/-keyboard-visibility-listener/index.html"><span class="identifier">KeyboardVisibilityListener</span></a><span class="symbol">, </span><a href="./index.html"><span class="identifier">FlowView</span></a><span class="symbol">&lt;</span><a href="../-flow-fragment/index.html#T"><span class="identifier">T</span></a><span class="symbol">&gt;</span></code>
+<p>a <a href="#">Fragment</a> used to represents a part of a UI flow, as such, this fragment can continue a flow.
+the flow could be continue thanks to the keyboard or a button.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="../../com.schibsted.account.ui.login.screen.information/-required-fields-contract/-view/index.html">View</a></p>
+</td>
+<td>
+<code><span class="keyword">interface </span><span class="identifier">View</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="./index.html"><span class="identifier">FlowView</span></a><span class="symbol">&lt;</span><a href="../../com.schibsted.account.ui.login.screen.information/-required-fields-contract/-presenter/index.html"><span class="identifier">Presenter</span></a><span class="symbol">&gt;</span></code></td>
+</tr>
+<tr>
+<td>
+<p><a href="../../com.schibsted.account.ui.login.screen.password/-password-contract/-view/index.html">View</a></p>
+</td>
+<td>
+<code><span class="keyword">interface </span><span class="identifier">View</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="./index.html"><span class="identifier">FlowView</span></a><span class="symbol">&lt;</span><a href="../../com.schibsted.account.ui.login.screen.password/-password-contract/-presenter/index.html"><span class="identifier">Presenter</span></a><span class="symbol">&gt;</span></code></td>
+</tr>
+<tr>
+<td>
+<p><a href="../../com.schibsted.account.ui.login.screen.identification/-identification-contract/-view/index.html">View</a></p>
+</td>
+<td>
+<code><span class="keyword">interface </span><span class="identifier">View</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="./index.html"><span class="identifier">FlowView</span></a><span class="symbol">&lt;</span><a href="../../com.schibsted.account.ui.login.screen.identification/-identification-contract/-presenter/index.html"><span class="identifier">Presenter</span></a><span class="symbol">&gt;</span></code>
+<p>defines methods implemented by views related to identification process</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="../../com.schibsted.account.ui.login.screen.verification/-verification-contract/-view/index.html">View</a></p>
+</td>
+<td>
+<code><span class="keyword">interface </span><span class="identifier">View</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="./index.html"><span class="identifier">FlowView</span></a><span class="symbol">&lt;</span><a href="../../com.schibsted.account.ui.login.screen.verification/-verification-contract/-presenter/index.html"><span class="identifier">Presenter</span></a><span class="symbol">&gt;</span></code>
+<p>defines methods implemented by views related to verification process</p>
+</td>
+</tr>
+</tbody>
+</table>
+</BODY>
+</HTML>

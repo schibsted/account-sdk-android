@@ -1,0 +1,66 @@
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>Auth - core</title>
+<link rel="stylesheet" href="../../../style.css">
+</HEAD>
+<BODY>
+<a href="../../index.html">core</a>&nbsp;/&nbsp;<a href="../index.html">com.schibsted.account.session</a>&nbsp;/&nbsp;<a href="./index.html">Auth</a><br/>
+<br/>
+<h1>Auth</h1>
+<code><span class="keyword">class </span><span class="identifier">Auth</span></code>
+<h3>Constructors</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="-init-.html">&lt;init&gt;</a></p>
+</td>
+<td>
+<code><span class="identifier">Auth</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.session.Auth$<init>(com.schibsted.account.session.User)/user">user</span><span class="symbol">:</span>&nbsp;<a href="../-user/index.html"><span class="identifier">User</span></a><span class="symbol">)</span></code></td>
+</tr>
+</tbody>
+</table>
+<h3>Properties</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="user.html">user</a></p>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">user</span><span class="symbol">: </span><a href="../-user/index.html"><span class="identifier">User</span></a></code></td>
+</tr>
+</tbody>
+</table>
+<h3>Functions</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="one-time-code.html">oneTimeCode</a></p>
+</td>
+<td>
+<code><span class="keyword">fun </span><s><span class="identifier">oneTimeCode</span></s><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.session.Auth$oneTimeCode(com.schibsted.account.engine.integration.ResultCallback((kotlin.String)))/callback">callback</span><span class="symbol">:</span>&nbsp;<a href="../../com.schibsted.account.engine.integration/-result-callback/index.html"><span class="identifier">ResultCallback</span></a><span class="symbol">&lt;</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">&gt;</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code>
+<p>Requests a one-time authentication code for the current user. The code expires after
+30 seconds. This can be used to authenticate from for example a back-end server</p>
+<code><span class="keyword">fun </span><span class="identifier">oneTimeCode</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.session.Auth$oneTimeCode(kotlin.String, com.schibsted.account.engine.integration.ResultCallback((kotlin.String)))/serverClientId">serverClientId</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">, </span><span class="identifier" id="com.schibsted.account.session.Auth$oneTimeCode(kotlin.String, com.schibsted.account.engine.integration.ResultCallback((kotlin.String)))/callback">callback</span><span class="symbol">:</span>&nbsp;<a href="../../com.schibsted.account.engine.integration/-result-callback/index.html"><span class="identifier">ResultCallback</span></a><span class="symbol">&lt;</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">&gt;</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code>
+<p>Requests a one-time authentication code for the current user. The code expires after
+30 seconds. This can be used to authenticate from a back-end server.
+Uses a supplied server client id to create the code.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="one-time-session-url.html">oneTimeSessionUrl</a></p>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">oneTimeSessionUrl</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.session.Auth$oneTimeSessionUrl(kotlin.String, kotlin.String, com.schibsted.account.engine.integration.ResultCallback((kotlin.String)))/targetClientId">targetClientId</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">, </span><span class="identifier" id="com.schibsted.account.session.Auth$oneTimeSessionUrl(kotlin.String, kotlin.String, com.schibsted.account.engine.integration.ResultCallback((kotlin.String)))/redirectUri">redirectUri</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">, </span><span class="identifier" id="com.schibsted.account.session.Auth$oneTimeSessionUrl(kotlin.String, kotlin.String, com.schibsted.account.engine.integration.ResultCallback((kotlin.String)))/callback">callback</span><span class="symbol">:</span>&nbsp;<a href="../../com.schibsted.account.engine.integration/-result-callback/index.html"><span class="identifier">ResultCallback</span></a><span class="symbol">&lt;</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">&gt;</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code>
+<p>Requests a one-time session URL to be used in for example WebViews for the
+current user. The code expires after 60 seconds.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</BODY>
+</HTML>

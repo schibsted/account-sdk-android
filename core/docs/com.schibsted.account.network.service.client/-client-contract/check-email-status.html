@@ -1,0 +1,22 @@
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>ClientContract.checkEmailStatus - core</title>
+<link rel="stylesheet" href="../../../style.css">
+</HEAD>
+<BODY>
+<a href="../../index.html">core</a>&nbsp;/&nbsp;<a href="../index.html">com.schibsted.account.network.service.client</a>&nbsp;/&nbsp;<a href="index.html">ClientContract</a>&nbsp;/&nbsp;<a href="./check-email-status.html">checkEmailStatus</a><br/>
+<br/>
+<h1>checkEmailStatus</h1>
+<a name="com.schibsted.account.network.service.client.ClientContract$checkEmailStatus(kotlin.String, kotlin.String)"></a>
+<code><span class="identifier">@GET</span><span class="symbol">(</span>"api/2/email/{email}/status"<span class="symbol">)</span> <span class="keyword">abstract</span> <span class="keyword">fun </span><span class="identifier">checkEmailStatus</span><span class="symbol">(</span><span class="identifier">@Header</span><span class="symbol">(</span>"Authorization"<span class="symbol">)</span> <span class="identifier" id="com.schibsted.account.network.service.client.ClientContract$checkEmailStatus(kotlin.String, kotlin.String)/clientBearer">clientBearer</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">, </span><span class="identifier">@Path</span><span class="symbol">(</span>"email"<span class="symbol">)</span> <span class="identifier" id="com.schibsted.account.network.service.client.ClientContract$checkEmailStatus(kotlin.String, kotlin.String)/emailBase64">emailBase64</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Call</span><span class="symbol">&lt;</span><a href="../../com.schibsted.account.network.response/-api-container/index.html"><span class="identifier">ApiContainer</span></a><span class="symbol">&lt;</span><a href="../../com.schibsted.account.network.response/-account-status-response/index.html"><span class="identifier">AccountStatusResponse</span></a><span class="symbol">&gt;</span><span class="symbol">&gt;</span></code>
+<p>Checks the signup status of the given phone identifier.</p>
+<h3>Parameters</h3>
+<p><a name="clientToken"></a>
+<code>clientToken</code> - Client token.</p>
+<p><a name="identifier"></a>
+<code>identifier</code> - The identifier whose status is to be queried.</p>
+<p><strong>Return</strong><br/>
+A representation of the call ready for execution.</p>
+</BODY>
+</HTML>

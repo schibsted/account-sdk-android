@@ -1,0 +1,79 @@
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>PasswordlessService - core</title>
+<link rel="stylesheet" href="../../../style.css">
+</HEAD>
+<BODY>
+<a href="../../index.html">core</a>&nbsp;/&nbsp;<a href="../index.html">com.schibsted.account.network.service.passwordless</a>&nbsp;/&nbsp;<a href="./index.html">PasswordlessService</a><br/>
+<br/>
+<h1>PasswordlessService</h1>
+<code><span class="keyword">open</span> <span class="keyword">class </span><span class="identifier">PasswordlessService</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../../com.schibsted.account.network.service/-base-network-service.html"><span class="identifier">BaseNetworkService</span></a></code>
+<h3>Annotations</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="-connection/index.html">Connection</a></p>
+</td>
+<td>
+<code><span class="keyword">class </span><span class="identifier">Connection</span></code></td>
+</tr>
+</tbody>
+</table>
+<h3>Constructors</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="-init-.html">&lt;init&gt;</a></p>
+</td>
+<td>
+<code><span class="identifier">PasswordlessService</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.network.service.passwordless.PasswordlessService$<init>(kotlin.String, okhttp3.OkHttpClient)/environment">environment</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">, </span><span class="identifier" id="com.schibsted.account.network.service.passwordless.PasswordlessService$<init>(kotlin.String, okhttp3.OkHttpClient)/okHttpClient">okHttpClient</span><span class="symbol">:</span>&nbsp;<span class="identifier">OkHttpClient</span><span class="symbol">)</span></code></td>
+</tr>
+</tbody>
+</table>
+<h3>Properties</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="-p-a-r-a-m_-c-o-n-n-e-c-t-i-o-n_-e-m-a-i-l.html">PARAM_CONNECTION_EMAIL</a></p>
+</td>
+<td>
+<code><span class="keyword">static</span> <span class="keyword">val </span><span class="identifier">PARAM_CONNECTION_EMAIL</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a></code></td>
+</tr>
+<tr>
+<td>
+<p><a href="-p-a-r-a-m_-c-o-n-n-e-c-t-i-o-n_-s-m-s.html">PARAM_CONNECTION_SMS</a></p>
+</td>
+<td>
+<code><span class="keyword">static</span> <span class="keyword">val </span><span class="identifier">PARAM_CONNECTION_SMS</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a></code></td>
+</tr>
+</tbody>
+</table>
+<h3>Functions</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="resend-code.html">resendCode</a></p>
+</td>
+<td>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">resendCode</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.network.service.passwordless.PasswordlessService$resendCode(kotlin.String, com.schibsted.account.network.response.PasswordlessToken)/clientId">clientId</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">, </span><span class="identifier" id="com.schibsted.account.network.service.passwordless.PasswordlessService$resendCode(kotlin.String, com.schibsted.account.network.response.PasswordlessToken)/passwordlessToken">passwordlessToken</span><span class="symbol">:</span>&nbsp;<a href="../../com.schibsted.account.network.response/-passwordless-token/index.html"><span class="identifier">PasswordlessToken</span></a><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Call</span><span class="symbol">&lt;</span><a href="../../com.schibsted.account.network.response/-passwordless-token/index.html"><span class="identifier">PasswordlessToken</span></a><span class="symbol">&gt;</span></code>
+<p>Request an auth code that had already been sent to an identifier previously to be resent.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="send-validation-code.html">sendValidationCode</a></p>
+</td>
+<td>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">sendValidationCode</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.network.service.passwordless.PasswordlessService$sendValidationCode(kotlin.String, kotlin.String, kotlin.String, java.util.Locale)/clientId">clientId</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">, </span><span class="identifier" id="com.schibsted.account.network.service.passwordless.PasswordlessService$sendValidationCode(kotlin.String, kotlin.String, kotlin.String, java.util.Locale)/identifier">identifier</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">, </span><span class="identifier" id="com.schibsted.account.network.service.passwordless.PasswordlessService$sendValidationCode(kotlin.String, kotlin.String, kotlin.String, java.util.Locale)/connection">connection</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">, </span><span class="identifier" id="com.schibsted.account.network.service.passwordless.PasswordlessService$sendValidationCode(kotlin.String, kotlin.String, kotlin.String, java.util.Locale)/locale">locale</span><span class="symbol">:</span>&nbsp;<a href="https://developer.android.com/reference/java/util/Locale.html"><span class="identifier">Locale</span></a><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Call</span><span class="symbol">&lt;</span><a href="../../com.schibsted.account.network.response/-passwordless-token/index.html"><span class="identifier">PasswordlessToken</span></a><span class="symbol">&gt;</span></code>
+<p>Requests a code to be sent to an identifier.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</BODY>
+</HTML>
