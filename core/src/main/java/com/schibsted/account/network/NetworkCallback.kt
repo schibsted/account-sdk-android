@@ -30,7 +30,7 @@ internal abstract class NetworkCallback<T>(val intent: String) : Callback<T> {
                 onError(NetworkError(-1, "parse_error", description, endpoint))
             }
             is SocketTimeoutException -> {
-                onError(NetworkError(-1, "time_out_error", description, endpoint))
+                onError(NetworkError(-1, "connection_timed_out", description, endpoint))
             }
             else -> {
                 onError(NetworkError(-1, "network_error", description, endpoint))

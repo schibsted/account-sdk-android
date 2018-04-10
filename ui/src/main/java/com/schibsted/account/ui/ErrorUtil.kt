@@ -25,7 +25,7 @@ object ErrorUtil {
             ClientError.ErrorType.UNKNOWN_SPID_ERROR,
             ClientError.ErrorType.UNKNOWN_ERROR,
             ClientError.ErrorType.NETWORK_ERROR -> R.string.schacc_generic_server_error_message
-            ClientError.ErrorType.TIME_OUT_ERROR -> R.string.schacc_generic_time_out_error_message
+            ClientError.ErrorType.CONNECTION_TIMED_OUT -> R.string.schacc_generic_time_out_error_message
             ClientError.ErrorType.TOO_MANY_REQUESTS -> {
                 when (loginScreen) {
                     LoginScreen.PASSWORD_SCREEN, LoginScreen.VERIFICATION_SCREEN ->
@@ -41,7 +41,7 @@ object ErrorUtil {
     fun isServerError(errorType: ClientError.ErrorType): Boolean {
         return (errorType == ClientError.ErrorType.UNKNOWN_SPID_ERROR
                 || errorType == ClientError.ErrorType.NETWORK_ERROR
-                || errorType == ClientError.ErrorType.TIME_OUT_ERROR
+                || errorType == ClientError.ErrorType.CONNECTION_TIMED_OUT
                 || errorType == ClientError.ErrorType.GENERIC_ERROR
                 || errorType == ClientError.ErrorType.UNAUTHORIZED
                 || errorType == ClientError.ErrorType.INVALID_CLIENT_CREDENTIALS

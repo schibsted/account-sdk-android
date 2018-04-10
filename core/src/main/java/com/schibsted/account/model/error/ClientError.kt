@@ -36,7 +36,7 @@ open class ClientError(val errorType: ErrorType, val message: String) {
         SIGNUP_FORBIDDEN,
 
         TOO_MANY_REQUESTS,
-        TIME_OUT_ERROR,
+        CONNECTION_TIMED_OUT,
         UNKNOWN_SPID_ERROR,
 
         NETWORK_ERROR,
