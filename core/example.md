@@ -3,62 +3,88 @@ layout: docs
 title: Example usage
 sidebar: navigation
 ---
-
-```java
-public class Example implements PasswordlessContract {
-    private static final Boolean VALIDATE_USER = false; // If we should check agreements and required fields
-
-    private User currentUser;
-    private UserPersistence persistence;
-    private PasswordlessController controller;
-
-    public Example(Context appContext) {
-        this.persistence = new UserPersistence(appContext);
-
-        this.currentUser = this.persistence.resumeLast(); // Check if we can retrieve a previous user
-        if (this.currentUser == null) { // Ask user to login if needed
-            this.controller = new PasswordlessController(VALIDATE_USER);
-            this.controller.perform(this);
-        }
+```kotlin
+class Example(val appContext : Context) : PasswordlessContract {
+    private var user : User? = null
+    private var verifyUser : Boolean = true
+    
+    init {
+            User.resumeLastSession(appContext, object :ResultCallback<User>{
+                override fun onSuccess(result: User) {
+                    user = result
+                }
+                override fun onError(error: ClientError) {
+                    // can't get the user, starting the login flow
+                    LoginController(verifyUser).start(this@Example)
+                }
+            })
     }
-
-    @Override
-    public void onLoginCompleted(User user) {
-        // User was logged in
-        this.currentUser = user;
-        this.persistence.persist(user); // Store so that it can be resumed later
-    }
-
-    @Override
-    public void onIdentificationRequested(IdentifyTask identifyTask) {
-        login
-        identifyTask.identify(new Identifiloginifier.IdentifierType.EMAIL, "my-usloginl@example.com"));
-    }
-
-    @Override
-    public void onVerificationCodeRequested(Identifier identifier, ValidateCodeTask validateCodeTask) {
-        // A verification code has been sent to the user, ask them for input then provide it back
-        validateCodeTask.verifyCode(new VerificationCode("123456"), new IdentityCallback() {
-            @Override
-            public void onSuccess() {
-                // Validation was successful
+    
+    override fun onFlowReady(callbackProvider: CallbackProvider<LoginResult>) {
+        callbackProvider.provide(object : ResultCallback<LoginResult> {
+            override fun onSuccess(result: LoginResult) {
+                user = result.user
             }
 
-            @Override
-            public void onError(IdentityError error) {
-                // Validation was unsuccessful
+            override fun onError(error: ClientError) {
+                // Getting the user failed
             }
-        });
+        })
     }
 
-    @Override
-    public void onAgreementsRequested(AgreementsTask agreementsTask) {
-        // Required if validate user is set to true
+    override fun onIdentifierRequested(provider: InputProvider<Identifier>) {
+        provider.provide(Identifier(Identifier.IdentifierType.EMAIL, "user@example.com"), object : ResultCallback<NoValue> {
+            override fun onSuccess(result: NoValue) {
+                // Identifier is valid
+            }
+
+            override fun onError(error: ClientError) {
+                // Identifier is not valid
+            }
+        })
     }
 
-    @Override
-    public void onRequiredFieldsRequested(List<String> fields, RequiredFieldsTask requiredFieldsTask) {
-        // Required if validate user is set to true
+    override fun onVerificationCodeRequested(verificationCodeProvider: InputProvider<VerificationCode>, identifier: Identifier) {
+        verificationCodeProvider.provide(VerificationCode("12345", true), object : ResultCallback<NoValue> {
+            override fun onSuccess(result: NoValue) {
+                // the validation was successful
+            }
+
+            override fun onError(error: ClientError) {
+                // the validation was unsuccessful
+            }
+        })
+    }
+
+    /**
+     * Triggered if validate user is set to true
+     */
+    override fun onAgreementsRequested(agreementsProvider: InputProvider<Agreements>, agreementLinks: AgreementLinksResponse) {
+        agreementsProvider.provide(Agreements(true), object : ResultCallback<NoValue> {
+            override fun onSuccess(result: NoValue) {
+                // agreements acceptance was successful
+            }
+
+            override fun onError(error: ClientError) {
+                // agreements acceptance was unsuccessful
+            }
+        })
+    }
+
+    /**
+     * Triggered if validate user is set to true
+     */
+    override fun onRequiredFieldsRequested(requiredFieldsProvider: InputProvider<RequiredFields>, fields: Set<String>) {
+
+        requiredFieldsProvider.provide(RequiredFields(mutableMapOf()), object : ResultCallback<NoValue> {
+            override fun onSuccess(result: NoValue) {
+                // required user fields were successfully provided
+            }
+
+            override fun onError(error: ClientError) {
+                // required user fields were not successfully provided
+            }
+        })
     }
 }
 ```
