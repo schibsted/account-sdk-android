@@ -44,10 +44,11 @@ data class UiConfiguration(
                 .identifierType(identifierType)
                 .identifier(identifier)
                 .enableSignUp()
-                .disableSmartlock()
                 .logo(clientLogo)
                 .teaserText(teaserText)
                 .allowClosing(isClosingAllowed)
+
+        if (smartlockEnabled) builder.enableSmartlock() else builder.disableSmartlock()
         signUpNotAllowedErrorMessage?.let { builder.disableSignUp(it) }
         return builder
     }
