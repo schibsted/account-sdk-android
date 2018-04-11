@@ -21,8 +21,6 @@ class LocalSecretsProviderTest : StringSpec({
         on { putString(any(), any()) }.then {
             val arg1 = it.getArgument(0) as String
             val arg2 = it.getArgument(1) as String
-
-            println("PUTTING $arg1 : $arg2")
             data.put(arg1, arg2)
             null
         }
