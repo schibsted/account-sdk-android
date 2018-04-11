@@ -21,7 +21,7 @@
         android:id="@+id/prefix"
         style="@style/schacc_input_field_widget"
         android:layout_width="0dp"
-        android:layout_height="@dimen/schacc_default_widget_height"
+        android:layout_height="@dimen/schacc_default_widget_dimension"
         android:layout_marginEnd="0dp"
         android:layout_marginRight="0dp"
         android:layout_marginTop="4dp"
@@ -35,7 +35,7 @@
     <FrameLayout
         android:id="@+id/number"
         android:layout_width="0dp"
-        android:layout_height="@dimen/schacc_default_widget_height"
+        android:layout_height="@dimen/schacc_default_widget_dimension"
         android:layout_marginEnd="0dp"
         android:layout_marginLeft="@dimen/schacc_small_spacing"
         android:layout_marginRight="0dp"
