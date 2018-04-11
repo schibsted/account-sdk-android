@@ -39,14 +39,14 @@ object ErrorUtil {
     }
 
     fun isServerError(errorType: ClientError.ErrorType): Boolean {
-        return (errorType == ClientError.ErrorType.UNKNOWN_SPID_ERROR
-                || errorType == ClientError.ErrorType.NETWORK_ERROR
-                || errorType == ClientError.ErrorType.CONNECTION_TIMED_OUT
-                || errorType == ClientError.ErrorType.GENERIC_ERROR
-                || errorType == ClientError.ErrorType.UNAUTHORIZED
-                || errorType == ClientError.ErrorType.INVALID_CLIENT_CREDENTIALS
-                || errorType == ClientError.ErrorType.FORBIDDEN
-                || errorType == ClientError.ErrorType.UNKNOWN_ERROR)
-                || errorType == ClientError.ErrorType.ALREADY_REGISTERED
+        return (errorType == ClientError.ErrorType.UNKNOWN_SPID_ERROR ||
+                errorType == ClientError.ErrorType.NETWORK_ERROR ||
+                errorType == ClientError.ErrorType.CONNECTION_TIMED_OUT ||
+                errorType == ClientError.ErrorType.GENERIC_ERROR ||
+                errorType == ClientError.ErrorType.UNAUTHORIZED ||
+                errorType == ClientError.ErrorType.INVALID_CLIENT_CREDENTIALS ||
+                errorType == ClientError.ErrorType.FORBIDDEN ||
+                errorType == ClientError.ErrorType.UNKNOWN_ERROR) ||
+                errorType == ClientError.ErrorType.ALREADY_REGISTERED
     }
 }

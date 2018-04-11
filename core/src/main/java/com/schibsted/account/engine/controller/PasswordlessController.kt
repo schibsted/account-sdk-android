@@ -39,27 +39,31 @@ import java.util.Locale
  * **Note:** After an Android configuration change, make sure you call [evaluate] again to re-trigger
  * the currently active task.
  */
-class PasswordlessController @JvmOverloads constructor(private val verifyUser: Boolean,
+class PasswordlessController @JvmOverloads constructor(
+    private val verifyUser: Boolean,
     private val locale: Locale = Locale.getDefault(),
-    @OIDCScope private val scopes: Array<String> = arrayOf(OIDCScope.SCOPE_OPENID)) : VerificationController<PasswordlessContract>() {
+    @OIDCScope private val scopes: Array<String> = arrayOf(OIDCScope.SCOPE_OPENID)
+) : VerificationController<PasswordlessContract>() {
 
     constructor(parcel: Parcel) : this(
-        parcel.readInt() != 0,
-        Locale(parcel.readString()),
-        parcel.createStringArray()) {
+            parcel.readInt() != 0,
+            Locale(parcel.readString()),
+            parcel.createStringArray()) {
         super.navigation.addAll(parcel.readStack(PasswordlessController::class.java.classLoader))
     }
 
     override fun evaluate(contract: PasswordlessContract) {
         val idStep = this.getOrRequestIdentifier(contract) ?: return
         val validationStep = this.getOrRequestVerificationCode(contract, idStep.identifier, idStep.passwordlessToken)
-            ?: return
+                ?: return
 
         if (this.verifyUser) {
             if (!validationStep.agreementsAccepted) {
-                super.requestAgreements(contract, validationStep.user, idStep.agreementLinks) ?: return
+                super.requestAgreements(contract, validationStep.user, idStep.agreementLinks)
+                        ?: return
             }
-            super.requestRequiredFields(contract, validationStep.user, validationStep.missingFields) ?: return
+            super.requestRequiredFields(contract, validationStep.user, validationStep.missingFields)
+                    ?: return
 
             contract.onFlowReady(CallbackProvider {
                 it.onSuccess(LoginResult(validationStep.user, idStep.isNewUser))
@@ -97,23 +101,23 @@ class PasswordlessController @JvmOverloads constructor(private val verifyUser: B
         if (res == null) {
             VerificationCode.request(provider, identifier, { verificationCode, callback ->
                 VerifyCodeOperation(identifier, passwordlessToken, verificationCode, scopes, { callback.onError(it.toClientError()) },
-                    { token ->
-                        val user = User(token, verificationCode.keepLoggedIn)
+                        { token ->
+                            val user = User(token, verificationCode.keepLoggedIn)
 
-                        if (this.verifyUser) {
-                            AgreementsCheckOperation(user, { callback.onError(it.toClientError()) }) { agreementsCheck ->
-                                MissingFieldsOperation(user, { callback.onError(it.toClientError()) }) { missingFields ->
-                                    super.navigation.push(StepNoPwValidationCode(verificationCode, user, agreementsCheck.allAccepted(), missingFields))
-                                    callback.onSuccess(NoValue)
-                                    evaluate(provider)
+                            if (this.verifyUser) {
+                                AgreementsCheckOperation(user, { callback.onError(it.toClientError()) }) { agreementsCheck ->
+                                    MissingFieldsOperation(user, { callback.onError(it.toClientError()) }) { missingFields ->
+                                        super.navigation.push(StepNoPwValidationCode(verificationCode, user, agreementsCheck.allAccepted(), missingFields))
+                                        callback.onSuccess(NoValue)
+                                        evaluate(provider)
+                                    }
                                 }
+                            } else {
+                                super.navigation.push(StepNoPwValidationCode(verificationCode, user, true, setOf()))
+                                callback.onSuccess(NoValue)
+                                evaluate(provider)
                             }
-                        } else {
-                            super.navigation.push(StepNoPwValidationCode(verificationCode, user, true, setOf()))
-                            callback.onSuccess(NoValue)
-                            evaluate(provider)
-                        }
-                    })
+                        })
             })
         }
 
@@ -136,7 +140,7 @@ class PasswordlessController @JvmOverloads constructor(private val verifyUser: B
             })
         } else {
             resultCallback.onError(ClientError(ClientError.ErrorType.INVALID_STATE,
-                "Could not resend verification code, as the current state (${super.navigation.peek().javaClass.simpleName}) is not PasswordlessToken"))
+                    "Could not resend verification code, as the current state (${super.navigation.peek().javaClass.simpleName}) is not PasswordlessToken"))
         }
     }
 
@@ -160,7 +164,7 @@ class PasswordlessController @JvmOverloads constructor(private val verifyUser: B
 
     companion object CREATOR : Parcelable.Creator<PasswordlessController> {
         override fun createFromParcel(parcel: Parcel): PasswordlessController =
-            PasswordlessController(parcel)
+                PasswordlessController(parcel)
 
         override fun newArray(size: Int): Array<PasswordlessController?> = arrayOfNulls(size)
     }

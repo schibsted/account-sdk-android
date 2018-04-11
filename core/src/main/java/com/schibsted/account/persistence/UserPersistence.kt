@@ -51,7 +51,8 @@ internal class UserPersistence(private val appContext: Context) {
      * @return The user object of the resumed session. Can be null
      */
     fun resumeLast(callback: ResultCallback<User>) {
-        val lastActiveSession = sessions.sortedByDescending { it.lastActive }.firstOrNull()?.token ?: readTokenCompat()
+        val lastActiveSession = sessions.sortedByDescending { it.lastActive }.firstOrNull()?.token
+                ?: readTokenCompat()
 
         if (lastActiveSession == null) {
             callback.onError(ClientError(ClientError.ErrorType.SESSION_NOT_FOUND, "Could not find any previous sessions"))

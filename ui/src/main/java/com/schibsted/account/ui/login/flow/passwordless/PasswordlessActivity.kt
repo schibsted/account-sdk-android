@@ -54,9 +54,9 @@ class PasswordlessActivity : BaseLoginActivity(), PasswordlessContract {
 
     override fun onIdentifierRequested(provider: InputProvider<Identifier>) {
         val fragment = fragmentProvider.getOrCreateIdentificationFragment(
-            navigationController.currentFragment,
-            provider,
-            identifierType = identifierType)
+                navigationController.currentFragment,
+                provider,
+                identifierType = identifierType)
         navigationController.navigateToFragment(fragment as AbstractIdentificationFragment)
     }
 
@@ -119,8 +119,8 @@ class PasswordlessActivity : BaseLoginActivity(), PasswordlessContract {
          */
         @JvmStatic
         fun getCallingIntent(context: Context, uiConfiguration: UiConfiguration): Intent =
-            Intent(context, PasswordlessActivity::class.java).apply {
-                putExtra(KEY_UI_CONFIGURATION, uiConfiguration)
-            }
+                Intent(context, PasswordlessActivity::class.java).apply {
+                    putExtra(KEY_UI_CONFIGURATION, uiConfiguration)
+                }
     }
 }

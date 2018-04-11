@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.TextView;
+
 import com.schibsted.account.common.tracking.TrackingData;
 import com.schibsted.account.common.tracking.UiTracking;
 import com.schibsted.account.engine.controller.PasswordlessController;
@@ -28,6 +29,7 @@ import com.schibsted.account.ui.ui.component.CheckBoxView;
 import com.schibsted.account.ui.ui.component.CodeInputView;
 import com.schibsted.account.ui.ui.dialog.InformationDialogFragment;
 import com.schibsted.account.ui.ui.dialog.SelectorDialog;
+
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;

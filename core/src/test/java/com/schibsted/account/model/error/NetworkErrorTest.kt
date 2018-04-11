@@ -19,10 +19,10 @@ class NetworkErrorTest {
     @Test
     fun shouldHandleBadUserCredentialsError() {
         val resp = Response.error<String>(400, ResponseBody.create(MediaType.parse("application/json"), "{\n" +
-            "    \"error\": \"invalid_user_credentials\",\n" +
-            "    \"error_code\": \"400 Bad Request\",\n" +
-            "    \"type\": \"OAuthException\"\n" +
-            "}"))
+                "    \"error\": \"invalid_user_credentials\",\n" +
+                "    \"error_code\": \"400 Bad Request\",\n" +
+                "    \"type\": \"OAuthException\"\n" +
+                "}"))
 
         val err = NetworkError.fromResponse(resp)
         assertEquals("invalid_user_credentials", err.type)
@@ -32,11 +32,11 @@ class NetworkErrorTest {
     @Test
     fun shouldHandleInvalidRequestError() {
         val resp = Response.error<String>(400, ResponseBody.create(MediaType.parse("application/json"), "{\n" +
-            "    \"error\": \"invalid_request\",\n" +
-            "    \"error_code\": \"400 Bad Request\",\n" +
-            "    \"type\": \"OAuthException\",\n" +
-            "    \"error_description\": \"Invalid grant_type parameter or parameter missing\"\n" +
-            "}"))
+                "    \"error\": \"invalid_request\",\n" +
+                "    \"error_code\": \"400 Bad Request\",\n" +
+                "    \"type\": \"OAuthException\",\n" +
+                "    \"error_description\": \"Invalid grant_type parameter or parameter missing\"\n" +
+                "}"))
 
         val err = NetworkError.fromResponse(resp)
         assertEquals("invalid_request", err.type)

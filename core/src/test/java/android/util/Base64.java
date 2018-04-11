@@ -157,7 +157,7 @@ public class Base64 {
         System.arraycopy(decoder.output, 0, temp, 0, decoder.op);
         return temp;
     }
-    
+
     @SuppressWarnings("PMD")
     static class Decoder extends Coder {
         /**

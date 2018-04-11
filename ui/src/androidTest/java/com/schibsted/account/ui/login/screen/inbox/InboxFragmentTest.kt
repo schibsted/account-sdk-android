@@ -3,6 +3,7 @@
  */
 
 package com.schibsted.account.ui.login.screen.inbox
+
 import android.content.Intent
 import android.support.test.InstrumentationRegistry
 import android.support.test.espresso.Espresso.pressBack

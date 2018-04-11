@@ -32,7 +32,8 @@ class InboxFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         inbox_change_identifier.setOnClickListener {
-            navigationListener?.onNavigateBackRequested() }
+            navigationListener?.onNavigateBackRequested()
+        }
         inbox_information.text = getString(R.string.schacc_inbox_information, identifier?.identifier)
     }
 

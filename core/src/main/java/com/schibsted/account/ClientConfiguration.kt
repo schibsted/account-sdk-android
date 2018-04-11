@@ -20,9 +20,10 @@ import com.schibsted.account.util.ConfigurationUtils
  * @see <a href="https://selfservice.identity-pre.schibsted.com">Self-Service PRE</a>
  */
 data class ClientConfiguration(
-        @Environment val environment: String,
-        val clientId: String,
-        val clientSecret: String) : Parcelable {
+    @Environment val environment: String,
+    val clientId: String,
+    val clientSecret: String
+) : Parcelable {
 
     constructor(source: Parcel) : this(
             source.readString(),

@@ -7,11 +7,13 @@ package com.schibsted.account.network.service;
 import android.support.annotation.NonNull;
 import android.support.annotation.RestrictTo;
 import android.support.annotation.VisibleForTesting;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.schibsted.account.network.Environment;
 import com.schibsted.account.util.Preconditions;
 import com.schibsted.account.util.LenientAccountsDeserializer;
+
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;

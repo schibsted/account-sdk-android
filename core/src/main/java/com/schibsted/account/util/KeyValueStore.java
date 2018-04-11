@@ -105,7 +105,7 @@ public class KeyValueStore {
                 return tokenResponse;
             }
         }
-        
+
         return null;
     }
 

@@ -23,9 +23,10 @@ import com.schibsted.account.ui.ui.component.PhoneInputView
  * this class executes the mobile identification business logic and ask for UI updates depending on results.
  */
 class IdentificationPresenter(
-        private val identificationView: IdentificationContract.View,
-        private val provider: InputProvider<Identifier>?,
-        private val flowSelectionListener: FlowSelectionListener?) : IdentificationContract.Presenter {
+    private val identificationView: IdentificationContract.View,
+    private val provider: InputProvider<Identifier>?,
+    private val flowSelectionListener: FlowSelectionListener?
+) : IdentificationContract.Presenter {
 
     init {
         identificationView.setPresenter(this)
