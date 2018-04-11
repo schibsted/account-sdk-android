@@ -28,15 +28,15 @@ import java.security.spec.RSAKeyGenParameterSpec
 
 class SharedPreferencesDelegateTest {
     private val testToken = Gson().fromJson("{\n" +
-        "    \"expires_in\": 604800,\n" +
-        "    \"scope\": \"\",\n" +
-        "    \"user_id\": \"11099464\",\n" +
-        "    \"is_admin\": false,\n" +
-        "    \"token_type\": \"Bearer\",\n" +
-        "    \"access_token\": \"eyJ0eXAiOiJKV1MiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvaWRlbnRpdHktcHJlLnNjaGlic3RlZC5jb21cLyIsImNsYXNzIjoidG9rZW4uT0F1dGhVc2VyQWNjZXNzVG9rZW4iLCJleHAiOjE1MTA1ODAxNDIsImlhdCI6MTUwOTk3NTM0MiwianRpIjoiNGQ4NDAxOGYtN2JkMC00OWYwLThlOTEtODc0NmZiMWRiZjYyIiwic3ViIjoiZTA2MTYyNzAtMjA5Mi01ZTlkLTg1NmItNDhlMDY1ZDQ4OTlmIiwic2NvcGUiOiIiLCJ1c2VyX2lkIjoiMTEwOTk0NjQiLCJhenAiOiI1OGNmZjk4ZjE3ZTU5Njg2MTU4YjQ1NjciLCJjbGllbnRfaWQiOiI1OGNmZjk4ZjE3ZTU5Njg2MTU4YjQ1NjcifQ.sMeLE74jcI4Q3eTLfJ1a2r2dNC2JSAnsiOJo8ojZyEE\",\n" +
-        "    \"refresh_token\": \"eyJ0eXAiOiJKV1MiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvaWRlbnRpdHktcHJlLnNjaGlic3RlZC5jb21cLyIsImNsYXNzIjoidG9rZW4uT0F1dGhVc2VyUmVmcmVzaFRva2VuIiwiZXhwIjoxNTExNzg5NzQyLCJpYXQiOjE1MDk5NzUzNDIsImp0aSI6ImQ3NTY0YzJlLTk4YjItNGE1NC04YWQ4LWY4NzQzNDJiNDUxMyIsInN1YiI6ImUwNjE2MjcwLTIwOTItNWU5ZC04NTZiLTQ4ZTA2NWQ0ODk5ZiIsImFqdGkiOiI0ZDg0MDE4Zi03YmQwLTQ5ZjAtOGU5MS04NzQ2ZmIxZGJmNjIiLCJhenAiOiI1OGNmZjk4ZjE3ZTU5Njg2MTU4YjQ1NjciLCJjbGllbnRfaWQiOiI1OGNmZjk4ZjE3ZTU5Njg2MTU4YjQ1NjciLCJzY29wZSI6IiIsInVzZXJfaWQiOiIxMTA5OTQ2NCJ9.e78g0fB3J4ZgbVjje58YbyFNffZ8GENOG-cqOBmWKKw\",\n" +
-        "    \"server_time\": 1509975342\n" +
-        "}", UserToken::class.java)
+            "    \"expires_in\": 604800,\n" +
+            "    \"scope\": \"\",\n" +
+            "    \"user_id\": \"11099464\",\n" +
+            "    \"is_admin\": false,\n" +
+            "    \"token_type\": \"Bearer\",\n" +
+            "    \"access_token\": \"eyJ0eXAiOiJKV1MiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvaWRlbnRpdHktcHJlLnNjaGlic3RlZC5jb21cLyIsImNsYXNzIjoidG9rZW4uT0F1dGhVc2VyQWNjZXNzVG9rZW4iLCJleHAiOjE1MTA1ODAxNDIsImlhdCI6MTUwOTk3NTM0MiwianRpIjoiNGQ4NDAxOGYtN2JkMC00OWYwLThlOTEtODc0NmZiMWRiZjYyIiwic3ViIjoiZTA2MTYyNzAtMjA5Mi01ZTlkLTg1NmItNDhlMDY1ZDQ4OTlmIiwic2NvcGUiOiIiLCJ1c2VyX2lkIjoiMTEwOTk0NjQiLCJhenAiOiI1OGNmZjk4ZjE3ZTU5Njg2MTU4YjQ1NjciLCJjbGllbnRfaWQiOiI1OGNmZjk4ZjE3ZTU5Njg2MTU4YjQ1NjcifQ.sMeLE74jcI4Q3eTLfJ1a2r2dNC2JSAnsiOJo8ojZyEE\",\n" +
+            "    \"refresh_token\": \"eyJ0eXAiOiJKV1MiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvaWRlbnRpdHktcHJlLnNjaGlic3RlZC5jb21cLyIsImNsYXNzIjoidG9rZW4uT0F1dGhVc2VyUmVmcmVzaFRva2VuIiwiZXhwIjoxNTExNzg5NzQyLCJpYXQiOjE1MDk5NzUzNDIsImp0aSI6ImQ3NTY0YzJlLTk4YjItNGE1NC04YWQ4LWY4NzQzNDJiNDUxMyIsInN1YiI6ImUwNjE2MjcwLTIwOTItNWU5ZC04NTZiLTQ4ZTA2NWQ0ODk5ZiIsImFqdGkiOiI0ZDg0MDE4Zi03YmQwLTQ5ZjAtOGU5MS04NzQ2ZmIxZGJmNjIiLCJhenAiOiI1OGNmZjk4ZjE3ZTU5Njg2MTU4YjQ1NjciLCJjbGllbnRfaWQiOiI1OGNmZjk4ZjE3ZTU5Njg2MTU4YjQ1NjciLCJzY29wZSI6IiIsInVzZXJfaWQiOiIxMTA5OTQ2NCJ9.e78g0fB3J4ZgbVjje58YbyFNffZ8GENOG-cqOBmWKKw\",\n" +
+            "    \"server_time\": 1509975342\n" +
+            "}", UserToken::class.java)
 
     @Test
     fun noPreviousPrefsShouldUseEmptyList() {

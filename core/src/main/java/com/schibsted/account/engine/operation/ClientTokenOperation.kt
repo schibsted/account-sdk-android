@@ -15,19 +15,20 @@ import com.schibsted.account.network.response.TokenResponse
  * A task to get client credentials for a SPiD client
  */
 internal class ClientTokenOperation internal constructor(
-        private val failure: (error: NetworkError) -> Unit,
-        private val success: (token: ClientToken) -> Unit) {
+    private val failure: (error: NetworkError) -> Unit,
+    private val success: (token: ClientToken) -> Unit
+) {
 
     init {
         ServiceHolder.oAuthService().tokenFromClientCredentials(ClientConfiguration.get().clientId, ClientConfiguration.get().clientSecret)
-            .enqueue(object : NetworkCallback<TokenResponse>("Initializing client session") {
-                override fun onError(error: NetworkError) {
-                    failure(error)
-                }
+                .enqueue(object : NetworkCallback<TokenResponse>("Initializing client session") {
+                    override fun onError(error: NetworkError) {
+                        failure(error)
+                    }
 
-                override fun onSuccess(result: TokenResponse) {
-                    success(result)
-                }
-            })
+                    override fun onSuccess(result: TokenResponse) {
+                        success(result)
+                    }
+                })
     }
 }

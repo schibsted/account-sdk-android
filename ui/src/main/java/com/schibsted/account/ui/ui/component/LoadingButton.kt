@@ -15,7 +15,8 @@ import kotlinx.android.synthetic.main.schacc_loading_button_widget.view.*
 class LoadingButton @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
-    defStyleAttr: Int = 0) : RelativeLayout(context, attrs, defStyleAttr) {
+    defStyleAttr: Int = 0
+) : RelativeLayout(context, attrs, defStyleAttr) {
 
     init {
         LayoutInflater.from(context).inflate(R.layout.schacc_loading_button_widget, this)

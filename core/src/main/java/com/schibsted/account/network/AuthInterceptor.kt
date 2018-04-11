@@ -31,11 +31,12 @@ import java.util.concurrent.atomic.AtomicReference
  * @param timeout The timeout for token refreshing
  */
 class AuthInterceptor internal constructor(
-        private val user: User,
-        private val urlWhitelist: List<String>,
-        private val allowNonHttps: Boolean = false,
-        private val allowNonWhitelistedDomains: Boolean = false,
-        private val timeout: Long = 10_000) : Interceptor {
+    private val user: User,
+    private val urlWhitelist: List<String>,
+    private val allowNonHttps: Boolean = false,
+    private val allowNonWhitelistedDomains: Boolean = false,
+    private val timeout: Long = 10_000
+) : Interceptor {
 
     private val lock = ConditionVariable()
     private val refreshInProgress = AtomicBoolean(false)

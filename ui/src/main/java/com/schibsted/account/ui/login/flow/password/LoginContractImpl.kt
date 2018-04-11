@@ -36,14 +36,14 @@ class LoginContractImpl(private val loginActivity: BaseLoginActivity) : LoginCon
         } else {
             loginActivity.currentIdentifier?.let { identifier ->
                 val fragment = loginActivity.fragmentProvider.getOrCreatePasswordFragment(
-                    loginActivity.navigationController.currentFragment,
-                    provider,
-                    identifier,
-                    loginActivity.isUserAvailable(),
-                    loginActivity.smartlock)
+                        loginActivity.navigationController.currentFragment,
+                        provider,
+                        identifier,
+                        loginActivity.isUserAvailable(),
+                        loginActivity.smartlock)
                 loginActivity.navigationController.navigateToFragment(fragment)
             }
-                ?: loginActivity.startIdentificationFragment(if (loginActivity is FlowSelectionListener) loginActivity else null)
+                    ?: loginActivity.startIdentificationFragment(if (loginActivity is FlowSelectionListener) loginActivity else null)
         }
     }
 
@@ -54,17 +54,17 @@ class LoginContractImpl(private val loginActivity: BaseLoginActivity) : LoginCon
 
     override fun onAgreementsRequested(agreementsProvider: InputProvider<Agreements>, agreementLinks: AgreementLinksResponse) {
         val fragment = loginActivity.fragmentProvider.getOrCreateTermsFragment(loginActivity.navigationController.currentFragment,
-            agreementsProvider,
-            loginActivity.isUserAvailable(),
-            agreementLinks)
+                agreementsProvider,
+                loginActivity.isUserAvailable(),
+                agreementLinks)
         loginActivity.navigationController.navigateToFragment(fragment)
     }
 
     override fun onRequiredFieldsRequested(requiredFieldsProvider: InputProvider<RequiredFields>, fields: Set<String>) {
         val fragment = loginActivity.fragmentProvider.getOrCreateRequiredFieldsFragment(
-            loginActivity.navigationController.currentFragment,
-            requiredFieldsProvider,
-            fields)
+                loginActivity.navigationController.currentFragment,
+                requiredFieldsProvider,
+                fields)
         loginActivity.navigationController.navigateToFragment(fragment)
     }
 

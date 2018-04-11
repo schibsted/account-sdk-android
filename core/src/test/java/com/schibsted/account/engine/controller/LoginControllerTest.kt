@@ -45,13 +45,13 @@ class LoginControllerTest : WordSpec({
     fun getMockContract(callback: ResultCallback<LoginResult>): LoginContract = mock {
         on { onCredentialsRequested(any()) }.then {
             it.getArgument<InputProvider<Credentials>>(0)
-                .provide(Credentials(Identifier(Identifier.IdentifierType.EMAIL, "someone@example.com"), "password", true),
-                    object : ResultCallback<NoValue> {
-                        override fun onSuccess(result: NoValue) {}
-                        override fun onError(error: ClientError) {
-                            fail("An error occurred: $error")
-                        }
-                    })
+                    .provide(Credentials(Identifier(Identifier.IdentifierType.EMAIL, "someone@example.com"), "password", true),
+                            object : ResultCallback<NoValue> {
+                                override fun onSuccess(result: NoValue) {}
+                                override fun onError(error: ClientError) {
+                                    fail("An error occurred: $error")
+                                }
+                            })
         }
 
         on { onFlowReady(any()) }.then {
@@ -108,10 +108,10 @@ class LoginControllerTest : WordSpec({
         "skip all tasks when all information is available" {
             val controller = LoginController(false, arrayOf(OIDCScope.SCOPE_OPENID))
             controller.navigation.push(StepLoginIdentify(
-                Credentials(Identifier(Identifier.IdentifierType.EMAIL, "some@some.com"), "password", true),
-                User(userToken, true),
-                true,
-                setOf()
+                    Credentials(Identifier(Identifier.IdentifierType.EMAIL, "some@some.com"), "password", true),
+                    User(userToken, true),
+                    true,
+                    setOf()
             ))
 
             val mockCallback: ResultCallback<LoginResult> = mock()
@@ -125,10 +125,10 @@ class LoginControllerTest : WordSpec({
         "verify the user if specified" {
             val controller = LoginController(true, arrayOf(OIDCScope.SCOPE_OPENID))
             controller.navigation.push(StepLoginIdentify(
-                Credentials(Identifier(Identifier.IdentifierType.EMAIL, "some@some.com"), "password", true),
-                User(userToken, true),
-                false,
-                setOf(), mock()
+                    Credentials(Identifier(Identifier.IdentifierType.EMAIL, "some@some.com"), "password", true),
+                    User(userToken, true),
+                    false,
+                    setOf(), mock()
             ))
 
             val mockContract = getMockContract(mock())

@@ -16,11 +16,12 @@ import java.net.URI
  * Signs up a new user
  */
 internal class SignUpOperation(
-        email: String,
-        redirectUri: URI,
-        params: Map<String, Any>,
-        resError: (NetworkError) -> Unit,
-        resSuccess: (ProfileData) -> Unit) {
+    email: String,
+    redirectUri: URI,
+    params: Map<String, Any>,
+    resError: (NetworkError) -> Unit,
+    resSuccess: (ProfileData) -> Unit
+) {
 
     init {
         ClientTokenOperation(

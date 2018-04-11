@@ -13,9 +13,10 @@ import com.schibsted.account.network.response.ApiContainer
 import retrofit2.Call
 
 internal class AccountStatusOperation(
-        identifier: Identifier,
-        failure: (error: NetworkError) -> Unit,
-        success: (status: AccountStatusResponse) -> Unit) {
+    identifier: Identifier,
+    failure: (error: NetworkError) -> Unit,
+    success: (status: AccountStatusResponse) -> Unit
+) {
 
     init {
         ClientTokenOperation(

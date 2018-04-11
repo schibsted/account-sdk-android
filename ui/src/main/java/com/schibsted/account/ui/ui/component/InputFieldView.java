@@ -25,6 +25,7 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
 import com.schibsted.account.ui.R;
 import com.schibsted.account.ui.ui.InputField;
 import com.schibsted.account.ui.ui.rule.BasicValidationRule;

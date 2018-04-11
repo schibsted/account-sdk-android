@@ -16,10 +16,11 @@ import java.util.Locale
  * Task to request user credentials and signup with SPiD using these
  */
 internal class SendValidationCodeOperation(
-        identifier: Identifier,
-        locale: Locale,
-        resError: (NetworkError) -> Unit,
-        resSuccess: (PasswordlessToken) -> Unit) {
+    identifier: Identifier,
+    locale: Locale,
+    resError: (NetworkError) -> Unit,
+    resSuccess: (PasswordlessToken) -> Unit
+) {
 
     init {
         ServiceHolder.passwordlessService().sendValidationCode(ClientConfiguration.get().clientId, identifier.identifier,

@@ -129,7 +129,7 @@ public class PhoneInputView extends LinearLayout implements InputField {
     }
 
     @Override
-    public void setImeAction(final int imeOption, final TextView.OnEditorActionListener editorActionListener){
+    public void setImeAction(final int imeOption, final TextView.OnEditorActionListener editorActionListener) {
         mobileNumberView.inputField.setImeOptions(imeOption);
         mobileNumberView.inputField.setOnEditorActionListener(editorActionListener);
     }

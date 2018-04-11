@@ -11,9 +11,9 @@ import com.schibsted.account.network.response.AgreementLinksResponse
 
 data class StepSignUpCredentials(val credentials: Credentials, val clientReqFields: Set<String>, val agreementsLink: AgreementLinksResponse) : Step() {
     constructor(source: Parcel) : this(
-        source.readParcelable<Credentials>(Credentials::class.java.classLoader),
-        source.readStringSet(),
-        source.readParcelable<AgreementLinksResponse>(AgreementLinksResponse::class.java.classLoader)
+            source.readParcelable<Credentials>(Credentials::class.java.classLoader),
+            source.readStringSet(),
+            source.readParcelable<AgreementLinksResponse>(AgreementLinksResponse::class.java.classLoader)
     )
 
     override fun describeContents() = 0

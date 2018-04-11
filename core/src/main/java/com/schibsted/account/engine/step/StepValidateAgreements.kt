@@ -10,7 +10,7 @@ import com.schibsted.account.engine.input.Agreements
 
 data class StepValidateAgreements(val agreements: Agreements) : Step(), Parcelable {
     constructor(source: Parcel) : this(
-        source.readParcelable<Agreements>(Agreements::class.java.classLoader)
+            source.readParcelable<Agreements>(Agreements::class.java.classLoader)
     )
 
     override fun describeContents() = 0

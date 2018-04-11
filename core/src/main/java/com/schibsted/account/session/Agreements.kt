@@ -28,16 +28,16 @@ class Agreements(private val user: User) {
         }
 
         ServiceHolder.userService(user).getUserAgreements(user.userId.id, token)
-            .enqueue(
-                object : NetworkCallback<ApiContainer<AgreementsResponse>>("Fetching user agreements state") {
-                    override fun onSuccess(result: ApiContainer<AgreementsResponse>) {
-                        callback.onSuccess(result.data.agreements)
-                    }
+                .enqueue(
+                        object : NetworkCallback<ApiContainer<AgreementsResponse>>("Fetching user agreements state") {
+                            override fun onSuccess(result: ApiContainer<AgreementsResponse>) {
+                                callback.onSuccess(result.data.agreements)
+                            }
 
-                    override fun onError(error: NetworkError) {
-                        callback.onError(error.toClientError())
-                    }
-                })
+                            override fun onError(error: NetworkError) {
+                                callback.onError(error.toClientError())
+                            }
+                        })
     }
 
     /**
@@ -69,16 +69,16 @@ class Agreements(private val user: User) {
         }
 
         ServiceHolder.userService(user).acceptUserAgreements(user.userId.id, token)
-            .enqueue(
-                object : NetworkCallback<ApiContainer<AcceptAgreementResponse>>("Accepting terms for user") {
-                    override fun onSuccess(result: ApiContainer<AcceptAgreementResponse>) {
-                        callback.onSuccess(NoValue)
-                    }
+                .enqueue(
+                        object : NetworkCallback<ApiContainer<AcceptAgreementResponse>>("Accepting terms for user") {
+                            override fun onSuccess(result: ApiContainer<AcceptAgreementResponse>) {
+                                callback.onSuccess(NoValue)
+                            }
 
-                    override fun onError(error: NetworkError) {
-                        callback.onError(error.toClientError())
-                    }
-                })
+                            override fun onError(error: NetworkError) {
+                                callback.onError(error.toClientError())
+                            }
+                        })
     }
 
     companion object {
@@ -88,15 +88,15 @@ class Agreements(private val user: User) {
         @JvmStatic
         fun getAgreementLinks(callback: ResultCallback<AgreementLinksResponse>) {
             ServiceHolder.clientService().getClientAgreementsUrls(ClientConfiguration.get().clientId)
-                .enqueue(object : NetworkCallback<ApiContainer<AgreementLinksResponse>>("Fetching agreements links") {
-                    override fun onSuccess(result: ApiContainer<AgreementLinksResponse>) {
-                        callback.onSuccess(result.data)
-                    }
+                    .enqueue(object : NetworkCallback<ApiContainer<AgreementLinksResponse>>("Fetching agreements links") {
+                        override fun onSuccess(result: ApiContainer<AgreementLinksResponse>) {
+                            callback.onSuccess(result.data)
+                        }
 
-                    override fun onError(error: NetworkError) {
-                        callback.onError(error.toClientError())
-                    }
-                })
+                        override fun onError(error: NetworkError) {
+                            callback.onError(error.toClientError())
+                        }
+                    })
         }
     }
 }

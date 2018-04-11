@@ -17,25 +17,26 @@ data class TokenResponse(
     @SerializedName("refresh_token") val refreshToken: String,
     @SerializedName("scope") val scope: String,
     @SerializedName("token_type") val tokenType: String,
-    @SerializedName("expires_in") val expiresIn: Int) : Parcelable {
+    @SerializedName("expires_in") val expiresIn: Int
+) : Parcelable {
 
     fun bearerAuthHeader(): String = "Bearer " + serializedAccessToken
 
     // This needs to be fail safe form Kotlin's null checks, as parsing done in Java can disregard null checks
     fun isValidToken(): Boolean = Try {
-        serializedAccessToken.isNotBlank()
-                && refreshToken.isNotBlank()
-                && (idToken?.isNotBlank() == true || userId.isNotBlank())
+        serializedAccessToken.isNotBlank() &&
+                refreshToken.isNotBlank() &&
+                (idToken?.isNotBlank() == true || userId.isNotBlank())
     }.getOrDefault { false }
 
     constructor(parcel: Parcel) : this(
-        parcel.readString(),
-        parcel.readString(),
-        parcel.readString(),
-        parcel.readString(),
-        parcel.readString(),
-        parcel.readString(),
-        parcel.readInt())
+            parcel.readString(),
+            parcel.readString(),
+            parcel.readString(),
+            parcel.readString(),
+            parcel.readString(),
+            parcel.readString(),
+            parcel.readInt())
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeString(idToken)

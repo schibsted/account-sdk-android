@@ -11,7 +11,8 @@ import com.schibsted.account.session.Agreements
 
 internal class AgreementLinksOperation(
     failure: (ClientError) -> Unit,
-    success: (AgreementLinksResponse) -> Unit) {
+    success: (AgreementLinksResponse) -> Unit
+) {
 
     init {
         Agreements.getAgreementLinks(object : ResultCallback<AgreementLinksResponse> {

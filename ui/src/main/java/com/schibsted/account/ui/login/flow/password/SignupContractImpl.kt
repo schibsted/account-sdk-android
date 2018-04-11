@@ -22,28 +22,29 @@ class SignupContractImpl(private val activity: BaseLoginActivity) : SignUpContra
     override fun onCredentialsRequested(provider: InputProvider<Credentials>) {
         activity.currentIdentifier?.let { identifier ->
             val fragment = activity.fragmentProvider.getOrCreatePasswordFragment(
-                activity.navigationController.currentFragment,
-                provider = provider,
-                currentIdentifier = identifier,
-                userAvailable = activity.isUserAvailable(),
-                smartlockImpl = null)
+                    activity.navigationController.currentFragment,
+                    provider = provider,
+                    currentIdentifier = identifier,
+                    userAvailable = activity.isUserAvailable(),
+                    smartlockImpl = null)
             activity.navigationController.navigateToFragment(fragment)
-        } ?: activity.startIdentificationFragment(if (activity is FlowSelectionListener) activity else null)
+        }
+                ?: activity.startIdentificationFragment(if (activity is FlowSelectionListener) activity else null)
     }
 
     override fun onAgreementsRequested(agreementsProvider: InputProvider<Agreements>, agreementLinks: AgreementLinksResponse) {
         val fragment = activity.fragmentProvider.getOrCreateTermsFragment(activity.navigationController.currentFragment,
-            provider = agreementsProvider,
-            userAvailable = activity.isUserAvailable(),
-            agreementLinks = agreementLinks)
+                provider = agreementsProvider,
+                userAvailable = activity.isUserAvailable(),
+                agreementLinks = agreementLinks)
         activity.navigationController.navigateToFragment(fragment)
     }
 
     override fun onRequiredFieldsRequested(requiredFieldsProvider: InputProvider<RequiredFields>, fields: Set<String>) {
         val fragment = activity.fragmentProvider.getOrCreateRequiredFieldsFragment(
-            activity.navigationController.currentFragment,
-            requiredFieldsProvider,
-            fields)
+                activity.navigationController.currentFragment,
+                requiredFieldsProvider,
+                fields)
         activity.navigationController.navigateToFragment(fragment)
     }
 

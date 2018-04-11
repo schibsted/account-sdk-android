@@ -12,6 +12,7 @@ import android.util.AttributeSet
 import android.view.inputmethod.EditorInfo
 import com.schibsted.account.ui.R
 import com.schibsted.account.ui.ui.rule.BirthdayValidationRule
+
 class BirthdayInputView : InputFieldView {
 
     constructor(context: Context?) : super(context)

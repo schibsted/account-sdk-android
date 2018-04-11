@@ -11,10 +11,10 @@ import com.schibsted.account.session.User
 
 data class StepNoPwValidationCode(private val verificationCode: VerificationCode, val user: User, val agreementsAccepted: Boolean, val missingFields: Set<String>) : Step() {
     constructor(source: Parcel) : this(
-        source.readParcelable<VerificationCode>(VerificationCode::class.java.classLoader),
-        source.readParcelable<User>(User::class.java.classLoader),
-        1 == source.readInt(),
-        source.readStringSet()
+            source.readParcelable<VerificationCode>(VerificationCode::class.java.classLoader),
+            source.readParcelable<User>(User::class.java.classLoader),
+            1 == source.readInt(),
+            source.readStringSet()
     )
 
     override fun describeContents() = 0

@@ -10,7 +10,7 @@ import com.schibsted.account.engine.input.RequiredFields
 
 data class StepValidateReqFields(val requiredFields: RequiredFields) : Step(), Parcelable {
     constructor(source: Parcel) : this(
-        source.readParcelable<RequiredFields>(RequiredFields::class.java.classLoader)
+            source.readParcelable<RequiredFields>(RequiredFields::class.java.classLoader)
     )
 
     override fun describeContents() = 0

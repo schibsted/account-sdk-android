@@ -36,9 +36,11 @@ class SessionService(@Environment environment: String, okHttpClient: OkHttpClien
      * @param redirectUri The desired redirect to receive from /session/<onetimecode> when the
      * session represented by the code received is created.
     </onetimecode> */
-    fun oneTimeSessionCode(clientId: String,
+    fun oneTimeSessionCode(
+        clientId: String,
         accessToken: TokenResponse,
-        redirectUri: String): Call<TokenExchangeResponse> {
+        redirectUri: String
+    ): Call<TokenExchangeResponse> {
         Preconditions.checkNotNull(clientId, accessToken, redirectUri)
         val params = HashMap<String, String>()
         params.put(PARAM_CLIENT_ID_NO_UNDERSCORE, clientId)

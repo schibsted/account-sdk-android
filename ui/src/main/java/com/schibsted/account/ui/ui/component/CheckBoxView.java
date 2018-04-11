@@ -11,8 +11,10 @@ import android.view.View;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
 import com.schibsted.account.ui.R;
 import com.schibsted.account.ui.ui.ErrorField;
+
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -97,7 +99,7 @@ public class CheckBoxView extends LinearLayout implements ErrorField {
         return checkbox.isChecked();
     }
 
-    public void setChecked(boolean checked){
+    public void setChecked(boolean checked) {
         checkbox.setChecked(checked);
     }
 

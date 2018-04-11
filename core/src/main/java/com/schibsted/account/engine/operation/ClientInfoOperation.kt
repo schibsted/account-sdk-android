@@ -16,8 +16,9 @@ import com.schibsted.account.network.response.ClientInfo
  * A task to get client credentials for a SPiD client
  */
 internal class ClientInfoOperation internal constructor(
-        private val failure: (error: NetworkError) -> Unit,
-        private val success: (token: ClientInfo) -> Unit) {
+    private val failure: (error: NetworkError) -> Unit,
+    private val success: (token: ClientInfo) -> Unit
+) {
 
     init {
         ClientTokenOperation({ failure(it) },

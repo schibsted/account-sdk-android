@@ -16,7 +16,8 @@ data class ClientInfo(
     val domain: String,
     val merchantId: Int,
     val css: Map<String, Any>,
-    val termsCss: Map<String, Any>) {
+    val termsCss: Map<String, Any>
+) {
 
     @Deprecated("Provide the proper JSON object instead")
     fun requiredFields(): Set<String> {

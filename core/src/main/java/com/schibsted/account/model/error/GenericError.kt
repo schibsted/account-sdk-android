@@ -12,5 +12,5 @@ internal data class GenericError(val message: () -> String, val details: (() -> 
     }
 
     override fun toClientError(): ClientError =
-        ClientError(ClientError.ErrorType.GENERIC_ERROR, message())
+            ClientError(ClientError.ErrorType.GENERIC_ERROR, message())
 }
