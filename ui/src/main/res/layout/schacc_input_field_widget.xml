@@ -17,7 +17,7 @@
         android:id="@+id/input"
         style="@style/schacc_input_field_widget"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/schacc_default_widget_height"
+        android:layout_height="@dimen/schacc_default_widget_dimension"
         android:imeOptions="actionNext"
         tools:ignore="LabelFor" />
 
