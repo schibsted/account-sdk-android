@@ -9,10 +9,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
+import com.google.gson.Gson
 import com.schibsted.account.Routes
 import com.schibsted.account.common.tracking.TrackingData
 import com.schibsted.account.engine.input.Identifier
 import com.schibsted.account.model.error.ClientError
+import com.schibsted.account.persistence.LocalSecretsProvider
 import com.schibsted.account.ui.R
 import com.schibsted.account.ui.UiConfiguration
 import com.schibsted.account.ui.login.BaseLoginActivity
@@ -59,8 +61,14 @@ class PasswordFragment : FlowFragment<PasswordContract.Presenter>(), PasswordCon
         mobile_password_button_forgot.setOnClickListener {
             BaseLoginActivity.tracker?.eventEngagement(TrackingData.Engagement.CLICK, TrackingData.UIElement.FORGOT_PASSWORD, TrackingData.Screen.PASSWORD)
 
-            val redirectUri = DeepLink.IdentifierProvided.createDeepLinkUri(uiConf!!.redirectUri, identifier?.identifier
-                    ?: "")
+            val idKey = identifier?.let {
+                with(LocalSecretsProvider(requireContext())) {
+                    put(GSON.toJson(it))
+                }
+            }
+
+            val redirectUri = DeepLink.IdentifierProvided.createDeepLinkUri(uiConf!!.redirectUri, idKey ?: "")
+
             navigationListener?.onWebViewNavigationRequested(
                     WebFragment.newInstance(Routes.forgotPasswordUrl(redirectUri).toString(), uiConf?.redirectUri), LoginScreen.WEB_FORGOT_PASSWORD_SCREEN)
         }
@@ -134,5 +142,7 @@ class PasswordFragment : FlowFragment<PasswordContract.Presenter>(), PasswordCon
             fragment.arguments = arg
             return fragment
         }
+
+        private val GSON = Gson()
     }
 }

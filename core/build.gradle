@@ -15,9 +15,9 @@ androidExtensions {
 dependencies {
     api project(':common')
 
+    api "com.squareup.retrofit2:converter-gson:${libs.retrofit}"
     implementation "com.squareup.retrofit2:retrofit:${libs.retrofit}"
     implementation "com.android.support:support-annotations:${libs.support}"
-    implementation "com.squareup.retrofit2:converter-gson:${libs.retrofit}"
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${libs.kotlin}"
     implementation "org.jetbrains.kotlin:kotlin-reflect:${libs.kotlin}"
     implementation "com.android.support:support-core-utils:${libs.support}"
