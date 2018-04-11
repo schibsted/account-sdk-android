@@ -27,6 +27,7 @@ abstract class FlowFragment<in T> : BaseFragment(), KeyboardVisibilityListener, 
         super.onViewCreated(view, savedInstanceState)
         setUpContinueViewVisibility(keyboardManager.isKeyboardOpen)
     }
+
     /**
      * This method is called when the soft keyboard has pop down or pop up.
      *

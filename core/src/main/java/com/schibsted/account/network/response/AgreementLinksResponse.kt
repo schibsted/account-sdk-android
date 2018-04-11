@@ -9,22 +9,24 @@ import android.os.Parcelable
 import com.google.gson.JsonArray
 import com.google.gson.annotations.SerializedName
 
-data class AgreementLinksResponse(@SerializedName("accepted") private val accepted: Boolean,
-                                  @SerializedName("terms_url") val clientTermsUrl: String,
-                                  @SerializedName("privacy_url") val clientPrivacyUrl: String,
-                                  @SerializedName("platform_terms_url") val spidTermsUrl: String,
-                                  @SerializedName("summary") private val summary: JsonArray,
-                                  @SerializedName("platform_privacy_url") val spidPrivacyUrl: String) : Parcelable {
+data class AgreementLinksResponse(
+    @SerializedName("accepted") private val accepted: Boolean,
+    @SerializedName("terms_url") val clientTermsUrl: String,
+    @SerializedName("privacy_url") val clientPrivacyUrl: String,
+    @SerializedName("platform_terms_url") val spidTermsUrl: String,
+    @SerializedName("summary") private val summary: JsonArray,
+    @SerializedName("platform_privacy_url") val spidPrivacyUrl: String
+) : Parcelable {
 
     val summaryText: String get() = if (summary.size() > 0) summary.get(0).asString else ""
 
     constructor(source: Parcel) : this(
-        1 == source.readInt(),
-        source.readString(),
-        source.readString(),
-        source.readString(),
-        source.readJsonArray(),
-        source.readString()
+            1 == source.readInt(),
+            source.readString(),
+            source.readString(),
+            source.readString(),
+            source.readJsonArray(),
+            source.readString()
     )
 
     override fun describeContents() = 0

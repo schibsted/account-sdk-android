@@ -48,10 +48,10 @@ class EmailIdentificationFragmentTest {
     fun init() {
         MockitoAnnotations.initMocks(this)
         val fragment = rule.activity.fragmentProvider.getOrCreateIdentificationFragment(
-            null,
-            null,
-            Identifier.IdentifierType.EMAIL.value,
-            null)
+                null,
+                null,
+                Identifier.IdentifierType.EMAIL.value,
+                null)
         rule.activity.navigationController.navigateToFragment(fragment)
     }
 

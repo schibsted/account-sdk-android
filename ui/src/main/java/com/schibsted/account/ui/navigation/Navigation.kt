@@ -34,8 +34,9 @@ private const val DIALOG_SCREEN = "DIALOG_SCREEN"
  * every and each controller should extend it.
  */
 class Navigation(
-        private var activity: BaseLoginActivity,
-        private val navigationListener: NavigationListener) : FragmentManager.OnBackStackChangedListener {
+    private var activity: BaseLoginActivity,
+    private val navigationListener: NavigationListener
+) : FragmentManager.OnBackStackChangedListener {
     private val fragmentManager: FragmentManager = activity.supportFragmentManager
 
     init {

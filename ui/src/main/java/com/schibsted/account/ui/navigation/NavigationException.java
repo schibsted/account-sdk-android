@@ -6,7 +6,6 @@ package com.schibsted.account.ui.navigation;
 
 /**
  * an {@link RuntimeException} occurring when a navigation is not set up for a screen
- *
  */
 public class NavigationException extends RuntimeException {
 

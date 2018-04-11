@@ -17,10 +17,11 @@ import com.schibsted.account.network.response.TokenResponse
  * Task to request user credentials and signup with SPiD using these
  */
 internal class LoginOperation(
-        credentials: Credentials,
-        @OIDCScope scopes: Array<String>,
-        failure: (NetworkError) -> Unit,
-        success: (UserToken) -> Unit) {
+    credentials: Credentials,
+    @OIDCScope scopes: Array<String>,
+    failure: (NetworkError) -> Unit,
+    success: (UserToken) -> Unit
+) {
 
     init {
         ServiceHolder.oAuthService().tokenFromPassword(ClientConfiguration.get().clientId,

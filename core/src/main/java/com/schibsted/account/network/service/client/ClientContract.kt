@@ -52,7 +52,8 @@ interface ClientContract {
     @GET("api/2/email/{email}/status")
     fun checkEmailStatus(
         @Header("Authorization") clientBearer: String,
-        @Path("email") emailBase64: String): Call<ApiContainer<AccountStatusResponse>>
+        @Path("email") emailBase64: String
+    ): Call<ApiContainer<AccountStatusResponse>>
 
     @GET("api/2/terms")
     fun retrieveTermsLinks(@Query("client_id") clientId: String): Call<ApiContainer<AgreementLinksResponse>>

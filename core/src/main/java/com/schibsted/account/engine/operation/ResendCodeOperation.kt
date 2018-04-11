@@ -14,9 +14,10 @@ import com.schibsted.account.network.response.PasswordlessToken
  * Task to request user credentials and signup with SPiD using these
  */
 internal class ResendCodeOperation(
-        passwordlessToken: PasswordlessToken,
-        resError: (NetworkError) -> Unit,
-        resSuccess: (PasswordlessToken) -> Unit) {
+    passwordlessToken: PasswordlessToken,
+    resError: (NetworkError) -> Unit,
+    resSuccess: (PasswordlessToken) -> Unit
+) {
 
     init {
         ServiceHolder.passwordlessService().resendCode(ClientConfiguration.get().clientId, passwordlessToken)

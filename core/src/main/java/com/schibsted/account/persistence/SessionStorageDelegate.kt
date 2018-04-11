@@ -19,8 +19,13 @@ import kotlin.reflect.KProperty
 
 internal const val AES_KEY = "IDENTITY_AES_PREF_KEY"
 
-internal class SessionStorageDelegate(private val appContext: Context, private val preferenceFilename: String, private val preferenceKey: String,
-    private val encryption: PersistenceEncryption = PersistenceEncryption(), private val rsaKeyPair: KeyPair = EncryptionKeyProvider(appContext).keyPair) {
+internal class SessionStorageDelegate(
+    private val appContext: Context,
+    private val preferenceFilename: String,
+    private val preferenceKey: String,
+    private val encryption: PersistenceEncryption = PersistenceEncryption(),
+    private val rsaKeyPair: KeyPair = EncryptionKeyProvider(appContext).keyPair
+) {
 
     private var data: List<UserPersistence.Session> = readDataFromPersistence() ?: listOf()
 

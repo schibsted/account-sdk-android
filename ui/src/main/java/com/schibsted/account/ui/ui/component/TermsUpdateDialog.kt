@@ -17,6 +17,7 @@ import com.schibsted.account.ui.R
 import kotlinx.android.synthetic.main.schacc_terms_dialog_layout.*
 
 private const val KEY_SUMMARY = "SUMMARY"
+
 class TermsUpdateDialog : DialogFragment() {
     private lateinit var summaryText: String
 

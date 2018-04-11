@@ -12,9 +12,10 @@ import com.schibsted.account.network.response.RequiredFieldsResponse
 import com.schibsted.account.session.User
 
 internal class MissingFieldsOperation(
-        user: User,
-        resError: (NetworkError) -> Unit,
-        resSuccess: (Set<String>) -> Unit) {
+    user: User,
+    resError: (NetworkError) -> Unit,
+    resSuccess: (Set<String>) -> Unit
+) {
 
     init {
         val token = requireNotNull(user.token, { "Cannot get missing fields for logged out user" })

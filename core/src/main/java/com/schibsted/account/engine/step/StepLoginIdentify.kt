@@ -10,17 +10,19 @@ import com.schibsted.account.engine.input.Credentials
 import com.schibsted.account.network.response.AgreementLinksResponse
 import com.schibsted.account.session.User
 
-data class StepLoginIdentify(val credentials: Credentials,
+data class StepLoginIdentify(
+    val credentials: Credentials,
     val user: User,
     val agreementsAccepted: Boolean,
     val missingFields: Set<String>,
-    val agreementLinks: AgreementLinksResponse? = null) : Step(), Parcelable {
+    val agreementLinks: AgreementLinksResponse? = null
+) : Step(), Parcelable {
     constructor(source: Parcel) : this(
-        source.readParcelable<Credentials>(Credentials::class.java.classLoader),
-        source.readParcelable<User>(User::class.java.classLoader),
-        1 == source.readInt(),
-        source.readStringSet(),
-        source.readParcelable<AgreementLinksResponse>(AgreementLinksResponse::class.java.classLoader)
+            source.readParcelable<Credentials>(Credentials::class.java.classLoader),
+            source.readParcelable<User>(User::class.java.classLoader),
+            1 == source.readInt(),
+            source.readStringSet(),
+            source.readParcelable<AgreementLinksResponse>(AgreementLinksResponse::class.java.classLoader)
     )
 
     override fun describeContents() = 0

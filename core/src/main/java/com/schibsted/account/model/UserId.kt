@@ -13,8 +13,8 @@ import com.schibsted.account.network.response.TokenResponse
 
 data class UserId(val id: String, val legacyId: String?) : Parcelable {
     constructor(source: Parcel) : this(
-        source.readString(),
-        source.readString()
+            source.readString(),
+            source.readString()
     )
 
     override fun describeContents() = 0

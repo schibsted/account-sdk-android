@@ -33,8 +33,10 @@ import com.schibsted.account.Events
  * the currently active task.
  */
 
-class LoginController @JvmOverloads constructor(private val verifyUser: Boolean,
-    @OIDCScope private val scopes: Array<String> = arrayOf(OIDCScope.SCOPE_OPENID)) : VerificationController<LoginContract>() {
+class LoginController @JvmOverloads constructor(
+    private val verifyUser: Boolean,
+    @OIDCScope private val scopes: Array<String> = arrayOf(OIDCScope.SCOPE_OPENID)
+) : VerificationController<LoginContract>() {
 
     constructor(parcel: Parcel) : this(parcel.readInt() != 0, parcel.createStringArray()) {
         super.navigation.addAll(parcel.readStack(LoginController::class.java.classLoader))
@@ -71,9 +73,11 @@ class LoginController @JvmOverloads constructor(private val verifyUser: Boolean,
 
         if (this.verifyUser) {
             if (!idLoginStep.agreementsAccepted) {
-                super.requestAgreements(contract, idLoginStep.user, idLoginStep.agreementLinks!!) ?: return
+                super.requestAgreements(contract, idLoginStep.user, idLoginStep.agreementLinks!!)
+                        ?: return
             }
-            super.requestRequiredFields(contract, idLoginStep.user, idLoginStep.missingFields) ?: return
+            super.requestRequiredFields(contract, idLoginStep.user, idLoginStep.missingFields)
+                    ?: return
 
             contract.onFlowReady(CallbackProvider {
                 it.onSuccess(LoginResult(idLoginStep.user, false))

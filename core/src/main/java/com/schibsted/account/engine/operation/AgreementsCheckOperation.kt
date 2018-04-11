@@ -12,9 +12,10 @@ import com.schibsted.account.network.response.ApiContainer
 import com.schibsted.account.session.User
 
 internal class AgreementsCheckOperation(
-        user: User,
-        failure: (NetworkError) -> Unit,
-        success: (AgreementsResponse.Agreements) -> Unit) {
+    user: User,
+    failure: (NetworkError) -> Unit,
+    success: (AgreementsResponse.Agreements) -> Unit
+) {
 
     init {
         val token = requireNotNull(user.token, { "Cannot get agreements status for logged out user" })

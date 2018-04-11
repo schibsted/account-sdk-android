@@ -7,14 +7,15 @@ package com.schibsted.account.model
 import com.schibsted.account.network.response.ProfileData
 
 data class SignUpParams(
-        val password: String? = null,
-        val redirectUri: String? = null,
-        val displayName: String? = null,
-        val name: ProfileData.Name? = null,
-        val birthday: String? = null,
-        val addresses: Map<ProfileData.Address.AddressType, ProfileData.Address>? = null,
-        val gender: String? = null,
-        val acceptTerms: Boolean? = null) {
+    val password: String? = null,
+    val redirectUri: String? = null,
+    val displayName: String? = null,
+    val name: ProfileData.Name? = null,
+    val birthday: String? = null,
+    val addresses: Map<ProfileData.Address.AddressType, ProfileData.Address>? = null,
+    val gender: String? = null,
+    val acceptTerms: Boolean? = null
+) {
 
     fun getParams(): Map<String, Any> {
         val m = mutableMapOf<String, Any>()

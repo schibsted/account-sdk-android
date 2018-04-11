@@ -22,10 +22,12 @@ class OAuthService(@Environment environment: String, okHttpClient: OkHttpClient)
      * @param authCode The auth code used for authentication.
      * @param redirectUri The uri the redirect targeted.
      */
-    fun tokenFromAuthCode(clientId: String,
-            clientSecret: String,
-            authCode: String,
-            redirectUri: String): Call<TokenResponse> {
+    fun tokenFromAuthCode(
+        clientId: String,
+        clientSecret: String,
+        authCode: String,
+        redirectUri: String
+    ): Call<TokenResponse> {
 
         val params = mapOf(
                 PARAM_GRANT_TYPE to GRANT_TYPE_AUTHORIZATION_CODE,
@@ -54,8 +56,14 @@ class OAuthService(@Environment environment: String, okHttpClient: OkHttpClient)
      * (or resending) an auth code.
      * @param scopes The scopes requested for the session.
      */
-    fun tokenFromPasswordless(clientId: String, clientSecret: String, identifier: String, code: String,
-            passwordlessToken: String, vararg scopes: String): Call<TokenResponse> {
+    fun tokenFromPasswordless(
+        clientId: String,
+        clientSecret: String,
+        identifier: String,
+        code: String,
+        passwordlessToken: String,
+        vararg scopes: String
+    ): Call<TokenResponse> {
 
         val params = mapOf(PARAM_GRANT_TYPE to PARAM_PASSWORDLESS,
                 PARAM_SCOPE to scopes.joinToString(" "),

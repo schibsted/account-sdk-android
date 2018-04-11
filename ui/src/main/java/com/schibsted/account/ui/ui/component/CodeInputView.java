@@ -17,8 +17,10 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
 import com.schibsted.account.ui.R;
 import com.schibsted.account.ui.ui.InputField;
+
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -342,6 +344,7 @@ public class CodeInputView extends RelativeLayout implements InputField, View.On
         lastDigit.setImeOptions(imeOption);
         lastDigit.setOnEditorActionListener(editorActionListener);
     }
+
     /**
      * Calls {@link #hideErrorView()} if {@link #isErrorVisible()} return true
      *

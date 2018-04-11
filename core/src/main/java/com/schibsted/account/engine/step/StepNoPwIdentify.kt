@@ -10,16 +10,18 @@ import com.schibsted.account.engine.input.Identifier
 import com.schibsted.account.network.response.AgreementLinksResponse
 import com.schibsted.account.network.response.PasswordlessToken
 
-data class StepNoPwIdentify(val identifier: Identifier,
+data class StepNoPwIdentify(
+    val identifier: Identifier,
     val passwordlessToken: PasswordlessToken,
     val isNewUser: Boolean,
-    val agreementLinks: AgreementLinksResponse) : Step() {
+    val agreementLinks: AgreementLinksResponse
+) : Step() {
 
     constructor(source: Parcel) : this(
-        source.readParcelable<Identifier>(Identifier::class.java.classLoader),
-        source.readParcelable<PasswordlessToken>(PasswordlessToken::class.java.classLoader),
-        1 == source.readInt(),
-        source.readParcelable<AgreementLinksResponse>(AgreementLinksResponse::class.java.classLoader)
+            source.readParcelable<Identifier>(Identifier::class.java.classLoader),
+            source.readParcelable<PasswordlessToken>(PasswordlessToken::class.java.classLoader),
+            1 == source.readInt(),
+            source.readParcelable<AgreementLinksResponse>(AgreementLinksResponse::class.java.classLoader)
     )
 
     override fun describeContents() = 0

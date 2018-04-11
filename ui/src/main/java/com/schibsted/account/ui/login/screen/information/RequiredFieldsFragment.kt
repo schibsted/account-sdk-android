@@ -69,19 +69,19 @@ class RequiredFieldsFragment : FlowFragment<RequiredFieldsContract.Presenter>(),
             BirthdayInputView(context)
         } else {
             InputFieldView.Builder(context, validationRule)
-                .setInputType(EditorInfo.TYPE_CLASS_TEXT)
-                .setError(R.string.schacc_required_fields_error)
-                .setCancelable(true)
-                .setTitle(titleRes)
-                .build()
+                    .setInputType(EditorInfo.TYPE_CLASS_TEXT)
+                    .setError(R.string.schacc_required_fields_error)
+                    .setCancelable(true)
+                    .setTitle(titleRes)
+                    .build()
         }
 
         val params = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT)
         params.setMargins(0, 0, 0,
-            TypedValue.applyDimension(
-                TypedValue.COMPLEX_UNIT_DIP,
-                INFORMATION_FIELD_MARGIN_BOTTOM,
-                resources.displayMetrics).toInt())
+                TypedValue.applyDimension(
+                        TypedValue.COMPLEX_UNIT_DIP,
+                        INFORMATION_FIELD_MARGIN_BOTTOM,
+                        resources.displayMetrics).toInt())
 
         generatedView.layoutParams = params
         return generatedView

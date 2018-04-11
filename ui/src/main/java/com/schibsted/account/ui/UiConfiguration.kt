@@ -40,31 +40,31 @@ data class UiConfiguration(
 
     fun newBuilder(): UiConfiguration.Builder {
         val builder = UiConfiguration.Builder(clientName, redirectUri, defaultPhonePrefix)
-            .locale(locale)
-            .identifierType(identifierType)
-            .identifier(identifier)
-            .enableSignUp()
-            .disableSmartlock()
-            .logo(clientLogo)
-            .teaserText(teaserText)
-            .allowClosing(isClosingAllowed)
+                .locale(locale)
+                .identifierType(identifierType)
+                .identifier(identifier)
+                .enableSignUp()
+                .disableSmartlock()
+                .logo(clientLogo)
+                .teaserText(teaserText)
+                .allowClosing(isClosingAllowed)
         signUpNotAllowedErrorMessage?.let { builder.disableSignUp(it) }
         return builder
     }
 
     constructor(source: Parcel) : this(
-        source.readString(),
-        source.readSerializable() as URI,
-        source.readInt(),
-        source.readSerializable() as Locale,
-        source.readSerializable() as Identifier.IdentifierType,
-        source.readString(),
-        source.readInt() == 1,
-        source.readInt() == 1,
-        source.readInt(),
-        source.readString(),
-        source.readString(),
-        source.readInt() == 1
+            source.readString(),
+            source.readSerializable() as URI,
+            source.readInt(),
+            source.readSerializable() as Locale,
+            source.readSerializable() as Identifier.IdentifierType,
+            source.readString(),
+            source.readInt() == 1,
+            source.readInt() == 1,
+            source.readInt(),
+            source.readString(),
+            source.readString(),
+            source.readInt() == 1
     )
 
     override fun describeContents() = 0

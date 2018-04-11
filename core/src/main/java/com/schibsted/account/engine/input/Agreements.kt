@@ -13,7 +13,7 @@ import com.schibsted.account.network.response.AgreementLinksResponse
 
 data class Agreements(val acceptAgreements: Boolean) : Parcelable {
     constructor(source: Parcel) : this(
-        1 == source.readInt()
+            1 == source.readInt()
     )
 
     override fun describeContents() = 0
