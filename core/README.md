@@ -17,12 +17,8 @@ Any errors which occurs when executing a task will will be propagated to the cal
 
 When the login flow is completed, the `onLoginCompleted` function will be called with your `User` object, which also contains the session.
 
-### Managing user sessions
-After a successful login, you get a `User` object. This object is parcelable, so it will survive rotations etc. Please note that the core SDK does not persist your sessions automatically, but provides a way to persist and resume this. 
-
-The user object is responsible for doing user actions like updating profile data. It also has a reference to its session, from which you can request one time login codes or logout the current session. After logging out a session, you should not perform any actions on either the session or the user, as the token will now be invalidated by SPiD.
-
-You can also bind a user session to an `OkHttpClient`, so that you can perform authenticated requests. Please read more about this in the [Authenticated requests](#authenticated-requests) section.
+## Usage
+After a successful login, you get a `User` object. The user object is responsible for performing actions on the user, like updating profile data. It also has a reference to its session, from which you can request one time login codes or logout the current session. After logging out a session, you should not perform any actions on either the session or the user, as the token will now be invalidated by SPiD.
 
 ### Persisting user sessions
 The SDK provides the `AccountService` which includes the `UserPersistenceService`. This automates persisting and refreshing the stored user on token updates etc as well as logouts. To use this, you should bind this anywhere where your user is active. 
@@ -79,6 +75,10 @@ If you need to respond to events when a user logs in etc, you can register a `Br
 - User's token refreshes (Extra: User)
 
 ### Authenticated requests
-You can authenticate your requests by binding a session to an `OkHttpClient`. As long as the user session is not logged out, this will manage authentication requests and keep your session alive. To bind a session, you need to provide an `OkHttpClient.Builder` to the User session which we will attach the required interceptor.
+You can authenticate your requests by binding a session to an `OkHttpClient` from the `User` object. As long as the user is logged in, this will allow authenticated requests and keep your session alive. To bind a session, please see the `User.bind(OkHttpClient.Builder, List<String>)` function for details.
 
-You must also specify which hosts you will use the authenticated requests for. For security reasons you __should not attach session information to requests that does not need to be authenticated__, as this would allow third parties to hijack a session from a user.
+The second parameter specifies which hosts you will use the authenticated requests for. For security reasons you __should not attach session information to requests that does not need to be authenticated__, as this would allow third parties to hijack a session from a user.
+
+## FAQ
+**What is the difference between _one time code_ and _one time session url_?**<br>
+The two serves different purposes, the _one time code_ is used to give an auth code which can be used to get a token on behalf of the user. This can be passed to your back-end if you need to perform actions on the user. The _one time session url_ is normally used to authenticate a web view. Pass this to a web view with a redirect of your choice and you will end up having the user authenticated in that web view.
