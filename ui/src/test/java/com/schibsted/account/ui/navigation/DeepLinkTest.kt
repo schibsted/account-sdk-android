@@ -47,10 +47,5 @@ class DeepLinkTest : WordSpec({
             res shouldNotBe null
             res?.identifier shouldBe "me@email.com"
         }
-
-        "not allow invalid emails" {
-            val uri = URI.create(redir.toString() + "?act=identifier-provided&id=${encodeBase64("meemail.com")}")
-            DeepLink.IdentifierProvided(uri)?.identifier shouldBe null
-        }
     }
 })

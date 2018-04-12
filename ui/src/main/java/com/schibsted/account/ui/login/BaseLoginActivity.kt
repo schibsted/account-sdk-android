@@ -18,6 +18,7 @@ import android.support.v4.app.DialogFragment
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
+import android.util.Patterns
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -25,6 +26,7 @@ import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.ViewTreeObserver
 import android.view.inputmethod.InputMethodManager
+import com.google.gson.Gson
 import com.schibsted.account.AccountService
 import com.schibsted.account.common.tracking.TrackingData
 import com.schibsted.account.common.tracking.UiTracking
@@ -33,6 +35,7 @@ import com.schibsted.account.engine.controller.LoginController
 import com.schibsted.account.engine.input.Credentials
 import com.schibsted.account.engine.input.Identifier
 import com.schibsted.account.engine.integration.ResultCallback
+import com.schibsted.account.persistence.LocalSecretsProvider
 import com.schibsted.account.session.User
 import com.schibsted.account.ui.KeyboardManager
 import com.schibsted.account.ui.R
@@ -197,8 +200,14 @@ abstract class BaseLoginActivity : AppCompatActivity(), KeyboardManager, Navigat
                 if (navigationController.currentFragment?.tag == LoginScreen.WEB_FORGOT_PASSWORD_SCREEN.value) {
                     navigationController.navigateBackTo(LoginScreen.PASSWORD_SCREEN)
                 } else if (navigationController.currentFragment?.tag == LoginScreen.IDENTIFICATION_SCREEN.value) {
-                    val frag = navigationController.currentFragment as EmailIdentificationFragment
-                    frag.prefillIdentifier(action.identifier)
+                    LocalSecretsProvider(applicationContext).get(action.identifier)?.let {
+                        val frag = navigationController.currentFragment as EmailIdentificationFragment
+                        val id = Gson().fromJson(it, Identifier::class.java)
+
+                        id.identifier
+                                .takeIf { Patterns.EMAIL_ADDRESS.matcher(it).matches() }
+                                ?.let { frag.prefillIdentifier(id.identifier) }
+                    }
                 }
             }
         }

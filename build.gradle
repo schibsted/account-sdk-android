@@ -111,6 +111,7 @@ subprojects { proj ->
     apply plugin: 'org.jetbrains.dokka-android'
     apply plugin: 'pmd'
     apply plugin: 'findbugs'
+    apply plugin: 'jacoco'
 
     apply plugin: 'maven-publish'
     apply plugin: 'com.jfrog.bintray'
@@ -145,6 +146,7 @@ subprojects { proj ->
         }
     }
 
+
     task findbugs(type: FindBugs, dependsOn: 'assemble', group: 'verification') {
         excludeFilter = file("${rootProject.rootDir}/config/findbugs.xml")
         source = android.sourceSets.main.java.srcDirs
@@ -175,10 +177,52 @@ subprojects { proj ->
         continuationIndentSize = 8
     }
 
+    android.libraryVariants.all { variant ->
+        task("jacocoTestReport${variant.name.capitalize()}", type: JacocoReport) {
+            group = "Reporting"
+            description = "Generate Jacoco coverage reports for Debug build"
+            dependsOn "test${variant.name.capitalize()}UnitTest"
+
+            reports {
+                xml.enabled true
+                html.enabled true
+            }
+
+            def excludes = [
+                    '**/R.class',
+                    '**/R$*.class',
+                    '**/*$ViewInjector*.*',
+                    '**/BuildConfig.*',
+                    '**/Manifest*.*',
+                    '**/*Test*.*',
+                    'android/**/*.*',
+                    '**/*Fragment.*',
+                    '**/*Fragment$*',
+                    '**/*Activity.*',
+                    '**/*Activity$*',
+                    '**/*View.*',
+                    '**/*View$*'
+            ]
+
+            classDirectories = fileTree(
+                    dir: "$buildDir/intermediates/classes/${variant.dirName}",
+                    excludes: excludes
+            ) + fileTree(
+                    dir: "$buildDir/tmp/kotlin-classes/${variant.name}",
+                    excludes: excludes
+            )
+
+            sourceDirectories = files([
+                    android.sourceSets.main.java.srcDirs,
+                    "src/main/kotlin"
+            ])
+            executionData = files("$buildDir/jacoco/test${variant.name.capitalize()}UnitTest.exec")
+        }
+    }
+
     dokka {
         outputFormat = 'html'
         outputDirectory = "${rootProject.buildDir}/docs"
-
     }
 
     task dokkaJavadoc(type: org.jetbrains.dokka.gradle.DokkaTask) {
@@ -195,4 +239,11 @@ subprojects { proj ->
         classifier = 'javadoc'
         from "$buildDir/javadoc"
     }
+}
+
+task jacocoReports {
+    dependsOn ':common:jacocoTestReportDebug'
+    dependsOn ':core:jacocoTestReportDebug'
+    dependsOn ':ui:jacocoTestReportSingledexDebug'
+    dependsOn ':smartlock:jacocoTestReportDebug'
 }

@@ -4,12 +4,9 @@
 
 package com.schibsted.account.util
 
-import android.util.Patterns
 import com.schibsted.account.common.lib.Try
 import com.schibsted.account.common.lib.getOrDefault
 import com.schibsted.account.common.util.Logger
-import com.schibsted.account.common.util.decodeBase64
-import com.schibsted.account.common.util.encodeBase64
 import com.schibsted.account.common.util.getQueryParam
 import java.net.URI
 
@@ -59,13 +56,10 @@ sealed class DeepLink {
 
             operator fun invoke(uri: URI): IdentifierProvided? {
                 if (uri.getQueryParam(DeepLinkHandler.PARAM_ACTION) == Action.IDENTIFIER_PROVIDED.value) {
-                    val result = uri.getQueryParam(PARAM_ID)
-                            ?.let { decodeBase64(it) }
-                            ?.takeIf { Patterns.EMAIL_ADDRESS.matcher(it).matches() }
-                            ?.let { IdentifierProvided(it) }
+                    val result = uri.getQueryParam(PARAM_ID)?.let { IdentifierProvided(it) }
 
                     if (result == null) {
-                        Logger.info(TAG, { "Action recognized, but validation failed" })
+                        Logger.info(TAG, { "Action recognized, but param $PARAM_ID was missing" })
                     }
 
                     return result
@@ -76,12 +70,12 @@ sealed class DeepLink {
             fun createDeepLinkUri(redirectUri: URI, identifier: String): URI {
                 return URI.create("$redirectUri?" +
                         "${DeepLinkHandler.PARAM_ACTION}=${Action.IDENTIFIER_PROVIDED.value}" +
-                        "&$PARAM_ID=${encodeBase64(identifier)}")
+                        "&$PARAM_ID=$identifier")
             }
         }
     }
 
     companion object {
-        protected val TAG = Logger.DEFAULT_TAG + "-DL"
+        protected const val TAG = Logger.DEFAULT_TAG + "-DL"
     }
 }
