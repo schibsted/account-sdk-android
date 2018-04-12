@@ -46,6 +46,7 @@ import com.schibsted.account.ui.login.screen.identification.ui.EmailIdentificati
 import com.schibsted.account.ui.navigation.Navigation
 import com.schibsted.account.ui.navigation.NavigationListener
 import com.schibsted.account.ui.smartlock.SmartlockImpl
+import com.schibsted.account.ui.smartlock.SmartlockMode
 import com.schibsted.account.ui.ui.FlowFragment
 import com.schibsted.account.ui.ui.WebFragment
 import com.schibsted.account.util.DeepLink
@@ -171,7 +172,7 @@ abstract class BaseLoginActivity : AppCompatActivity(), KeyboardManager, Navigat
     }
 
     private fun initializeSmartlock() {
-        if (SmartlockImpl.isSmartlockAvailable() && uiConfiguration.smartlockEnabled) {
+        if (SmartlockImpl.isSmartlockAvailable() && uiConfiguration.smartlockMode != SmartlockMode.DISABLED) {
             loginController = LoginController(true)
             smartlock = SmartlockImpl(this, loginController!!, loginContract)
             if (isSmartlockRunning) {
@@ -307,10 +308,14 @@ abstract class BaseLoginActivity : AppCompatActivity(), KeyboardManager, Navigat
                 when (requestCode) {
                     SmartlockImpl.RC_CHOOSE_ACCOUNT -> smartlock?.provideCredential(smartlockCredentials)
                     SmartlockImpl.RC_IDENTIFIER_ONLY -> {
-                        smartlock?.provideHint(smartlockCredentials)
-                        fragmentProvider = FragmentProvider(uiConfiguration)
-                        startIdentificationFragment(if (this is FlowSelectionListener) this else null)
-                        progressBar.visibility = GONE
+                        if (uiConfiguration.smartlockMode == SmartlockMode.FORCED) {
+                            smartlock?.onFailure()
+                        } else {
+                            smartlock?.provideHint(smartlockCredentials)
+                            fragmentProvider = FragmentProvider(uiConfiguration)
+                            startIdentificationFragment(if (this is FlowSelectionListener) this else null)
+                            progressBar.visibility = GONE
+                        }
                     }
                 }
                 this.isSmartlockRunning = false
