@@ -4,12 +4,9 @@
 
 package com.schibsted.account.util
 
-import android.util.Patterns
 import com.schibsted.account.common.lib.Try
 import com.schibsted.account.common.lib.getOrDefault
 import com.schibsted.account.common.util.Logger
-import com.schibsted.account.common.util.decodeBase64
-import com.schibsted.account.common.util.encodeBase64
 import com.schibsted.account.common.util.getQueryParam
 import java.net.URI
 

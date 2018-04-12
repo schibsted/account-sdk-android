@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2018 Schibsted Products & Technology AS. Licensed under the terms of the MIT license. See LICENSE in the project root.
+ */
+
 package com.schibsted.account.persistence
 
 import android.content.Context
@@ -21,7 +25,7 @@ class LocalSecretsProviderTest : StringSpec({
         on { putString(any(), any()) }.then {
             val arg1 = it.getArgument(0) as String
             val arg2 = it.getArgument(1) as String
-            data.put(arg1, arg2)
+            data[arg1] = arg2
             null
         }
     }
@@ -38,10 +42,9 @@ class LocalSecretsProviderTest : StringSpec({
         on { getSharedPreferences(any(), any()) }.thenReturn(mockedSharedPreferences)
     }
 
-    "Retrieveing data which does not exist should not crash" {
+    "Retrieving data which does not exist should not crash" {
         val lsp = LocalSecretsProvider(mockedContext)
         lsp.get("someKey") shouldBe null
-
     }
 
     "Storing data should return a secret key in the UUID format" {
@@ -50,7 +53,7 @@ class LocalSecretsProviderTest : StringSpec({
         UUID.fromString(res)
     }
 
-    "Storing an existing data value should returnthe same key" {
+    "Storing an existing data value should return the same key" {
         val lsp = LocalSecretsProvider(mockedContext)
         val firstRes = lsp.put("somedata")
         val secondRes = lsp.put("somedata")

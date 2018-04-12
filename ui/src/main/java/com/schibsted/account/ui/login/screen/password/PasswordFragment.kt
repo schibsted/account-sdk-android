@@ -62,9 +62,7 @@ class PasswordFragment : FlowFragment<PasswordContract.Presenter>(), PasswordCon
             BaseLoginActivity.tracker?.eventEngagement(TrackingData.Engagement.CLICK, TrackingData.UIElement.FORGOT_PASSWORD, TrackingData.Screen.PASSWORD)
 
             val idKey = identifier?.let {
-                with(LocalSecretsProvider(requireContext())) {
-                    put(GSON.toJson(it))
-                }
+                LocalSecretsProvider(requireContext()).put(GSON.toJson(it))
             }
 
             val redirectUri = DeepLink.IdentifierProvided.createDeepLinkUri(uiConf!!.redirectUri, idKey ?: "")
