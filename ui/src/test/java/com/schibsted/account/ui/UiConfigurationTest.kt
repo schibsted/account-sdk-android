@@ -23,7 +23,7 @@ class UiConfigurationTest : StringSpec({
         newConfig.signUpEnabled shouldBe config.signUpEnabled
         newConfig.signUpNotAllowedErrorMessage shouldBe config.signUpNotAllowedErrorMessage
         newConfig.isClosingAllowed shouldBe config.isClosingAllowed
-        newConfig.smartlockEnabled shouldBe config.smartlockEnabled
+        newConfig.smartlockMode shouldBe config.smartlockMode
         newConfig.locale shouldBe config.locale
     }
 })
