@@ -8,7 +8,7 @@ android:
         - extra-google-m2repository
         - platform-tools
 script:
-  - ./gradlew check --stacktrace
+  - ./gradlew check jacocoReports --stacktrace
 before_install:
   - mkdir "/usr/local/android-sdk/licenses" || true
   - echo -e "\n8933bad161af4178b1185d1a37fbf41ea5269c55" > "/usr/local/android-sdk/licenses/android-sdk-license"
@@ -26,3 +26,4 @@ git:
   depth: 500
 after_success:
   - ./release.sh
+  - bash <(curl -s https://codecov.io/bash)
