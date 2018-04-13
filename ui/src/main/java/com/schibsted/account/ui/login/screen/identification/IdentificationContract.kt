@@ -37,6 +37,8 @@ interface IdentificationContract {
          * @param signUpErrorMessage an optional error message to show if the user want to signup but it's not allowed
          */
         fun verifyInput(identifier: InputField, identifierType: IdentifierType, allowSignup: Boolean, signUpErrorMessage: String?)
+
+        fun getAccountStatus(input: InputField, allowSignUp: Boolean, signUpErrorMessage: String?)
     }
 
     /**

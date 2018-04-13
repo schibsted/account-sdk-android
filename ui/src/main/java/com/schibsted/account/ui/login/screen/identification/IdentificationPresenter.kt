@@ -6,7 +6,6 @@ package com.schibsted.account.ui.login.screen.identification
 
 import com.schibsted.account.common.tracking.TrackingData
 import com.schibsted.account.engine.input.Identifier
-import com.schibsted.account.engine.input.Identifier.IdentifierType
 import com.schibsted.account.engine.integration.InputProvider
 import com.schibsted.account.engine.integration.ResultCallback
 import com.schibsted.account.model.NoValue
@@ -28,14 +27,18 @@ class IdentificationPresenter(
     private val flowSelectionListener: FlowSelectionListener?
 ) : IdentificationContract.Presenter {
 
+    internal lateinit var id: Identifier
+
     init {
         identificationView.setPresenter(this)
     }
 
-    private fun identifyUser(identifierType: Identifier.IdentifierType, input: String, identifier: InputField) {
-        provider?.provide(Identifier(identifierType, input), object : ResultCallback<NoValue> {
+    private fun identifyUser(identifier: InputField) {
+        provider?.provide(id, object : ResultCallback<NoValue> {
             override fun onSuccess(result: NoValue) {
-                identificationView.clearField()
+                if (identificationView.isActive) {
+                    identificationView.clearField()
+                }
             }
 
             override fun onError(error: ClientError) {
@@ -52,8 +55,7 @@ class IdentificationPresenter(
         })
     }
 
-    private fun getAccountStatus(identifierType: IdentifierType, input: String, identifier: InputField, allowSignUp: Boolean, signUpErrorMessage: String?) {
-        val id = Identifier(identifierType, input)
+    override fun getAccountStatus(input: InputField, allowSignUp: Boolean, signUpErrorMessage: String?) {
         id.getAccountStatus(object : ResultCallback<AccountStatusResponse> {
             override fun onSuccess(result: AccountStatusResponse) {
                 BaseLoginActivity.tracker?.let {
@@ -70,7 +72,7 @@ class IdentificationPresenter(
                     val flowType = if (result.isAvailable) FlowSelectionListener.FlowType.SIGN_UP else FlowSelectionListener.FlowType.LOGIN
                     flowSelectionListener?.onFlowSelected(flowType, id)
                 } else { // Otherwise, passwordless
-                    identifyUser(identifierType, input, identifier)
+                    identifyUser(input)
                 }
             }
 
@@ -85,7 +87,7 @@ class IdentificationPresenter(
                             identificationView.showErrorDialog(error, null)
                         }
                     } else {
-                        identificationView.showError(identifier)
+                        identificationView.showError(input)
                     }
                     identificationView.hideProgress()
                 }
@@ -108,7 +110,10 @@ class IdentificationPresenter(
             identificationView.hideError(identifier)
             if (identifier.isInputValid) {
                 identificationView.showProgress()
-                identifier.input?.let { getAccountStatus(identifierType, it, identifier, allowSignup, signUpErrorMessage) }
+                identifier.input?.let {
+                    id = Identifier(identifierType, it)
+                    getAccountStatus(identifier, allowSignup, signUpErrorMessage)
+                }
             } else {
                 BaseLoginActivity.tracker?.let {
                     val event = if (identifierType == Identifier.IdentifierType.SMS) {
