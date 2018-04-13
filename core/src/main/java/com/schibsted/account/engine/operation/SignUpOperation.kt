@@ -27,7 +27,7 @@ internal class SignUpOperation(
         ClientTokenOperation(
                 { resError(it) },
                 { token: ClientToken ->
-                    ServiceHolder.clientService().signUp(token, email, redirectUri.toString(), params).enqueue(object : NetworkCallback<ApiContainer<ProfileData>>("Signing up user") {
+                    ServiceHolder.clientService.signUp(token, email, redirectUri.toString(), params).enqueue(object : NetworkCallback<ApiContainer<ProfileData>>("Signing up user") {
                         override fun onSuccess(result: ApiContainer<ProfileData>) {
                             resSuccess(result.data)
                         }

@@ -6,7 +6,6 @@ package com.schibsted.account.engine.operation
 
 import com.schibsted.account.model.error.NetworkError
 import com.schibsted.account.network.NetworkCallback
-import com.schibsted.account.network.ServiceHolder
 import com.schibsted.account.network.response.ApiContainer
 import com.schibsted.account.network.response.RequiredFieldsResponse
 import com.schibsted.account.session.User
@@ -19,7 +18,7 @@ internal class MissingFieldsOperation(
 
     init {
         val token = requireNotNull(user.token, { "Cannot get missing fields for logged out user" })
-        ServiceHolder.userService(user).getMissingRequiredFields(user.userId.id, token)
+        user.userService.getMissingRequiredFields(user.userId.id, token)
                 .enqueue(object : NetworkCallback<ApiContainer<RequiredFieldsResponse>>("Fetching required fields") {
                     override fun onError(error: NetworkError) {
                         resError(error)

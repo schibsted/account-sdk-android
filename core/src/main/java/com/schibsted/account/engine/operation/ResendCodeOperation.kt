@@ -20,7 +20,7 @@ internal class ResendCodeOperation(
 ) {
 
     init {
-        ServiceHolder.passwordlessService().resendCode(ClientConfiguration.get().clientId, passwordlessToken)
+        ServiceHolder.passwordlessService.resendCode(ClientConfiguration.get().clientId, passwordlessToken)
                 .enqueue(
                         object : NetworkCallback<PasswordlessToken>("Resending confirmation code") {
                             override fun onError(error: NetworkError) {

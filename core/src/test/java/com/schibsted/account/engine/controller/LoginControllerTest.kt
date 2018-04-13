@@ -7,7 +7,6 @@ package com.schibsted.account.engine.controller
 import com.google.gson.Gson
 import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.argWhere
-import com.nhaarman.mockito_kotlin.doReturn
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.never
 import com.nhaarman.mockito_kotlin.verify
@@ -27,12 +26,8 @@ import com.schibsted.account.model.error.ClientError
 import com.schibsted.account.network.NetworkCallback
 import com.schibsted.account.network.OIDCScope
 import com.schibsted.account.network.ServiceHolder
-import com.schibsted.account.network.response.AgreementsResponse
-import com.schibsted.account.network.response.ApiContainer
-import com.schibsted.account.network.response.RequiredFieldsResponse
 import com.schibsted.account.network.response.TokenResponse
 import com.schibsted.account.network.service.authentication.OAuthService
-import com.schibsted.account.network.service.user.UserService
 import com.schibsted.account.session.User
 import com.schibsted.account.test.TestUtil
 import io.kotlintest.matchers.fail
@@ -67,27 +62,7 @@ class LoginControllerTest : WordSpec({
     val mockOAuthService: OAuthService = mock {
         on { tokenFromPassword(any(), any(), any(), any(), any()) }.thenReturn(mockCall)
     }
-    ServiceHolder.overrideService(mockOAuthService)
-
-    val agrResponse: ApiContainer<AgreementsResponse> = mock {
-        on { data }.doReturn(AgreementsResponse(AgreementsResponse.Agreements(false, false)))
-    }
-    val mockAgreementsCall: Call<ApiContainer<AgreementsResponse>> = mock {
-        on { enqueue(any()) }.then { it.getArgument<NetworkCallback<ApiContainer<AgreementsResponse>>>(0).onSuccess(agrResponse) }
-    }
-
-    val fieldsResponse: ApiContainer<RequiredFieldsResponse> = mock {
-        on { data }.doReturn(RequiredFieldsResponse(setOf()))
-    }
-
-    val mockFieldsCall: Call<ApiContainer<RequiredFieldsResponse>> = mock {
-        on { enqueue(any()) }.then { it.getArgument<NetworkCallback<ApiContainer<RequiredFieldsResponse>>>(0).onSuccess(fieldsResponse) }
-    }
-    val mockUserService: UserService = mock {
-        on { getUserAgreements(any(), any()) }.thenReturn(mockAgreementsCall)
-        on { getMissingRequiredFields(any(), any()) }.thenReturn(mockFieldsCall)
-    }
-    ServiceHolder.overrideService(mockUserService)
+    ServiceHolder.oAuthService = mockOAuthService
 
     ClientConfiguration.set(ClientConfiguration("https://example.com", "id", "secret"))
     Logger.loggingEnabled = false

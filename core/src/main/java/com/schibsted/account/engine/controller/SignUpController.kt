@@ -13,9 +13,9 @@ import com.schibsted.account.engine.input.Credentials
 import com.schibsted.account.engine.input.Identifier
 import com.schibsted.account.engine.input.RequiredFields
 import com.schibsted.account.engine.integration.CallbackProvider
+import com.schibsted.account.engine.integration.ResultCallback
 import com.schibsted.account.engine.integration.contract.SignUpContract
 import com.schibsted.account.engine.operation.AccountStatusOperation
-import com.schibsted.account.engine.operation.AgreementLinksOperation
 import com.schibsted.account.engine.operation.ClientInfoOperation
 import com.schibsted.account.engine.operation.SignUpOperation
 import com.schibsted.account.engine.step.StepSignUpCredentials
@@ -74,14 +74,19 @@ class SignUpController(private val baseRedirectUri: URI) : Controller<SignUpCont
                         return@AccountStatusOperation
                     }
 
-                    AgreementLinksOperation({ callback.onError(it) }, { agreementsLinks ->
-
-                        ClientInfoOperation({ callback.onError(it.toClientError()) }, { clientInfo ->
-                            super.navigation.push(StepSignUpCredentials(input, clientInfo.requiredFields(), agreementsLinks))
-                            callback.onSuccess(NoValue)
-                            this.evaluate(contract)
-                        })
-                    })
+                    com.schibsted.account.session.Agreements.getAgreementLinks(
+                            ResultCallback.fromLambda(
+                                    { callback.onError(it) },
+                                    { agreementsLinks ->
+                                        ClientInfoOperation(
+                                                { callback.onError(it.toClientError()) },
+                                                { clientInfo ->
+                                                    super.navigation.push(StepSignUpCredentials(input, clientInfo.requiredFields(), agreementsLinks))
+                                                    callback.onSuccess(NoValue)
+                                                    this.evaluate(contract)
+                                                })
+                                    })
+                    )
                 })
             })
         }

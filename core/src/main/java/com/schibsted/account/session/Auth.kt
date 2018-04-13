@@ -7,12 +7,13 @@ package com.schibsted.account.session
 import com.schibsted.account.ClientConfiguration
 import com.schibsted.account.engine.integration.ResultCallback
 import com.schibsted.account.model.error.ClientError
-import com.schibsted.account.model.error.NetworkError
 import com.schibsted.account.network.NetworkCallback
-import com.schibsted.account.network.ServiceHolder
 import com.schibsted.account.network.response.TokenExchangeResponse
+import com.schibsted.account.network.service.session.SessionService
 
 class Auth(val user: User) {
+    private val sessionService = SessionService(ClientConfiguration.get().environment, user.authClient)
+
     internal fun constructSessionUrl(code: String) = "${ClientConfiguration.get().environment}session/$code"
 
     /**
@@ -31,16 +32,11 @@ class Auth(val user: User) {
             return
         }
 
-        ServiceHolder.sessionService(user).oneTimeSessionCode(targetClientId, token, redirectUri)
-                .enqueue(object : NetworkCallback<TokenExchangeResponse>("Requesting one time session code") {
-                    override fun onError(error: NetworkError) {
-                        callback.onError(error.toClientError())
-                    }
-
-                    override fun onSuccess(result: TokenExchangeResponse) {
-                        callback.onSuccess(constructSessionUrl(result.code))
-                    }
-                })
+        sessionService.oneTimeSessionCode(targetClientId, token, redirectUri).enqueue(
+                NetworkCallback.lambda<TokenExchangeResponse>("Requesting one time session code",
+                        { callback.onError(it.toClientError()) },
+                        { callback.onSuccess(constructSessionUrl(it.code)) })
+        )
     }
 
     /**
@@ -67,15 +63,10 @@ class Auth(val user: User) {
             return
         }
 
-        ServiceHolder.sessionService(user).oneTimeCode(serverClientId, token)
-                .enqueue(object : NetworkCallback<TokenExchangeResponse>("Requesting one time code") {
-                    override fun onError(error: NetworkError) {
-                        callback.onError(error.toClientError())
-                    }
-
-                    override fun onSuccess(result: TokenExchangeResponse) {
-                        callback.onSuccess(result.code)
-                    }
+        sessionService.oneTimeCode(serverClientId, token).enqueue(
+                NetworkCallback.lambda<TokenExchangeResponse>("Requesting one time code", { callback.onError(it.toClientError()) }, {
+                    callback.onSuccess(it.code)
                 })
+        )
     }
 }

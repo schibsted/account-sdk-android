@@ -23,7 +23,7 @@ internal class SendValidationCodeOperation(
 ) {
 
     init {
-        ServiceHolder.passwordlessService().sendValidationCode(ClientConfiguration.get().clientId, identifier.identifier,
+        ServiceHolder.passwordlessService.sendValidationCode(ClientConfiguration.get().clientId, identifier.identifier,
                 identifier.identifierType.value, locale)
                 .enqueue(
                         object : NetworkCallback<PasswordlessToken>("Logging in passwordless") {

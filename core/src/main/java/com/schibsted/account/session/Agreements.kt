@@ -8,15 +8,14 @@ import com.schibsted.account.ClientConfiguration
 import com.schibsted.account.engine.integration.ResultCallback
 import com.schibsted.account.model.NoValue
 import com.schibsted.account.model.error.ClientError
-import com.schibsted.account.model.error.NetworkError
 import com.schibsted.account.network.NetworkCallback
 import com.schibsted.account.network.ServiceHolder
-import com.schibsted.account.network.response.AcceptAgreementResponse
 import com.schibsted.account.network.response.AgreementLinksResponse
 import com.schibsted.account.network.response.AgreementsResponse
-import com.schibsted.account.network.response.ApiContainer
+import com.schibsted.account.network.service.user.UserService
 
-class Agreements(private val user: User) {
+class Agreements(private val user: User, private val userService: UserService = UserService(ClientConfiguration.get().environment, user.authClient)) {
+
     /**
      * Gets the agreements status for the current user
      */
@@ -27,17 +26,11 @@ class Agreements(private val user: User) {
             return
         }
 
-        ServiceHolder.userService(user).getUserAgreements(user.userId.id, token)
-                .enqueue(
-                        object : NetworkCallback<ApiContainer<AgreementsResponse>>("Fetching user agreements state") {
-                            override fun onSuccess(result: ApiContainer<AgreementsResponse>) {
-                                callback.onSuccess(result.data.agreements)
-                            }
-
-                            override fun onError(error: NetworkError) {
-                                callback.onError(error.toClientError())
-                            }
-                        })
+        userService.getUserAgreements(user.userId.id, token)
+                .enqueue(NetworkCallback.lambda("Fetching user agreements state",
+                        { callback.onError(it.toClientError()) },
+                        { callback.onSuccess(it.data.agreements) })
+                )
     }
 
     /**
@@ -68,17 +61,11 @@ class Agreements(private val user: User) {
             return
         }
 
-        ServiceHolder.userService(user).acceptUserAgreements(user.userId.id, token)
-                .enqueue(
-                        object : NetworkCallback<ApiContainer<AcceptAgreementResponse>>("Accepting terms for user") {
-                            override fun onSuccess(result: ApiContainer<AcceptAgreementResponse>) {
-                                callback.onSuccess(NoValue)
-                            }
-
-                            override fun onError(error: NetworkError) {
-                                callback.onError(error.toClientError())
-                            }
-                        })
+        userService.acceptUserAgreements(user.userId.id, token)
+                .enqueue(NetworkCallback.lambda("Accepting terms for user",
+                        { callback.onError(it.toClientError()) },
+                        { callback.onSuccess(NoValue) })
+                )
     }
 
     companion object {
@@ -87,16 +74,10 @@ class Agreements(private val user: User) {
          */
         @JvmStatic
         fun getAgreementLinks(callback: ResultCallback<AgreementLinksResponse>) {
-            ServiceHolder.clientService().getClientAgreementsUrls(ClientConfiguration.get().clientId)
-                    .enqueue(object : NetworkCallback<ApiContainer<AgreementLinksResponse>>("Fetching agreements links") {
-                        override fun onSuccess(result: ApiContainer<AgreementLinksResponse>) {
-                            callback.onSuccess(result.data)
-                        }
-
-                        override fun onError(error: NetworkError) {
-                            callback.onError(error.toClientError())
-                        }
-                    })
+            ServiceHolder.clientService.getClientAgreementsUrls(ClientConfiguration.get().clientId)
+                    .enqueue(NetworkCallback.lambda("Fetching agreements links",
+                            { callback.onError(it.toClientError()) },
+                            { callback.onSuccess(it.data) }))
         }
     }
 }

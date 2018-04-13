@@ -23,9 +23,9 @@ internal class AccountStatusOperation(
                 { failure(it) },
                 { clientToken ->
                     val requestCall: Call<ApiContainer<AccountStatusResponse>> = if (identifier.identifierType == Identifier.IdentifierType.EMAIL) {
-                        ServiceHolder.clientService().getEmailSignUpStatus(clientToken, identifier.identifier)
+                        ServiceHolder.clientService.getEmailSignUpStatus(clientToken, identifier.identifier)
                     } else {
-                        ServiceHolder.clientService().getPhoneSignUpStatus(clientToken, identifier.identifier)
+                        ServiceHolder.clientService.getPhoneSignUpStatus(clientToken, identifier.identifier)
                     }
 
                     requestCall.enqueue(object : NetworkCallback<ApiContainer<AccountStatusResponse>>("Verifying status of the user") {
