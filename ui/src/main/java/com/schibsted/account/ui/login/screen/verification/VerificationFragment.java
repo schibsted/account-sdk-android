@@ -154,6 +154,10 @@ public class VerificationFragment extends FlowFragment<VerificationContract.Pres
         mobileVerificationPresenter.verifyCode(codeInputView, keepMeLoggedInView.isChecked());
     }
 
+    public Boolean isRememberMeEnabled() {
+        return keepMeLoggedInView.isChecked();
+    }
+
     /**
      * set the presenter of this view
      *

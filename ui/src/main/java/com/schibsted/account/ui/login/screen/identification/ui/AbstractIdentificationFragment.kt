@@ -112,6 +112,8 @@ abstract class AbstractIdentificationFragment : FlowFragment<IdentificationContr
         identificationPresenter.verifyInput(inputField, uiConf.identifierType, uiConf.signUpEnabled, uiConf.signUpNotAllowedErrorMessage)
     }
 
+    fun isTeaserEnabled() = !uiConf.teaserText.isNullOrEmpty()
+
     protected abstract fun prefillIdentifier(identifier: String?)
 
     /**
