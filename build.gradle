@@ -146,6 +146,16 @@ subprojects { proj ->
         }
     }
 
+    tasks.withType(Test) {
+        testLogging {
+            exceptionFormat "full"
+            showCauses true
+            showExceptions true
+            showStackTraces true
+            showStandardStreams true
+            events = ["passed", "skipped", "failed", "standardOut", "standardError"]
+        }
+    }
 
     task findbugs(type: FindBugs, dependsOn: 'assemble', group: 'verification') {
         excludeFilter = file("${rootProject.rootDir}/config/findbugs.xml")
