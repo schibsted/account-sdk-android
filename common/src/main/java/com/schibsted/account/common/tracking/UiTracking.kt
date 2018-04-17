@@ -22,22 +22,26 @@ abstract class UiTracking {
     }
 
     abstract fun eventInteraction(interactionType: InteractionType, screen: TrackingData.Screen, custom: Map<String, Any> = mapOf())
-    fun eventInteraction(interactionType: InteractionType, screen: TrackingData.Screen) {
-        eventInteraction(interactionType, screen)
-    }
 
     abstract fun eventEngagement(engagement: Engagement, uiElement: UIElement, source: TrackingData.Screen?, custom: Map<String, Any> = mapOf())
-    fun eventEngagement(engagement: Engagement, uiElement: UIElement, source: TrackingData.Screen?) {
-        eventEngagement(engagement, uiElement, source)
-    }
 
     abstract fun eventError(error: UIError, source: TrackingData.Screen?, custom: Map<String, Any> = mapOf())
-    fun eventError(error: UIError, source: TrackingData.Screen?) {
-        eventError(error, source)
-    }
 
     abstract fun eventActionSuccessful(spidAction: SpidAction, accountId: String? = null, custom: Map<String, Any> = mapOf())
+
+    fun eventInteraction(interactionType: InteractionType, screen: TrackingData.Screen) {
+        eventInteraction(interactionType, screen, mapOf())
+    }
+
+    fun eventEngagement(engagement: Engagement, uiElement: UIElement, source: TrackingData.Screen?) {
+        eventEngagement(engagement, uiElement, source, mapOf())
+    }
+
+    fun eventError(error: UIError, source: TrackingData.Screen?) {
+        eventError(error, source, mapOf())
+    }
+
     fun eventActionSuccessful(spidAction: SpidAction) {
-        eventActionSuccessful(spidAction)
+        eventActionSuccessful(spidAction, null, mapOf())
     }
 }
