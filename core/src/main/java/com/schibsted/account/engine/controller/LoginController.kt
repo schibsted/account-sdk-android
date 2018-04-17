@@ -7,12 +7,13 @@ package com.schibsted.account.engine.controller
 import android.content.Intent
 import android.os.Parcel
 import android.os.Parcelable
+import com.schibsted.account.AccountService
+import com.schibsted.account.Events
 import com.schibsted.account.common.util.readStack
 import com.schibsted.account.engine.input.Credentials
 import com.schibsted.account.engine.integration.CallbackProvider
 import com.schibsted.account.engine.integration.ResultCallback
 import com.schibsted.account.engine.integration.contract.LoginContract
-import com.schibsted.account.engine.operation.AgreementLinksOperation
 import com.schibsted.account.engine.operation.AgreementsCheckOperation
 import com.schibsted.account.engine.operation.LoginOperation
 import com.schibsted.account.engine.operation.MissingFieldsOperation
@@ -21,9 +22,8 @@ import com.schibsted.account.model.LoginResult
 import com.schibsted.account.model.NoValue
 import com.schibsted.account.model.error.ClientError
 import com.schibsted.account.network.OIDCScope
-import com.schibsted.account.AccountService
+import com.schibsted.account.session.Agreements
 import com.schibsted.account.session.User
-import com.schibsted.account.Events
 
 /**
  * Controller which administrates the process of a login flow using credentials. This is
@@ -55,13 +55,16 @@ class LoginController @JvmOverloads constructor(
 
                 if (this.verifyUser) { // Attempt the happy path and proceed straight to login
                     AgreementsCheckOperation(user, { callback.onError(it.toClientError()) }) { agreementsCheck ->
-                        AgreementLinksOperation({ callback.onError(it) }, { agreementsLink ->
-                            MissingFieldsOperation(user, { callback.onError(it.toClientError()) }) { missingFields ->
-                                super.navigation.push(StepLoginIdentify(credentials, user, agreementsCheck.allAccepted(), missingFields, agreementsLink))
-                                callback.onSuccess(NoValue)
-                                evaluate(contract)
-                            }
-                        })
+                        Agreements.getAgreementLinks(ResultCallback.fromLambda(
+                                { callback.onError(it) },
+                                { agreementsLink ->
+                                    MissingFieldsOperation(user, { callback.onError(it.toClientError()) }) { missingFields ->
+                                        super.navigation.push(StepLoginIdentify(credentials, user, agreementsCheck.allAccepted(), missingFields, agreementsLink))
+                                        callback.onSuccess(NoValue)
+                                        evaluate(contract)
+                                    }
+                                })
+                        )
                     }
                 } else {
                     super.navigation.push(StepLoginIdentify(credentials, user, true, setOf()))

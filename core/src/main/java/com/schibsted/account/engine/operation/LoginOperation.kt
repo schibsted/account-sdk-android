@@ -24,7 +24,7 @@ internal class LoginOperation(
 ) {
 
     init {
-        ServiceHolder.oAuthService().tokenFromPassword(ClientConfiguration.get().clientId,
+        ServiceHolder.oAuthService.tokenFromPassword(ClientConfiguration.get().clientId,
                 ClientConfiguration.get().clientSecret, credentials.identifier.identifier, credentials.password, *scopes)
                 .enqueue(object : NetworkCallback<TokenResponse>("Identifying with username and password in LoginOperation") {
                     override fun onError(error: NetworkError) {

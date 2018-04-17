@@ -18,12 +18,12 @@ import com.schibsted.account.model.NoValue
 import com.schibsted.account.model.UserId
 import com.schibsted.account.model.UserToken
 import com.schibsted.account.model.error.ClientError
-import com.schibsted.account.model.error.NetworkError
 import com.schibsted.account.network.AuthInterceptor
 import com.schibsted.account.network.InfoInterceptor
 import com.schibsted.account.network.NetworkCallback
 import com.schibsted.account.network.ServiceHolder
 import com.schibsted.account.network.response.TokenResponse
+import com.schibsted.account.network.service.user.UserService
 import com.schibsted.account.persistence.UserPersistence
 import okhttp3.OkHttpClient
 
@@ -36,22 +36,21 @@ class User(token: UserToken, val isPersistable: Boolean) : Parcelable {
 
     @Volatile
     internal var token: UserToken? = token
-        private set(value) {
-            if (value == null) {
-                ServiceHolder.resetServices()
-            }
-            field = value
-        }
+        private set
 
     val userId: UserId = UserId.fromTokenResponse(token)
 
-    fun isActive(): Boolean = token != null
+    internal val authClient = ServiceHolder.clientBuilder.addInterceptor(AuthInterceptor(this, listOf(ClientConfiguration.get().environment))).build()
+
+    internal val userService = UserService(ClientConfiguration.get().environment, authClient)
 
     val auth = Auth(this)
 
     val agreements = Agreements(this)
 
     val profile = Profile(this)
+
+    fun isActive(): Boolean = token != null
 
     /**
      * Destroys the current session and removes it's access tokens from SPiD. Attempting to use this
@@ -62,18 +61,16 @@ class User(token: UserToken, val isPersistable: Boolean) : Parcelable {
         val token = this.token
         if (token != null) {
             AccountService.localBroadcastManager?.sendBroadcast(Intent(Events.ACTION_USER_LOGOUT).putExtra(Events.EXTRA_USER_ID, userId))
-            ServiceHolder.userService(this).logout(token)
-                    .enqueue(object : NetworkCallback<Unit>("Logging out user") {
-                        override fun onError(error: NetworkError) {
-                            callback?.onError(error.toClientError())
-                            this@User.token = null
-                        }
-
-                        override fun onSuccess(result: Unit) {
-                            callback?.onSuccess(NoValue)
-                            this@User.token = null
-                        }
+            userService.logout(token).enqueue(NetworkCallback.lambda("Logging out user",
+                    {
+                        callback?.onError(it.toClientError())
+                        this@User.token = null
+                    },
+                    {
+                        callback?.onSuccess(NoValue)
+                        this@User.token = null
                     })
+            )
         } else {
             callback?.onError(ClientError(ClientError.ErrorType.INVALID_STATE, "User already logged out"))
         }
@@ -124,7 +121,7 @@ class User(token: UserToken, val isPersistable: Boolean) : Parcelable {
         }
 
         Logger.verbose(Logger.DEFAULT_TAG, { "Refreshing user token" })
-        val resp = ServiceHolder.oAuthService().refreshToken(ClientConfiguration.get().clientId,
+        val resp = ServiceHolder.oAuthService.refreshToken(ClientConfiguration.get().clientId,
                 ClientConfiguration.get().clientSecret, token.refreshToken).execute()
 
         return if (resp.isSuccessful) {
@@ -136,7 +133,7 @@ class User(token: UserToken, val isPersistable: Boolean) : Parcelable {
             Logger.verbose(Logger.DEFAULT_TAG, { "User token refreshing failed" })
             if (listOf(400, 401, 403).contains(resp.code())) {
                 Logger.verbose(Logger.DEFAULT_TAG, { "Logging out user" })
-                ServiceHolder.userService(this).logout(token).execute()
+                userService.logout(token).execute()
                 this@User.token = null
 
                 AccountService.localBroadcastManager?.sendBroadcast(Intent(Events.ACTION_USER_LOGOUT).putExtra(Events.EXTRA_USER_ID, userId))
@@ -176,7 +173,7 @@ class User(token: UserToken, val isPersistable: Boolean) : Parcelable {
         @JvmStatic
         fun fromSessionCode(code: String, redirectUri: String, isPersistable: Boolean, callback: ResultCallback<User>) {
             val conf = ClientConfiguration.get()
-            ServiceHolder.oAuthService().tokenFromAuthCode(conf.clientId, conf.clientSecret, code, redirectUri)
+            ServiceHolder.oAuthService.tokenFromAuthCode(conf.clientId, conf.clientSecret, code, redirectUri)
                     .enqueue(NetworkCallback.lambda("Resuming session from session code",
                             { callback.onError(it.toClientError()) },
                             { token ->

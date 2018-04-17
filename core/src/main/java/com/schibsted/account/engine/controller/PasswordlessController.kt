@@ -7,19 +7,20 @@ package com.schibsted.account.engine.controller
 import android.content.Intent
 import android.os.Parcel
 import android.os.Parcelable
+import com.schibsted.account.AccountService
+import com.schibsted.account.Events
 import com.schibsted.account.common.util.readStack
 import com.schibsted.account.engine.input.Identifier
 import com.schibsted.account.engine.input.VerificationCode
 import com.schibsted.account.engine.integration.CallbackProvider
 import com.schibsted.account.engine.integration.ResultCallback
 import com.schibsted.account.engine.integration.contract.PasswordlessContract
+import com.schibsted.account.engine.operation.AccountStatusOperation
 import com.schibsted.account.engine.operation.AgreementsCheckOperation
 import com.schibsted.account.engine.operation.MissingFieldsOperation
-import com.schibsted.account.engine.operation.VerifyCodeOperation
-import com.schibsted.account.engine.operation.AccountStatusOperation
-import com.schibsted.account.engine.operation.AgreementLinksOperation
-import com.schibsted.account.engine.operation.SendValidationCodeOperation
 import com.schibsted.account.engine.operation.ResendCodeOperation
+import com.schibsted.account.engine.operation.SendValidationCodeOperation
+import com.schibsted.account.engine.operation.VerifyCodeOperation
 import com.schibsted.account.engine.step.StepNoPwIdentify
 import com.schibsted.account.engine.step.StepNoPwValidationCode
 import com.schibsted.account.model.LoginResult
@@ -27,9 +28,8 @@ import com.schibsted.account.model.NoValue
 import com.schibsted.account.model.error.ClientError
 import com.schibsted.account.network.OIDCScope
 import com.schibsted.account.network.response.PasswordlessToken
-import com.schibsted.account.AccountService
+import com.schibsted.account.session.Agreements
 import com.schibsted.account.session.User
-import com.schibsted.account.Events
 import java.util.Locale
 
 /**
@@ -83,11 +83,13 @@ class PasswordlessController @JvmOverloads constructor(
             Identifier.request(provider, { identifier, callback ->
                 AccountStatusOperation(identifier, { callback.onError(it.toClientError()) }, { accountStatus ->
                     SendValidationCodeOperation(identifier, this.locale, { callback.onError(it.toClientError()) }, { passwordlessToken ->
-                        AgreementLinksOperation({ callback.onError(it) }, { agreementsLinks ->
-                            super.navigation.push(StepNoPwIdentify(identifier, passwordlessToken, accountStatus.isAvailable, agreementsLinks))
-                            callback.onSuccess(NoValue)
-                            evaluate(provider)
-                        })
+                        Agreements.getAgreementLinks(ResultCallback.fromLambda(
+                                { callback.onError(it) },
+                                { agreementsLinks ->
+                                    super.navigation.push(StepNoPwIdentify(identifier, passwordlessToken, accountStatus.isAvailable, agreementsLinks))
+                                    callback.onSuccess(NoValue)
+                                    evaluate(provider)
+                                }))
                     })
                 })
             })

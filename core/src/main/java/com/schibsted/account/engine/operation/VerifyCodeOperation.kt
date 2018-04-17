@@ -27,7 +27,7 @@ internal class VerifyCodeOperation(
 ) {
 
     init {
-        ServiceHolder.oAuthService().tokenFromPasswordless(ClientConfiguration.get().clientId, ClientConfiguration.get().clientSecret,
+        ServiceHolder.oAuthService.tokenFromPasswordless(ClientConfiguration.get().clientId, ClientConfiguration.get().clientSecret,
                 identifier.identifier, verificationCode.verificationCode, passwordlessToken.value, *scopes)
                 .enqueue(object : NetworkCallback<TokenResponse>("Validating passwordless token") {
                     override fun onError(error: NetworkError) {

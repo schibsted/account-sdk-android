@@ -23,7 +23,7 @@ internal class ClientInfoOperation internal constructor(
     init {
         ClientTokenOperation({ failure(it) },
                 { token: ClientToken ->
-                    ServiceHolder.clientService().getClientInfo(token, ClientConfiguration.get().clientId)
+                    ServiceHolder.clientService.getClientInfo(token, ClientConfiguration.get().clientId)
                             .enqueue(object : NetworkCallback<ApiContainer<ClientInfo>>("Retrieving client information") {
                                 override fun onSuccess(result: ApiContainer<ClientInfo>) {
                                     success(result.data)

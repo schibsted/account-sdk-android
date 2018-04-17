@@ -20,7 +20,7 @@ internal class ClientTokenOperation internal constructor(
 ) {
 
     init {
-        ServiceHolder.oAuthService().tokenFromClientCredentials(ClientConfiguration.get().clientId, ClientConfiguration.get().clientSecret)
+        ServiceHolder.oAuthService.tokenFromClientCredentials(ClientConfiguration.get().clientId, ClientConfiguration.get().clientSecret)
                 .enqueue(object : NetworkCallback<TokenResponse>("Initializing client session") {
                     override fun onError(error: NetworkError) {
                         failure(error)
