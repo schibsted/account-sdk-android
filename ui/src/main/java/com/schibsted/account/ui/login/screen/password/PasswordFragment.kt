@@ -87,6 +87,8 @@ class PasswordFragment : FlowFragment<PasswordContract.Presenter>(), PasswordCon
         keep_me_logged_in.isChecked = true
     }
 
+    fun isRememberMeEnabled() = keep_me_logged_in.isChecked
+
     private fun signUser() {
         BaseLoginActivity.tracker?.eventInteraction(TrackingData.InteractionType.SEND, TrackingData.Screen.PASSWORD)
         presenter.sign(password_input_view, identifier, keep_me_logged_in.isChecked)
