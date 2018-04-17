@@ -145,6 +145,13 @@ class User(token: UserToken, val isPersistable: Boolean) : Parcelable {
         }
     }
 
+    /**
+     * Manually persist a user session so that it can be resumed at a later point.
+     */
+    fun persist(context: Context) {
+        UserPersistence(context).persist(this)
+    }
+
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeParcelable(token, flags)
         parcel.writeInt(if (this.isPersistable) 1 else 0)
