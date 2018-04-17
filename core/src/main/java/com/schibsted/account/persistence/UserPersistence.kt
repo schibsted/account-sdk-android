@@ -89,7 +89,6 @@ internal class UserPersistence(private val appContext: Context) {
     /**
      * Persist a user session so that it can be resumed at a later point.
      * @param user The user to persist
-     * @return Tru if the session was successfully persisted
      */
     fun persist(user: User) {
         val token = user.token
