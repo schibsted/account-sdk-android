@@ -11,7 +11,9 @@
 <code><span class="keyword">abstract</span> <span class="keyword">class </span><span class="identifier">AbstractIdentificationFragment</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../../com.schibsted.account.ui.ui/-flow-fragment/index.html"><span class="identifier">FlowFragment</span></a><span class="symbol">&lt;</span><a href="../../com.schibsted.account.ui.login.screen.identification/-identification-contract/-presenter/index.html"><span class="identifier">Presenter</span></a><span class="symbol">&gt;</span><span class="symbol">, </span><a href="../../com.schibsted.account.ui.login.screen.identification/-identification-contract/-view/index.html"><span class="identifier">View</span></a></code>
 <p>Abstract class containing the common logic and ui for the identification process</p>
 <p><strong>See Also</strong><br/>
-MobileIdentificationFragmentEmailIdentificationFragment</p>
+<p><a href="../-mobile-identification-fragment/index.html">MobileIdentificationFragment</a></p>
+<p><a href="../-email-identification-fragment/index.html">EmailIdentificationFragment</a></p>
+</p>
 <h3>Constructors</h3>
 <table>
 <tbody>
@@ -31,10 +33,39 @@ MobileIdentificationFragmentEmailIdentificationFragment</p>
 <tbody>
 <tr>
 <td>
+<p><a href="identification-policy.html">identificationPolicy</a></p>
+</td>
+<td>
+<code><span class="keyword">lateinit</span> <span class="keyword">var </span><span class="identifier">identificationPolicy</span><span class="symbol">: </span><a href="https://developer.android.com/reference/android/widget/TextView.html"><span class="identifier">TextView</span></a></code>
+<p>Field used to display the policy of SPiD and the clientAccepted.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="input-view-container.html">inputViewContainer</a></p>
+</td>
+<td>
+<code><span class="keyword">lateinit</span> <span class="keyword">var </span><span class="identifier">inputViewContainer</span><span class="symbol">: </span><a href="https://developer.android.com/reference/android/widget/FrameLayout.html"><span class="identifier">FrameLayout</span></a></code>
+<p>this reference is used to add a child view in extended class</p>
+</td>
+</tr>
+<tr>
+<td>
 <p><a href="is-active.html">isActive</a></p>
 </td>
 <td>
-<code><span class="keyword">open</span> <span class="keyword">val </span><span class="identifier">isActive</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><span class="identifier">Boolean</span></a></code></td>
+<code><span class="keyword">open</span> <span class="keyword">val </span><span class="identifier">isActive</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><span class="identifier">Boolean</span></a></code>
+<p>Return the state of the fragment, this method should be use to know if an UI update could be
+performed.
+Call this method before every intention of UI update</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="ui-conf.html">uiConf</a></p>
+</td>
+<td>
+<code><span class="keyword">lateinit</span> <span class="keyword">var </span><span class="identifier">uiConf</span><span class="symbol">: </span><a href="../../com.schibsted.account.ui/-ui-configuration/index.html"><span class="identifier">UiConfiguration</span></a></code></td>
 </tr>
 </tbody>
 </table>
@@ -64,6 +95,20 @@ MobileIdentificationFragmentEmailIdentificationFragment</p>
 <tbody>
 <tr>
 <td>
+<p><a href="identify-user.html">identifyUser</a></p>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">identifyUser</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.ui.login.screen.identification.ui.AbstractIdentificationFragment$identifyUser(com.schibsted.account.ui.ui.InputField)/inputField">inputField</span><span class="symbol">:</span>&nbsp;<a href="../../com.schibsted.account.ui.ui/-input-field/index.html"><span class="identifier">InputField</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code></td>
+</tr>
+<tr>
+<td>
+<p><a href="is-teaser-enabled.html">isTeaserEnabled</a></p>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">isTeaserEnabled</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><span class="identifier">Boolean</span></a></code></td>
+</tr>
+<tr>
+<td>
 <p><a href="on-create.html">onCreate</a></p>
 </td>
 <td>
@@ -82,6 +127,13 @@ MobileIdentificationFragmentEmailIdentificationFragment</p>
 </td>
 <td>
 <code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">onSaveInstanceState</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.ui.login.screen.identification.ui.AbstractIdentificationFragment$onSaveInstanceState(android.os.Bundle)/outState">outState</span><span class="symbol">:</span>&nbsp;<a href="https://developer.android.com/reference/android/os/Bundle.html"><span class="identifier">Bundle</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code></td>
+</tr>
+<tr>
+<td>
+<p><a href="prefill-identifier.html">prefillIdentifier</a></p>
+</td>
+<td>
+<code><span class="keyword">abstract</span> <span class="keyword">fun </span><span class="identifier">prefillIdentifier</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.ui.login.screen.identification.ui.AbstractIdentificationFragment$prefillIdentifier(kotlin.String)/identifier">identifier</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">?</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code></td>
 </tr>
 <tr>
 <td>
@@ -147,6 +199,18 @@ MobileIdentificationFragmentEmailIdentificationFragment</p>
 </tr>
 </tbody>
 </table>
+<h3>Companion Object Properties</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="-k-e-y_-u-i_-c-o-n-f.html">KEY_UI_CONF</a></p>
+</td>
+<td>
+<code><span class="keyword">const</span> <span class="keyword">val </span><span class="identifier">KEY_UI_CONF</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a></code></td>
+</tr>
+</tbody>
+</table>
 <h3>Inheritors</h3>
 <table>
 <tbody>
@@ -155,8 +219,8 @@ MobileIdentificationFragmentEmailIdentificationFragment</p>
 <p><a href="../-email-identification-fragment/index.html">EmailIdentificationFragment</a></p>
 </td>
 <td>
-<code><span class="keyword">open</span> <span class="keyword">class </span><span class="identifier">EmailIdentificationFragment</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="./index.html"><span class="identifier">AbstractIdentificationFragment</span></a><span class="symbol">, </span><a href="../../com.schibsted.account.ui.login.screen.identification/-identification-contract/-view/index.html"><span class="identifier">View</span></a></code>
-<p>a Fragment displaying the email identification screen</p>
+<code><span class="keyword">class </span><span class="identifier">EmailIdentificationFragment</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="./index.html"><span class="identifier">AbstractIdentificationFragment</span></a><span class="symbol">, </span><a href="../../com.schibsted.account.ui.login.screen.identification/-identification-contract/-view/index.html"><span class="identifier">View</span></a></code>
+<p>a <a href="#">Fragment</a> displaying the email identification screen</p>
 </td>
 </tr>
 <tr>
@@ -164,8 +228,8 @@ MobileIdentificationFragmentEmailIdentificationFragment</p>
 <p><a href="../-mobile-identification-fragment/index.html">MobileIdentificationFragment</a></p>
 </td>
 <td>
-<code><span class="keyword">open</span> <span class="keyword">class </span><span class="identifier">MobileIdentificationFragment</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="./index.html"><span class="identifier">AbstractIdentificationFragment</span></a></code>
-<p>a Fragment displaying the phone number identification screen</p>
+<code><span class="keyword">class </span><span class="identifier">MobileIdentificationFragment</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="./index.html"><span class="identifier">AbstractIdentificationFragment</span></a></code>
+<p>a <a href="#">Fragment</a> displaying the phone number identification screen</p>
 </td>
 </tr>
 </tbody>

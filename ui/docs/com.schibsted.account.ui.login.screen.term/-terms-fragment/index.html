@@ -8,8 +8,8 @@
 <a href="../../index.html">ui</a>&nbsp;/&nbsp;<a href="../index.html">com.schibsted.account.ui.login.screen.term</a>&nbsp;/&nbsp;<a href="./index.html">TermsFragment</a><br/>
 <br/>
 <h1>TermsFragment</h1>
-<code><span class="keyword">open</span> <span class="keyword">class </span><span class="identifier">TermsFragment</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../../com.schibsted.account.ui.ui/-flow-fragment/index.html"><span class="identifier">FlowFragment</span></a><span class="symbol">&lt;</span><span class="identifier">Presenter</span><span class="symbol">&gt;</span><span class="symbol">, </span><span class="identifier">View</span></code>
-<p>a Fragment displaying the terms and conditions screen</p>
+<code><span class="keyword">class </span><span class="identifier">TermsFragment</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../../com.schibsted.account.ui.ui/-flow-fragment/index.html"><span class="identifier">FlowFragment</span></a><span class="symbol">&lt;</span><a href="../-terms-contract/-presenter/index.html"><span class="identifier">Presenter</span></a><span class="symbol">&gt;</span><span class="symbol">, </span><a href="../-terms-contract/-view/index.html"><span class="identifier">View</span></a></code>
+<p>a <a href="#">Fragment</a> displaying the terms and conditions screen</p>
 <h3>Constructors</h3>
 <table>
 <tbody>
@@ -19,7 +19,7 @@
 </td>
 <td>
 <code><span class="identifier">TermsFragment</span><span class="symbol">(</span><span class="symbol">)</span></code>
-<p>a Fragment displaying the terms and conditions screen</p>
+<p>a <a href="#">Fragment</a> displaying the terms and conditions screen</p>
 </td>
 </tr>
 </tbody>
@@ -32,7 +32,11 @@
 <p><a href="is-active.html">isActive</a></p>
 </td>
 <td>
-<code><span class="keyword">open</span> <span class="keyword">val </span><span class="identifier">isActive</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><span class="identifier">Boolean</span></a></code></td>
+<code><span class="keyword">val </span><span class="identifier">isActive</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><span class="identifier">Boolean</span></a></code>
+<p>Return the state of the fragment, this method should be use to know if an UI update could be
+performed.
+Call this method before every intention of UI update</p>
+</td>
 </tr>
 </tbody>
 </table>
@@ -62,46 +66,39 @@
 <tbody>
 <tr>
 <td>
-<p><a href="new-instance.html">newInstance</a></p>
-</td>
-<td>
-<code><span class="keyword">open</span> <span class="keyword">static</span> <span class="keyword">fun </span><span class="identifier">newInstance</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.ui.login.screen.term.TermsFragment$newInstance(com.schibsted.account.ui.UiConfiguration, kotlin.Boolean, com.schibsted.account.network.response.AgreementLinksResponse)/uiConfiguration">uiConfiguration</span><span class="symbol">:</span>&nbsp;<a href="../../com.schibsted.account.ui/-ui-configuration/index.html"><span class="identifier">UiConfiguration</span></a><span class="symbol">, </span><span class="identifier" id="com.schibsted.account.ui.login.screen.term.TermsFragment$newInstance(com.schibsted.account.ui.UiConfiguration, kotlin.Boolean, com.schibsted.account.network.response.AgreementLinksResponse)/isUserAvailable">isUserAvailable</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><span class="identifier">Boolean</span></a><span class="symbol">, </span><span class="identifier" id="com.schibsted.account.ui.login.screen.term.TermsFragment$newInstance(com.schibsted.account.ui.UiConfiguration, kotlin.Boolean, com.schibsted.account.network.response.AgreementLinksResponse)/agreementLinks">agreementLinks</span><span class="symbol">:</span>&nbsp;<span class="identifier">AgreementLinksResponse</span><span class="symbol">)</span><span class="symbol">: </span><a href="./index.html"><span class="identifier">TermsFragment</span></a></code></td>
-</tr>
-<tr>
-<td>
 <p><a href="on-create.html">onCreate</a></p>
 </td>
 <td>
-<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">onCreate</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.ui.login.screen.term.TermsFragment$onCreate(android.os.Bundle)/savedInstanceState">savedInstanceState</span><span class="symbol">:</span>&nbsp;<a href="https://developer.android.com/reference/android/os/Bundle.html"><span class="identifier">Bundle</span></a><span class="symbol">?</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code></td>
+<code><span class="keyword">fun </span><span class="identifier">onCreate</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.ui.login.screen.term.TermsFragment$onCreate(android.os.Bundle)/savedInstanceState">savedInstanceState</span><span class="symbol">:</span>&nbsp;<a href="https://developer.android.com/reference/android/os/Bundle.html"><span class="identifier">Bundle</span></a><span class="symbol">?</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code></td>
 </tr>
 <tr>
 <td>
 <p><a href="on-create-view.html">onCreateView</a></p>
 </td>
 <td>
-<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">onCreateView</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.ui.login.screen.term.TermsFragment$onCreateView(android.view.LayoutInflater, android.view.ViewGroup, android.os.Bundle)/inflater">inflater</span><span class="symbol">:</span>&nbsp;<a href="https://developer.android.com/reference/android/view/LayoutInflater.html"><span class="identifier">LayoutInflater</span></a><span class="symbol">, </span><span class="identifier" id="com.schibsted.account.ui.login.screen.term.TermsFragment$onCreateView(android.view.LayoutInflater, android.view.ViewGroup, android.os.Bundle)/container">container</span><span class="symbol">:</span>&nbsp;<a href="https://developer.android.com/reference/android/view/ViewGroup.html"><span class="identifier">ViewGroup</span></a><span class="symbol">?</span><span class="symbol">, </span><span class="identifier" id="com.schibsted.account.ui.login.screen.term.TermsFragment$onCreateView(android.view.LayoutInflater, android.view.ViewGroup, android.os.Bundle)/savedInstanceState">savedInstanceState</span><span class="symbol">:</span>&nbsp;<a href="https://developer.android.com/reference/android/os/Bundle.html"><span class="identifier">Bundle</span></a><span class="symbol">?</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://developer.android.com/reference/android/view/View.html"><span class="identifier">View</span></a><span class="symbol">?</span></code></td>
+<code><span class="keyword">fun </span><span class="identifier">onCreateView</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.ui.login.screen.term.TermsFragment$onCreateView(android.view.LayoutInflater, android.view.ViewGroup, android.os.Bundle)/inflater">inflater</span><span class="symbol">:</span>&nbsp;<a href="https://developer.android.com/reference/android/view/LayoutInflater.html"><span class="identifier">LayoutInflater</span></a><span class="symbol">, </span><span class="identifier" id="com.schibsted.account.ui.login.screen.term.TermsFragment$onCreateView(android.view.LayoutInflater, android.view.ViewGroup, android.os.Bundle)/container">container</span><span class="symbol">:</span>&nbsp;<a href="https://developer.android.com/reference/android/view/ViewGroup.html"><span class="identifier">ViewGroup</span></a><span class="symbol">?</span><span class="symbol">, </span><span class="identifier" id="com.schibsted.account.ui.login.screen.term.TermsFragment$onCreateView(android.view.LayoutInflater, android.view.ViewGroup, android.os.Bundle)/savedInstanceState">savedInstanceState</span><span class="symbol">:</span>&nbsp;<a href="https://developer.android.com/reference/android/os/Bundle.html"><span class="identifier">Bundle</span></a><span class="symbol">?</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://developer.android.com/reference/android/view/View.html"><span class="identifier">View</span></a><span class="symbol">?</span></code></td>
 </tr>
 <tr>
 <td>
 <p><a href="on-save-instance-state.html">onSaveInstanceState</a></p>
 </td>
 <td>
-<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">onSaveInstanceState</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.ui.login.screen.term.TermsFragment$onSaveInstanceState(android.os.Bundle)/outState">outState</span><span class="symbol">:</span>&nbsp;<a href="https://developer.android.com/reference/android/os/Bundle.html"><span class="identifier">Bundle</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code></td>
+<code><span class="keyword">fun </span><span class="identifier">onSaveInstanceState</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.ui.login.screen.term.TermsFragment$onSaveInstanceState(android.os.Bundle)/outState">outState</span><span class="symbol">:</span>&nbsp;<a href="https://developer.android.com/reference/android/os/Bundle.html"><span class="identifier">Bundle</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code></td>
 </tr>
 <tr>
 <td>
 <p><a href="on-view-state-restored.html">onViewStateRestored</a></p>
 </td>
 <td>
-<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">onViewStateRestored</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.ui.login.screen.term.TermsFragment$onViewStateRestored(android.os.Bundle)/savedInstanceState">savedInstanceState</span><span class="symbol">:</span>&nbsp;<a href="https://developer.android.com/reference/android/os/Bundle.html"><span class="identifier">Bundle</span></a><span class="symbol">?</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code></td>
+<code><span class="keyword">fun </span><span class="identifier">onViewStateRestored</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.ui.login.screen.term.TermsFragment$onViewStateRestored(android.os.Bundle)/savedInstanceState">savedInstanceState</span><span class="symbol">:</span>&nbsp;<a href="https://developer.android.com/reference/android/os/Bundle.html"><span class="identifier">Bundle</span></a><span class="symbol">?</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code></td>
 </tr>
 <tr>
 <td>
 <p><a href="request-navigation-to-web-view.html">requestNavigationToWebView</a></p>
 </td>
 <td>
-<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">requestNavigationToWebView</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.ui.login.screen.term.TermsFragment$requestNavigationToWebView(kotlin.String)/link">link</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code>
-<p>Request a navigation to a WebFragment to shows terms and policies web page</p>
+<code><span class="keyword">fun </span><span class="identifier">requestNavigationToWebView</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.ui.login.screen.term.TermsFragment$requestNavigationToWebView(kotlin.String)/link">link</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code>
+<p>Request a navigation to a <a href="../../com.schibsted.account.ui.ui/-web-fragment/index.html">WebFragment</a> to shows terms and policies web page</p>
 </td>
 </tr>
 <tr>
@@ -109,7 +106,7 @@
 <p><a href="set-presenter.html">setPresenter</a></p>
 </td>
 <td>
-<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">setPresenter</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.ui.login.screen.term.TermsFragment$setPresenter(com.schibsted.account.ui.login.screen.term.TermsContract.Presenter)/presenter">presenter</span><span class="symbol">:</span>&nbsp;<span class="identifier">Presenter</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code>
+<code><span class="keyword">fun </span><span class="identifier">setPresenter</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.ui.login.screen.term.TermsFragment$setPresenter(com.schibsted.account.ui.login.screen.term.TermsContract.Presenter)/presenter">presenter</span><span class="symbol">:</span>&nbsp;<a href="../-terms-contract/-presenter/index.html"><span class="identifier">Presenter</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code>
 <p>ties a presenter to this view</p>
 </td>
 </tr>
@@ -118,7 +115,7 @@
 <p><a href="show-error-dialog.html">showErrorDialog</a></p>
 </td>
 <td>
-<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">showErrorDialog</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.ui.login.screen.term.TermsFragment$showErrorDialog(com.schibsted.account.model.error.ClientError, kotlin.String)/error">error</span><span class="symbol">:</span>&nbsp;<span class="identifier">ClientError</span><span class="symbol">, </span><span class="identifier" id="com.schibsted.account.ui.login.screen.term.TermsFragment$showErrorDialog(com.schibsted.account.model.error.ClientError, kotlin.String)/errorMessage">errorMessage</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">?</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code></td>
+<code><span class="keyword">fun </span><span class="identifier">showErrorDialog</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.ui.login.screen.term.TermsFragment$showErrorDialog(com.schibsted.account.model.error.ClientError, kotlin.String)/error">error</span><span class="symbol">:</span>&nbsp;<span class="identifier">ClientError</span><span class="symbol">, </span><span class="identifier" id="com.schibsted.account.ui.login.screen.term.TermsFragment$showErrorDialog(com.schibsted.account.model.error.ClientError, kotlin.String)/errorMessage">errorMessage</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">?</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code></td>
 </tr>
 </tbody>
 </table>
@@ -158,6 +155,18 @@
 <code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">showProgress</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code>
 <p>prevent the user to click on the <a href="#">.primaryActionView</a></p>
 </td>
+</tr>
+</tbody>
+</table>
+<h3>Companion Object Functions</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="new-instance.html">newInstance</a></p>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">newInstance</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.ui.login.screen.term.TermsFragment.Companion$newInstance(com.schibsted.account.ui.UiConfiguration, kotlin.Boolean, com.schibsted.account.network.response.AgreementLinksResponse)/uiConfiguration">uiConfiguration</span><span class="symbol">:</span>&nbsp;<a href="../../com.schibsted.account.ui/-ui-configuration/index.html"><span class="identifier">UiConfiguration</span></a><span class="symbol">, </span><span class="identifier" id="com.schibsted.account.ui.login.screen.term.TermsFragment.Companion$newInstance(com.schibsted.account.ui.UiConfiguration, kotlin.Boolean, com.schibsted.account.network.response.AgreementLinksResponse)/isUserAvailable">isUserAvailable</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><span class="identifier">Boolean</span></a><span class="symbol">, </span><span class="identifier" id="com.schibsted.account.ui.login.screen.term.TermsFragment.Companion$newInstance(com.schibsted.account.ui.UiConfiguration, kotlin.Boolean, com.schibsted.account.network.response.AgreementLinksResponse)/agreementLinks">agreementLinks</span><span class="symbol">:</span>&nbsp;<span class="identifier">AgreementLinksResponse</span><span class="symbol">)</span><span class="symbol">: </span><a href="./index.html"><span class="identifier">TermsFragment</span></a></code></td>
 </tr>
 </tbody>
 </table>

@@ -1,0 +1,54 @@
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>LocalSecretsProvider - core</title>
+<link rel="stylesheet" href="../../../style.css">
+</HEAD>
+<BODY>
+<a href="../../index.html">core</a>&nbsp;/&nbsp;<a href="../index.html">com.schibsted.account.persistence</a>&nbsp;/&nbsp;<a href="./index.html">LocalSecretsProvider</a><br/>
+<br/>
+<h1>LocalSecretsProvider</h1>
+<code><span class="keyword">class </span><span class="identifier">LocalSecretsProvider</span></code>
+<p>Manages a mapping between randomly generated IDs and data. This allows for referring to data using a secret key
+while the actual data never leaves the device. Example usage: Redirect URIs</p>
+<h3>Constructors</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="-init-.html">&lt;init&gt;</a></p>
+</td>
+<td>
+<code><span class="identifier">LocalSecretsProvider</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.persistence.LocalSecretsProvider$<init>(android.content.Context, kotlin.Int)/appContext">appContext</span><span class="symbol">:</span>&nbsp;<a href="https://developer.android.com/reference/android/content/Context.html"><span class="identifier">Context</span></a><span class="symbol">, </span><span class="identifier" id="com.schibsted.account.persistence.LocalSecretsProvider$<init>(android.content.Context, kotlin.Int)/maxEntries">maxEntries</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html"><span class="identifier">Int</span></a>&nbsp;<span class="symbol">=</span>&nbsp;MAX_ENTRIES<span class="symbol">)</span></code>
+<p>Manages a mapping between randomly generated IDs and data. This allows for referring to data using a secret key
+while the actual data never leaves the device. Example usage: Redirect URIs</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3>Functions</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="get.html">get</a></p>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">get</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.persistence.LocalSecretsProvider$get(kotlin.String)/secretKey">secretKey</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">?</span></code>
+<p>Retrieves previously stored data from a generated key</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="put.html">put</a></p>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">put</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.persistence.LocalSecretsProvider$put(kotlin.String)/value">value</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a></code>
+<p>Generates a random key for the value you provide and stores the value. If the value already exists,
+it will re-use the previously generated id.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</BODY>
+</HTML>

@@ -11,7 +11,9 @@
 <code><span class="keyword">interface </span><span class="identifier">Presenter</span></code>
 <p>Defines methods implemented by the presenter performing identification business</p>
 <p><strong>See Also</strong><br/>
-com.schibsted.account.ui.login.screen.identification.ui.MobileIdentificationFragmentcom.schibsted.account.ui.login.screen.identification.ui.EmailIdentificationFragment</p>
+<p><a href="../../../com.schibsted.account.ui.login.screen.identification.ui/-mobile-identification-fragment/index.html">com.schibsted.account.ui.login.screen.identification.ui.MobileIdentificationFragment</a></p>
+<p><a href="../../../com.schibsted.account.ui.login.screen.identification.ui/-email-identification-fragment/index.html">com.schibsted.account.ui.login.screen.identification.ui.EmailIdentificationFragment</a></p>
+</p>
 <h3>Functions</h3>
 <table>
 <tbody>
@@ -20,8 +22,10 @@ com.schibsted.account.ui.login.screen.identification.ui.MobileIdentificationFrag
 <p><a href="verify-input.html">verifyInput</a></p>
 </td>
 <td>
-<code><span class="keyword">abstract</span> <span class="keyword">fun </span><span class="identifier">verifyInput</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.ui.login.screen.identification.IdentificationContract.Presenter$verifyInput(com.schibsted.account.ui.ui.InputField, com.schibsted.account.engine.input.Identifier.IdentifierType, kotlin.Boolean, kotlin.String)/identifier">identifier</span><span class="symbol">:</span>&nbsp;<a href="../../../com.schibsted.account.ui.ui/-input-field/index.html"><span class="identifier">InputField</span></a><span class="symbol">, </span><span class="identifier" id="com.schibsted.account.ui.login.screen.identification.IdentificationContract.Presenter$verifyInput(com.schibsted.account.ui.ui.InputField, com.schibsted.account.engine.input.Identifier.IdentifierType, kotlin.Boolean, kotlin.String)/identifierType">identifierType</span><span class="symbol">:</span>&nbsp;<span class="identifier">IdentifierType</span><span class="symbol">, </span><span class="identifier" id="com.schibsted.account.ui.login.screen.identification.IdentificationContract.Presenter$verifyInput(com.schibsted.account.ui.ui.InputField, com.schibsted.account.engine.input.Identifier.IdentifierType, kotlin.Boolean, kotlin.String)/allowSignup">allowSignup</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><span class="identifier">Boolean</span></a><span class="symbol">, </span><span class="identifier" id="com.schibsted.account.ui.login.screen.identification.IdentificationContract.Presenter$verifyInput(com.schibsted.account.ui.ui.InputField, com.schibsted.account.engine.input.Identifier.IdentifierType, kotlin.Boolean, kotlin.String)/signUpErrorMessage">signUpErrorMessage</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code>
-<p>Use this method to verify the input provided by the view. This method should request a navigation to the next step in case of success and should ask the view to show an error if any failure occurs</p>
+<code><span class="keyword">abstract</span> <span class="keyword">fun </span><span class="identifier">verifyInput</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.ui.login.screen.identification.IdentificationContract.Presenter$verifyInput(com.schibsted.account.ui.ui.InputField, com.schibsted.account.engine.input.Identifier.IdentifierType, kotlin.Boolean, kotlin.String)/identifier">identifier</span><span class="symbol">:</span>&nbsp;<a href="../../../com.schibsted.account.ui.ui/-input-field/index.html"><span class="identifier">InputField</span></a><span class="symbol">, </span><span class="identifier" id="com.schibsted.account.ui.login.screen.identification.IdentificationContract.Presenter$verifyInput(com.schibsted.account.ui.ui.InputField, com.schibsted.account.engine.input.Identifier.IdentifierType, kotlin.Boolean, kotlin.String)/identifierType">identifierType</span><span class="symbol">:</span>&nbsp;<span class="identifier">IdentifierType</span><span class="symbol">, </span><span class="identifier" id="com.schibsted.account.ui.login.screen.identification.IdentificationContract.Presenter$verifyInput(com.schibsted.account.ui.ui.InputField, com.schibsted.account.engine.input.Identifier.IdentifierType, kotlin.Boolean, kotlin.String)/allowSignup">allowSignup</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><span class="identifier">Boolean</span></a><span class="symbol">, </span><span class="identifier" id="com.schibsted.account.ui.login.screen.identification.IdentificationContract.Presenter$verifyInput(com.schibsted.account.ui.ui.InputField, com.schibsted.account.engine.input.Identifier.IdentifierType, kotlin.Boolean, kotlin.String)/signUpErrorMessage">signUpErrorMessage</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">?</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code>
+<p>Use this method to verify the input provided by the view.
+This method should request a navigation to the next step in case of success
+and should ask the view to show an error if any failure occurs</p>
 </td>
 </tr>
 </tbody>
@@ -34,8 +38,9 @@ com.schibsted.account.ui.login.screen.identification.ui.MobileIdentificationFrag
 <p><a href="../../-identification-presenter/index.html">IdentificationPresenter</a></p>
 </td>
 <td>
-<code><span class="keyword">open</span> <span class="keyword">class </span><span class="identifier">IdentificationPresenter</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="./index.html"><span class="identifier">Presenter</span></a></code>
-<p>Following the MVP design pattern this interface represent the implementation of the IdentificationContract.Presenter. this class executes the mobile identification business logic and ask for UI updates depending on results.</p>
+<code><span class="keyword">class </span><span class="identifier">IdentificationPresenter</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="./index.html"><span class="identifier">Presenter</span></a></code>
+<p>Following the MVP design pattern this interface represent the implementation of the <a href="./index.html">IdentificationContract.Presenter</a>.
+this class executes the mobile identification business logic and ask for UI updates depending on results.</p>
 </td>
 </tr>
 </tbody>
