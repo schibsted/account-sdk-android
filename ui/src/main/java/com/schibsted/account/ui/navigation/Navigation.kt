@@ -105,7 +105,14 @@ class Navigation(
         }
 
         if (!LoginScreen.isWebView(loginScreen.value)) {
-            BaseLoginActivity.tracker?.eventInteraction(TrackingData.InteractionType.VIEW, UiUtil.getTrackingScreen(loginScreen)!!)
+            val customFields = mutableMapOf<String, Any>()
+
+            (fragment as? AbstractIdentificationFragment)?.isTeaserEnabled()?.let { customFields["teaser"] to it }
+
+            (fragment as? PasswordFragment)?.isRememberMeEnabled()?.let { customFields["keepLoggedIn"] to it }
+            (fragment as? VerificationFragment)?.isRememberMeEnabled?.let { customFields["keepLoggedIn"] to it }
+
+            BaseLoginActivity.tracker?.eventInteraction(TrackingData.InteractionType.VIEW, UiUtil.getTrackingScreen(loginScreen)!!, customFields)
         }
     }
 
