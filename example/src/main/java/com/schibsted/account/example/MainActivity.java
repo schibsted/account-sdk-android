@@ -28,6 +28,7 @@ import com.schibsted.account.ui.UiConfiguration;
 import com.schibsted.account.ui.login.BaseLoginActivity;
 import com.schibsted.account.ui.login.flow.password.PasswordActivity;
 import com.schibsted.account.ui.smartlock.SmartlockImpl;
+import com.schibsted.account.ui.smartlock.SmartlockMode;
 
 import java.util.Locale;
 
@@ -150,7 +151,9 @@ public class MainActivity extends AppCompatActivity {
                 updateUi();
 
             } else if (resultCode == SmartlockImpl.SMARTLOCK_FAILED) {
-                startActivityForResult(data, PASSWORD_REQUEST_CODE);
+                //start the flow without smartlock
+                final Intent passwordIntent = PasswordActivity.getCallingIntent(getApplicationContext(), uiConfiguration.newBuilder().smartlockMode(SmartlockMode.DISABLED).build());
+                startActivityForResult(passwordIntent, PASSWORD_REQUEST_CODE);
             }
         }
     }

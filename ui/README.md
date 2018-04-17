@@ -89,11 +89,16 @@ The smartlock feature can be added with the following dependency :
 ```
 implementation "com.schibsted.account:account-sdk-android-smartlock:<VERSION>"
 ```
-To enable the smartlock feature you have to call `UiConfiguration.Builder.fromManifest(getApplicationContext()).enableSmartlock()`
+There are three smartlock modes:
+- SmartlockMode.DISABLED: The SDK will not attempt to log the user in with smartlock. 
+- SmartlockMode.ENABLED: The SDK will attempt to log the user in with smartlock. If it fails but smartlock managed to get the user identifier, the usual login flow will be launched 
+will identifier prefilled. For more information see [google smartlock flow](https://developers.google.com/identity/smartlock-passwords/android/overview)
+- SmartlockMode.FORCED: The SDK will attempt to log user in with and only with smartlock. 
 
-In case of failure you will be notified in `onActivityResult` with the result code `SmartlockImpl.SMARTLOCK_FAILED`.
-Then you should re-start your flow without smartlock simply by calling `startActivityForResult(data, YOUR_REQUEST_CODE);` where `data` is the intent provided by
-`onActivityResult`.
+In any case of failure you will be notified in `onActivityResult` with the result code `SmartlockImpl.SMARTLOCK_FAILED`.
+
+Then you should update your `uiConfiguration` to disable smartlock: `uiConfiguration.newBuilder().smartlockMode(SmartlockMode.DISABLED).build()`.
+You might want to directly restart the flow with the new `uiCOnfiguration` for a seamless user experience.
 
 ## Advanced usage
 

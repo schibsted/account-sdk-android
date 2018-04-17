@@ -11,6 +11,7 @@ import android.os.Parcelable
 import android.support.annotation.DrawableRes
 import com.schibsted.account.engine.input.Identifier
 import com.schibsted.account.ui.smartlock.SmartlockImpl
+import com.schibsted.account.ui.smartlock.SmartlockMode
 import java.net.URI
 import java.util.Locale
 
@@ -22,7 +23,7 @@ data class UiConfiguration(
     val identifierType: Identifier.IdentifierType = Identifier.IdentifierType.EMAIL,
     val identifier: String? = null,
     val signUpEnabled: Boolean = true,
-    val smartlockEnabled: Boolean = false,
+    val smartlockMode: SmartlockMode = SmartlockMode.DISABLED,
     @DrawableRes val clientLogo: Int = 0,
     val teaserText: String? = null,
     val signUpNotAllowedErrorMessage: String? = null,
@@ -33,7 +34,7 @@ data class UiConfiguration(
         if (!signUpEnabled && signUpNotAllowedErrorMessage.isNullOrEmpty()) {
             throw IllegalArgumentException("The property signUpNotAllowedErrorMessage must be specified if signUpEnabled is set to false")
         }
-        if (smartlockEnabled && !SmartlockImpl.isSmartlockAvailable()) {
+        if (smartlockMode != SmartlockMode.DISABLED && !SmartlockImpl.isSmartlockAvailable()) {
             throw IllegalStateException("Smartlock was enabled, but not found on the classpath. Please verify that the smartlock module is included in your build")
         }
     }
@@ -47,8 +48,8 @@ data class UiConfiguration(
                 .logo(clientLogo)
                 .teaserText(teaserText)
                 .allowClosing(isClosingAllowed)
+                .smartlockMode(smartlockMode)
 
-        if (smartlockEnabled) builder.enableSmartlock() else builder.disableSmartlock()
         signUpNotAllowedErrorMessage?.let { builder.disableSignUp(it) }
         return builder
     }
@@ -61,7 +62,7 @@ data class UiConfiguration(
             source.readSerializable() as Identifier.IdentifierType,
             source.readString(),
             source.readInt() == 1,
-            source.readInt() == 1,
+            source.readSerializable() as SmartlockMode,
             source.readInt(),
             source.readString(),
             source.readString(),
@@ -78,7 +79,7 @@ data class UiConfiguration(
         writeSerializable(identifierType)
         writeString(identifier)
         writeInt(if (signUpEnabled) 1 else 0)
-        writeInt(if (smartlockEnabled) 1 else 0)
+        writeSerializable(smartlockMode)
         writeInt(clientLogo)
         writeString(teaserText)
         writeString(signUpNotAllowedErrorMessage)
@@ -96,9 +97,7 @@ data class UiConfiguration(
 
         fun enableSignUp() = apply { this.subject = this.subject.copy(signUpEnabled = true) }
 
-        fun enableSmartlock() = apply { this.subject = this.subject.copy(smartlockEnabled = true) }
-
-        fun disableSmartlock() = apply { this.subject = this.subject.copy(smartlockEnabled = false) }
+        fun smartlockMode(smartlockMode: SmartlockMode) = apply { this.subject = this.subject.copy(smartlockMode = smartlockMode) }
 
         fun disableSignUp(signUpDisabledErrorMessage: String) = apply { this.subject = this.subject.copy(signUpEnabled = false, signUpNotAllowedErrorMessage = signUpDisabledErrorMessage) }
 
