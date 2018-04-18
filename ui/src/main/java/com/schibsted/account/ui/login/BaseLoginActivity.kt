@@ -11,7 +11,6 @@ import android.content.res.Resources
 import android.graphics.Rect
 import android.os.Bundle
 import android.os.Parcelable
-import android.support.annotation.Nullable
 import android.support.annotation.StringRes
 import android.support.annotation.VisibleForTesting
 import android.support.v4.app.DialogFragment
@@ -28,6 +27,7 @@ import android.view.ViewTreeObserver
 import android.view.inputmethod.InputMethodManager
 import com.google.gson.Gson
 import com.schibsted.account.AccountService
+import com.schibsted.account.ClientConfiguration
 import com.schibsted.account.common.tracking.TrackingData
 import com.schibsted.account.common.tracking.UiTracking
 import com.schibsted.account.common.util.Logger
@@ -35,6 +35,7 @@ import com.schibsted.account.engine.controller.LoginController
 import com.schibsted.account.engine.input.Credentials
 import com.schibsted.account.engine.input.Identifier
 import com.schibsted.account.engine.integration.ResultCallback
+import com.schibsted.account.network.Environment
 import com.schibsted.account.persistence.LocalSecretsProvider
 import com.schibsted.account.session.User
 import com.schibsted.account.ui.KeyboardManager
@@ -55,6 +56,7 @@ import com.schibsted.account.ui.ui.WebFragment
 import com.schibsted.account.util.DeepLink
 import com.schibsted.account.util.DeepLinkHandler
 import kotlinx.android.synthetic.main.schacc_mobile_activity_layout.*
+import kotlin.properties.Delegates
 
 abstract class BaseLoginActivity : AppCompatActivity(), KeyboardManager, NavigationListener {
 
@@ -74,9 +76,17 @@ abstract class BaseLoginActivity : AppCompatActivity(), KeyboardManager, Navigat
 
         const val KEY_SMARTLOCK_RESOLVING = "KEY_SMARTLOCK_RESOLVING"
 
-        @Nullable
         @JvmStatic
-        var tracker: UiTracking? = null
+        var tracker by Delegates.observable<UiTracking?>(null) { _, _, newValue ->
+            val conf = ClientConfiguration.get()
+            newValue?.clientId = conf.clientId
+            newValue?.loginRealm = when (conf.environment) {
+                Environment.ENVIRONMENT_PRODUCTION_NORWAY -> "spid.no"
+                else -> "schibsted.com"
+            }
+
+            // TODO: Make call to client API and retrieve he merchant ID and set that
+        }
     }
 
     /**
@@ -106,7 +116,7 @@ abstract class BaseLoginActivity : AppCompatActivity(), KeyboardManager, Navigat
     lateinit var fragmentProvider: FragmentProvider
         protected set
 
-    protected var loginController: LoginController? = null
+    internal var loginController: LoginController? = null
     protected lateinit var loginContract: LoginContractImpl
     protected var isSmartlockRunning = false
 
@@ -223,7 +233,6 @@ abstract class BaseLoginActivity : AppCompatActivity(), KeyboardManager, Navigat
 
     private fun validateAccount(state: DeepLink.ValidateAccount) {
         Logger.info(TAG, { "Attempting login from deep link, extracting code" })
-        BaseLoginActivity.tracker?.eventActionSuccessful(TrackingData.SpidAction.ACCOUNT_VERIFIED)
 
         User.fromSessionCode(state.code, uiConfiguration.redirectUri.toString(), state.isPersistable,
                 ResultCallback.fromLambda(
@@ -232,7 +241,6 @@ abstract class BaseLoginActivity : AppCompatActivity(), KeyboardManager, Navigat
                         },
                         { user ->
                             Logger.info(TAG, { "Automatic login after account validation was successful" })
-                            BaseLoginActivity.tracker?.eventActionSuccessful(TrackingData.SpidAction.LOGIN_COMPLETED, user.userId.legacyId)
                             navigationController.finishFlow(user)
                         }
                 ))

@@ -6,10 +6,11 @@ package com.schibsted.account.network
 
 import android.os.Build
 import com.schibsted.account.BuildConfig
+import com.schibsted.account.common.tracking.UiTracking
 import okhttp3.Interceptor
 import okhttp3.Response
 
-class InfoInterceptor internal constructor(private val isInternal: Boolean) : Interceptor {
+class InfoInterceptor(private val isInternal: Boolean) : Interceptor {
     private val headerName: String = if (isInternal) "User-Agent" else "X-Schibsted-Account-User-Agent"
 
     override fun intercept(chain: Interceptor.Chain): Response {
@@ -24,6 +25,10 @@ class InfoInterceptor internal constructor(private val isInternal: Boolean) : In
                     .header("SDK-Type", "android")
                     .header("SDK-Version", BuildConfig.VERSION_NAME)
                     .header("X-OIDC", "true")
+
+            UiTracking.trackingIdentifier?.let {
+                builder = builder.header("pulse-jwe", it)
+            }
         }
 
         return chain.proceed(builder.build())

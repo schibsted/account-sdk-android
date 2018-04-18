@@ -40,9 +40,12 @@ class User(token: UserToken, val isPersistable: Boolean) : Parcelable {
 
     val userId: UserId = UserId.fromTokenResponse(token)
 
-    internal val authClient = ServiceHolder.clientBuilder.addInterceptor(AuthInterceptor(this, listOf(ClientConfiguration.get().environment))).build()
+    internal var authClient = ServiceHolder.defaultClient.newBuilder()
+            .addInterceptor(AuthInterceptor(this, listOf(ClientConfiguration.get().environment))).build()
+        private set
 
-    internal val userService = UserService(ClientConfiguration.get().environment, authClient)
+    internal var userService = UserService(ClientConfiguration.get().environment, authClient)
+        private set
 
     val auth = Auth(this)
 

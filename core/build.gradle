@@ -38,8 +38,8 @@ publishing {
             version artifactVersion
 
             artifact "$buildDir/outputs/aar/core-release.aar"
-            artifact(tasks.getByName("sourceJar"))
-            artifact(tasks.getByName("javadocJar"))
+//            artifact(tasks.getByName("sourceJar"))
+//            artifact(tasks.getByName("javadocJar"))
 
             pom.withXml {
                 def dependenciesNode = asNode().appendNode('dependencies')
