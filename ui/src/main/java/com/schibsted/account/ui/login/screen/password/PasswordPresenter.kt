@@ -17,9 +17,7 @@ import com.schibsted.account.ui.login.BaseLoginActivity
 import com.schibsted.account.ui.smartlock.SmartlockImpl
 import com.schibsted.account.ui.ui.InputField
 
-class PasswordPresenter(private val view: PasswordContract.View, credentialsTask: InputProvider<Credentials>, private val smartlockImpl: SmartlockImpl?) : PasswordContract.Presenter {
-
-    private var provider: InputProvider<Credentials> = credentialsTask
+class PasswordPresenter(private val view: PasswordContract.View, private var provider: InputProvider<Credentials>, private val smartlockImpl: SmartlockImpl?) : PasswordContract.Presenter {
 
     override fun sign(inputField: InputField, identifier: Identifier?, keepUserLoggedIn: Boolean) {
         view.hideError(inputField)
