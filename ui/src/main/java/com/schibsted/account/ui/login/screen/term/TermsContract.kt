@@ -43,5 +43,7 @@ interface TermsContract {
          * @param termsBox the state of the terms checkbox could be checked or unchecked
          */
         fun verifyBoxes(privacyBox: CheckBoxView, termsBox: CheckBoxView)
+
+        fun acceptAgreements()
     }
 }
