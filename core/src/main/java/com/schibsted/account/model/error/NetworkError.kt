@@ -13,7 +13,7 @@ import com.schibsted.account.common.util.Logger
 import com.schibsted.account.common.util.safeUrl
 import retrofit2.Response
 
-internal data class NetworkError(val code: Int, val type: String, val description: String, val endpoint: String) : InternalError {
+data class NetworkError(val code: Int, val type: String, val description: String, val endpoint: String) : InternalError {
     init {
         Logger.debug(Logger.DEFAULT_TAG, { "Request to ${endpoint.safeUrl()} failed with code $code. \nType: <$type> \nDescription: <$description>" })
     }

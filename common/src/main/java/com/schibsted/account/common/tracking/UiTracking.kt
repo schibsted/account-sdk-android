@@ -18,7 +18,7 @@ abstract class UiTracking {
 
     var clientId: String? = null
     var loginRealm: String? = null
-    var merchantId: String? = null
+    var merchantId: Int? = null
 
     var userId by Delegates.observable<String?>(null) { _, _, newValue ->
         onUserIdChanged?.invoke(newValue)

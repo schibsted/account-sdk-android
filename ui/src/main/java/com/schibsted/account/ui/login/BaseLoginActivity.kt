@@ -35,6 +35,7 @@ import com.schibsted.account.engine.controller.LoginController
 import com.schibsted.account.engine.input.Credentials
 import com.schibsted.account.engine.input.Identifier
 import com.schibsted.account.engine.integration.ResultCallback
+import com.schibsted.account.engine.operation.ClientInfoOperation
 import com.schibsted.account.network.Environment
 import com.schibsted.account.persistence.LocalSecretsProvider
 import com.schibsted.account.session.User
@@ -77,15 +78,14 @@ abstract class BaseLoginActivity : AppCompatActivity(), KeyboardManager, Navigat
         const val KEY_SMARTLOCK_RESOLVING = "KEY_SMARTLOCK_RESOLVING"
 
         @JvmStatic
-        var tracker by Delegates.observable<UiTracking?>(null) { _, _, newValue ->
+        var tracker by Delegates.observable<UiTracking?>(null) { _, _, uiTracking ->
             val conf = ClientConfiguration.get()
-            newValue?.clientId = conf.clientId
-            newValue?.loginRealm = when (conf.environment) {
+            uiTracking?.clientId = conf.clientId
+            uiTracking?.loginRealm = when (conf.environment) {
                 Environment.ENVIRONMENT_PRODUCTION_NORWAY -> "spid.no"
                 else -> "schibsted.com"
             }
-
-            // TODO: Make call to client API and retrieve he merchant ID and set that
+            ClientInfoOperation({ }, { uiTracking?.merchantId = it.merchantId})
         }
     }
 

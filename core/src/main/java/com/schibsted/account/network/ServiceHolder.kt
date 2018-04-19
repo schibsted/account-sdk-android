@@ -12,9 +12,9 @@ import okhttp3.OkHttpClient
 import java.util.concurrent.TimeUnit
 
 object ServiceHolder {
-    const val TIMEOUT_MS = 10_000L
+    private const val TIMEOUT_MS = 10_000L
 
-    val defaultClient: OkHttpClient = OkHttpClient.Builder()
+    internal val defaultClient: OkHttpClient = OkHttpClient.Builder()
             .writeTimeout(TIMEOUT_MS, TimeUnit.MILLISECONDS)
             .readTimeout(TIMEOUT_MS, TimeUnit.MILLISECONDS)
             .addInterceptor(InfoInterceptor(true))

@@ -15,7 +15,7 @@ import com.schibsted.account.network.response.ClientInfo
 /**
  * A task to get client credentials for a SPiD client
  */
-internal class ClientInfoOperation internal constructor(
+class ClientInfoOperation constructor(
     private val failure: (error: NetworkError) -> Unit,
     private val success: (token: ClientInfo) -> Unit
 ) {
