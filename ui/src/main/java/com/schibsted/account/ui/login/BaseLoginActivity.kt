@@ -85,7 +85,7 @@ abstract class BaseLoginActivity : AppCompatActivity(), KeyboardManager, Navigat
                 Environment.ENVIRONMENT_PRODUCTION_NORWAY -> "spid.no"
                 else -> "schibsted.com"
             }
-            ClientInfoOperation({ }, { uiTracking?.merchantId = it.merchantId})
+            ClientInfoOperation({ }, { uiTracking?.merchantId = it.merchantId })
         }
     }
 
