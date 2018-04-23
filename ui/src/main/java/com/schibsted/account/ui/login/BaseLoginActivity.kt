@@ -78,14 +78,14 @@ abstract class BaseLoginActivity : AppCompatActivity(), KeyboardManager, Navigat
         const val KEY_SMARTLOCK_RESOLVING = "KEY_SMARTLOCK_RESOLVING"
 
         @JvmStatic
-        var tracker by Delegates.observable<UiTracking?>(null) { _, _, uiTracking ->
+        var tracker by Delegates.observable<UiTracking?>(null) { _, _, newValue ->
             val conf = ClientConfiguration.get()
-            uiTracking?.clientId = conf.clientId
-            uiTracking?.loginRealm = when (conf.environment) {
+            newValue?.clientId = conf.clientId
+            newValue?.loginRealm = when (conf.environment) {
                 Environment.ENVIRONMENT_PRODUCTION_NORWAY -> "spid.no"
                 else -> "schibsted.com"
             }
-            ClientInfoOperation({ }, { uiTracking?.merchantId = it.merchantId })
+            ClientInfoOperation({ }, { newValue?.merchantId = it.merchantId })
         }
     }
 
