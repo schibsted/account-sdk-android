@@ -86,7 +86,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void updateUi() {
-        if(user != null){
+        if (user != null) {
             userState.setText(getString(R.string.example_app_user_logged_in, "<fetching>"));
 
             user.getProfile().get(new ResultCallback<ProfileData>() {
@@ -114,8 +114,17 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onClick(View v) {
             // Create the intent for the desired flow
-            final Intent passwordIntent = PasswordActivity.getCallingIntent(getApplicationContext(), uiConfiguration);
-            startActivityForResult(passwordIntent, PASSWORD_REQUEST_CODE);
+            PasswordActivity.getCallingIntent(getApplicationContext(), uiConfiguration, new ResultCallback<Intent>() {
+                @Override
+                public void onSuccess(Intent result) {
+                    startActivityForResult(result, PASSWORD_REQUEST_CODE);
+                }
+
+                @Override
+                public void onError(ClientError error) {
+                    Toast.makeText(MainActivity.this, error.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            });
         }
     };
 
@@ -152,8 +161,17 @@ public class MainActivity extends AppCompatActivity {
 
             } else if (resultCode == SmartlockImpl.SMARTLOCK_FAILED) {
                 //start the flow without smartlock
-                final Intent passwordIntent = PasswordActivity.getCallingIntent(getApplicationContext(), uiConfiguration.newBuilder().smartlockMode(SmartlockMode.DISABLED).build());
-                startActivityForResult(passwordIntent, PASSWORD_REQUEST_CODE);
+                PasswordActivity.getCallingIntent(getApplicationContext(), uiConfiguration.newBuilder().smartlockMode(SmartlockMode.DISABLED).build(), new ResultCallback<Intent>() {
+                    @Override
+                    public void onSuccess(Intent result) {
+                        startActivityForResult(result, PASSWORD_REQUEST_CODE);
+                    }
+
+                    @Override
+                    public void onError(ClientError error) {
+                        Toast.makeText(MainActivity.this, error.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
         }
     }

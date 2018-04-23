@@ -13,6 +13,8 @@ import com.schibsted.account.common.tracking.TrackingData
 import com.schibsted.account.engine.controller.LoginController
 import com.schibsted.account.engine.controller.SignUpController
 import com.schibsted.account.engine.input.Identifier
+import com.schibsted.account.engine.integration.ResultCallback
+import com.schibsted.account.engine.operation.ClientInfoOperation
 import com.schibsted.account.ui.UiConfiguration
 import com.schibsted.account.ui.login.BaseLoginActivity
 
@@ -96,10 +98,14 @@ class PasswordActivity : BaseLoginActivity(), FlowSelectionListener {
          * @return An [Intent] that can be used to launch the visual authentication flow.
          */
         @JvmStatic
-        fun getCallingIntent(context: Context, uiConfiguration: UiConfiguration): Intent {
-            val intent = Intent(context, PasswordActivity::class.java)
-            intent.putExtra(KEY_UI_CONFIGURATION, uiConfiguration)
-            return intent
+        fun getCallingIntent(context: Context, uiConfiguration: UiConfiguration, resultCallback: ResultCallback<Intent>) {
+            ClientInfoOperation({ resultCallback.onError(it.toClientError()) }, {
+                val intent = Intent(context, PasswordActivity::class.java).apply {
+                    putExtra(KEY_UI_CONFIGURATION, uiConfiguration)
+                    putExtra(KEY_CLIENT_INFO, it)
+                }
+                resultCallback.onSuccess(intent)
+            })
         }
     }
 }

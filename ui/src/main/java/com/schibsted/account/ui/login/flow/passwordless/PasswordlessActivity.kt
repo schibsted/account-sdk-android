@@ -18,11 +18,13 @@ import com.schibsted.account.engine.integration.CallbackProvider
 import com.schibsted.account.engine.integration.InputProvider
 import com.schibsted.account.engine.integration.ResultCallback
 import com.schibsted.account.engine.integration.contract.PasswordlessContract
+import com.schibsted.account.engine.operation.ClientInfoOperation
 import com.schibsted.account.model.LoginResult
 import com.schibsted.account.model.error.ClientError
 import com.schibsted.account.network.response.AgreementLinksResponse
 import com.schibsted.account.ui.UiConfiguration
 import com.schibsted.account.ui.login.BaseLoginActivity
+import com.schibsted.account.ui.login.flow.password.PasswordActivity
 import com.schibsted.account.ui.login.screen.identification.ui.AbstractIdentificationFragment
 import com.schibsted.account.ui.login.screen.identification.ui.MobileIdentificationFragment
 import com.schibsted.account.ui.navigation.Navigation
@@ -56,7 +58,8 @@ class PasswordlessActivity : BaseLoginActivity(), PasswordlessContract {
         val fragment = fragmentProvider.getOrCreateIdentificationFragment(
                 navigationController.currentFragment,
                 provider,
-                identifierType = identifierType)
+                identifierType = identifierType,
+                merchantName = clientInfo.merchant.name)
         navigationController.navigateToFragment(fragment as AbstractIdentificationFragment)
     }
 
@@ -111,13 +114,18 @@ class PasswordlessActivity : BaseLoginActivity(), PasswordlessContract {
          * Provides an [Intent] that can be used to launch the visual authentication flow.
          *
          * @param context The context.
-         * @param identityUiOptions The identityUiOptions for this [Activity].
+         * @param uiConfiguration for this [Activity].
          * @return An [Intent] that can be used to launch the visual authentication flow.
          */
         @JvmStatic
-        fun getCallingIntent(context: Context, uiConfiguration: UiConfiguration): Intent =
-                Intent(context, PasswordlessActivity::class.java).apply {
+        fun getCallingIntent(context: Context, uiConfiguration: UiConfiguration, resultCallback: ResultCallback<Intent>) {
+            ClientInfoOperation({ resultCallback.onError(it.toClientError()) }, {
+                val intent = Intent(context, PasswordActivity::class.java).apply {
                     putExtra(KEY_UI_CONFIGURATION, uiConfiguration)
+                    putExtra(KEY_CLIENT_INFO, it)
                 }
+                resultCallback.onSuccess(intent)
+            })
+        }
     }
 }
