@@ -12,8 +12,8 @@ import com.schibsted.account.common.util.Logger
 import com.schibsted.account.engine.controller.Controller
 import com.schibsted.account.engine.integration.contract.Contract
 import com.schibsted.account.session.User
-import com.schibsted.account.ui.R
 import com.schibsted.account.ui.AccountUiHook
+import com.schibsted.account.ui.R
 import com.schibsted.account.ui.UiUtil
 import com.schibsted.account.ui.login.BaseLoginActivity
 import com.schibsted.account.ui.login.BaseLoginActivity.Companion.EXTRA_USER
@@ -102,17 +102,6 @@ class Navigation(
                     .replace(R.id.fragment_container, currentFragment, loginScreen.value)
             transaction.addToBackStack(loginScreen.value)
             transaction.commit()
-        }
-
-        if (!LoginScreen.isWebView(loginScreen.value)) {
-            val customFields = mutableMapOf<String, Any>()
-
-            (fragment as? AbstractIdentificationFragment)?.isTeaserEnabled()?.let { customFields["teaser"] to it }
-
-            (fragment as? PasswordFragment)?.isRememberMeEnabled()?.let { customFields["keepLoggedIn"] to it }
-            (fragment as? VerificationFragment)?.isRememberMeEnabled?.let { customFields["keepLoggedIn"] to it }
-
-            BaseLoginActivity.tracker?.eventInteraction(TrackingData.InteractionType.VIEW, UiUtil.getTrackingScreen(loginScreen)!!, customFields)
         }
     }
 

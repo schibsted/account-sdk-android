@@ -48,6 +48,8 @@ import com.schibsted.account.ui.login.flow.password.LoginContractImpl
 import com.schibsted.account.ui.login.screen.LoginScreen
 import com.schibsted.account.ui.login.screen.identification.ui.AbstractIdentificationFragment
 import com.schibsted.account.ui.login.screen.identification.ui.EmailIdentificationFragment
+import com.schibsted.account.ui.login.screen.password.PasswordFragment
+import com.schibsted.account.ui.login.screen.verification.VerificationFragment
 import com.schibsted.account.ui.navigation.Navigation
 import com.schibsted.account.ui.navigation.NavigationListener
 import com.schibsted.account.ui.smartlock.SmartlockImpl
@@ -435,6 +437,19 @@ abstract class BaseLoginActivity : AppCompatActivity(), KeyboardManager, Navigat
 
     override fun onNavigationDone(screen: LoginScreen) {
         this.screen = screen
+        if (!LoginScreen.isWebView(screen.value)) {
+            val customFields = mutableMapOf<String, Any>()
+            val fragment = navigationController.currentFragment
+
+            when (fragment) {
+                is AbstractIdentificationFragment -> fragment.isTeaserEnabled().let { customFields["teaser"] to it }
+                is PasswordFragment -> fragment.isRememberMeEnabled().let { customFields["keepLoggedIn"] to it }
+                is VerificationFragment -> fragment.isRememberMeEnabled?.let { customFields["keepLoggedIn"] to it }
+                else -> {
+                }
+            }
+            BaseLoginActivity.tracker?.eventInteraction(TrackingData.InteractionType.VIEW, UiUtil.getTrackingScreen(screen)!!, customFields)
+        }
         updateActionBar()
     }
 
