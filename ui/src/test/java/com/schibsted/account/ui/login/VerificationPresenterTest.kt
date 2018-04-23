@@ -6,6 +6,7 @@ import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.times
 import com.nhaarman.mockito_kotlin.verify
 import com.nhaarman.mockito_kotlin.whenever
+import com.schibsted.account.ClientConfiguration
 import com.schibsted.account.common.tracking.TrackingData
 import com.schibsted.account.common.util.Logger
 import com.schibsted.account.engine.controller.PasswordlessController
@@ -23,6 +24,8 @@ class VerificationPresenterTest : WordSpec() {
     init {
 
         Logger.loggingEnabled = false
+        val testConfig = ClientConfiguration("https://dev-example.com/", "myId", "mySecret")
+        ClientConfiguration.set(testConfig)
 
         "initialization" should {
             val view: VerificationContract.View = mock()
@@ -43,12 +46,6 @@ class VerificationPresenterTest : WordSpec() {
             "show the resend code view" {
                 presenter.resendCode(controller)
                 verify(view).showResendCodeView()
-            }
-
-            "track the action" {
-                BaseLoginActivity.tracker = mock()
-                presenter.resendCode(controller)
-                verify(BaseLoginActivity.tracker)?.eventActionSuccessful(TrackingData.SpidAction.VERIFICATION_CODE_SENT)
             }
         }
 
@@ -106,18 +103,12 @@ class VerificationPresenterTest : WordSpec() {
                 verify(view).showProgress()
             }
 
-            "track the result" {
+            "track the error if any" {
                 val code: CodeInputView = mock {
                     on { isInputValid } doReturn true
                     on { input } doReturn "12345"
                 }
                 BaseLoginActivity.tracker = mock()
-                whenever(provider.provide(any(), any())).thenAnswer {
-                    (it.getArgument(1) as ResultCallback<NoValue>).onSuccess(mock())
-                }
-                presenter.verifyCode(code, true)
-                verify(BaseLoginActivity.tracker)?.eventActionSuccessful(TrackingData.SpidAction.VERIFICATION_CODE_SENT)
-
                 whenever(provider.provide(any(), any())).thenAnswer {
                     (it.getArgument(1) as ResultCallback<NoValue>).onError(mock { on { errorType } doReturn ClientError.ErrorType.NETWORK_ERROR })
                 }
