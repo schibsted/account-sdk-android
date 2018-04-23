@@ -20,6 +20,7 @@ import com.schibsted.account.engine.operation.MissingFieldsOperation
 import com.schibsted.account.engine.step.StepLoginIdentify
 import com.schibsted.account.model.LoginResult
 import com.schibsted.account.model.NoValue
+import com.schibsted.account.model.UserId
 import com.schibsted.account.model.error.ClientError
 import com.schibsted.account.network.OIDCScope
 import com.schibsted.account.session.Agreements
@@ -35,10 +36,11 @@ import com.schibsted.account.session.User
 
 class LoginController @JvmOverloads constructor(
     private val verifyUser: Boolean,
-    @OIDCScope private val scopes: Array<String> = arrayOf(OIDCScope.SCOPE_OPENID)
+    @OIDCScope private val scopes: Array<String> = arrayOf(OIDCScope.SCOPE_OPENID),
+    var currentUserId: UserId? = null
 ) : VerificationController<LoginContract>() {
 
-    constructor(parcel: Parcel) : this(parcel.readInt() != 0, parcel.createStringArray()) {
+    constructor(parcel: Parcel) : this(parcel.readInt() != 0, parcel.createStringArray(), parcel.readParcelable<UserId>(UserId::class.java.classLoader)) {
         super.navigation.addAll(parcel.readStack(LoginController::class.java.classLoader))
     }
 
@@ -52,6 +54,7 @@ class LoginController @JvmOverloads constructor(
                 }
             }) { it ->
                 val user = User(it, credentials.keepLoggedIn)
+                this.currentUserId = user.userId
 
                 if (this.verifyUser) { // Attempt the happy path and proceed straight to login
                     AgreementsCheckOperation(user, { callback.onError(it.toClientError()) }) { agreementsCheck ->
@@ -108,6 +111,7 @@ class LoginController @JvmOverloads constructor(
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeInt(if (verifyUser) 1 else 0)
         parcel.writeStringArray(scopes)
+        parcel.writeParcelable(currentUserId, 0)
         super.writeToParcel(parcel, flags)
     }
 

@@ -7,6 +7,7 @@ import com.nhaarman.mockito_kotlin.eq
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.verify
 import com.nhaarman.mockito_kotlin.whenever
+import com.schibsted.account.ClientConfiguration
 import com.schibsted.account.common.tracking.TrackingData
 import com.schibsted.account.common.util.Logger
 import com.schibsted.account.engine.input.RequiredFields
@@ -22,8 +23,11 @@ import io.kotlintest.specs.WordSpec
 class RequiredFieldsPresenterTest : WordSpec() {
 
     init {
+        val testConfig = ClientConfiguration("https://dev-example.com/", "myId", "mySecret")
+        ClientConfiguration.set(testConfig)
         Logger.loggingEnabled = false
         BaseLoginActivity.tracker = mock()
+
         val provider: InputProvider<RequiredFields> = mock()
         val view: RequiredFieldsContract.View = mock { on { isActive } doReturn true }
         val presenter = RequiredFieldsPresenter(view, provider)
@@ -60,14 +64,6 @@ class RequiredFieldsPresenterTest : WordSpec() {
             fields["KEY"] = mock {
                 on { isInputValid } doReturn true
                 on { input } doReturn "input"
-            }
-
-            "track the result if successful" {
-                whenever(provider.provide(any(), any())).thenAnswer {
-                    (it.getArgument(1) as ResultCallback<NoValue>).onSuccess(mock())
-                }
-                presenter.updateMissingFields(fields)
-                verify(BaseLoginActivity.tracker)?.eventActionSuccessful(TrackingData.SpidAction.REQUIRED_FIELDS_PROVIDED)
             }
 
             "hide progress if there's an error" {

@@ -90,11 +90,4 @@ object TrackingData {
 
         override fun toString() = cause
     }
-
-    /**
-     * Global actions tracked
-     */
-    enum class SpidAction {
-        LOGIN_COMPLETED, ACCOUNT_CREATED, VERIFICATION_CODE_SENT, AGREEMENTS_ACCEPTED, REQUIRED_FIELDS_PROVIDED, ACCOUNT_VERIFIED
-    }
 }

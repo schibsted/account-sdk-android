@@ -53,6 +53,7 @@ class LoginContractImpl(private val loginActivity: BaseLoginActivity) : LoginCon
     }
 
     override fun onAgreementsRequested(agreementsProvider: InputProvider<Agreements>, agreementLinks: AgreementLinksResponse) {
+        BaseLoginActivity.tracker?.userId = this.loginActivity.loginController?.currentUserId?.legacyId
         val fragment = loginActivity.fragmentProvider.getOrCreateTermsFragment(loginActivity.navigationController.currentFragment,
                 agreementsProvider,
                 loginActivity.isUserAvailable(),
@@ -61,6 +62,8 @@ class LoginContractImpl(private val loginActivity: BaseLoginActivity) : LoginCon
     }
 
     override fun onRequiredFieldsRequested(requiredFieldsProvider: InputProvider<RequiredFields>, fields: Set<String>) {
+        BaseLoginActivity.tracker?.userId = this.loginActivity.loginController?.currentUserId?.legacyId
+
         val fragment = loginActivity.fragmentProvider.getOrCreateRequiredFieldsFragment(
                 loginActivity.navigationController.currentFragment,
                 requiredFieldsProvider,
@@ -71,9 +74,9 @@ class LoginContractImpl(private val loginActivity: BaseLoginActivity) : LoginCon
     override fun onFlowReady(callbackProvider: CallbackProvider<LoginResult>) {
         callbackProvider.provide(object : ResultCallback<LoginResult> {
             override fun onSuccess(result: LoginResult) {
-                loginActivity.navigationController.finishFlow(result.user)
+                BaseLoginActivity.tracker?.userId = this@LoginContractImpl.loginActivity.loginController?.currentUserId?.legacyId
 
-                BaseLoginActivity.tracker?.eventActionSuccessful(TrackingData.SpidAction.LOGIN_COMPLETED, result.user.userId.legacyId)
+                loginActivity.navigationController.finishFlow(result.user)
             }
 
             override fun onError(error: ClientError) {

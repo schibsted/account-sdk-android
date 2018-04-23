@@ -53,7 +53,6 @@ class SignupContractImpl(private val activity: BaseLoginActivity) : SignUpContra
             override fun onSuccess(result: Identifier) {
                 val fragment = activity.fragmentProvider.getOrCreateInboxFragment(activity.navigationController.currentFragment, result)
                 activity.navigationController.navigateToFragment(fragment)
-                BaseLoginActivity.tracker?.eventActionSuccessful(TrackingData.SpidAction.ACCOUNT_CREATED)
             }
 
             override fun onError(error: ClientError) {
