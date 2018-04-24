@@ -59,7 +59,7 @@ public class VerificationFragment extends FlowFragment<VerificationContract.Pres
      */
     private Identifier identifier;
     private PasswordlessController passwordlessController;
-    private CheckBoxView keepMeLoggedInView;
+    private CheckBoxView rememberMeView;
 
     /**
      * provide a new instance of this {@link Fragment}
@@ -90,7 +90,7 @@ public class VerificationFragment extends FlowFragment<VerificationContract.Pres
         primaryActionView = view.findViewById(R.id.mobile_verification_button_continue);
         secondaryActionView = view.findViewById(R.id.mobile_verification_button_resend);
         codeInputView = view.findViewById(R.id.verification_code_input_view);
-        keepMeLoggedInView = view.findViewById(R.id.keep_me_logged_in);
+        rememberMeView = view.findViewById(R.id.remember_me);
 
         final AccountSelectorView accountSelectorView = view.findViewById(R.id.identifier_modifier);
         ArrayList<Identifier> identifiers = new ArrayList<>();
@@ -98,8 +98,26 @@ public class VerificationFragment extends FlowFragment<VerificationContract.Pres
         accountSelectorView.setAccountIdentifier(identifiers);
         accountSelectorView.setActionListener(this);
 
-        keepMeLoggedInView.setChecked(true);
-        keepMeLoggedInView.getTextView().setText(getString(R.string.schacc_password_keep_me_logged_in));
+        rememberMeView.setChecked(true);
+        rememberMeView.getTextView().setText(getString(R.string.schacc_remember_me));
+
+        final TextView rememberMeInfoView = view.findViewById(R.id.remember_me_info);
+        rememberMeInfoView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (navigationListener != null) {
+                    navigationListener.onDialogNavigationRequested(
+                            InformationDialogFragment.newInstance(
+                                    getString(R.string.schacc_dialog_remember_me_title),
+                                    getString(R.string.schacc_dialog_remember_me_description),
+                                    //todo replace with correct icon
+                                    R.drawable.schacc_ic_email,
+                                    null
+                            ));
+                }
+            }
+        });
+
 
         registerListeners();
         return view;
@@ -151,11 +169,11 @@ public class VerificationFragment extends FlowFragment<VerificationContract.Pres
         if (tracker != null) {
             tracker.eventInteraction(TrackingData.InteractionType.SEND, TrackingData.Screen.VERIFICATION_CODE);
         }
-        mobileVerificationPresenter.verifyCode(codeInputView, keepMeLoggedInView.isChecked());
+        mobileVerificationPresenter.verifyCode(codeInputView, rememberMeView.isChecked());
     }
 
     public Boolean isRememberMeEnabled() {
-        return keepMeLoggedInView.isChecked();
+        return rememberMeView.isChecked();
     }
 
     /**

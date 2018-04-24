@@ -22,6 +22,7 @@ import com.schibsted.account.ui.login.screen.LoginScreen
 import com.schibsted.account.ui.ui.FlowFragment
 import com.schibsted.account.ui.ui.WebFragment
 import com.schibsted.account.ui.ui.component.AccountSelectorView
+import com.schibsted.account.ui.ui.dialog.InformationDialogFragment
 import com.schibsted.account.ui.ui.dialog.SelectorDialog
 import com.schibsted.account.ui.ui.rule.BasicValidationRule
 import com.schibsted.account.ui.ui.rule.PasswordValidationRule
@@ -65,10 +66,22 @@ class PasswordFragment : FlowFragment<PasswordContract.Presenter>(), PasswordCon
                 LocalSecretsProvider(requireContext()).put(GSON.toJson(it))
             }
 
-            val redirectUri = DeepLink.IdentifierProvided.createDeepLinkUri(uiConf!!.redirectUri, idKey ?: "")
+            val redirectUri = DeepLink.IdentifierProvided.createDeepLinkUri(uiConf!!.redirectUri, idKey
+                    ?: "")
 
             navigationListener?.onWebViewNavigationRequested(
                     WebFragment.newInstance(Routes.forgotPasswordUrl(redirectUri).toString(), uiConf?.redirectUri), LoginScreen.WEB_FORGOT_PASSWORD_SCREEN)
+        }
+
+        remember_me_info.setOnClickListener {
+            navigationListener?.onDialogNavigationRequested(
+                    InformationDialogFragment.newInstance(
+                            getString(R.string.schacc_dialog_remember_me_title),
+                            getString(R.string.schacc_dialog_remember_me_description),
+                            //todo replace with correct icon
+                            R.drawable.schacc_ic_email,
+                            null
+                    ))
         }
 
         account_selector_view.setAccountIdentifier(arrayListOf(identifier))
@@ -84,14 +97,14 @@ class PasswordFragment : FlowFragment<PasswordContract.Presenter>(), PasswordCon
             return@setImeAction false
         })
 
-        keep_me_logged_in.isChecked = true
+        remember_me.isChecked = true
     }
 
-    fun isRememberMeEnabled() = keep_me_logged_in.isChecked
+    fun isRememberMeEnabled() = remember_me.isChecked
 
     private fun signUser() {
         BaseLoginActivity.tracker?.eventInteraction(TrackingData.InteractionType.SEND, TrackingData.Screen.PASSWORD)
-        presenter.sign(password_input_view, identifier, keep_me_logged_in.isChecked)
+        presenter.sign(password_input_view, identifier, remember_me.isChecked)
     }
 
     private fun addUserOptions(isUserAvailable: Boolean) {
@@ -104,7 +117,7 @@ class PasswordFragment : FlowFragment<PasswordContract.Presenter>(), PasswordCon
             mobile_password_button_forgot.visibility = View.VISIBLE
         }
 
-        keep_me_logged_in.textView.text = getString(R.string.schacc_password_keep_me_logged_in)
+        remember_me.textView.text = getString(R.string.schacc_remember_me)
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
