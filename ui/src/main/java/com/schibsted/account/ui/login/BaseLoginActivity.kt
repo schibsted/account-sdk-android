@@ -37,8 +37,8 @@ import com.schibsted.account.engine.controller.LoginController
 import com.schibsted.account.engine.input.Credentials
 import com.schibsted.account.engine.input.Identifier
 import com.schibsted.account.engine.integration.ResultCallback
-import com.schibsted.account.engine.operation.ClientInfoOperation
 import com.schibsted.account.network.Environment
+import com.schibsted.account.network.response.ClientInfo
 import com.schibsted.account.persistence.LocalSecretsProvider
 import com.schibsted.account.session.User
 import com.schibsted.account.ui.KeyboardManager
@@ -66,20 +66,19 @@ import kotlin.properties.Delegates
 abstract class BaseLoginActivity : AppCompatActivity(), KeyboardManager, NavigationListener {
 
     companion object {
-        private val TAG = "${Logger.DEFAULT_TAG}-BLA"
-        private val KEY_SCREEN = "SCREEN"
-        private val KEY_FLOW_TYPE = "FLOW_TYPE"
-        @JvmField
-        val EXTRA_USER = "USER_USER"
-        @JvmField
-        val KEY_CURRENT_IDENTIFIER = "CURRENT_IDENTIFIER"
-        @JvmField
-        val KEY_UI_CONFIGURATION = "UI_CONFIGURATION"
-
-        @JvmField
-        val KEY_SMARTLOCK_CREDENTIALS = "CREDENTIALS"
-
+        private const val TAG = "${Logger.DEFAULT_TAG}-BLA"
+        private const val KEY_SCREEN = "SCREEN"
+        private const val KEY_FLOW_TYPE = "FLOW_TYPE"
+        const val EXTRA_USER = "USER_USER"
+        const val KEY_CURRENT_IDENTIFIER = "CURRENT_IDENTIFIER"
+        const val KEY_UI_CONFIGURATION = "UI_CONFIGURATION"
+        const val KEY_CLIENT_INFO = "CLIENT_INFO"
+        const val KEY_SMARTLOCK_CREDENTIALS = "CREDENTIALS"
         const val KEY_SMARTLOCK_RESOLVING = "KEY_SMARTLOCK_RESOLVING"
+
+        @JvmStatic
+        @VisibleForTesting(otherwise = VisibleForTesting.PROTECTED)
+        internal lateinit var clientInfo: ClientInfo
 
         @JvmStatic
         var tracker by Delegates.observable<UiTracking?>(null) { _, _, newValue ->
@@ -89,7 +88,7 @@ abstract class BaseLoginActivity : AppCompatActivity(), KeyboardManager, Navigat
                 Environment.ENVIRONMENT_PRODUCTION_NORWAY -> "spid.no"
                 else -> "schibsted.com"
             }
-            ClientInfoOperation({ }, { newValue?.merchantId = it.merchantId })
+            newValue?.merchantId = clientInfo.merchantId
         }
     }
 
@@ -129,6 +128,9 @@ abstract class BaseLoginActivity : AppCompatActivity(), KeyboardManager, Navigat
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        clientInfo = intent.getParcelableExtra(KEY_CLIENT_INFO)
+
         accountService = AccountService(applicationContext)
 
         lifecycle.addObserver(accountService)
@@ -231,7 +233,8 @@ abstract class BaseLoginActivity : AppCompatActivity(), KeyboardManager, Navigat
         val fragment = fragmentProvider.getOrCreateIdentificationFragment(
                 navigationController.currentFragment,
                 identifierType = Identifier.IdentifierType.EMAIL.value,
-                flowSelectionListener = flowSelectionListener)
+                flowSelectionListener = flowSelectionListener,
+                merchantName = clientInfo.merchant.name)
         navigationController.navigateToFragment(fragment as AbstractIdentificationFragment)
     }
 

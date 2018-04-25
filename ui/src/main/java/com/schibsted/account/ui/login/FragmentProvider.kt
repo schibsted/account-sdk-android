@@ -36,16 +36,17 @@ class FragmentProvider(private val uiConfiguration: UiConfiguration) {
         currentFragment: BaseFragment?,
         provider: InputProvider<Identifier>? = null,
         identifierType: String,
-        flowSelectionListener: FlowSelectionListener? = null
+        flowSelectionListener: FlowSelectionListener? = null,
+        merchantName: String
     ): BaseFragment {
 
         return getFragment<AbstractIdentificationFragment>(currentFragment, {
             it.setPresenter(IdentificationPresenter(it, provider, flowSelectionListener))
         }, {
             if (identifierType == Identifier.IdentifierType.SMS.value) {
-                MobileIdentificationFragment.newInstance(uiConfiguration)
+                MobileIdentificationFragment.newInstance(uiConfiguration, merchantName)
             } else {
-                EmailIdentificationFragment.newInstance(uiConfiguration)
+                EmailIdentificationFragment.newInstance(uiConfiguration, merchantName)
             }
         })
     }

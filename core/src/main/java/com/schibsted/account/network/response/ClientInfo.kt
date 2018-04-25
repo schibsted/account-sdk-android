@@ -4,10 +4,15 @@
 
 package com.schibsted.account.network.response
 
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
+import kotlinx.android.parcel.RawValue
+
 private const val FIELD_NAMES = "names"
 private const val GIVEN_NAME = "name.given_name"
 private const val FAMILY_NAME = "name.family_name"
 
+@Parcelize
 data class ClientInfo(
     val id: String,
     val name: String,
@@ -15,9 +20,10 @@ data class ClientInfo(
     val fields: Map<String, Boolean>,
     val domain: String,
     val merchantId: Int,
-    val css: Map<String, Any>,
-    val termsCss: Map<String, Any>
-) {
+    val css: Map<String, @RawValue Any>,
+    val termsCss: Map<String, @RawValue Any>,
+    val merchant: Merchant
+) : Parcelable {
 
     @Deprecated("Provide the proper JSON object instead")
     fun requiredFields(): Set<String> {
