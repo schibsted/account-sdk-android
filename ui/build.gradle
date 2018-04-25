@@ -72,7 +72,7 @@ publishing {
             pom.withXml {
                 def dependenciesNode = asNode().appendNode('dependencies')
                 fixDependencies(dependenciesNode, project)
-                addDependency(dependenciesNode, artifactOrg, "account-sdk-android-common", artifactVersion)
+                addDependency(dependenciesNode, artifactOrg, "account-sdk-android-core", artifactVersion)
                 addArtifactMetadata(asNode(), "Schibsted Account SDK UI Module",
                         "The UI module for the Schibsted Account SDK", "https://github.com/schibsted/account-sdk-android", pomConfig)
             }
