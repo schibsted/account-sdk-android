@@ -14,14 +14,15 @@ import java.util.concurrent.TimeUnit
 object ServiceHolder {
     private const val TIMEOUT_MS = 10_000L
 
-    internal val clientBuilder = OkHttpClient.Builder()
+    internal val defaultClient: OkHttpClient = OkHttpClient.Builder()
             .writeTimeout(TIMEOUT_MS, TimeUnit.MILLISECONDS)
             .readTimeout(TIMEOUT_MS, TimeUnit.MILLISECONDS)
             .addInterceptor(InfoInterceptor(true))
+            .build()
 
-    internal var oAuthService = OAuthService(ClientConfiguration.get().environment, clientBuilder.build())
+    internal var oAuthService = OAuthService(ClientConfiguration.get().environment, defaultClient)
 
-    internal var clientService = ClientService(ClientConfiguration.get().environment, clientBuilder.build())
+    internal var clientService = ClientService(ClientConfiguration.get().environment, defaultClient)
 
-    internal var passwordlessService = PasswordlessService(ClientConfiguration.get().environment, clientBuilder.build())
+    internal var passwordlessService = PasswordlessService(ClientConfiguration.get().environment, defaultClient)
 }

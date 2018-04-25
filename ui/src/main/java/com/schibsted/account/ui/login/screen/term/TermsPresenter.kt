@@ -57,10 +57,7 @@ class TermsPresenter(private val termsView: TermsContract.View, private val prov
     override fun acceptAgreements() {
         termsView.showProgress()
         provider.provide(Agreements(true), object : ResultCallback<NoValue> {
-            override fun onSuccess(result: NoValue) {
-                val tracker = BaseLoginActivity.tracker
-                tracker?.eventActionSuccessful(TrackingData.SpidAction.AGREEMENTS_ACCEPTED)
-            }
+            override fun onSuccess(result: NoValue) {}
 
             override fun onError(error: ClientError) {
                 if (termsView.isActive) {
