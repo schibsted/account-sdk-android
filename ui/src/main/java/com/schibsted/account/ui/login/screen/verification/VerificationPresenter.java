@@ -50,11 +50,6 @@ public class VerificationPresenter implements VerificationContract.Presenter {
             public void onSuccess(NoValue res) {
                 if (verificationView.isActive()) {
                     verificationView.showResendCodeView();
-
-                    final UiTracking tracker = BaseLoginActivity.getTracker();
-                    if (tracker != null) {
-                        tracker.eventActionSuccessful(TrackingData.SpidAction.VERIFICATION_CODE_SENT);
-                    }
                 }
             }
 
@@ -92,10 +87,6 @@ public class VerificationPresenter implements VerificationContract.Presenter {
                 provider.provide(new VerificationCode(codeInputView.getInput(), keepMeLoggedIn), new ResultCallback<NoValue>() {
                     @Override
                     public void onSuccess(NoValue res) {
-                        final UiTracking tracker = BaseLoginActivity.getTracker();
-                        if (tracker != null) {
-                            tracker.eventActionSuccessful(TrackingData.SpidAction.VERIFICATION_CODE_SENT);
-                        }
                     }
 
                     @Override

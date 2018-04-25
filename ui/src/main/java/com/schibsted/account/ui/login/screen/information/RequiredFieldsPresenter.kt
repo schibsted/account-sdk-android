@@ -26,9 +26,7 @@ class RequiredFieldsPresenter(val view: RequiredFieldsContract.View, private val
                 view.hideErrors()
                 view.showProgress()
                 provider.provide(RequiredFields(fields.mapValues { it.value.input!! }), object : ResultCallback<NoValue> {
-                    override fun onSuccess(result: NoValue) {
-                        BaseLoginActivity.tracker?.eventActionSuccessful(TrackingData.SpidAction.REQUIRED_FIELDS_PROVIDED)
-                    }
+                    override fun onSuccess(result: NoValue) {}
 
                     override fun onError(error: ClientError) {
                         if (view.isActive) {

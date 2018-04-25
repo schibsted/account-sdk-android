@@ -79,9 +79,6 @@ class PasswordlessActivity : BaseLoginActivity(), PasswordlessContract {
         callbackProvider.provide(object : ResultCallback<LoginResult> {
             override fun onSuccess(result: LoginResult) {
                 navigationController.finishFlow(result.user)
-
-                val event = if (result.isNewUser) TrackingData.SpidAction.ACCOUNT_CREATED else TrackingData.SpidAction.LOGIN_COMPLETED
-                BaseLoginActivity.tracker?.eventActionSuccessful(event, result.user.userId.legacyId)
             }
 
             override fun onError(error: ClientError) {
