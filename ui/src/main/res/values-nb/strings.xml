@@ -9,7 +9,7 @@
     <string name="schacc_identification_help_link">https://www.schibstedpayment.com/hc/nb/#faq</string>
     <string name="schacc_identification_help_link_text">What is schibsted account?</string>
 
-    <string name="schacc_identification_information">%1$s is part of Schibsted. You’ll need a Schibsted account to continue.</string>
+    <string name="schacc_identification_information">%1$s is part of Schibsted. You\'ll need  a Schibsted account to continue. You can use this account across all Schibsted sites.</string>
     <string name="schacc_mobile_identification_error">Oppgi et gyldig telefonnummer.</string>
     <string name="schacc_mobile_number_label">Skriv inn din telefonnummer</string>
     <string name="schacc_mobile_number_hint">123456789</string>

@@ -3,4 +3,7 @@
         <ignore regexp="okio" />
         <ignore regexp="retrofit" />
     </issue>
+
+    <issue id="ParcelCreator" severity="ignore"/>
+
 </lint>
