@@ -21,11 +21,14 @@
 
         <ImageView
             android:id="@+id/client_logo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:contentDescription="@null"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:maxHeight="@dimen/schacc_logo_dimension"
+            android:maxWidth="@dimen/schacc_logo_dimension"
+            android:adjustViewBounds="true" />
 
         <ImageView
             android:id="@+id/schibsted_logo"
