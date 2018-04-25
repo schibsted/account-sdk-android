@@ -6,6 +6,7 @@ import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.never
 import com.nhaarman.mockito_kotlin.verify
 import com.nhaarman.mockito_kotlin.whenever
+import com.schibsted.account.ClientConfiguration
 import com.schibsted.account.common.tracking.TrackingData
 import com.schibsted.account.common.util.Logger
 import com.schibsted.account.engine.input.Agreements
@@ -21,6 +22,8 @@ import io.kotlintest.specs.WordSpec
 class TermsPresenterTest : WordSpec() {
 
     init {
+        val testConfig = ClientConfiguration("https://dev-example.com/", "myId", "mySecret")
+        ClientConfiguration.set(testConfig)
         Logger.loggingEnabled = false
         BaseLoginActivity.tracker = mock()
         val provider: InputProvider<Agreements> = mock()
@@ -65,17 +68,6 @@ class TermsPresenterTest : WordSpec() {
                 privacyBox = mock { on { isChecked } doReturn true }
                 presenter.verifyBoxes(privacyBox, termsBox)
                 verify(view).showProgress()
-            }
-
-            "track event if terms was accepted" {
-                termsBox = mock { on { isChecked } doReturn true }
-                privacyBox = mock { on { isChecked } doReturn true }
-                whenever(provider.provide(any(), any())).thenAnswer {
-                    (it.getArgument(1) as ResultCallback<NoValue>).onSuccess(mock())
-                }
-
-                presenter.verifyBoxes(privacyBox, termsBox)
-                verify(BaseLoginActivity.tracker)?.eventActionSuccessful(TrackingData.SpidAction.AGREEMENTS_ACCEPTED)
             }
 
             "hide progress if terms acceptance failed and track failure" {
