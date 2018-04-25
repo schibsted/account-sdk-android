@@ -8,6 +8,7 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.res.Resources
+import android.graphics.PorterDuff
 import android.graphics.Rect
 import android.os.Bundle
 import android.os.Parcelable
@@ -20,6 +21,7 @@ import android.support.v7.widget.Toolbar
 import android.util.Patterns
 import android.view.Menu
 import android.view.MenuItem
+import android.view.MotionEvent
 import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
@@ -355,7 +357,17 @@ abstract class BaseLoginActivity : AppCompatActivity(), KeyboardManager, Navigat
     private fun setUpActionBar() {
         setSupportActionBar(toolbar)
         toolbar_title.setTextColor(ContextCompat.getColor(this, R.color.schacc_primaryHeader))
-        toolbar_back_arrow.setOnClickListener { onBackPressed() }
+        toolbar_title.setOnTouchListener { _, motionEvent ->
+            if (motionEvent.action == MotionEvent.ACTION_DOWN) {
+                val rect = Rect()
+                toolbar_title.getGlobalVisibleRect(rect)
+                //if we click on the drawable attached to the editText
+                if (motionEvent.rawX <= toolbar_title.totalPaddingLeft + (rect.left / 2)) {
+                    onBackPressed()
+                }
+            }
+            false
+        }
         supportActionBar?.setDisplayShowTitleEnabled(false)
         supportActionBar?.elevation = 1f
     }
@@ -377,9 +389,11 @@ abstract class BaseLoginActivity : AppCompatActivity(), KeyboardManager, Navigat
         updateTitle(screen)
         menu?.findItem(R.id.close_flow)?.isVisible = uiConfiguration.isClosingAllowed
         if (screen == LoginScreen.IDENTIFICATION_SCREEN) {
-            toolbar_back_arrow.visibility = View.GONE
+            toolbar_title.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null)
         } else {
-            toolbar_back_arrow.visibility = View.VISIBLE
+            val drawable = ContextCompat.getDrawable(this, R.drawable.schacc_ic_arrow_back)
+            drawable?.setColorFilter(ContextCompat.getColor(this, R.color.schacc_toolbarIconsColor), PorterDuff.Mode.SRC_IN)
+            toolbar_title.setCompoundDrawablesWithIntrinsicBounds(drawable, null, null, null)
         }
     }
 
