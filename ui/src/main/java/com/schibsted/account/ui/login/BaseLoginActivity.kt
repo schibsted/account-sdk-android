@@ -234,7 +234,7 @@ abstract class BaseLoginActivity : AppCompatActivity(), KeyboardManager, Navigat
                 navigationController.currentFragment,
                 identifierType = Identifier.IdentifierType.EMAIL.value,
                 flowSelectionListener = flowSelectionListener,
-                merchantName = clientInfo.merchant.name)
+                clientInfo = clientInfo)
         navigationController.navigateToFragment(fragment as AbstractIdentificationFragment)
     }
 

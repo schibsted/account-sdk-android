@@ -12,6 +12,7 @@ import com.schibsted.account.engine.input.RequiredFields
 import com.schibsted.account.engine.input.VerificationCode
 import com.schibsted.account.engine.integration.InputProvider
 import com.schibsted.account.network.response.AgreementLinksResponse
+import com.schibsted.account.network.response.ClientInfo
 import com.schibsted.account.ui.UiConfiguration
 import com.schibsted.account.ui.login.flow.password.FlowSelectionListener
 import com.schibsted.account.ui.login.screen.identification.IdentificationPresenter
@@ -37,16 +38,16 @@ class FragmentProvider(private val uiConfiguration: UiConfiguration) {
         provider: InputProvider<Identifier>? = null,
         identifierType: String,
         flowSelectionListener: FlowSelectionListener? = null,
-        merchantName: String
+        clientInfo: ClientInfo
     ): BaseFragment {
 
         return getFragment<AbstractIdentificationFragment>(currentFragment, {
             it.setPresenter(IdentificationPresenter(it, provider, flowSelectionListener))
         }, {
             if (identifierType == Identifier.IdentifierType.SMS.value) {
-                MobileIdentificationFragment.newInstance(uiConfiguration, merchantName)
+                MobileIdentificationFragment.newInstance(uiConfiguration, clientInfo)
             } else {
-                EmailIdentificationFragment.newInstance(uiConfiguration, merchantName)
+                EmailIdentificationFragment.newInstance(uiConfiguration, clientInfo)
             }
         })
     }
