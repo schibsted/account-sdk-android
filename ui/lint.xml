@@ -12,4 +12,6 @@
 
     <issue id="GoogleAppIndexingWarning" severity="ignore"/>
     <issue id="GoogleAppIndexingApiWarning" severity="ignore"/>
+
+    <issue id="ParcelCreator" severity="ignore"/>
 </lint>

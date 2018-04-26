@@ -2,11 +2,11 @@
   ~ Copyright (c) 2018 Schibsted Products & Technology AS. Licensed under the terms of the MIT license. See LICENSE in the project root.
   -->
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:importantForAutofill="noExcludeDescendants"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:importantForAutofill="noExcludeDescendants"
     tools:ignore="UnusedAttribute">
 
     <LinearLayout
@@ -29,23 +29,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 android:background="@color/schacc_toolbarColor"
-                app:titleTextColor="@color/schacc_primaryHeader"
-                app:subtitleTextColor="@color/schacc_secondaryHeader">
-
-                <ImageView
-                    android:id="@+id/toolbar_back_arrow"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:contentDescription="@null"
-                    android:tint="@color/schacc_toolbarIconsColor"
-                    android:src="@drawable/schacc_ic_arrow_back" />
+                app:subtitleTextColor="@color/schacc_secondaryHeader"
+                app:titleTextColor="@color/schacc_primaryHeader">
 
                 <TextView
                     android:id="@+id/toolbar_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="32dp"
-                    android:layout_marginStart="32dp"
+                    android:drawablePadding="@dimen/schacc_medium_spacing"
                     android:textSize="20sp"
                     android:textStyle="bold" />
             </android.support.v7.widget.Toolbar>
@@ -68,11 +59,11 @@
         android:layout_width="48dp"
         android:layout_height="48dp"
         android:padding="10dp"
-        tools:visibility="gone"
         android:theme="@style/schacc_main_progressBar"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:visibility="gone" />
 
 </android.support.constraint.ConstraintLayout>

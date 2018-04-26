@@ -50,10 +50,11 @@ abstract class AbstractIdentificationFragment : FlowFragment<IdentificationContr
     /**
      * Field used to display the policy of SPiD and the clientAccepted.
      */
-    protected lateinit var identificationPolicy: TextView
+    private lateinit var identificationPolicy: TextView
 
     private lateinit var linkView: TextView
     protected lateinit var uiConf: UiConfiguration
+    private lateinit var merchantName: String
 
     override val isActive: Boolean
         get() = isAdded
@@ -65,6 +66,7 @@ abstract class AbstractIdentificationFragment : FlowFragment<IdentificationContr
             if (args.getParcelable<Parcelable>(KEY_UI_CONF) != null) {
                 uiConf = args.get(KEY_UI_CONF) as UiConfiguration
             }
+            merchantName = args.getString(KEY_MERCHANT_NAME)
         }
 
         if (!this::uiConf.isInitialized && context != null) {
@@ -91,6 +93,8 @@ abstract class AbstractIdentificationFragment : FlowFragment<IdentificationContr
                 BaseLoginActivity.tracker?.eventEngagement(TrackingData.Engagement.CLICK, TrackingData.UIElement.HELP, TrackingData.Screen.IDENTIFICATION)
             }
         }
+
+        identificationPolicy.text = getString(R.string.schacc_identification_information, merchantName)
 
         if (uiConf.teaserText?.isNotEmpty() == true) {
             this.teaserText.text = uiConf.teaserText
@@ -128,6 +132,7 @@ abstract class AbstractIdentificationFragment : FlowFragment<IdentificationContr
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         outState.putParcelable(KEY_UI_CONF, uiConf)
+        outState.putString(KEY_MERCHANT_NAME, merchantName)
     }
 
     override fun showErrorDialog(error: ClientError, errorMessage: String?) {
@@ -136,5 +141,6 @@ abstract class AbstractIdentificationFragment : FlowFragment<IdentificationContr
 
     companion object {
         const val KEY_UI_CONF = "UI_CONF"
+        const val KEY_MERCHANT_NAME = "KEY_MERCHANT_NAME"
     }
 }

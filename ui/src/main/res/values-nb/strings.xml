@@ -7,15 +7,14 @@
     <string name="schacc_identification_title">Logg inn eller opprett bruker</string>
     <string name="schacc_identification_login_only_title">Logg inn</string>
     <string name="schacc_identification_help_link">https://www.schibstedpayment.com/hc/nb/#faq</string>
-    <string name="schacc_identification_help_link_text">Trenger hjelp?</string>
+    <string name="schacc_identification_help_link_text">What is schibsted account?</string>
 
-    <string name="schacc_mobile_privacy_information"> Vi vil aldri dele telefonnummeret ditt uten ditt samtykke.</string>
+    <string name="schacc_identification_information">%1$s is part of Schibsted. You\'ll need  a Schibsted account to continue. You can use this account across all Schibsted sites.</string>
     <string name="schacc_mobile_identification_error">Oppgi et gyldig telefonnummer.</string>
     <string name="schacc_mobile_number_label">Skriv inn din telefonnummer</string>
     <string name="schacc_mobile_number_hint">123456789</string>
     <string name="schacc_mobile_prefix_hint">+%1$d</string>
 
-    <string name="schacc_email_privacy_information">Vi vil aldri dele e-postadressen din uten ditt samtykke.</string>
     <string name="schacc_email_identification_error">Oppgi en gyldig e-postadresse.</string>
     <string name="schacc_email_label">Skriv inn din e-postadresse</string>
     <!--Verification-->

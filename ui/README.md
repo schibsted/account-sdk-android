@@ -64,8 +64,8 @@ To build the `UiConfiguration` :
     
 ### Start the flow
 * Create the desired intent
-    - Login/Signup with password `PasswordActivity.getCallingIntent(@NonNull final Context context, final UiConfiguration uiConfiguration)`.
-    - Login passwordless `PasswordlessActivity.getCallingIntent(@NonNull final Context context, final UiConfiguration uiConfiguration)`.
+    - Login/Signup with password `PasswordActivity.getCallingIntent(@NonNull final Context context, final UiConfiguration uiConfiguration, resultCallback: ResultCallback<Intent>)`.
+    - Login passwordless `PasswordlessActivity.getCallingIntent(@NonNull final Context context, final UiConfiguration uiConfiguration, resultCallback: ResultCallback<Intent>)`.
 
 Once you have initialized the the UI flow, you can start it by calling
 `startActivityForResult(myCreatedIntent, yourCode);`

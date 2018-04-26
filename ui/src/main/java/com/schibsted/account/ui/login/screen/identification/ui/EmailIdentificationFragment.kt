@@ -40,7 +40,6 @@ class EmailIdentificationFragment : AbstractIdentificationFragment(), Identifica
                 .build()
         inputViewContainer.addView(inputFieldView)
         prefillIdentifier(uiConf.identifier)
-        identificationPolicy.text = getString(R.string.schacc_email_privacy_information)
         return view
     }
 
@@ -90,10 +89,11 @@ class EmailIdentificationFragment : AbstractIdentificationFragment(), Identifica
          * @param uiConfiguration
          * @return a parametrized instance of [MobileIdentificationFragment]
          */
-        fun newInstance(uiConfiguration: UiConfiguration): EmailIdentificationFragment {
+        fun newInstance(uiConfiguration: UiConfiguration, merchantName: String): EmailIdentificationFragment {
             val args = Bundle()
             val fragment = EmailIdentificationFragment()
             args.putParcelable(AbstractIdentificationFragment.KEY_UI_CONF, uiConfiguration)
+            args.putString(AbstractIdentificationFragment.KEY_MERCHANT_NAME, merchantName)
             fragment.arguments = args
             return fragment
         }
