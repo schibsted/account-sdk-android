@@ -2,8 +2,6 @@ This is the SDK which simplifies connecting to SPiD and comes in two variants. T
 
 The recommended way to use these SDKs is to implement the UI module. This is highly customizable and will give you complete UIs out of the box. You can read more about the [UI SDK](ui) and the [Core SDK](core) modules in the README file contained in their module folders.
 
-Additional information can be found on the **[documentation pages](http://schibsted.github.io/account-sdk-android)**
-
 For support, please contact [support@spid.no](mailto:support@spid.no)
 
 ## Getting started
@@ -16,9 +14,12 @@ dependencies {
     // or
     implementation "com.schibsted.account:account-sdk-android-ui:<VERSION>"
     // (optional, available internally in Schibsted only)
-    implementation "com.schibsted.account:account-sdk-android-pulse:<VERSION>"
+    implementation "com.schibsted.account:account-sdk-android-pulse:<SCHACC-PULSE-VERSION>"
 }
 ```
+Please note that the `SCHACC-PULSE-VERSION` could differ from `VERSION` because the pulse library doesn't belong to the same repository and is not tied to the rest of the SDK.
+Check out the pulse [changelog](https://github.schibsted.io/spt-identity/account-sdk-android-internal/blob/master/CHANGELOG.md) to find the latest version.
+
 ### SDK setup
 To configure the SDK, you are required to have a `schibsted_account.conf` file in your assets. This must contain all values to be able to function. An error will be thrown if the configuration is missing. You can however manually override the configuration if you choose to store your configuration some other way (we'd recommend that you don't store secrets in the manifest).
 
