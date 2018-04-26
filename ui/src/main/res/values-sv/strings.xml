@@ -44,7 +44,7 @@
     <string name="schacc_terms_update_title">Uppdaterade användarvillkoren</string>
     <!--Required fields-->
     <string name="schacc_required_fields_title">Avsluta</string>
-    <string name="schacc_required_fields_description">Fyll i kompleterande uppgifter för din användarprofil</string>
+    <string name="schacc_required_fields_description">We use this information for things like improving our services and giving you relevant ads and content.</string>
     <string name="schacc_required_fields_error">Det här fältet måste fyllas i.</string>
     <string name="schacc_required_field_given_name">Förnamn</string>
     <string name="schacc_required_field_family_name">Efternamn</string>

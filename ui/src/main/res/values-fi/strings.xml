@@ -44,7 +44,7 @@
     <string name="schacc_terms_update_title">Päivitetyt käyttöehdot</string>
     <!--Required fields-->
     <string name="schacc_required_fields_title">Viimeistele</string>
-    <string name="schacc_required_fields_description">Täytä lisätietoja profiiliisi</string>
+    <string name="schacc_required_fields_description">We use this information for things like improving our services and giving you relevant ads and content.</string>
     <string name="schacc_required_fields_error">Tämä kenttä vaaditaan.</string>
     <string name="schacc_required_field_given_name">Etunimi</string>
     <string name="schacc_required_field_family_name">Sukunimi</string>
