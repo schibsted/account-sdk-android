@@ -14,10 +14,10 @@ dependencies {
     // or
     implementation "com.schibsted.account:account-sdk-android-ui:<VERSION>"
     // (optional, available internally in Schibsted only)
-    implementation "com.schibsted.account:account-sdk-android-pulse:<PULSE-VERSION>"
+    implementation "com.schibsted.account:account-sdk-android-pulse:<SCHACC-PULSE-VERSION>"
 }
 ```
-Please note that the `PULSE-VERSION` could differ from `VERSION` because the pulse library doesn't belong to the same repository and is not tied to the rest of the SDK.
+Please note that the `SCHACC-PULSE-VERSION` could differ from `VERSION` because the pulse library doesn't belong to the same repository and is not tied to the rest of the SDK.
 Check out the pulse [changelog](https://github.schibsted.io/spt-identity/account-sdk-android-internal/blob/master/CHANGELOG.md) to find the latest version.
 
 ### SDK setup
