@@ -54,7 +54,7 @@ class TermsPresenter(private val termsView: TermsContract.View, private val prov
      * Accepts TC on backend side.
      * Order a navigation to an other screen if request succeeded, show an error otherwise
      */
-    private fun acceptAgreements() {
+    override fun acceptAgreements() {
         termsView.showProgress()
         provider.provide(Agreements(true), object : ResultCallback<NoValue> {
             override fun onSuccess(result: NoValue) {}
