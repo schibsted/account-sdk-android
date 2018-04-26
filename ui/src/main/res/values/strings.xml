@@ -43,7 +43,7 @@
     <string name="schacc_terms_update_title">Updated terms and conditions</string>
     <!--Required fields-->
     <string name="schacc_required_fields_title">Finalise</string>
-    <string name="schacc_required_fields_description">Fill in some additional details for your profile</string>
+    <string name="schacc_required_fields_description">We use this information for things like improving our services and giving you relevant ads and content.</string>
     <string name="schacc_required_fields_error">This field is required.</string>
     <string name="schacc_required_field_given_name">First name</string>
     <string name="schacc_required_field_family_name">Last name</string>

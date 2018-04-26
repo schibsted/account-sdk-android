@@ -43,7 +43,7 @@
     <string name="schacc_terms_update_title">Oppdaterte brukervilkår og betingelser</string>
     <!--Required fields-->
     <string name="schacc_required_fields_title">Fullfør</string>
-    <string name="schacc_required_fields_description">Vennligst legg til mer informasjon i din profil</string>
+    <string name="schacc_required_fields_description">We use this information for things like improving our services and giving you relevant ads and content.</string>
     <string name="schacc_required_fields_error">Dette feltet må fylles ut.</string>
     <string name="schacc_required_field_given_name">Fornavn</string>
     <string name="schacc_required_field_family_name">Etternavn</string>
