@@ -3,9 +3,9 @@
   ~ Copyright (c) 2018 Schibsted Products & Technology AS. Licensed under the terms of the MIT license. See LICENSE in the project root.
   -->
 
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     style="@style/schacc_container.scrollable">
 
     <include layout="@layout/schacc_include_accessibility_fix" />
@@ -16,32 +16,16 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="0dp"
-        android:layout_marginStart="0dp"/>
-
-    <TextView
-        android:id="@+id/terms_update_link"
-        android:layout_width="wrap_content"
-        style="@style/schacc_text.link"
-        android:textSize="@dimen/schacc_default_text_size"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/schacc_medium_spacing"
-        android:visibility="gone"
-        android:layout_below="@+id/terms_description"
-        android:text="@string/schacc_terms_update_link_label"/>
+        android:layout_marginStart="0dp"
+        tools:text="@string/schacc_terms_sign_in_description"/>
 
     <com.schibsted.account.ui.ui.component.CheckBoxView
         android:id="@+id/terms_box"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/terms_update_link"
-        android:layout_marginTop="@dimen/schacc_large_spacing"/>
-
-    <com.schibsted.account.ui.ui.component.CheckBoxView
-        android:id="@+id/privacy_box"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:layout_below="@id/terms_box"/>
+        android:layout_below="@+id/terms_description"
+        android:layout_marginTop="@dimen/schacc_large_spacing"
+        android:text="@string/schacc_terms_policy"/>
 
     <com.schibsted.account.ui.ui.component.LoadingButton
         android:id="@+id/terms_button_continue"

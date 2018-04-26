@@ -60,6 +60,15 @@ public class CheckBoxView extends LinearLayout implements ErrorField {
             }
         });
 
+        if (isInEditMode()) {
+            final int attrRes = attrs.getAttributeResourceValue(null, "text", 0);
+            if (attrRes > 0) {
+                textView.setText(context.getString(attrRes, "Schibsted Account", "My Client"));
+            } else {
+                final String previewText = attrs.getAttributeValue(null, "text");
+                textView.setText(previewText);
+            }
+        }
     }
 
     /**

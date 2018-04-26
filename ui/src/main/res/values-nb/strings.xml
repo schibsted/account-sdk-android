@@ -30,10 +30,9 @@
     <string name="schacc_verification_edit_email_address">Bruk en annen e-postadresse</string>
     <!--Terms-->
     <string name="schacc_terms_title">Bruksvilkår</string>
-    <string name="schacc_terms_sign_up_description">For å kunne opprette kontoen din, må du godta følgende vilkår, betingelser og personvernerklæringer</string>
-    <string name="schacc_terms_sign_in_description">For å logge inn, må du godta følgende vilkår, betingelser og personvernerklæringer</string>
-    <string name="schacc_terms_privacy_error">Vennligst godta vilkårene og betingelsene for å fortsette.</string>
-    <string name="schacc_terms_terms_error">Vennligst godta personvernerklæringen for å fortsette.</string>
+    <string name="schacc_terms_sign_up_description">To create your Schibsted account, you need to accept this terms of use. If you don’t accept you will be logged out</string>
+    <string name="schacc_terms_sign_in_description">To log in with your Schibsted account, you need to accept this terms of use. If you don’t accept you will be logged out</string>
+    <string name="schacc_terms_terms_error">Vennligst godta vilkårene og betingelsene for å fortsette.</string>
     <string name="schacc_terms_policy">Jeg godtar vilkårene og betingelsene for %1$s og %2$s</string>
     <string name="schacc_terms_policy_spid_only">Jeg godtar vilkårene og betingelsene for %1$s</string>
     <string name="schacc_privacy_policy">Jeg godtar personvernerklæringen for %1$s og %2$s</string>

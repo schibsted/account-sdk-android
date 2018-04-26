@@ -39,10 +39,9 @@ interface TermsContract {
         /**
          * Depending on the state of checkboxes this method should change the state of the desired [android.view.View]
          *
-         * @param privacyBox the state of the privacy checkbox could be checked or unchecked
          * @param termsBox the state of the terms checkbox could be checked or unchecked
          */
-        fun verifyBoxes(privacyBox: CheckBoxView, termsBox: CheckBoxView)
+        fun verifyBoxes(termsBox: CheckBoxView)
 
         fun acceptAgreements()
     }
