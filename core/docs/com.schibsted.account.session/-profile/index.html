@@ -17,7 +17,7 @@
 <p><a href="-init-.html">&lt;init&gt;</a></p>
 </td>
 <td>
-<code><span class="identifier">Profile</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.session.Profile$<init>(com.schibsted.account.session.User)/user">user</span><span class="symbol">:</span>&nbsp;<a href="../-user/index.html"><span class="identifier">User</span></a><span class="symbol">)</span></code></td>
+<code><span class="identifier">Profile</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.session.Profile$<init>(com.schibsted.account.session.User, com.schibsted.account.network.service.user.UserService)/user">user</span><span class="symbol">:</span>&nbsp;<a href="../-user/index.html"><span class="identifier">User</span></a><span class="symbol">, </span><span class="identifier" id="com.schibsted.account.session.Profile$<init>(com.schibsted.account.session.User, com.schibsted.account.network.service.user.UserService)/userService">userService</span><span class="symbol">:</span>&nbsp;<a href="../../com.schibsted.account.network.service.user/-user-service/index.html"><span class="identifier">UserService</span></a>&nbsp;<span class="symbol">=</span>&nbsp;UserService(ClientConfiguration.get().environment, user.authClient)<span class="symbol">)</span></code></td>
 </tr>
 </tbody>
 </table>
@@ -42,15 +42,6 @@
 </td>
 <td>
 <code><span class="keyword">fun </span><span class="identifier">get</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.session.Profile$get(com.schibsted.account.engine.integration.ResultCallback((com.schibsted.account.network.response.ProfileData)))/callback">callback</span><span class="symbol">:</span>&nbsp;<a href="../../com.schibsted.account.engine.integration/-result-callback/index.html"><span class="identifier">ResultCallback</span></a><span class="symbol">&lt;</span><a href="../../com.schibsted.account.network.response/-profile-data/index.html"><span class="identifier">ProfileData</span></a><span class="symbol">&gt;</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code></td>
-</tr>
-<tr>
-<td>
-<p><a href="get-account-summary-link.html">getAccountSummaryLink</a></p>
-</td>
-<td>
-<code><span class="keyword">fun </span><s><span class="identifier">getAccountSummaryLink</span></s><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.session.Profile$getAccountSummaryLink(kotlin.String)/redirectURI">redirectURI</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">?</span>&nbsp;<span class="symbol">=</span>&nbsp;null<span class="symbol">)</span><span class="symbol">: </span><a href="https://developer.android.com/reference/java/net/URI.html"><span class="identifier">URI</span></a></code>
-<p>Returns a link to the account summary pages</p>
-</td>
 </tr>
 <tr>
 <td>

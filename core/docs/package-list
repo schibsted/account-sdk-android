@@ -6,6 +6,7 @@ com.schibsted.account.engine.controller
 com.schibsted.account.engine.input
 com.schibsted.account.engine.integration
 com.schibsted.account.engine.integration.contract
+com.schibsted.account.engine.operation
 com.schibsted.account.engine.step
 com.schibsted.account.model
 com.schibsted.account.model.error

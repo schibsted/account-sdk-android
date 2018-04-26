@@ -26,6 +26,13 @@
 <tbody>
 <tr>
 <td>
+<p><a href="client-id.html">clientId</a></p>
+</td>
+<td>
+<code><span class="keyword">var </span><span class="identifier">clientId</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">?</span></code></td>
+</tr>
+<tr>
+<td>
 <p><a href="flow-variant.html">flowVariant</a></p>
 </td>
 <td>
@@ -38,19 +45,39 @@
 <td>
 <code><span class="keyword">var </span><span class="identifier">intent</span><span class="symbol">: </span><a href="../-tracking-data/-user-intent/index.html"><span class="identifier">UserIntent</span></a><span class="symbol">?</span></code></td>
 </tr>
+<tr>
+<td>
+<p><a href="login-realm.html">loginRealm</a></p>
+</td>
+<td>
+<code><span class="keyword">var </span><span class="identifier">loginRealm</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">?</span></code></td>
+</tr>
+<tr>
+<td>
+<p><a href="merchant-id.html">merchantId</a></p>
+</td>
+<td>
+<code><span class="keyword">var </span><span class="identifier">merchantId</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html"><span class="identifier">Int</span></a><span class="symbol">?</span></code></td>
+</tr>
+<tr>
+<td>
+<p><a href="on-user-id-changed.html">onUserIdChanged</a></p>
+</td>
+<td>
+<code><span class="keyword">var </span><span class="identifier">onUserIdChanged</span><span class="symbol">: </span><span class="symbol">(</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">?</span><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code></td>
+</tr>
+<tr>
+<td>
+<p><a href="user-id.html">userId</a></p>
+</td>
+<td>
+<code><span class="keyword">var </span><span class="identifier">userId</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">?</span></code></td>
+</tr>
 </tbody>
 </table>
 <h3>Functions</h3>
 <table>
 <tbody>
-<tr>
-<td>
-<p><a href="event-action-successful.html">eventActionSuccessful</a></p>
-</td>
-<td>
-<code><span class="keyword">abstract</span> <span class="keyword">fun </span><span class="identifier">eventActionSuccessful</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.common.tracking.UiTracking$eventActionSuccessful(com.schibsted.account.common.tracking.TrackingData.SpidAction, kotlin.String, kotlin.collections.Map((kotlin.String, kotlin.Any)))/spidAction">spidAction</span><span class="symbol">:</span>&nbsp;<a href="../-tracking-data/-spid-action/index.html"><span class="identifier">SpidAction</span></a><span class="symbol">, </span><span class="identifier" id="com.schibsted.account.common.tracking.UiTracking$eventActionSuccessful(com.schibsted.account.common.tracking.TrackingData.SpidAction, kotlin.String, kotlin.collections.Map((kotlin.String, kotlin.Any)))/accountId">accountId</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">?</span>&nbsp;<span class="symbol">=</span>&nbsp;null<span class="symbol">, </span><span class="identifier" id="com.schibsted.account.common.tracking.UiTracking$eventActionSuccessful(com.schibsted.account.common.tracking.TrackingData.SpidAction, kotlin.String, kotlin.collections.Map((kotlin.String, kotlin.Any)))/custom">custom</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-map/index.html"><span class="identifier">Map</span></a><span class="symbol">&lt;</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">,</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><span class="identifier">Any</span></a><span class="symbol">&gt;</span>&nbsp;<span class="symbol">=</span>&nbsp;mapOf()<span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code><br/>
-<code><span class="keyword">fun </span><span class="identifier">eventActionSuccessful</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.common.tracking.UiTracking$eventActionSuccessful(com.schibsted.account.common.tracking.TrackingData.SpidAction)/spidAction">spidAction</span><span class="symbol">:</span>&nbsp;<a href="../-tracking-data/-spid-action/index.html"><span class="identifier">SpidAction</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code></td>
-</tr>
 <tr>
 <td>
 <p><a href="event-engagement.html">eventEngagement</a></p>
@@ -81,6 +108,25 @@
 </td>
 <td>
 <code><span class="keyword">fun </span><span class="identifier">resetContext</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code></td>
+</tr>
+<tr>
+<td>
+<p><a href="set-tracking-identifier.html">setTrackingIdentifier</a></p>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">setTrackingIdentifier</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.common.tracking.UiTracking$setTrackingIdentifier(kotlin.String)/id">id</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">?</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code></td>
+</tr>
+</tbody>
+</table>
+<h3>Companion Object Properties</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="tracking-identifier.html">trackingIdentifier</a></p>
+</td>
+<td>
+<code><span class="keyword">var </span><span class="identifier">trackingIdentifier</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">?</span></code></td>
 </tr>
 </tbody>
 </table>
