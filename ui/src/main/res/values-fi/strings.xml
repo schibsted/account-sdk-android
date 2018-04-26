@@ -66,7 +66,6 @@
     <string name="schacc_password_forgot_password">Unohtuiko salasana?</string>
     <string name="schacc_password_extra_info">Vähintään 8 merkkiä</string>
     <string name="schacc_password_error_incorrect">Syöttämäsi salasana on virheellinen. Yritä uudelleen.</string>
-    <string name="schacc_password_keep_me_logged_in">Pidä minut kirjautuneena</string>
     <!--Inbox-->
     <string name="schacc_inbox_information">Vahvistuslinkki on lähetetty osoitteeseen: %1$s</string>
     <string name="schacc_inbox_change_identifier">Käytä toista osoitetta</string>
@@ -84,6 +83,11 @@
     <string name="schacc_register_title">Luo tili</string>
     <string name="schacc_ok">OK</string>
     <string name="schacc_identifier_modifier">Et sinä?</string>
+    <string name="schacc_age_limit_information">You need to be at least 16 years old to create a Schibsted account</string>
+    <string name="schacc_remember_me">Remember me</string>
+    <string name="schacc_remember_me_info">What\'s this?</string>
+    <string name="schacc_dialog_remember_me_title">Remember me on this device</string>
+    <string name="schacc_dialog_remember_me_description">This means we will store information about your session on your device to keep you logged in. You can change this option later by logging out.</string>
     <!--Generic error messages-->
     <string name="schacc_generic_exception_error_message_title">Jokin meni pieleen!</string>
     <string name="schacc_generic_time_out_error_message">Yhteys on aikakatkaistu. Yritä uudelleen.</string>

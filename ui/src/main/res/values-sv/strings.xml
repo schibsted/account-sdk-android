@@ -66,7 +66,6 @@
     <string name="schacc_password_forgot_password">Glömt lösenordet?</string>
     <string name="schacc_password_extra_info">Minst 8 tecken</string>
     <string name="schacc_password_error_incorrect">Lösenordet du angav är felaktigt. Försök igen.</string>
-    <string name="schacc_password_keep_me_logged_in">Håll mig inloggad</string>
     <!--Inbox-->
     <string name="schacc_inbox_information">Vi har skickat en verifieringlänk till: %1$s</string>
     <string name="schacc_inbox_change_identifier">Använd annan e-post</string>
@@ -84,6 +83,11 @@
     <string name="schacc_register_title">Skapa konto</string>
     <string name="schacc_ok">OK</string>
     <string name="schacc_identifier_modifier">Inte du?</string>
+    <string name="schacc_age_limit_information">You need to be at least 16 years old to create a Schibsted account</string>
+    <string name="schacc_remember_me">Remember me</string>
+    <string name="schacc_remember_me_info">What\'s this?</string>
+    <string name="schacc_dialog_remember_me_title">Remember me on this device</string>
+    <string name="schacc_dialog_remember_me_description">This means we will store information about your session on your device to keep you logged in. You can change this option later by logging out.</string>
     <!--Generic error messages-->
     <string name="schacc_generic_exception_error_message_title">Någonting gick fel!</string>
     <string name="schacc_generic_time_out_error_message">Uppkopplingen avbröts. Försök igen.</string>
