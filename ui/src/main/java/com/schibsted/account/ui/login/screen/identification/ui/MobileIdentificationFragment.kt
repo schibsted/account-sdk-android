@@ -12,7 +12,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import com.schibsted.account.common.util.Logger
-import com.schibsted.account.ui.R
 import com.schibsted.account.ui.UiConfiguration
 import com.schibsted.account.ui.ui.component.PhoneInputView
 
@@ -31,7 +30,6 @@ class MobileIdentificationFragment : AbstractIdentificationFragment() {
         inputFieldView = PhoneInputView(context)
         inputFieldView.setPhonePrefixHint(uiConf.defaultPhonePrefix)
         inputViewContainer.addView(inputFieldView)
-        identificationPolicy.text = getString(R.string.schacc_mobile_privacy_information)
 
         prefillIdentifier(uiConf.identifier)
         return view
@@ -89,10 +87,11 @@ class MobileIdentificationFragment : AbstractIdentificationFragment() {
          * @param uiConfiguration
          * @return a parametrized instance of [MobileIdentificationFragment]
          */
-        fun newInstance(uiConfiguration: UiConfiguration): MobileIdentificationFragment {
+        fun newInstance(uiConfiguration: UiConfiguration, merchantName: String): MobileIdentificationFragment {
             val args = Bundle()
             val fragment = MobileIdentificationFragment()
             args.putParcelable(AbstractIdentificationFragment.KEY_UI_CONF, uiConfiguration)
+            args.putString(AbstractIdentificationFragment.KEY_MERCHANT_NAME, merchantName)
             fragment.arguments = args
             return fragment
         }

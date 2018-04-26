@@ -7,15 +7,14 @@
     <string name="schacc_identification_title">Log in or create account</string>
     <string name="schacc_identification_login_only_title">Log in</string>
     <string name="schacc_identification_help_link">https://www.schibstedpayment.com/hc/en/#faq</string>
-    <string name="schacc_identification_help_link_text">Need help?</string>
+    <string name="schacc_identification_help_link_text">What is schibsted account?</string>
 
-    <string name="schacc_mobile_privacy_information">We\'ll never share your phone number without your consent.</string>
+    <string name="schacc_identification_information">%1$s is part of Schibsted. You\'ll need  a Schibsted account to continue. You can use this account across all Schibsted sites.</string>
     <string name="schacc_mobile_identification_error">Please enter a valid phone number.</string>
     <string name="schacc_mobile_number_label">Enter your phone number</string>
     <string name="schacc_mobile_number_hint">123456789</string>
     <string name="schacc_mobile_prefix_hint">+%1$d</string>
 
-    <string name="schacc_email_privacy_information">We\'ll never share your email address without your consent.</string>
     <string name="schacc_email_identification_error">Please enter a valid email address.</string>
     <string name="schacc_email_label">Enter your email address</string>
     <!--Verification-->

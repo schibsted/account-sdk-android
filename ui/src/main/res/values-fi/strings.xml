@@ -7,15 +7,14 @@
     <string name="schacc_identification_title">Kirjaudu sisään tai luo tili</string>
     <string name="schacc_identification_login_only_title">Kirjaudu</string>
     <string name="schacc_identification_help_link">https://www.schibstedpayment.com/hc/fi/#faq</string>
-    <string name="schacc_identification_help_link_text">Tarvitsetko apua?</string>
+    <string name="schacc_identification_help_link_text">What is schibsted account?</string>
 
-    <string name="schacc_mobile_privacy_information">Emme koskaan anna puhelinnumeroasi eteenpäin ilman lupaasi.</string>
+    <string name="schacc_identification_information">%1$s is part of Schibsted. You\'ll need  a Schibsted account to continue. You can use this account across all Schibsted sites.</string>
     <string name="schacc_mobile_identification_error">Anna kelvollinen puhelinnumero.</string>
     <string name="schacc_mobile_number_label">Kirjoita puhelinnumerosi</string>
     <string name="schacc_mobile_number_hint">123456789</string>
     <string name="schacc_mobile_prefix_hint">+%1$d</string>
 
-    <string name="schacc_email_privacy_information">Emme koskaan anna sähköpostiosoitettasi eteenpäin ilman lupaasi.</string>
     <string name="schacc_email_identification_error">Anna kelvollinen sähköpostiosoite.</string>
     <string name="schacc_email_label">Anna sähköpostiosoitteesi</string>
     <!--Verification-->
