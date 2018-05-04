@@ -35,17 +35,20 @@ class EncryptionKeyProvider(private val appContext: Context) {
 
     @SuppressLint("NewApi")
     private fun getStoredEncryptionKey(): KeyPair? {
-        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
             val ks = KeyStore.getInstance(KEYSTORE_PROVIDER)
             ks.load(null)
-            val storedKeyPair = getKeyFromKeyStore(ks, KEY_ALIAS)
-            if (storedKeyPair == null) {
-                deleteStoredKeyPair(ks, KEY_ALIAS)
+
+            if (ks != null) { // Additional check to ensure load was successful
+                val storedKeyPair = getKeyFromKeyStore(ks, KEY_ALIAS)
+                if (storedKeyPair == null) {
+                    deleteStoredKeyPair(ks, KEY_ALIAS)
+                }
+                return storedKeyPair
             }
-            storedKeyPair
-        } else {
-            getKeyFromSharedPreferences()
         }
+
+        return getKeyFromSharedPreferences()
     }
 
     private fun getKeyFromSharedPreferences(): KeyPair? {
