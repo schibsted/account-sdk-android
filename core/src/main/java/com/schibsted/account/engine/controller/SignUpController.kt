@@ -19,6 +19,7 @@ import com.schibsted.account.engine.operation.AccountStatusOperation
 import com.schibsted.account.engine.operation.ClientInfoOperation
 import com.schibsted.account.engine.operation.SignUpOperation
 import com.schibsted.account.engine.step.StepSignUpCredentials
+import com.schibsted.account.engine.step.StepSignUpDone
 import com.schibsted.account.engine.step.StepValidateAgreements
 import com.schibsted.account.engine.step.StepValidateReqFields
 import com.schibsted.account.model.NoValue
@@ -48,20 +49,24 @@ class SignUpController(private val baseRedirectUri: URI) : Controller<SignUpCont
         val requiredFieldsStep: StepValidateReqFields = getOrRequestRequiredFields(contract, credentialsStep.clientReqFields)
                 ?: return
 
-        contract.onFlowReady(CallbackProvider { callback ->
-            val params = RequiredFields.transformFieldsToProfile(requiredFieldsStep.requiredFields.fields) +
-                    SignUpParams(
-                            password = credentialsStep.credentials.password,
-                            acceptTerms = agreementsStep.agreements.acceptAgreements).getParams()
+        val stepSignUpDone = findOnStack<StepSignUpDone>()
+        if (stepSignUpDone == null) {
+            contract.onFlowReady(CallbackProvider { callback ->
+                val params = RequiredFields.transformFieldsToProfile(requiredFieldsStep.requiredFields.fields) +
+                        SignUpParams(
+                                password = credentialsStep.credentials.password,
+                                acceptTerms = agreementsStep.agreements.acceptAgreements).getParams()
 
-            val deepLink = DeepLink.ValidateAccount.createDeepLinkUri(baseRedirectUri, credentialsStep.credentials.keepLoggedIn)
+                val deepLink = DeepLink.ValidateAccount.createDeepLinkUri(baseRedirectUri, credentialsStep.credentials.keepLoggedIn)
 
-            SignUpOperation(credentialsStep.credentials.identifier.identifier, deepLink, params,
-                    { callback.onError(it.toClientError()) },
-                    {
-                        callback.onSuccess(credentialsStep.credentials.identifier)
-                    })
-        })
+                SignUpOperation(credentialsStep.credentials.identifier.identifier, deepLink, params,
+                        { callback.onError(it.toClientError()) },
+                        {
+                            callback.onSuccess(credentialsStep.credentials.identifier)
+                            super.navigation.push(StepSignUpDone(credentialsStep.credentials.identifier))
+                        })
+            })
+        }
     }
 
     private fun getOrRequestCredentials(contract: SignUpContract): StepSignUpCredentials? {
