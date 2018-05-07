@@ -11,4 +11,9 @@ data class Merchant
     val providerId: String,
     val logo: String,
     val type: String
-) : Parcelable
+) : Parcelable {
+    companion object Type {
+        const val INTERNAL = "internal"
+        const val EXTERNAL = "external"
+    }
+}

@@ -59,7 +59,7 @@ class PasswordlessActivity : BaseLoginActivity(), PasswordlessContract {
                 navigationController.currentFragment,
                 provider,
                 identifierType = identifierType,
-                merchantName = clientInfo.merchant.name)
+                clientInfo = clientInfo)
         navigationController.navigateToFragment(fragment as AbstractIdentificationFragment)
     }
 

@@ -6,6 +6,7 @@ package com.schibsted.account.ui.login.screen.identification.ui
 
 import android.os.Bundle
 import android.os.Parcelable
+import android.support.annotation.StringRes
 import android.support.v4.content.ContextCompat
 import android.view.LayoutInflater
 import android.view.View
@@ -16,6 +17,8 @@ import android.widget.TextView
 import com.schibsted.account.common.tracking.TrackingData
 import com.schibsted.account.common.util.Logger
 import com.schibsted.account.model.error.ClientError
+import com.schibsted.account.network.response.ClientInfo
+import com.schibsted.account.network.response.Merchant
 import com.schibsted.account.ui.R
 import com.schibsted.account.ui.UiConfiguration
 import com.schibsted.account.ui.login.BaseLoginActivity
@@ -54,7 +57,7 @@ abstract class AbstractIdentificationFragment : FlowFragment<IdentificationContr
 
     private lateinit var linkView: TextView
     protected lateinit var uiConf: UiConfiguration
-    private lateinit var merchantName: String
+    private lateinit var clientInfo: ClientInfo
 
     override val isActive: Boolean
         get() = isAdded
@@ -66,7 +69,7 @@ abstract class AbstractIdentificationFragment : FlowFragment<IdentificationContr
             if (args.getParcelable<Parcelable>(KEY_UI_CONF) != null) {
                 uiConf = args.get(KEY_UI_CONF) as UiConfiguration
             }
-            merchantName = args.getString(KEY_MERCHANT_NAME)
+            clientInfo = args.getParcelable(KEY_CLIENT_INFO)
         }
 
         if (!this::uiConf.isInitialized && context != null) {
@@ -93,8 +96,13 @@ abstract class AbstractIdentificationFragment : FlowFragment<IdentificationContr
                 BaseLoginActivity.tracker?.eventEngagement(TrackingData.Engagement.CLICK, TrackingData.UIElement.HELP, TrackingData.Screen.IDENTIFICATION)
             }
         }
+        @StringRes val msgRes = if (clientInfo.merchant.type == Merchant.EXTERNAL) {
+            R.string.schacc_identification_external_information
+        } else {
+            R.string.schacc_identification_internal_information
+        }
 
-        identificationPolicy.text = getString(R.string.schacc_identification_information, merchantName)
+        identificationPolicy.text = getString(msgRes, clientInfo.merchant.name)
 
         if (uiConf.teaserText?.isNotEmpty() == true) {
             this.teaserText.text = uiConf.teaserText
@@ -132,7 +140,7 @@ abstract class AbstractIdentificationFragment : FlowFragment<IdentificationContr
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         outState.putParcelable(KEY_UI_CONF, uiConf)
-        outState.putString(KEY_MERCHANT_NAME, merchantName)
+        outState.putParcelable(KEY_CLIENT_INFO, clientInfo)
     }
 
     override fun showErrorDialog(error: ClientError, errorMessage: String?) {
@@ -141,6 +149,6 @@ abstract class AbstractIdentificationFragment : FlowFragment<IdentificationContr
 
     companion object {
         const val KEY_UI_CONF = "UI_CONF"
-        const val KEY_MERCHANT_NAME = "KEY_MERCHANT_NAME"
+        const val KEY_CLIENT_INFO = "KEY_CLIENT_INFO"
     }
 }
