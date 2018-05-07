@@ -75,6 +75,8 @@ public class MainActivity extends AppCompatActivity {
             public void onSuccess(User result) {
                 user = result;
                 updateUi();
+
+                
             }
 
             @Override
