@@ -93,7 +93,7 @@ abstract class AbstractIdentificationFragment : FlowFragment<IdentificationContr
         linkView.setOnClickListener {
             navigationListener?.let {
                 navigationListener?.onWebViewNavigationRequested(WebFragment.newInstance(getString(R.string.schacc_identification_help_link), uiConf.redirectUri), LoginScreen.WEB_NEED_HELP_SCREEN)
-                BaseLoginActivity.tracker?.eventEngagement(TrackingData.Engagement.CLICK, TrackingData.UIElement.HELP, TrackingData.Screen.IDENTIFICATION)
+                BaseLoginActivity.tracker?.eventEngagement(TrackingData.Engagement.CLICK, TrackingData.UIElement.ABOUT_SCH_ACCOUNT, TrackingData.Screen.IDENTIFICATION)
             }
         }
         @StringRes val msgRes = if (clientInfo.merchant.type == Merchant.EXTERNAL) {
