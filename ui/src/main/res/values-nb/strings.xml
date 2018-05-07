@@ -85,9 +85,9 @@
     <string name="schacc_ok">OK</string>
     <string name="schacc_identifier_modifier">Ikke deg?</string>
     <string name="schacc_age_limit_information">You need to be at least 16 years old to create a Schibsted account</string>
-    <string name="schacc_remember_me">Remember me</string>
+    <string name="schacc_remember_me">Remember me on this device</string>
     <string name="schacc_remember_me_info">What\'s this?</string>
-    <string name="schacc_dialog_remember_me_title">Remember me on this device</string>
+    <string name="schacc_dialog_remember_me_title">@string/schacc_remember_me</string>
     <string name="schacc_dialog_remember_me_description">This means we will store information about your session on your device to keep you logged in. You can change this option later by logging out.</string>
     <!--Generic error messages-->
     <string name="schacc_generic_exception_error_message_title">Noe gikk galt!</string>
