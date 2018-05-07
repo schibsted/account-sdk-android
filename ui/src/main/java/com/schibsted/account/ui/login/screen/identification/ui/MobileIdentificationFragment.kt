@@ -12,6 +12,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import com.schibsted.account.common.util.Logger
+import com.schibsted.account.network.response.ClientInfo
 import com.schibsted.account.ui.UiConfiguration
 import com.schibsted.account.ui.ui.component.PhoneInputView
 
@@ -87,11 +88,11 @@ class MobileIdentificationFragment : AbstractIdentificationFragment() {
          * @param uiConfiguration
          * @return a parametrized instance of [MobileIdentificationFragment]
          */
-        fun newInstance(uiConfiguration: UiConfiguration, merchantName: String): MobileIdentificationFragment {
+        fun newInstance(uiConfiguration: UiConfiguration, clientInfo: ClientInfo): MobileIdentificationFragment {
             val args = Bundle()
             val fragment = MobileIdentificationFragment()
             args.putParcelable(AbstractIdentificationFragment.KEY_UI_CONF, uiConfiguration)
-            args.putString(AbstractIdentificationFragment.KEY_MERCHANT_NAME, merchantName)
+            args.putParcelable(AbstractIdentificationFragment.KEY_CLIENT_INFO, clientInfo)
             fragment.arguments = args
             return fragment
         }

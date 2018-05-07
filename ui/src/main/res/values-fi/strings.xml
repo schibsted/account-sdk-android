@@ -9,7 +9,8 @@
     <string name="schacc_identification_help_link">https://www.schibstedpayment.com/hc/fi/#faq</string>
     <string name="schacc_identification_help_link_text">What is schibsted account?</string>
 
-    <string name="schacc_identification_information">%1$s is part of Schibsted. You\'ll need  a Schibsted account to continue. You can use this account across all Schibsted sites.</string>
+    <string name="schacc_identification_internal_information">%1$s is part of Schibsted. You\'ll need a Schibsted account to continue. You can use this account across all Schibsted sites.</string>
+    <string name="schacc_identification_external_information">%1$s collaborates with Schibsted. You\'ll need a Schibsted account to continue. You can use this account across all Schibsted sites.</string>
     <string name="schacc_mobile_identification_error">Anna kelvollinen puhelinnumero.</string>
     <string name="schacc_mobile_number_label">Kirjoita puhelinnumerosi</string>
     <string name="schacc_mobile_number_hint">123456789</string>
