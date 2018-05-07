@@ -63,7 +63,7 @@ class SignUpController(private val baseRedirectUri: URI) : Controller<SignUpCont
                         { callback.onError(it.toClientError()) },
                         {
                             callback.onSuccess(credentialsStep.credentials.identifier)
-                            super.navigation.push(StepSignUpDone(credentialsStep.credentials.identifier))
+                            super.navigation.push(StepSignUpDone())
                         })
             })
         }
