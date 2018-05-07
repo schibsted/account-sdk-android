@@ -70,7 +70,7 @@ public class MainActivity extends AppCompatActivity {
         accountSdkReceiver = new AccountSdkReceiver();
 
 
-        
+
 
         // Attempt to resume any previous sessions, that includes sessions coming from deeplink or smartlock
         User.resumeLastSession(getApplicationContext(), new ResultCallback<User>() {
@@ -78,6 +78,8 @@ public class MainActivity extends AppCompatActivity {
             public void onSuccess(User result) {
                 user = result;
                 updateUi();
+
+                
             }
 
             @Override
