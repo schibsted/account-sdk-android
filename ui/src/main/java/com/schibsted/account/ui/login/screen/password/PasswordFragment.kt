@@ -16,7 +16,7 @@ import com.schibsted.account.engine.input.Identifier
 import com.schibsted.account.model.error.ClientError
 import com.schibsted.account.persistence.LocalSecretsProvider
 import com.schibsted.account.ui.R
-import com.schibsted.account.ui.UiConfiguration
+import com.schibsted.account.ui.InternalUiConfiguration
 import com.schibsted.account.ui.login.BaseLoginActivity
 import com.schibsted.account.ui.login.screen.LoginScreen
 import com.schibsted.account.ui.ui.FlowFragment
@@ -38,7 +38,7 @@ class PasswordFragment : FlowFragment<PasswordContract.Presenter>(), PasswordCon
     private lateinit var presenter: PasswordContract.Presenter
     private var isUserAvailable: Boolean = false
     private var identifier: Identifier? = null
-    private var uiConf: UiConfiguration? = null
+    private var uiConf: InternalUiConfiguration? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -145,7 +145,7 @@ class PasswordFragment : FlowFragment<PasswordContract.Presenter>(), PasswordCon
 
     companion object {
         @JvmStatic
-        fun newInstance(identifier: Identifier, isUserAvailable: Boolean, uiConfiguration: UiConfiguration): PasswordFragment {
+        fun newInstance(identifier: Identifier, isUserAvailable: Boolean, uiConfiguration: InternalUiConfiguration): PasswordFragment {
             val fragment = PasswordFragment()
             val arg = Bundle()
             arg.putParcelable(KEY_IDENTIFIER, identifier)

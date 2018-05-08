@@ -44,7 +44,7 @@ import com.schibsted.account.persistence.LocalSecretsProvider
 import com.schibsted.account.session.User
 import com.schibsted.account.ui.KeyboardManager
 import com.schibsted.account.ui.R
-import com.schibsted.account.ui.UiConfiguration
+import com.schibsted.account.ui.InternalUiConfiguration
 import com.schibsted.account.ui.UiUtil
 import com.schibsted.account.ui.login.flow.password.FlowSelectionListener
 import com.schibsted.account.ui.login.flow.password.LoginContractImpl
@@ -113,7 +113,7 @@ abstract class BaseLoginActivity : AppCompatActivity(), KeyboardManager, Navigat
     private lateinit var activityRoot: View
 
     @VisibleForTesting(otherwise = VisibleForTesting.PROTECTED)
-    internal lateinit var uiConfiguration: UiConfiguration
+    internal lateinit var uiConfiguration: InternalUiConfiguration
     private lateinit var layoutListener: ViewTreeObserver.OnGlobalLayoutListener
     lateinit var navigationController: Navigation
         protected set
@@ -162,7 +162,7 @@ abstract class BaseLoginActivity : AppCompatActivity(), KeyboardManager, Navigat
     }
 
     private fun initializeUiConfiguration() {
-        val uiConf: UiConfiguration? = intent.getParcelableExtra(KEY_UI_CONFIGURATION)
+        val uiConf: InternalUiConfiguration? = intent.getParcelableExtra(KEY_UI_CONFIGURATION)
         this.uiConfiguration = if (uiConf != null) {
             uiConf
         } else {
@@ -170,7 +170,7 @@ abstract class BaseLoginActivity : AppCompatActivity(), KeyboardManager, Navigat
                 "Configuration not found in intent, falling back to parsing the manifest. " +
                         "If the activity is created from a deep link, this is to be expected."
             })
-            UiConfiguration.Builder.fromManifest(applicationContext).build()
+            InternalUiConfiguration.Builder.fromManifest(applicationContext).build()
         }
     }
 

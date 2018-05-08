@@ -22,7 +22,7 @@ import com.schibsted.account.engine.operation.ClientInfoOperation
 import com.schibsted.account.model.LoginResult
 import com.schibsted.account.model.error.ClientError
 import com.schibsted.account.network.response.AgreementLinksResponse
-import com.schibsted.account.ui.UiConfiguration
+import com.schibsted.account.ui.InternalUiConfiguration
 import com.schibsted.account.ui.login.BaseLoginActivity
 import com.schibsted.account.ui.login.flow.password.PasswordActivity
 import com.schibsted.account.ui.login.screen.identification.ui.AbstractIdentificationFragment
@@ -118,7 +118,7 @@ class PasswordlessActivity : BaseLoginActivity(), PasswordlessContract {
          * @return An [Intent] that can be used to launch the visual authentication flow.
          */
         @JvmStatic
-        fun getCallingIntent(context: Context, uiConfiguration: UiConfiguration, resultCallback: ResultCallback<Intent>) {
+        fun getCallingIntent(context: Context, uiConfiguration: InternalUiConfiguration, resultCallback: ResultCallback<Intent>) {
             ClientInfoOperation({ resultCallback.onError(it.toClientError()) }, {
                 val intent = Intent(context, PasswordActivity::class.java).apply {
                     putExtra(KEY_UI_CONFIGURATION, uiConfiguration)

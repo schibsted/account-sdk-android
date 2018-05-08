@@ -5,7 +5,6 @@
 package com.schibsted.account.ui
 
 import android.content.Context
-import android.content.pm.PackageManager
 import android.os.Parcel
 import android.os.Parcelable
 import android.support.annotation.DrawableRes
@@ -15,7 +14,7 @@ import com.schibsted.account.ui.smartlock.SmartlockMode
 import java.net.URI
 import java.util.Locale
 
-data class UiConfiguration(
+data class InternalUiConfiguration(
     val clientName: String,
     val redirectUri: URI,
     val locale: Locale = Locale.getDefault(),
@@ -38,8 +37,8 @@ data class UiConfiguration(
         }
     }
 
-    fun newBuilder(): UiConfiguration.Builder {
-        val builder = UiConfiguration.Builder(clientName, redirectUri)
+    fun newBuilder(): InternalUiConfiguration.Builder {
+        val builder = InternalUiConfiguration.Builder(clientName, redirectUri)
                 .locale(locale)
                 .identifierType(identifierType)
                 .identifier(identifier)
@@ -84,7 +83,7 @@ data class UiConfiguration(
     }
 
     class Builder(clientName: String, redirectUri: URI) {
-        private var subject = UiConfiguration(clientName, redirectUri)
+        private var subject = InternalUiConfiguration(clientName, redirectUri)
 
         fun locale(locale: Locale) = apply { this.subject = this.subject.copy(locale = locale) }
 
@@ -108,7 +107,7 @@ data class UiConfiguration(
 
         companion object {
             @JvmStatic
-            fun fromManifest(applicationContext: Context): UiConfiguration.Builder {
+            fun fromManifest(applicationContext: Context): InternalUiConfiguration.Builder {
                 val manifestConfig = ManifestConfiguration.readFromManifest(applicationContext)
                 return Builder(manifestConfig.clientName, manifestConfig.redirectUri)
             }
@@ -117,9 +116,9 @@ data class UiConfiguration(
 
     companion object {
         @JvmField
-        val CREATOR: Parcelable.Creator<UiConfiguration> = object : Parcelable.Creator<UiConfiguration> {
-            override fun createFromParcel(source: Parcel): UiConfiguration = UiConfiguration(source)
-            override fun newArray(size: Int): Array<UiConfiguration?> = arrayOfNulls(size)
+        val CREATOR: Parcelable.Creator<InternalUiConfiguration> = object : Parcelable.Creator<InternalUiConfiguration> {
+            override fun createFromParcel(source: Parcel): InternalUiConfiguration = InternalUiConfiguration(source)
+            override fun newArray(size: Int): Array<InternalUiConfiguration?> = arrayOfNulls(size)
         }
     }
 }

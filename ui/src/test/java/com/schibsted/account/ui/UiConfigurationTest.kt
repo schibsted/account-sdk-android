@@ -10,7 +10,7 @@ import java.net.URI
 
 class UiConfigurationTest : StringSpec({
     "newBuilder should correctly copy the properties of UiConfiguration" {
-        val config = UiConfiguration("abc", URI.create("spid-xxxx://login"), 47).copy(teaserText = "Hello")
+        val config = InternalUiConfiguration("abc", URI.create("spid-xxxx://login"), 47).copy(teaserText = "Hello")
         val newConfig = config.newBuilder().build()
 
         newConfig.clientName shouldBe config.clientName

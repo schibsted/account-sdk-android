@@ -24,7 +24,7 @@ import com.schibsted.account.engine.integration.ResultCallback;
 import com.schibsted.account.model.error.ClientError;
 import com.schibsted.account.network.response.ProfileData;
 import com.schibsted.account.session.User;
-import com.schibsted.account.ui.UiConfiguration;
+import com.schibsted.account.ui.InternalUiConfiguration;
 import com.schibsted.account.ui.login.BaseLoginActivity;
 import com.schibsted.account.ui.login.flow.password.PasswordActivity;
 import com.schibsted.account.ui.smartlock.SmartlockImpl;
@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
     private Button button;
 
     private AccountSdkReceiver accountSdkReceiver;
-    private UiConfiguration uiConfiguration;
+    private InternalUiConfiguration internalUiConfiguration;
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -59,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
         getLifecycle().addObserver(accountService);
 
         // Build the UiConfiguration
-        uiConfiguration = UiConfiguration.Builder.fromManifest(getApplicationContext())
+        internalUiConfiguration = InternalUiConfiguration.Builder.fromManifest(getApplicationContext())
                 .enableSignUp()
                 .logo(R.drawable.ic_example_logo)
                 .locale(new Locale("nb", "NO"))
@@ -114,7 +114,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onClick(View v) {
             // Create the intent for the desired flow
-            PasswordActivity.getCallingIntent(getApplicationContext(), uiConfiguration, new ResultCallback<Intent>() {
+            PasswordActivity.getCallingIntent(getApplicationContext(), internalUiConfiguration, new ResultCallback<Intent>() {
                 @Override
                 public void onSuccess(Intent result) {
                     startActivityForResult(result, PASSWORD_REQUEST_CODE);
@@ -161,7 +161,7 @@ public class MainActivity extends AppCompatActivity {
 
             } else if (resultCode == SmartlockImpl.SMARTLOCK_FAILED) {
                 //start the flow without smartlock
-                PasswordActivity.getCallingIntent(getApplicationContext(), uiConfiguration.newBuilder().smartlockMode(SmartlockMode.DISABLED).build(), new ResultCallback<Intent>() {
+                PasswordActivity.getCallingIntent(getApplicationContext(), internalUiConfiguration.newBuilder().smartlockMode(SmartlockMode.DISABLED).build(), new ResultCallback<Intent>() {
                     @Override
                     public void onSuccess(Intent result) {
                         startActivityForResult(result, PASSWORD_REQUEST_CODE);

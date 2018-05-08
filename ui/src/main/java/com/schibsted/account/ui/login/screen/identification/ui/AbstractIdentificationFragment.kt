@@ -20,7 +20,7 @@ import com.schibsted.account.model.error.ClientError
 import com.schibsted.account.network.response.ClientInfo
 import com.schibsted.account.network.response.Merchant
 import com.schibsted.account.ui.R
-import com.schibsted.account.ui.UiConfiguration
+import com.schibsted.account.ui.InternalUiConfiguration
 import com.schibsted.account.ui.login.BaseLoginActivity
 import com.schibsted.account.ui.login.screen.LoginScreen
 import com.schibsted.account.ui.login.screen.identification.IdentificationContract
@@ -56,7 +56,7 @@ abstract class AbstractIdentificationFragment : FlowFragment<IdentificationContr
     private lateinit var identificationPolicy: TextView
 
     private lateinit var linkView: TextView
-    protected lateinit var uiConf: UiConfiguration
+    protected lateinit var uiConf: InternalUiConfiguration
     private lateinit var clientInfo: ClientInfo
 
     override val isActive: Boolean
@@ -67,13 +67,13 @@ abstract class AbstractIdentificationFragment : FlowFragment<IdentificationContr
         val args = savedInstanceState ?: arguments
         args?.let {
             if (args.getParcelable<Parcelable>(KEY_UI_CONF) != null) {
-                uiConf = args.get(KEY_UI_CONF) as UiConfiguration
+                uiConf = args.get(KEY_UI_CONF) as InternalUiConfiguration
             }
             clientInfo = args.getParcelable(KEY_CLIENT_INFO)
         }
 
         if (!this::uiConf.isInitialized && context != null) {
-            this.uiConf = UiConfiguration.Builder.fromManifest(context!!.applicationContext).build()
+            this.uiConf = InternalUiConfiguration.Builder.fromManifest(context!!.applicationContext).build()
             Logger.warn(Logger.DEFAULT_TAG, "AbstractIdentificationFragment: Falling back to UiConfiguration from manifest")
         }
     }
