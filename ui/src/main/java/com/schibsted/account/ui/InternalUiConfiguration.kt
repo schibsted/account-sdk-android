@@ -4,6 +4,7 @@
 
 package com.schibsted.account.ui
 
+import android.app.Application
 import android.content.Context
 import android.os.Parcel
 import android.os.Parcelable
@@ -110,6 +111,27 @@ data class InternalUiConfiguration(
             fun fromManifest(applicationContext: Context): InternalUiConfiguration.Builder {
                 val manifestConfig = ManifestConfiguration.readFromManifest(applicationContext)
                 return Builder(manifestConfig.clientName, manifestConfig.redirectUri)
+            }
+
+            @JvmStatic
+            fun resolve(application: Application): InternalUiConfiguration {
+                val requiredConfig = ManifestConfiguration.readFromManifest(application.applicationContext)
+                val optionalConfig = UiConfig.getMerged(application)
+
+                // TODO: Prefilled identifier and teaser text should be arguments instead
+                return InternalUiConfiguration(
+                        requiredConfig.clientName,
+                        requiredConfig.redirectUri,
+                        optionalConfig.locale,
+                        Identifier.IdentifierType.EMAIL, // TODO: Remove
+                        null, // TODO: Remove
+                        optionalConfig.signUpEnabled == UiConfig.SignUpMode.Enabled,
+                        optionalConfig.smartLockMode,
+                        optionalConfig.clientLogo,
+                        null, // TODO: Remove
+                        (optionalConfig.signUpEnabled as? UiConfig.SignUpMode.Disabled)?.disabledMessage,
+                        optionalConfig.isCancellable
+                )
             }
         }
     }
