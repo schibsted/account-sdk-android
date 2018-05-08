@@ -78,8 +78,7 @@ class PasswordFragment : FlowFragment<PasswordContract.Presenter>(), PasswordCon
                     InformationDialogFragment.newInstance(
                             getString(R.string.schacc_dialog_remember_me_title),
                             getString(R.string.schacc_dialog_remember_me_description),
-                            //todo replace with correct icon
-                            R.drawable.schacc_ic_email,
+                            R.drawable.schacc_ic_remember_me,
                             null
                     ))
         }

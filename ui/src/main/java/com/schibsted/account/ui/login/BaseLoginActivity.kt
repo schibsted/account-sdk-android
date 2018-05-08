@@ -17,6 +17,7 @@ import android.support.annotation.VisibleForTesting
 import android.support.v4.app.DialogFragment
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
+import android.support.v7.app.AppCompatDelegate
 import android.support.v7.widget.Toolbar
 import android.util.Patterns
 import android.view.Menu
@@ -128,7 +129,7 @@ abstract class BaseLoginActivity : AppCompatActivity(), KeyboardManager, Navigat
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        AppCompatDelegate.setCompatVectorFromResourcesEnabled(true)
         clientInfo = intent.getParcelableExtra(KEY_CLIENT_INFO)
 
         accountService = AccountService(applicationContext)

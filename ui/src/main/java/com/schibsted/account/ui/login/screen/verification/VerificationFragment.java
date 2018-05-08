@@ -5,7 +5,6 @@
 package com.schibsted.account.ui.login.screen.verification;
 
 import android.os.Bundle;
-import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -110,8 +109,7 @@ public class VerificationFragment extends FlowFragment<VerificationContract.Pres
                             InformationDialogFragment.newInstance(
                                     getString(R.string.schacc_dialog_remember_me_title),
                                     getString(R.string.schacc_dialog_remember_me_description),
-                                    //todo replace with correct icon
-                                    R.drawable.schacc_ic_email,
+                                    R.drawable.schacc_ic_remember_me,
                                     null
                             ));
                 }
@@ -201,7 +199,7 @@ public class VerificationFragment extends FlowFragment<VerificationContract.Pres
             final InformationDialogFragment dialog = InformationDialogFragment.newInstance(
                     getString(R.string.schacc_verification_dialog_title),
                     (String.format(Locale.ENGLISH, getString(R.string.schacc_verification_dialog_information), identifier.getIdentifier())),
-                    getDrawableResource(), getActionLabel());
+                    R.drawable.schacc_ic_email, getActionLabel());
             navigationListener.onDialogNavigationRequested(dialog);
             dialog.setActionListener(new View.OnClickListener() {
                 @Override
@@ -224,22 +222,6 @@ public class VerificationFragment extends FlowFragment<VerificationContract.Pres
             return getString(R.string.schacc_verification_edit_email_address);
         } else {
             return getString(R.string.schacc_verification_edit_phone_number);
-        }
-    }
-
-    /**
-     * This method provide the right drawable resource to build the {@link InformationDialogFragment}
-     *
-     * @return the drawable resource of displayed on {@link InformationDialogFragment}
-     * @see #showResendCodeView()
-     */
-    @DrawableRes
-    private int getDrawableResource() {
-        if (identifier.getIdentifierType() == Identifier.IdentifierType.EMAIL) {
-            return R.drawable.schacc_ic_email;
-        } else {
-            // TODO: 9/12/17 change it with the right icon
-            return R.drawable.schacc_ic_email;
         }
     }
 
