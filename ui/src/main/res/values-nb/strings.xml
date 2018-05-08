@@ -2,15 +2,15 @@
   ~ Copyright (c) 2018 Schibsted Products & Technology AS. Licensed under the terms of the MIT license. See LICENSE in the project root.
   -->
 
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
     <!--Identification-->
     <string name="schacc_identification_title">Logg inn eller opprett bruker</string>
     <string name="schacc_identification_login_only_title">Logg inn</string>
     <string name="schacc_identification_help_link">https://www.schibstedpayment.com/hc/nb/#faq</string>
-    <string name="schacc_identification_help_link_text">What is schibsted account?</string>
+    <string name="schacc_identification_help_link_text">Hva er en Schibsted-konto?</string>
 
-    <string name="schacc_identification_internal_information">%1$s is part of Schibsted. You\'ll need a Schibsted account to continue. You can use this account across all Schibsted sites.</string>
-    <string name="schacc_identification_external_information">%1$s collaborates with Schibsted. You\'ll need a Schibsted account to continue. You can use this account across all Schibsted sites.</string>
+    <string name="schacc_identification_internal_information">%1$s er en del av Schibsted. Du trenger en Schibsted-konto for å fortsette. Du kan bruke denne kontoen på alle Schibsted-sider.</string>
+    <string name="schacc_identification_external_information">%1$s er i samarbeid med Schibsted. Du trenger en Schibsted-konto for å fortsette. Du kan bruke denne kontoen på alle Schibsted-sider.</string>
     <string name="schacc_mobile_identification_error">Oppgi et gyldig telefonnummer.</string>
     <string name="schacc_mobile_number_label">Skriv inn din telefonnummer</string>
     <string name="schacc_mobile_number_hint">123456789</string>
@@ -44,7 +44,7 @@
     <string name="schacc_terms_update_title">Oppdaterte brukervilkår og betingelser</string>
     <!--Required fields-->
     <string name="schacc_required_fields_title">Fullfør</string>
-    <string name="schacc_required_fields_description">We use this information for things like improving our services and giving you relevant ads and content.</string>
+    <string name="schacc_required_fields_description">Vi bruker denne informasjonen til for eksempel å forbedre tjenesten vår og gi deg relevant reklame og innhold.</string>
     <string name="schacc_required_fields_error">Dette feltet må fylles ut.</string>
     <string name="schacc_required_field_given_name">Fornavn</string>
     <string name="schacc_required_field_family_name">Etternavn</string>
@@ -84,16 +84,16 @@
     <string name="schacc_register_title">Opprett bruker</string>
     <string name="schacc_ok">OK</string>
     <string name="schacc_identifier_modifier">Ikke deg?</string>
-    <string name="schacc_age_limit_information">You need to be at least 16 years old to create a Schibsted account</string>
-    <string name="schacc_remember_me">Remember me on this device</string>
-    <string name="schacc_remember_me_info">What\'s this?</string>
+    <string name="schacc_age_limit_information">Du må være minst 16 år for å opprette en Schibsted-konto</string>
+    <string name="schacc_remember_me">Husk meg på denne enheten</string>
+    <string name="schacc_remember_me_info">Hva er dette?</string>
     <string name="schacc_dialog_remember_me_title">@string/schacc_remember_me</string>
-    <string name="schacc_dialog_remember_me_description">This means we will store information about your session on your device to keep you logged in. You can change this option later by logging out.</string>
+    <string name="schacc_dialog_remember_me_description">Vi lagrer informasjon om sesjonen din på enheten din, for å holde deg logget inn. Du kan endre dette alternativet senere, ved å logge deg ut.</string>
     <!--Generic error messages-->
     <string name="schacc_generic_exception_error_message_title">Noe gikk galt!</string>
     <string name="schacc_generic_time_out_error_message">Tilkoblingen ble tidsavbrutt. Prøv igjen.</string>
     <string name="schacc_generic_server_error_message">Vi har problemer for øyeblikket. Prøv igjen senere.</string>
-    <string name="schacc_generic_internet_error" tools:ignore="Typos">Kan ikke koble til internett. Sjekk tilkoblingen din.</string>
+    <string name="schacc_generic_internet_error">Kan ikke koble til internett. Sjekk tilkoblingen din.</string>
     <string name="schacc_generic_too_many_code_request_error_message">Du har sendt for mange kodeforespørsler. Prøv igjen senere.</string>
     <string name="schacc_generic_too_many_login_request_error_message">Du har forsøkt å logge inn for mange ganger. Prøv igjen senere.</string>
     <string name="schacc_generic_too_many_inbox_request_error_message">Du har sendt for mange koblingsforespørsler. Prøv igjen senere.</string>
