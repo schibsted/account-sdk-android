@@ -76,11 +76,21 @@ Once you have initialized the the UI flow, you can start it by calling
 
 
 ## Tracking
-The UIs support tracking for most events and interactions. To use this, you need to implement the `UiTracking` interface and pass the data off to your tracker of choice. We do provide a default implementation for this using [Pulse](https://github.schibsted.io/spt-identity/identity-sdk-android-internal), which unfortunately is only available internally in Schibsted.
+The UIs support tracking for most events and interactions. To use this, you need to implement the `UiTracking` interface and pass the data off to your tracker of choice.
 
 ```java
 BaseLoginActivity.setTracker(myTracker);
 ```
+
+### Pulse tracking (Available internally in Schibsted only)
+We provide a default implementation for tracking, using _Pulse_. This is available in the [pulse module](https://github.schibsted.io/spt-identity/account-sdk-android-internal) and its dependency can be added the following way after adding the internal repository.
+
+```
+implementation "com.schibsted.account:account-sdk-android-pulse:<SCHACC-PULSE-VERSION>"
+```
+
+Please note that the `SCHACC-PULSE-VERSION` could differ from `SCHACC-VERSION` because the pulse library doesn't belong to the same repository and is not tied to the rest of the SDK.
+Check out the pulse [changelog](https://github.schibsted.io/spt-identity/account-sdk-android-internal/blob/master/CHANGELOG.md) to find which version to use with the different SDK releases.
 
 You can read more about Pulse at [pulse.schibsted.io](https://pulse.schibsted.io).
 
