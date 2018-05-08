@@ -106,6 +106,7 @@ subprojects { proj ->
 
     apply plugin: 'com.android.library'
     apply plugin: 'kotlin-android'
+    apply plugin: 'org.jetbrains.kotlin.android.extensions'
 
     apply plugin: 'org.jmailen.kotlinter'
     apply plugin: 'org.jetbrains.dokka-android'
@@ -144,6 +145,10 @@ subprojects { proj ->
         dexOptions {
             javaMaxHeapSize "4g"
         }
+    }
+
+    androidExtensions {
+        experimental = true
     }
 
     tasks.withType(Test) {

@@ -109,33 +109,13 @@ data class UiConfiguration(
         companion object {
             @JvmStatic
             fun fromManifest(applicationContext: Context): UiConfiguration.Builder {
-                val appInfo = applicationContext.packageManager.getApplicationInfo(applicationContext.packageName, PackageManager.GET_META_DATA)
-
-                val clientName = appInfo.metaData.getString(CLIENT_NAME)
-                val redirectScheme = appInfo.metaData.getString(REDIRECT_SCHEME)
-                val redirectHost = appInfo.metaData.getString(REDIRECT_HOST)
-                val uriScheme = "$redirectScheme://$redirectHost"
-
-                requireNotNull(clientName, { "The field $CLIENT_NAME must be specified in the manifest" })
-
-                if (redirectHost.isNullOrEmpty()) {
-                    throw IllegalArgumentException("The field $REDIRECT_HOST must be specified in your strings.xml")
-                }
-                if (redirectScheme.isNullOrEmpty()) {
-                    throw IllegalArgumentException("The field $REDIRECT_SCHEME must be specified in your strings.xml")
-                }
-                return Builder(clientName, URI.create(uriScheme))
+                val manifestConfig = ManifestConfiguration.readFromManifest(applicationContext)
+                return Builder(manifestConfig.clientName, manifestConfig.redirectUri)
             }
         }
     }
 
     companion object {
-        private val CLIENT_NAME = "schacc_client_name"
-
-        private val REDIRECT_SCHEME = "schacc_redirect_scheme"
-
-        private val REDIRECT_HOST = "schacc_redirect_host"
-
         @JvmField
         val CREATOR: Parcelable.Creator<UiConfiguration> = object : Parcelable.Creator<UiConfiguration> {
             override fun createFromParcel(source: Parcel): UiConfiguration = UiConfiguration(source)
