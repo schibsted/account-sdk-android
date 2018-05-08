@@ -98,6 +98,7 @@
     <string name="schacc_generic_too_many_login_request_error_message">Du har försökt att logga in för många gånger. Försök igen senare.</string>
     <string name="schacc_generic_too_many_inbox_request_error_message">Du har begärt för många länk. Försök igen senare.</string>
     <string name="schacc_generic_error">Försök igen senare.</string>
+    <string name="schacc_display_name_error">Bara bokstäver och siffror är tillåtet, men enstaka bindestreck, understreck, punkter eller mellanslag mellan.</string>
     <!--System-->
     <string name="schacc_close">Stänga</string>
     <string name="schacc_intent_password_sign_up_link_name">signupDeepLink</string>

@@ -98,6 +98,7 @@
     <string name="schacc_generic_too_many_login_request_error_message">Olet yrittänyt kirjautua sisään liian monta kertaa. Yritä myöhemmin uudelleen.</string>
     <string name="schacc_generic_too_many_inbox_request_error_message">Olet lähettänyt liian monta linkkipyyntöä. Yritä myöhemmin uudelleen.</string>
     <string name="schacc_generic_error">Yritä myöhemmin uudelleen.</string>
+    <string name="schacc_display_name_error">Sallittuja merkkejä ovat vain numerot ja kirjaimet sekä niiden välissä olevat yksittäiset väliviivat, alaviivat, pisteet ja välilyönnit.</string>
     <!--System-->
     <string name="schacc_close">Sulje</string>
     <string name="schacc_intent_password_sign_up_link_name">signupDeepLink</string>
