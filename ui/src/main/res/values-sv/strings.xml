@@ -7,10 +7,10 @@
     <string name="schacc_identification_title">Logga in eller skapa konto</string>
     <string name="schacc_identification_login_only_title">Logga in</string>
     <string name="schacc_identification_help_link">https://www.schibstedpayment.com/hc/sv/#faq</string>
-    <string name="schacc_identification_help_link_text">What is schibsted account?</string>
+    <string name="schacc_identification_help_link_text">Vad är ett Schibsted-konto?</string>
 
-    <string name="schacc_identification_internal_information">%1$s is part of Schibsted. You\'ll need a Schibsted account to continue. You can use this account across all Schibsted sites.</string>
-    <string name="schacc_identification_external_information">%1$s collaborates with Schibsted. You\'ll need a Schibsted account to continue. You can use this account across all Schibsted sites.</string>
+    <string name="schacc_identification_internal_information">%1$s är en del av Schibsted. Du behöver ett Schibsted-konto för att fortsätta. Du kan använda samma konto på alla Schibsteds webbplatser.</string>
+    <string name="schacc_identification_external_information">%1$s samarbetar med Schibsted. Du behöver ett Schibsted-konto för att fortsätta. Du kan använda samma konto på alla Schibsteds webbplatser. </string>
     <string name="schacc_mobile_identification_error">Ange ett giltigt telefonnummer.</string>
     <string name="schacc_mobile_number_label">Ange ditt telefonnummer</string>
     <string name="schacc_mobile_number_hint">123456789</string>
@@ -44,7 +44,7 @@
     <string name="schacc_terms_update_title">Uppdaterade användarvillkoren</string>
     <!--Required fields-->
     <string name="schacc_required_fields_title">Avsluta</string>
-    <string name="schacc_required_fields_description">We use this information for things like improving our services and giving you relevant ads and content.</string>
+    <string name="schacc_required_fields_description">Vi använder de här uppgifterna till exempel för att förbättra våra tjänster och visa dig reklam och innehåll som är relevant för dig.</string>
     <string name="schacc_required_fields_error">Det här fältet måste fyllas i.</string>
     <string name="schacc_required_field_given_name">Förnamn</string>
     <string name="schacc_required_field_family_name">Efternamn</string>
@@ -84,11 +84,11 @@
     <string name="schacc_register_title">Skapa konto</string>
     <string name="schacc_ok">OK</string>
     <string name="schacc_identifier_modifier">Inte du?</string>
-    <string name="schacc_age_limit_information">You need to be at least 16 years old to create a Schibsted account</string>
-    <string name="schacc_remember_me">Remember me</string>
-    <string name="schacc_remember_me_info">What\'s this?</string>
-    <string name="schacc_dialog_remember_me_title">Remember me on this device</string>
-    <string name="schacc_dialog_remember_me_description">This means we will store information about your session on your device to keep you logged in. You can change this option later by logging out.</string>
+    <string name="schacc_age_limit_information">Du måste vara minst 16 år gammal för att skapa ett Schibsted-konto</string>
+    <string name="schacc_remember_me">Kom ihåg mig på den här enheten</string>
+    <string name="schacc_remember_me_info">Vad är detta?</string>
+    <string name="schacc_dialog_remember_me_title">@string/schacc_remember_me</string>
+    <string name="schacc_dialog_remember_me_description">Vi kommer att spara information från din session på din enhet så att du kan förbli inloggad. Du kan ändra detta senare genom att logga ut.</string>
     <!--Generic error messages-->
     <string name="schacc_generic_exception_error_message_title">Någonting gick fel!</string>
     <string name="schacc_generic_time_out_error_message">Uppkopplingen avbröts. Försök igen.</string>

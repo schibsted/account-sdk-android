@@ -7,7 +7,7 @@
     <string name="schacc_identification_title">Log in or create account</string>
     <string name="schacc_identification_login_only_title">Log in</string>
     <string name="schacc_identification_help_link">https://www.schibstedpayment.com/hc/en/#faq</string>
-    <string name="schacc_identification_help_link_text">What is schibsted account?</string>
+    <string name="schacc_identification_help_link_text">What is Schibsted account?</string>
 
     <string name="schacc_identification_internal_information">%1$s is part of Schibsted. You\'ll need  a Schibsted account to continue. You can use this account across all Schibsted sites.</string>
     <string name="schacc_identification_external_information">%1$s collaborates with Schibsted. You\'ll need a Schibsted account to continue. You can use this account across all Schibsted sites.</string>
@@ -85,9 +85,9 @@
     <string name="schacc_ok">OK</string>
     <string name="schacc_identifier_modifier">Not you?</string>
     <string name="schacc_age_limit_information">You need to be at least 16 years old to create a Schibsted account</string>
-    <string name="schacc_remember_me">Remember me</string>
+    <string name="schacc_remember_me">Remember me on this device</string>
     <string name="schacc_remember_me_info">What\'s this?</string>
-    <string name="schacc_dialog_remember_me_title">Remember me on this device</string>
+    <string name="schacc_dialog_remember_me_title">@string/schacc_remember_me</string>
     <string name="schacc_dialog_remember_me_description">This means we will store information about your session on your device to keep you logged in. You can change this option later by logging out.</string>
     <!--Generic error messages-->
     <string name="schacc_generic_exception_error_message_title">Something went wrong!</string>
