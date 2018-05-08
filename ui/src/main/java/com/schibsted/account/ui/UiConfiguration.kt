@@ -18,7 +18,6 @@ import java.util.Locale
 data class UiConfiguration(
     val clientName: String,
     val redirectUri: URI,
-    val defaultPhonePrefix: Int,
     val locale: Locale = Locale.getDefault(),
     val identifierType: Identifier.IdentifierType = Identifier.IdentifierType.EMAIL,
     val identifier: String? = null,
@@ -40,7 +39,7 @@ data class UiConfiguration(
     }
 
     fun newBuilder(): UiConfiguration.Builder {
-        val builder = UiConfiguration.Builder(clientName, redirectUri, defaultPhonePrefix)
+        val builder = UiConfiguration.Builder(clientName, redirectUri)
                 .locale(locale)
                 .identifierType(identifierType)
                 .identifier(identifier)
@@ -57,7 +56,6 @@ data class UiConfiguration(
     constructor(source: Parcel) : this(
             source.readString(),
             source.readSerializable() as URI,
-            source.readInt(),
             source.readSerializable() as Locale,
             source.readSerializable() as Identifier.IdentifierType,
             source.readString(),
@@ -74,7 +72,6 @@ data class UiConfiguration(
     override fun writeToParcel(dest: Parcel, flags: Int) = with(dest) {
         writeString(clientName)
         writeSerializable(redirectUri)
-        writeInt(defaultPhonePrefix)
         writeSerializable(locale)
         writeSerializable(identifierType)
         writeString(identifier)
@@ -86,8 +83,8 @@ data class UiConfiguration(
         writeInt(if (isClosingAllowed) 1 else 0)
     }
 
-    class Builder(clientName: String, redirectUri: URI, defaultPhonePrefix: Int) {
-        private var subject = UiConfiguration(clientName, redirectUri, defaultPhonePrefix)
+    class Builder(clientName: String, redirectUri: URI) {
+        private var subject = UiConfiguration(clientName, redirectUri)
 
         fun locale(locale: Locale) = apply { this.subject = this.subject.copy(locale = locale) }
 
@@ -115,13 +112,11 @@ data class UiConfiguration(
                 val appInfo = applicationContext.packageManager.getApplicationInfo(applicationContext.packageName, PackageManager.GET_META_DATA)
 
                 val clientName = appInfo.metaData.getString(CLIENT_NAME)
-                val defaultPhonePrefix = appInfo.metaData.getInt(CLIENT_PHONE_PREFIX)
                 val redirectScheme = appInfo.metaData.getString(REDIRECT_SCHEME)
                 val redirectHost = appInfo.metaData.getString(REDIRECT_HOST)
                 val uriScheme = "$redirectScheme://$redirectHost"
 
                 requireNotNull(clientName, { "The field $CLIENT_NAME must be specified in the manifest" })
-                requireNotNull(defaultPhonePrefix, { "The field $CLIENT_PHONE_PREFIX must be specified in the manifest" })
 
                 if (redirectHost.isNullOrEmpty()) {
                     throw IllegalArgumentException("The field $REDIRECT_HOST must be specified in your strings.xml")
@@ -129,15 +124,13 @@ data class UiConfiguration(
                 if (redirectScheme.isNullOrEmpty()) {
                     throw IllegalArgumentException("The field $REDIRECT_SCHEME must be specified in your strings.xml")
                 }
-                return Builder(clientName, URI.create(uriScheme), defaultPhonePrefix)
+                return Builder(clientName, URI.create(uriScheme))
             }
         }
     }
 
     companion object {
         private val CLIENT_NAME = "schacc_client_name"
-
-        private val CLIENT_PHONE_PREFIX = "schacc_phone_prefix"
 
         private val REDIRECT_SCHEME = "schacc_redirect_scheme"
 

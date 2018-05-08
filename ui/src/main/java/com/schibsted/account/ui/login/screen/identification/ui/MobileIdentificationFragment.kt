@@ -14,6 +14,7 @@ import android.view.inputmethod.EditorInfo
 import com.schibsted.account.common.util.Logger
 import com.schibsted.account.network.response.ClientInfo
 import com.schibsted.account.ui.UiConfiguration
+import com.schibsted.account.ui.UiUtil
 import com.schibsted.account.ui.ui.component.PhoneInputView
 
 /**
@@ -29,7 +30,7 @@ class MobileIdentificationFragment : AbstractIdentificationFragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = super.onCreateView(inflater, container, savedInstanceState)
         inputFieldView = PhoneInputView(context)
-        inputFieldView.setPhonePrefixHint(uiConf.defaultPhonePrefix)
+        inputFieldView.setPhonePrefixHint(UiUtil.getSimCountry(context!!) ?: 46)
         inputViewContainer.addView(inputFieldView)
 
         prefillIdentifier(uiConf.identifier)
@@ -43,7 +44,7 @@ class MobileIdentificationFragment : AbstractIdentificationFragment() {
             Logger.info(tag, "The phone number wasn't found")
         } else {
             if (TextUtils.isDigitsOnly(identifier)) {
-                inputFieldView.setPhonePrefix(uiConf.defaultPhonePrefix)
+                inputFieldView.setPhonePrefix(UiUtil.getSimCountry(context!!) ?: 46)
                 inputFieldView.setPhoneNumber(uiConf.identifier)
                 Logger.info(tag, "The phone number has been prefilled")
             } else {
