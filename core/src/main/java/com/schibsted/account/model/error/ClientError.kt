@@ -44,7 +44,8 @@ open class ClientError(val errorType: ErrorType, val message: String) {
         UNKNOWN_ERROR,
 
         INVALID_STATE,
-        INVALID_INPUT
+        INVALID_INPUT,
+        INVALID_DISPLAY_NAME
     }
 
     companion object {

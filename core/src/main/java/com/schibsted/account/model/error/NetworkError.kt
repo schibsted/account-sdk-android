@@ -20,6 +20,8 @@ data class NetworkError(val code: Int, val type: String, val description: String
 
     override fun toClientError(): ClientError = when {
         code == 302 && type == "ApiException" -> ClientError(ClientError.ErrorType.ALREADY_REGISTERED, "Already registered")
+        code == 409 && type == "ApiException" && description.startsWith("display_name") ->
+            ClientError(ClientError.ErrorType.INVALID_DISPLAY_NAME, "Invalid display name")
         code == 400 -> when (type) {
             "invalid_user_credentials" -> ClientError(ClientError.ErrorType.INVALID_USER_CREDENTIALS, "Invalid user credentials")
             "invalid_client_credentials" -> ClientError(ClientError.ErrorType.INVALID_CLIENT_CREDENTIALS, "Invalid client credentials")
@@ -92,7 +94,7 @@ data class NetworkError(val code: Int, val type: String, val description: String
             val field: JsonElement? = (root.get("description") ?: root.get("error_description"))
             return field?.let { f ->
                 if (f.isJsonObject) {
-                    f.asJsonObject.entrySet().map { "${it.key}: ${it.value.asString}" }.joinToString { ", " }
+                    f.asJsonObject.entrySet().joinToString { "${it.key}, ${it.value.asString}" }
                 } else {
                     f.asString
                 }

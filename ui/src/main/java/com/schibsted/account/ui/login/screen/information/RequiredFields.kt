@@ -6,9 +6,9 @@ package com.schibsted.account.ui.login.screen.information
 
 import android.support.annotation.StringRes
 import com.schibsted.account.ui.R
+import com.schibsted.account.ui.ui.rule.BasicValidationRule
 import com.schibsted.account.ui.ui.rule.BirthdayValidationRule
 import com.schibsted.account.ui.ui.rule.EmailValidationRule
-import com.schibsted.account.ui.ui.rule.BasicValidationRule
 import com.schibsted.account.ui.ui.rule.MobileValidationRule
 import com.schibsted.account.ui.ui.rule.NameValidationRule
 import com.schibsted.account.ui.ui.rule.ValidationRule
@@ -23,5 +23,5 @@ enum class RequiredFields(val fieldsValue: String, @StringRes val titleRes: Int,
     DELIVERY_ADDRESS("addresses.delivery", R.string.schacc_required_field_address_delivery, BasicValidationRule),
     INVOICE_ADDRESS("addresses.invoice", R.string.schacc_required_field_address_invoice, BasicValidationRule),
     EMAIL("email", R.string.schacc_required_field_email, EmailValidationRule),
-    DISPLAY_NAME("displayName", R.string.schacc_required_field_display_name, NameValidationRule),
+    DISPLAY_NAME("displayName", R.string.schacc_required_field_display_name, BasicValidationRule),
 }
