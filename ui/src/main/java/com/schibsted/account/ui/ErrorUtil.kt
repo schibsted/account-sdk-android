@@ -21,6 +21,7 @@ object ErrorUtil {
     @StringRes
     fun getErrorMessageRes(errorType: ClientError.ErrorType, loginScreen: LoginScreen): Int {
         return when (errorType) {
+            ClientError.ErrorType.INVALID_DISPLAY_NAME -> R.string.schacc_display_name_error
             ClientError.ErrorType.ALREADY_REGISTERED,
             ClientError.ErrorType.UNKNOWN_SPID_ERROR,
             ClientError.ErrorType.UNKNOWN_ERROR,

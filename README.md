@@ -1,8 +1,28 @@
-This is the SDK which simplifies connecting to SPiD and comes in two variants. The core part of the SDK contains the login engine and APIs needed to connect to SPiD. You can use this to do your custom UI implementation. While the networking APIs are exposed, you use these at your own peril as no support will be given to this.
+These SDKs allows for connecting to Schibsted Account. The functionality of the modules are described below and exists primarily in two variants; with and without UIs. 
 
-The recommended way to use these SDKs is to implement the UI module. This is highly customizable and will give you complete UIs out of the box. You can read more about the [UI SDK](ui) and the [Core SDK](core) modules in the README file contained in their module folders.
+**For support, please contact [support@spid.no](mailto:support@spid.no)**
 
-For support, please contact [support@spid.no](mailto:support@spid.no)
+### Modules
+**UI module**<br>
+[Documentation](https://schibsted.github.io/account-sdk-android/ui/)
+|
+[API Reference](https://schibsted.github.io/account-sdk-android/ui/docs/)
+<br>This module provides complete UIs for creating and logging in to accounts. using this is the recommended approach, as it handles all things the GDPR requirements for transparency. These UIs are highly customizable, so that you can get the same look and feel throughout your application. **You should be familiar with the documentation of the core module as well, before implementing.**
+
+**Core module**<br>
+[Documentation](https://schibsted.github.io/account-sdk-android/core/)
+|
+[API Reference](https://schibsted.github.io/account-sdk-android/core/docs/)
+<br>The core module contains all networking, models and business logic for the SDK. The UI module is built on top of this, implementing the controllers available in this module. You can implement custom UIs on top of this as well, although this is generally not recommended.
+
+**SmartLock module**<br>
+[Documentation](https://schibsted.github.io/account-sdk-android/ui/#smartlock)
+<br>The SmartLock module builds on top of the UI module, allowing the users to log in using SmartLock. When enabled, this will fall back to using the UIs, unless the mode is specifically set to `FORCED`, in which case it will return an error on failure.
+
+**Common module**<br>
+[API Reference](https://schibsted.github.io/account-sdk-android/common/docs/)
+<br>This is a module containing cross module interfaces and common utilities used by the other modules. If you're implementing a custom tracker for the UIs, this is where you'll find the interface to implement.
+
 
 ## Getting started
 To get started with either SDK, you'll need to request access to SPiD before you can start using them. This process is documented on the [SPiD Techdocs](https://techdocs.spid.no/selfservice/access/) site. Once you have access and have created your client so that you have access to your client ID and secret, you should head over to the [documentation pages](http://schibsted.github.io/account-sdk-android).
@@ -13,12 +33,8 @@ dependencies {
     implementation "com.schibsted.account:account-sdk-android-core:<VERSION>"
     // or
     implementation "com.schibsted.account:account-sdk-android-ui:<VERSION>"
-    // (optional, available internally in Schibsted only)
-    implementation "com.schibsted.account:account-sdk-android-pulse:<SCHACC-PULSE-VERSION>"
 }
 ```
-Please note that the `SCHACC-PULSE-VERSION` could differ from `VERSION` because the pulse library doesn't belong to the same repository and is not tied to the rest of the SDK.
-Check out the pulse [changelog](https://github.schibsted.io/spt-identity/account-sdk-android-internal/blob/master/CHANGELOG.md) to find the latest version.
 
 ### SDK setup
 To configure the SDK, you are required to have a `schibsted_account.conf` file in your assets. This must contain all values to be able to function. An error will be thrown if the configuration is missing. You can however manually override the configuration if you choose to store your configuration some other way (we'd recommend that you don't store secrets in the manifest).
