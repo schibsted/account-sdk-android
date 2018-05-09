@@ -57,7 +57,6 @@ class TermsFragment : FlowFragment<TermsContract.Presenter>(), TermsContract.Vie
     private lateinit var privacyCheckView: CheckBoxView
 
     private lateinit var agreements: AgreementLinksResponse
-    private lateinit var uiConf: InternalUiConfiguration
     private var isUserAvailable: Boolean = false
 
     override val isActive: Boolean
@@ -66,7 +65,6 @@ class TermsFragment : FlowFragment<TermsContract.Presenter>(), TermsContract.Vie
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val args = savedInstanceState ?: arguments
-        args?.get(KEY_UI_CONF)?.let { uiConf = it as InternalUiConfiguration }
         args?.getParcelable<Parcelable>(KEY_LINKS).let { agreements = it as AgreementLinksResponse }
         isUserAvailable = args?.getBoolean(KEY_USER_AVAILABLE) ?: false
     }
@@ -80,7 +78,6 @@ class TermsFragment : FlowFragment<TermsContract.Presenter>(), TermsContract.Vie
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         outState.putParcelable(KEY_LINKS, agreements)
-        outState.putParcelable(KEY_UI_CONF, uiConf)
         outState.putBoolean(KEY_USER_AVAILABLE, isUserAvailable)
     }
 

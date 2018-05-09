@@ -5,12 +5,10 @@
 package com.schibsted.account.ui
 
 import android.app.Application
-import android.content.Context
 import android.os.Parcel
 import android.os.Parcelable
 import android.support.annotation.DrawableRes
 import com.schibsted.account.engine.input.Identifier
-import com.schibsted.account.ui.smartlock.SmartlockImpl
 import com.schibsted.account.ui.smartlock.SmartlockMode
 import java.net.URI
 import java.util.Locale
@@ -33,24 +31,6 @@ data class InternalUiConfiguration(
         if (!signUpEnabled && signUpNotAllowedErrorMessage.isNullOrEmpty()) {
             throw IllegalArgumentException("The property signUpNotAllowedErrorMessage must be specified if signUpEnabled is set to false")
         }
-        if (smartlockMode != SmartlockMode.DISABLED && !SmartlockImpl.isSmartlockAvailable()) {
-            throw IllegalStateException("Smartlock was enabled, but not found on the classpath. Please verify that the smartlock module is included in your build")
-        }
-    }
-
-    fun newBuilder(): InternalUiConfiguration.Builder {
-        val builder = InternalUiConfiguration.Builder(clientName, redirectUri)
-                .locale(locale)
-                .identifierType(identifierType)
-                .identifier(identifier)
-                .enableSignUp()
-                .logo(clientLogo)
-                .teaserText(teaserText)
-                .allowClosing(isClosingAllowed)
-                .smartlockMode(smartlockMode)
-
-        signUpNotAllowedErrorMessage?.let { builder.disableSignUp(it) }
-        return builder
     }
 
     constructor(source: Parcel) : this(
@@ -83,64 +63,32 @@ data class InternalUiConfiguration(
         writeInt(if (isClosingAllowed) 1 else 0)
     }
 
-    class Builder(clientName: String, redirectUri: URI) {
-        private var subject = InternalUiConfiguration(clientName, redirectUri)
-
-        fun locale(locale: Locale) = apply { this.subject = this.subject.copy(locale = locale) }
-
-        fun identifierType(identifierType: Identifier.IdentifierType) = apply { this.subject = this.subject.copy(identifierType = identifierType) }
-
-        fun identifier(identifier: String?) = apply { this.subject = this.subject.copy(identifier = identifier) }
-
-        fun enableSignUp() = apply { this.subject = this.subject.copy(signUpEnabled = true) }
-
-        fun smartlockMode(smartlockMode: SmartlockMode) = apply { this.subject = this.subject.copy(smartlockMode = smartlockMode) }
-
-        fun disableSignUp(signUpDisabledErrorMessage: String) = apply { this.subject = this.subject.copy(signUpEnabled = false, signUpNotAllowedErrorMessage = signUpDisabledErrorMessage) }
-
-        fun logo(@DrawableRes headerResource: Int) = apply { this.subject = this.subject.copy(clientLogo = headerResource) }
-
-        fun teaserText(teaserText: String?) = apply { this.subject = this.subject.copy(teaserText = teaserText) }
-
-        fun allowClosing(allowClosing: Boolean) = apply { this.subject = this.subject.copy(isClosingAllowed = allowClosing) }
-
-        fun build() = subject
-
-        companion object {
-            @JvmStatic
-            fun fromManifest(applicationContext: Context): InternalUiConfiguration.Builder {
-                val manifestConfig = ManifestConfiguration.readFromManifest(applicationContext)
-                return Builder(manifestConfig.clientName, manifestConfig.redirectUri)
-            }
-
-            @JvmStatic
-            fun resolve(application: Application): InternalUiConfiguration {
-                val requiredConfig = ManifestConfiguration.readFromManifest(application.applicationContext)
-                val optionalConfig = UiConfig.getMerged(application)
-
-                // TODO: Prefilled identifier and teaser text should be arguments instead
-                return InternalUiConfiguration(
-                        requiredConfig.clientName,
-                        requiredConfig.redirectUri,
-                        optionalConfig.locale,
-                        Identifier.IdentifierType.EMAIL, // TODO: Remove
-                        null, // TODO: Remove
-                        optionalConfig.signUpEnabled == UiConfig.SignUpMode.Enabled,
-                        optionalConfig.smartLockMode,
-                        optionalConfig.clientLogo,
-                        null, // TODO: Remove
-                        (optionalConfig.signUpEnabled as? UiConfig.SignUpMode.Disabled)?.disabledMessage,
-                        optionalConfig.isCancellable
-                )
-            }
-        }
-    }
-
     companion object {
         @JvmField
         val CREATOR: Parcelable.Creator<InternalUiConfiguration> = object : Parcelable.Creator<InternalUiConfiguration> {
             override fun createFromParcel(source: Parcel): InternalUiConfiguration = InternalUiConfiguration(source)
             override fun newArray(size: Int): Array<InternalUiConfiguration?> = arrayOfNulls(size)
+        }
+
+        @JvmStatic
+        fun resolve(application: Application): InternalUiConfiguration {
+            val requiredConfig = ManifestConfiguration.readFromManifest(application.applicationContext)
+            val optionalConfig = UiConfig.getMerged(application)
+
+            // TODO: Prefilled identifier and teaser text should be arguments instead
+            return InternalUiConfiguration(
+                    requiredConfig.clientName,
+                    requiredConfig.redirectUri,
+                    optionalConfig.locale,
+                    Identifier.IdentifierType.EMAIL, // TODO: Remove
+                    null, // TODO: Remove
+                    optionalConfig.signUpEnabled == UiConfig.SignUpMode.Enabled,
+                    optionalConfig.smartLockMode,
+                    optionalConfig.clientLogo,
+                    null, // TODO: Remove
+                    (optionalConfig.signUpEnabled as? UiConfig.SignUpMode.Disabled)?.disabledMessage,
+                    optionalConfig.isCancellable
+            )
         }
     }
 }

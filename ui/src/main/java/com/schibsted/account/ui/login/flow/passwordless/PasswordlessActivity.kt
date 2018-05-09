@@ -22,6 +22,7 @@ import com.schibsted.account.engine.operation.ClientInfoOperation
 import com.schibsted.account.model.LoginResult
 import com.schibsted.account.model.error.ClientError
 import com.schibsted.account.network.response.AgreementLinksResponse
+import com.schibsted.account.ui.AccountUi
 import com.schibsted.account.ui.InternalUiConfiguration
 import com.schibsted.account.ui.login.BaseLoginActivity
 import com.schibsted.account.ui.login.flow.password.PasswordActivity
@@ -40,6 +41,7 @@ class PasswordlessActivity : BaseLoginActivity(), PasswordlessContract {
 
     private lateinit var passwordlessController: PasswordlessController
     private lateinit var identifierType: String
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         passwordlessController = if (savedInstanceState?.getParcelable<Parcelable>(KEY_CONTROLLER) != null) {
@@ -47,7 +49,8 @@ class PasswordlessActivity : BaseLoginActivity(), PasswordlessContract {
         } else {
             PasswordlessController(true)
         }
-        identifierType = super.uiConfiguration.identifierType.value
+        identifierType = intent.getStringExtra(AccountUi.KEY_FLOW_TYPE)!!
+
         navigationController = Navigation(this, this)
         if (smartlockCredentials == null && !isSmartlockRunning) {
             passwordlessController.start(this)

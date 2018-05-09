@@ -92,7 +92,7 @@ class MobileIdentificationFragment : AbstractIdentificationFragment() {
         fun newInstance(uiConfiguration: InternalUiConfiguration, clientInfo: ClientInfo): MobileIdentificationFragment {
             val args = Bundle()
             val fragment = MobileIdentificationFragment()
-            args.putParcelable(AbstractIdentificationFragment.KEY_UI_CONF, uiConfiguration)
+            args.putParcelable(KEY_UI_CONF, uiConfiguration)
             args.putParcelable(AbstractIdentificationFragment.KEY_CLIENT_INFO, clientInfo)
             fragment.arguments = args
             return fragment

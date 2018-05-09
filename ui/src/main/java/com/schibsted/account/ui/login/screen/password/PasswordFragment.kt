@@ -38,14 +38,12 @@ class PasswordFragment : FlowFragment<PasswordContract.Presenter>(), PasswordCon
     private lateinit var presenter: PasswordContract.Presenter
     private var isUserAvailable: Boolean = false
     private var identifier: Identifier? = null
-    private var uiConf: InternalUiConfiguration? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val arg = savedInstanceState ?: arguments
         isUserAvailable = arg?.getBoolean(KEY_USER_AVAILABLE) ?: false
         identifier = arg?.getParcelable(KEY_IDENTIFIER)
-        uiConf = arg?.getParcelable(KEY_UI_CONF)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {

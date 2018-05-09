@@ -93,7 +93,7 @@ class EmailIdentificationFragment : AbstractIdentificationFragment(), Identifica
         fun newInstance(uiConfiguration: InternalUiConfiguration, clientInfo: ClientInfo): EmailIdentificationFragment {
             val args = Bundle()
             val fragment = EmailIdentificationFragment()
-            args.putParcelable(AbstractIdentificationFragment.KEY_UI_CONF, uiConfiguration)
+            args.putParcelable(KEY_UI_CONF, uiConfiguration)
             args.putParcelable(AbstractIdentificationFragment.KEY_CLIENT_INFO, clientInfo)
             fragment.arguments = args
             return fragment
