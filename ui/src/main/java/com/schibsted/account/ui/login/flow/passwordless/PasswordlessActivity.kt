@@ -4,8 +4,6 @@
 
 package com.schibsted.account.ui.login.flow.passwordless
 
-import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.os.Parcelable
 import com.schibsted.account.common.tracking.TrackingData
@@ -18,14 +16,11 @@ import com.schibsted.account.engine.integration.CallbackProvider
 import com.schibsted.account.engine.integration.InputProvider
 import com.schibsted.account.engine.integration.ResultCallback
 import com.schibsted.account.engine.integration.contract.PasswordlessContract
-import com.schibsted.account.engine.operation.ClientInfoOperation
 import com.schibsted.account.model.LoginResult
 import com.schibsted.account.model.error.ClientError
 import com.schibsted.account.network.response.AgreementLinksResponse
 import com.schibsted.account.ui.AccountUi
-import com.schibsted.account.ui.InternalUiConfiguration
 import com.schibsted.account.ui.login.BaseLoginActivity
-import com.schibsted.account.ui.login.flow.password.PasswordActivity
 import com.schibsted.account.ui.login.screen.identification.ui.AbstractIdentificationFragment
 import com.schibsted.account.ui.login.screen.identification.ui.MobileIdentificationFragment
 import com.schibsted.account.ui.navigation.Navigation
@@ -113,22 +108,5 @@ class PasswordlessActivity : BaseLoginActivity(), PasswordlessContract {
 
     companion object {
         const val KEY_CONTROLLER = "CONTROLLER"
-        /**
-         * Provides an [Intent] that can be used to launch the visual authentication flow.
-         *
-         * @param context The context.
-         * @param uiConfiguration for this [Activity].
-         * @return An [Intent] that can be used to launch the visual authentication flow.
-         */
-        @JvmStatic
-        fun getCallingIntent(context: Context, uiConfiguration: InternalUiConfiguration, resultCallback: ResultCallback<Intent>) {
-            ClientInfoOperation({ resultCallback.onError(it.toClientError()) }, {
-                val intent = Intent(context, PasswordActivity::class.java).apply {
-                    putExtra(KEY_UI_CONFIGURATION, uiConfiguration)
-                    putExtra(KEY_CLIENT_INFO, it)
-                }
-                resultCallback.onSuccess(intent)
-            })
-        }
     }
 }
