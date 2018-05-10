@@ -6,17 +6,13 @@ package com.schibsted.account.ui.login.screen.term
 
 import android.os.Bundle
 import android.os.Parcelable
-import android.support.annotation.ColorRes
+import android.support.annotation.ColorInt
 import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
-import android.text.Spannable
-import android.text.SpannableString
 import android.text.TextPaint
 import android.text.TextUtils
 import android.text.method.LinkMovementMethod
 import android.text.style.ClickableSpan
-import android.text.style.ForegroundColorSpan
-import android.text.style.UnderlineSpan
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -33,7 +29,6 @@ import com.schibsted.account.ui.ui.FlowFragment
 import com.schibsted.account.ui.ui.WebFragment
 import com.schibsted.account.ui.ui.component.CheckBoxView
 import com.schibsted.account.ui.ui.component.TermsUpdateDialog
-import java.util.regex.Pattern
 
 /**
  * a [Fragment] displaying the terms and conditions screen
@@ -145,14 +140,15 @@ class TermsFragment : FlowFragment<TermsContract.Presenter>(), TermsContract.Vie
         }
 
         //build texts
-        val spannableTermsText = buildLinkText(termsText, R.color.schacc_primaryEnabled, spidLabel, clientLabel)
-        val spannablePrivacyText = buildLinkText(privacyText, R.color.schacc_primaryEnabled, spidLabel, clientLabel)
+        @ColorInt val color = ContextCompat.getColor(context!!, R.color.schacc_primaryEnabled)
+        val spannableTermsText = UiUtil.getTextAsLink(termsText, color, spidLabel, clientLabel)
+        val spannablePrivacyText = UiUtil.getTextAsLink(privacyText, color, spidLabel, clientLabel)
 
-        makeTextClickable(spannablePrivacyText, spidLabel, agreements.spidPrivacyUrl)
-        makeTextClickable(spannablePrivacyText, clientLabel, agreements.clientPrivacyUrl)
+        UiUtil.makeTextClickable(spannablePrivacyText, spidLabel, getLinkAction(agreements.spidPrivacyUrl))
+        UiUtil.makeTextClickable(spannablePrivacyText, clientLabel, getLinkAction(agreements.clientPrivacyUrl))
 
-        makeTextClickable(spannableTermsText, spidLabel, agreements.spidTermsUrl)
-        makeTextClickable(spannableTermsText, clientLabel, agreements.clientTermsUrl)
+        UiUtil.makeTextClickable(spannableTermsText, spidLabel, getLinkAction(agreements.spidTermsUrl))
+        UiUtil.makeTextClickable(spannableTermsText, clientLabel, getLinkAction(agreements.clientTermsUrl))
         //we assign text to the view
         termsCheckView.textView.text = spannableTermsText
         privacyCheckView.textView.text = spannablePrivacyText
@@ -163,55 +159,23 @@ class TermsFragment : FlowFragment<TermsContract.Presenter>(), TermsContract.Vie
         setAgreementLinks(agreements)
     }
 
-    /**
-     * take a text then colorize and underline words in order to get a text looking like a link to click on
-     *
-     * @param fullText the text where we have to find the text to colorize
-     * @param color the color we want to apply
-     * @param textToCustomize the text to colorize
-     * @return [Spannable] the colorized text
-     */
-    private fun buildLinkText(fullText: String, @ColorRes color: Int, vararg textToCustomize: String): SpannableString {
-        val spannableString = SpannableString(fullText)
-        for (text in textToCustomize) {
-            val pattern = Pattern.compile(text, Pattern.CASE_INSENSITIVE)
-            val matcher = pattern.matcher(fullText)
-            if (matcher.find()) {
-                spannableString.setSpan(ForegroundColorSpan(ContextCompat.getColor(context!!, color)), matcher.start(), matcher.end(), Spannable.SPAN_INCLUSIVE_INCLUSIVE)
-                spannableString.setSpan(UnderlineSpan(), matcher.start(), matcher.end(), Spannable.SPAN_INCLUSIVE_INCLUSIVE)
-            }
-        }
-        return spannableString
-    }
-
-    /**
-     * make part of a text redirecting to a website
-     *
-     * @param fullText the original text containing the text to click on
-     * @param linkText the text the user has to click on to display the website
-     * @param link the website link
-     */
-    private fun makeTextClickable(fullText: SpannableString, linkText: String, link: String) {
-        val pattern = Pattern.compile(linkText, Pattern.CASE_INSENSITIVE)
-        val matcher = pattern.matcher(fullText)
-        if (matcher.find()) {
-            fullText.setSpan(object : ClickableSpan() {
-                override fun onClick(widget: View) {
-                    BaseLoginActivity.tracker?.let {
-                        val element = when (link) {
-                            agreements.spidTermsUrl -> TrackingData.UIElement.AGREEMENTS_SPID
-                            agreements.spidPrivacyUrl -> TrackingData.UIElement.PRIVACY_SPID
-                            agreements.clientTermsUrl -> TrackingData.UIElement.AGREEMENTS_CLIENT
-                            else -> TrackingData.UIElement.PRIVACY_CLIENT
-                        }
-                        it.eventEngagement(TrackingData.Engagement.CLICK, element, TrackingData.Screen.AGREEMENTS)
+    private fun getLinkAction(link: String): ClickableSpan {
+        return object : ClickableSpan() {
+            override fun onClick(widget: View) {
+                BaseLoginActivity.tracker?.let {
+                    val element = when (link) {
+                        agreements.spidTermsUrl -> TrackingData.UIElement.AGREEMENTS_SPID
+                        agreements.spidPrivacyUrl -> TrackingData.UIElement.PRIVACY_SPID
+                        agreements.clientTermsUrl -> TrackingData.UIElement.AGREEMENTS_CLIENT
+                        else -> TrackingData.UIElement.PRIVACY_CLIENT
                     }
-                    requestNavigationToWebView(link)
+                    it.eventEngagement(TrackingData.Engagement.CLICK, element, TrackingData.Screen.AGREEMENTS)
                 }
+                requestNavigationToWebView(link)
+            }
 
-                override fun updateDrawState(ds: TextPaint) {
-                }
-            }, matcher.start(), matcher.end(), Spannable.SPAN_INCLUSIVE_INCLUSIVE)
+            override fun updateDrawState(ds: TextPaint) {
+            }
         }
     }
 
@@ -230,9 +194,7 @@ class TermsFragment : FlowFragment<TermsContract.Presenter>(), TermsContract.Vie
      * @param link the client link to go to.
      */
     override fun requestNavigationToWebView(link: String) {
-        if (navigationListener != null) {
-            navigationListener!!.onWebViewNavigationRequested(WebFragment.newInstance(link, uiConf.redirectUri), LoginScreen.WEB_TC_SCREEN)
-        }
+        navigationListener?.onWebViewNavigationRequested(WebFragment.newInstance(link, uiConf.redirectUri), LoginScreen.WEB_TC_SCREEN)
     }
 
     override fun showErrorDialog(error: ClientError, errorMessage: String?) {

@@ -58,6 +58,11 @@
     <string name="schacc_required_field_phone_number">Telefonnummer</string>
     <string name="schacc_required_fields_birthday_hint">YYYY-MM-DD</string>
     <string name="schacc_required_fields_birthday_error">@string/schacc_required_fields_birthday_hint</string>
+    <string name="schacc_required_fields_gdpr_description">You can adjust your privacy choices at any time or learn more about Schibsted, data and you.</string>
+    <string name="schacc_required_fields_schibsted_data">adjust your privacy choices at any time</string>
+    <string name="schacc_required_fields_privacy_adjustment">learn more about Schibsted, data and you.</string>
+    <string name="schacc_required_fields_schibsted_data_link">https://info.privacy.schibsted.com/en/S012</string>
+    <string name="schacc_required_fields_privacy_adjustment_link">https://info.privacy.schibsted.com/en/S007</string>
     <!--Password-->
     <string name="schacc_password_change_phone_number">Endre telefonnummer</string>
     <string name="schacc_password_change_email">Endre e-postadresse</string>
@@ -76,7 +81,7 @@
     <string name="schacc_inbox_check_inbox_title">Sjekk innboksen din</string>
     <!--Web view-->
     <string name="schacc_web_forgot_password_title">Glemt passord?</string>
-    <string name="schacc_web_need_help_title">Trenger hjelp?</string>
+    <string name="schacc_web_need_help_title">@string/schacc_identification_help_link_text</string>
     <!--Generic-->
     <string name="schacc_spid_label">Schibsted-konto</string>
     <string name="schacc_next_step">Fortsett</string>

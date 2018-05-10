@@ -6,14 +6,21 @@ package com.schibsted.account.ui
 
 import android.content.Context
 import android.graphics.drawable.Drawable
+import android.support.annotation.ColorInt
 import android.support.annotation.ColorRes
 import android.support.v4.content.ContextCompat
 import android.support.v4.graphics.drawable.DrawableCompat
 import android.telephony.TelephonyManager
+import android.text.Spannable
+import android.text.SpannableString
+import android.text.style.ClickableSpan
+import android.text.style.ForegroundColorSpan
+import android.text.style.UnderlineSpan
 import com.schibsted.account.common.tracking.TrackingData
 import com.schibsted.account.engine.input.Identifier
 import com.schibsted.account.ui.login.screen.LoginScreen
 import java.util.Locale
+import java.util.regex.Pattern
 
 object UiUtil {
     @JvmStatic
@@ -261,5 +268,44 @@ object UiUtil {
         val telephonyService = context.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
         val countryCode = telephonyService.simCountryIso.toUpperCase()
         return countryPrefixes[countryCode]
+    }
+
+    /**
+     * take a text then colorize and underline words in order to get a text looking like a link to click on
+     *
+     * @param fullText the text where we have to find the text to colorize
+     * @param color the color we want to apply
+     * @param textToCustomize the text to colorize
+     * @return [Spannable] the colorized text
+     */
+    @JvmStatic
+    fun getTextAsLink(fullText: String, @ColorInt color: Int, vararg textToCustomize: String): SpannableString {
+        val spannableString = SpannableString(fullText)
+        for (text in textToCustomize) {
+            val pattern = Pattern.compile(text, Pattern.CASE_INSENSITIVE)
+            val matcher = pattern.matcher(fullText)
+            if (matcher.find()) {
+                spannableString.setSpan(ForegroundColorSpan(color), matcher.start(), matcher.end(), Spannable.SPAN_INCLUSIVE_INCLUSIVE)
+                spannableString.setSpan(UnderlineSpan(), matcher.start(), matcher.end(), Spannable.SPAN_INCLUSIVE_INCLUSIVE)
+            }
+        }
+        return spannableString
+    }
+
+    /**
+     * make part of a text clickable and assign an action to it
+     *
+     * @param fullText the original text containing the text to click on
+     * @param linkText the text the user has to click on to display the website
+     * @param action the action to perform when clicking on the text
+     *
+     */
+    @JvmStatic
+    fun makeTextClickable(fullText: SpannableString, linkText: String, action: ClickableSpan) {
+        val pattern = Pattern.compile(linkText, Pattern.CASE_INSENSITIVE)
+        val matcher = pattern.matcher(fullText)
+        if (matcher.find()) {
+            fullText.setSpan(action, matcher.start(), matcher.end(), Spannable.SPAN_INCLUSIVE_INCLUSIVE)
+        }
     }
 }
