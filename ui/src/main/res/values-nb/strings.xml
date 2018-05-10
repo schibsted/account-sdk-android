@@ -6,7 +6,7 @@
     <!--Identification-->
     <string name="schacc_identification_title">Logg inn eller opprett bruker</string>
     <string name="schacc_identification_login_only_title">Logg inn</string>
-    <string name="schacc_identification_help_link">https://www.schibstedpayment.com/hc/nb/#faq</string>
+    <string name="schacc_identification_help_link">https://info.privacy.schibsted.com/no/S010</string>
     <string name="schacc_identification_help_link_text">Hva er en Schibsted-konto?</string>
 
     <string name="schacc_identification_internal_information">%1$s er en del av Schibsted. Du trenger en Schibsted-konto for å fortsette. Du kan bruke denne kontoen på alle Schibsted-sider.</string>
