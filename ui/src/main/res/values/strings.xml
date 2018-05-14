@@ -98,6 +98,7 @@
     <string name="schacc_generic_too_many_login_request_error_message">You have tried to log in too many times. Please try again later.</string>
     <string name="schacc_generic_too_many_inbox_request_error_message">You have sent too many link requests. Please try again later.</string>
     <string name="schacc_generic_error">Please try again later.</string>
+    <string name="schacc_display_name_error">Only letters and digits are allowed with optional single dashes, underscores, dots &amp; spaces in between.</string>
     <!--System-->
     <string name="schacc_close">Close</string>
     <string name="schacc_intent_password_sign_up_link_name">signupDeepLink</string>

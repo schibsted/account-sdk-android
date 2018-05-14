@@ -72,8 +72,8 @@
         <android.support.constraint.ConstraintLayout
             style="@style/schacc_container"
             android:focusable="true"
-            android:paddingTop="@dimen/schacc_large_spacing"
-            android:paddingBottom="0dp">
+            android:paddingBottom="0dp"
+            android:paddingTop="@dimen/schacc_large_spacing">
 
             <FrameLayout
                 android:id="@+id/identification_input_view"
