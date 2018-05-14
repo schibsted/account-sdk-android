@@ -2,11 +2,11 @@
  * Copyright (c) 2018 Schibsted Products & Technology AS. Licensed under the terms of the MIT license. See LICENSE in the project root.
  */
 
-package com.schibsted.account.ui.login.screen.verification;
+package com.schibsted.account.ui.login.screen.verification
 
-import com.schibsted.account.engine.controller.PasswordlessController;
-import com.schibsted.account.ui.ui.FlowView;
-import com.schibsted.account.ui.ui.component.CodeInputView;
+import com.schibsted.account.engine.controller.PasswordlessController
+import com.schibsted.account.ui.ui.FlowView
+import com.schibsted.account.ui.ui.component.CodeInputView
 
 /**
  * Following the MVP design pattern this interface represent the contract for the view and the presenter responsible
@@ -14,18 +14,17 @@ import com.schibsted.account.ui.ui.component.CodeInputView;
  *
  * @see com.schibsted.account.ui.login.screen.verification
  */
-public interface VerificationContract {
+interface VerificationContract {
 
     /**
      * defines methods implemented by views related to verification process
      */
-    interface View extends FlowView<Presenter> {
+    interface View : FlowView<Presenter> {
 
         /**
          * Shows a pop-up to information the user the code was resent
          */
-        void showResendCodeView();
-
+        fun showResendCodeView()
     }
 
     /**
@@ -37,12 +36,11 @@ public interface VerificationContract {
         /**
          * Ask the server side to perform another code sending
          */
-        void resendCode(PasswordlessController passwordlessController);
+        fun resendCode(passwordlessController: PasswordlessController)
 
         /**
          * Verify the code filled in by the user
          */
-        void verifyCode(CodeInputView codeInputView, boolean checked);
+        fun verifyCode(codeInputView: CodeInputView, keepMeLoggedIn: Boolean)
     }
-
 }
