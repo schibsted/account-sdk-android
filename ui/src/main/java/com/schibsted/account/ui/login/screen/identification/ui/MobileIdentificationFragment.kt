@@ -29,8 +29,11 @@ class MobileIdentificationFragment : AbstractIdentificationFragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = super.onCreateView(inflater, container, savedInstanceState)
+
+        val prefixHint = UiUtil.getSimCountry(context!!) ?: 46
         inputFieldView = PhoneInputView(context)
-        inputFieldView.setPhonePrefixHint(UiUtil.getSimCountry(context!!) ?: 46)
+        inputFieldView.setPhonePrefixHint(prefixHint)
+
         inputViewContainer.addView(inputFieldView)
 
         prefillIdentifier(uiConf.identifier)

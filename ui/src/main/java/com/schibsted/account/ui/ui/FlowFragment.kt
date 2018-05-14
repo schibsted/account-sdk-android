@@ -31,7 +31,7 @@ abstract class FlowFragment<in T> : BaseFragment(), KeyboardVisibilityListener, 
 
         val args = requireNotNull(savedInstanceState ?: arguments)
 
-        this.uiConf = args.get(KEY_UI_CONF) as? InternalUiConfiguration ?: InternalUiConfiguration.resolve(activity!!.application)
+        this.uiConf = args.getParcelable(KEY_UI_CONF) ?: InternalUiConfiguration.resolve(activity!!.application)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

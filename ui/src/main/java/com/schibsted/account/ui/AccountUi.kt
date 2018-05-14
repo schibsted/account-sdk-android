@@ -29,7 +29,7 @@ object AccountUi {
 
     // TODO: Make this observable and listen in BaseLoginActivity
     @JvmStatic
-    var clientInfo: ClientInfo? = null
+    internal var clientInfo: ClientInfo? = null
         private set
 
     enum class FlowType {
@@ -37,7 +37,7 @@ object AccountUi {
     }
 
     @JvmStatic
-    fun initialize(onUiReady: ResultCallback<Void?>) {
+    fun preInitialize(onUiReady: ResultCallback<Void?>) {
         ClientInfoOperation({ onUiReady.onError(it.toClientError()) }, {
             clientInfo = it
             onUiReady.onSuccess(null)

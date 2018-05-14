@@ -48,7 +48,7 @@ object UiUtil {
         return tintDrawable
     }
 
-    private val contryPrefixes = mapOf(
+    private val countryPrefixes = mapOf(
             "BE" to 32,
             "BZ" to 501,
             "BJ" to 229,
@@ -260,6 +260,6 @@ object UiUtil {
     fun getSimCountry(context: Context): Int? {
         val telephonyService = context.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
         val countryCode = telephonyService.simCountryIso.toUpperCase()
-        return contryPrefixes[countryCode]
+        return countryPrefixes[countryCode]
     }
 }

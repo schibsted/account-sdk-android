@@ -73,7 +73,7 @@ data class InternalUiConfiguration(
         @JvmStatic
         fun resolve(application: Application): InternalUiConfiguration {
             val requiredConfig = ManifestConfiguration.readFromManifest(application.applicationContext)
-            val optionalConfig = UiConfig.getMerged(application)
+            val optionalConfig = UiConfig.resolve(application)
 
             // TODO: Prefilled identifier and teaser text should be arguments instead
             return InternalUiConfiguration(

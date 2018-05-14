@@ -24,10 +24,6 @@ data class ManifestConfiguration(val redirectUri: URI, val clientName: String) :
             val redirectScheme: String? = appInfo.metaData.getString(REDIRECT_SCHEME)
             val redirectHost: String? = appInfo.metaData.getString(REDIRECT_HOST)
 
-            requireNotNull(clientName, { "The field $CLIENT_NAME must be specified in the manifest" })
-            requireNotNull(redirectScheme, { "The field $CLIENT_NAME must be specified in the manifest" })
-            requireNotNull(redirectHost, { "The field $CLIENT_NAME must be specified in the manifest" })
-
             if (clientName.isNullOrEmpty()) throw IllegalArgumentException("The field $CLIENT_NAME must be specified in the manifest")
             if (redirectScheme.isNullOrEmpty()) throw IllegalArgumentException("The field $REDIRECT_SCHEME must be specified in the manifest")
             if (redirectHost.isNullOrEmpty()) throw IllegalArgumentException("The field $REDIRECT_HOST must be specified in the manifest")

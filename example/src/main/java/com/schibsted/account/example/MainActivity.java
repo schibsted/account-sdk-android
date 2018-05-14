@@ -105,7 +105,7 @@ public class MainActivity extends AppCompatActivity {
         public void onClick(View v) {
             // Create the intent for the desired flow
 
-            AccountUi.initialize(new ResultCallback<Void>() {
+            AccountUi.preInitialize(new ResultCallback<Void>() {
                 @Override
                 public void onSuccess(Void result) {
                     final Intent intent = AccountUi.getCallingIntent(getApplicationContext(), AccountUi.FlowType.PASSWORD,
@@ -154,7 +154,7 @@ public class MainActivity extends AppCompatActivity {
 
             } else if (resultCode == SmartlockImpl.SMARTLOCK_FAILED) {
                 //start the flow without smartlock
-                AccountUi.initialize(new ResultCallback<Void>() {
+                AccountUi.preInitialize(new ResultCallback<Void>() {
                     @Override
                     public void onSuccess(Void result) {
                         final Intent intent = AccountUi.getCallingIntent(getApplicationContext(), AccountUi.FlowType.PASSWORD,

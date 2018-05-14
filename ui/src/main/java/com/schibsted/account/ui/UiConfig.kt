@@ -72,11 +72,17 @@ data class UiConfig(
         fun fromManifest(appContext: Context): UiConfig {
             val appInfo = appContext.packageManager.getApplicationInfo(appContext.packageName, PackageManager.GET_META_DATA)
 
-            val locale: Locale? = appInfo.metaData.getString("SCHACC_LOCALE")?.let { Locale(it) }
-            val signUpEnabled: SignUpMode? = appInfo.metaData.getString("SCHACC_DISABLE_SIGNUP")?.let { SignUpMode.Disabled(it) }
-            val isCancellable: Boolean? = appInfo.metaData.getString("SCHACC_IS_CANCELLABLE")?.toBoolean()
-            val smartLockMode: SmartlockMode? = appInfo.metaData.getString("SCHACC_SMARTLOCK_MODE")?.let { SmartlockMode.valueOf(it.toUpperCase().trim()) }
-            val clientLogo: Int? = appInfo.metaData.getString("SCHACC_CLIENT_LOGO")?.toInt()
+            val keyLocale = appContext.getString(R.string.schacc_conf_locale)
+            val keySignUpEnabled = appContext.getString(R.string.schacc_conf_signup_enabled)
+            val keyIsCancellable = appContext.getString(R.string.schacc_conf_cancellable)
+            val keySmartLockMode = appContext.getString(R.string.schacc_conf_smartlock_mode)
+            val keyClientLogo = appContext.getString(R.string.schacc_conf_client_logo)
+
+            val locale: Locale? = appInfo.metaData.getString(keyLocale)?.let { Locale(it) }
+            val signUpEnabled: SignUpMode? = appInfo.metaData.getString(keySignUpEnabled)?.let { SignUpMode.Disabled(it) }
+            val isCancellable: Boolean? = appInfo.metaData.getString(keyIsCancellable)?.toBoolean()
+            val smartLockMode: SmartlockMode? = appInfo.metaData.getString(keySmartLockMode)?.let { SmartlockMode.valueOf(it.toUpperCase().trim()) }
+            val clientLogo: Int? = appInfo.metaData.getString(keyClientLogo)?.toInt()
 
             return UiConfig(
                     locale ?: DEFAULT.locale,
@@ -87,14 +93,14 @@ data class UiConfig(
         }
 
         @JvmStatic
-        fun fromApplication(application: Application) = (application as? UiConfigProvider)?.getUiConfig()
+        fun fromUiProvider(uiConfigProvider: UiConfigProvider) = uiConfigProvider.getUiConfig()
 
         @JvmStatic
-        fun getMerged(application: Application): UiConfig {
-            val appConfig = fromApplication(application)
+        fun resolve(application: Application): UiConfig {
+            val providerConfig = (application as? UiConfigProvider)?.let { fromUiProvider(application) }
             val manifestConfig = fromManifest(application.applicationContext)
 
-            return appConfig ?: manifestConfig
+            return providerConfig ?: manifestConfig
         }
 
         @JvmField
