@@ -132,7 +132,9 @@ abstract class BaseLoginActivity : AppCompatActivity(), KeyboardManager, Navigat
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true)
-        clientInfo = requireNotNull(AccountUi.clientInfo, { "AccountUi has not been initialized" })
+
+        //TODO: Listen for clientInfo not to be null AccountUi.clientInfo.addListener { ... }
+        clientInfo = requireNotNull(AccountUi.clientInfo.value, { "AccountUi has not been initialized" })
 
         accountService = AccountService(applicationContext)
 

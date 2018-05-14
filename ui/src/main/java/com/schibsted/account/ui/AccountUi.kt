@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.os.Parcelable
+import com.schibsted.account.common.lib.ObservableField
 import com.schibsted.account.engine.integration.ResultCallback
 import com.schibsted.account.engine.operation.ClientInfoOperation
 import com.schibsted.account.network.response.ClientInfo
@@ -29,7 +30,7 @@ object AccountUi {
 
     // TODO: Make this observable and listen in BaseLoginActivity
     @JvmStatic
-    internal var clientInfo: ClientInfo? = null
+    internal var clientInfo = ObservableField<ClientInfo?>(null)
         private set
 
     enum class FlowType {
@@ -39,7 +40,7 @@ object AccountUi {
     @JvmStatic
     fun preInitialize(onUiReady: ResultCallback<Void?>) {
         ClientInfoOperation({ onUiReady.onError(it.toClientError()) }, {
-            clientInfo = it
+            clientInfo.value = it
             onUiReady.onSuccess(null)
         })
     }
