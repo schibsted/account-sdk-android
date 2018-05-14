@@ -74,12 +74,23 @@ data class UiConfig(
 
             val keyLocale = appContext.getString(R.string.schacc_conf_locale)
             val keySignUpEnabled = appContext.getString(R.string.schacc_conf_signup_enabled)
+            val keySignUpDisabledMessage = appContext.getString(R.string.schacc_conf_signup_disabled_message)
             val keyIsCancellable = appContext.getString(R.string.schacc_conf_cancellable)
             val keySmartLockMode = appContext.getString(R.string.schacc_conf_smartlock_mode)
             val keyClientLogo = appContext.getString(R.string.schacc_conf_client_logo)
 
             val locale: Locale? = appInfo.metaData.getString(keyLocale)?.let { Locale(it) }
-            val signUpEnabled: SignUpMode? = appInfo.metaData.getString(keySignUpEnabled)?.let { SignUpMode.Disabled(it) }
+            val signUpEnabled: SignUpMode? = {
+                val enabled = appInfo.metaData.getString(keySignUpEnabled)?.toBoolean()
+                when (enabled) {
+                    true -> SignUpMode.Enabled
+                    false -> {
+                        val disabledMessage = requireNotNull(appInfo.metaData.getString(keySignUpDisabledMessage), { "When sign-up is disabled, you need to specify a reason why" })
+                        SignUpMode.Disabled(disabledMessage)
+                    }
+                    null -> null
+                }
+            }()
             val isCancellable: Boolean? = appInfo.metaData.getString(keyIsCancellable)?.toBoolean()
             val smartLockMode: SmartlockMode? = appInfo.metaData.getString(keySmartLockMode)?.let { SmartlockMode.valueOf(it.toUpperCase().trim()) }
             val clientLogo: Int? = appInfo.metaData.getString(keyClientLogo)?.toInt()

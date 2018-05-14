@@ -105,6 +105,7 @@
     <!-- Config values -->
     <string translatable="false" name="schacc_conf_locale">SCHACC_LOCALE</string>
     <string translatable="false" name="schacc_conf_signup_enabled">SCHACC_SIGNUP_ENABLED</string>
+    <string translatable="false" name="schacc_conf_signup_disabled_message">SCHACC_SIGNUP_DISABLED_MESSAGE</string>
     <string translatable="false" name="schacc_conf_cancellable">SCHACC_CANCELLABLE</string>
     <string translatable="false" name="schacc_conf_smartlock_mode">SCHACC_SMARTLOCK_MODE</string>
     <string translatable="false" name="schacc_conf_client_logo">SCHACC_CLIENT_LOGO</string>
