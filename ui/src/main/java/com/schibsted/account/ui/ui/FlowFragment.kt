@@ -66,10 +66,12 @@ abstract class FlowFragment<in T> : BaseFragment(), KeyboardVisibilityListener, 
 
     override fun hideProgress() {
         primaryActionView.hideProgress()
+        secondaryActionView?.isEnabled = true
     }
 
     override fun showProgress() {
         primaryActionView.showProgress()
+        secondaryActionView?.isEnabled = false
         keyboardManager.closeKeyboard()
     }
 }

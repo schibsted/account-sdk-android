@@ -72,6 +72,7 @@
         <android.support.constraint.ConstraintLayout
             style="@style/schacc_container"
             android:focusable="true"
+            android:paddingBottom="0dp"
             android:paddingTop="@dimen/schacc_large_spacing">
 
             <FrameLayout
