@@ -269,43 +269,14 @@ object UiUtil {
         val countryCode = telephonyService.simCountryIso.toUpperCase()
         return countryPrefixes[countryCode]
     }
+}
 
-    /**
-     * take a text then colorize and underline words in order to get a text looking like a link to click on
-     *
-     * @param fullText the text where we have to find the text to colorize
-     * @param color the color we want to apply
-     * @param textToCustomize the text to colorize
-     * @return [Spannable] the colorized text
-     */
-    @JvmStatic
-    fun getTextAsLink(fullText: String, @ColorInt color: Int, vararg textToCustomize: String): SpannableString {
-        val spannableString = SpannableString(fullText)
-        for (text in textToCustomize) {
-            val pattern = Pattern.compile(text, Pattern.CASE_INSENSITIVE)
-            val matcher = pattern.matcher(fullText)
-            if (matcher.find()) {
-                spannableString.setSpan(ForegroundColorSpan(color), matcher.start(), matcher.end(), Spannable.SPAN_INCLUSIVE_INCLUSIVE)
-                spannableString.setSpan(UnderlineSpan(), matcher.start(), matcher.end(), Spannable.SPAN_INCLUSIVE_INCLUSIVE)
-            }
-        }
-        return spannableString
-    }
-
-    /**
-     * make part of a text clickable and assign an action to it
-     *
-     * @param fullText the original text containing the text to click on
-     * @param linkText the text the user has to click on to display the website
-     * @param action the action to perform when clicking on the text
-     *
-     */
-    @JvmStatic
-    fun makeTextClickable(fullText: SpannableString, linkText: String, action: ClickableSpan) {
-        val pattern = Pattern.compile(linkText, Pattern.CASE_INSENSITIVE)
-        val matcher = pattern.matcher(fullText)
-        if (matcher.find()) {
-            fullText.setSpan(action, matcher.start(), matcher.end(), Spannable.SPAN_INCLUSIVE_INCLUSIVE)
-        }
+fun SpannableString.setPartAsClickableLink(@ColorInt color: Int, textToCustomize: String, action: ClickableSpan) {
+    val pattern = Pattern.compile(textToCustomize, Pattern.CASE_INSENSITIVE)
+    val matcher = pattern.matcher(this)
+    if (matcher.find()) {
+        this.setSpan(ForegroundColorSpan(color), matcher.start(), matcher.end(), Spannable.SPAN_INCLUSIVE_INCLUSIVE)
+        this.setSpan(UnderlineSpan(), matcher.start(), matcher.end(), Spannable.SPAN_INCLUSIVE_INCLUSIVE)
+        this.setSpan(action, matcher.start(), matcher.end(), Spannable.SPAN_INCLUSIVE_INCLUSIVE)
     }
 }

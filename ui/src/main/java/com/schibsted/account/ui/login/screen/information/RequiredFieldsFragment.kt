@@ -18,13 +18,12 @@ import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.widget.LinearLayout
 import com.schibsted.account.common.tracking.TrackingData
-import com.schibsted.account.common.util.Logger
 import com.schibsted.account.model.error.ClientError
+import com.schibsted.account.ui.InternalUiConfiguration
 import com.schibsted.account.ui.R
-import com.schibsted.account.ui.UiConfiguration
-import com.schibsted.account.ui.UiUtil
 import com.schibsted.account.ui.login.BaseLoginActivity
 import com.schibsted.account.ui.login.screen.LoginScreen
+import com.schibsted.account.ui.setPartAsClickableLink
 import com.schibsted.account.ui.ui.FlowFragment
 import com.schibsted.account.ui.ui.InputField
 import com.schibsted.account.ui.ui.WebFragment
@@ -38,15 +37,11 @@ class RequiredFieldsFragment : FlowFragment<RequiredFieldsContract.Presenter>(),
     private lateinit var requiredFieldsPresenter: RequiredFieldsContract.Presenter
     private val generatedFields: MutableMap<String, InputField> = mutableMapOf()
     lateinit var missingField: Set<String>
-    private lateinit var uiConf: UiConfiguration
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.schacc_required_fields_layout, container, false)
         primaryActionView = view.findViewById(R.id.required_fields_button_continue)
         primaryActionView.setOnClickListener { updateMissingFields() }
-        val args = savedInstanceState ?: arguments
-        args?.get(RequiredFieldsFragment.KEY_UI_CONF)?.let { uiConf = it as UiConfiguration }
-
         return view
     }
 
@@ -54,7 +49,7 @@ class RequiredFieldsFragment : FlowFragment<RequiredFieldsContract.Presenter>(),
         super.onViewCreated(view, savedInstanceState)
 
         required_fields_links.movementMethod = LinkMovementMethod.getInstance()
-        required_fields_links.text = getGdprText()
+        required_fields_links.text = getDescriptionText()
 
         var lastView: InputFieldView? = null
         RequiredFields.values().forEach {
@@ -77,27 +72,24 @@ class RequiredFieldsFragment : FlowFragment<RequiredFieldsContract.Presenter>(),
         })
     }
 
-    private fun getGdprText(): SpannableString {
+    private fun getDescriptionText(): SpannableString {
         @ColorInt val color = ContextCompat.getColor(context!!, R.color.schacc_primaryEnabled)
         val dataUsageText = getString(R.string.schacc_required_fields_privacy_adjustment)
         val privacyText = getString(R.string.schacc_required_fields_schibsted_data)
-        val gdprText = getString(R.string.schacc_required_fields_gdpr_description)
-
-        val span = UiUtil.getTextAsLink(gdprText, color, privacyText, dataUsageText)
+        val description = SpannableString(getString(R.string.schacc_required_fields_gdpr_description))
 
         val privacyLink = getString(R.string.schacc_required_fields_privacy_adjustment_link)
         val dataUsageLink = getString(R.string.schacc_required_fields_schibsted_data_link)
 
-        UiUtil.makeTextClickable(span, privacyText, getLinkAction(privacyLink))
-        UiUtil.makeTextClickable(span, dataUsageText, getLinkAction(dataUsageLink))
+        description.setPartAsClickableLink(color, privacyText, getLinkAction(privacyLink))
+        description.setPartAsClickableLink(color, dataUsageText, getLinkAction(dataUsageLink))
 
-        return span
+        return description
     }
 
     private fun getLinkAction(link: String): ClickableSpan {
         return object : ClickableSpan() {
             override fun onClick(widget: View) {
-                Logger.debug("lol", "CLICKKKKED")
                 navigationListener?.onWebViewNavigationRequested(WebFragment.newInstance(link, uiConf.redirectUri), LoginScreen.WEB_TC_SCREEN)
             }
 
@@ -147,12 +139,11 @@ class RequiredFieldsFragment : FlowFragment<RequiredFieldsContract.Presenter>(),
     }
 
     companion object {
-        private const val KEY_UI_CONF = "UI_CONF"
         @JvmStatic
-        fun newInstance(uiConfiguration: UiConfiguration): RequiredFieldsFragment {
+        fun newInstance(uiConfiguration: InternalUiConfiguration): RequiredFieldsFragment {
             val fragment = RequiredFieldsFragment()
             val args = Bundle()
-            args.putParcelable(RequiredFieldsFragment.KEY_UI_CONF, uiConfiguration)
+            args.putParcelable(KEY_UI_CONF, uiConfiguration)
             fragment.arguments = args
             return fragment
         }

@@ -9,6 +9,7 @@ import android.os.Parcelable
 import android.support.annotation.ColorInt
 import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
+import android.text.SpannableString
 import android.text.TextPaint
 import android.text.TextUtils
 import android.text.method.LinkMovementMethod
@@ -21,10 +22,11 @@ import android.widget.TextView
 import com.schibsted.account.common.tracking.TrackingData
 import com.schibsted.account.model.error.ClientError
 import com.schibsted.account.network.response.AgreementLinksResponse
-import com.schibsted.account.ui.R
 import com.schibsted.account.ui.InternalUiConfiguration
+import com.schibsted.account.ui.R
 import com.schibsted.account.ui.login.BaseLoginActivity
 import com.schibsted.account.ui.login.screen.LoginScreen
+import com.schibsted.account.ui.setPartAsClickableLink
 import com.schibsted.account.ui.ui.FlowFragment
 import com.schibsted.account.ui.ui.WebFragment
 import com.schibsted.account.ui.ui.component.CheckBoxView
@@ -115,7 +117,7 @@ class TermsFragment : FlowFragment<TermsContract.Presenter>(), TermsContract.Vie
 
     /**
      * Set up text views to look like a web link and redirect to the associated agreement url when
-     * the user click on the textview
+     * the user click on the [TextView]
      *
      * @param agreements contains all agreements urls.
      */
@@ -124,34 +126,33 @@ class TermsFragment : FlowFragment<TermsContract.Presenter>(), TermsContract.Vie
         //get data to build texts
         val spidLabel = getString(R.string.schacc_spid_label)
         val clientLabel = uiConf.clientName
-        val privacyText: String
-        val termsText: String
+        val privacyText: SpannableString
+        val termsText: SpannableString
 
         privacyText = if (TextUtils.isEmpty(agreements.clientPrivacyUrl)) {
-            getString(R.string.schacc_privacy_policy_spid_only, spidLabel)
+            SpannableString(getString(R.string.schacc_privacy_policy_spid_only, spidLabel))
         } else {
-            getString(R.string.schacc_privacy_policy, spidLabel, clientLabel)
+            SpannableString(getString(R.string.schacc_privacy_policy, spidLabel, clientLabel))
         }
 
         termsText = if (TextUtils.isEmpty(agreements.clientTermsUrl)) {
-            getString(R.string.schacc_terms_policy_spid_only, spidLabel)
+            SpannableString(getString(R.string.schacc_terms_policy_spid_only, spidLabel))
         } else {
-            getString(R.string.schacc_terms_policy, spidLabel, clientLabel)
+            SpannableString(getString(R.string.schacc_terms_policy, spidLabel, clientLabel))
         }
 
         //build texts
         @ColorInt val color = ContextCompat.getColor(context!!, R.color.schacc_primaryEnabled)
-        val spannableTermsText = UiUtil.getTextAsLink(termsText, color, spidLabel, clientLabel)
-        val spannablePrivacyText = UiUtil.getTextAsLink(privacyText, color, spidLabel, clientLabel)
 
-        UiUtil.makeTextClickable(spannablePrivacyText, spidLabel, getLinkAction(agreements.spidPrivacyUrl))
-        UiUtil.makeTextClickable(spannablePrivacyText, clientLabel, getLinkAction(agreements.clientPrivacyUrl))
+        termsText.setPartAsClickableLink(color, spidLabel, getLinkAction(agreements.spidTermsUrl))
+        termsText.setPartAsClickableLink(color, clientLabel, getLinkAction(agreements.clientTermsUrl))
 
-        UiUtil.makeTextClickable(spannableTermsText, spidLabel, getLinkAction(agreements.spidTermsUrl))
-        UiUtil.makeTextClickable(spannableTermsText, clientLabel, getLinkAction(agreements.clientTermsUrl))
+        privacyText.setPartAsClickableLink(color, spidLabel, getLinkAction(agreements.spidPrivacyUrl))
+        privacyText.setPartAsClickableLink(color, clientLabel, getLinkAction(agreements.clientPrivacyUrl))
+
         //we assign text to the view
-        termsCheckView.textView.text = spannableTermsText
-        privacyCheckView.textView.text = spannablePrivacyText
+        termsCheckView.textView.text = termsText
+        privacyCheckView.textView.text = privacyText
     }
 
     override fun onViewStateRestored(savedInstanceState: Bundle?) {
@@ -204,7 +205,6 @@ class TermsFragment : FlowFragment<TermsContract.Presenter>(), TermsContract.Vie
     companion object {
 
         private const val KEY_LINKS = "LINKS"
-        private const val KEY_UI_CONF = "UI_CONF"
         private const val KEY_USER_AVAILABLE = "USER_AVAILABLE"
 
         fun newInstance(uiConfiguration: InternalUiConfiguration, isUserAvailable: Boolean, agreementLinks: AgreementLinksResponse): TermsFragment {
