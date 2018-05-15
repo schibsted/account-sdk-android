@@ -53,12 +53,23 @@ class PasswordlessActivity : BaseLoginActivity(), PasswordlessContract {
     }
 
     override fun onIdentifierRequested(provider: InputProvider<Identifier>) {
-        val fragment = fragmentProvider.getOrCreateIdentificationFragment(
-                navigationController.currentFragment,
-                provider,
-                identifierType = identifierType,
-                clientInfo = clientInfo)
-        navigationController.navigateToFragment(fragment as AbstractIdentificationFragment)
+        if (clientInfo.value == null) {
+            clientInfo.addListener(true) {
+                val fragment = fragmentProvider.getOrCreateIdentificationFragment(
+                        navigationController.currentFragment,
+                        provider,
+                        identifierType = identifierType,
+                        clientInfo = it!!)
+                navigationController.navigateToFragment(fragment as AbstractIdentificationFragment)
+            }
+        } else {
+            val fragment = fragmentProvider.getOrCreateIdentificationFragment(
+                    navigationController.currentFragment,
+                    provider,
+                    identifierType = identifierType,
+                    clientInfo = clientInfo.value!!)
+            navigationController.navigateToFragment(fragment as AbstractIdentificationFragment)
+        }
     }
 
     override fun onVerificationCodeRequested(verificationCodeProvider: InputProvider<VerificationCode>, identifier: Identifier) {

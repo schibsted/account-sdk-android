@@ -31,6 +31,7 @@ import android.view.inputmethod.InputMethodManager
 import com.google.gson.Gson
 import com.schibsted.account.AccountService
 import com.schibsted.account.ClientConfiguration
+import com.schibsted.account.common.lib.ObservableField
 import com.schibsted.account.common.tracking.TrackingData
 import com.schibsted.account.common.tracking.UiTracking
 import com.schibsted.account.common.util.Logger
@@ -38,14 +39,15 @@ import com.schibsted.account.engine.controller.LoginController
 import com.schibsted.account.engine.input.Credentials
 import com.schibsted.account.engine.input.Identifier
 import com.schibsted.account.engine.integration.ResultCallback
+import com.schibsted.account.engine.operation.ClientInfoOperation
 import com.schibsted.account.network.Environment
 import com.schibsted.account.network.response.ClientInfo
 import com.schibsted.account.persistence.LocalSecretsProvider
 import com.schibsted.account.session.User
 import com.schibsted.account.ui.AccountUi
+import com.schibsted.account.ui.InternalUiConfiguration
 import com.schibsted.account.ui.KeyboardManager
 import com.schibsted.account.ui.R
-import com.schibsted.account.ui.InternalUiConfiguration
 import com.schibsted.account.ui.UiUtil
 import com.schibsted.account.ui.login.flow.password.FlowSelectionListener
 import com.schibsted.account.ui.login.flow.password.LoginContractImpl
@@ -63,6 +65,7 @@ import com.schibsted.account.ui.ui.WebFragment
 import com.schibsted.account.util.DeepLink
 import com.schibsted.account.util.DeepLinkHandler
 import kotlinx.android.synthetic.main.schacc_mobile_activity_layout.*
+import java.lang.IllegalStateException
 import kotlin.properties.Delegates
 
 abstract class BaseLoginActivity : AppCompatActivity(), KeyboardManager, NavigationListener {
@@ -80,7 +83,7 @@ abstract class BaseLoginActivity : AppCompatActivity(), KeyboardManager, Navigat
 
         @JvmStatic
         @VisibleForTesting(otherwise = VisibleForTesting.PROTECTED)
-        internal lateinit var clientInfo: ClientInfo
+        internal val clientInfo = ObservableField<ClientInfo?>(null)
 
         @JvmStatic
         var tracker by Delegates.observable<UiTracking?>(null) { _, _, newValue ->
@@ -90,7 +93,10 @@ abstract class BaseLoginActivity : AppCompatActivity(), KeyboardManager, Navigat
                 Environment.ENVIRONMENT_PRODUCTION_NORWAY -> "spid.no"
                 else -> "schibsted.com"
             }
-            newValue?.merchantId = clientInfo.merchantId
+
+            clientInfo.addListener(notifyInitially = true) {
+                newValue?.merchantId = it?.merchantId
+            }
         }
     }
 
@@ -133,17 +139,14 @@ abstract class BaseLoginActivity : AppCompatActivity(), KeyboardManager, Navigat
         super.onCreate(savedInstanceState)
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true)
 
-        //TODO: Listen for clientInfo not to be null AccountUi.clientInfo.addListener { ... }
-        clientInfo = requireNotNull(AccountUi.clientInfo.value, { "AccountUi has not been initialized" })
-
         accountService = AccountService(applicationContext)
-
         lifecycle.addObserver(accountService)
 
         smartlockCredentials = intent.getParcelableExtra(KEY_SMARTLOCK_CREDENTIALS)
 
-        val flowType = AccountUi.FlowType.valueOf(intent.getStringExtra(AccountUi.KEY_FLOW_TYPE))
-        val params = AccountUi.Params(intent.extras)
+        val flowType = intent.getStringExtra(AccountUi.KEY_FLOW_TYPE)?.let { AccountUi.FlowType.valueOf(it) }
+                ?: AccountUi.FlowType.PASSWORD
+        val params = intent.extras?.let { AccountUi.Params(it) } ?: AccountUi.Params()
 
         val idType = if (flowType == AccountUi.FlowType.PASSWORDLESS_PHONE) Identifier.IdentifierType.SMS else Identifier.IdentifierType.EMAIL
         this.uiConfiguration = InternalUiConfiguration.resolve(application).copy(
@@ -159,7 +162,17 @@ abstract class BaseLoginActivity : AppCompatActivity(), KeyboardManager, Navigat
 
         fragmentProvider = FragmentProvider(uiConfiguration)
 
-        followDeepLink(intent.dataString)
+        val intentClientInfo = intent.getParcelableExtra<ClientInfo?>(AccountUi.KEY_CLIENT_INFO)
+        if (intentClientInfo == null) {
+            // TODO: Show loading screen
+            ClientInfoOperation({ throw IllegalStateException("Unable to get client info") }, {
+                clientInfo.value = it
+                followDeepLink(intent.dataString)
+            })
+        } else {
+            clientInfo.value = intentClientInfo
+            followDeepLink(intent.dataString)
+        }
 
         loginContract = LoginContractImpl(this)
         initializeSmartlock()
@@ -230,12 +243,23 @@ abstract class BaseLoginActivity : AppCompatActivity(), KeyboardManager, Navigat
     }
 
     fun startIdentificationFragment(flowSelectionListener: FlowSelectionListener?) {
-        val fragment = fragmentProvider.getOrCreateIdentificationFragment(
-                navigationController.currentFragment,
-                identifierType = Identifier.IdentifierType.EMAIL.value,
-                flowSelectionListener = flowSelectionListener,
-                clientInfo = clientInfo)
-        navigationController.navigateToFragment(fragment as AbstractIdentificationFragment)
+        if (clientInfo.value != null) {
+            val fragment = fragmentProvider.getOrCreateIdentificationFragment(
+                    navigationController.currentFragment,
+                    identifierType = Identifier.IdentifierType.EMAIL.value,
+                    flowSelectionListener = flowSelectionListener,
+                    clientInfo = clientInfo.value!!)
+            navigationController.navigateToFragment(fragment as AbstractIdentificationFragment)
+        } else {
+            clientInfo.addListener(true) {
+                val fragment = fragmentProvider.getOrCreateIdentificationFragment(
+                        navigationController.currentFragment,
+                        identifierType = Identifier.IdentifierType.EMAIL.value,
+                        flowSelectionListener = flowSelectionListener,
+                        clientInfo = it!!)
+                navigationController.navigateToFragment(fragment as AbstractIdentificationFragment)
+            }
+        }
     }
 
     private fun validateAccount(state: DeepLink.ValidateAccount) {

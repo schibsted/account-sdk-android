@@ -8,7 +8,6 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.os.Parcelable
-import com.schibsted.account.common.lib.ObservableField
 import com.schibsted.account.engine.integration.ResultCallback
 import com.schibsted.account.engine.operation.ClientInfoOperation
 import com.schibsted.account.network.response.ClientInfo
@@ -21,6 +20,7 @@ import kotlinx.android.parcel.Parcelize
 object AccountUi {
     const val KEY_PARAMS = "SCHACC_PARAMS"
     const val KEY_FLOW_TYPE = "SCHACC_FLOW_TYPE"
+    const val KEY_CLIENT_INFO = "SCHACC_CLIENT_INFO"
 
     @Parcelize
     data class Params(val teaserText: String? = null, val preFilledIdentifier: String? = null, val smartLockMode: SmartlockMode = SmartlockMode.DISABLED) : Parcelable {
@@ -34,8 +34,7 @@ object AccountUi {
 
     // TODO: Make this observable and listen in BaseLoginActivity
     @JvmStatic
-    internal var clientInfo = ObservableField<ClientInfo?>(null)
-        private set
+    private var clientInfo: ClientInfo? = null
 
     enum class FlowType {
         PASSWORD, PASSWORDLESS_EMAIL, PASSWORDLESS_PHONE;
@@ -44,7 +43,7 @@ object AccountUi {
     @JvmStatic
     fun preInitialize(onUiReady: ResultCallback<Void?>) {
         ClientInfoOperation({ onUiReady.onError(it.toClientError()) }, {
-            clientInfo.value = it
+            clientInfo = it
             onUiReady.onSuccess(null)
         })
     }
@@ -55,12 +54,14 @@ object AccountUi {
             throw IllegalStateException("SmartLock is enabled, but not found on the classpath. Please verify that the smartlock module is included in your build")
         }
 
-        val intent = when (flowType) {
+        var intent = when (flowType) {
             FlowType.PASSWORD -> Intent(context, PasswordActivity::class.java).putExtra(KEY_FLOW_TYPE, flowType.name)
             FlowType.PASSWORDLESS_EMAIL -> Intent(context, PasswordlessActivity::class.java).putExtra(KEY_FLOW_TYPE, flowType.name)
             FlowType.PASSWORDLESS_PHONE -> Intent(context, PasswordlessActivity::class.java).putExtra(KEY_FLOW_TYPE, flowType.name)
-        }
+        }.putExtra(KEY_PARAMS, params)
 
-        return intent.putExtra(KEY_PARAMS, params)
+        clientInfo?.let { intent = intent.putExtra(KEY_CLIENT_INFO, it) }
+
+        return intent
     }
 }

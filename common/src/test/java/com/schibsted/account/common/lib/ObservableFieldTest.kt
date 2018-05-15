@@ -4,6 +4,9 @@
 
 package com.schibsted.account.common.lib
 
+import io.kotlintest.matchers.beInstanceOf
+import io.kotlintest.matchers.fail
+import io.kotlintest.matchers.should
 import io.kotlintest.matchers.shouldBe
 import io.kotlintest.specs.StringSpec
 
@@ -13,19 +16,22 @@ class ObservableFieldTest : StringSpec({
         field.value shouldBe 123
     }
 
-    "Listeners should be notified when added" {
+    "notify initially should be respected" {
         val field = ObservableField("Hello")
         var cdl = 1 // Once on start
-        field.addListener {
+        field.addListener(notifyInitially = true) {
             cdl--
         }
-
         cdl shouldBe 0
+
+        field.addListener {
+            fail("Field was notified initially when not set")
+        }
     }
 
     "Listeners should be notified on value change" {
         val field = ObservableField("Hello")
-        var cdl = 2 // Once on start, once on change
+        var cdl = 1
         field.addListener {
             cdl--
         }
@@ -36,21 +42,19 @@ class ObservableFieldTest : StringSpec({
 
     "Listeners should not be notified when the value is the same" {
         val field = ObservableField("Hello")
-        var cdl = 1 // Once on start
         field.addListener {
-            cdl--
+            fail("Observer was notified")
         }
 
         field.value = "Hello" // Should be ignored
-        cdl shouldBe 0
     }
 
     "Listeners should only be notified once" {
         val field = ObservableField("Hello")
-        var cdl = 3 // Once for the two adds, one for notifying
+        var cdl = 1
 
-        val listener = object : ObservableField.ValueChangedListener<String> {
-            override fun onValueChange(newValue: String) {
+        val listener = object : ObservableField.Observer<String> {
+            override fun onChange(newValue: String) {
                 cdl--
             }
         }
@@ -64,13 +68,47 @@ class ObservableFieldTest : StringSpec({
 
     "Listeners should no longer be notified after they have been removed" {
         val field = ObservableField("Hello")
-        var cdl = 2 // Once on start
+        var cdl = 1
         val listener = field.addListener {
             cdl--
         }
         field.value = "Yo!" // Should be ignored
         field.removeListener(listener)
         field.value = "Yo yo!"
+        cdl shouldBe 0
+    }
+
+    "Single observers should only be notified once" {
+        var cdl = 1
+        val listener = object : ObservableField.Single<String> {
+            override fun onChange(newValue: String) {
+                cdl--
+            }
+        }
+
+        val field = ObservableField("aaaa")
+        field.addListener(listener)
+
+        field.value = "bbb"
+        field.value = "ccc"
+
+        cdl shouldBe 0
+    }
+
+    "Lambda for single should work" {
+        val field = ObservableField("aaaa")
+        field.addListener(single = true) {} should beInstanceOf(ObservableField.Single::class)
+    }
+
+    "Single observers should be notified on initialization as well if specified" {
+        var cdl = 2 // Once initially, once for change
+        val field = ObservableField("aaaa")
+        field.addListener(single = true, notifyInitially = true) {
+            cdl--
+        }
+
+        field.value = "bbb"
+
         cdl shouldBe 0
     }
 })
