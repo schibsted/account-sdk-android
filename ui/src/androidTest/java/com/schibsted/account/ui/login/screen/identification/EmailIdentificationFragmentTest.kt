@@ -10,7 +10,7 @@ import android.support.test.rule.ActivityTestRule
 import android.support.test.runner.AndroidJUnit4
 import com.schibsted.account.engine.input.Identifier
 import com.schibsted.account.ui.R
-import com.schibsted.account.ui.UiConfiguration
+import com.schibsted.account.ui.InternalUiConfiguration
 import com.schibsted.account.ui.login.flow.passwordless.PasswordlessActivity
 import com.schibsted.spain.barista.assertion.BaristaEnabledAssertions.assertEnabled
 import com.schibsted.spain.barista.assertion.BaristaFocusedAssertions.assertFocused
@@ -35,7 +35,7 @@ class EmailIdentificationFragmentTest {
         override fun getActivityIntent(): Intent {
             val targetContext = InstrumentationRegistry.getInstrumentation().targetContext
 
-            val uiConfiguration = UiConfiguration.Builder
+            val uiConfiguration = InternalUiConfiguration.Builder
                     .fromManifest(targetContext)
                     .identifierType(Identifier.IdentifierType.EMAIL)
                     .build()

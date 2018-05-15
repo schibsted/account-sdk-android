@@ -5,7 +5,6 @@
 package com.schibsted.account.ui.login.screen.identification.ui
 
 import android.os.Bundle
-import android.os.Parcelable
 import android.support.annotation.StringRes
 import android.support.v4.content.ContextCompat
 import android.view.LayoutInflater
@@ -15,12 +14,10 @@ import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.TextView
 import com.schibsted.account.common.tracking.TrackingData
-import com.schibsted.account.common.util.Logger
 import com.schibsted.account.model.error.ClientError
 import com.schibsted.account.network.response.ClientInfo
 import com.schibsted.account.network.response.Merchant
 import com.schibsted.account.ui.R
-import com.schibsted.account.ui.UiConfiguration
 import com.schibsted.account.ui.login.BaseLoginActivity
 import com.schibsted.account.ui.login.screen.LoginScreen
 import com.schibsted.account.ui.login.screen.identification.IdentificationContract
@@ -56,7 +53,6 @@ abstract class AbstractIdentificationFragment : FlowFragment<IdentificationContr
     private lateinit var identificationPolicy: TextView
 
     private lateinit var linkView: TextView
-    protected lateinit var uiConf: UiConfiguration
     private lateinit var clientInfo: ClientInfo
 
     override val isActive: Boolean
@@ -65,17 +61,8 @@ abstract class AbstractIdentificationFragment : FlowFragment<IdentificationContr
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val args = savedInstanceState ?: arguments
-        args?.let {
-            if (args.getParcelable<Parcelable>(KEY_UI_CONF) != null) {
-                uiConf = args.get(KEY_UI_CONF) as UiConfiguration
-            }
-            clientInfo = args.getParcelable(KEY_CLIENT_INFO)
-        }
 
-        if (!this::uiConf.isInitialized && context != null) {
-            this.uiConf = UiConfiguration.Builder.fromManifest(context!!.applicationContext).build()
-            Logger.warn(Logger.DEFAULT_TAG, "AbstractIdentificationFragment: Falling back to UiConfiguration from manifest")
-        }
+        clientInfo = args!!.getParcelable(KEY_CLIENT_INFO)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -148,7 +135,6 @@ abstract class AbstractIdentificationFragment : FlowFragment<IdentificationContr
     }
 
     companion object {
-        const val KEY_UI_CONF = "UI_CONF"
         const val KEY_CLIENT_INFO = "KEY_CLIENT_INFO"
     }
 }

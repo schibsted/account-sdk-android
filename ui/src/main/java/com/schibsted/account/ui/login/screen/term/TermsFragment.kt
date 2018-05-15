@@ -26,7 +26,7 @@ import com.schibsted.account.common.tracking.TrackingData
 import com.schibsted.account.model.error.ClientError
 import com.schibsted.account.network.response.AgreementLinksResponse
 import com.schibsted.account.ui.R
-import com.schibsted.account.ui.UiConfiguration
+import com.schibsted.account.ui.InternalUiConfiguration
 import com.schibsted.account.ui.login.BaseLoginActivity
 import com.schibsted.account.ui.login.screen.LoginScreen
 import com.schibsted.account.ui.ui.FlowFragment
@@ -57,7 +57,6 @@ class TermsFragment : FlowFragment<TermsContract.Presenter>(), TermsContract.Vie
     private lateinit var privacyCheckView: CheckBoxView
 
     private lateinit var agreements: AgreementLinksResponse
-    private lateinit var uiConf: UiConfiguration
     private var isUserAvailable: Boolean = false
 
     override val isActive: Boolean
@@ -66,7 +65,6 @@ class TermsFragment : FlowFragment<TermsContract.Presenter>(), TermsContract.Vie
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val args = savedInstanceState ?: arguments
-        args?.get(KEY_UI_CONF)?.let { uiConf = it as UiConfiguration }
         args?.getParcelable<Parcelable>(KEY_LINKS).let { agreements = it as AgreementLinksResponse }
         isUserAvailable = args?.getBoolean(KEY_USER_AVAILABLE) ?: false
     }
@@ -80,7 +78,6 @@ class TermsFragment : FlowFragment<TermsContract.Presenter>(), TermsContract.Vie
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         outState.putParcelable(KEY_LINKS, agreements)
-        outState.putParcelable(KEY_UI_CONF, uiConf)
         outState.putBoolean(KEY_USER_AVAILABLE, isUserAvailable)
     }
 
@@ -248,7 +245,7 @@ class TermsFragment : FlowFragment<TermsContract.Presenter>(), TermsContract.Vie
         private const val KEY_UI_CONF = "UI_CONF"
         private const val KEY_USER_AVAILABLE = "USER_AVAILABLE"
 
-        fun newInstance(uiConfiguration: UiConfiguration, isUserAvailable: Boolean, agreementLinks: AgreementLinksResponse): TermsFragment {
+        fun newInstance(uiConfiguration: InternalUiConfiguration, isUserAvailable: Boolean, agreementLinks: AgreementLinksResponse): TermsFragment {
             val fragment = TermsFragment()
             val args = Bundle()
             args.putParcelable(KEY_UI_CONF, uiConfiguration)

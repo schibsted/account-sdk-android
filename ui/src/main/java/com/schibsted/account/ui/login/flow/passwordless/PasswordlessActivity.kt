@@ -4,8 +4,6 @@
 
 package com.schibsted.account.ui.login.flow.passwordless
 
-import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.os.Parcelable
 import com.schibsted.account.common.tracking.TrackingData
@@ -18,13 +16,11 @@ import com.schibsted.account.engine.integration.CallbackProvider
 import com.schibsted.account.engine.integration.InputProvider
 import com.schibsted.account.engine.integration.ResultCallback
 import com.schibsted.account.engine.integration.contract.PasswordlessContract
-import com.schibsted.account.engine.operation.ClientInfoOperation
 import com.schibsted.account.model.LoginResult
 import com.schibsted.account.model.error.ClientError
 import com.schibsted.account.network.response.AgreementLinksResponse
-import com.schibsted.account.ui.UiConfiguration
+import com.schibsted.account.ui.AccountUi
 import com.schibsted.account.ui.login.BaseLoginActivity
-import com.schibsted.account.ui.login.flow.password.PasswordActivity
 import com.schibsted.account.ui.login.screen.identification.ui.AbstractIdentificationFragment
 import com.schibsted.account.ui.login.screen.identification.ui.MobileIdentificationFragment
 import com.schibsted.account.ui.navigation.Navigation
@@ -40,6 +36,7 @@ class PasswordlessActivity : BaseLoginActivity(), PasswordlessContract {
 
     private lateinit var passwordlessController: PasswordlessController
     private lateinit var identifierType: String
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         passwordlessController = if (savedInstanceState?.getParcelable<Parcelable>(KEY_CONTROLLER) != null) {
@@ -47,7 +44,8 @@ class PasswordlessActivity : BaseLoginActivity(), PasswordlessContract {
         } else {
             PasswordlessController(true)
         }
-        identifierType = super.uiConfiguration.identifierType.value
+        identifierType = intent.getStringExtra(AccountUi.KEY_FLOW_TYPE)!!
+
         navigationController = Navigation(this, this)
         if (smartlockCredentials == null && !isSmartlockRunning) {
             passwordlessController.start(this)
@@ -55,12 +53,23 @@ class PasswordlessActivity : BaseLoginActivity(), PasswordlessContract {
     }
 
     override fun onIdentifierRequested(provider: InputProvider<Identifier>) {
-        val fragment = fragmentProvider.getOrCreateIdentificationFragment(
-                navigationController.currentFragment,
-                provider,
-                identifierType = identifierType,
-                clientInfo = clientInfo)
-        navigationController.navigateToFragment(fragment as AbstractIdentificationFragment)
+        if (clientInfo.value == null) {
+            clientInfo.addListener(true) {
+                val fragment = fragmentProvider.getOrCreateIdentificationFragment(
+                        navigationController.currentFragment,
+                        provider,
+                        identifierType = identifierType,
+                        clientInfo = it!!)
+                navigationController.navigateToFragment(fragment as AbstractIdentificationFragment)
+            }
+        } else {
+            val fragment = fragmentProvider.getOrCreateIdentificationFragment(
+                    navigationController.currentFragment,
+                    provider,
+                    identifierType = identifierType,
+                    clientInfo = clientInfo.value!!)
+            navigationController.navigateToFragment(fragment as AbstractIdentificationFragment)
+        }
     }
 
     override fun onVerificationCodeRequested(verificationCodeProvider: InputProvider<VerificationCode>, identifier: Identifier) {
@@ -110,22 +119,5 @@ class PasswordlessActivity : BaseLoginActivity(), PasswordlessContract {
 
     companion object {
         const val KEY_CONTROLLER = "CONTROLLER"
-        /**
-         * Provides an [Intent] that can be used to launch the visual authentication flow.
-         *
-         * @param context The context.
-         * @param uiConfiguration for this [Activity].
-         * @return An [Intent] that can be used to launch the visual authentication flow.
-         */
-        @JvmStatic
-        fun getCallingIntent(context: Context, uiConfiguration: UiConfiguration, resultCallback: ResultCallback<Intent>) {
-            ClientInfoOperation({ resultCallback.onError(it.toClientError()) }, {
-                val intent = Intent(context, PasswordActivity::class.java).apply {
-                    putExtra(KEY_UI_CONFIGURATION, uiConfiguration)
-                    putExtra(KEY_CLIENT_INFO, it)
-                }
-                resultCallback.onSuccess(intent)
-            })
-        }
     }
 }
