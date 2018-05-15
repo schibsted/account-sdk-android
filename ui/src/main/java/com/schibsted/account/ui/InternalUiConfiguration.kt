@@ -83,7 +83,7 @@ data class InternalUiConfiguration(
                     Identifier.IdentifierType.EMAIL, // TODO: Remove
                     null, // TODO: Remove
                     optionalConfig.signUpEnabled == UiConfig.SignUpMode.Enabled,
-                    optionalConfig.smartLockMode,
+                    SmartlockMode.DISABLED, // TODO: Remove
                     optionalConfig.clientLogo,
                     null, // TODO: Remove
                     (optionalConfig.signUpEnabled as? UiConfig.SignUpMode.Disabled)?.disabledMessage,

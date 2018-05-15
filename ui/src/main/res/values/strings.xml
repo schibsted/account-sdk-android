@@ -102,11 +102,14 @@
     <!--System-->
     <string name="schacc_close">Close</string>
     <string name="schacc_intent_password_sign_up_link_name">signupDeepLink</string>
-    <!-- Config values -->
-    <string translatable="false" name="schacc_conf_locale">SCHACC_LOCALE</string>
-    <string translatable="false" name="schacc_conf_signup_enabled">SCHACC_SIGNUP_ENABLED</string>
-    <string translatable="false" name="schacc_conf_signup_disabled_message">SCHACC_SIGNUP_DISABLED_MESSAGE</string>
-    <string translatable="false" name="schacc_conf_cancellable">SCHACC_CANCELLABLE</string>
-    <string translatable="false" name="schacc_conf_smartlock_mode">SCHACC_SMARTLOCK_MODE</string>
-    <string translatable="false" name="schacc_conf_client_logo">SCHACC_CLIENT_LOGO</string>
+    <!-- Required config values -->
+    <string translatable="false" name="schacc_conf_client_name">schacc_client_name</string>
+    <string translatable="false" name="schacc_conf_redirect_scheme">schacc_redirect_scheme</string>
+    <string translatable="false" name="schacc_conf_redirect_host">schacc_redirect_host</string>
+    <!-- Optional config values -->
+    <string translatable="false" name="schacc_conf_locale">schacc_locale</string>
+    <string translatable="false" name="schacc_conf_signup_enabled">schacc_signup_enabled</string>
+    <string translatable="false" name="schacc_conf_signup_disabled_message">schacc_signup_disabled_message</string>
+    <string translatable="false" name="schacc_conf_cancellable">schacc_cancellable</string>
+    <string translatable="false" name="schacc_conf_client_logo">schacc_client_logo</string>
 </resources>

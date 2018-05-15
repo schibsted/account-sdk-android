@@ -6,12 +6,10 @@
           package="com.schibsted.account.ui">
 
     <application>
-        <meta-data
-            android:name="schacc_redirect_scheme"
-            android:value="@string/schacc_redirect_scheme" />
-        <meta-data
-            android:name="schacc_redirect_host"
-            android:value="@string/schacc_redirect_host" />
+        <meta-data android:name="@string/schacc_conf_client_name" android:value="${schacc_client_name}" />
+        <meta-data android:name="@string/schacc_conf_redirect_scheme" android:value="${schacc_redirect_scheme}" />
+        <meta-data android:name="@string/schacc_conf_redirect_host" android:value="${schacc_redirect_host}" />
+
         <activity android:name="com.schibsted.account.ui.login.flow.passwordless.PasswordlessActivity" android:launchMode="singleTask" />
         <activity android:name="com.schibsted.account.ui.login.flow.password.PasswordActivity" android:launchMode="singleTask">
             <intent-filter android:label="@string/schacc_intent_password_sign_up_link_name">
@@ -20,7 +18,7 @@
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
 
-                <data android:scheme="@string/schacc_redirect_scheme" android:host="*" />
+                <data android:scheme="${schacc_redirect_scheme}" android:host="*" />
             </intent-filter>
         </activity>
     </application>

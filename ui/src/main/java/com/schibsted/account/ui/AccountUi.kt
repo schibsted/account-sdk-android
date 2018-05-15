@@ -23,6 +23,11 @@ object AccountUi {
     const val KEY_CLIENT_INFO = "SCHACC_CLIENT_INFO"
 
     @Parcelize
+    /**
+     * @param teaserText A teaser text to show on the initial screen
+     * @param preFilledIdentifier If the user ID is known, the identifier can be pre-filled
+     *
+     */
     data class Params(val teaserText: String? = null, val preFilledIdentifier: String? = null, val smartLockMode: SmartlockMode = SmartlockMode.DISABLED) : Parcelable {
 
         companion object {
@@ -49,6 +54,11 @@ object AccountUi {
     }
 
     @JvmStatic
+            /**
+             * @param context The application context
+             * @param flowType Which UI flow to initialize
+             * @param params Additional [Params] for the UIs
+             */
     fun getCallingIntent(context: Context, flowType: FlowType, params: Params = Params()): Intent {
         if (params.smartLockMode != SmartlockMode.DISABLED && !SmartlockImpl.isSmartlockAvailable()) {
             throw IllegalStateException("SmartLock is enabled, but not found on the classpath. Please verify that the smartlock module is included in your build")

@@ -10,21 +10,18 @@ import android.content.pm.PackageManager
 import android.os.Parcel
 import android.os.Parcelable
 import android.support.annotation.DrawableRes
-import com.schibsted.account.ui.smartlock.SmartlockMode
 import java.util.Locale
 
 data class UiConfig(
     val locale: Locale,
     val signUpEnabled: SignUpMode,
     val isCancellable: Boolean,
-    val smartLockMode: SmartlockMode,
     @DrawableRes val clientLogo: Int
 ) : Parcelable {
 
     constructor(parcel: Parcel) : this(Locale(parcel.readString()),
             parcel.readString()?.let { SignUpMode.Disabled(it) } ?: SignUpMode.Enabled,
             parcel.readInt() == 1,
-            parcel.readSerializable() as SmartlockMode,
             parcel.readInt())
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
@@ -34,7 +31,6 @@ data class UiConfig(
             is SignUpMode.Disabled -> signUpEnabled.disabledMessage
         })
         parcel.writeInt(if (isCancellable) 1 else 0)
-        parcel.writeSerializable(smartLockMode)
         parcel.writeInt(clientLogo)
     }
 
@@ -44,7 +40,6 @@ data class UiConfig(
             .locale(locale)
             .signUpEnabled(signUpEnabled)
             .isCancellable(isCancellable)
-            .smartLockMode(smartLockMode)
             .clientLogo(clientLogo)
 
     sealed class SignUpMode {
@@ -58,7 +53,6 @@ data class UiConfig(
         fun locale(locale: Locale) = apply { uiConfig = uiConfig.copy(locale = locale) }
         fun signUpEnabled(signUpEnabled: SignUpMode) = apply { uiConfig = uiConfig.copy(signUpEnabled = signUpEnabled) }
         fun isCancellable(isCancellable: Boolean) = apply { uiConfig = uiConfig.copy(isCancellable = isCancellable) }
-        fun smartLockMode(smartLockMode: SmartlockMode) = apply { uiConfig = uiConfig.copy(smartLockMode = smartLockMode) }
         fun clientLogo(@DrawableRes clientLogo: Int) = apply { uiConfig = uiConfig.copy(clientLogo = clientLogo) }
 
         fun build() = uiConfig
@@ -70,7 +64,7 @@ data class UiConfig(
 
     companion object {
         @JvmField
-        val DEFAULT = UiConfig(Locale.getDefault(), SignUpMode.Enabled, true, SmartlockMode.DISABLED, 0)
+        val DEFAULT = UiConfig(Locale.getDefault(), SignUpMode.Enabled, true, 0)
 
         @JvmStatic
         fun fromManifest(appContext: Context): UiConfig {
@@ -80,12 +74,11 @@ data class UiConfig(
             val keySignUpEnabled = appContext.getString(R.string.schacc_conf_signup_enabled)
             val keySignUpDisabledMessage = appContext.getString(R.string.schacc_conf_signup_disabled_message)
             val keyIsCancellable = appContext.getString(R.string.schacc_conf_cancellable)
-            val keySmartLockMode = appContext.getString(R.string.schacc_conf_smartlock_mode)
             val keyClientLogo = appContext.getString(R.string.schacc_conf_client_logo)
 
             val locale: Locale? = appInfo.metaData.getString(keyLocale)?.let { Locale(it) }
             val signUpEnabled: SignUpMode? = {
-                val enabled = appInfo.metaData.getString(keySignUpEnabled)?.toBoolean()
+                val enabled = appInfo.metaData.get(keySignUpEnabled) as? Boolean
                 when (enabled) {
                     true -> SignUpMode.Enabled
                     false -> {
@@ -95,15 +88,13 @@ data class UiConfig(
                     null -> null
                 }
             }()
-            val isCancellable: Boolean? = appInfo.metaData.getString(keyIsCancellable)?.toBoolean()
-            val smartLockMode: SmartlockMode? = appInfo.metaData.getString(keySmartLockMode)?.let { SmartlockMode.valueOf(it.toUpperCase().trim()) }
-            val clientLogo: Int? = appInfo.metaData.getString(keyClientLogo)?.toInt()
+            val isCancellable: Boolean? = appInfo.metaData.get(keyIsCancellable) as? Boolean
+            val clientLogo: Int? = appInfo.metaData.get(keyClientLogo) as? Int
 
             return UiConfig(
                     locale ?: DEFAULT.locale,
                     signUpEnabled ?: DEFAULT.signUpEnabled,
                     isCancellable ?: DEFAULT.isCancellable,
-                    smartLockMode ?: DEFAULT.smartLockMode,
                     clientLogo ?: DEFAULT.clientLogo)
         }
 

@@ -7,7 +7,6 @@ import android.test.mock.MockContext
 import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.doReturn
 import com.nhaarman.mockito_kotlin.mock
-import com.schibsted.account.ui.smartlock.SmartlockMode
 import io.kotlintest.matchers.beOfType
 import io.kotlintest.matchers.should
 import io.kotlintest.matchers.shouldBe
@@ -21,7 +20,6 @@ class UiConfigTest : WordSpec({
                 Locale.CANADA,
                 UiConfig.SignUpMode.Disabled("Some message"),
                 false,
-                SmartlockMode.FORCED,
                 123)
 
         original shouldEqual original.newBuilder().build()
@@ -37,11 +35,13 @@ class UiConfigTest : WordSpec({
         val mockBundle: Bundle = mock {
             on { getString(any()) } doReturn listOf(
                     Locale.FRENCH.toString(),
-                    "false",
-                    "my disabled message",
-                    "true",
-                    null,
-                    "555"
+                    "my disabled message"
+            )
+
+            on { get(any()) }.thenReturn(
+                    false,
+                    true,
+                    555
             )
         }
         val mockPackageManager: PackageManager = mock { on { getApplicationInfo(any(), any()) } doReturn ApplicationInfo().apply { metaData = mockBundle } }
@@ -57,17 +57,15 @@ class UiConfigTest : WordSpec({
         conf.signUpEnabled should beOfType<UiConfig.SignUpMode.Disabled>()
         (conf.signUpEnabled as UiConfig.SignUpMode.Disabled).disabledMessage shouldBe "my disabled message"
         conf.isCancellable shouldBe true
-        conf.smartLockMode shouldBe UiConfig.DEFAULT.smartLockMode
         conf.clientLogo shouldBe 555
     }
 
     "fromUiProvider should get it's properties from the provider" {
         val provider = object : UiConfig.UiConfigProvider {
-            override fun getUiConfig() = UiConfig.DEFAULT.copy(Locale.GERMAN, smartLockMode = SmartlockMode.FORCED)
+            override fun getUiConfig() = UiConfig.DEFAULT.copy(Locale.GERMAN)
         }
 
         val result = UiConfig.fromUiProvider(provider)
         result.locale shouldBe Locale.GERMAN
-        result.smartLockMode shouldBe SmartlockMode.FORCED
     }
 })

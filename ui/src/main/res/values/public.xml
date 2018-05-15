@@ -4,9 +4,6 @@
   -->
 
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <public type="string" name="schacc_redirect_scheme"/>
-    <public type="string" name="schacc_redirect_host"/>
-
     <public type="string" name="schacc_conf_locale"/>
     <public type="string" name="schacc_conf_signup_enabled"/>
     <public type="string" name="schacc_conf_signup_disabled_message"/>
