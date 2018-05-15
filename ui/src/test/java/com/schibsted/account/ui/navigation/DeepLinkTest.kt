@@ -5,7 +5,6 @@
 package com.schibsted.account.ui.navigation
 
 import com.schibsted.account.common.util.Logger
-import com.schibsted.account.common.util.encodeBase64
 import com.schibsted.account.util.DeepLink
 import io.kotlintest.matchers.haveSubstring
 import io.kotlintest.matchers.should
