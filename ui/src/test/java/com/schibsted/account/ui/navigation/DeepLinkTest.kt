@@ -38,11 +38,11 @@ class DeepLinkTest : WordSpec({
             val result = DeepLink.IdentifierProvided.createDeepLinkUri(redir, "me@email.com").toString()
             result should startWith(redir.toString())
             result should haveSubstring("act=identifier-provided")
-            result should haveSubstring("id=${encodeBase64("me@email.com")}")
+            result should haveSubstring("id=me@email.com")
         }
 
         "be parsed correctly" {
-            val uri = URI.create(redir.toString() + "?act=identifier-provided&id=${encodeBase64("me@email.com")}")
+            val uri = URI.create(redir.toString() + "?act=identifier-provided&id=me@email.com")
             val res = DeepLink.IdentifierProvided(uri)
             res shouldNotBe null
             res?.identifier shouldBe "me@email.com"
