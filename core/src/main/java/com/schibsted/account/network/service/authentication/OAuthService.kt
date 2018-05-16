@@ -28,7 +28,7 @@ class OAuthService(@Environment environment: String, okHttpClient: OkHttpClient)
         clientSecret: String,
         authCode: String,
         redirectUri: String,
-        vararg scopes: String
+        scopes: Array<String>
     ): Call<TokenResponse> {
 
         val params = mapOf(

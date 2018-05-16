@@ -175,9 +175,9 @@ class User(token: UserToken, val isPersistable: Boolean) : Parcelable {
          * @param callback The callback to which we provide the User
          */
         @JvmStatic
-        fun fromSessionCode(code: String, redirectUri: String, isPersistable: Boolean, callback: ResultCallback<User>,@OIDCScope scopes: Array<String> = arrayOf(OIDCScope.SCOPE_OPENID)) {
+        fun fromSessionCode(code: String, redirectUri: String, isPersistable: Boolean, callback: ResultCallback<User>, @OIDCScope scopes: Array<String> = arrayOf(OIDCScope.SCOPE_OPENID)) {
             val conf = ClientConfiguration.get()
-            ServiceHolder.oAuthService.tokenFromAuthCode(conf.clientId, conf.clientSecret, code, redirectUri, *scopes)
+            ServiceHolder.oAuthService.tokenFromAuthCode(conf.clientId, conf.clientSecret, code, redirectUri, scopes)
                     .enqueue(NetworkCallback.lambda("Resuming session from session code",
                             { callback.onError(it.toClientError()) },
                             { token ->
