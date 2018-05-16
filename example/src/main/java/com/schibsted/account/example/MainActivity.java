@@ -109,7 +109,7 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onSuccess(Void result) {
                     final Intent intent = AccountUi.getCallingIntent(getApplicationContext(), AccountUi.FlowType.PASSWORD,
-                            new AccountUi.Params(getString(R.string.example_teaser_text), null, SmartlockMode.ENABLED));
+                            new AccountUi.Params(getString(R.string.example_teaser_text), null, SmartlockMode.DISABLED));
                     startActivityForResult(intent, PASSWORD_REQUEST_CODE);
                 }
 
