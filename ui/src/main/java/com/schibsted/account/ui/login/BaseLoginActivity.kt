@@ -62,10 +62,10 @@ import com.schibsted.account.ui.smartlock.SmartlockImpl
 import com.schibsted.account.ui.smartlock.SmartlockMode
 import com.schibsted.account.ui.ui.FlowFragment
 import com.schibsted.account.ui.ui.WebFragment
+import com.schibsted.account.ui.ui.dialog.LoadingDialogFragment
 import com.schibsted.account.util.DeepLink
 import com.schibsted.account.util.DeepLinkHandler
 import kotlinx.android.synthetic.main.schacc_mobile_activity_layout.*
-import java.lang.IllegalStateException
 import kotlin.properties.Delegates
 
 abstract class BaseLoginActivity : AppCompatActivity(), KeyboardManager, NavigationListener {
@@ -76,8 +76,6 @@ abstract class BaseLoginActivity : AppCompatActivity(), KeyboardManager, Navigat
         private const val KEY_FLOW_TYPE = "FLOW_TYPE"
         const val EXTRA_USER = "USER_USER"
         const val KEY_CURRENT_IDENTIFIER = "CURRENT_IDENTIFIER"
-        const val KEY_UI_CONFIGURATION = "UI_CONFIGURATION"
-        const val KEY_CLIENT_INFO = "CLIENT_INFO"
         const val KEY_SMARTLOCK_CREDENTIALS = "CREDENTIALS"
         const val KEY_SMARTLOCK_RESOLVING = "KEY_SMARTLOCK_RESOLVING"
 
@@ -168,8 +166,13 @@ abstract class BaseLoginActivity : AppCompatActivity(), KeyboardManager, Navigat
 
         val intentClientInfo = intent.getParcelableExtra<ClientInfo?>(AccountUi.KEY_CLIENT_INFO)
         if (intentClientInfo == null) {
-            // TODO: Show loading screen
-            ClientInfoOperation({ throw IllegalStateException("Unable to get client info") }, {
+            val loadingDialog = LoadingDialogFragment()
+            navigationController.navigationToDialog(loadingDialog)
+            ClientInfoOperation({
+                setResult(Activity.RESULT_CANCELED)
+                finish()
+            }, {
+                loadingDialog.dismiss()
                 clientInfo.value = it
                 followDeepLink(intent.dataString)
             })
