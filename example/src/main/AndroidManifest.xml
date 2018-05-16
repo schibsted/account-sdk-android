@@ -18,12 +18,11 @@
         android:theme="@style/AppTheme"
         tools:ignore="AllowBackup,GoogleAppIndexingWarning">
 
-        <meta-data
-            android:name="schacc_client_name"
-            android:value="@string/application_label" />
-        <meta-data
-            android:name="schacc_phone_prefix"
-            android:value="47" />
+        <meta-data android:name="@string/schacc_conf_locale" android:value="en_EN" />
+        <meta-data android:name="@string/schacc_conf_signup_enabled" android:value="false" />
+        <meta-data android:name="@string/schacc_conf_signup_disabled_message" android:value="Some reason" />
+        <meta-data android:name="@string/schacc_conf_cancellable" android:value="false" />
+        <meta-data android:name="@string/schacc_conf_client_logo" android:resource="@drawable/schacc_ic_cancel" />
 
         <activity android:name="com.schibsted.account.example.MainActivity">
             <intent-filter>

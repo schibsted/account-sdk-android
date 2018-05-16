@@ -6,7 +6,7 @@
     <!--Identification-->
     <string name="schacc_identification_title">Log in or create account</string>
     <string name="schacc_identification_login_only_title">Log in</string>
-    <string name="schacc_identification_help_link">https://www.schibstedpayment.com/hc/en/#faq</string>
+    <string name="schacc_identification_help_link">https://info.privacy.schibsted.com/en/S010</string>
     <string name="schacc_identification_help_link_text">What is Schibsted account?</string>
 
     <string name="schacc_identification_internal_information">%1$s is part of Schibsted. You\'ll need  a Schibsted account to continue. You can use this account across all Schibsted sites.</string>
@@ -58,6 +58,11 @@
     <string name="schacc_required_field_phone_number">Phone number</string>
     <string name="schacc_required_fields_birthday_hint">YYYY-MM-DD</string>
     <string name="schacc_required_fields_birthday_error">@string/schacc_required_fields_birthday_hint</string>
+    <string name="schacc_required_fields_gdpr_description">You can adjust your privacy choices at any time or learn more about Schibsted, data and you.</string>
+    <string name="schacc_required_fields_schibsted_data">adjust your privacy choices at any time</string>
+    <string name="schacc_required_fields_privacy_adjustment">learn more about Schibsted, data and you.</string>
+    <string name="schacc_required_fields_schibsted_data_link">https://info.privacy.schibsted.com/en/S012</string>
+    <string name="schacc_required_fields_privacy_adjustment_link">https://info.privacy.schibsted.com/en/S007</string>
     <!--Password-->
     <string name="schacc_password_change_phone_number">Change phone number</string>
     <string name="schacc_password_change_email">Change email</string>
@@ -76,7 +81,7 @@
     <string name="schacc_inbox_check_inbox_title">Check your inbox</string>
     <!--Web view-->
     <string name="schacc_web_forgot_password_title">Forgot password?</string>
-    <string name="schacc_web_need_help_title">Need help?</string>
+    <string name="schacc_web_need_help_title">@string/schacc_identification_help_link_text</string>
     <!--Generic-->
     <string name="schacc_spid_label">Schibsted account</string>
     <string name="schacc_next_step">Continue</string>
@@ -102,4 +107,14 @@
     <!--System-->
     <string name="schacc_close">Close</string>
     <string name="schacc_intent_password_sign_up_link_name">signupDeepLink</string>
+    <!-- Required config values -->
+    <string translatable="false" name="schacc_conf_client_name" />
+    <string translatable="false" name="schacc_conf_redirect_scheme" />
+    <string translatable="false" name="schacc_conf_redirect_host" />
+    <!-- Optional config values -->
+    <string translatable="false" name="schacc_conf_locale">schacc_locale</string>
+    <string translatable="false" name="schacc_conf_signup_enabled">schacc_signup_enabled</string>
+    <string translatable="false" name="schacc_conf_signup_disabled_message">schacc_signup_disabled_message</string>
+    <string translatable="false" name="schacc_conf_cancellable">schacc_cancellable</string>
+    <string translatable="false" name="schacc_conf_client_logo">schacc_client_logo</string>
 </resources>

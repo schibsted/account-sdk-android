@@ -13,7 +13,7 @@ import com.schibsted.account.engine.input.VerificationCode
 import com.schibsted.account.engine.integration.InputProvider
 import com.schibsted.account.network.response.AgreementLinksResponse
 import com.schibsted.account.network.response.ClientInfo
-import com.schibsted.account.ui.UiConfiguration
+import com.schibsted.account.ui.InternalUiConfiguration
 import com.schibsted.account.ui.login.flow.password.FlowSelectionListener
 import com.schibsted.account.ui.login.screen.identification.IdentificationPresenter
 import com.schibsted.account.ui.login.screen.identification.ui.AbstractIdentificationFragment
@@ -31,7 +31,7 @@ import com.schibsted.account.ui.login.screen.verification.VerificationPresenter
 import com.schibsted.account.ui.smartlock.SmartlockImpl
 import com.schibsted.account.ui.ui.BaseFragment
 
-class FragmentProvider(private val uiConfiguration: UiConfiguration) {
+class FragmentProvider(private val uiConfiguration: InternalUiConfiguration) {
 
     fun getOrCreateIdentificationFragment(
         currentFragment: BaseFragment?,
@@ -83,7 +83,7 @@ class FragmentProvider(private val uiConfiguration: UiConfiguration) {
             it.setPresenter(RequiredFieldsPresenter(it, provider))
             it.missingField = fields
         }, {
-            RequiredFieldsFragment.newInstance()
+            RequiredFieldsFragment.newInstance(uiConfiguration)
         })
     }
 

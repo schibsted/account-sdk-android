@@ -6,17 +6,14 @@ package com.schibsted.account.ui.login.screen.term
 
 import android.os.Bundle
 import android.os.Parcelable
-import android.support.annotation.ColorRes
+import android.support.annotation.ColorInt
 import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
-import android.text.Spannable
 import android.text.SpannableString
 import android.text.TextPaint
 import android.text.TextUtils
 import android.text.method.LinkMovementMethod
 import android.text.style.ClickableSpan
-import android.text.style.ForegroundColorSpan
-import android.text.style.UnderlineSpan
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -25,15 +22,15 @@ import android.widget.TextView
 import com.schibsted.account.common.tracking.TrackingData
 import com.schibsted.account.model.error.ClientError
 import com.schibsted.account.network.response.AgreementLinksResponse
+import com.schibsted.account.ui.InternalUiConfiguration
 import com.schibsted.account.ui.R
-import com.schibsted.account.ui.UiConfiguration
 import com.schibsted.account.ui.login.BaseLoginActivity
 import com.schibsted.account.ui.login.screen.LoginScreen
+import com.schibsted.account.ui.setPartAsClickableLink
 import com.schibsted.account.ui.ui.FlowFragment
 import com.schibsted.account.ui.ui.WebFragment
 import com.schibsted.account.ui.ui.component.CheckBoxView
 import com.schibsted.account.ui.ui.component.TermsUpdateDialog
-import java.util.regex.Pattern
 
 /**
  * a [Fragment] displaying the terms and conditions screen
@@ -57,7 +54,6 @@ class TermsFragment : FlowFragment<TermsContract.Presenter>(), TermsContract.Vie
     private lateinit var privacyCheckView: CheckBoxView
 
     private lateinit var agreements: AgreementLinksResponse
-    private lateinit var uiConf: UiConfiguration
     private var isUserAvailable: Boolean = false
 
     override val isActive: Boolean
@@ -66,7 +62,6 @@ class TermsFragment : FlowFragment<TermsContract.Presenter>(), TermsContract.Vie
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val args = savedInstanceState ?: arguments
-        args?.get(KEY_UI_CONF)?.let { uiConf = it as UiConfiguration }
         args?.getParcelable<Parcelable>(KEY_LINKS).let { agreements = it as AgreementLinksResponse }
         isUserAvailable = args?.getBoolean(KEY_USER_AVAILABLE) ?: false
     }
@@ -80,7 +75,6 @@ class TermsFragment : FlowFragment<TermsContract.Presenter>(), TermsContract.Vie
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         outState.putParcelable(KEY_LINKS, agreements)
-        outState.putParcelable(KEY_UI_CONF, uiConf)
         outState.putBoolean(KEY_USER_AVAILABLE, isUserAvailable)
     }
 
@@ -123,7 +117,7 @@ class TermsFragment : FlowFragment<TermsContract.Presenter>(), TermsContract.Vie
 
     /**
      * Set up text views to look like a web link and redirect to the associated agreement url when
-     * the user click on the textview
+     * the user click on the [TextView]
      *
      * @param agreements contains all agreements urls.
      */
@@ -132,33 +126,33 @@ class TermsFragment : FlowFragment<TermsContract.Presenter>(), TermsContract.Vie
         //get data to build texts
         val spidLabel = getString(R.string.schacc_spid_label)
         val clientLabel = uiConf.clientName
-        val privacyText: String
-        val termsText: String
+        val privacyText: SpannableString
+        val termsText: SpannableString
 
         privacyText = if (TextUtils.isEmpty(agreements.clientPrivacyUrl)) {
-            getString(R.string.schacc_privacy_policy_spid_only, spidLabel)
+            SpannableString(getString(R.string.schacc_privacy_policy_spid_only, spidLabel))
         } else {
-            getString(R.string.schacc_privacy_policy, spidLabel, clientLabel)
+            SpannableString(getString(R.string.schacc_privacy_policy, spidLabel, clientLabel))
         }
 
         termsText = if (TextUtils.isEmpty(agreements.clientTermsUrl)) {
-            getString(R.string.schacc_terms_policy_spid_only, spidLabel)
+            SpannableString(getString(R.string.schacc_terms_policy_spid_only, spidLabel))
         } else {
-            getString(R.string.schacc_terms_policy, spidLabel, clientLabel)
+            SpannableString(getString(R.string.schacc_terms_policy, spidLabel, clientLabel))
         }
 
         //build texts
-        val spannableTermsText = buildLinkText(termsText, R.color.schacc_primaryEnabled, spidLabel, clientLabel)
-        val spannablePrivacyText = buildLinkText(privacyText, R.color.schacc_primaryEnabled, spidLabel, clientLabel)
+        @ColorInt val color = ContextCompat.getColor(context!!, R.color.schacc_primaryEnabled)
 
-        makeTextClickable(spannablePrivacyText, spidLabel, agreements.spidPrivacyUrl)
-        makeTextClickable(spannablePrivacyText, clientLabel, agreements.clientPrivacyUrl)
+        termsText.setPartAsClickableLink(color, spidLabel, getLinkAction(agreements.spidTermsUrl))
+        termsText.setPartAsClickableLink(color, clientLabel, getLinkAction(agreements.clientTermsUrl))
 
-        makeTextClickable(spannableTermsText, spidLabel, agreements.spidTermsUrl)
-        makeTextClickable(spannableTermsText, clientLabel, agreements.clientTermsUrl)
+        privacyText.setPartAsClickableLink(color, spidLabel, getLinkAction(agreements.spidPrivacyUrl))
+        privacyText.setPartAsClickableLink(color, clientLabel, getLinkAction(agreements.clientPrivacyUrl))
+
         //we assign text to the view
-        termsCheckView.textView.text = spannableTermsText
-        privacyCheckView.textView.text = spannablePrivacyText
+        termsCheckView.textView.text = termsText
+        privacyCheckView.textView.text = privacyText
     }
 
     override fun onViewStateRestored(savedInstanceState: Bundle?) {
@@ -166,55 +160,23 @@ class TermsFragment : FlowFragment<TermsContract.Presenter>(), TermsContract.Vie
         setAgreementLinks(agreements)
     }
 
-    /**
-     * take a text then colorize and underline words in order to get a text looking like a link to click on
-     *
-     * @param fullText the text where we have to find the text to colorize
-     * @param color the color we want to apply
-     * @param textToCustomize the text to colorize
-     * @return [Spannable] the colorized text
-     */
-    private fun buildLinkText(fullText: String, @ColorRes color: Int, vararg textToCustomize: String): SpannableString {
-        val spannableString = SpannableString(fullText)
-        for (text in textToCustomize) {
-            val pattern = Pattern.compile(text, Pattern.CASE_INSENSITIVE)
-            val matcher = pattern.matcher(fullText)
-            if (matcher.find()) {
-                spannableString.setSpan(ForegroundColorSpan(ContextCompat.getColor(context!!, color)), matcher.start(), matcher.end(), Spannable.SPAN_INCLUSIVE_INCLUSIVE)
-                spannableString.setSpan(UnderlineSpan(), matcher.start(), matcher.end(), Spannable.SPAN_INCLUSIVE_INCLUSIVE)
-            }
-        }
-        return spannableString
-    }
-
-    /**
-     * make part of a text redirecting to a website
-     *
-     * @param fullText the original text containing the text to click on
-     * @param linkText the text the user has to click on to display the website
-     * @param link the website link
-     */
-    private fun makeTextClickable(fullText: SpannableString, linkText: String, link: String) {
-        val pattern = Pattern.compile(linkText, Pattern.CASE_INSENSITIVE)
-        val matcher = pattern.matcher(fullText)
-        if (matcher.find()) {
-            fullText.setSpan(object : ClickableSpan() {
-                override fun onClick(widget: View) {
-                    BaseLoginActivity.tracker?.let {
-                        val element = when (link) {
-                            agreements.spidTermsUrl -> TrackingData.UIElement.AGREEMENTS_SPID
-                            agreements.spidPrivacyUrl -> TrackingData.UIElement.PRIVACY_SPID
-                            agreements.clientTermsUrl -> TrackingData.UIElement.AGREEMENTS_CLIENT
-                            else -> TrackingData.UIElement.PRIVACY_CLIENT
-                        }
-                        it.eventEngagement(TrackingData.Engagement.CLICK, element, TrackingData.Screen.AGREEMENTS)
+    private fun getLinkAction(link: String): ClickableSpan {
+        return object : ClickableSpan() {
+            override fun onClick(widget: View) {
+                BaseLoginActivity.tracker?.let {
+                    val element = when (link) {
+                        agreements.spidTermsUrl -> TrackingData.UIElement.AGREEMENTS_SPID
+                        agreements.spidPrivacyUrl -> TrackingData.UIElement.PRIVACY_SPID
+                        agreements.clientTermsUrl -> TrackingData.UIElement.AGREEMENTS_CLIENT
+                        else -> TrackingData.UIElement.PRIVACY_CLIENT
                     }
-                    requestNavigationToWebView(link)
+                    it.eventEngagement(TrackingData.Engagement.CLICK, element, TrackingData.Screen.AGREEMENTS)
                 }
+                requestNavigationToWebView(link)
+            }
 
-                override fun updateDrawState(ds: TextPaint) {
-                }
-            }, matcher.start(), matcher.end(), Spannable.SPAN_INCLUSIVE_INCLUSIVE)
+            override fun updateDrawState(ds: TextPaint) {
+            }
         }
     }
 
@@ -233,9 +195,7 @@ class TermsFragment : FlowFragment<TermsContract.Presenter>(), TermsContract.Vie
      * @param link the client link to go to.
      */
     override fun requestNavigationToWebView(link: String) {
-        if (navigationListener != null) {
-            navigationListener!!.onWebViewNavigationRequested(WebFragment.newInstance(link, uiConf.redirectUri), LoginScreen.WEB_TC_SCREEN)
-        }
+        navigationListener?.onWebViewNavigationRequested(WebFragment.newInstance(link, uiConf.redirectUri), LoginScreen.WEB_TC_SCREEN)
     }
 
     override fun showErrorDialog(error: ClientError, errorMessage: String?) {
@@ -245,10 +205,9 @@ class TermsFragment : FlowFragment<TermsContract.Presenter>(), TermsContract.Vie
     companion object {
 
         private const val KEY_LINKS = "LINKS"
-        private const val KEY_UI_CONF = "UI_CONF"
         private const val KEY_USER_AVAILABLE = "USER_AVAILABLE"
 
-        fun newInstance(uiConfiguration: UiConfiguration, isUserAvailable: Boolean, agreementLinks: AgreementLinksResponse): TermsFragment {
+        fun newInstance(uiConfiguration: InternalUiConfiguration, isUserAvailable: Boolean, agreementLinks: AgreementLinksResponse): TermsFragment {
             val fragment = TermsFragment()
             val args = Bundle()
             args.putParcelable(KEY_UI_CONF, uiConfiguration)

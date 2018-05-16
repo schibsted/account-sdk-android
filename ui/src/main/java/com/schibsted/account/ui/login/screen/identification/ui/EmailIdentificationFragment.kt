@@ -14,7 +14,7 @@ import android.view.inputmethod.EditorInfo
 import com.schibsted.account.common.util.Logger
 import com.schibsted.account.network.response.ClientInfo
 import com.schibsted.account.ui.R
-import com.schibsted.account.ui.UiConfiguration
+import com.schibsted.account.ui.InternalUiConfiguration
 import com.schibsted.account.ui.login.screen.identification.IdentificationContract
 import com.schibsted.account.ui.ui.component.InputFieldView
 import com.schibsted.account.ui.ui.rule.EmailValidationRule
@@ -90,10 +90,10 @@ class EmailIdentificationFragment : AbstractIdentificationFragment(), Identifica
          * @param uiConfiguration
          * @return a parametrized instance of [MobileIdentificationFragment]
          */
-        fun newInstance(uiConfiguration: UiConfiguration, clientInfo: ClientInfo): EmailIdentificationFragment {
+        fun newInstance(uiConfiguration: InternalUiConfiguration, clientInfo: ClientInfo): EmailIdentificationFragment {
             val args = Bundle()
             val fragment = EmailIdentificationFragment()
-            args.putParcelable(AbstractIdentificationFragment.KEY_UI_CONF, uiConfiguration)
+            args.putParcelable(KEY_UI_CONF, uiConfiguration)
             args.putParcelable(AbstractIdentificationFragment.KEY_CLIENT_INFO, clientInfo)
             fragment.arguments = args
             return fragment
