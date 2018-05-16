@@ -4,10 +4,10 @@
 
 package com.schibsted.account.network.service.authentication
 
+import com.schibsted.account.common.util.createBasicAuthHeader
 import com.schibsted.account.network.Environment
 import com.schibsted.account.network.response.TokenResponse
 import com.schibsted.account.network.service.BaseNetworkService
-import com.schibsted.account.common.util.createBasicAuthHeader
 import okhttp3.OkHttpClient
 import retrofit2.Call
 
@@ -21,16 +21,19 @@ class OAuthService(@Environment environment: String, okHttpClient: OkHttpClient)
      * @param clientSecret The client secret of the app.
      * @param authCode The auth code used for authentication.
      * @param redirectUri The uri the redirect targeted.
+     * @param scopes The scopes requested for the session.
      */
     fun tokenFromAuthCode(
         clientId: String,
         clientSecret: String,
         authCode: String,
-        redirectUri: String
+        redirectUri: String,
+        vararg scopes: String
     ): Call<TokenResponse> {
 
         val params = mapOf(
                 PARAM_GRANT_TYPE to GRANT_TYPE_AUTHORIZATION_CODE,
+                PARAM_SCOPE to scopes.joinToString(" "),
                 PARAM_CODE to authCode,
                 PARAM_REDIRECT_URI_UNDERSCORE to redirectUri)
 
