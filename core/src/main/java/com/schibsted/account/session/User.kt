@@ -21,6 +21,7 @@ import com.schibsted.account.model.error.ClientError
 import com.schibsted.account.network.AuthInterceptor
 import com.schibsted.account.network.InfoInterceptor
 import com.schibsted.account.network.NetworkCallback
+import com.schibsted.account.network.OIDCScope
 import com.schibsted.account.network.ServiceHolder
 import com.schibsted.account.network.response.TokenResponse
 import com.schibsted.account.network.service.user.UserService
@@ -174,9 +175,9 @@ class User(token: UserToken, val isPersistable: Boolean) : Parcelable {
          * @param callback The callback to which we provide the User
          */
         @JvmStatic
-        fun fromSessionCode(code: String, redirectUri: String, isPersistable: Boolean, callback: ResultCallback<User>) {
+        fun fromSessionCode(code: String, redirectUri: String, isPersistable: Boolean, callback: ResultCallback<User>, @OIDCScope scopes: Array<String> = arrayOf(OIDCScope.SCOPE_OPENID)) {
             val conf = ClientConfiguration.get()
-            ServiceHolder.oAuthService.tokenFromAuthCode(conf.clientId, conf.clientSecret, code, redirectUri)
+            ServiceHolder.oAuthService.tokenFromAuthCode(conf.clientId, conf.clientSecret, code, redirectUri, scopes)
                     .enqueue(NetworkCallback.lambda("Resuming session from session code",
                             { callback.onError(it.toClientError()) },
                             { token ->
