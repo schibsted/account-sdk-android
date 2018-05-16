@@ -93,7 +93,7 @@ class FragmentProvider(private val uiConfiguration: InternalUiConfiguration) {
         identifier: Identifier,
         passwordlessController: PasswordlessController
     ): BaseFragment {
-        return getFragment<VerificationFragment>(currentFragment, {
+        return getFragment(currentFragment, {
             it.setPresenter(VerificationPresenter(it, provider))
             it.setPasswordlessController(passwordlessController)
         }, { VerificationFragment.newInstance(identifier) })
