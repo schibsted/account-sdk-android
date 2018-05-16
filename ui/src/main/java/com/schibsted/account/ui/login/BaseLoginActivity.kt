@@ -152,7 +152,8 @@ abstract class BaseLoginActivity : AppCompatActivity(), KeyboardManager, Navigat
         this.uiConfiguration = InternalUiConfiguration.resolve(application).copy(
                 identifierType = idType,
                 identifier = params.preFilledIdentifier,
-                teaserText = params.teaserText)
+                teaserText = params.teaserText,
+                smartlockMode = params.smartLockMode)
 
         initializeUi()
 

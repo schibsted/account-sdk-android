@@ -72,21 +72,21 @@ data class InternalUiConfiguration(
 
         @JvmStatic
         fun resolve(application: Application): InternalUiConfiguration {
-            val requiredConfig = ManifestConfiguration.readFromManifest(application.applicationContext)
-            val optionalConfig = UiConfig.resolve(application)
+            val requiredConfig = RequiredConfiguration.fromResources(application.applicationContext)
+            val optionalConfig = OptionalConfiguration.resolve(application)
 
-            // TODO: Prefilled identifier and teaser text should be arguments instead
+            // TODO: Pre-filled identifier and teaser text should be arguments instead
             return InternalUiConfiguration(
                     requiredConfig.clientName,
                     requiredConfig.redirectUri,
                     optionalConfig.locale,
                     Identifier.IdentifierType.EMAIL, // TODO: Remove
                     null, // TODO: Remove
-                    optionalConfig.signUpEnabled == UiConfig.SignUpMode.Enabled,
-                    optionalConfig.smartLockMode,
+                    optionalConfig.signUpEnabled == OptionalConfiguration.SignUpMode.Enabled,
+                    SmartlockMode.DISABLED, // TODO: Remove
                     optionalConfig.clientLogo,
                     null, // TODO: Remove
-                    (optionalConfig.signUpEnabled as? UiConfig.SignUpMode.Disabled)?.disabledMessage,
+                    (optionalConfig.signUpEnabled as? OptionalConfiguration.SignUpMode.Disabled)?.disabledMessage,
                     optionalConfig.isCancellable
             )
         }

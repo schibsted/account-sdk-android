@@ -10,21 +10,18 @@ import android.content.pm.PackageManager
 import android.os.Parcel
 import android.os.Parcelable
 import android.support.annotation.DrawableRes
-import com.schibsted.account.ui.smartlock.SmartlockMode
 import java.util.Locale
 
-data class UiConfig(
+data class OptionalConfiguration(
     val locale: Locale,
     val signUpEnabled: SignUpMode,
     val isCancellable: Boolean,
-    val smartLockMode: SmartlockMode,
     @DrawableRes val clientLogo: Int
 ) : Parcelable {
 
     constructor(parcel: Parcel) : this(Locale(parcel.readString()),
             parcel.readString()?.let { SignUpMode.Disabled(it) } ?: SignUpMode.Enabled,
             parcel.readInt() == 1,
-            parcel.readSerializable() as SmartlockMode,
             parcel.readInt())
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
@@ -34,17 +31,15 @@ data class UiConfig(
             is SignUpMode.Disabled -> signUpEnabled.disabledMessage
         })
         parcel.writeInt(if (isCancellable) 1 else 0)
-        parcel.writeSerializable(smartLockMode)
         parcel.writeInt(clientLogo)
     }
 
     override fun describeContents() = 0
 
-    fun newBuilder(): Builder = UiConfig.Builder()
+    fun newBuilder(): Builder = OptionalConfiguration.Builder()
             .locale(locale)
             .signUpEnabled(signUpEnabled)
             .isCancellable(isCancellable)
-            .smartLockMode(smartLockMode)
             .clientLogo(clientLogo)
 
     sealed class SignUpMode {
@@ -53,39 +48,37 @@ data class UiConfig(
     }
 
     class Builder {
-        private var uiConfig = UiConfig.DEFAULT
+        private var uiConfig = OptionalConfiguration.DEFAULT
 
         fun locale(locale: Locale) = apply { uiConfig = uiConfig.copy(locale = locale) }
         fun signUpEnabled(signUpEnabled: SignUpMode) = apply { uiConfig = uiConfig.copy(signUpEnabled = signUpEnabled) }
         fun isCancellable(isCancellable: Boolean) = apply { uiConfig = uiConfig.copy(isCancellable = isCancellable) }
-        fun smartLockMode(smartLockMode: SmartlockMode) = apply { uiConfig = uiConfig.copy(smartLockMode = smartLockMode) }
         fun clientLogo(@DrawableRes clientLogo: Int) = apply { uiConfig = uiConfig.copy(clientLogo = clientLogo) }
 
         fun build() = uiConfig
     }
 
     interface UiConfigProvider {
-        fun getUiConfig(): UiConfig
+        fun getUiConfig(): OptionalConfiguration
     }
 
     companion object {
         @JvmField
-        val DEFAULT = UiConfig(Locale.getDefault(), SignUpMode.Enabled, true, SmartlockMode.DISABLED, 0)
+        val DEFAULT = OptionalConfiguration(Locale.getDefault(), SignUpMode.Enabled, true, 0)
 
         @JvmStatic
-        fun fromManifest(appContext: Context): UiConfig {
+        fun fromManifest(appContext: Context): OptionalConfiguration {
             val appInfo = appContext.packageManager.getApplicationInfo(appContext.packageName, PackageManager.GET_META_DATA)
 
             val keyLocale = appContext.getString(R.string.schacc_conf_locale)
             val keySignUpEnabled = appContext.getString(R.string.schacc_conf_signup_enabled)
             val keySignUpDisabledMessage = appContext.getString(R.string.schacc_conf_signup_disabled_message)
             val keyIsCancellable = appContext.getString(R.string.schacc_conf_cancellable)
-            val keySmartLockMode = appContext.getString(R.string.schacc_conf_smartlock_mode)
             val keyClientLogo = appContext.getString(R.string.schacc_conf_client_logo)
 
             val locale: Locale? = appInfo.metaData.getString(keyLocale)?.let { Locale(it) }
             val signUpEnabled: SignUpMode? = {
-                val enabled = appInfo.metaData.getString(keySignUpEnabled)?.toBoolean()
+                val enabled = appInfo.metaData.get(keySignUpEnabled) as? Boolean
                 when (enabled) {
                     true -> SignUpMode.Enabled
                     false -> {
@@ -95,15 +88,13 @@ data class UiConfig(
                     null -> null
                 }
             }()
-            val isCancellable: Boolean? = appInfo.metaData.getString(keyIsCancellable)?.toBoolean()
-            val smartLockMode: SmartlockMode? = appInfo.metaData.getString(keySmartLockMode)?.let { SmartlockMode.valueOf(it.toUpperCase().trim()) }
-            val clientLogo: Int? = appInfo.metaData.getString(keyClientLogo)?.toInt()
+            val isCancellable: Boolean? = appInfo.metaData.get(keyIsCancellable) as? Boolean
+            val clientLogo: Int? = appInfo.metaData.get(keyClientLogo) as? Int
 
-            return UiConfig(
+            return OptionalConfiguration(
                     locale ?: DEFAULT.locale,
                     signUpEnabled ?: DEFAULT.signUpEnabled,
                     isCancellable ?: DEFAULT.isCancellable,
-                    smartLockMode ?: DEFAULT.smartLockMode,
                     clientLogo ?: DEFAULT.clientLogo)
         }
 
@@ -111,7 +102,7 @@ data class UiConfig(
         fun fromUiProvider(uiConfigProvider: UiConfigProvider) = uiConfigProvider.getUiConfig()
 
         @JvmStatic
-        fun resolve(application: Application): UiConfig {
+        fun resolve(application: Application): OptionalConfiguration {
             val providerConfig = (application as? UiConfigProvider)?.let { fromUiProvider(application) }
             val manifestConfig = fromManifest(application.applicationContext)
 
@@ -119,9 +110,9 @@ data class UiConfig(
         }
 
         @JvmField
-        val CREATOR: Parcelable.Creator<UiConfig> = object : Parcelable.Creator<UiConfig> {
-            override fun createFromParcel(source: Parcel): UiConfig = UiConfig(source)
-            override fun newArray(size: Int): Array<UiConfig?> = arrayOfNulls(size)
+        val CREATOR: Parcelable.Creator<OptionalConfiguration> = object : Parcelable.Creator<OptionalConfiguration> {
+            override fun createFromParcel(source: Parcel): OptionalConfiguration = OptionalConfiguration(source)
+            override fun newArray(size: Int): Array<OptionalConfiguration?> = arrayOfNulls(size)
         }
     }
 }
