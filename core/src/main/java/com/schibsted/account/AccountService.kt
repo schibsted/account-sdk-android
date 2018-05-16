@@ -13,18 +13,23 @@ import android.support.v4.content.LocalBroadcastManager
 import com.schibsted.account.common.util.Logger
 import com.schibsted.account.persistence.UserPersistenceService
 
-class AccountService(private val appContext: Context) : LifecycleObserver {
-    private val TAG = Logger.DEFAULT_TAG + "-ASRV"
+class AccountService(
+    private val appContext: Context,
+    localBroadcastManager: LocalBroadcastManager = LocalBroadcastManager.getInstance(appContext)
+) : LifecycleObserver {
+
     private val upConnection = UserPersistenceService.Connection()
+    var isPersistenceServiceBound = false
+        private set
 
     init {
-        localBroadcastManager = LocalBroadcastManager.getInstance(appContext)
+        AccountService.localBroadcastManager = localBroadcastManager
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_START)
     fun bind() {
         Logger.verbose(TAG, { "Binding ${AccountService::class.simpleName}" })
-        appContext.bindService(Intent(appContext, UserPersistenceService::class.java), upConnection, Context.BIND_AUTO_CREATE)
+        this.isPersistenceServiceBound = appContext.bindService(Intent(appContext, UserPersistenceService::class.java), upConnection, Context.BIND_AUTO_CREATE)
                 .also {
                     when (it) {
                         true -> Logger.verbose(TAG, { "${UserPersistenceService::class.simpleName} was bound successfully" })
@@ -35,11 +40,16 @@ class AccountService(private val appContext: Context) : LifecycleObserver {
 
     @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
     fun unbind() {
-        Logger.verbose(TAG, { "Un-binding ${AccountService::class.simpleName}" })
-        appContext.unbindService(upConnection)
+        if (this.isPersistenceServiceBound) {
+            Logger.verbose(TAG, { "Un-binding ${AccountService::class.simpleName}" })
+            appContext.unbindService(upConnection)
+        } else {
+            Logger.warn(TAG, { "Cannot un-bind service, as it is currently not bound" })
+        }
     }
 
     companion object {
+        private val TAG = Logger.DEFAULT_TAG + "-ASRV"
         internal var localBroadcastManager: LocalBroadcastManager? = null
     }
 }
