@@ -5,6 +5,12 @@
 package com.schibsted.account.ui.login.screen.information
 
 import android.os.Bundle
+import android.support.annotation.ColorInt
+import android.support.v4.content.ContextCompat
+import android.text.SpannableString
+import android.text.TextPaint
+import android.text.method.LinkMovementMethod
+import android.text.style.ClickableSpan
 import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
@@ -13,10 +19,14 @@ import android.view.inputmethod.EditorInfo
 import android.widget.LinearLayout
 import com.schibsted.account.common.tracking.TrackingData
 import com.schibsted.account.model.error.ClientError
+import com.schibsted.account.ui.InternalUiConfiguration
 import com.schibsted.account.ui.R
 import com.schibsted.account.ui.login.BaseLoginActivity
+import com.schibsted.account.ui.login.screen.LoginScreen
+import com.schibsted.account.ui.setPartAsClickableLink
 import com.schibsted.account.ui.ui.FlowFragment
 import com.schibsted.account.ui.ui.InputField
+import com.schibsted.account.ui.ui.WebFragment
 import com.schibsted.account.ui.ui.component.BirthdayInputView
 import com.schibsted.account.ui.ui.component.InputFieldView
 import com.schibsted.account.ui.ui.rule.ValidationRule
@@ -37,8 +47,11 @@ class RequiredFieldsFragment : FlowFragment<RequiredFieldsContract.Presenter>(),
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        var lastView: InputFieldView? = null
 
+        required_fields_links.movementMethod = LinkMovementMethod.getInstance()
+        required_fields_links.text = getDescriptionText()
+
+        var lastView: InputFieldView? = null
         RequiredFields.values().forEach {
             missingField.run {
                 if (contains(it.fieldsValue)) {
@@ -57,6 +70,32 @@ class RequiredFieldsFragment : FlowFragment<RequiredFieldsContract.Presenter>(),
             }
             return@setImeAction false
         })
+    }
+
+    private fun getDescriptionText(): SpannableString {
+        @ColorInt val color = ContextCompat.getColor(context!!, R.color.schacc_primaryEnabled)
+        val dataUsageText = getString(R.string.schacc_required_fields_privacy_adjustment)
+        val privacyText = getString(R.string.schacc_required_fields_schibsted_data)
+        val description = SpannableString(getString(R.string.schacc_required_fields_gdpr_description))
+
+        val privacyLink = getString(R.string.schacc_required_fields_privacy_adjustment_link)
+        val dataUsageLink = getString(R.string.schacc_required_fields_schibsted_data_link)
+
+        description.setPartAsClickableLink(color, privacyText, getLinkAction(privacyLink))
+        description.setPartAsClickableLink(color, dataUsageText, getLinkAction(dataUsageLink))
+
+        return description
+    }
+
+    private fun getLinkAction(link: String): ClickableSpan {
+        return object : ClickableSpan() {
+            override fun onClick(widget: View) {
+                navigationListener?.onWebViewNavigationRequested(WebFragment.newInstance(link, uiConf.redirectUri), LoginScreen.WEB_TC_SCREEN)
+            }
+
+            override fun updateDrawState(ds: TextPaint) {
+            }
+        }
     }
 
     private fun updateMissingFields() {
@@ -100,11 +139,11 @@ class RequiredFieldsFragment : FlowFragment<RequiredFieldsContract.Presenter>(),
     }
 
     companion object {
-
         @JvmStatic
-        fun newInstance(): RequiredFieldsFragment {
+        fun newInstance(uiConfiguration: InternalUiConfiguration): RequiredFieldsFragment {
             val fragment = RequiredFieldsFragment()
             val args = Bundle()
+            args.putParcelable(KEY_UI_CONF, uiConfiguration)
             fragment.arguments = args
             return fragment
         }
