@@ -135,6 +135,9 @@ abstract class BaseLoginActivity : AppCompatActivity(), KeyboardManager, Navigat
     @VisibleForTesting(otherwise = VisibleForTesting.PROTECTED)
     internal lateinit var uiConfiguration: InternalUiConfiguration
 
+    protected lateinit var flowType: AccountUi.FlowType
+    protected lateinit var params: AccountUi.Params
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true)
@@ -144,9 +147,9 @@ abstract class BaseLoginActivity : AppCompatActivity(), KeyboardManager, Navigat
 
         smartlockCredentials = intent.getParcelableExtra(KEY_SMARTLOCK_CREDENTIALS)
 
-        val flowType = intent.getStringExtra(AccountUi.KEY_FLOW_TYPE)?.let { AccountUi.FlowType.valueOf(it) }
+        this.flowType = intent.getStringExtra(AccountUi.KEY_FLOW_TYPE)?.let { AccountUi.FlowType.valueOf(it) }
                 ?: AccountUi.FlowType.PASSWORD
-        val params = intent.extras?.let { AccountUi.Params(it) } ?: AccountUi.Params()
+        this.params = intent.extras?.let { AccountUi.Params(it) } ?: AccountUi.Params()
 
         val idType = if (flowType == AccountUi.FlowType.PASSWORDLESS_PHONE) Identifier.IdentifierType.SMS else Identifier.IdentifierType.EMAIL
         this.uiConfiguration = InternalUiConfiguration.resolve(application).copy(
@@ -206,7 +209,7 @@ abstract class BaseLoginActivity : AppCompatActivity(), KeyboardManager, Navigat
 
     private fun initializeSmartlock() {
         if (SmartlockImpl.isSmartlockAvailable() && uiConfiguration.smartlockMode != SmartlockMode.DISABLED) {
-            loginController = LoginController(true)
+            loginController = LoginController(true, params.scopes)
             smartlock = SmartlockImpl(this, loginController!!, loginContract)
             if (isSmartlockRunning) {
                 progressBar.visibility = GONE

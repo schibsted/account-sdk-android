@@ -52,12 +52,12 @@ class PasswordActivity : BaseLoginActivity(), FlowSelectionListener {
         when (flowType) {
             FlowSelectionListener.FlowType.LOGIN -> {
                 BaseLoginActivity.tracker?.intent = TrackingData.UserIntent.LOGIN
-                loginController = LoginController(true).apply { start(this@PasswordActivity.loginContract) }
+                loginController = LoginController(true, params.scopes).apply { start(this@PasswordActivity.loginContract) }
             }
 
             FlowSelectionListener.FlowType.SIGN_UP -> {
                 BaseLoginActivity.tracker?.intent = TrackingData.UserIntent.CREATE
-                this.signUpController = SignUpController(uiConfiguration.redirectUri).apply { start(this@PasswordActivity.signUpContract) }
+                this.signUpController = SignUpController(uiConfiguration.redirectUri, params.scopes).apply { start(this@PasswordActivity.signUpContract) }
             }
         }
     }

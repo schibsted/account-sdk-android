@@ -8,6 +8,7 @@ import com.schibsted.account.common.lib.Try
 import com.schibsted.account.common.lib.getOrDefault
 import com.schibsted.account.common.util.Logger
 import com.schibsted.account.common.util.getQueryParam
+import com.schibsted.account.network.OIDCScope
 import java.net.URI
 
 sealed class DeepLink {
@@ -16,10 +17,11 @@ sealed class DeepLink {
         IDENTIFIER_PROVIDED("identifier-provided");
     }
 
-    class ValidateAccount private constructor(val code: String, val isPersistable: Boolean) : DeepLink() {
+    class ValidateAccount private constructor(val code: String, val isPersistable: Boolean, @OIDCScope val scopes: Array<String>) : DeepLink() {
         companion object {
             private const val PARAM_CODE = "code"
             private const val PARAM_PERSISTABLE = "pers"
+            private const val PARAM_SCOPES = "sc"
 
             operator fun invoke(uri: URI): ValidateAccount? {
                 if (uri.getQueryParam(DeepLinkHandler.PARAM_ACTION) == Action.VALIDATE_ACCOUNT.value) {
@@ -33,8 +35,10 @@ sealed class DeepLink {
                     }
 
                     val isPersistable = Try { Integer.parseInt(uri.getQueryParam(PARAM_PERSISTABLE)) }.map { it == 1 }.getOrDefault { false }
+                    @OIDCScope val scopes = uri.getQueryParam(PARAM_SCOPES)?.split(",")?.map(String::trim)?.toTypedArray()
 
-                    return ValidateAccount(code, isPersistable)
+                    return ValidateAccount(code, isPersistable, scopes
+                            ?: arrayOf(OIDCScope.SCOPE_OPENID))
                 }
                 return null
             }
@@ -42,10 +46,11 @@ sealed class DeepLink {
             /**
              * Code gets injected by the server
              */
-            fun createDeepLinkUri(redirectUri: URI, isPersistable: Boolean): URI {
+            fun createDeepLinkUri(redirectUri: URI, isPersistable: Boolean, @OIDCScope scopes: Array<String> = arrayOf(OIDCScope.SCOPE_OPENID)): URI {
                 return URI.create("$redirectUri?" +
                         "${DeepLinkHandler.PARAM_ACTION}=${Action.VALIDATE_ACCOUNT.value}" +
-                        "&$PARAM_PERSISTABLE=${if (isPersistable) 1 else 0}")
+                        "&$PARAM_PERSISTABLE=${if (isPersistable) 1 else 0}" +
+                        "&$PARAM_SCOPES=${scopes.joinToString(",")}")
             }
         }
     }
