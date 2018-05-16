@@ -66,7 +66,6 @@ import com.schibsted.account.ui.ui.dialog.LoadingDialogFragment
 import com.schibsted.account.util.DeepLink
 import com.schibsted.account.util.DeepLinkHandler
 import kotlinx.android.synthetic.main.schacc_mobile_activity_layout.*
-import java.lang.IllegalStateException
 import kotlin.properties.Delegates
 
 abstract class BaseLoginActivity : AppCompatActivity(), KeyboardManager, NavigationListener {
@@ -169,7 +168,10 @@ abstract class BaseLoginActivity : AppCompatActivity(), KeyboardManager, Navigat
         if (intentClientInfo == null) {
             val loadingDialog = LoadingDialogFragment()
             navigationController.navigationToDialog(loadingDialog)
-            ClientInfoOperation({ throw IllegalStateException("Unable to get client info") }, {
+            ClientInfoOperation({
+                setResult(Activity.RESULT_CANCELED)
+                finish()
+            }, {
                 loadingDialog.dismiss()
                 clientInfo.value = it
                 followDeepLink(intent.dataString)
