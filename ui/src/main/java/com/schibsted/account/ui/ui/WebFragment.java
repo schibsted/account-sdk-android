@@ -33,7 +33,7 @@ public class WebFragment extends BaseFragment {
     private WebView webview;
 
     /**
-     * create a new instance of the fragment with a website's link as arguements
+     * create a new instance of the fragment with a website's link as arguments
      *
      * @param link the website link
      * @return an instance of {@link WebFragment}

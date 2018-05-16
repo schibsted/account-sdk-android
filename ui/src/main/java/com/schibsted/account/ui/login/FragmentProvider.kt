@@ -83,7 +83,7 @@ class FragmentProvider(private val uiConfiguration: InternalUiConfiguration) {
             it.setPresenter(RequiredFieldsPresenter(it, provider))
             it.missingField = fields
         }, {
-            RequiredFieldsFragment.newInstance()
+            RequiredFieldsFragment.newInstance(uiConfiguration)
         })
     }
 
