@@ -13,7 +13,7 @@ import android.support.v4.content.LocalBroadcastManager
 import com.schibsted.account.common.util.Logger
 import com.schibsted.account.persistence.UserPersistenceService
 
-class AccountService(
+class AccountService @JvmOverloads constructor(
     private val appContext: Context,
     localBroadcastManager: LocalBroadcastManager = LocalBroadcastManager.getInstance(appContext)
 ) : LifecycleObserver {
