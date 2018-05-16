@@ -37,7 +37,6 @@ object AccountUi {
         }
     }
 
-    // TODO: Make this observable and listen in BaseLoginActivity
     @JvmStatic
     private var clientInfo: ClientInfo? = null
 

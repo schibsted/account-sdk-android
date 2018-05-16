@@ -189,3 +189,7 @@ To apply you own color you need to override the following values in your res/col
 
 ### Hooking UI events
 If you need to perform some additional operations before closing the UIs, you can implement `UiHooks` in your application class. These functions will be called before certain events and will not continue before the `OnProceedListener`'s `proceed` function has been called.
+
+## FAQ
+**How do I provide my own loading screen?**<br>
+We will only show the loading indicator in the UIs if we need to retrieve client info. This can be pre-loaded if you want your own loading screen. To do so, use the `AccountUi.preInitialize(...)` function to perform the load. This will notify the callback when ready.
