@@ -4,18 +4,12 @@
 
 package com.schibsted.account.ui.login.flow.password
 
-import android.app.Activity
-import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.os.Parcelable
 import com.schibsted.account.common.tracking.TrackingData
 import com.schibsted.account.engine.controller.LoginController
 import com.schibsted.account.engine.controller.SignUpController
 import com.schibsted.account.engine.input.Identifier
-import com.schibsted.account.engine.integration.ResultCallback
-import com.schibsted.account.engine.operation.ClientInfoOperation
-import com.schibsted.account.ui.UiConfiguration
 import com.schibsted.account.ui.login.BaseLoginActivity
 
 class PasswordActivity : BaseLoginActivity(), FlowSelectionListener {
@@ -90,22 +84,5 @@ class PasswordActivity : BaseLoginActivity(), FlowSelectionListener {
     companion object {
         const val KEY_LOGIN_CONTROLLER = "LOGIN_CONTROLLER"
         const val KEY_SIGN_UP_CONTROLLER = "SIGN_UP_CONTROLLER"
-        /**
-         * Provides an [Intent] that can be used to launch the visual authentication flow.
-         *
-         * @param context The context.
-         * @param uiConfiguration The [UiConfiguration] for this [Activity].
-         * @return An [Intent] that can be used to launch the visual authentication flow.
-         */
-        @JvmStatic
-        fun getCallingIntent(context: Context, uiConfiguration: UiConfiguration, resultCallback: ResultCallback<Intent>) {
-            ClientInfoOperation({ resultCallback.onError(it.toClientError()) }, {
-                val intent = Intent(context, PasswordActivity::class.java).apply {
-                    putExtra(KEY_UI_CONFIGURATION, uiConfiguration)
-                    putExtra(KEY_CLIENT_INFO, it)
-                }
-                resultCallback.onSuccess(intent)
-            })
-        }
     }
 }

@@ -26,7 +26,7 @@ class VerificationPresenterTest : WordSpec() {
         Logger.loggingEnabled = false
         val testConfig = ClientConfiguration("https://dev-example.com/", "myId", "mySecret")
         ClientConfiguration.set(testConfig)
-        BaseLoginActivity.clientInfo = mock()
+        BaseLoginActivity.clientInfo.value = mock()
         "initialization" should {
             val view: VerificationContract.View = mock()
             val presenter = VerificationPresenter(view, mock())

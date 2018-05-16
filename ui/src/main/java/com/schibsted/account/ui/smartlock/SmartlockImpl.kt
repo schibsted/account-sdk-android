@@ -53,7 +53,7 @@ class SmartlockImpl(private val loginActivity: BaseLoginActivity, private val lo
     }
 
     override fun onHintRetrieved(id: String) {
-        loginActivity.uiConfiguration = loginActivity.uiConfiguration.newBuilder().identifier(id).build()
+        loginActivity.uiConfiguration = loginActivity.uiConfiguration.copy(identifier = id)
         isSmartlockResolving = false
     }
 

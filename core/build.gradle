@@ -1,15 +1,9 @@
-apply plugin: 'org.jetbrains.kotlin.android.extensions'
-
 android {
     buildTypes {
         release {
             consumerProguardFiles "core-rules.pro"
         }
     }
-}
-
-androidExtensions {
-    experimental = true
 }
 
 dependencies {
