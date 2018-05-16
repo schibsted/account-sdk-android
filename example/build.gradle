@@ -14,12 +14,6 @@ android {
         versionName gitVersionName
         applicationId "com.schibsted.account.example"
         missingDimensionStrategy 'default', 'singledex', 'multidex'
-
-        manifestPlaceholders = [
-                schacc_client_name:"This is my client",
-                schacc_redirect_scheme:"myschemelol",
-                schacc_redirect_host:"myhostlol",
-        ]
     }
 
     buildTypes {

@@ -16,9 +16,9 @@ import java.util.Locale
 
 class UiConfigTest : WordSpec({
     "Creating a new builder should retain the original values" {
-        val original = UiConfig(
+        val original = OptionalConfiguration(
                 Locale.CANADA,
-                UiConfig.SignUpMode.Disabled("Some message"),
+                OptionalConfiguration.SignUpMode.Disabled("Some message"),
                 false,
                 123)
 
@@ -26,7 +26,7 @@ class UiConfigTest : WordSpec({
     }
 
     "The builder should correctly set values from the builder" {
-        val conf = UiConfig.Builder().locale(Locale.CHINA).clientLogo(123).build()
+        val conf = OptionalConfiguration.Builder().locale(Locale.CHINA).clientLogo(123).build()
         conf.locale shouldBe Locale.CHINA
         conf.clientLogo shouldBe 123
     }
@@ -51,21 +51,21 @@ class UiConfigTest : WordSpec({
             on { getString(any()) } doReturn "AAA"
         }
 
-        val conf = UiConfig.fromManifest(mockContext)
+        val conf = OptionalConfiguration.fromManifest(mockContext)
 
         conf.locale shouldBe Locale.FRENCH
-        conf.signUpEnabled should beOfType<UiConfig.SignUpMode.Disabled>()
-        (conf.signUpEnabled as UiConfig.SignUpMode.Disabled).disabledMessage shouldBe "my disabled message"
+        conf.signUpEnabled should beOfType<OptionalConfiguration.SignUpMode.Disabled>()
+        (conf.signUpEnabled as OptionalConfiguration.SignUpMode.Disabled).disabledMessage shouldBe "my disabled message"
         conf.isCancellable shouldBe true
         conf.clientLogo shouldBe 555
     }
 
     "fromUiProvider should get it's properties from the provider" {
-        val provider = object : UiConfig.UiConfigProvider {
-            override fun getUiConfig() = UiConfig.DEFAULT.copy(Locale.GERMAN)
+        val provider = object : OptionalConfiguration.UiConfigProvider {
+            override fun getUiConfig() = OptionalConfiguration.DEFAULT.copy(Locale.GERMAN)
         }
 
-        val result = UiConfig.fromUiProvider(provider)
+        val result = OptionalConfiguration.fromUiProvider(provider)
         result.locale shouldBe Locale.GERMAN
     }
 })

@@ -12,7 +12,7 @@ import android.os.Parcelable
 import android.support.annotation.DrawableRes
 import java.util.Locale
 
-data class UiConfig(
+data class OptionalConfiguration(
     val locale: Locale,
     val signUpEnabled: SignUpMode,
     val isCancellable: Boolean,
@@ -36,7 +36,7 @@ data class UiConfig(
 
     override fun describeContents() = 0
 
-    fun newBuilder(): Builder = UiConfig.Builder()
+    fun newBuilder(): Builder = OptionalConfiguration.Builder()
             .locale(locale)
             .signUpEnabled(signUpEnabled)
             .isCancellable(isCancellable)
@@ -48,7 +48,7 @@ data class UiConfig(
     }
 
     class Builder {
-        private var uiConfig = UiConfig.DEFAULT
+        private var uiConfig = OptionalConfiguration.DEFAULT
 
         fun locale(locale: Locale) = apply { uiConfig = uiConfig.copy(locale = locale) }
         fun signUpEnabled(signUpEnabled: SignUpMode) = apply { uiConfig = uiConfig.copy(signUpEnabled = signUpEnabled) }
@@ -59,15 +59,15 @@ data class UiConfig(
     }
 
     interface UiConfigProvider {
-        fun getUiConfig(): UiConfig
+        fun getUiConfig(): OptionalConfiguration
     }
 
     companion object {
         @JvmField
-        val DEFAULT = UiConfig(Locale.getDefault(), SignUpMode.Enabled, true, 0)
+        val DEFAULT = OptionalConfiguration(Locale.getDefault(), SignUpMode.Enabled, true, 0)
 
         @JvmStatic
-        fun fromManifest(appContext: Context): UiConfig {
+        fun fromManifest(appContext: Context): OptionalConfiguration {
             val appInfo = appContext.packageManager.getApplicationInfo(appContext.packageName, PackageManager.GET_META_DATA)
 
             val keyLocale = appContext.getString(R.string.schacc_conf_locale)
@@ -91,7 +91,7 @@ data class UiConfig(
             val isCancellable: Boolean? = appInfo.metaData.get(keyIsCancellable) as? Boolean
             val clientLogo: Int? = appInfo.metaData.get(keyClientLogo) as? Int
 
-            return UiConfig(
+            return OptionalConfiguration(
                     locale ?: DEFAULT.locale,
                     signUpEnabled ?: DEFAULT.signUpEnabled,
                     isCancellable ?: DEFAULT.isCancellable,
@@ -102,7 +102,7 @@ data class UiConfig(
         fun fromUiProvider(uiConfigProvider: UiConfigProvider) = uiConfigProvider.getUiConfig()
 
         @JvmStatic
-        fun resolve(application: Application): UiConfig {
+        fun resolve(application: Application): OptionalConfiguration {
             val providerConfig = (application as? UiConfigProvider)?.let { fromUiProvider(application) }
             val manifestConfig = fromManifest(application.applicationContext)
 
@@ -110,9 +110,9 @@ data class UiConfig(
         }
 
         @JvmField
-        val CREATOR: Parcelable.Creator<UiConfig> = object : Parcelable.Creator<UiConfig> {
-            override fun createFromParcel(source: Parcel): UiConfig = UiConfig(source)
-            override fun newArray(size: Int): Array<UiConfig?> = arrayOfNulls(size)
+        val CREATOR: Parcelable.Creator<OptionalConfiguration> = object : Parcelable.Creator<OptionalConfiguration> {
+            override fun createFromParcel(source: Parcel): OptionalConfiguration = OptionalConfiguration(source)
+            override fun newArray(size: Int): Array<OptionalConfiguration?> = arrayOfNulls(size)
         }
     }
 }
