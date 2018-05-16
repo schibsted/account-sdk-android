@@ -10,6 +10,7 @@ import android.os.Bundle
 import android.os.Parcelable
 import com.schibsted.account.engine.integration.ResultCallback
 import com.schibsted.account.engine.operation.ClientInfoOperation
+import com.schibsted.account.network.OIDCScope
 import com.schibsted.account.network.response.ClientInfo
 import com.schibsted.account.ui.login.flow.password.PasswordActivity
 import com.schibsted.account.ui.login.flow.passwordless.PasswordlessActivity
@@ -22,13 +23,18 @@ object AccountUi {
     const val KEY_FLOW_TYPE = "SCHACC_FLOW_TYPE"
     const val KEY_CLIENT_INFO = "SCHACC_CLIENT_INFO"
 
-    @Parcelize
     /**
      * @param teaserText A teaser text to show on the initial screen
      * @param preFilledIdentifier If the user ID is known, the identifier can be pre-filled
      *
      */
-    data class Params(val teaserText: String? = null, val preFilledIdentifier: String? = null, val smartLockMode: SmartlockMode = SmartlockMode.DISABLED) : Parcelable {
+    @Parcelize
+    data class Params(
+        val teaserText: String? = null,
+        val preFilledIdentifier: String? = null,
+        val smartLockMode: SmartlockMode = SmartlockMode.DISABLED,
+        @OIDCScope val scopes: Array<String> = arrayOf(OIDCScope.SCOPE_OPENID)
+    ) : Parcelable {
 
         companion object {
             operator fun invoke(bundle: Bundle): Params {

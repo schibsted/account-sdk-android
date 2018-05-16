@@ -6,14 +6,21 @@ package com.schibsted.account.ui
 
 import android.content.Context
 import android.graphics.drawable.Drawable
+import android.support.annotation.ColorInt
 import android.support.annotation.ColorRes
 import android.support.v4.content.ContextCompat
 import android.support.v4.graphics.drawable.DrawableCompat
 import android.telephony.TelephonyManager
+import android.text.Spannable
+import android.text.SpannableString
+import android.text.style.ClickableSpan
+import android.text.style.ForegroundColorSpan
+import android.text.style.UnderlineSpan
 import com.schibsted.account.common.tracking.TrackingData
 import com.schibsted.account.engine.input.Identifier
 import com.schibsted.account.ui.login.screen.LoginScreen
 import java.util.Locale
+import java.util.regex.Pattern
 
 object UiUtil {
     @JvmStatic
@@ -261,5 +268,15 @@ object UiUtil {
         val telephonyService = context.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
         val countryCode = telephonyService.simCountryIso.toUpperCase()
         return countryPrefixes[countryCode]
+    }
+}
+
+fun SpannableString.setPartAsClickableLink(@ColorInt color: Int, textToCustomize: String, action: ClickableSpan) {
+    val pattern = Pattern.compile(textToCustomize, Pattern.CASE_INSENSITIVE)
+    val matcher = pattern.matcher(this)
+    if (matcher.find()) {
+        this.setSpan(ForegroundColorSpan(color), matcher.start(), matcher.end(), Spannable.SPAN_INCLUSIVE_INCLUSIVE)
+        this.setSpan(UnderlineSpan(), matcher.start(), matcher.end(), Spannable.SPAN_INCLUSIVE_INCLUSIVE)
+        this.setSpan(action, matcher.start(), matcher.end(), Spannable.SPAN_INCLUSIVE_INCLUSIVE)
     }
 }

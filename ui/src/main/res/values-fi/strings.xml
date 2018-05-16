@@ -6,7 +6,7 @@
     <!--Identification-->
     <string name="schacc_identification_title">Kirjaudu sisään tai luo tili</string>
     <string name="schacc_identification_login_only_title">Kirjaudu</string>
-    <string name="schacc_identification_help_link">https://www.schibstedpayment.com/hc/fi/#faq</string>
+    <string name="schacc_identification_help_link">https://info.privacy.schibsted.com/fi/S010</string>
     <string name="schacc_identification_help_link_text">Mikä Schibsted-tili on?</string>
 
     <string name="schacc_identification_internal_information">%1$s on osa Schibsted-konsernia. Jatkaaksesi tarvitset Schibsted-tilin. Voit käyttää samaa tiliä kaikilla Schibsted-sivustoilla.</string>
@@ -58,6 +58,11 @@
     <string name="schacc_required_field_phone_number">Puhelinnumero</string>
     <string name="schacc_required_fields_birthday_hint">YYYY-MM-DD</string>
     <string name="schacc_required_fields_birthday_error">@string/schacc_required_fields_birthday_hint</string>
+    <string name="schacc_required_fields_gdpr_description">You can adjust your privacy choices at any time or learn more about Schibsted, data and you.</string>
+    <string name="schacc_required_fields_schibsted_data">adjust your privacy choices at any time</string>
+    <string name="schacc_required_fields_privacy_adjustment">learn more about Schibsted, data and you.</string>
+    <string name="schacc_required_fields_schibsted_data_link">https://info.privacy.schibsted.com/en/S012</string>
+    <string name="schacc_required_fields_privacy_adjustment_link">https://info.privacy.schibsted.com/en/S007</string>
     <!--Password-->
     <string name="schacc_password_change_phone_number">Vaihda puhelinnumero</string>
     <string name="schacc_password_change_email">Vaihda sähköpostiosoite</string>
@@ -76,7 +81,7 @@
     <string name="schacc_inbox_check_inbox_title">Tarkista postilaatikkosi</string>
     <!--Web view-->
     <string name="schacc_web_forgot_password_title">Unohtuiko salasana?</string>
-    <string name="schacc_web_need_help_title">Tarvitsetko apua?</string>
+    <string name="schacc_web_need_help_title">@string/schacc_identification_help_link_text</string>
     <!--Generic-->
     <string name="schacc_spid_label">Schibsted-tili</string>
     <string name="schacc_next_step">Jatka</string>

@@ -25,6 +25,7 @@ import com.schibsted.account.engine.step.StepValidateReqFields
 import com.schibsted.account.model.NoValue
 import com.schibsted.account.model.SignUpParams
 import com.schibsted.account.model.error.ClientError
+import com.schibsted.account.network.OIDCScope
 import com.schibsted.account.network.response.AccountStatusResponse
 import com.schibsted.account.network.response.AgreementLinksResponse
 import com.schibsted.account.util.DeepLink
@@ -37,8 +38,8 @@ import java.net.URI
  * **Note:** After an Android configuration change, make sure you call [evaluate] again to re-trigger
  * the currently active task.
  */
-class SignUpController(private val baseRedirectUri: URI) : Controller<SignUpContract>() {
-    constructor(parcel: Parcel) : this(URI.create(parcel.readString())) {
+class SignUpController(private val baseRedirectUri: URI, @OIDCScope private val scopes: Array<String>) : Controller<SignUpContract>() {
+    constructor(parcel: Parcel) : this(URI.create(parcel.readString()), parcel.createStringArray()) {
         this.navigation.addAll(parcel.readStack(SignUpController::class.java.classLoader))
     }
 
@@ -57,7 +58,7 @@ class SignUpController(private val baseRedirectUri: URI) : Controller<SignUpCont
                                 password = credentialsStep.credentials.password,
                                 acceptTerms = agreementsStep.agreements.acceptAgreements).getParams()
 
-                val deepLink = DeepLink.ValidateAccount.createDeepLinkUri(baseRedirectUri, credentialsStep.credentials.keepLoggedIn)
+                val deepLink = DeepLink.ValidateAccount.createDeepLinkUri(baseRedirectUri, credentialsStep.credentials.keepLoggedIn, scopes)
 
                 SignUpOperation(credentialsStep.credentials.identifier.identifier, deepLink, params,
                         { callback.onError(it.toClientError()) },
@@ -144,6 +145,7 @@ class SignUpController(private val baseRedirectUri: URI) : Controller<SignUpCont
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeString(this.baseRedirectUri.toString())
+        parcel.writeStringArray(this.scopes)
         super.writeToParcel(parcel, flags)
     }
 

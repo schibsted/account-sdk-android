@@ -78,9 +78,10 @@ The UIs can be started through the `getCallingIntent` function in the `AccountUi
 
 - **Flow type:** Which UI flow to start. This can be the password flow, passwordless using email or passwordless using sms.
 - **Params:** This contains the optional arguments for the UIs.
-    - **Teaser text:** A limited text which will be displayed on the initial screen.
-    - **Pre-filled identifier:** Specifying this will pre-fill the identifier field in the UIs, skipping straight to the following step.
+    - **Teaser text:** A limited text which will be displayed on the initial screen. Default: `null`.
+    - **Pre-filled identifier:** Specifying this will pre-fill the identifier field in the UIs, skipping straight to the following step. Default: `null`.
     - **SmartLock mode:** Sets the mode of the SmartLock implementation. Can be `ENABLED`, `DISABLED` or `FORCED`. The latter will return an error if login could not be done using SmartLock alone. Default: `DISABLED`.
+    - **OpenID Scope:** If you're using any non default scopes, these should be defined here. Default: `OIDCScope.SCOPE_OPENID`. 
 
 
 ```java
@@ -90,7 +91,8 @@ final Intent intent = AccountUi.getCallingIntent(
     new AccountUi.Params(
         getString(R.string.example_teaser_text), 
         "user@example.com",
-        SmartlockMode.DISABLED));
+        SmartlockMode.DISABLED,
+        new String[]{OIDCScope.SCOPE_OPENID}));
 
 startActivityForResult(intent, PASSWORD_REQUEST_CODE);
 ```

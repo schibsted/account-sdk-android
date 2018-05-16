@@ -22,6 +22,7 @@ import com.schibsted.account.AccountService;
 import com.schibsted.account.Events;
 import com.schibsted.account.engine.integration.ResultCallback;
 import com.schibsted.account.model.error.ClientError;
+import com.schibsted.account.network.OIDCScope;
 import com.schibsted.account.network.response.ProfileData;
 import com.schibsted.account.session.User;
 import com.schibsted.account.ui.AccountUi;
@@ -109,7 +110,7 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onSuccess(Void result) {
                     final Intent intent = AccountUi.getCallingIntent(getApplicationContext(), AccountUi.FlowType.PASSWORD,
-                            new AccountUi.Params(getString(R.string.example_teaser_text), null, SmartlockMode.DISABLED));
+                            new AccountUi.Params(getString(R.string.example_teaser_text), null, SmartlockMode.DISABLED, new String[]{OIDCScope.SCOPE_OPENID}));
                     startActivityForResult(intent, PASSWORD_REQUEST_CODE);
                 }
 
@@ -158,7 +159,7 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onSuccess(Void result) {
                         final Intent intent = AccountUi.getCallingIntent(getApplicationContext(), AccountUi.FlowType.PASSWORD,
-                                new AccountUi.Params(getString(R.string.example_teaser_text), null, SmartlockMode.DISABLED));
+                                new AccountUi.Params(getString(R.string.example_teaser_text), null, SmartlockMode.DISABLED, new String[]{OIDCScope.SCOPE_OPENID}));
                         startActivityForResult(intent, PASSWORD_REQUEST_CODE);
                     }
 
