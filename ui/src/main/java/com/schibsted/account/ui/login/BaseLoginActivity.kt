@@ -281,7 +281,7 @@ abstract class BaseLoginActivity : AppCompatActivity(), KeyboardManager, Navigat
                             Logger.info(TAG, { "Automatic login after account validation was successful" })
                             navigationController.finishFlow(user)
                         }
-                ))
+                ), state.scopes)
     }
 
     /**
