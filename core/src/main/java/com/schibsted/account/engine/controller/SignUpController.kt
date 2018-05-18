@@ -61,7 +61,10 @@ class SignUpController(private val baseRedirectUri: URI, @OIDCScope private val 
                 val deepLink = DeepLink.ValidateAccount.createDeepLinkUri(baseRedirectUri, credentialsStep.credentials.keepLoggedIn, scopes)
 
                 SignUpOperation(credentialsStep.credentials.identifier.identifier, deepLink, params,
-                        { callback.onError(it.toClientError()) },
+                        {
+                            callback.onError(it.toClientError())
+                            super.navigation.pop()
+                        },
                         {
                             callback.onSuccess(credentialsStep.credentials.identifier)
                             super.navigation.push(StepSignUpDone())
