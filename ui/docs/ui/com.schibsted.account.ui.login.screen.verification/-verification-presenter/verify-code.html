@@ -2,16 +2,21 @@
 <HEAD>
 <meta charset="UTF-8">
 <title>VerificationPresenter.verifyCode - ui</title>
-<link rel="stylesheet" href="../../../style.css">
+<link rel="stylesheet" href="..\..\..\style.css">
 </HEAD>
 <BODY>
 <a href="../../index.html">ui</a>&nbsp;/&nbsp;<a href="../index.html">com.schibsted.account.ui.login.screen.verification</a>&nbsp;/&nbsp;<a href="index.html">VerificationPresenter</a>&nbsp;/&nbsp;<a href="./verify-code.html">verifyCode</a><br/>
 <br/>
 <h1>verifyCode</h1>
 <a name="com.schibsted.account.ui.login.screen.verification.VerificationPresenter$verifyCode(com.schibsted.account.ui.ui.component.CodeInputView, kotlin.Boolean)"></a>
-<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">verifyCode</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.ui.login.screen.verification.VerificationPresenter$verifyCode(com.schibsted.account.ui.ui.component.CodeInputView, kotlin.Boolean)/codeInputView">codeInputView</span><span class="symbol">:</span>&nbsp;<a href="../../com.schibsted.account.ui.ui.component/-code-input-view/index.html"><span class="identifier">CodeInputView</span></a><span class="symbol">, </span><span class="identifier" id="com.schibsted.account.ui.login.screen.verification.VerificationPresenter$verifyCode(com.schibsted.account.ui.ui.component.CodeInputView, kotlin.Boolean)/keepMeLoggedIn">keepMeLoggedIn</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><span class="identifier">Boolean</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code>
+<code><span class="keyword">fun </span><span class="identifier">verifyCode</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.ui.login.screen.verification.VerificationPresenter$verifyCode(com.schibsted.account.ui.ui.component.CodeInputView, kotlin.Boolean)/codeInputView">codeInputView</span><span class="symbol">:</span>&nbsp;<a href="../../com.schibsted.account.ui.ui.component/-code-input-view/index.html"><span class="identifier">CodeInputView</span></a><span class="symbol">, </span><span class="identifier" id="com.schibsted.account.ui.login.screen.verification.VerificationPresenter$verifyCode(com.schibsted.account.ui.ui.component.CodeInputView, kotlin.Boolean)/keepMeLoggedIn">keepMeLoggedIn</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><span class="identifier">Boolean</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code>
 <p>Overrides <a href="../-verification-contract/-presenter/verify-code.html">Presenter.verifyCode</a></p>
-<p>Used to verify if the code provided by the user is valid If there is an agreement update a navigation to com.schibsted.account.ui.login.screen.term.TermsFragment will be asked. If the verification is successful a navigation to com.schibsted.account.ui.login.screen.information.RequiredFieldsFragment will be asked. If there is a failure the view will be requested to show an error</p>
+<p>Used to verify if the code provided by the user is valid
+If there is an agreement update a navigation to <a href="../../com.schibsted.account.ui.login.screen.term/-terms-fragment/index.html">com.schibsted.account.ui.login.screen.term.TermsFragment</a>
+will be asked.
+If the verification is successful a navigation to <a href="../../com.schibsted.account.ui.login.screen.information/-required-fields-fragment/index.html">com.schibsted.account.ui.login.screen.information.RequiredFieldsFragment</a>
+will be asked.
+If there is a failure  the view will be requested to show an error</p>
 <h3>Parameters</h3>
 <p><a name="codeInputView"></a>
 <code>codeInputView</code> - the provided code</p>

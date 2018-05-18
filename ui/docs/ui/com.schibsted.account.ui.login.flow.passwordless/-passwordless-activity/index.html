@@ -2,7 +2,7 @@
 <HEAD>
 <meta charset="UTF-8">
 <title>PasswordlessActivity - ui</title>
-<link rel="stylesheet" href="../../../style.css">
+<link rel="stylesheet" href="..\..\..\style.css">
 </HEAD>
 <BODY>
 <a href="../../index.html">ui</a>&nbsp;/&nbsp;<a href="../index.html">com.schibsted.account.ui.login.flow.passwordless</a>&nbsp;/&nbsp;<a href="./index.html">PasswordlessActivity</a><br/>
@@ -55,6 +55,13 @@ This activity manage the keyboard visibility.</p>
 </tr>
 <tr>
 <td>
+<p><a href="../../com.schibsted.account.ui.login/-base-login-activity/flow-type.html">flowType</a></p>
+</td>
+<td>
+<code><span class="keyword">lateinit</span> <span class="keyword">var </span><span class="identifier">flowType</span><span class="symbol">: </span><a href="../../com.schibsted.account.ui/-account-ui/-flow-type/index.html"><span class="identifier">FlowType</span></a></code></td>
+</tr>
+<tr>
+<td>
 <p><a href="../../com.schibsted.account.ui.login/-base-login-activity/fragment-provider.html">fragmentProvider</a></p>
 </td>
 <td>
@@ -87,6 +94,13 @@ This activity manage the keyboard visibility.</p>
 </td>
 <td>
 <code><span class="keyword">lateinit</span> <span class="keyword">var </span><span class="identifier">navigationController</span><span class="symbol">: </span><a href="../../com.schibsted.account.ui.navigation/-navigation/index.html"><span class="identifier">Navigation</span></a></code></td>
+</tr>
+<tr>
+<td>
+<p><a href="../../com.schibsted.account.ui.login/-base-login-activity/params.html">params</a></p>
+</td>
+<td>
+<code><span class="keyword">lateinit</span> <span class="keyword">var </span><span class="identifier">params</span><span class="symbol">: </span><a href="../../com.schibsted.account.ui/-account-ui/-params/index.html"><span class="identifier">Params</span></a></code></td>
 </tr>
 <tr>
 <td>
@@ -295,20 +309,6 @@ on the system implementation.</p>
 </td>
 <td>
 <code><span class="keyword">const</span> <span class="keyword">val </span><span class="identifier">KEY_CONTROLLER</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a></code></td>
-</tr>
-</tbody>
-</table>
-<h3>Companion Object Functions</h3>
-<table>
-<tbody>
-<tr>
-<td>
-<p><a href="get-calling-intent.html">getCallingIntent</a></p>
-</td>
-<td>
-<code><span class="keyword">fun </span><span class="identifier">getCallingIntent</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.ui.login.flow.passwordless.PasswordlessActivity.Companion$getCallingIntent(android.content.Context, com.schibsted.account.ui.UiConfiguration, com.schibsted.account.engine.integration.ResultCallback((android.content.Intent)))/context">context</span><span class="symbol">:</span>&nbsp;<a href="https://developer.android.com/reference/android/content/Context.html"><span class="identifier">Context</span></a><span class="symbol">, </span><span class="identifier" id="com.schibsted.account.ui.login.flow.passwordless.PasswordlessActivity.Companion$getCallingIntent(android.content.Context, com.schibsted.account.ui.UiConfiguration, com.schibsted.account.engine.integration.ResultCallback((android.content.Intent)))/uiConfiguration">uiConfiguration</span><span class="symbol">:</span>&nbsp;<a href="../../com.schibsted.account.ui/-ui-configuration/index.html"><span class="identifier">UiConfiguration</span></a><span class="symbol">, </span><span class="identifier" id="com.schibsted.account.ui.login.flow.passwordless.PasswordlessActivity.Companion$getCallingIntent(android.content.Context, com.schibsted.account.ui.UiConfiguration, com.schibsted.account.engine.integration.ResultCallback((android.content.Intent)))/resultCallback">resultCallback</span><span class="symbol">:</span>&nbsp;<span class="identifier">ResultCallback</span><span class="symbol">&lt;</span><a href="https://developer.android.com/reference/android/content/Intent.html"><span class="identifier">Intent</span></a><span class="symbol">&gt;</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code>
-<p>Provides an <a href="https://developer.android.com/reference/android/content/Intent.html">Intent</a> that can be used to launch the visual authentication flow.</p>
-</td>
 </tr>
 </tbody>
 </table>

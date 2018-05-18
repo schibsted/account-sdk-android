@@ -1,6 +1,6 @@
 $dokka.format:html
 $dokka.linkExtension:html
-
+$dokka.location:com.schibsted.account.ui$setPartAsClickableLink(android.text.SpannableString, kotlin.Int, kotlin.String, android.text.style.ClickableSpan)com.schibsted.account.ui/android.text.-spannable-string/set-part-as-clickable-link.html
 com.schibsted.account.ui
 com.schibsted.account.ui.contract
 com.schibsted.account.ui.login
