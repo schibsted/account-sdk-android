@@ -4,7 +4,7 @@
 
 package com.schibsted.account.ui.ui;
 
-import android.content.Intent;
+import android.app.Activity;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -68,40 +68,33 @@ public class WebFragment extends BaseFragment {
 
     class DeepLinkOverrideClient extends WebViewClient {
         private final URI appScheme;
+        private static final String SPID_PAGE = "spid_page";
+        private static final String NEW_PASSWORD = "request+new+password";
 
-        public DeepLinkOverrideClient(URI appScheme) {
+        DeepLinkOverrideClient(URI appScheme) {
             this.appScheme = appScheme;
         }
 
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, String url) {
-            Intent intent;
-
-            if (url.startsWith(appScheme.getScheme() + "://")) {
-                intent = new Intent(Intent.ACTION_VIEW);
-                intent.setData(Uri.parse(url));
-                startActivity(intent);
-
-                return true;
-            }
-
-            return false;
+            return url.startsWith(appScheme.getScheme() + "://") && handleUrlAction(Uri.parse(url), getActivity());
         }
 
         @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
-            Intent intent;
             final Uri uri = request.getUrl();
+            return uri.getScheme().equals(appScheme.getScheme()) && handleUrlAction(uri, getActivity());
+        }
 
-            if (uri.getScheme().equals(appScheme.getScheme())) {
-                intent = new Intent(Intent.ACTION_VIEW);
-                intent.setData(uri);
-                startActivity(intent);
-
-                return true;
+        private boolean handleUrlAction(final Uri uri, final Activity activity) {
+            if (activity != null) {
+                final String stringUri = uri.toString();
+                if (stringUri.contains(SPID_PAGE + "=" + NEW_PASSWORD)) {
+                    activity.onBackPressed();
+                    return true;
+                }
             }
-
             return false;
         }
     }
