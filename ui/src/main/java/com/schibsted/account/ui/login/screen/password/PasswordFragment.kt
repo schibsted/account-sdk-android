@@ -15,8 +15,8 @@ import com.schibsted.account.common.tracking.TrackingData
 import com.schibsted.account.engine.input.Identifier
 import com.schibsted.account.model.error.ClientError
 import com.schibsted.account.persistence.LocalSecretsProvider
-import com.schibsted.account.ui.R
 import com.schibsted.account.ui.InternalUiConfiguration
+import com.schibsted.account.ui.R
 import com.schibsted.account.ui.login.BaseLoginActivity
 import com.schibsted.account.ui.login.screen.LoginScreen
 import com.schibsted.account.ui.ui.FlowFragment
@@ -64,11 +64,10 @@ class PasswordFragment : FlowFragment<PasswordContract.Presenter>(), PasswordCon
                 LocalSecretsProvider(requireContext()).put(GSON.toJson(it))
             }
 
-            val redirectUri = DeepLink.IdentifierProvided.createDeepLinkUri(uiConf!!.redirectUri, idKey
-                    ?: "")
+            val redirectUri = DeepLink.IdentifierProvided.createDeepLinkUri(uiConf.redirectUri, idKey ?: "")
 
             navigationListener?.onWebViewNavigationRequested(
-                    WebFragment.newInstance(Routes.forgotPasswordUrl(redirectUri).toString(), uiConf?.redirectUri), LoginScreen.WEB_FORGOT_PASSWORD_SCREEN)
+                    WebFragment.newInstance(Routes.forgotPasswordUrl(redirectUri).toString(), uiConf.redirectUri), LoginScreen.WEB_FORGOT_PASSWORD_SCREEN)
         }
 
         remember_me_info.setOnClickListener {
