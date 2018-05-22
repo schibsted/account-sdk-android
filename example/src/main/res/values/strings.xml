@@ -10,7 +10,7 @@
     <string name="example_app_user_logged_in">Logged in as: %1$s</string>
     <string name="example_app_user_logged_out">User not logged in</string>
     <string name="example_teaser_text">Hello and welcome. This is a teaser text limited to three lines which can be customized.</string>
-    
+    <string name="example_app_loading_info">Loading info…</string>
     <string name="schacc_conf_client_name">This is my client name</string>
     <string name="schacc_conf_redirect_scheme">spid-58cff98f17e59686158b4567</string>
     <string name="schacc_conf_redirect_host">login</string>
