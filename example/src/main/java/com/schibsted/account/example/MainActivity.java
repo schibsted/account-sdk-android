@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
         button = findViewById(R.id.example_app_button);
 
         final TextView sdkVersion = findViewById(R.id.example_app_sdk_version_view);
-        sdkVersion.setText(BuildConfig.VERSION_NAME + " - " + BuildConfig.BUILD_TYPE.toUpperCase(Locale.getDefault()));
+        sdkVersion.setText(com.schibsted.account.BuildConfig.VERSION_NAME + " - " + com.schibsted.account.BuildConfig.BUILD_TYPE.toUpperCase(Locale.getDefault()));
 
         // Bind the AccountService
         final AccountService accountService = new AccountService(getApplicationContext());
