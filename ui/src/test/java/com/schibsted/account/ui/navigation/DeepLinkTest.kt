@@ -37,7 +37,7 @@ class DeepLinkTest : WordSpec({
         }
 
         "correctly parse multiple scopes" {
-            val uri = URI.create(redir.toString() + "?act=validate-account&code=ab.c12.3!&sc=name,nickname")
+            val uri = URI.create(redir.toString() + "?act=validate-account&code=ab.c12.3!&sc=name-nickname")
             val decoded = DeepLink.ValidateAccount(uri)
             decoded!!.scopes.toList() should containsAll(listOf(OIDCScope.SCOPE_READ_NAME, OIDCScope.SCOPE_READ_NICKNAME))
         }

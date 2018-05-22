@@ -81,16 +81,17 @@ class RequiredFieldsFragment : FlowFragment<RequiredFieldsContract.Presenter>(),
         val privacyLink = getString(R.string.schacc_required_fields_privacy_adjustment_link)
         val dataUsageLink = getString(R.string.schacc_required_fields_schibsted_data_link)
 
-        description.setPartAsClickableLink(color, privacyText, getLinkAction(privacyLink))
-        description.setPartAsClickableLink(color, dataUsageText, getLinkAction(dataUsageLink))
+        description.setPartAsClickableLink(color, privacyText, getLinkAction(privacyLink, TrackingData.UIElement.ADJUST_PRIVACY_CHOICES))
+        description.setPartAsClickableLink(color, dataUsageText, getLinkAction(dataUsageLink, TrackingData.UIElement.LEARN_MORE_ABOUT_SCHIBSTED))
 
         return description
     }
 
-    private fun getLinkAction(link: String): ClickableSpan {
+    private fun getLinkAction(link: String, uiElement: TrackingData.UIElement): ClickableSpan {
         return object : ClickableSpan() {
             override fun onClick(widget: View) {
                 navigationListener?.onWebViewNavigationRequested(WebFragment.newInstance(link, uiConf.redirectUri), LoginScreen.WEB_TC_SCREEN)
+                BaseLoginActivity.tracker?.eventEngagement(TrackingData.Engagement.CLICK, uiElement, TrackingData.Screen.REQUIRED_FIELDS)
             }
 
             override fun updateDrawState(ds: TextPaint) {

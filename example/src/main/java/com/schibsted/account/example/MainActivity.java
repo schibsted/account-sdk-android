@@ -93,6 +93,7 @@ public class MainActivity extends AppCompatActivity {
             });
 
             button.setText(R.string.example_app_logout);
+            button.setEnabled(true);
             button.setOnClickListener(logoutListener);
         } else {
             userState.setText(getString(R.string.example_app_user_logged_out));
@@ -104,8 +105,9 @@ public class MainActivity extends AppCompatActivity {
     private View.OnClickListener loginListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
+            button.setEnabled(false);
+            button.setText(R.string.example_app_loading_info);
             // Create the intent for the desired flow
-
             AccountUi.preInitialize(new ResultCallback<Void>() {
                 @Override
                 public void onSuccess(Void result) {
@@ -168,6 +170,9 @@ public class MainActivity extends AppCompatActivity {
                         Toast.makeText(MainActivity.this, error.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
+            }else {
+                button.setEnabled(true);
+                button.setText(R.string.example_app_login);
             }
         }
     }

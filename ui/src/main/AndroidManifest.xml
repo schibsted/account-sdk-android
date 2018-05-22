@@ -14,7 +14,7 @@
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
 
-                <data android:scheme="@string/schacc_redirect_scheme" android:host="*" />
+                <data android:scheme="@string/schacc_conf_redirect_scheme" android:host="*" />
             </intent-filter>
         </activity>
     </application>
