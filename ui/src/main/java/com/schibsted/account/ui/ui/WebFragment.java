@@ -19,6 +19,8 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 import com.schibsted.account.ui.R;
+import com.schibsted.account.util.DeepLink;
+import com.schibsted.account.util.DeepLinkHandler;
 
 import java.net.URI;
 
@@ -68,8 +70,6 @@ public class WebFragment extends BaseFragment {
 
     class DeepLinkOverrideClient extends WebViewClient {
         private final URI appScheme;
-        private static final String SPID_PAGE = "spid_page";
-        private static final String NEW_PASSWORD = "request+new+password";
 
         DeepLinkOverrideClient(URI appScheme) {
             this.appScheme = appScheme;
@@ -89,8 +89,7 @@ public class WebFragment extends BaseFragment {
 
         private boolean handleUrlAction(final Uri uri, final Activity activity) {
             if (activity != null) {
-                final String stringUri = uri.toString();
-                if (stringUri.contains(SPID_PAGE + "=" + NEW_PASSWORD)) {
+                if (uri.getQueryParameters(DeepLinkHandler.PARAM_ACTION).contains(DeepLink.Action.IDENTIFIER_PROVIDED.getValue())) {
                     activity.onBackPressed();
                     return true;
                 }
