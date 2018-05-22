@@ -35,7 +35,7 @@ sealed class DeepLink {
                     }
 
                     val isPersistable = Try { Integer.parseInt(uri.getQueryParam(PARAM_PERSISTABLE)) }.map { it == 1 }.getOrDefault { false }
-                    @OIDCScope val scopes = uri.getQueryParam(PARAM_SCOPES)?.split(",")?.map(String::trim)?.toTypedArray()
+                    @OIDCScope val scopes = uri.getQueryParam(PARAM_SCOPES)?.split(SCOPE_SEPARATOR)?.map(String::trim)?.toTypedArray()
 
                     return ValidateAccount(code, isPersistable, scopes
                             ?: arrayOf(OIDCScope.SCOPE_OPENID))
@@ -50,7 +50,7 @@ sealed class DeepLink {
                 return URI.create("$redirectUri?" +
                         "${DeepLinkHandler.PARAM_ACTION}=${Action.VALIDATE_ACCOUNT.value}" +
                         "&$PARAM_PERSISTABLE=${if (isPersistable) 1 else 0}" +
-                        "&$PARAM_SCOPES=${scopes.joinToString(",")}")
+                        "&$PARAM_SCOPES=${scopes.joinToString(SCOPE_SEPARATOR)}")
             }
         }
     }
@@ -82,5 +82,6 @@ sealed class DeepLink {
 
     companion object {
         protected const val TAG = Logger.DEFAULT_TAG + "-DL"
+        private const val SCOPE_SEPARATOR = "-"
     }
 }
