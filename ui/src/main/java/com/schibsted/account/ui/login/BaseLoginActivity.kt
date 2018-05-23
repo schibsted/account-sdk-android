@@ -139,31 +139,26 @@ abstract class BaseLoginActivity : AppCompatActivity(), KeyboardManager, Navigat
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true)
-
+        initializeUi()
         accountService = AccountService(applicationContext)
         lifecycle.addObserver(accountService)
-
-        smartlockCredentials = intent.getParcelableExtra(KEY_SMARTLOCK_CREDENTIALS)
-
-        this.flowType = intent.getStringExtra(AccountUi.KEY_FLOW_TYPE)?.let { AccountUi.FlowType.valueOf(it) }
-                ?: AccountUi.FlowType.PASSWORD
-        this.params = intent.extras?.let { AccountUi.Params(it) } ?: AccountUi.Params()
-
-        val idType = if (flowType == AccountUi.FlowType.PASSWORDLESS_PHONE) Identifier.IdentifierType.SMS else Identifier.IdentifierType.EMAIL
-        this.uiConfiguration = InternalUiConfiguration.resolve(application).copy(
-                identifierType = idType,
-                identifier = params.preFilledIdentifier,
-                teaserText = params.teaserText,
-                smartlockMode = params.smartLockMode)
-
-        initializeUi()
-
         navigationController = Navigation(this, this)
 
+        smartlockCredentials = intent.getParcelableExtra(KEY_SMARTLOCK_CREDENTIALS)
+        this.flowType = intent.getStringExtra(AccountUi.KEY_FLOW_TYPE)?.let { AccountUi.FlowType.valueOf(it) } ?: AccountUi.FlowType.PASSWORD
+
+        initializeConfiguration()
+        val action = DeepLinkHandler.resolveDeepLink(intent.dataString)
         initializePropertiesFromBundle(savedInstanceState)
 
-        fragmentProvider = FragmentProvider(uiConfiguration)
+        if (action is DeepLink.ValidateAccount) {
+            followDeepLink(action)
+        } else {
+            launchUi()
+        }
+    }
 
+    private fun launchUi() {
         val intentClientInfo = intent.getParcelableExtra<ClientInfo?>(AccountUi.KEY_CLIENT_INFO)
         if (intentClientInfo == null) {
             val loadingDialog = LoadingDialogFragment()
@@ -173,16 +168,18 @@ abstract class BaseLoginActivity : AppCompatActivity(), KeyboardManager, Navigat
                 finish()
             }, {
                 loadingDialog.dismiss()
-                clientInfo.value = it
-                followDeepLink(intent.dataString)
+                startFlow(it)
             })
         } else {
-            clientInfo.value = intentClientInfo
-            followDeepLink(intent.dataString)
+            startFlow(intentClientInfo)
         }
+    }
 
+    private fun startFlow(clientInfo: ClientInfo) {
+        fragmentProvider = FragmentProvider(uiConfiguration)
         loginContract = LoginContractImpl(this)
         initializeSmartlock()
+        Companion.clientInfo.value = clientInfo
     }
 
     private fun initializeUi() {
@@ -190,6 +187,16 @@ abstract class BaseLoginActivity : AppCompatActivity(), KeyboardManager, Navigat
         setContentView(R.layout.schacc_mobile_activity_layout)
         setUpActionBar()
         activityRoot = findViewById(R.id.activity_layout)
+    }
+
+    private fun initializeConfiguration() {
+        this.params = intent.extras?.let { AccountUi.Params(it) } ?: AccountUi.Params()
+        val idType = if (flowType == AccountUi.FlowType.PASSWORDLESS_PHONE) Identifier.IdentifierType.SMS else Identifier.IdentifierType.EMAIL
+        this.uiConfiguration = InternalUiConfiguration.resolve(application).copy(
+                identifierType = idType,
+                identifier = params.preFilledIdentifier,
+                teaserText = params.teaserText,
+                smartlockMode = params.smartLockMode)
         UiUtil.setLanguage(this, uiConfiguration.locale)
     }
 
@@ -226,17 +233,17 @@ abstract class BaseLoginActivity : AppCompatActivity(), KeyboardManager, Navigat
         }
     }
 
-    private fun followDeepLink(dataString: String?) {
-        val action = DeepLinkHandler.resolveDeepLink(dataString)
-        when (action) {
+    private fun followDeepLink(deepLink: DeepLink) {
+
+        when (deepLink) {
             is DeepLink.ValidateAccount -> {
-                validateAccount(action)
+                validateAccount(deepLink)
             }
             is DeepLink.IdentifierProvided -> {
                 if (navigationController.currentFragment?.tag == LoginScreen.WEB_FORGOT_PASSWORD_SCREEN.value) {
                     navigationController.navigateBackTo(LoginScreen.PASSWORD_SCREEN)
                 } else if (navigationController.currentFragment?.tag == LoginScreen.IDENTIFICATION_SCREEN.value) {
-                    LocalSecretsProvider(applicationContext).get(action.identifier)?.let {
+                    LocalSecretsProvider(applicationContext).get(deepLink.identifier)?.let {
                         val frag = navigationController.currentFragment as EmailIdentificationFragment
                         val id = Gson().fromJson(it, Identifier::class.java)
 
@@ -276,6 +283,7 @@ abstract class BaseLoginActivity : AppCompatActivity(), KeyboardManager, Navigat
                 ResultCallback.fromLambda(
                         { error ->
                             Logger.info(TAG, { "Automatic login after account validation failed: ${error.message}" })
+                            launchUi()
                         },
                         { user ->
                             Logger.info(TAG, { "Automatic login after account validation was successful" })
@@ -503,6 +511,7 @@ abstract class BaseLoginActivity : AppCompatActivity(), KeyboardManager, Navigat
 
     override fun onNewIntent(intent: Intent) {
         super.onNewIntent(intent)
-        followDeepLink(intent.dataString)
+        val action = DeepLinkHandler.resolveDeepLink(intent.dataString)
+        action?.let { followDeepLink(it) }
     }
 }

@@ -38,7 +38,8 @@ object AccountUi {
 
         companion object {
             operator fun invoke(bundle: Bundle): Params {
-                return bundle.getParcelable(KEY_PARAMS) as Params
+                //when app is launched via deeplink the parcelable value is null
+                return bundle.getParcelable(KEY_PARAMS) as? Params ?: Params()
             }
         }
     }
