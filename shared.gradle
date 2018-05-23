@@ -7,9 +7,6 @@ static def getGitVersionCode(git) {
 }
 
 static def getGitVersionName(git) {
-    if (!System.getenv('CI')) {
-        return "0.0.0"
-    }
 
     def tags = git.tag.list().sort {it.commit.time}
 
