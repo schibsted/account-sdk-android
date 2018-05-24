@@ -23,7 +23,6 @@ import io.kotlintest.specs.WordSpec
 class RequiredFieldsPresenterTest : WordSpec() {
 
     init {
-        BaseLoginActivity.clientInfo.value = mock()
         val testConfig = ClientConfiguration("https://dev-example.com/", "myId", "mySecret")
         ClientConfiguration.set(testConfig)
         Logger.loggingEnabled = false
