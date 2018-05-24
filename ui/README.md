@@ -26,7 +26,7 @@ The minimal configuration of the SDK UIs are: client name, redirect scheme and r
 You can further control the behavior of the UIs bu specifying any of the following attributes. These can be specified in your `AndroidManifest.xml` or by implementing `OptionalConfiguration.UiConfigProvider` in your `Application` class. Using only one of these is recommended, but if you were to use both, then the configuration provider will be resolved before the manifest.
 
 - **Locale:** The locale to use for sending verification email and SMS from Schibsted Account. Defaults: `Locale.getDefault()`.
-- **Sign-up enabled:** Whether or not creation of new accounts should be allowed. Please note that an error message must be specified in order to disable this. Default: false.
+- **Sign-up enabled:** Whether or not creation of new accounts should be allowed. Please note that an error message must be specified in order to disable this. Default: true.
 - **Sign-up disabled message:** The error message to show when a user attempts to create a new account if it's disabled. No default.
 - **Cancellable:** When set to false, the UIs will no longer show the close button. Default: true.
 - **Client logo:** The logo to display in the UIs. Default: 0.
