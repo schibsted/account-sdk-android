@@ -28,14 +28,14 @@ class OAuthService(@Environment environment: String, okHttpClient: OkHttpClient)
         clientSecret: String,
         authCode: String,
         redirectUri: String,
-        scopes: Array<String>
+        scopes: Array<String>?
     ): Call<TokenResponse> {
 
-        val params = mapOf(
+        val params = mutableMapOf(
                 PARAM_GRANT_TYPE to GRANT_TYPE_AUTHORIZATION_CODE,
-                PARAM_SCOPE to scopes.joinToString(" "),
                 PARAM_CODE to authCode,
                 PARAM_REDIRECT_URI_UNDERSCORE to redirectUri)
+        scopes?.let { params.put(PARAM_SCOPE, scopes.joinToString { "," }) }
 
         return this.oauthContract.token(createBasicAuthHeader(clientId, clientSecret), params)
     }
