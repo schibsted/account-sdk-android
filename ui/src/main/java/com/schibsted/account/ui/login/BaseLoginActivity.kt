@@ -80,20 +80,12 @@ abstract class BaseLoginActivity : AppCompatActivity(), KeyboardManager, Navigat
         const val KEY_SMARTLOCK_RESOLVING = "KEY_SMARTLOCK_RESOLVING"
 
         @JvmStatic
-        @VisibleForTesting(otherwise = VisibleForTesting.PROTECTED)
-        internal val clientInfo = ObservableField<ClientInfo?>(null)
-
-        @JvmStatic
         var tracker by Delegates.observable<UiTracking?>(null) { _, _, newValue ->
             val conf = ClientConfiguration.get()
             newValue?.clientId = conf.clientId
             newValue?.loginRealm = when (conf.environment) {
                 Environment.ENVIRONMENT_PRODUCTION_NORWAY -> "spid.no"
                 else -> "schibsted.com"
-            }
-
-            clientInfo.addListener(notifyInitially = true) {
-                newValue?.merchantId = it?.merchantId
             }
         }
     }
@@ -111,6 +103,9 @@ abstract class BaseLoginActivity : AppCompatActivity(), KeyboardManager, Navigat
     protected var activeFlowType: FlowSelectionListener.FlowType? = null
     var currentIdentifier: Identifier? = null
     var smartlockCredentials: Credentials? = null
+
+    @VisibleForTesting(otherwise = VisibleForTesting.PROTECTED)
+    internal val clientInfo = ObservableField<ClientInfo?>(null)
 
     /**
      * defines the first element of the layout, this is the main container of the activity
@@ -148,9 +143,12 @@ abstract class BaseLoginActivity : AppCompatActivity(), KeyboardManager, Navigat
         this.flowType = intent.getStringExtra(AccountUi.KEY_FLOW_TYPE)?.let { AccountUi.FlowType.valueOf(it) } ?: AccountUi.FlowType.PASSWORD
 
         initializeConfiguration()
-        val action = DeepLinkHandler.resolveDeepLink(intent.dataString)
         initializePropertiesFromBundle(savedInstanceState)
+        fragmentProvider = FragmentProvider(uiConfiguration)
+        loginContract = LoginContractImpl(this)
+        initializeSmartlock()
 
+        val action = DeepLinkHandler.resolveDeepLink(intent.dataString)
         if (action is DeepLink.ValidateAccount) {
             followDeepLink(action)
         } else {
@@ -168,18 +166,13 @@ abstract class BaseLoginActivity : AppCompatActivity(), KeyboardManager, Navigat
                 finish()
             }, {
                 loadingDialog.dismiss()
-                startFlow(it)
+                clientInfo.value = it
+                tracker?.merchantId = it.merchantId
             })
         } else {
-            startFlow(intentClientInfo)
+            clientInfo.value = intentClientInfo
+            tracker?.merchantId = intentClientInfo.merchantId
         }
-    }
-
-    private fun startFlow(clientInfo: ClientInfo) {
-        fragmentProvider = FragmentProvider(uiConfiguration)
-        loginContract = LoginContractImpl(this)
-        initializeSmartlock()
-        Companion.clientInfo.value = clientInfo
     }
 
     private fun initializeUi() {
@@ -234,7 +227,6 @@ abstract class BaseLoginActivity : AppCompatActivity(), KeyboardManager, Navigat
     }
 
     private fun followDeepLink(deepLink: DeepLink) {
-
         when (deepLink) {
             is DeepLink.ValidateAccount -> {
                 validateAccount(deepLink)
@@ -257,23 +249,22 @@ abstract class BaseLoginActivity : AppCompatActivity(), KeyboardManager, Navigat
     }
 
     fun startIdentificationFragment(flowSelectionListener: FlowSelectionListener?) {
-        if (clientInfo.value != null) {
-            val fragment = fragmentProvider.getOrCreateIdentificationFragment(
-                    navigationController.currentFragment,
-                    identifierType = Identifier.IdentifierType.EMAIL.value,
-                    flowSelectionListener = flowSelectionListener,
-                    clientInfo = clientInfo.value!!)
-            navigationController.navigateToFragment(fragment as AbstractIdentificationFragment)
-        } else {
+        if (clientInfo.value == null) {
             clientInfo.addListener(true) {
-                val fragment = fragmentProvider.getOrCreateIdentificationFragment(
-                        navigationController.currentFragment,
-                        identifierType = Identifier.IdentifierType.EMAIL.value,
-                        flowSelectionListener = flowSelectionListener,
-                        clientInfo = it!!)
-                navigationController.navigateToFragment(fragment as AbstractIdentificationFragment)
+                navigateToIdentificationFragment(it!!, flowSelectionListener)
             }
+        } else {
+            navigateToIdentificationFragment(clientInfo.value!!, flowSelectionListener)
         }
+    }
+
+    private fun navigateToIdentificationFragment(clientInfo: ClientInfo, flowSelectionListener: FlowSelectionListener?) {
+        val fragment = fragmentProvider.getOrCreateIdentificationFragment(
+                navigationController.currentFragment,
+                identifierType = Identifier.IdentifierType.EMAIL.value,
+                flowSelectionListener = flowSelectionListener,
+                clientInfo = clientInfo)
+        navigationController.navigateToFragment(fragment as AbstractIdentificationFragment)
     }
 
     private fun validateAccount(state: DeepLink.ValidateAccount) {
