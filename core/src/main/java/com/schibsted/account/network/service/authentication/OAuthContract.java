@@ -5,6 +5,7 @@
 package com.schibsted.account.network.service.authentication;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.schibsted.account.network.response.TokenResponse;
 
@@ -38,5 +39,5 @@ interface OAuthContract {
      */
     @FormUrlEncoded
     @POST("oauth/token")
-    Call<TokenResponse> token(@Header("Authorization") String basicClient, @FieldMap @NonNull Map<String, String> params);
+    Call<TokenResponse> token(@Header("Authorization") String basicClient, @NonNull @FieldMap Map<String, String> params, @Nullable @Header("X-OIDC") String xOidcHeader);
 }
