@@ -15,3 +15,4 @@ schibsted_account.conf
 Gemfile.lock
 _site/
 temp/
+deploy_key

@@ -10,6 +10,10 @@ android:
 script:
   - ./gradlew check jacocoReports --stacktrace
 before_install:
+  - openssl aes-256-cbc -K $encrypted_de87219daf1c_key -iv $encrypted_de87219daf1c_iv -in deploy_key.enc -out deploy_key -d
+  - chmod 600 deploy_key
+  - eval `ssh-agent -s`
+  - ssh-add deploy_key
   - mkdir "/usr/local/android-sdk/licenses" || true
   - echo -e "\n8933bad161af4178b1185d1a37fbf41ea5269c55" > "/usr/local/android-sdk/licenses/android-sdk-license"
   - echo -e "\n84831b9409646a918e30573bab4c9c91346d8abd" > "/usr/local/android-sdk/licenses/android-sdk-preview-license"
