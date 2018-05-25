@@ -66,6 +66,7 @@ public class WebFragment extends BaseFragment {
         webview.setWebChromeClient(new WebChromeClient());
         webview.setWebViewClient(client);
         webview.loadUrl(getArguments().getString(KEY_URL));
+        webview.setVerticalScrollBarEnabled(true);
     }
 
     class DeepLinkOverrideClient extends WebViewClient {
