@@ -24,7 +24,6 @@ class InfoInterceptor(private val isInternal: Boolean) : Interceptor {
             builder = builder
                     .header("SDK-Type", "android")
                     .header("SDK-Version", BuildConfig.VERSION_NAME)
-                    .header("X-OIDC", "true")
 
             UiTracking.trackingIdentifier?.let {
                 builder = builder.header("pulse-jwe", it)
