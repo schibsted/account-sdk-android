@@ -37,7 +37,7 @@ class OAuthService(@Environment environment: String, okHttpClient: OkHttpClient)
                 PARAM_REDIRECT_URI_UNDERSCORE to redirectUri)
         scopes?.let { params.put(PARAM_SCOPE, scopes.joinToString { "," }) }
 
-        return this.oauthContract.token(createBasicAuthHeader(clientId, clientSecret), params)
+        return this.oauthContract.token(createBasicAuthHeader(clientId, clientSecret), params, OIDC_VERSION)
     }
 
     /**
@@ -48,7 +48,7 @@ class OAuthService(@Environment environment: String, okHttpClient: OkHttpClient)
     fun tokenFromClientCredentials(clientId: String, clientSecret: String): Call<TokenResponse> {
         val params = mapOf(PARAM_GRANT_TYPE to GRANT_TYPE_CLIENT_CREDENTIALS)
 
-        return this.oauthContract.token(createBasicAuthHeader(clientId, clientSecret), params)
+        return this.oauthContract.token(createBasicAuthHeader(clientId, clientSecret), params, OIDC_VERSION)
     }
 
     /**
@@ -90,7 +90,7 @@ class OAuthService(@Environment environment: String, okHttpClient: OkHttpClient)
                 PARAM_PASSWORD to password,
                 PARAM_SCOPE to scopes.joinToString(" "))
 
-        return this.oauthContract.token(createBasicAuthHeader(clientId, clientSecret), params)
+        return this.oauthContract.token(createBasicAuthHeader(clientId, clientSecret), params, null)
     }
 
     /**
@@ -101,7 +101,7 @@ class OAuthService(@Environment environment: String, okHttpClient: OkHttpClient)
     fun refreshToken(clientId: String, clientSecret: String, refreshToken: String): Call<TokenResponse> {
         val params = mapOf(PARAM_GRANT_TYPE to GRANT_TYPE_REFRESH_TOKEN, GRANT_TYPE_REFRESH_TOKEN to refreshToken)
 
-        return this.oauthContract.token(createBasicAuthHeader(clientId, clientSecret), params)
+        return this.oauthContract.token(createBasicAuthHeader(clientId, clientSecret), params, OIDC_VERSION)
     }
 
     companion object {
@@ -116,5 +116,7 @@ class OAuthService(@Environment environment: String, okHttpClient: OkHttpClient)
 
         private val PARAM_GRANT_TYPE = "grant_type"
         private val PARAM_USERNAME = "username"
+
+        private val OIDC_VERSION = "v1"
     }
 }

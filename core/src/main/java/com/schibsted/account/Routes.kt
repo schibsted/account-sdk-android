@@ -26,5 +26,5 @@ object Routes {
     fun forgotPasswordUrl(redirectUri: URI? = null): URI = urlFromPath("flow/password", redirectUri)
 
     @JvmStatic
-    fun accountSummaryUrl(redirectUri: URI? = null): URI = urlFromPath("account/summary", redirectUri)
+    fun accountSummaryUrl(redirectUri: URI? = null): URI = urlFromPath("account/summary", redirectUri, mapOf("response_type" to "code"))
 }
