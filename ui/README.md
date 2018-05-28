@@ -136,6 +136,8 @@ The provided UI come with fully configurable colors. If you want to change these
     <color name="schacc_secondaryDisabled">myColor</color>
     <color name="schacc_secondaryHovered">myColor</color>
     <color name="schacc_secondaryActive">myColor</color>
+
+    <color name="schacc_backgroundColor">myColor</color>
 ```
 ### Customize the toolbar
 If needed the color of the toolbar's elements can be customized.
