@@ -71,10 +71,12 @@ object AccountUi {
         }
 
         var intent = when (flowType) {
-            FlowType.PASSWORD -> Intent(context, PasswordActivity::class.java).putExtra(KEY_FLOW_TYPE, flowType.name)
-            FlowType.PASSWORDLESS_EMAIL -> Intent(context, PasswordlessActivity::class.java).putExtra(KEY_FLOW_TYPE, flowType.name)
-            FlowType.PASSWORDLESS_PHONE -> Intent(context, PasswordlessActivity::class.java).putExtra(KEY_FLOW_TYPE, flowType.name)
-        }.putExtra(KEY_PARAMS, params)
+            FlowType.PASSWORD -> Intent(context, PasswordActivity::class.java)
+            FlowType.PASSWORDLESS_EMAIL,
+            FlowType.PASSWORDLESS_PHONE -> Intent(context, PasswordlessActivity::class.java)
+        }
+                .putExtra(KEY_PARAMS, params)
+                .putExtra(KEY_FLOW_TYPE, flowType.name)
 
         clientInfo?.let { intent = intent.putExtra(KEY_CLIENT_INFO, it) }
 

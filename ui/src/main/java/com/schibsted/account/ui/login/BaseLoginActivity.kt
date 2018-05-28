@@ -261,7 +261,7 @@ abstract class BaseLoginActivity : AppCompatActivity(), KeyboardManager, Navigat
     private fun navigateToIdentificationFragment(clientInfo: ClientInfo, flowSelectionListener: FlowSelectionListener?) {
         val fragment = fragmentProvider.getOrCreateIdentificationFragment(
                 navigationController.currentFragment,
-                identifierType = Identifier.IdentifierType.EMAIL.value,
+                flowType = flowType,
                 flowSelectionListener = flowSelectionListener,
                 clientInfo = clientInfo)
         navigationController.navigateToFragment(fragment as AbstractIdentificationFragment)
