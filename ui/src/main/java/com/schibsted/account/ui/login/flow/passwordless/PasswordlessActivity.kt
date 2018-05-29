@@ -19,7 +19,6 @@ import com.schibsted.account.engine.integration.contract.PasswordlessContract
 import com.schibsted.account.model.LoginResult
 import com.schibsted.account.model.error.ClientError
 import com.schibsted.account.network.response.AgreementLinksResponse
-import com.schibsted.account.ui.AccountUi
 import com.schibsted.account.ui.login.BaseLoginActivity
 import com.schibsted.account.ui.login.screen.identification.ui.AbstractIdentificationFragment
 import com.schibsted.account.ui.login.screen.identification.ui.MobileIdentificationFragment
@@ -35,7 +34,6 @@ import com.schibsted.account.ui.ui.FlowFragment
 class PasswordlessActivity : BaseLoginActivity(), PasswordlessContract {
 
     private lateinit var passwordlessController: PasswordlessController
-    private lateinit var identifierType: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,7 +42,6 @@ class PasswordlessActivity : BaseLoginActivity(), PasswordlessContract {
         } else {
             PasswordlessController(true)
         }
-        identifierType = intent.getStringExtra(AccountUi.KEY_FLOW_TYPE)!!
 
         navigationController = Navigation(this, this)
         if (smartlockCredentials == null && !isSmartlockRunning) {
@@ -58,7 +55,7 @@ class PasswordlessActivity : BaseLoginActivity(), PasswordlessContract {
                 val fragment = fragmentProvider.getOrCreateIdentificationFragment(
                         navigationController.currentFragment,
                         provider,
-                        identifierType = identifierType,
+                        flowType = flowType,
                         clientInfo = it!!)
                 navigationController.navigateToFragment(fragment as AbstractIdentificationFragment)
             }
@@ -66,7 +63,7 @@ class PasswordlessActivity : BaseLoginActivity(), PasswordlessContract {
             val fragment = fragmentProvider.getOrCreateIdentificationFragment(
                     navigationController.currentFragment,
                     provider,
-                    identifierType = identifierType,
+                    flowType = flowType,
                     clientInfo = clientInfo.value!!)
             navigationController.navigateToFragment(fragment as AbstractIdentificationFragment)
         }

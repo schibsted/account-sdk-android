@@ -13,6 +13,7 @@ import com.schibsted.account.engine.input.VerificationCode
 import com.schibsted.account.engine.integration.InputProvider
 import com.schibsted.account.network.response.AgreementLinksResponse
 import com.schibsted.account.network.response.ClientInfo
+import com.schibsted.account.ui.AccountUi
 import com.schibsted.account.ui.InternalUiConfiguration
 import com.schibsted.account.ui.login.flow.password.FlowSelectionListener
 import com.schibsted.account.ui.login.screen.identification.IdentificationPresenter
@@ -36,7 +37,7 @@ class FragmentProvider(private val uiConfiguration: InternalUiConfiguration) {
     fun getOrCreateIdentificationFragment(
         currentFragment: BaseFragment?,
         provider: InputProvider<Identifier>? = null,
-        identifierType: String,
+        flowType: AccountUi.FlowType,
         flowSelectionListener: FlowSelectionListener? = null,
         clientInfo: ClientInfo
     ): BaseFragment {
@@ -44,7 +45,7 @@ class FragmentProvider(private val uiConfiguration: InternalUiConfiguration) {
         return getFragment<AbstractIdentificationFragment>(currentFragment, {
             it.setPresenter(IdentificationPresenter(it, provider, flowSelectionListener))
         }, {
-            if (identifierType == Identifier.IdentifierType.SMS.value) {
+            if (flowType == AccountUi.FlowType.PASSWORDLESS_PHONE) {
                 MobileIdentificationFragment.newInstance(uiConfiguration, clientInfo)
             } else {
                 EmailIdentificationFragment.newInstance(uiConfiguration, clientInfo)
