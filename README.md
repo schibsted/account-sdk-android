@@ -16,7 +16,9 @@ These SDKs allows for connecting to Schibsted Account. The functionality of the 
 <br>The core module contains all networking, models and business logic for the SDK. The UI module is built on top of this, implementing the controllers available in this module. You can implement custom UIs on top of this as well, although this is generally not recommended.
 
 **SmartLock module**<br>
-[Documentation](https://schibsted.github.io/account-sdk-android/ui/#smartlock)
+[Documentation](https://schibsted.github.io/account-sdk-android/smartlock/)
+|
+[API Reference](https://schibsted.github.io/account-sdk-android/smartlock/docs/)
 <br>The SmartLock module builds on top of the UI module, allowing the users to log in using SmartLock. When enabled, this will fall back to using the UIs, unless the mode is specifically set to `FORCED`, in which case it will return an error on failure.
 
 **Common module**<br>
