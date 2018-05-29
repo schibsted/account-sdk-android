@@ -4,6 +4,8 @@
 
 package com.schibsted.account.ui.login.screen.term
 
+import android.os.Build
+import android.view.accessibility.AccessibilityEvent
 import com.schibsted.account.common.tracking.TrackingData
 import com.schibsted.account.engine.input.Agreements
 import com.schibsted.account.engine.integration.InputProvider
@@ -41,10 +43,16 @@ class TermsPresenter(private val termsView: TermsContract.View, private val prov
 
                 if (!privacyBox.isChecked) {
                     termsView.showError(privacyBox)
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                        privacyBox.errorView.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_ACCESSIBILITY_FOCUSED)
+                    }
                 }
 
                 if (!termsBox.isChecked) {
                     termsView.showError(termsBox)
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                        termsBox.errorView.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_ACCESSIBILITY_FOCUSED)
+                    }
                 }
             }
         }

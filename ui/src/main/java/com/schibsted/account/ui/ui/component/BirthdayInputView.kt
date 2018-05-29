@@ -41,7 +41,10 @@ class BirthdayInputView : InputFieldView {
         })
         inputField.filters = arrayOf(InputFilter.LengthFilter(10))
         inputField.inputType = EditorInfo.TYPE_CLASS_NUMBER
-        inputField.setHint(R.string.schacc_required_fields_birthday_hint)
+        inputField.hint = context.getString(R.string.schacc_accessibility_input_format,
+                context.getString(R.string.schacc_required_field_birthday),
+                context.getString(R.string.schacc_required_fields_birthday_hint))
+
         setTitle(R.string.schacc_required_field_birthday)
         errorView.setText(R.string.schacc_required_fields_birthday_error)
     }

@@ -30,6 +30,7 @@ class PasswordView : InputFieldView {
         inputField.transformationMethod = passwordTransformation
         inputField.setCompoundDrawablesWithIntrinsicBounds(null, null, ContextCompat.getDrawable(context, R.drawable.schacc_ic_eye_on), null)
         inputField.inputType = InputType.TYPE_TEXT_VARIATION_PASSWORD
+        inputField.hint = context.getString(R.string.schacc_accessibility_password)
 
         val internalWatcher = object : TextWatcher {
             override fun beforeTextChanged(sequence: CharSequence, start: Int, count: Int, after: Int) {

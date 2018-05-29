@@ -90,6 +90,7 @@ class VerificationFragment : FlowFragment<VerificationContract.Presenter>(), Ver
         identifiers.add(identifier)
         accountSelectorView.setAccountIdentifier(identifiers)
         accountSelectorView.actionListener = this
+        accountSelectorView.contentDescription = getString(R.string.schacc_accessibility_login_id, identifier.identifier)
 
         rememberMeView.isChecked = true
         rememberMeView.textView.text = getString(R.string.schacc_remember_me)

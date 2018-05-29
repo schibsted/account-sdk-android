@@ -7,6 +7,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     style="@style/schacc_container.scrollable">
 
+    <!-- Workaround to clear initial focus for accessibility -->
+    <LinearLayout android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:layout_width="0px"
+        android:layout_height="0px" />
+
     <TextView
         android:id="@+id/required_description"
         style="@style/schacc_text"

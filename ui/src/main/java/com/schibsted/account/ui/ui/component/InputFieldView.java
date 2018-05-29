@@ -21,6 +21,7 @@ import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.accessibility.AccessibilityEvent;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -301,6 +302,7 @@ public class InputFieldView extends LinearLayout implements InputField {
             errorView.setVisibility(VISIBLE);
             inputField.setBackgroundResource(R.drawable.schacc_input_field_widget_shape_error);
         }
+        errorView.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_FOCUSED);
     }
 
     /**

@@ -92,6 +92,10 @@ public class CheckBoxView extends LinearLayout implements ErrorField {
         return textView;
     }
 
+    public TextView getErrorView() {
+        return errorView;
+    }
+
     /**
      * @return <code>true</code> if the {@link #checkbox} is checked
      */
