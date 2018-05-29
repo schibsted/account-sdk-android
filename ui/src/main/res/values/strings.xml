@@ -13,7 +13,7 @@
     <string name="schacc_identification_external_information">%1$s collaborates with Schibsted. You\'ll need a Schibsted account to continue. You can use this account across all Schibsted sites.</string>
     <string name="schacc_mobile_identification_error">Please enter a valid phone number.</string>
     <string name="schacc_mobile_number_label">Enter your phone number</string>
-    <string name="schacc_mobile_number_hint">123456789</string>q
+    <string name="schacc_mobile_number_hint">123456789</string>
     <string name="schacc_mobile_prefix_hint">+%1$d</string>
 
     <string name="schacc_email_identification_error">Please enter a valid email address.</string>
