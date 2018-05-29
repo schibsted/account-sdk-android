@@ -24,6 +24,7 @@
     <color name="schacc_progressColor">@color/schacc_white</color>
     <color name="schacc_toolbarIconsColor">@color/schacc_darkGrey</color>
     <color name="schacc_toolbarColor">@color/colorPrimary</color>
+    <color name="schacc_backgroundColor">@color/schacc_white</color>
 
 
     <color name="schacc_error">#c8293d</color>
