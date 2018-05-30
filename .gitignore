@@ -9,3 +9,4 @@ build/
 *.properties
 schibstedid.conf
 schibsted_account.conf
+deploy_key
