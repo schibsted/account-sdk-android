@@ -165,7 +165,7 @@ abstract class BaseLoginActivity : AppCompatActivity(), KeyboardManager, Navigat
                 setResult(Activity.RESULT_CANCELED)
                 finish()
             }, {
-                loadingDialog.dismiss()
+                loadingDialog.dismissAllowingStateLoss()
                 clientInfo.value = it
                 tracker?.merchantId = it.merchantId
             })
