@@ -18,7 +18,6 @@ import android.text.style.ClickableSpan
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.accessibility.AccessibilityEvent
 import android.widget.CheckBox
 import android.widget.TextView
 import com.schibsted.account.common.tracking.TrackingData
