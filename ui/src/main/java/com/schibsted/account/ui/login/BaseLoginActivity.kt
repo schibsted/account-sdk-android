@@ -184,7 +184,7 @@ abstract class BaseLoginActivity : AppCompatActivity(), KeyboardManager, Navigat
 
     private fun initializeConfiguration() {
         this.params = intent.extras?.let { AccountUi.Params(it) } ?: AccountUi.Params()
-        val idType = if (flowType == AccountUi.FlowType.PASSWORDLESS_PHONE) Identifier.IdentifierType.SMS else Identifier.IdentifierType.EMAIL
+        val idType = if (flowType == AccountUi.FlowType.PASSWORDLESS_SMS) Identifier.IdentifierType.SMS else Identifier.IdentifierType.EMAIL
         this.uiConfiguration = InternalUiConfiguration.resolve(application).copy(
                 identifierType = idType,
                 identifier = params.preFilledIdentifier,
