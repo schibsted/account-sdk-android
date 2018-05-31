@@ -11,6 +11,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
 import com.schibsted.account.common.tracking.TrackingData
 import com.schibsted.account.model.error.ClientError
@@ -44,7 +45,7 @@ abstract class AbstractIdentificationFragment : FlowFragment<IdentificationContr
      * @see MobileIdentificationFragment.onCreateView
      * @see EmailIdentificationFragment.onCreateView
      */
-    protected lateinit var inputViewContainer: FrameLayout
+    protected lateinit var inputViewContainer: LinearLayout
 
     /**
      * Field used to display the policy of SPiD and the clientAccepted.

@@ -70,7 +70,7 @@
             style="@style/schacc_container"
             android:paddingTop="@dimen/schacc_extra_large_spacing">
 
-            <FrameLayout
+            <LinearLayout
                 android:id="@+id/identification_input_view"
                 android:focusable="true"
                 android:focusableInTouchMode="true"

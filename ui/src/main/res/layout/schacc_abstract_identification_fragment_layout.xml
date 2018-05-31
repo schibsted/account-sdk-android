@@ -60,7 +60,7 @@
         android:layout_marginLeft="@dimen/schacc_medium_spacing"
         android:layout_marginStart="@dimen/schacc_medium_spacing" />
 
-    <FrameLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:background="@drawable/schacc_rounded_container"
@@ -75,7 +75,7 @@
             android:paddingBottom="0dp"
             android:paddingTop="@dimen/schacc_large_spacing">
 
-            <FrameLayout
+            <LinearLayout
                 android:id="@+id/identification_input_view"
                 android:focusable="true"
                 android:focusableInTouchMode="true"
@@ -108,5 +108,5 @@
                 app:text="@string/schacc_next_step"
                 android:layout_marginBottom="@dimen/schacc_medium_spacing" />
         </android.support.constraint.ConstraintLayout>
-    </FrameLayout>
+    </LinearLayout>
 </android.support.constraint.ConstraintLayout>
