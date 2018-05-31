@@ -41,6 +41,7 @@ cp -r ../build/docs/ui ui/docs
 cp -r ../build/docs/style.css ui/
 
 [ -d smartlock ] || mkdir smartlock
+cp ../smartlock/README.md smartlock/
 cp -r ../build/docs/ui ui/docs
 cp -r ../build/docs/style.css ui/
 
