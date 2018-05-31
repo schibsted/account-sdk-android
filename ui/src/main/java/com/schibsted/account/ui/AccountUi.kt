@@ -36,6 +36,15 @@ object AccountUi {
         @OIDCScope val scopes: Array<String> = arrayOf(OIDCScope.SCOPE_OPENID)
     ) : Parcelable {
 
+        class Builder {
+            private var params = Params()
+            fun teaserText(teaserText: String?) = apply { params = params.copy(teaserText = teaserText) }
+            fun preFilledIdentifier(preFilledIdentifier: String?) = apply { params = params.copy(preFilledIdentifier = preFilledIdentifier) }
+            fun smartLockMode(smartLockMode: SmartlockMode) = apply { params = params.copy(smartLockMode = smartLockMode) }
+            fun scopes(@OIDCScope scopes: Array<String>) = apply { params = params.copy(scopes = scopes) }
+            fun build() = params
+        }
+
         companion object {
             operator fun invoke(bundle: Bundle): Params {
                 //when app is launched via deeplink the parcelable value is null
