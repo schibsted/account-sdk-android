@@ -105,6 +105,10 @@ class User(token: UserToken, val isPersistable: Boolean) : Parcelable {
      */
     @Suppress("MemberVisibilityCanBePrivate")
     fun bind(builder: OkHttpClient.Builder, urls: List<String>, allowNonHttps: Boolean, allowNonWhitelistedDomains: Boolean): OkHttpClient.Builder {
+        builder.interceptors().removeAll { it is AuthInterceptor || it is InfoInterceptor }.takeIf { it }?.let {
+            Logger.warn(Logger.DEFAULT_TAG, { "The provided builder had previous sessions bound, these are now removed." })
+        }
+
         return builder
                 .addInterceptor(AuthInterceptor(this, urls, allowNonHttps, allowNonWhitelistedDomains))
                 .addInterceptor(InfoInterceptor(false))

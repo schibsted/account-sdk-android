@@ -36,6 +36,15 @@ object AccountUi {
         @OIDCScope val scopes: Array<String> = arrayOf(OIDCScope.SCOPE_OPENID)
     ) : Parcelable {
 
+        class Builder {
+            private var params = Params()
+            fun teaserText(teaserText: String?) = apply { params = params.copy(teaserText = teaserText) }
+            fun preFilledIdentifier(preFilledIdentifier: String?) = apply { params = params.copy(preFilledIdentifier = preFilledIdentifier) }
+            fun smartLockMode(smartLockMode: SmartlockMode) = apply { params = params.copy(smartLockMode = smartLockMode) }
+            fun scopes(@OIDCScope scopes: Array<String>) = apply { params = params.copy(scopes = scopes) }
+            fun build() = params
+        }
+
         companion object {
             operator fun invoke(bundle: Bundle): Params {
                 //when app is launched via deeplink the parcelable value is null
@@ -48,7 +57,7 @@ object AccountUi {
     private var clientInfo: ClientInfo? = null
 
     enum class FlowType {
-        PASSWORD, PASSWORDLESS_EMAIL, PASSWORDLESS_PHONE;
+        PASSWORD, PASSWORDLESS_EMAIL, PASSWORDLESS_SMS;
     }
 
     @JvmStatic
@@ -73,7 +82,7 @@ object AccountUi {
         var intent = when (flowType) {
             FlowType.PASSWORD -> Intent(context, PasswordActivity::class.java)
             FlowType.PASSWORDLESS_EMAIL,
-            FlowType.PASSWORDLESS_PHONE -> Intent(context, PasswordlessActivity::class.java)
+            FlowType.PASSWORDLESS_SMS -> Intent(context, PasswordlessActivity::class.java)
         }
                 .putExtra(KEY_PARAMS, params)
                 .putExtra(KEY_FLOW_TYPE, flowType.name)
