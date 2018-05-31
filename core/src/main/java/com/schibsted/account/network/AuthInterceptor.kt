@@ -17,7 +17,6 @@ import okhttp3.Response
 import java.io.IOException
 import java.util.concurrent.atomic.AtomicBoolean
 import java.util.concurrent.atomic.AtomicInteger
-import java.util.concurrent.atomic.AtomicReference
 
 /**
  * Creates an interceptor which will do authenticated requests to whitelisted urls. By default, requests to non-whitelisted
@@ -40,7 +39,6 @@ class AuthInterceptor internal constructor(
 
     private val lock = ConditionVariable()
     private val refreshInProgress = AtomicBoolean(false)
-    private val activeToken = AtomicReference<UserToken?>(null)
     private val requestNo = AtomicInteger(0)
 
     init {
@@ -52,8 +50,6 @@ class AuthInterceptor internal constructor(
                 throw IllegalArgumentException("Authenticated requests can only be done over HTTPS unless specifically allowed")
             }
         }
-
-        activeToken.set(user.token)
     }
 
     private fun urlInWhitelist(url: HttpUrl): Boolean = urlWhitelist.find { url.toString().startsWith(it) } != null
@@ -90,7 +86,7 @@ class AuthInterceptor internal constructor(
 
         Logger.verbose(TAG, { "Security checks passed for request (ReqId:$reqId) to ${originalUrl.toString().safeUrl()}" })
 
-        val token = activeToken.get()
+        val token = user.token
         if (token == null) {
             Logger.error(TAG, { "Unable to perform authenticated request (ReqId:$reqId) to ${originalUrl.toString().safeUrl()}. Reason: User logged out" })
             throw AuthException("Unable to perform authenticated request (ReqId:$reqId) to ${originalUrl.toString().safeUrl()}. Reason: User logged out")
@@ -120,7 +116,7 @@ class AuthInterceptor internal constructor(
                     Logger.verbose(TAG, { "Not refreshing token, as the current URL(${response.request().url().toString().safeUrl()}) does not match the original ${originalUrl.toString().safeUrl()}" })
                     response
                 }
-                activeToken.get() == null -> {
+                user.token == null -> {
                     Logger.verbose(TAG, { "Not refreshing token for request (ReqId: $reqId), as the user is not logged in" })
                     response
                 }
@@ -137,6 +133,7 @@ class AuthInterceptor internal constructor(
     @VisibleForTesting(otherwise = VisibleForTesting.PACKAGE_PRIVATE)
     internal fun refreshToken(failedResponse: Response, chain: Interceptor.Chain, reqId: Int): Response =
             when {
+            // Only the first request should refresh
                 refreshInProgress.compareAndSet(false, true) -> {
                     lock.close()
                     Logger.verbose(TAG, { "Refreshing token from request (ReqId:$reqId)" })
@@ -145,11 +142,9 @@ class AuthInterceptor internal constructor(
                     val newToken = user.token
 
                     val resp = if (refreshResult && newToken != null) {
-                        activeToken.set(newToken)
                         Logger.verbose(TAG, { "Re-firing request (ReqId:$reqId) after token refreshing" })
                         chain.proceed(failedResponse.request().replaceAuthHeader(newToken))
                     } else {
-                        activeToken.set(null)
                         Logger.error(TAG, { "Token refresh failed (ReqId:$reqId)" })
                         failedResponse
                     }
@@ -157,13 +152,20 @@ class AuthInterceptor internal constructor(
                     lock.open()
                     resp
                 }
-                lock.block(timeout) && activeToken.get() != null -> {
-                    Logger.verbose(TAG, { "Re-firing request (ReqId:$reqId) after waiting for token refreshing" })
-                    val newToken = requireNotNull(activeToken.get(), { "Re-firing request after token refresh, but some other thread unset the token in the meantime" })
-                    chain.proceed(failedResponse.request().replaceAuthHeader(newToken))
+            // All subsequent refresh requests will wait instead
+                lock.block(timeout) -> {
+                    val newToken = user.token
+                    if (newToken != null) {
+                        Logger.verbose(TAG, { "Re-firing request (ReqId:$reqId) after waiting for token refreshing" })
+                        chain.proceed(failedResponse.request().replaceAuthHeader(newToken))
+                    } else {
+                        Logger.verbose(TAG, { "Auth token was null after waiting for refreshing. This request (ReqId:$reqId) will fail" })
+                        failedResponse
+                    }
                 }
+            // The previous check will return false on timeout, calling this block
                 else -> {
-                    Logger.verbose(TAG, { "Refreshing token failed or timed out, this request (ReqId:$reqId) fail as well" })
+                    Logger.verbose(TAG, { "Refreshing token timed out, failing this request (ReqId:$reqId)" })
                     failedResponse
                 }
             }
