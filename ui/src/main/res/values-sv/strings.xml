@@ -56,13 +56,13 @@
     <string name="schacc_required_field_email">E-postadress</string>
     <string name="schacc_required_field_display_name">Visningsnamn</string>
     <string name="schacc_required_field_phone_number">Telefonnummer</string>
-    <string name="schacc_required_fields_birthday_hint">YYYY-MM-DD</string>
+    <string name="schacc_required_fields_birthday_hint">ÅÅÅÅ-MM-DD</string>
     <string name="schacc_required_fields_birthday_error">@string/schacc_required_fields_birthday_hint</string>
-    <string name="schacc_required_fields_gdpr_description">You can adjust your privacy choices at any time or learn more about Schibsted, data and you.</string>
-    <string name="schacc_required_fields_schibsted_data">adjust your privacy choices at any time</string>
-    <string name="schacc_required_fields_privacy_adjustment">learn more about Schibsted, data and you.</string>
-    <string name="schacc_required_fields_schibsted_data_link">https://info.privacy.schibsted.com/en/S012</string>
-    <string name="schacc_required_fields_privacy_adjustment_link">https://info.privacy.schibsted.com/en/S007</string>
+    <string name="schacc_required_fields_gdpr_description">Du kan när som helst ändra dina integritetsval eller läsa mer om Schibsted, data och du.</string>
+    <string name="schacc_required_fields_schibsted_data">när som helst ändra dina integritetsval</string>
+    <string name="schacc_required_fields_privacy_adjustment">läsa mer om Schibsted, data och du.</string>
+    <string name="schacc_required_fields_schibsted_data_link">https://info.privacy.schibsted.com/se/S012</string>
+    <string name="schacc_required_fields_privacy_adjustment_link">https://info.privacy.schibsted.com/se/S007</string>
     <!--Password-->
     <string name="schacc_password_change_phone_number">Ändra telefonnummer</string>
     <string name="schacc_password_change_email">Ändra e-postadress</string>
@@ -107,4 +107,10 @@
     <!--System-->
     <string name="schacc_close">Stänga</string>
     <string name="schacc_intent_password_sign_up_link_name">signupDeepLink</string>
+    <!-- Accessability -->
+    <string name="schacc_accessibility_password">Lösenord</string>
+    <string name="schacc_accessibility_login_id">Loggar in med %1$s</string>
+    <string name="schacc_accessibility_signup_id">Skapa konto för %1$s</string>
+    <string name="schacc_accessibility_verification_code_no">Verifieringskod nummer %1$d av %2$d</string>
+    <string name="schacc_accessibility_input_format">%1$s i %2$s format</string>
 </resources>

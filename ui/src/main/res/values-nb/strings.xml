@@ -2,7 +2,7 @@
   ~ Copyright (c) 2018 Schibsted Products & Technology AS. Licensed under the terms of the MIT license. See LICENSE in the project root.
   -->
 
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
     <!--Identification-->
     <string name="schacc_identification_title">Logg inn eller opprett bruker</string>
     <string name="schacc_identification_login_only_title">Logg inn</string>
@@ -10,7 +10,7 @@
     <string name="schacc_identification_help_link_text">Hva er en Schibsted-konto?</string>
 
     <string name="schacc_identification_internal_information">%1$s er en del av Schibsted. Du trenger en Schibsted-konto for å fortsette. Du kan bruke denne kontoen på alle Schibsted-sider.</string>
-    <string name="schacc_identification_external_information">%1$s er i samarbeid med Schibsted. Du trenger en Schibsted-konto for å fortsette. Du kan bruke denne kontoen på alle Schibsted-sider.</string>
+    <string name="schacc_identification_external_information">%1$s samarbeider med Schibsted. Du trenger en Schibsted-konto for å fortsette. Du kan bruke denne kontoen på alle Schibsted-sider.</string>
     <string name="schacc_mobile_identification_error">Oppgi et gyldig telefonnummer.</string>
     <string name="schacc_mobile_number_label">Skriv inn din telefonnummer</string>
     <string name="schacc_mobile_number_hint">123456789</string>
@@ -56,13 +56,13 @@
     <string name="schacc_required_field_email">E-postadresse</string>
     <string name="schacc_required_field_display_name">Visningsnavn</string>
     <string name="schacc_required_field_phone_number">Telefonnummer</string>
-    <string name="schacc_required_fields_birthday_hint">YYYY-MM-DD</string>
+    <string name="schacc_required_fields_birthday_hint">ÅÅÅÅ-MM-DD</string>
     <string name="schacc_required_fields_birthday_error">@string/schacc_required_fields_birthday_hint</string>
-    <string name="schacc_required_fields_gdpr_description">You can adjust your privacy choices at any time or learn more about Schibsted, data and you.</string>
-    <string name="schacc_required_fields_schibsted_data">adjust your privacy choices at any time</string>
-    <string name="schacc_required_fields_privacy_adjustment">learn more about Schibsted, data and you.</string>
-    <string name="schacc_required_fields_schibsted_data_link">https://info.privacy.schibsted.com/en/S012</string>
-    <string name="schacc_required_fields_privacy_adjustment_link">https://info.privacy.schibsted.com/en/S007</string>
+    <string name="schacc_required_fields_gdpr_description">Du kan justere personvernvalgene dine når som helst, eller finne ut mer om Schibsted, data og deg.</string>
+    <string name="schacc_required_fields_schibsted_data">justere personvernvalgene dine når som helst</string>
+    <string name="schacc_required_fields_privacy_adjustment">finne ut mer om Schibsted, data og deg.</string>
+    <string name="schacc_required_fields_schibsted_data_link">https://info.privacy.schibsted.com/no/S012</string>
+    <string name="schacc_required_fields_privacy_adjustment_link">https://info.privacy.schibsted.com/no/S007</string>
     <!--Password-->
     <string name="schacc_password_change_phone_number">Endre telefonnummer</string>
     <string name="schacc_password_change_email">Endre e-postadresse</string>
@@ -73,7 +73,7 @@
     <string name="schacc_password_extra_info">Minst 8 tegn</string>
     <string name="schacc_password_error_incorrect">Passordet du oppga er feil. Prøv igjen senere.</string>
     <!--Inbox-->
-    <string name="schacc_inbox_information">Vi har sendt en bekreftelseskobling til: %1$s</string>
+    <string name="schacc_inbox_information">Vi har sendt enbekreftelseskobling til: %1$s</string>
     <string name="schacc_inbox_change_identifier">Bruk annen e-post</string>
     <string name="schacc_inbox_resend_link">Send e-post igjen</string>
     <string name="schacc_inbox_dialog_title">Vi har sendt en ny bekreftelseskobling</string>
@@ -98,7 +98,7 @@
     <string name="schacc_generic_exception_error_message_title">Noe gikk galt!</string>
     <string name="schacc_generic_time_out_error_message">Tilkoblingen ble tidsavbrutt. Prøv igjen.</string>
     <string name="schacc_generic_server_error_message">Vi har problemer for øyeblikket. Prøv igjen senere.</string>
-    <string name="schacc_generic_internet_error" tools:ignore="Typos">Kan ikke koble til internett. Sjekk tilkoblingen din.</string>
+    <string name="schacc_generic_internet_error">Kan ikke koble til internett. Sjekk tilkoblingen din.</string>
     <string name="schacc_generic_too_many_code_request_error_message">Du har sendt for mange kodeforespørsler. Prøv igjen senere.</string>
     <string name="schacc_generic_too_many_login_request_error_message">Du har forsøkt å logge inn for mange ganger. Prøv igjen senere.</string>
     <string name="schacc_generic_too_many_inbox_request_error_message">Du har sendt for mange koblingsforespørsler. Prøv igjen senere.</string>
@@ -107,4 +107,10 @@
     <!--System-->
     <string name="schacc_close">Lukk</string>
     <string name="schacc_intent_password_sign_up_link_name">signupDeepLink</string>
+    <!-- Accessability -->
+    <string name="schacc_accessibility_password">Passord</string>
+    <string name="schacc_accessibility_login_id">Loggar inn med %1$s</string>
+    <string name="schacc_accessibility_signup_id">Opprette konto for %1$s</string>
+    <string name="schacc_accessibility_verification_code_no">Bekreftelseskode nr. %1$d av %2$d</string>
+    <string name="schacc_accessibility_input_format">%1$s i %2$s format</string>
 </resources>
