@@ -6,7 +6,6 @@ package com.schibsted.account.ui.login.screen.identification.ui
 
 import android.os.Bundle
 import android.support.annotation.StringRes
-import android.support.v4.content.ContextCompat
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -97,7 +96,7 @@ abstract class AbstractIdentificationFragment : FlowFragment<IdentificationContr
         }
         if (uiConf.clientLogo != 0) {
             clientLogo.visibility = View.VISIBLE
-            clientLogo.setImageDrawable(ContextCompat.getDrawable(context!!, uiConf.clientLogo))
+            clientLogo.setImageResource(uiConf.clientLogo)
         } else {
             clientLogo.visibility = View.GONE
             schibstedLogo.layoutParams = clientLogo.layoutParams

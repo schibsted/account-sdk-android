@@ -25,6 +25,7 @@ import com.schibsted.account.model.error.ClientError;
 import com.schibsted.account.network.OIDCScope;
 import com.schibsted.account.network.response.ProfileData;
 import com.schibsted.account.session.User;
+import com.schibsted.account.smartlock.SmartlockReceiver;
 import com.schibsted.account.ui.AccountUi;
 import com.schibsted.account.ui.login.BaseLoginActivity;
 import com.schibsted.account.ui.smartlock.SmartlockImpl;
@@ -39,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView userState;
     private Button button;
 
+    private SmartlockReceiver smartlockReceiver;
     private AccountSdkReceiver accountSdkReceiver;
 
     @SuppressLint("SetTextI18n")
@@ -57,7 +59,8 @@ public class MainActivity extends AppCompatActivity {
         final AccountService accountService = new AccountService(getApplicationContext());
         getLifecycle().addObserver(accountService);
 
-        // To listen for logout events (optional)
+        // Listen for logout events
+        smartlockReceiver = new SmartlockReceiver(this);
         accountSdkReceiver = new AccountSdkReceiver();
 
         // Attempt to resume any previous sessions, that includes sessions coming from deeplink or smartlock
@@ -107,20 +110,10 @@ public class MainActivity extends AppCompatActivity {
         public void onClick(View v) {
             button.setEnabled(false);
             button.setText(R.string.example_app_loading_info);
-            // Create the intent for the desired flow
-            AccountUi.preInitialize(new ResultCallback<Void>() {
-                @Override
-                public void onSuccess(Void result) {
-                    final Intent intent = AccountUi.getCallingIntent(getApplicationContext(), AccountUi.FlowType.PASSWORD,
-                            new AccountUi.Params(getString(R.string.example_teaser_text), null, SmartlockMode.DISABLED, new String[]{OIDCScope.SCOPE_OPENID}));
-                    startActivityForResult(intent, PASSWORD_REQUEST_CODE);
-                }
 
-                @Override
-                public void onError(ClientError error) {
-                    Toast.makeText(MainActivity.this, error.getMessage(), Toast.LENGTH_SHORT).show();
-                }
-            });
+            final Intent intent = AccountUi.getCallingIntent(getApplicationContext(), AccountUi.FlowType.PASSWORD,
+                    new AccountUi.Params(getString(R.string.example_teaser_text), null, SmartlockMode.ENABLED, new String[]{OIDCScope.SCOPE_OPENID}));
+            startActivityForResult(intent, PASSWORD_REQUEST_CODE);
         }
     };
 
@@ -137,12 +130,14 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
+        LocalBroadcastManager.getInstance(getApplicationContext()).registerReceiver(smartlockReceiver, new IntentFilter(Events.ACTION_USER_LOGOUT));
         LocalBroadcastManager.getInstance(getApplicationContext()).registerReceiver(accountSdkReceiver, new IntentFilter(Events.ACTION_USER_LOGOUT));
     }
 
     @Override
     protected void onStop() {
         super.onStop();
+        LocalBroadcastManager.getInstance(getApplicationContext()).unregisterReceiver(smartlockReceiver);
         LocalBroadcastManager.getInstance(getApplicationContext()).unregisterReceiver(accountSdkReceiver);
     }
 
@@ -170,7 +165,7 @@ public class MainActivity extends AppCompatActivity {
                         Toast.makeText(MainActivity.this, error.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
-            }else {
+            } else {
                 button.setEnabled(true);
                 button.setText(R.string.example_app_login);
             }
