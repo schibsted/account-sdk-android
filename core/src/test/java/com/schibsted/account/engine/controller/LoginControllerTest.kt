@@ -10,6 +10,7 @@ import com.nhaarman.mockito_kotlin.argWhere
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.never
 import com.nhaarman.mockito_kotlin.verify
+import com.schibsted.account.AccountService
 import com.schibsted.account.ClientConfiguration
 import com.schibsted.account.common.util.Logger
 import com.schibsted.account.engine.input.Credentials
@@ -36,6 +37,7 @@ import retrofit2.Call
 
 class LoginControllerTest : WordSpec({
     ClientConfiguration.set(ClientConfiguration("https://example.com", "id", "secret"))
+    AccountService.localBroadcastManager = null
     val userToken = Gson().fromJson<UserToken>(TestUtil.readResource("json/user_token.json"), UserToken::class.java)
 
     fun getMockContract(callback: ResultCallback<LoginResult>): LoginContract = mock {

@@ -18,7 +18,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="60dp"/>
+        android:layout_marginTop="60dp"
+        android:contentDescription="@null"/>
 
     <TextView
         android:id="@+id/inbox_information"

@@ -98,7 +98,7 @@
     <string name="schacc_generic_exception_error_message_title">Noe gikk galt!</string>
     <string name="schacc_generic_time_out_error_message">Tilkoblingen ble tidsavbrutt. Prøv igjen.</string>
     <string name="schacc_generic_server_error_message">Vi har problemer for øyeblikket. Prøv igjen senere.</string>
-    <string name="schacc_generic_internet_error">Kan ikke koble til internett. Sjekk tilkoblingen din.</string>
+    <string name="schacc_generic_internet_error">Kan ikke koble til Internett. Sjekk tilkoblingen din.</string>
     <string name="schacc_generic_too_many_code_request_error_message">Du har sendt for mange kodeforespørsler. Prøv igjen senere.</string>
     <string name="schacc_generic_too_many_login_request_error_message">Du har forsøkt å logge inn for mange ganger. Prøv igjen senere.</string>
     <string name="schacc_generic_too_many_inbox_request_error_message">Du har sendt for mange koblingsforespørsler. Prøv igjen senere.</string>
