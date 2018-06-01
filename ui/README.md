@@ -23,10 +23,10 @@ The minimal configuration of the SDK UIs are: client name, redirect scheme and r
 
 
 ### Additional configuration parameters
-You can further control the behavior of the UIs bu specifying any of the following attributes. These can be specified in your `AndroidManifest.xml` or by implementing `UiConfig.UiConfigProvider` in your `Application` class. Using only one of these is recommended, but if you were to use both, then the configuration provider will be resolved before the manifest.
+You can further control the behavior of the UIs bu specifying any of the following attributes. These can be specified in your `AndroidManifest.xml` or by implementing `OptionalConfiguration.UiConfigProvider` in your `Application` class. Using only one of these is recommended, but if you were to use both, then the configuration provider will be resolved before the manifest.
 
 - **Locale:** The locale to use for sending verification email and SMS from Schibsted Account. Defaults: `Locale.getDefault()`.
-- **Sign-up enabled:** Wether or not creation of new accounts should be allowed. Please note that an error message must be specified in order to disable this. Default: false.
+- **Sign-up enabled:** Whether or not creation of new accounts should be allowed. Please note that an error message must be specified in order to disable this. Default: true.
 - **Sign-up disabled message:** The error message to show when a user attempts to create a new account if it's disabled. No default.
 - **Cancellable:** When set to false, the UIs will no longer show the close button. Default: true.
 - **Client logo:** The logo to display in the UIs. Default: 0.
@@ -44,10 +44,10 @@ You can further control the behavior of the UIs bu specifying any of the followi
 
 #### Configuration provider
 ```java
-public class App extends Application implements UiConfig.UiConfigProvider {
+public class App extends Application implements OptionalConfiguration.UiConfigProvider {
     @NonNull
     @Override
-    public UiConfig getUiConfig() {
+    public OptionalConfiguration getUiConfig() {
         return new UiConfig.Builder()
                 .locale(new Locale("nb", "NO"))
                 .clientLogo(R.drawable.ic_example_logo)
@@ -55,23 +55,6 @@ public class App extends Application implements UiConfig.UiConfigProvider {
     }
 }
 ```
-
-
-#### Additional configuration parameters
-- `locale` the locale to use for the UIs. Defaults to `Locale.getDefault()`
-- `identifierType` which identifier to use for the UIs. `Identifier.IdentifierType.EMAIL` or `Identifier.IdentifierType.SMS`. Defaults to email.
-- `signUpEnabled` option to enable or disable sign-up, only allowing existing users. Defaults to true.
-- `logo` a drawable resource to display your brand icon.
-- `teaserText` a text to display in the first screen. Limited to 3 lines.
-
- Example :
- ```java
- UiConfiguration.Builder.fromManifest(getApplicationContext())
-                .enableSignUp()
-                .logo(R.drawable.ic_example_logo)
-                .build()
-```
-
 
 ### Starting the UIs
 The UIs can be started through the `getCallingIntent` function in the `AccountUi` class. This returns an intent, which you start for the result. The function takes parameters which changes the behavior.
@@ -122,21 +105,6 @@ Check out the pulse [changelog](https://github.schibsted.io/spt-identity/account
 
 You can read more about Pulse at [pulse.schibsted.io](https://pulse.schibsted.io).
 
-## Smartlock
-The smartlock feature can be added with the following dependency :
-```
-implementation "com.schibsted.account:account-sdk-android-smartlock:<VERSION>"
-```
-There are three smartlock modes:
-- SmartlockMode.DISABLED: The SDK will not attempt to log the user in with smartlock. 
-- SmartlockMode.ENABLED: The SDK will attempt to log the user in with smartlock. If it fails but smartlock managed to get the user identifier, the usual login flow will be launched 
-will identifier prefilled. For more information see [google smartlock flow](https://developers.google.com/identity/smartlock-passwords/android/overview)
-- SmartlockMode.FORCED: The SDK will attempt to log user in with and only with smartlock. 
-
-In any case of failure you will be notified in `onActivityResult` with the result code `SmartlockImpl.SMARTLOCK_FAILED`.
-
-Then you should update your `uiConfiguration` to disable smartlock: `uiConfiguration.newBuilder().smartlockMode(SmartlockMode.DISABLED).build()`.
-You might want to directly restart the flow with the new `uiCOnfiguration` for a seamless user experience.
 
 ## Advanced usage
 
@@ -153,6 +121,8 @@ The provided UI come with fully configurable colors. If you want to change these
     <color name="schacc_secondaryDisabled">myColor</color>
     <color name="schacc_secondaryHovered">myColor</color>
     <color name="schacc_secondaryActive">myColor</color>
+
+    <color name="schacc_backgroundColor">myColor</color>
 ```
 ### Customize the toolbar
 If needed the color of the toolbar's elements can be customized.
