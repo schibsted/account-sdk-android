@@ -56,13 +56,13 @@
     <string name="schacc_required_field_email">Sähköpostiosoite</string>
     <string name="schacc_required_field_display_name">Näyttönimi</string>
     <string name="schacc_required_field_phone_number">Puhelinnumero</string>
-    <string name="schacc_required_fields_birthday_hint">YYYY-MM-DD</string>
+    <string name="schacc_required_fields_birthday_hint">VVVV-KK-PP</string>
     <string name="schacc_required_fields_birthday_error">@string/schacc_required_fields_birthday_hint</string>
-    <string name="schacc_required_fields_gdpr_description">You can adjust your privacy choices at any time or learn more about Schibsted, data and you.</string>
-    <string name="schacc_required_fields_schibsted_data">adjust your privacy choices at any time</string>
-    <string name="schacc_required_fields_privacy_adjustment">learn more about Schibsted, data and you.</string>
-    <string name="schacc_required_fields_schibsted_data_link">https://info.privacy.schibsted.com/en/S012</string>
-    <string name="schacc_required_fields_privacy_adjustment_link">https://info.privacy.schibsted.com/en/S007</string>
+    <string name="schacc_required_fields_gdpr_description">Voit muuttaa yksityisyysasetuksia milloin hyvänsä tai lukea lisää Schisbstedistä, tiedoista ja sinusta.</string>
+    <string name="schacc_required_fields_schibsted_data">muuttaa yksityisyysasetuksia milloin hyvänsä</string>
+    <string name="schacc_required_fields_privacy_adjustment">lukea lisää Schisbstedistä, tiedoista ja sinusta</string>
+    <string name="schacc_required_fields_schibsted_data_link">https://info.privacy.schibsted.com/fi/S012</string>
+    <string name="schacc_required_fields_privacy_adjustment_link">https://info.privacy.schibsted.com/fi/S007</string>
     <!--Password-->
     <string name="schacc_password_change_phone_number">Vaihda puhelinnumero</string>
     <string name="schacc_password_change_email">Vaihda sähköpostiosoite</string>
@@ -107,4 +107,10 @@
     <!--System-->
     <string name="schacc_close">Sulje</string>
     <string name="schacc_intent_password_sign_up_link_name">signupDeepLink</string>
+    <!-- Accessability -->
+    <string name="schacc_accessibility_password">Salasana</string>
+    <string name="schacc_accessibility_login_id">Kirjaudutaan sisään sähköpostiosoitteesta %1$s</string>
+    <string name="schacc_accessibility_signup_id">Luodaan tili sähköpostiosoitteelle %1$s</string>
+    <string name="schacc_accessibility_verification_code_no">Vahvistuskoodin numero %1$d kautta %2$d</string>
+    <string name="schacc_accessibility_input_format">%1$s muodossa %2$s</string>
 </resources>

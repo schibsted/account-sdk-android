@@ -38,6 +38,7 @@ class EmailIdentificationFragment : AbstractIdentificationFragment(), Identifica
                 .setImeOption(EditorInfo.IME_ACTION_DONE)
                 .setError(R.string.schacc_email_identification_error)
                 .setTitle(R.string.schacc_email_label)
+                .setHint(R.string.schacc_required_field_email)
                 .build()
         inputViewContainer.addView(inputFieldView)
         prefillIdentifier(uiConf.identifier)

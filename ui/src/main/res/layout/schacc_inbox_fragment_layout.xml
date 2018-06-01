@@ -29,7 +29,9 @@
         app:layout_constraintTop_toBottomOf="@+id/inbox_image"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="57dp"
-        app:layout_constraintStart_toStartOf="parent"/>
+        app:layout_constraintStart_toStartOf="parent"
+        android:importantForAccessibility="yes"
+        tools:ignore="UnusedAttribute" />
 
     <TextView
         android:id="@+id/inbox_change_identifier"

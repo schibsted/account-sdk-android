@@ -65,7 +65,7 @@ public class PhoneInputView extends LinearLayout implements InputField {
                 .setTitleVisible(false)
                 .setImeOption(EditorInfo.IME_ACTION_DONE)
                 .setInputType(InputType.TYPE_CLASS_PHONE)
-                .setHint(R.string.schacc_mobile_number_hint)
+                .setHint(R.string.schacc_required_field_phone_number)
                 .build();
 
         digitsContainer.addView(mobileNumberView);

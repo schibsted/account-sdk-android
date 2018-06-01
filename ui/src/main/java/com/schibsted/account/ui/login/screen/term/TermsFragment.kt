@@ -4,6 +4,7 @@
 
 package com.schibsted.account.ui.login.screen.term
 
+import android.os.Build
 import android.os.Bundle
 import android.os.Parcelable
 import android.support.annotation.ColorInt
@@ -152,7 +153,15 @@ class TermsFragment : FlowFragment<TermsContract.Presenter>(), TermsContract.Vie
 
         //we assign text to the view
         termsCheckView.textView.text = termsText
+        termsCheckView.contentDescription = termsText
+
         privacyCheckView.textView.text = privacyText
+        privacyCheckView.contentDescription = privacyText
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            termsCheckView.textView.importantForAccessibility = View.IMPORTANT_FOR_ACCESSIBILITY_NO
+            privacyCheckView.textView.importantForAccessibility = View.IMPORTANT_FOR_ACCESSIBILITY_NO
+        }
     }
 
     override fun onViewStateRestored(savedInstanceState: Bundle?) {

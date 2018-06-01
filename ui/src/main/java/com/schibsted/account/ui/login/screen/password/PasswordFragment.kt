@@ -83,6 +83,9 @@ class PasswordFragment : FlowFragment<PasswordContract.Presenter>(), PasswordCon
         account_selector_view.setAccountIdentifier(arrayListOf(identifier))
         account_selector_view.actionListener = this
 
+        val accSelectDesc = if (isUserAvailable) R.string.schacc_accessibility_signup_id else R.string.schacc_accessibility_login_id
+        account_selector_view.contentDescription = getString(accSelectDesc, identifier?.identifier)
+
         password_input_view.setValidationRule(if (isUserAvailable) PasswordValidationRule else BasicValidationRule)
         primaryActionView.setOnClickListener { signUser() }
 

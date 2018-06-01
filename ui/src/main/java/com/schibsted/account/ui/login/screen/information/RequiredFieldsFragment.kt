@@ -124,6 +124,9 @@ class RequiredFieldsFragment : FlowFragment<RequiredFieldsContract.Presenter>(),
                         resources.displayMetrics).toInt())
 
         generatedView.layoutParams = params
+        if (generatedView.inputView.hint.isNullOrBlank()) {
+            generatedView.inputView.hint = getString(titleRes)
+        }
         return generatedView
     }
 

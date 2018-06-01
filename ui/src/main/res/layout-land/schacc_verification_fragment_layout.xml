@@ -15,14 +15,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:actionText="@string/schacc_identifier_modifier"
-        tools:text="spiduser@example.com"/>
+        tools:text="spiduser@example.com"
+        tools:ignore="UnusedAttribute"
+        android:importantForAccessibility="yes"/>
 
     <TextView
         android:id="@+id/code_label"
         style="@style/schacc_text.label"
         android:layout_below="@id/identifier_modifier"
         android:layout_marginTop="@dimen/schacc_large_spacing"
-        android:textIsSelectable="true"
         android:text="@string/schacc_verification_code_label"/>
 
     <com.schibsted.account.ui.ui.component.CodeInputView
@@ -36,7 +37,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/schacc_medium_spacing"
-        android:layout_below="@+id/verification_code_input_view" />
+        android:layout_below="@+id/verification_code_input_view"
+        android:contentDescription="@string/schacc_remember_me"/>
 
     <TextView
         android:id="@+id/remember_me_info"

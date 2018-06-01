@@ -9,6 +9,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     style="@style/schacc_container.scrollable">
 
+    <include layout="@layout/schacc_include_accessibility_fix" />
+
     <TextView
         android:id="@+id/required_description"
         style="@style/schacc_text"

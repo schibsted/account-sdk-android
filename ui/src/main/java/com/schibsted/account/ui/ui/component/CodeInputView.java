@@ -14,6 +14,7 @@ import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.accessibility.AccessibilityManager;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -134,6 +135,13 @@ public class CodeInputView extends RelativeLayout implements InputField, View.On
         final CustomEditText digit5 = view.findViewById(R.id.input_5);
         final CustomEditText digit6 = view.findViewById(R.id.input_6);
 
+        digit1.setContentDescription(getContext().getString(R.string.schacc_accessibility_verification_code_no, 1, EXPECTED_LENGTH));
+        digit2.setContentDescription(getContext().getString(R.string.schacc_accessibility_verification_code_no, 2, EXPECTED_LENGTH));
+        digit3.setContentDescription(getContext().getString(R.string.schacc_accessibility_verification_code_no, 3, EXPECTED_LENGTH));
+        digit4.setContentDescription(getContext().getString(R.string.schacc_accessibility_verification_code_no, 4, EXPECTED_LENGTH));
+        digit5.setContentDescription(getContext().getString(R.string.schacc_accessibility_verification_code_no, 5, EXPECTED_LENGTH));
+        digit6.setContentDescription(getContext().getString(R.string.schacc_accessibility_verification_code_no, 6, EXPECTED_LENGTH));
+
         inputViews.add(digit1);
         inputViews.add(digit2);
         inputViews.add(digit3);
@@ -141,8 +149,12 @@ public class CodeInputView extends RelativeLayout implements InputField, View.On
         inputViews.add(digit5);
         inputViews.add(digit6);
 
-        digit1.setFocusableInTouchMode(true);
-        digit1.requestFocus();
+        final AccessibilityManager am = (AccessibilityManager)getContext().getSystemService(Context.ACCESSIBILITY_SERVICE);
+        if (am == null || !am.isEnabled()) {
+            digit1.setFocusableInTouchMode(true);
+            digit1.requestFocus();
+        }
+
         return inputViews;
     }
 
