@@ -29,7 +29,7 @@ class SignupContractImpl(private val activity: BaseLoginActivity) : SignUpContra
                     smartlockImpl = null)
             activity.navigationController.navigateToFragment(fragment)
         }
-                ?: activity.startIdentificationFragment(if (activity is FlowSelectionListener) activity else null)
+                ?: activity.startIdentificationFragment()
     }
 
     override fun onAgreementsRequested(agreementsProvider: InputProvider<Agreements>, agreementLinks: AgreementLinksResponse) {

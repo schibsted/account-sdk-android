@@ -146,32 +146,12 @@ abstract class BaseLoginActivity : AppCompatActivity(), KeyboardManager, Navigat
         initializePropertiesFromBundle(savedInstanceState)
         fragmentProvider = FragmentProvider(uiConfiguration)
         loginContract = LoginContractImpl(this)
-        initializeSmartlock()
 
         val action = DeepLinkHandler.resolveDeepLink(intent.dataString)
         if (action is DeepLink.ValidateAccount) {
             followDeepLink(action)
         } else {
-            launchUi()
-        }
-    }
-
-    private fun launchUi() {
-        val intentClientInfo = intent.getParcelableExtra<ClientInfo?>(AccountUi.KEY_CLIENT_INFO)
-        if (intentClientInfo == null) {
-            val loadingDialog = LoadingDialogFragment()
-            navigationController.navigationToDialog(loadingDialog)
-            ClientInfoOperation({
-                setResult(Activity.RESULT_CANCELED)
-                finish()
-            }, {
-                loadingDialog.dismissAllowingStateLoss()
-                clientInfo.value = it
-                tracker?.merchantId = it.merchantId
-            })
-        } else {
-            clientInfo.value = intentClientInfo
-            tracker?.merchantId = intentClientInfo.merchantId
+            initializeSmartlock()
         }
     }
 
@@ -248,13 +228,29 @@ abstract class BaseLoginActivity : AppCompatActivity(), KeyboardManager, Navigat
         }
     }
 
-    fun startIdentificationFragment(flowSelectionListener: FlowSelectionListener?) {
-        if (clientInfo.value == null) {
-            clientInfo.addListener(true) {
-                navigateToIdentificationFragment(it!!, flowSelectionListener)
+    fun startIdentificationFragment() {
+        val intentClientInfo = intent.getParcelableExtra<ClientInfo?>(AccountUi.KEY_CLIENT_INFO)
+        if (intentClientInfo == null) {
+            val loadingDialog: LoadingDialogFragment = LoadingDialogFragment().also {
+                navigationController.navigationToDialog(it)
             }
+
+            ClientInfoOperation({
+                setResult(Activity.RESULT_CANCELED)
+                finish()
+            }, {
+                loadingDialog.dismissAllowingStateLoss()
+                navigateToIdentificationFragment(it, (this as? FlowSelectionListener))
+                progressBar.visibility = GONE
+
+                clientInfo.value = it
+                tracker?.merchantId = it.merchantId
+            })
         } else {
-            navigateToIdentificationFragment(clientInfo.value!!, flowSelectionListener)
+            clientInfo.value = intentClientInfo
+            tracker?.merchantId = intentClientInfo.merchantId
+            navigateToIdentificationFragment(clientInfo.value!!, (this as? FlowSelectionListener))
+            progressBar.visibility = GONE
         }
     }
 
@@ -274,7 +270,7 @@ abstract class BaseLoginActivity : AppCompatActivity(), KeyboardManager, Navigat
                 ResultCallback.fromLambda(
                         { error ->
                             Logger.info(TAG, { "Automatic login after account validation failed: ${error.message}" })
-                            launchUi()
+                            startIdentificationFragment()
                         },
                         { user ->
                             Logger.info(TAG, { "Automatic login after account validation was successful" })
@@ -367,8 +363,7 @@ abstract class BaseLoginActivity : AppCompatActivity(), KeyboardManager, Navigat
                         } else {
                             smartlock?.provideHint(smartlockCredentials)
                             fragmentProvider = FragmentProvider(uiConfiguration)
-                            startIdentificationFragment(if (this is FlowSelectionListener) this else null)
-                            progressBar.visibility = GONE
+                            startIdentificationFragment()
                         }
                     }
                 }

@@ -31,7 +31,7 @@ class PasswordActivity : BaseLoginActivity(), FlowSelectionListener {
 
         if (smartlockCredentials == null && !isSmartlockRunning) {
             if (activeFlowType == null) {
-                startIdentificationFragment(this)
+                startIdentificationFragment()
             } else {
                 signUpController?.start(this.signUpContract)
                 loginController?.start(this.loginContract)

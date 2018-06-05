@@ -17,7 +17,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.schibsted.account.AccountService;
 import com.schibsted.account.Events;
 import com.schibsted.account.engine.integration.ResultCallback;
@@ -152,19 +151,10 @@ public class MainActivity extends AppCompatActivity {
 
             } else if (resultCode == SmartlockImpl.SMARTLOCK_FAILED) {
                 //start the flow without smartlock
-                AccountUi.preInitialize(new ResultCallback<Void>() {
-                    @Override
-                    public void onSuccess(Void result) {
-                        final Intent intent = AccountUi.getCallingIntent(getApplicationContext(), AccountUi.FlowType.PASSWORD,
-                                new AccountUi.Params(getString(R.string.example_teaser_text), null, SmartlockMode.DISABLED, new String[]{OIDCScope.SCOPE_OPENID}));
-                        startActivityForResult(intent, PASSWORD_REQUEST_CODE);
-                    }
+                final Intent intent = AccountUi.getCallingIntent(getApplicationContext(), AccountUi.FlowType.PASSWORD,
+                        new AccountUi.Params(getString(R.string.example_teaser_text), null, SmartlockMode.DISABLED, new String[]{OIDCScope.SCOPE_OPENID}));
+                startActivityForResult(intent, PASSWORD_REQUEST_CODE);
 
-                    @Override
-                    public void onError(ClientError error) {
-                        Toast.makeText(MainActivity.this, error.getMessage(), Toast.LENGTH_SHORT).show();
-                    }
-                });
             } else {
                 button.setEnabled(true);
                 button.setText(R.string.example_app_login);
