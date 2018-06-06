@@ -43,7 +43,7 @@ class LoginContractImpl(private val loginActivity: BaseLoginActivity) : LoginCon
                         loginActivity.smartlock)
                 loginActivity.navigationController.navigateToFragment(fragment)
             }
-                    ?: loginActivity.startIdentificationFragment(if (loginActivity is FlowSelectionListener) loginActivity else null)
+                    ?: loginActivity.startIdentificationFragment()
         }
     }
 
