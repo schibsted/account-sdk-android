@@ -50,6 +50,6 @@ class UserService(environment: String, okHttpClient: OkHttpClient) : BaseNetwork
      * @return On success it will return the profile data, failure if something went wrong
      */
     fun getUserProfile(userId: String, userToken: TokenResponse): Call<ApiContainer<ProfileData>> {
-        return this.userContract.getUserProfile(userToken.serializedAccessToken, userId)
+        return this.userContract.getUserProfile(userToken.bearerAuthHeader(), userId)
     }
 }
