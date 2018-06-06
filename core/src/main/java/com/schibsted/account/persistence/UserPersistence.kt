@@ -7,13 +7,13 @@ package com.schibsted.account.persistence
 import android.content.Context
 import android.support.annotation.VisibleForTesting
 import com.schibsted.account.ClientConfiguration
+import com.schibsted.account.common.util.Logger
+import com.schibsted.account.engine.integration.ResultCallback
 import com.schibsted.account.model.UserToken
+import com.schibsted.account.model.error.ClientError
 import com.schibsted.account.network.response.TokenResponse
 import com.schibsted.account.session.User
 import com.schibsted.account.util.KeyValueStore
-import com.schibsted.account.common.util.Logger
-import com.schibsted.account.engine.integration.ResultCallback
-import com.schibsted.account.model.error.ClientError
 
 /**
  * Handles persisting and resuming user's sessions. This supports multiple users, so you can resume
@@ -33,7 +33,9 @@ internal class UserPersistence(private val appContext: Context) {
      * @return The user object of the resumed session. Can be null
      */
     fun resume(userId: String, callback: ResultCallback<User>) {
+        cleanInvalidTokens()
         val session = sessions.find { it.userId == userId }
+
         if (session == null) {
             callback.onError(ClientError(ClientError.ErrorType.SESSION_NOT_FOUND, "Could not find a previous session for the provided user id"))
         } else {
@@ -51,8 +53,8 @@ internal class UserPersistence(private val appContext: Context) {
      * @return The user object of the resumed session. Can be null
      */
     fun resumeLast(callback: ResultCallback<User>) {
-        val lastActiveSession = sessions.sortedByDescending { it.lastActive }.firstOrNull()?.token
-                ?: readTokenCompat()
+        cleanInvalidTokens()
+        val lastActiveSession = sessions.sortedByDescending { it.lastActive }.firstOrNull()?.token ?: readTokenCompat()
 
         if (lastActiveSession == null) {
             callback.onError(ClientError(ClientError.ErrorType.SESSION_NOT_FOUND, "Could not find any previous sessions"))
@@ -91,7 +93,7 @@ internal class UserPersistence(private val appContext: Context) {
      * @param user The user to persist
      */
     fun persist(user: User) {
-        val token = user.token
+        val token = user.token?.takeIf { it.isValidToken() }
 
         when {
             token == null -> Logger.warn(Logger.DEFAULT_TAG, { "Attempting to persist session, but the user was logged out" })
@@ -104,6 +106,17 @@ internal class UserPersistence(private val appContext: Context) {
         }
 
         clearTokenCompat()
+    }
+
+    /**
+     * Removes sessions with invalid tokens
+     */
+    private fun cleanInvalidTokens() {
+        val (validSessions, invalidSessions) = sessions.partition { it.token.isValidToken() }
+        invalidSessions.forEach {
+            Logger.warn(Logger.DEFAULT_TAG, { "Found persisted session for user ${it.userId}" })
+        }
+        this.sessions = validSessions
     }
 
     @VisibleForTesting(otherwise = VisibleForTesting.PACKAGE_PRIVATE)
