@@ -122,15 +122,16 @@ class User(token: UserToken, val isPersistable: Boolean) : Parcelable {
             return false
         }
 
-        if (token.refreshToken.isNullOrEmpty()) {
+        val refreshToken = token.refreshToken
+        if (refreshToken == null || refreshToken.isBlank()) {
             this.token = null
-            Logger.warn(Logger.DEFAULT_TAG, { "Attempting to refresh token, but the refresh token is empty. Clearing corrupt token" })
+            Logger.warn(Logger.DEFAULT_TAG, { "Attempting to refresh token, but the refresh token is empty." })
             return false
         }
 
         Logger.verbose(Logger.DEFAULT_TAG, { "Refreshing user token" })
         val resp = ServiceHolder.oAuthService.refreshToken(ClientConfiguration.get().clientId,
-                ClientConfiguration.get().clientSecret, token.refreshToken).execute()
+                ClientConfiguration.get().clientSecret, refreshToken).execute()
 
         return if (resp.isSuccessful) {
             this.token = requireNotNull(resp.body(), { "Unable to parse token from successful response" })
