@@ -4,8 +4,10 @@
 
 package com.schibsted.account.persistence
 
+import android.security.keystore.KeyNotYetValidException
 import android.util.Base64
 import com.schibsted.account.common.util.Logger
+import java.security.InvalidKeyException
 import java.security.PrivateKey
 import java.security.PublicKey
 import javax.crypto.Cipher
@@ -40,6 +42,9 @@ class PersistenceEncryption {
             return cipher.doFinal(subjectToDecrypt)
         } catch (e: Exception) {
             Logger.error(TAG, { "Failed to decrypt content" }, e)
+            null
+        } catch (e: InvalidKeyException) { // Catches KeyNotYetValidException
+            Logger.error(TAG, { "Failed to decrypt content: Invalid key" }, e)
             null
         }
     }
