@@ -32,9 +32,12 @@ import com.google.gson.Gson
 import com.schibsted.account.AccountService
 import com.schibsted.account.ClientConfiguration
 import com.schibsted.account.common.lib.ObservableField
+import com.schibsted.account.common.lib.Try
+import com.schibsted.account.common.lib.getOrNull
 import com.schibsted.account.common.tracking.TrackingData
 import com.schibsted.account.common.tracking.UiTracking
 import com.schibsted.account.common.util.Logger
+import com.schibsted.account.common.util.getQueryParam
 import com.schibsted.account.engine.controller.LoginController
 import com.schibsted.account.engine.input.Credentials
 import com.schibsted.account.engine.input.Identifier
@@ -66,6 +69,7 @@ import com.schibsted.account.ui.ui.dialog.LoadingDialogFragment
 import com.schibsted.account.util.DeepLink
 import com.schibsted.account.util.DeepLinkHandler
 import kotlinx.android.synthetic.main.schacc_mobile_activity_layout.*
+import java.net.URI
 import kotlin.properties.Delegates
 
 abstract class BaseLoginActivity : AppCompatActivity(), KeyboardManager, NavigationListener {
@@ -497,7 +501,14 @@ abstract class BaseLoginActivity : AppCompatActivity(), KeyboardManager, Navigat
 
     override fun onNewIntent(intent: Intent) {
         super.onNewIntent(intent)
+
         val action = DeepLinkHandler.resolveDeepLink(intent.dataString)
-        action?.let { followDeepLink(it) }
+        if (action != null) {
+            followDeepLink(action)
+        } else if (intent.dataString?.let { Try { URI.create(it)} }?.getOrNull()?.getQueryParam("spid_page")?.equals("request+new+password") == true) {
+            if (navigationController.currentFragment is PasswordFragment ) {
+                navigationController.navigateBackTo(LoginScreen.IDENTIFICATION_SCREEN)
+            }
+        }
     }
 }
