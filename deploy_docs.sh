@@ -42,8 +42,8 @@ cp -r ../build/docs/style.css ui/
 
 [ -d smartlock ] || mkdir smartlock
 cp ../smartlock/README.md smartlock/
-cp -r ../build/docs/ui ui/docs
-cp -r ../build/docs/style.css ui/
+cp -r ../build/docs/smartlock smartlock/docs
+cp -r ../build/docs/style.css smartlock/
 
 # Stage all files in git and create a commit
 git add .
