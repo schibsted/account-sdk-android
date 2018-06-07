@@ -35,9 +35,9 @@ class OAuthService(@Environment environment: String, okHttpClient: OkHttpClient)
                 PARAM_GRANT_TYPE to GRANT_TYPE_AUTHORIZATION_CODE,
                 PARAM_CODE to authCode,
                 PARAM_REDIRECT_URI_UNDERSCORE to redirectUri)
-        scopes?.let { params.put(PARAM_SCOPE, scopes.joinToString { "," }) }
+        scopes?.let { params.put(PARAM_SCOPE, scopes.joinToString { " " }) }
 
-        return this.oauthContract.token(createBasicAuthHeader(clientId, clientSecret), params, OIDC_VERSION)
+        return this.oauthContract.token(createBasicAuthHeader(clientId, clientSecret), params, null)
     }
 
     /**

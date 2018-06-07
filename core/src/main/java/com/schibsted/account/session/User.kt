@@ -122,7 +122,7 @@ class User(token: UserToken, val isPersistable: Boolean) : Parcelable {
             return false
         }
 
-        if (token.refreshToken.isEmpty()) {
+        if (token.refreshToken.isNullOrEmpty()) {
             this.token = null
             Logger.warn(Logger.DEFAULT_TAG, { "Attempting to refresh token, but the refresh token is empty. Clearing corrupt token" })
             return false
