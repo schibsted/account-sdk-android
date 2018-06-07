@@ -150,9 +150,9 @@ public class MainActivity extends AppCompatActivity {
                 updateUi();
 
             } else if (resultCode == SmartlockImpl.SMARTLOCK_FAILED) {
-                //start the flow without smartlock
+                // restart the flow, telling the SDK that SmartLock failed
                 final Intent intent = AccountUi.getCallingIntent(getApplicationContext(), AccountUi.FlowType.PASSWORD,
-                        new AccountUi.Params(getString(R.string.example_teaser_text), null, SmartlockMode.DISABLED, new String[]{OIDCScope.SCOPE_OPENID}));
+                        new AccountUi.Params(getString(R.string.example_teaser_text), null, SmartlockMode.FAILED, new String[]{OIDCScope.SCOPE_OPENID}));
                 startActivityForResult(intent, PASSWORD_REQUEST_CODE);
 
             } else {
