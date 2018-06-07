@@ -28,7 +28,8 @@
             android:contentDescription="@null"
             android:maxHeight="@dimen/schacc_logo_dimension"
             android:maxWidth="@dimen/schacc_logo_dimension"
-            android:adjustViewBounds="true" />
+            android:adjustViewBounds="true"
+            tools:src="@drawable/schacc_schibsted_logo" />
 
         <ImageView
             android:id="@+id/schibsted_logo"
@@ -58,7 +59,8 @@
         android:layout_marginEnd="@dimen/schacc_medium_spacing"
         app:layout_constraintStart_toStartOf="parent"
         android:layout_marginLeft="@dimen/schacc_medium_spacing"
-        android:layout_marginStart="@dimen/schacc_medium_spacing" />
+        android:layout_marginStart="@dimen/schacc_medium_spacing"
+        tools:visibility="visible" />
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -67,12 +69,12 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/schacc_teaser_text"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:layout_height="wrap_content">
 
         <android.support.constraint.ConstraintLayout
             style="@style/schacc_container"
             android:focusable="true"
-            android:paddingBottom="0dp"
             android:paddingTop="@dimen/schacc_large_spacing">
 
             <FrameLayout
