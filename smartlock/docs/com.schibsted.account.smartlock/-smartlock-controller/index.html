@@ -1,0 +1,85 @@
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>SmartlockController - smartlock</title>
+<link rel="stylesheet" href="../../../style.css">
+</HEAD>
+<BODY>
+<a href="../../index.html">smartlock</a>&nbsp;/&nbsp;<a href="../index.html">com.schibsted.account.smartlock</a>&nbsp;/&nbsp;<a href="./index.html">SmartlockController</a><br/>
+<br/>
+<h1>SmartlockController</h1>
+<code><span class="keyword">class </span><span class="identifier">SmartlockController</span>&nbsp;<span class="symbol">:</span>&nbsp;<span class="identifier">Smartlock</span></code>
+<h3>Constructors</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="-init-.html">&lt;init&gt;</a></p>
+</td>
+<td>
+<code><span class="identifier">SmartlockController</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.smartlock.SmartlockController$<init>(android.support.v7.app.AppCompatActivity, com.schibsted.account.common.smartlock.SmartLockCallback)/activity">activity</span><span class="symbol">:</span>&nbsp;<span class="identifier">AppCompatActivity</span><span class="symbol">, </span><span class="identifier" id="com.schibsted.account.smartlock.SmartlockController$<init>(android.support.v7.app.AppCompatActivity, com.schibsted.account.common.smartlock.SmartLockCallback)/smartLockCallback">smartLockCallback</span><span class="symbol">:</span>&nbsp;<span class="identifier">SmartLockCallback</span><span class="symbol">)</span></code></td>
+</tr>
+</tbody>
+</table>
+<h3>Properties</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="options.html">options</a></p>
+</td>
+<td>
+<code><span class="keyword">var </span><span class="identifier">options</span><span class="symbol">: </span><span class="identifier">CredentialsOptions</span></code></td>
+</tr>
+</tbody>
+</table>
+<h3>Functions</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="delete-credentials.html">deleteCredentials</a></p>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">deleteCredentials</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code>
+<p>Delete stored credential</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="extract-credential-data.html">extractCredentialData</a></p>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">extractCredentialData</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.smartlock.SmartlockController$extractCredentialData(android.os.Parcelable)/parcelable">parcelable</span><span class="symbol">:</span>&nbsp;<a href="https://developer.android.com/reference/android/os/Parcelable.html"><span class="identifier">Parcelable</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-pair/index.html"><span class="identifier">Pair</span></a><span class="symbol">&lt;</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">?</span><span class="symbol">,</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">?</span><span class="symbol">&gt;</span><span class="symbol">?</span></code>
+<p>Extract a <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a> identifier and a <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a> password from a <a href="https://developer.android.com/reference/android/os/Parcelable.html">Parcelable</a> object</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="map-to-identity-credentials.html">mapToIdentityCredentials</a></p>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">mapToIdentityCredentials</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.smartlock.SmartlockController$mapToIdentityCredentials(android.os.Parcelable)/parcelable">parcelable</span><span class="symbol">:</span>&nbsp;<a href="https://developer.android.com/reference/android/os/Parcelable.html"><span class="identifier">Parcelable</span></a><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Credentials</span><span class="symbol">?</span></code>
+<p>Convert a <a href="https://developer.android.com/reference/android/os/Parcelable.html">Parcelable</a> object to <a href="#">com.schibsted.account.engine.input.Credentials</a></p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="request-credentials.html">requestCredentials</a></p>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">requestCredentials</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code></td>
+</tr>
+<tr>
+<td>
+<p><a href="save-credentials.html">saveCredentials</a></p>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">saveCredentials</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.smartlock.SmartlockController$saveCredentials(kotlin.String, kotlin.String)/username">username</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">, </span><span class="identifier" id="com.schibsted.account.smartlock.SmartlockController$saveCredentials(kotlin.String, kotlin.String)/password">password</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code>
+<p>Save the crendential to smartlock manager</p>
+</td>
+</tr>
+</tbody>
+</table>
+</BODY>
+</HTML>
