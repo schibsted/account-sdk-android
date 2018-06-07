@@ -39,5 +39,5 @@ interface OAuthContract {
      */
     @FormUrlEncoded
     @POST("oauth/token")
-    Call<TokenResponse> token(@Header("Authorization") String basicClient, @NonNull @FieldMap Map<String, String> params, @Nullable @Header("X-OIDC") String xOidcHeader);
+    Call<TokenResponse> token(@Header("Authorization") String basicClient, @NonNull @FieldMap Map<String, String> params);
 }
