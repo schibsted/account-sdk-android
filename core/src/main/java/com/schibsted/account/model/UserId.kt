@@ -6,9 +6,6 @@ package com.schibsted.account.model
 
 import android.os.Parcel
 import android.os.Parcelable
-import android.support.annotation.VisibleForTesting
-import android.util.Base64
-import com.google.gson.Gson
 import com.schibsted.account.network.response.TokenResponse
 
 data class UserId(val id: String, val legacyId: String?) : Parcelable {
@@ -25,26 +22,13 @@ data class UserId(val id: String, val legacyId: String?) : Parcelable {
     }
 
     companion object {
-        private val GSON = Gson()
-
         fun fromTokenResponse(token: TokenResponse): UserId {
-            val fields = token.idToken?.let { extractFields(it) }
+            val fields = token.idToken?.let { TokenPayload.fromRawToken(it) }
 
-            val subject = fields?.get("sub") as? String
-            val legacySubject = (fields?.get("legacy_user_id") as? String) ?: token.userId
+            val subject = fields?.sub
+            val legacySubject = fields?.legacy_user_id ?: token.userId
 
             return UserId(subject ?: legacySubject, legacySubject)
-        }
-
-        @VisibleForTesting(otherwise = VisibleForTesting.PACKAGE_PRIVATE)
-        internal fun extractFields(idToken: String): Map<String, Any>? {
-            val payload = "\\.(.*?)\\.".toRegex().find(idToken)
-            val decodedPayload = payload?.let {
-                val decodedToken = Base64.decode(it.value, 0)
-                String(decodedToken, Charsets.ISO_8859_1)
-            }
-
-            return GSON.fromJson(decodedPayload, Map::class.java) as? Map<String, Any>
         }
 
         @JvmField

@@ -13,13 +13,13 @@ import com.nhaarman.mockito_kotlin.verify
 import com.schibsted.account.ClientConfiguration
 import com.schibsted.account.common.util.Logger
 import com.schibsted.account.model.UserToken
-import com.schibsted.account.network.AuthInterceptor.Companion.addAuthHeaderIfNeeded
-import com.schibsted.account.network.AuthInterceptor.Companion.replaceAuthHeader
 import com.schibsted.account.session.User
 import com.schibsted.account.test.TestUtil
 import io.kotlintest.forAll
+import io.kotlintest.matchers.beInstanceOf
 import io.kotlintest.matchers.should
 import io.kotlintest.matchers.shouldBe
+import io.kotlintest.matchers.shouldNotBe
 import io.kotlintest.matchers.shouldThrow
 import io.kotlintest.specs.WordSpec
 import kotlinx.coroutines.experimental.async
@@ -104,7 +104,7 @@ class AuthInterceptorTest : WordSpec() {
                 }
             }
 
-            "not override existing auth headers" {
+            "override existing auth headers" {
                 val req = Request.Builder().url("https://example.com")
                         .header("Authorization", "originalValue")
                         .build()
@@ -119,7 +119,7 @@ class AuthInterceptorTest : WordSpec() {
 
                 val icpt = AuthInterceptor(mockUser, listOf("https://example.com"))
                 val res = icpt.intercept(mockChainWithAuthHeader)
-                res.request().header("Authorization") shouldBe "originalValue"
+                res.request().header("Authorization") shouldNotBe "originalValue"
             }
 
             "add auth header if needed" {
@@ -274,48 +274,17 @@ class AuthInterceptorTest : WordSpec() {
             }
         }
 
-        "Request.replaceAuthHeader should override any previous auth headers" {
-            val mockUserToken: UserToken = mock {
-                on { bearerAuthHeader() }.thenReturn("newValue")
-            }
-
-            val req = Request.Builder().url("http://example.com").header("Authorization", "oldValue").build()
-            req.replaceAuthHeader(mockUserToken).headers()["Authorization"] shouldBe "newValue"
-        }
-
-        "Request.Builder.addAuthHeaderIfNeeded" should {
-            val mockUserToken: UserToken = mock {
-                on { bearerAuthHeader() }.thenReturn("newValue")
-            }
-
-            "add auth header if not present" {
-                val originalRequest = Request.Builder().url("http://example.com").build()
-                val newReq = originalRequest.newBuilder().addAuthHeaderIfNeeded(originalRequest, mockUserToken).build()
-
-                newReq.header("Authorization") shouldBe "newValue"
-            }
-
-            "not override previous headers" {
-                val originalRequest = Request.Builder().url("http://example.com").header("Authorization", "oldValue").build()
-                val newReq = originalRequest.newBuilder().addAuthHeaderIfNeeded(originalRequest, mockUserToken).build()
-
-                newReq.header("Authorization") shouldBe "oldValue"
-            }
-        }
-
         "whitelistCheck" should {
-            val icpt = AuthInterceptor(defaultMockUser, listOf("https://example.com"))
-
             "not throw an exception if url is whitelisted" {
                 val req = Request.Builder().url("https://example.com").build()
-                icpt.whitelistCheck(req, 0)
+                val check = checkUrlInWhitelist(listOf("https://example.com"), false)
+                check.validate(req) shouldBe AuthCheck.AuthCheckResult.Passed
             }
 
             "throw an AuthException if url is not whitelisted" {
                 val req = Request.Builder().url("https://another-example.com").build()
-                shouldThrow<AuthException> {
-                    icpt.whitelistCheck(req, 0)
-                }
+                val check = checkUrlInWhitelist(listOf("https://example.com"), false)
+                check.validate(req) should beInstanceOf(AuthCheck.AuthCheckResult.Failed::class)
             }
         }
 
@@ -324,14 +293,12 @@ class AuthInterceptorTest : WordSpec() {
 
             "not throw an exception if url is using the HTTPS protocol" {
                 val req = Request.Builder().url("https://example.com").build()
-                icpt.protocolCheck(req, 0)
+                protocolCheck(false).validate(req) shouldBe AuthCheck.AuthCheckResult.Passed
             }
 
             "throw an AuthException if url is not whitelisted" {
                 val req = Request.Builder().url("http://example.com").build()
-                shouldThrow<AuthException> {
-                    icpt.protocolCheck(req, 0)
-                }
+                protocolCheck(false).validate(req) should beInstanceOf(AuthCheck.AuthCheckResult.Failed::class)
             }
         }
     }
