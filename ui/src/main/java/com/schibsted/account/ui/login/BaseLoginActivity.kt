@@ -505,8 +505,8 @@ abstract class BaseLoginActivity : AppCompatActivity(), KeyboardManager, Navigat
         val action = DeepLinkHandler.resolveDeepLink(intent.dataString)
         if (action != null) {
             followDeepLink(action)
-        } else if (intent.dataString?.let { Try { URI.create(it)} }?.getOrNull()?.getQueryParam("spid_page")?.equals("request+new+password") == true) {
-            if (navigationController.currentFragment is PasswordFragment ) {
+        } else if (intent.dataString?.let { Try { URI.create(it) } }?.getOrNull()?.getQueryParam("spid_page")?.equals("request+new+password") == true) {
+            if (navigationController.currentFragment is PasswordFragment) {
                 navigationController.navigateBackTo(LoginScreen.IDENTIFICATION_SCREEN)
             }
         }
