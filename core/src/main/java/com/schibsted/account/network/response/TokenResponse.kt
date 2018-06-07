@@ -14,7 +14,7 @@ data class TokenResponse(
     @SerializedName("id_token") val idToken: String? = null,
     @SerializedName("user_id") val userId: String,
     @SerializedName("access_token") val serializedAccessToken: String,
-    @SerializedName("refresh_token") val refreshToken: String,
+    @SerializedName("refresh_token") val refreshToken: String?,
     @SerializedName("scope") val scope: String,
     @SerializedName("token_type") val tokenType: String,
     @SerializedName("expires_in") val expiresIn: Int
@@ -25,7 +25,7 @@ data class TokenResponse(
     // This needs to be fail safe form Kotlin's null checks, as parsing done in Java can disregard null checks
     fun isValidToken(): Boolean = Try {
         serializedAccessToken.isNotBlank() &&
-                refreshToken.isNotBlank() &&
+                !refreshToken.isNullOrBlank() &&
                 (idToken?.isNotBlank() == true || userId.isNotBlank())
     }.getOrDefault { false }
 
