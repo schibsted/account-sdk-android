@@ -4,7 +4,6 @@
 
 package com.schibsted.account.persistence
 
-import android.security.keystore.KeyNotYetValidException
 import android.util.Base64
 import com.schibsted.account.common.util.Logger
 import java.security.InvalidKeyException
