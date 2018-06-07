@@ -14,6 +14,8 @@ android {
         versionName gitVersionName
         applicationId "com.schibsted.account.example"
         missingDimensionStrategy 'default', 'singledex', 'multidex'
+
+        resValue "string", "schacc_conf_redirect_scheme", (schacc_redirect_scheme ?: 'spid-dummyscheme')
     }
 
     buildTypes {
