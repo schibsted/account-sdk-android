@@ -194,7 +194,7 @@ abstract class BaseLoginActivity : AppCompatActivity(), KeyboardManager, Navigat
         if (SmartlockImpl.isSmartlockAvailable() && uiConfiguration.smartlockMode != SmartlockMode.DISABLED) {
             loginController = LoginController(true, params.scopes)
             smartlock = SmartlockImpl(this, loginController!!, loginContract)
-            if (isSmartlockRunning) {
+            if (isSmartlockRunning || uiConfiguration.smartlockMode == SmartlockMode.FAILED) {
                 progressBar.visibility = GONE
             } else {
                 progressBar.visibility = VISIBLE
