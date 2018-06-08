@@ -101,7 +101,7 @@ class Navigation(
                     .setCustomAnimations(R.anim.schacc_right_in, R.anim.schacc_left_out, R.anim.schacc_left_in, R.anim.schacc_right_out)
                     .replace(R.id.fragment_container, currentFragment, loginScreen.value)
             transaction.addToBackStack(loginScreen.value)
-            transaction.commit()
+            transaction.commitAllowingStateLoss()
         }
     }
 
