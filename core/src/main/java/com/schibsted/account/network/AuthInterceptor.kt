@@ -22,7 +22,7 @@ internal fun checkUrlInWhitelist(whitelist: List<String>, allowNonWhitelistedDom
     } else {
         val url = req.url().toString()
         whitelist.find { url.startsWith(it) }?.let { AuthCheck.AuthCheckResult.Passed }
-            ?: AuthCheck.AuthCheckResult.Failed("Requests can only be done to whitelisted urls, unless this check is specifically disabled")
+                ?: AuthCheck.AuthCheckResult.Failed("Requests can only be done to whitelisted urls, unless this check is specifically disabled")
     }
 }
 
@@ -119,43 +119,43 @@ class AuthInterceptor internal constructor(
 
     @VisibleForTesting(otherwise = VisibleForTesting.PACKAGE_PRIVATE)
     internal fun refreshToken(failedResponse: Response, chain: Interceptor.Chain, reqId: Int): Response =
-        when {
-        // Only the first request should refresh
-            refreshInProgress.compareAndSet(false, true) -> {
-                lock.close()
-                Logger.verbose(TAG, { "Refreshing token from request (ReqId:$reqId)" })
+            when {
+            // Only the first request should refresh
+                refreshInProgress.compareAndSet(false, true) -> {
+                    lock.close()
+                    Logger.verbose(TAG, { "Refreshing token from request (ReqId:$reqId)" })
 
-                val refreshResult = user.refreshToken()
-                val newToken = user.token
+                    val refreshResult = user.refreshToken()
+                    val newToken = user.token
 
-                val resp = if (refreshResult && newToken != null) {
-                    Logger.verbose(TAG, { "Re-firing request (ReqId:$reqId) after token refreshing" })
-                    chain.proceed(failedResponse.request().newBuilder().header("Authorization", newToken.bearerAuthHeader()).build())
-                } else {
-                    Logger.error(TAG, { "Token refresh failed (ReqId:$reqId)" })
+                    val resp = if (refreshResult && newToken != null) {
+                        Logger.verbose(TAG, { "Re-firing request (ReqId:$reqId) after token refreshing" })
+                        chain.proceed(failedResponse.request().newBuilder().header("Authorization", newToken.bearerAuthHeader()).build())
+                    } else {
+                        Logger.error(TAG, { "Token refresh failed (ReqId:$reqId)" })
+                        failedResponse
+                    }
+                    refreshInProgress.set(false)
+                    lock.open()
+                    resp
+                }
+            // All subsequent refresh requests will wait instead
+                lock.block(timeout) -> {
+                    val newToken = user.token
+                    if (newToken != null) {
+                        Logger.verbose(TAG, { "Re-firing request (ReqId:$reqId) after waiting for token refreshing" })
+                        chain.proceed(failedResponse.request().newBuilder().header("Authorization", newToken.bearerAuthHeader()).build())
+                    } else {
+                        Logger.verbose(TAG, { "Auth token was null after waiting for refreshing. This request (ReqId:$reqId) will fail" })
+                        failedResponse
+                    }
+                }
+            // The previous check will return false on timeout, calling this block
+                else -> {
+                    Logger.verbose(TAG, { "Refreshing token timed out, failing this request (ReqId:$reqId)" })
                     failedResponse
                 }
-                refreshInProgress.set(false)
-                lock.open()
-                resp
             }
-        // All subsequent refresh requests will wait instead
-            lock.block(timeout) -> {
-                val newToken = user.token
-                if (newToken != null) {
-                    Logger.verbose(TAG, { "Re-firing request (ReqId:$reqId) after waiting for token refreshing" })
-                    chain.proceed(failedResponse.request().newBuilder().header("Authorization", newToken.bearerAuthHeader()).build())
-                } else {
-                    Logger.verbose(TAG, { "Auth token was null after waiting for refreshing. This request (ReqId:$reqId) will fail" })
-                    failedResponse
-                }
-            }
-        // The previous check will return false on timeout, calling this block
-            else -> {
-                Logger.verbose(TAG, { "Refreshing token timed out, failing this request (ReqId:$reqId)" })
-                failedResponse
-            }
-        }
 
     companion object {
         const val TAG = Logger.DEFAULT_TAG + "-ICPT"
