@@ -4,7 +4,6 @@
 
 package com.schibsted.account.ui.smartlock
 
-import android.app.Activity.RESULT_FIRST_USER
 import android.os.Parcelable
 import com.schibsted.account.common.smartlock.SmartLockCallback
 import com.schibsted.account.common.util.Logger
@@ -13,6 +12,7 @@ import com.schibsted.account.engine.controller.LoginController
 import com.schibsted.account.engine.input.Credentials
 import com.schibsted.account.engine.input.Identifier
 import com.schibsted.account.engine.integration.contract.LoginContract
+import com.schibsted.account.ui.AccountUi
 import com.schibsted.account.ui.login.BaseLoginActivity
 
 class SmartlockImpl(private val loginActivity: BaseLoginActivity, private val loginController: LoginController, private val loginContract: LoginContract) : SmartLockCallback {
@@ -63,7 +63,7 @@ class SmartlockImpl(private val loginActivity: BaseLoginActivity, private val lo
 
     override fun onFailure() {
         Logger.info(TAG, "Smartlock login failed - smartlock mode ${SmartlockMode.FORCED.name}")
-        loginActivity.setResult(SMARTLOCK_FAILED, loginActivity.intent)
+        loginActivity.setResult(AccountUi.SMARTLOCK_FAILED, loginActivity.intent)
         loginActivity.finish()
     }
 
@@ -86,11 +86,6 @@ class SmartlockImpl(private val loginActivity: BaseLoginActivity, private val lo
          * This must be checked in [BaseLoginActivity.onActivityResult]
          */
         const val EXTRA_SMARTLOCK_CREDENTIALS = "com.google.android.gms.credentials.Credential"
-        /**
-         * Result code sent through [BaseLoginActivity.onActivityResult] to notify the client application that the smartlock login
-         * failed
-         */
-        const val SMARTLOCK_FAILED = RESULT_FIRST_USER + 1
 
         fun isSmartlockAvailable(): Boolean = existsOnClasspath("com.schibsted.account.smartlock.SmartlockController")
     }

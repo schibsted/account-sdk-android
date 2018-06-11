@@ -17,6 +17,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.schibsted.account.AccountService;
 import com.schibsted.account.Events;
 import com.schibsted.account.engine.integration.ResultCallback;
@@ -27,7 +28,6 @@ import com.schibsted.account.session.User;
 import com.schibsted.account.smartlock.SmartlockReceiver;
 import com.schibsted.account.ui.AccountUi;
 import com.schibsted.account.ui.login.BaseLoginActivity;
-import com.schibsted.account.ui.smartlock.SmartlockImpl;
 import com.schibsted.account.ui.smartlock.SmartlockMode;
 
 import java.util.Locale;
@@ -144,20 +144,31 @@ public class MainActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == PASSWORD_REQUEST_CODE) {
-            if (resultCode == Activity.RESULT_OK) {
-                // when the flow was performed without any issue, you can get the newly created user.
-                user = data.getParcelableExtra(BaseLoginActivity.EXTRA_USER);
-                updateUi();
+            switch (resultCode) {
+                case Activity.RESULT_OK:
+                    // when the flow was performed without any issue, you can get the newly created user.
+                    user = data.getParcelableExtra(BaseLoginActivity.EXTRA_USER);
+                    updateUi();
+                    break;
+                case AccountUi.SMARTLOCK_FAILED:
+                    // restart the flow, telling the SDK that SmartLock failed
+                    final Intent intent = AccountUi.getCallingIntent(getApplicationContext(), AccountUi.FlowType.PASSWORD,
+                            new AccountUi.Params(
+                                    getString(R.string.example_teaser_text),
+                                    null,
+                                    SmartlockMode.FAILED,
+                                    new String[]{OIDCScope.SCOPE_OPENID}));
 
-            } else if (resultCode == SmartlockImpl.SMARTLOCK_FAILED) {
-                // restart the flow, telling the SDK that SmartLock failed
-                final Intent intent = AccountUi.getCallingIntent(getApplicationContext(), AccountUi.FlowType.PASSWORD,
-                        new AccountUi.Params(getString(R.string.example_teaser_text), null, SmartlockMode.FAILED, new String[]{OIDCScope.SCOPE_OPENID}));
-                startActivityForResult(intent, PASSWORD_REQUEST_CODE);
-
-            } else {
-                button.setEnabled(true);
-                button.setText(R.string.example_app_login);
+                    startActivityForResult(intent, PASSWORD_REQUEST_CODE);
+                    break;
+                case AccountUi.RESULT_ERROR:
+                    final ClientError error = data.getParcelableExtra(AccountUi.EXTRA_ERROR);
+                    Toast.makeText(this, error.getMessage(), Toast.LENGTH_SHORT).show();
+                case Activity.RESULT_CANCELED:
+                default:
+                    button.setEnabled(true);
+                    button.setText(R.string.example_app_login);
+                    break;
             }
         }
     }

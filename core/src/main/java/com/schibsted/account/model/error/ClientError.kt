@@ -4,8 +4,10 @@
 
 package com.schibsted.account.model.error
 
+import android.os.Parcelable
 import com.schibsted.account.common.util.Logger
 import com.schibsted.account.model.error.ClientError.ErrorType
+import kotlinx.android.parcel.Parcelize
 
 /**
  * A human readable error, produced by the Account SDK. The creation of these errors will be logged
@@ -13,7 +15,8 @@ import com.schibsted.account.model.error.ClientError.ErrorType
  * @param errorType The [ErrorType] of the error
  * @param message A human readable message of the error
  */
-open class ClientError(val errorType: ErrorType, val message: String) {
+@Parcelize
+open class ClientError(val errorType: ErrorType, val message: String) : Parcelable {
     init {
         Logger.verbose(Logger.DEFAULT_TAG, { "IdentityError: ${this.errorType} ${this.message}" })
     }

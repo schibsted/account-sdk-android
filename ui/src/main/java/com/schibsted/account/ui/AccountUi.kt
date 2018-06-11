@@ -4,6 +4,7 @@
 
 package com.schibsted.account.ui
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -22,6 +23,18 @@ object AccountUi {
     const val KEY_PARAMS = "SCHACC_PARAMS"
     const val KEY_FLOW_TYPE = "SCHACC_FLOW_TYPE"
     const val KEY_CLIENT_INFO = "SCHACC_CLIENT_INFO"
+    const val EXTRA_ERROR = "EXTRA_ERROR"
+
+    /**
+     * Result code sent through [BaseLoginActivity.onActivityResult] to notify the client application that an error happened
+     */
+    const val RESULT_ERROR = Activity.RESULT_FIRST_USER + 0
+
+    /**
+     * Result code sent through [BaseLoginActivity.onActivityResult] to notify the client application that the smartlock login
+     * failed
+     */
+    const val SMARTLOCK_FAILED = Activity.RESULT_FIRST_USER + 1
 
     /**
      * @param teaserText A teaser text to show on the initial screen
