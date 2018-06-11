@@ -11,7 +11,7 @@ with identifier prefilled. For more information see [google smartlock flow](http
 - SmartlockMode.FORCED: The SDK will attempt to log user in with and only with smartlock. 
 - SmartlockMode.FAILED: Tell the SDK that you've attempted to log in using smartlock, but that the user cancelled it or the attempt failed. This will allow the user to store new credentials.
 
-In any case of failure you will be notified in `onActivityResult` with the result code `SmartlockImpl.SMARTLOCK_FAILED`. You might want to directly restart the flow, choosing to disabl e(`SmartlockMode.DISABLED`) SmartLock or tell the UIs that it failed (`SmartlockMode.FAILED`) for a seamless user experience. The former does not allow the user to store any new credentials, while the latter will allow hte user to store any new login credential they provide.
+In any case of failure you will be notified in `onActivityResult` with the result code `AccountUi.SMARTLOCK_FAILED`. You might want to directly restart the flow, choosing to disabl e(`SmartlockMode.DISABLED`) SmartLock or tell the UIs that it failed (`SmartlockMode.FAILED`) for a seamless user experience. The former does not allow the user to store any new credentials, while the latter will allow hte user to store any new login credential they provide.
 
 Please note that if you're using SmartLock, you need to handle user logouts. To do this, either set up the `SmartlockReceiver` (as seen below) to listen for logout events or manually call `Credentials.getClient(activity, CredentialsOptions.DEFAULT).disableAutoSignIn()`.
 
