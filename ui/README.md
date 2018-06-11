@@ -91,7 +91,7 @@ startActivityForResult(intent, PASSWORD_REQUEST_CODE);
 To get the case of failure when the flow did not success you have to:
  1. Override `onActivityResult(final int requestCode, final int resultCode, final Intent data)`.
  2. Check the result code, it is equal to `AccountUi.RESULT_ERROR` in case of error.
- 3. Extract the `NetworkError` from the intent by calling `data.getParcelableExtra(AccountUi.EXTRA_ERROR)`.
+ 3. Extract the `ClientError` from the intent by calling `data.getParcelableExtra(AccountUi.EXTRA_ERROR)`.
 
 
 ## Tracking

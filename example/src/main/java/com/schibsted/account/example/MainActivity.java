@@ -22,7 +22,6 @@ import com.schibsted.account.AccountService;
 import com.schibsted.account.Events;
 import com.schibsted.account.engine.integration.ResultCallback;
 import com.schibsted.account.model.error.ClientError;
-import com.schibsted.account.model.error.NetworkError;
 import com.schibsted.account.network.OIDCScope;
 import com.schibsted.account.network.response.ProfileData;
 import com.schibsted.account.session.User;
@@ -163,8 +162,8 @@ public class MainActivity extends AppCompatActivity {
                     startActivityForResult(intent, PASSWORD_REQUEST_CODE);
                     break;
                 case AccountUi.RESULT_ERROR:
-                    final NetworkError error = data.getParcelableExtra(AccountUi.EXTRA_ERROR);
-                    Toast.makeText(this, error.getDescription(), Toast.LENGTH_SHORT).show();
+                    final ClientError error = data.getParcelableExtra(AccountUi.EXTRA_ERROR);
+                    Toast.makeText(this, error.getMessage(), Toast.LENGTH_SHORT).show();
                 case Activity.RESULT_CANCELED:
                 default:
                     button.setEnabled(true);
