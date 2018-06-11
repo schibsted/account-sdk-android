@@ -240,7 +240,7 @@ abstract class BaseLoginActivity : AppCompatActivity(), KeyboardManager, Navigat
             }
 
             ClientInfoOperation({
-                setResult(Activity.RESULT_CANCELED)
+                setResult(AccountUi.RESULT_ERROR, Intent().putExtra(AccountUi.EXTRA_ERROR, it) )
                 finish()
             }, {
                 loadingDialog.dismissAllowingStateLoss()

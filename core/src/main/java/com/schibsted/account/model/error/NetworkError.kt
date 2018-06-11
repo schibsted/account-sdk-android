@@ -4,6 +4,7 @@
 
 package com.schibsted.account.model.error
 
+import android.os.Parcelable
 import com.google.gson.JsonElement
 import com.google.gson.JsonObject
 import com.google.gson.JsonParser
@@ -11,9 +12,11 @@ import com.schibsted.account.common.lib.Try
 import com.schibsted.account.common.lib.getOrElse
 import com.schibsted.account.common.util.Logger
 import com.schibsted.account.common.util.safeUrl
+import kotlinx.android.parcel.Parcelize
 import retrofit2.Response
 
-data class NetworkError(val code: Int, val type: String, val description: String, val endpoint: String) : InternalError {
+@Parcelize
+data class NetworkError(val code: Int, val type: String, val description: String, val endpoint: String) : InternalError, Parcelable {
     init {
         Logger.debug(Logger.DEFAULT_TAG, { "Request to ${endpoint.safeUrl()} failed with code $code. \nType: <$type> \nDescription: <$description>" })
     }
