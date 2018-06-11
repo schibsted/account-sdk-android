@@ -28,6 +28,8 @@ import java.security.spec.X509EncodedKeySpec
 import java.util.Calendar
 import java.util.Date
 import java.util.GregorianCalendar
+import java.util.SimpleTimeZone
+import java.util.TimeZone
 import javax.security.auth.x500.X500Principal
 
 class EncryptionKeyProvider(private val appContext: Context) {
@@ -110,8 +112,12 @@ class EncryptionKeyProvider(private val appContext: Context) {
 
             val kpg = KeyPairGenerator.getInstance(KEY_ALGORITHM_RSA, KEYSTORE_PROVIDER)
 
-            val startValid = GregorianCalendar().time
-            val endValid = GregorianCalendar().apply { add(Calendar.YEAR, 1) }.time
+            val localizedTime = TimeZone.getAvailableIDs(0).getOrNull(0)?.let {
+                GregorianCalendar(SimpleTimeZone(0, it))
+            }
+
+            val startValid = (localizedTime ?: GregorianCalendar()).time
+            val endValid = (localizedTime ?: GregorianCalendar()).apply { add(Calendar.YEAR, 1) }.time
 
             val paramSpec = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) getApi23Spec(startValid, endValid) else getApi18Spec(startValid, endValid)
             kpg.initialize(paramSpec)
