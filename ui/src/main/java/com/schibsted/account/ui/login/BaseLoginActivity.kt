@@ -31,7 +31,6 @@ import android.view.inputmethod.InputMethodManager
 import com.google.gson.Gson
 import com.schibsted.account.AccountService
 import com.schibsted.account.ClientConfiguration
-import com.schibsted.account.common.lib.ObservableField
 import com.schibsted.account.common.lib.Try
 import com.schibsted.account.common.lib.getOrNull
 import com.schibsted.account.common.tracking.TrackingData
@@ -41,6 +40,7 @@ import com.schibsted.account.common.util.getQueryParam
 import com.schibsted.account.engine.controller.LoginController
 import com.schibsted.account.engine.input.Credentials
 import com.schibsted.account.engine.input.Identifier
+import com.schibsted.account.engine.integration.InputProvider
 import com.schibsted.account.engine.integration.ResultCallback
 import com.schibsted.account.engine.operation.ClientInfoOperation
 import com.schibsted.account.network.Environment
@@ -109,7 +109,6 @@ abstract class BaseLoginActivity : AppCompatActivity(), KeyboardManager, Navigat
     var smartlockCredentials: Credentials? = null
 
     @VisibleForTesting(otherwise = VisibleForTesting.PROTECTED)
-    internal val clientInfo = ObservableField<ClientInfo?>(null)
 
     /**
      * defines the first element of the layout, this is the main container of the activity
@@ -232,7 +231,7 @@ abstract class BaseLoginActivity : AppCompatActivity(), KeyboardManager, Navigat
         }
     }
 
-    fun startIdentificationFragment() {
+    fun startIdentificationFragment(provider: InputProvider<Identifier>? = null) {
         val intentClientInfo = intent.getParcelableExtra<ClientInfo?>(AccountUi.KEY_CLIENT_INFO)
         if (intentClientInfo == null) {
             val loadingDialog: LoadingDialogFragment = LoadingDialogFragment().also {
@@ -240,27 +239,25 @@ abstract class BaseLoginActivity : AppCompatActivity(), KeyboardManager, Navigat
             }
 
             ClientInfoOperation({
-                setResult(AccountUi.RESULT_ERROR, Intent().putExtra(AccountUi.EXTRA_ERROR, it.toClientError()) )
+                setResult(AccountUi.RESULT_ERROR, Intent().putExtra(AccountUi.EXTRA_ERROR, it.toClientError()))
                 finish()
             }, {
                 loadingDialog.dismissAllowingStateLoss()
-                navigateToIdentificationFragment(it, (this as? FlowSelectionListener))
+                navigateToIdentificationFragment(it, (this as? FlowSelectionListener), provider)
                 progressBar.visibility = GONE
-
-                clientInfo.value = it
                 tracker?.merchantId = it.merchantId
             })
         } else {
-            clientInfo.value = intentClientInfo
             tracker?.merchantId = intentClientInfo.merchantId
-            navigateToIdentificationFragment(clientInfo.value!!, (this as? FlowSelectionListener))
+            navigateToIdentificationFragment(intentClientInfo, (this as? FlowSelectionListener), provider)
             progressBar.visibility = GONE
         }
     }
 
-    private fun navigateToIdentificationFragment(clientInfo: ClientInfo, flowSelectionListener: FlowSelectionListener?) {
+    private fun navigateToIdentificationFragment(clientInfo: ClientInfo, flowSelectionListener: FlowSelectionListener?, provider: InputProvider<Identifier>?) {
         val fragment = fragmentProvider.getOrCreateIdentificationFragment(
                 navigationController.currentFragment,
+                provider = provider,
                 flowType = flowType,
                 flowSelectionListener = flowSelectionListener,
                 clientInfo = clientInfo)
