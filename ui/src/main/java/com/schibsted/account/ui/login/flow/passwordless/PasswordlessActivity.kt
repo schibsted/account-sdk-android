@@ -20,7 +20,6 @@ import com.schibsted.account.model.LoginResult
 import com.schibsted.account.model.error.ClientError
 import com.schibsted.account.network.response.AgreementLinksResponse
 import com.schibsted.account.ui.login.BaseLoginActivity
-import com.schibsted.account.ui.login.screen.identification.ui.AbstractIdentificationFragment
 import com.schibsted.account.ui.login.screen.identification.ui.MobileIdentificationFragment
 import com.schibsted.account.ui.navigation.Navigation
 import com.schibsted.account.ui.ui.FlowFragment
@@ -50,23 +49,7 @@ class PasswordlessActivity : BaseLoginActivity(), PasswordlessContract {
     }
 
     override fun onIdentifierRequested(provider: InputProvider<Identifier>) {
-        if (clientInfo.value == null) {
-            clientInfo.addListener(true) {
-                val fragment = fragmentProvider.getOrCreateIdentificationFragment(
-                        navigationController.currentFragment,
-                        provider,
-                        flowType = flowType,
-                        clientInfo = it!!)
-                navigationController.navigateToFragment(fragment as AbstractIdentificationFragment)
-            }
-        } else {
-            val fragment = fragmentProvider.getOrCreateIdentificationFragment(
-                    navigationController.currentFragment,
-                    provider,
-                    flowType = flowType,
-                    clientInfo = clientInfo.value!!)
-            navigationController.navigateToFragment(fragment as AbstractIdentificationFragment)
-        }
+        startIdentificationFragment(provider)
     }
 
     override fun onVerificationCodeRequested(verificationCodeProvider: InputProvider<VerificationCode>, identifier: Identifier) {
