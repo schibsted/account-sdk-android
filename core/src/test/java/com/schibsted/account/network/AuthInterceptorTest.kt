@@ -16,7 +16,6 @@ import com.schibsted.account.model.UserToken
 import com.schibsted.account.session.User
 import com.schibsted.account.test.TestUtil
 import io.kotlintest.forAll
-import io.kotlintest.matchers.beInstanceOf
 import io.kotlintest.matchers.should
 import io.kotlintest.matchers.shouldBe
 import io.kotlintest.matchers.shouldNotBe
@@ -44,10 +43,6 @@ class AuthInterceptorTest : WordSpec() {
                     .header("Authorization", "initialHeaderValue")
                     .build())
             .body(ResponseBody.create(MediaType.parse("application/json"), "{}"))
-
-    private val defaultMockUser: User = mock {
-        on { token }.thenReturn(userToken)
-    }
 
     private val failedResp = respBuilder.code(401).build()
     private val sucessfulResp = respBuilder.code(200).build()
@@ -90,6 +85,25 @@ class AuthInterceptorTest : WordSpec() {
                 shouldThrow<AuthException> {
                     val icpt = AuthInterceptor(mock(), listOf("https://www.some-other-example.com"))
                     icpt.intercept(mockChain)
+                }
+            }
+
+            "throw an exception when the URL is not over HTTPS" {
+                val mocNonHttpskUrl: HttpUrl = mock {
+                    on { toString() }.thenReturn("http://example.com")
+                }
+
+                val mockNonHttpsRequest: Request = mock {
+                    on { url() }.thenReturn(mocNonHttpskUrl)
+                }
+
+                val mockNonHttpsChain: Interceptor.Chain = mock {
+                    on { request() }.thenReturn(mockNonHttpsRequest)
+                }
+
+                shouldThrow<AuthException> {
+                    val icpt = AuthInterceptor(mock(), listOf(), allowNonWhitelistedDomains = true)
+                    icpt.intercept(mockNonHttpsChain)
                 }
             }
 
@@ -271,34 +285,6 @@ class AuthInterceptorTest : WordSpec() {
 
                 verify(mockUserWithSlowResponse, times(1)).refreshToken()
                 verify(mockChain, never()).proceed(any())
-            }
-        }
-
-        "whitelistCheck" should {
-            "not throw an exception if url is whitelisted" {
-                val req = Request.Builder().url("https://example.com").build()
-                val check = checkUrlInWhitelist(listOf("https://example.com"), false)
-                check.validate(req) shouldBe AuthCheck.AuthCheckResult.Passed
-            }
-
-            "throw an AuthException if url is not whitelisted" {
-                val req = Request.Builder().url("https://another-example.com").build()
-                val check = checkUrlInWhitelist(listOf("https://example.com"), false)
-                check.validate(req) should beInstanceOf(AuthCheck.AuthCheckResult.Failed::class)
-            }
-        }
-
-        "protocolCheck" should {
-            val icpt = AuthInterceptor(defaultMockUser, listOf(), allowNonHttps = false, allowNonWhitelistedDomains = true)
-
-            "not throw an exception if url is using the HTTPS protocol" {
-                val req = Request.Builder().url("https://example.com").build()
-                protocolCheck(false).validate(req) shouldBe AuthCheck.AuthCheckResult.Passed
-            }
-
-            "throw an AuthException if url is not whitelisted" {
-                val req = Request.Builder().url("http://example.com").build()
-                protocolCheck(false).validate(req) should beInstanceOf(AuthCheck.AuthCheckResult.Failed::class)
             }
         }
     }

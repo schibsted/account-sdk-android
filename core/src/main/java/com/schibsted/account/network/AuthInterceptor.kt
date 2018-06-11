@@ -16,24 +16,6 @@ import java.io.IOException
 import java.util.concurrent.atomic.AtomicBoolean
 import java.util.concurrent.atomic.AtomicInteger
 
-internal fun checkUrlInWhitelist(whitelist: List<String>, allowNonWhitelistedDomains: Boolean = false) = AuthCheck { req ->
-    if (allowNonWhitelistedDomains) {
-        AuthCheck.AuthCheckResult.Passed
-    } else {
-        val url = req.url().toString()
-        whitelist.find { url.startsWith(it) }?.let { AuthCheck.AuthCheckResult.Passed }
-                ?: AuthCheck.AuthCheckResult.Failed("Requests can only be done to whitelisted urls, unless this check is specifically disabled")
-    }
-}
-
-internal fun protocolCheck(allowNonHttps: Boolean = false) = AuthCheck { req ->
-    if (!allowNonHttps && !req.url().isHttps) {
-        AuthCheck.AuthCheckResult.Failed("Authenticated requests can only be done over HTTPS unless specifically allowed")
-    } else {
-        AuthCheck.AuthCheckResult.Passed
-    }
-}
-
 /**
  * Creates an interceptor which will do authenticated requests to whitelisted urls. By default, requests to non-whitelisted
  * domains will be rejected as well as non-https requests. This can be overridden using [allowNonWhitelistedDomains] and
@@ -51,10 +33,8 @@ class AuthInterceptor internal constructor(
     private val allowNonHttps: Boolean = false,
     private val allowNonWhitelistedDomains: Boolean = false,
     private val timeout: Long = 10_000,
-    private val authChecks: Sequence<AuthCheck> = sequenceOf(
-            checkUrlInWhitelist(urlWhitelist, allowNonWhitelistedDomains),
-            protocolCheck(allowNonHttps)
-    )
+    private val authSecurityCheck: AuthSecurityCheck = AuthSecurityCheck.default(urlWhitelist, allowNonHttps, allowNonWhitelistedDomains),
+    private val authResponseCheck: AuthResponseCheck = AuthResponseCheck.default(urlWhitelist)
 ) : Interceptor {
 
     private val lock = ConditionVariable()
@@ -81,16 +61,18 @@ class AuthInterceptor internal constructor(
         val reqId = requestNo.getAndIncrement()
 
         Logger.verbose(TAG, { "Attempting to perform authenticated request (ReqId:$reqId) to ${originalUrl.toString().safeUrl()}" })
-        authChecks.forEach {
-            val result = it.validate(originalRequest)
-            if (result is AuthCheck.AuthCheckResult.Failed) {
-                Logger.error(TAG, { "Cannot perform authenticated request: ${result.reason}" })
-                throw AuthException("Cannot perform authenticated request: ${result.reason}")
-            }
+
+        // Preform security checks
+        val securityCheckResult = authSecurityCheck.securityCheck(originalRequest)
+        if ( securityCheckResult is AuthCheckResult.Failed ) {
+            Logger.error(TAG, { "Cannot perform authenticated request (ReqId:$reqId): ${securityCheckResult.reason}" })
+            throw AuthException("Cannot perform authenticated request (ReqId:$reqId): ${securityCheckResult.reason}")
         }
         Logger.verbose(TAG, { "Security checks passed for request (ReqId:$reqId)" })
 
         val token = user.token ?: throw AuthException("Cannot perform authenticated request (ReqId:$reqId) when the user is logged out")
+
+        // Add auth header if the URL is whitelisted
         val request = with(originalRequest.newBuilder()) {
             if (urlInWhitelist(originalUrl)) {
                 addHeader("Authorization", token.bearerAuthHeader())
@@ -98,23 +80,24 @@ class AuthInterceptor internal constructor(
             build()
         }
 
-        // TODO: Eagerlyy refresh
+        // TODO: Eagerly refresh
 
         val response = chain.proceed(request)
 
-        return if (response.code() == 401) {
+        if (response.code() == 401) {
             Logger.verbose(TAG, { "Request (ReqId:$reqId) returned 401, checking if token should be refreshed" })
 
-            if (urlInWhitelist(response.request().url()) && response.request().url() == originalUrl && user.token != null) {
+            val responseCheckResult = authResponseCheck.responseCheck(originalRequest, response)
+            return if (responseCheckResult is AuthCheckResult.Failed) {
+                Logger.verbose(TAG, { "Not refreshing token for request (ReqId: $reqId).. Reason :${responseCheckResult.reason}" })
+                response
+            } else {
                 Logger.verbose(TAG, { "Found that token should be refreshed for request (ReqId:$reqId)" })
                 refreshToken(response, chain, reqId)
-            } else {
-                Logger.verbose(TAG, { "Not refreshing token for request (ReqId: $reqId), as the URL is not whitelisted, the URL has changed, or the user was logged out" })
-                response
             }
-        } else {
-            response
         }
+
+        return response
     }
 
     @VisibleForTesting(otherwise = VisibleForTesting.PACKAGE_PRIVATE)
