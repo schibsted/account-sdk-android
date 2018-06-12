@@ -6,8 +6,8 @@
           package="com.schibsted.account.ui">
 
     <application>
-        <activity android:name="com.schibsted.account.ui.login.flow.passwordless.PasswordlessActivity" android:launchMode="singleTask" />
-        <activity android:name="com.schibsted.account.ui.login.flow.password.PasswordActivity" android:launchMode="singleTask">
+        <activity android:name="com.schibsted.account.ui.login.flow.passwordless.PasswordlessActivity" android:launchMode="singleTop" />
+        <activity android:name="com.schibsted.account.ui.login.flow.password.PasswordActivity" android:launchMode="singleTop">
             <intent-filter android:label="@string/schacc_intent_password_sign_up_link_name">
                 <action android:name="android.intent.action.VIEW" />
 
