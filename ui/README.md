@@ -82,8 +82,16 @@ startActivityForResult(intent, PASSWORD_REQUEST_CODE);
 
 
 ### Get the authenticated user
- To get the `User` back when the flow is successfully finished you have to override `onActivityResult(final int requestCode, final int resultCode, final Intent data)` . Once the flow is finished the `User` can be retrieved by calling
- `data.getParcelableExtra(EXTRA_USER)`.
+ To get the `User` back when the flow is successfully finished you have to 
+ 1. Override `onActivityResult(final int requestCode, final int resultCode, final Intent data)`.
+ 2. Check the result code, it is equal to `Activity.RESULT_OK` in case of success. 
+ 3. Extract the `User` from the intent by calling `data.getParcelableExtra(EXTRA_USER)`.
+ 
+### Get the case of failure
+To get the case of failure when the flow did not success you have to:
+ 1. Override `onActivityResult(final int requestCode, final int resultCode, final Intent data)`.
+ 2. Check the result code, it is equal to `AccountUi.RESULT_ERROR` in case of error.
+ 3. Extract the `ClientError` from the intent by calling `data.getParcelableExtra(AccountUi.EXTRA_ERROR)`.
 
 
 ## Tracking
