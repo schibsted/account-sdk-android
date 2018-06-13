@@ -30,14 +30,11 @@
     <string name="schacc_verification_edit_email_address">Use a different email address</string>
     <!--Terms-->
     <string name="schacc_terms_title">Terms of use</string>
-    <string name="schacc_terms_sign_up_description">To create your account, you need to accept the following terms, conditions and privacy policies</string>
-    <string name="schacc_terms_sign_in_description">To log in, you need to accept the following terms, conditions and privacy policies</string>
-    <string name="schacc_terms_privacy_error">Please accept the terms and conditions to continue.</string>
-    <string name="schacc_terms_terms_error">Please accept the privacy policy to continue.</string>
+    <string name="schacc_terms_sign_up_description">To create your Schibsted account, you need to accept this terms of use. If you don’t accept you will be logged out</string>
+    <string name="schacc_terms_sign_in_description">To log in with your Schibsted account, you need to accept this terms of use. If you don’t accept you will be logged out</string>
+    <string name="schacc_terms_terms_error">Please accept the terms and conditions to continue.</string>
     <string name="schacc_terms_policy">I accept the terms and conditions for %1$s and %2$s</string>
     <string name="schacc_terms_policy_spid_only">I accept the terms and conditions for %1$s</string>
-    <string name="schacc_privacy_policy">I accept the privacy policy for %1$s and %2$s</string>
-    <string name="schacc_privacy_policy_spid_only">I accept the privacy policy for %1$s</string>
     <string name="schacc_terms_update_link_label">Learn more about the update</string>
     <string name="schacc_accept">Accept</string>
     <!--Terms update dialog-->

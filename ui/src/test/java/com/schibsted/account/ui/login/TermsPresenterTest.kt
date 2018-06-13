@@ -3,7 +3,6 @@ package com.schibsted.account.ui.login
 import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.doReturn
 import com.nhaarman.mockito_kotlin.mock
-import com.nhaarman.mockito_kotlin.never
 import com.nhaarman.mockito_kotlin.verify
 import com.nhaarman.mockito_kotlin.whenever
 import com.schibsted.account.ClientConfiguration
@@ -37,49 +36,33 @@ class TermsPresenterTest : WordSpec() {
         }
 
         "verify checkboxes state" should {
-            var privacyBox: CheckBoxView = mock { on { isChecked } doReturn false }
             var termsBox: CheckBoxView = mock { on { isChecked } doReturn false }
-            "show error if boxes aren't checked" {
-                presenter.verifyBoxes(privacyBox, termsBox)
-                verify(view).showError(privacyBox)
-                verify(view).showError(termsBox)
-            }
 
             "show terms error if terms box isn't checked" {
-                privacyBox = mock { on { isChecked } doReturn true }
-                presenter.verifyBoxes(privacyBox, termsBox)
-                verify(view, never()).showError(privacyBox)
+                presenter.acceptTerms(termsBox)
                 verify(view).showError(termsBox)
             }
 
-            "show privacy error if privacy box isn't checked" {
-                termsBox = mock { on { isChecked } doReturn true }
-                presenter.verifyBoxes(privacyBox, termsBox)
-                verify(view, never()).showError(termsBox)
-                verify(view).showError(privacyBox)
-            }
             "track error if boxes aren't checked" {
-                presenter.verifyBoxes(privacyBox, termsBox)
+                presenter.acceptTerms(termsBox)
                 verify(BaseLoginActivity.tracker)?.eventError(TrackingData.UIError.AgreementsNotAccepted, TrackingData.Screen.AGREEMENTS)
             }
 
             "show progress if boxes are checked" {
                 termsBox = mock { on { isChecked } doReturn true }
-                privacyBox = mock { on { isChecked } doReturn true }
-                presenter.verifyBoxes(privacyBox, termsBox)
+                presenter.acceptTerms(termsBox)
                 verify(view).showProgress()
             }
 
             "hide progress if terms acceptance failed and track failure" {
                 termsBox = mock { on { isChecked } doReturn true }
-                privacyBox = mock { on { isChecked } doReturn true }
 
                 val error = ClientError(ClientError.ErrorType.NETWORK_ERROR, "")
                 whenever(provider.provide(any(), any())).thenAnswer {
                     (it.getArgument(1) as ResultCallback<NoValue>).onError(error)
                 }
 
-                presenter.verifyBoxes(privacyBox, termsBox)
+                presenter.acceptTerms(termsBox)
                 verify(view).hideProgress()
                 verify(BaseLoginActivity.tracker)?.eventError(TrackingData.UIError.NetworkError, TrackingData.Screen.AGREEMENTS)
             }
