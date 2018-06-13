@@ -62,7 +62,7 @@ class SmartlockImpl(private val loginActivity: BaseLoginActivity, private val lo
     }
 
     override fun onFailure() {
-        Logger.info(TAG, "Smartlock login failed - smartlock mode ${SmartlockMode.FORCED.name}")
+        Logger.info(TAG, "Smartlock login failed - smartlock mode ${loginActivity.uiConfiguration.smartlockMode.name}")
         loginActivity.setResult(AccountUi.SMARTLOCK_FAILED, loginActivity.intent)
         loginActivity.finish()
     }
