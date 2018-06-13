@@ -35,8 +35,6 @@
     <string name="schacc_terms_terms_error">Vänligen acceptera användarvillkoren för att fortsätta.</string>
     <string name="schacc_terms_policy">Jag godkänner användarvillkoren för %1$s och %2$s</string>
     <string name="schacc_terms_policy_spid_only">Jag godkänner användarvillkoren för %1$s</string>
-    <string name="schacc_privacy_policy">Jag godkänner sekretesspolicyn för %1$s och %2$s</string>
-    <string name="schacc_privacy_policy_spid_only">Jag godkänner sekretesspolicyn för %1$s</string>
     <string name="schacc_terms_update_link_label">Läs mer om uppdateringen</string>
     <string name="schacc_accept">Godkänn</string>
     <!--Terms update dialog-->

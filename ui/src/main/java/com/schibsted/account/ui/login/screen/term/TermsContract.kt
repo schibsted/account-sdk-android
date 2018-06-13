@@ -37,11 +37,11 @@ interface TermsContract {
     interface Presenter {
 
         /**
-         * Depending on the state of checkboxes this method should change the state of the desired [android.view.View]
+         * Depending on the state of the term checkbox this method should change the state of the desired [android.view.View]
          *
          * @param termsBox the state of the terms checkbox could be checked or unchecked
          */
-        fun verifyBoxes(termsBox: CheckBoxView)
+        fun acceptTerms(termsBox: CheckBoxView)
 
         fun acceptAgreements()
     }

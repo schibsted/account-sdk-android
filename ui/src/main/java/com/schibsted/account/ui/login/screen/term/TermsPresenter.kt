@@ -26,24 +26,23 @@ class TermsPresenter(private val termsView: TermsContract.View, private val prov
     }
 
     /**
-     * Verify if given checkboxes are all checked.
-     * Calls [.acceptAgreements]  if `true`
+     * Verify if given checkbox is checked.
+     * Calls [acceptAgreements]  if `true`
      * Shows errors if `false`
      *
      * @param termsBox [CheckBoxView]  the terms checkbox
      */
-    override fun verifyBoxes(termsBox: CheckBoxView) {
+    override fun acceptTerms(termsBox: CheckBoxView) {
         if (termsView.isActive) {
             if (termsBox.isChecked) {
                 acceptAgreements()
             } else {
                 val tracker = BaseLoginActivity.tracker
                 tracker?.eventError(TrackingData.UIError.AgreementsNotAccepted, TrackingData.Screen.AGREEMENTS)
-                    termsView.showError(termsBox)
- 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-                        termsBox.errorView.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_ACCESSIBILITY_FOCUSED)
+                termsView.showError(termsBox)
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                    termsBox.errorView.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_ACCESSIBILITY_FOCUSED)
                 }
-          
             }
         }
     }

@@ -31,7 +31,6 @@ import com.schibsted.account.ui.setPartAsClickableLink
 import com.schibsted.account.ui.ui.FlowFragment
 import com.schibsted.account.ui.ui.WebFragment
 import com.schibsted.account.ui.ui.component.CheckBoxView
-import java.util.regex.Pattern
 
 /**
  * a [Fragment] displaying the terms and conditions screen
@@ -95,7 +94,7 @@ class TermsFragment : FlowFragment<TermsContract.Presenter>(), TermsContract.Vie
 
         primaryActionView.setOnClickListener {
             BaseLoginActivity.tracker?.eventInteraction(TrackingData.InteractionType.SEND, TrackingData.Screen.AGREEMENTS)
-            presenter.verifyBoxes(termsCheckView)
+            presenter.acceptTerms(termsCheckView)
         }
     }
 
@@ -110,14 +109,7 @@ class TermsFragment : FlowFragment<TermsContract.Presenter>(), TermsContract.Vie
         //get data to build texts
         val spidLabel = getString(R.string.schacc_spid_label)
         val clientLabel = uiConf.clientName
-        val privacyText: SpannableString
         val termsText: SpannableString
-
-        privacyText = if (TextUtils.isEmpty(agreements.clientPrivacyUrl)) {
-            getString(R.string.schacc_privacy_policy_spid_only, spidLabel)
-        } else {
-            getString(R.string.schacc_privacy_policy, spidLabel, clientLabel)
-        }
 
         termsText = if (TextUtils.isEmpty(agreements.clientTermsUrl)) {
             SpannableString(getString(R.string.schacc_terms_policy_spid_only, spidLabel))
@@ -131,19 +123,12 @@ class TermsFragment : FlowFragment<TermsContract.Presenter>(), TermsContract.Vie
         termsText.setPartAsClickableLink(color, spidLabel, getLinkAction(agreements.spidTermsUrl))
         termsText.setPartAsClickableLink(color, clientLabel, getLinkAction(agreements.clientTermsUrl))
 
-        privacyText.setPartAsClickableLink(color, spidLabel, getLinkAction(agreements.spidPrivacyUrl))
-        privacyText.setPartAsClickableLink(color, clientLabel, getLinkAction(agreements.clientPrivacyUrl))
-
         //we assign text to the view
         termsCheckView.textView.text = termsText
         termsCheckView.contentDescription = termsText
 
-        privacyCheckView.textView.text = privacyText
-        privacyCheckView.contentDescription = privacyText
-
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
             termsCheckView.textView.importantForAccessibility = View.IMPORTANT_FOR_ACCESSIBILITY_NO
-            privacyCheckView.textView.importantForAccessibility = View.IMPORTANT_FOR_ACCESSIBILITY_NO
         }
     }
 
@@ -158,9 +143,7 @@ class TermsFragment : FlowFragment<TermsContract.Presenter>(), TermsContract.Vie
                 BaseLoginActivity.tracker?.let {
                     val element = when (link) {
                         agreements.spidTermsUrl -> TrackingData.UIElement.AGREEMENTS_SPID
-                        agreements.spidPrivacyUrl -> TrackingData.UIElement.PRIVACY_SPID
-                        agreements.clientTermsUrl -> TrackingData.UIElement.AGREEMENTS_CLIENT
-                        else -> TrackingData.UIElement.PRIVACY_CLIENT
+                        else -> TrackingData.UIElement.AGREEMENTS_CLIENT
                     }
                     it.eventEngagement(TrackingData.Engagement.CLICK, element, TrackingData.Screen.AGREEMENTS)
                 }

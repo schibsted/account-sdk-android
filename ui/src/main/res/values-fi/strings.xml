@@ -35,8 +35,6 @@
     <string name="schacc_terms_terms_error">Jatka hyväksymällä käyttöehdot.</string>
     <string name="schacc_terms_policy">Hyväksyn palveluiden %1$s ja %2$s käyttöehdot</string>
     <string name="schacc_terms_policy_spid_only">Hyväksyn palveluiden %1$s käyttöehdot</string>
-    <string name="schacc_privacy_policy">Hyväksyn palveluiden %1$s ja %2$s tietosuojalausunnot</string>
-    <string name="schacc_privacy_policy_spid_only">Hyväksyn palveluiden %1$s tietosuojalausunnot</string>
     <string name="schacc_terms_update_link_label">Lisätietoja päivityksestä</string>
     <string name="schacc_accept">Hyväksy</string>
     <!--Terms update dialog-->
