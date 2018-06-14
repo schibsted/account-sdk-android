@@ -24,6 +24,7 @@ class AccountService @JvmOverloads constructor(
 
     init {
         AccountService.localBroadcastManager = localBroadcastManager
+        AccountService.packageName = appContext.packageName
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_START)
@@ -51,5 +52,8 @@ class AccountService @JvmOverloads constructor(
     companion object {
         private val TAG = Logger.DEFAULT_TAG + "-ASRV"
         internal var localBroadcastManager: LocalBroadcastManager? = null
+            private set
+        internal var packageName: String = "unknown"
+            private set
     }
 }
