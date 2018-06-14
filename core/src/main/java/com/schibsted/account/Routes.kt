@@ -34,6 +34,6 @@ object Routes {
     @JvmOverloads
     fun accountSummaryUrl(redirectUri: URI? = null, locale: Locale? = null): URI {
         val params = mapOf("response_type" to "code") + (locale?.let { mapOf("locale" to locale.toString()) } ?: mapOf())
-        return  urlFromPath("account/summary", redirectUri, params)
+        return urlFromPath("account/summary", redirectUri, params)
     }
 }
