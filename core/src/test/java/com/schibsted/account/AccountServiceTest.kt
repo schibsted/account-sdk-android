@@ -20,6 +20,7 @@ class AccountServiceTest : WordSpec({
     "When bind fails, unbind should not be called" {
         val mockContext: MockContext = mock {
             on { bindService(any(), any(), any()) } doReturn false
+            on { packageName } doReturn "com.example.app"
         }
         val srv = AccountService(mockContext, mock())
 
@@ -34,6 +35,7 @@ class AccountServiceTest : WordSpec({
     "When bind succeeds, unbind should be called" {
         val mockContext: MockContext = mock {
             on { bindService(any(), any(), any()) } doReturn true
+            on { packageName } doReturn "com.example.app"
         }
         val srv = AccountService(mockContext, mock())
 
