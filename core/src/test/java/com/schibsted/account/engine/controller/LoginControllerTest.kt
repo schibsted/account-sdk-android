@@ -37,7 +37,6 @@ import retrofit2.Call
 
 class LoginControllerTest : WordSpec({
     ClientConfiguration.set(ClientConfiguration("https://example.com", "id", "secret"))
-    AccountService.localBroadcastManager = null
     val userToken = Gson().fromJson<UserToken>(TestUtil.readResource("json/user_token.json"), UserToken::class.java)
 
     fun getMockContract(callback: ResultCallback<LoginResult>): LoginContract = mock {
