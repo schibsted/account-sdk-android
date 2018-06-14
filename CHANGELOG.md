@@ -7,6 +7,7 @@
 - Added missing tracking links (#199)
 - Added module summary to the README (#166)
 - Added option to customize the background color (#213)
+- Added package information to the info interceptor (#275)
 - Added scope parameter to resume user from session code method (#181)
 - Added scopes to the UI module (#182)
 - Added support for display name error (#167)
