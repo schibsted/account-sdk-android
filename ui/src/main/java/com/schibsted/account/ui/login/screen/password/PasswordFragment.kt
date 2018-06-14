@@ -67,7 +67,7 @@ class PasswordFragment : FlowFragment<PasswordContract.Presenter>(), PasswordCon
             val redirectUri = DeepLink.IdentifierProvided.createDeepLinkUri(uiConf.redirectUri, idKey ?: "")
 
             navigationListener?.onWebViewNavigationRequested(
-                    WebFragment.newInstance(Routes.forgotPasswordUrl(redirectUri).toString(), uiConf.redirectUri), LoginScreen.WEB_FORGOT_PASSWORD_SCREEN)
+                    WebFragment.newInstance(Routes.forgotPasswordUrl(redirectUri, uiConf.locale).toString(), uiConf.redirectUri), LoginScreen.WEB_FORGOT_PASSWORD_SCREEN)
         }
 
         remember_me_info.setOnClickListener {
