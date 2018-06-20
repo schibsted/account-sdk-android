@@ -44,7 +44,5 @@ interface IdentificationContract {
     /**
      * defines methods implemented by views related to identification process
      */
-    interface View : FlowView<Presenter> {
-        fun clearField()
-    }
+    interface View : FlowView<Presenter>
 }

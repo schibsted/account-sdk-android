@@ -46,7 +46,7 @@ class FragmentProvider(private val uiConfiguration: InternalUiConfiguration) {
             it.setPresenter(IdentificationPresenter(it, provider, flowSelectionListener))
         }, {
             if (flowType == AccountUi.FlowType.PASSWORDLESS_SMS) {
-                MobileIdentificationFragment.newInstance(uiConfiguration, clientInfo)
+                MobileIdentificationFragment.newInstance(uiConfiguration, clientInfo).apply { set }
             } else {
                 EmailIdentificationFragment.newInstance(uiConfiguration, clientInfo)
             }

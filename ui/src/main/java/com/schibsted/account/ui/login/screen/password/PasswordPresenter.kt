@@ -19,6 +19,10 @@ import com.schibsted.account.ui.ui.InputField
 
 class PasswordPresenter(private val view: PasswordContract.View, private var provider: InputProvider<Credentials>, private val smartlockImpl: SmartlockImpl?) : PasswordContract.Presenter {
 
+    init {
+        view.setPresenter(this)
+    }
+
     override fun sign(inputField: InputField, identifier: Identifier?, keepUserLoggedIn: Boolean) {
         view.hideError(inputField)
         view.showProgress()

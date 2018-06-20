@@ -80,10 +80,6 @@ class MobileIdentificationFragment : AbstractIdentificationFragment() {
         super.onDestroyView()
     }
 
-    override fun clearField() {
-        inputFieldView.reset()
-    }
-
     companion object {
 
         /**
