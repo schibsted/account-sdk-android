@@ -104,7 +104,7 @@
     <!--System-->
     <string name="schacc_close">Lukk</string>
     <string name="schacc_intent_password_sign_up_link_name">signupDeepLink</string>
-    <!-- Accessability -->
+    <!-- Accessibility -->
     <string name="schacc_accessibility_password">Passord</string>
     <string name="schacc_accessibility_login_id">Loggar inn med %1$s</string>
     <string name="schacc_accessibility_signup_id">Opprette konto for %1$s</string>
