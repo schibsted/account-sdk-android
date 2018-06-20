@@ -35,11 +35,7 @@ class IdentificationPresenter(
 
     private fun identifyUser(identifier: InputField) {
         provider?.provide(id, object : ResultCallback<NoValue> {
-            override fun onSuccess(result: NoValue) {
-                if (identificationView.isActive) {
-                    identificationView.clearField()
-                }
-            }
+            override fun onSuccess(result: NoValue) { }
 
             override fun onError(error: ClientError) {
                 if (identificationView.isActive) {
@@ -68,7 +64,6 @@ class IdentificationPresenter(
                 }
 
                 if (provider == null) { // Having no provider means we have a password flow
-                    identificationView.clearField()
                     val flowType = if (result.isAvailable) FlowSelectionListener.FlowType.SIGN_UP else FlowSelectionListener.FlowType.LOGIN
                     flowSelectionListener?.onFlowSelected(flowType, id)
                 } else { // Otherwise, passwordless

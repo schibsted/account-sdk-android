@@ -117,7 +117,6 @@ class IdentificationPresenterTest : WordSpec() {
             "clear field" {
                 whenever(result.isAvailable).thenReturn(true)
                 presenter.getAccountStatus(mock(), true, "sdf")
-                verify(view).clearField()
             }
 
             "call the flow listener with right values" {
@@ -144,8 +143,6 @@ class IdentificationPresenterTest : WordSpec() {
                 }
 
                 pres.getAccountStatus(mock(), true, "sdf")
-
-                verify(view).clearField()
             }
 
             "show error track it and hide progress" {
