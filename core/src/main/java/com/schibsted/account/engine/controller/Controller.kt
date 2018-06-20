@@ -32,15 +32,14 @@ abstract class Controller<in T : Contract<*>>() : Parcelable {
      * @return True of an element was popped off the stack, false if we're already at the beginning
      */
     @JvmOverloads
-    fun back(contract: T, step: Int = 1) {
-        for (i in 0..step) {
+    fun back(step: Int = 1) {
+        for (i in 0 until step) {
             if (navigation.size > 0) {
                 navigation.pop()
             } else {
                 Logger.warn(Logger.DEFAULT_TAG, { "Attempted to go back when the navigation stack was empty" })
             }
         }
-        evaluate(contract)
     }
 
     fun start(contract: T) = evaluate(contract)
