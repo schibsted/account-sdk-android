@@ -30,8 +30,8 @@
     <string name="schacc_verification_edit_email_address">Käytä toista sähköpostiosoitetta</string>
     <!--Terms-->
     <string name="schacc_terms_title">Käyttöehdot</string>
-    <string name="schacc_terms_sign_up_description">To create your Schibsted account, you need to accept this terms of use. If you don’t accept you will be logged out</string>
-    <string name="schacc_terms_sign_in_description">To log in with your Schibsted account, you need to accept this terms of use. If you don’t accept you will be logged out</string>
+    <string name="schacc_terms_sign_up_description">Jotta voit luoda Schibsted-tilin, sinun tulee hyväksyä käyttöehdot.</string>
+    <string name="schacc_terms_sign_in_description">Jotta voit kirjautua Schibsted-tilillesi, sinun tulee hyväksyä käyttöehdot. Ellet hyväksy niitä, sinut kirjataan ulos.</string>
     <string name="schacc_terms_terms_error">Jatka hyväksymällä käyttöehdot.</string>
     <string name="schacc_terms_policy">Hyväksyn palveluiden %1$s ja %2$s käyttöehdot</string>
     <string name="schacc_terms_policy_spid_only">Hyväksyn palveluiden %1$s käyttöehdot</string>
