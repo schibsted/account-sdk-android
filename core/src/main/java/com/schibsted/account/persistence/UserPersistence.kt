@@ -7,6 +7,8 @@ package com.schibsted.account.persistence
 import android.content.Context
 import android.support.annotation.VisibleForTesting
 import com.schibsted.account.ClientConfiguration
+import com.schibsted.account.common.lib.Try
+import com.schibsted.account.common.lib.getOrDefault
 import com.schibsted.account.common.util.Logger
 import com.schibsted.account.engine.integration.ResultCallback
 import com.schibsted.account.model.UserToken
@@ -112,9 +114,9 @@ internal class UserPersistence(private val appContext: Context) {
      * Removes sessions with invalid tokens
      */
     private fun cleanInvalidTokens() {
-        val (validSessions, invalidSessions) = sessions.partition { it.token.isValidToken() }
+        val (validSessions, invalidSessions) = sessions.partition { Try { it.token.isValidToken() }.getOrDefault { false } }
         invalidSessions.forEach {
-            Logger.warn(Logger.DEFAULT_TAG, { "Found persisted session for user ${it.userId}" })
+            Logger.warn(Logger.DEFAULT_TAG, { "Found invalid session for user ${it.userId}" })
         }
         this.sessions = validSessions
     }

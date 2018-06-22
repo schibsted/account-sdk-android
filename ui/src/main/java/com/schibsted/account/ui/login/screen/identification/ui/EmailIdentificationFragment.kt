@@ -79,10 +79,6 @@ class EmailIdentificationFragment : AbstractIdentificationFragment(), Identifica
         }
     }
 
-    override fun clearField() {
-        inputFieldView.reset()
-    }
-
     companion object {
 
         /**

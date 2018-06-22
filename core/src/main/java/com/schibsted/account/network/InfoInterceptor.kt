@@ -5,6 +5,7 @@
 package com.schibsted.account.network
 
 import android.os.Build
+import com.schibsted.account.AccountService
 import com.schibsted.account.BuildConfig
 import com.schibsted.account.common.tracking.UiTracking
 import okhttp3.Interceptor
@@ -18,7 +19,7 @@ class InfoInterceptor(private val isInternal: Boolean) : Interceptor {
                 .newBuilder()
                 .header(headerName, "AccountSdk/${BuildConfig.VERSION_NAME} " +
                         "(Linux; Android ${Build.VERSION.RELEASE}; API ${Build.VERSION.SDK_INT}; " +
-                        "${Build.MANUFACTURER}; ${Build.MODEL})")
+                        "${Build.MANUFACTURER}; ${Build.MODEL}) Android (${AccountService.packageName})")
 
         if (isInternal) {
             builder = builder

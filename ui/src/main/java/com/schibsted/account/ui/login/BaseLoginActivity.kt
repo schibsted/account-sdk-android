@@ -42,7 +42,6 @@ import com.schibsted.account.engine.input.Credentials
 import com.schibsted.account.engine.input.Identifier
 import com.schibsted.account.engine.integration.InputProvider
 import com.schibsted.account.engine.integration.ResultCallback
-import com.schibsted.account.engine.operation.ClientInfoOperation
 import com.schibsted.account.network.Environment
 import com.schibsted.account.network.response.ClientInfo
 import com.schibsted.account.persistence.LocalSecretsProvider
@@ -65,7 +64,6 @@ import com.schibsted.account.ui.smartlock.SmartlockImpl
 import com.schibsted.account.ui.smartlock.SmartlockMode
 import com.schibsted.account.ui.ui.FlowFragment
 import com.schibsted.account.ui.ui.WebFragment
-import com.schibsted.account.ui.ui.dialog.LoadingDialogFragment
 import com.schibsted.account.util.DeepLink
 import com.schibsted.account.util.DeepLinkHandler
 import kotlinx.android.synthetic.main.schacc_mobile_activity_layout.*
@@ -234,19 +232,7 @@ abstract class BaseLoginActivity : AppCompatActivity(), KeyboardManager, Navigat
     fun startIdentificationFragment(provider: InputProvider<Identifier>? = null) {
         val intentClientInfo = intent.getParcelableExtra<ClientInfo?>(AccountUi.KEY_CLIENT_INFO)
         if (intentClientInfo == null) {
-            val loadingDialog: LoadingDialogFragment = LoadingDialogFragment().also {
-                navigationController.navigationToDialog(it)
-            }
-
-            ClientInfoOperation({
-                setResult(AccountUi.RESULT_ERROR, Intent().putExtra(AccountUi.EXTRA_ERROR, it.toClientError()))
-                finish()
-            }, {
-                loadingDialog.dismissAllowingStateLoss()
-                navigateToIdentificationFragment(it, (this as? FlowSelectionListener), provider)
-                progressBar.visibility = GONE
-                tracker?.merchantId = it.merchantId
-            })
+            LoadClientInfoTask(this, provider)
         } else {
             tracker?.merchantId = intentClientInfo.merchantId
             navigateToIdentificationFragment(intentClientInfo, (this as? FlowSelectionListener), provider)
@@ -254,7 +240,7 @@ abstract class BaseLoginActivity : AppCompatActivity(), KeyboardManager, Navigat
         }
     }
 
-    private fun navigateToIdentificationFragment(clientInfo: ClientInfo, flowSelectionListener: FlowSelectionListener?, provider: InputProvider<Identifier>?) {
+    fun navigateToIdentificationFragment(clientInfo: ClientInfo, flowSelectionListener: FlowSelectionListener?, provider: InputProvider<Identifier>?) {
         val fragment = fragmentProvider.getOrCreateIdentificationFragment(
                 navigationController.currentFragment,
                 provider = provider,

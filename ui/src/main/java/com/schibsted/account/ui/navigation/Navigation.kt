@@ -27,7 +27,7 @@ import com.schibsted.account.ui.login.screen.verification.VerificationFragment
 import com.schibsted.account.ui.ui.BaseFragment
 import com.schibsted.account.ui.ui.WebFragment
 
-private const val DIALOG_SCREEN = "DIALOG_SCREEN"
+const val DIALOG_SCREEN = "DIALOG_SCREEN"
 
 /**
  * Base navigation controller defining common method to navigate through screens
@@ -75,6 +75,16 @@ class Navigation(
      * @param dialogFragment the [DialogFragment] to display
      */
     fun navigationToDialog(dialogFragment: DialogFragment) = dialogFragment.show(fragmentManager, DIALOG_SCREEN)
+
+    fun dismissDialog(allowStateLoss: Boolean = false) {
+        (fragmentManager.findFragmentByTag(DIALOG_SCREEN) as? DialogFragment)?.let {
+            if (allowStateLoss) {
+                it.dismissAllowingStateLoss()
+            } else {
+                it.dismiss()
+            }
+        }
+    }
 
     /**
      * called when a navigation back was performed in order to update the current fragment reference
@@ -127,13 +137,13 @@ class Navigation(
             LoginScreen.TC_SCREEN.value,
             LoginScreen.REQUIRED_FIELDS_SCREEN.value -> {
                 fragmentManager.popBackStack()
-                controller?.back(contract)
+                controller?.back()
             }
 
             LoginScreen.CHECK_INBOX_SCREEN.value,
             LoginScreen.PASSWORD_SCREEN.value,
             LoginScreen.VERIFICATION_SCREEN.value -> {
-                controller?.back(contract, fragmentManager.backStackEntryCount)
+                controller?.back(fragmentManager.backStackEntryCount)
                 fragmentManager.popBackStack(LoginScreen.IDENTIFICATION_SCREEN.value, 0)
             }
 

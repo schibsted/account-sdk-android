@@ -1,3 +1,102 @@
+## 1.0.0 (2018-06-21)
+- Added null pointer guard on removing invalid tokens to handle old, corrupt tokens (#278)
+- Added option to override locale in Routes (#276)
+- Added package information to the info interceptor (#275)
+- Fixed a crash caused by preemptively dismissing the loading (#279)
+- Fixed issue where going back from the required fields screen would go back two steps (#287)
+- Updated translations (#288)
+
+## v1.0.0-rc6 (2018-06-13)
+- Add explicit error when the flow fails initialization (ex. networking) (#264)
+- Changed the terms screen to be fully GDPR compliant (#150)
+- Fixed an issue where the encryption key would not yet be valid due to different time zones (#263)
+- Fixed an issue where the incorrect launch mode was preventing broadcast of the activity's result (#271)
+- Fixed an issue where the passwordless flow wasn't launched correctly (#269)
+- Removed age disclaimer when not signing up (#266)
+
+## v1.0.0-rc5 (2018-06-08)
+- Changed refresh token to be optional to prepare for the new OAuth service (#250)
+- Changed security checks in AuthInterceptor to be more modular (#259)
+- Fixed an unhandled KeyNotYetValidException in PersistenceEncryption (#253)
+- Fixed crash when auth token was corrupt (#247)
+- Fixed crash when user exited during initialization (#260)
+- Fixed issue where automatic login did not work after signing up (#247)
+- Fixed issue where deep link back from reset password would not be caught (#251)
+- Fixed issue where loading dialog dismissal would cause a crash (#238)
+- Fixed issue where SmartLock credentials could not be stored after user dismissed the dialog (#254)
+- Fixed issue where SmartLock docs were not being deployed upon release (#249)
+- Fixed margin on the continue button on the identification screen (#252)
+- Removed headers which routed to the new OAuth service for now (#257)
+
+## v1.0.0-rc4 (2018-06-01)
+**Known issues**
+- When logging in using SmartLock and dismissing the dialog, new credentials cannot be stored (#236)
+
+**Changes**
+- Added accessibility labels for the UIs (#222)
+- Added builder pattern to AccountUi.Params for Java interoperability (#233)
+- Added option to customize the background color (#213)
+- Changed deep link validation to allow for all formats (#235)
+- Changed FlowType.PASSWORDLESS_PHONE to FlowType.PASSWORDLESS_SMS (#225)
+- Changed X-OIDC header to be conditionally sent as required by SPiD (#207)
+- Fixed an issue where redirect URIs was ignored for account summary URL (#211)
+- Fixed an issue where the webview wasn't scrollable (#212)
+- Fixed an issue where vector images were being displayed incorrectly (#227)
+- Fixed automatic publishing of gh-pages (#209)
+- Fixed crash when the loading dialog was dismissed (#228)
+- Fixed issue where auto login was not disabled after a user logged out (#224)
+- Fixed issue where login with phone number couldn't be started (#217)
+- Fixed issue where sessions could be bound more than once (#234)
+- Fixed issue where the auth interceptor used an outdated token after user manually logged out (#232)
+
+## v1.0.0-rc3 (2018-05-24)
+- Fixed issues where app was crashing at launch (#205)
+- Fixed issue where signup was failing due to scopes (#202)
+
+## v1.0.0-rc2 (2018-05-22)
+**Known issues**
+- Automatically log the user in from a verification email doesn't work
+- when the application is closed and opened via the verification email deep link app crashes
+
+**Changes**
+- Added missing tracking links (#199)
+- Fixed issue where toolbar was updated before the UI was launched (#189)
+- Fixed issue where deeplink was not triggered (#190)
+- Fixed issue where required fields were not updated (#193)
+- Fixed issue where back press link in webview was restarting the app (#197)
+
+## v1.0.0-rc1 (2018-05-17)
+**Note:** This release has completely reworked how the UIs are configured. Please see the readme for details
+**Known issues**
+- Not integrating the smartlock module results in a crash when app is launched
+
+**Changes**
+- Added links for GDPR compliant terms (#174)
+- Added loading screen when retrieving client info (#183)
+- Added module summary to the README (#166)
+- Added scope parameter to resume user from session code method (#181)
+- Added scopes to the UI module (#182)
+- Added support for display name error (#167)
+- Changed create account screen to be GDPR compliant (#145)
+- Changed docs to reflect the configuration changes (#179)
+- Changed image resources to match the latest UI copies (#165)
+- Changed Kotlin runtime to 1.2.41 (#156)
+- Changed README to specify where to find pulse version (#144)
+- Changed required fields screen description to be GDPR compliant (#149)
+- Changed string resources to match the latest UI changes (#161) (#164)
+- Changed the configuration of the UI module (#172)
+- Changed the error icon (#178)
+- Changed the ID screen with the latest changes (#151)
+- Changed the tracking implementation to match the latest tagging plan(#162)
+- Changed verification logic from Java to Kotlin (#177)
+- Fixed crash when unbinding a non-bound service
+- Fixed crash when unbinding a non-bound service (#184)
+- Fixed CTA button UI to match copies (#176)
+- Fixed issue where KeyStore was not loaded successfully (#155)
+- Fixed issue where network call was done on screen rotation (#158)
+- Fixed issue where padding was wrong (#173)
+- Removed docs publishing for UI and SmartLock module (temporary) (#185)
+
 ## 0.10.0 (2018-04-25)
 - Added documentation for session code and url (#108)
 - Added support for multiple simultaneous users (#116)

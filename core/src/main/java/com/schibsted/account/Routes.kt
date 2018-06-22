@@ -6,6 +6,7 @@ package com.schibsted.account
 
 import java.net.URI
 import java.net.URLEncoder
+import java.util.Locale
 
 object Routes {
     private fun urlFromPath(path: String, redirectUri: URI?, params: Map<String, String> = mapOf()): URI {
@@ -23,8 +24,16 @@ object Routes {
     fun logoutUrl(redirectUri: URI? = null): URI = urlFromPath("logout", redirectUri)
 
     @JvmStatic
-    fun forgotPasswordUrl(redirectUri: URI? = null): URI = urlFromPath("flow/password", redirectUri)
+    @JvmOverloads
+    fun forgotPasswordUrl(redirectUri: URI? = null, locale: Locale? = null): URI {
+        val params = locale?.let { mapOf("locale" to locale.toString()) } ?: mapOf()
+        return urlFromPath("flow/password", redirectUri, params)
+    }
 
     @JvmStatic
-    fun accountSummaryUrl(redirectUri: URI? = null): URI = urlFromPath("account/summary", redirectUri, mapOf("response_type" to "code"))
+    @JvmOverloads
+    fun accountSummaryUrl(redirectUri: URI? = null, locale: Locale? = null): URI {
+        val params = mapOf("response_type" to "code") + (locale?.let { mapOf("locale" to locale.toString()) } ?: mapOf())
+        return urlFromPath("account/summary", redirectUri, params)
+    }
 }

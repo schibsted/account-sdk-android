@@ -30,14 +30,11 @@
     <string name="schacc_verification_edit_email_address">Använd en annan e-postadress</string>
     <!--Terms-->
     <string name="schacc_terms_title">Användarvillkor</string>
-    <string name="schacc_terms_sign_up_description">För att kunna skapa ett konto måste du godkänna följande användarvillkor och sekretesspolicyer</string>
-    <string name="schacc_terms_sign_in_description">För att kunna logga in måste du godkänna följande användarvillkor och sekretesspolicyer</string>
-    <string name="schacc_terms_privacy_error">Vänligen acceptera användarvillkoren för att fortsätta.</string>
-    <string name="schacc_terms_terms_error">Vänligen acceptera sekretesspolicyn för att fortsätta.</string>
+    <string name="schacc_terms_sign_up_description">För att kunna öppna ett Schibsted-konto måste du godkänna följande användarvillkor.</string>
+    <string name="schacc_terms_sign_in_description">För att kunna logga in på ditt Schibsted-konto måste du godkänna användarvillkoren. Om du inte godkänner villkoren kommer du att loggas ut.</string>
+    <string name="schacc_terms_terms_error">Vänligen acceptera användarvillkoren för att fortsätta.</string>
     <string name="schacc_terms_policy">Jag godkänner användarvillkoren för %1$s och %2$s</string>
     <string name="schacc_terms_policy_spid_only">Jag godkänner användarvillkoren för %1$s</string>
-    <string name="schacc_privacy_policy">Jag godkänner sekretesspolicyn för %1$s och %2$s</string>
-    <string name="schacc_privacy_policy_spid_only">Jag godkänner sekretesspolicyn för %1$s</string>
     <string name="schacc_terms_update_link_label">Läs mer om uppdateringen</string>
     <string name="schacc_accept">Godkänn</string>
     <!--Terms update dialog-->

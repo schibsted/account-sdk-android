@@ -26,33 +26,22 @@ class TermsPresenter(private val termsView: TermsContract.View, private val prov
     }
 
     /**
-     * Verify if given checkboxes are all checked.
-     * Calls [.acceptAgreements]  if `true`
+     * Verify if given checkbox is checked.
+     * Calls [acceptAgreements]  if `true`
      * Shows errors if `false`
      *
-     * @param privacyBox [CheckBoxView]  the privacy checkbox
      * @param termsBox [CheckBoxView]  the terms checkbox
      */
-    override fun verifyBoxes(privacyBox: CheckBoxView, termsBox: CheckBoxView) {
+    override fun acceptTerms(termsBox: CheckBoxView) {
         if (termsView.isActive) {
-            if (privacyBox.isChecked && termsBox.isChecked) {
+            if (termsBox.isChecked) {
                 acceptAgreements()
             } else {
                 val tracker = BaseLoginActivity.tracker
                 tracker?.eventError(TrackingData.UIError.AgreementsNotAccepted, TrackingData.Screen.AGREEMENTS)
-
-                if (!privacyBox.isChecked) {
-                    termsView.showError(privacyBox)
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-                        privacyBox.errorView.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_ACCESSIBILITY_FOCUSED)
-                    }
-                }
-
-                if (!termsBox.isChecked) {
-                    termsView.showError(termsBox)
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-                        termsBox.errorView.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_ACCESSIBILITY_FOCUSED)
-                    }
+                termsView.showError(termsBox)
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                    termsBox.errorView.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_ACCESSIBILITY_FOCUSED)
                 }
             }
         }
