@@ -76,7 +76,11 @@ data class OptionalConfiguration(
             val keyIsCancellable = appContext.getString(R.string.schacc_conf_cancellable)
             val keyClientLogo = appContext.getString(R.string.schacc_conf_client_logo)
 
-            val locale: Locale? = appInfo.metaData.getString(keyLocale)?.let { Locale(it) }
+            val locale: Locale? = appInfo.metaData.getString(keyLocale)?.let {
+                val (lang, country) = it.split("_")
+                Locale(lang, country)
+            }
+
             val signUpEnabled: SignUpMode? = {
                 val enabled = appInfo.metaData.get(keySignUpEnabled) as? Boolean
                 when (enabled) {
