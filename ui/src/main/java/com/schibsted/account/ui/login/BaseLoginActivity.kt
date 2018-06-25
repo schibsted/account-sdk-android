@@ -161,7 +161,7 @@ abstract class BaseLoginActivity : AppCompatActivity(), KeyboardManager, Navigat
         super.attachBaseContext(UiUtil.updateContextLocale(base, OptionalConfiguration.fromManifest(base).locale))
     }
 
-      private fun initializeUi() {
+    private fun initializeUi() {
         theme.applyStyle(R.style.schacc_NoActionBar, true)
         setContentView(R.layout.schacc_mobile_activity_layout)
         setUpActionBar()

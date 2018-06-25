@@ -80,7 +80,6 @@ data class OptionalConfiguration(
                 val (lang, country) = it.split("_")
                 Locale(lang, country)
             }
-
             val signUpEnabled: SignUpMode? = {
                 val enabled = appInfo.metaData.get(keySignUpEnabled) as? Boolean
                 when (enabled) {

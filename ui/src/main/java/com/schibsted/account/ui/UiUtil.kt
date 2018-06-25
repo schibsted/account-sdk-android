@@ -24,8 +24,6 @@ import com.schibsted.account.ui.login.screen.LoginScreen
 import java.util.Locale
 import java.util.regex.Pattern
 
-
-
 object UiUtil {
     @JvmStatic
     fun getTrackingScreen(loginScreen: LoginScreen): TrackingData.Screen? = when (loginScreen) {
@@ -49,7 +47,7 @@ object UiUtil {
         Locale.setDefault(locale)
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             updateResourcesLocale(context.applicationContext, locale)
-        }else{
+        } else {
             updateResourcesLocaleLegacy(context.applicationContext, locale)
         }
     }
