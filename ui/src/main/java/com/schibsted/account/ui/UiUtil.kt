@@ -288,6 +288,22 @@ object UiUtil {
         val countryCode = telephonyService.simCountryIso.toUpperCase()
         return countryPrefixes[countryCode]
     }
+
+    /**
+     * @param localeTag a tag representing a locale
+     * @return a Locale if the tag format is correct null otherwise
+     * @see https://developer.android.com/reference/java/util/Locale
+     */
+    fun getLocaleFromLocaleTag(localeTag: String): Locale? {
+        val localeInfo = localeTag.split("_")
+        if (localeInfo.size == 2) {
+            val (lang, country) = localeInfo
+            if ((lang.length in 2..3) && country.length == 2) {
+                return Locale(lang, country)
+            }
+        }
+        return null
+    }
 }
 
 fun SpannableString.setPartAsClickableLink(@ColorInt color: Int, textToCustomize: String, action: ClickableSpan) {
