@@ -4,37 +4,42 @@
 
 package com.schibsted.account.model
 
-import android.os.Parcel
 import android.os.Parcelable
+import android.util.Base64
+import com.google.gson.JsonParser
+import com.schibsted.account.common.lib.Try
+import com.schibsted.account.common.lib.getOrNull
 import com.schibsted.account.network.response.TokenResponse
+import kotlinx.android.parcel.Parcelize
 
+@Parcelize
 data class UserId(val id: String, val legacyId: String?) : Parcelable {
-    constructor(source: Parcel) : this(
-            source.readString(),
-            source.readString()
-    )
-
-    override fun describeContents() = 0
-
-    override fun writeToParcel(dest: Parcel, flags: Int) = with(dest) {
-        writeString(id)
-        writeString(legacyId)
-    }
-
     companion object {
+        private val parser = JsonParser()
+
         fun fromTokenResponse(token: TokenResponse): UserId {
-            val fields = token.idToken?.let { TokenPayload.fromRawToken(it) }
+            val idTokenResult = token.idToken?.let { extractPayload(it) }?.let { extractFields(it) }
 
-            val subject = fields?.sub
-            val legacySubject = fields?.legacy_user_id ?: token.userId
+            val idTokenSub = idTokenResult?.first
+            val idTokenLegacyUserId = idTokenResult?.second
 
-            return UserId(subject ?: legacySubject, legacySubject)
+            return UserId(idTokenSub ?: idTokenLegacyUserId ?: token.userId, idTokenLegacyUserId ?: token.userId)
         }
 
-        @JvmField
-        val CREATOR: Parcelable.Creator<UserId> = object : Parcelable.Creator<UserId> {
-            override fun createFromParcel(source: Parcel): UserId = UserId(source)
-            override fun newArray(size: Int): Array<UserId?> = arrayOfNulls(size)
-        }
+        internal fun extractFields(payload: String): Pair<String?, String?>? = Try {
+            parser.parse(payload).takeIf { it.isJsonObject }?.asJsonObject?.let { obj ->
+                val subject = obj["sub"].takeIf { it.isJsonPrimitive && it.asJsonPrimitive.isString }?.asString
+                val legacyUserId = obj["legacy_user_id"].takeIf { it.isJsonPrimitive && it.asJsonPrimitive.isString }?.asString
+                Pair(subject, legacyUserId)
+            }
+        }.getOrNull()
+
+        internal fun extractPayload(token: String): String? = Try {
+            val payload = "\\.(.*?)\\.".toRegex().find(token)
+            payload?.let {
+                val decodedToken = Base64.decode(it.value, 0)
+                String(decodedToken, Charsets.ISO_8859_1)
+            }
+        }.getOrNull()
     }
 }
