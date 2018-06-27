@@ -11,8 +11,9 @@ import android.support.annotation.VisibleForTesting;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.schibsted.account.network.Environment;
-import com.schibsted.account.util.Preconditions;
 import com.schibsted.account.util.LenientAccountsDeserializer;
+import com.schibsted.account.util.Preconditions;
+import com.schibsted.account.util.TypeSafeStringDeserializer;
 
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
@@ -51,6 +52,7 @@ public class BaseNetworkService {
         Preconditions.checkNotNull(service);
         final Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd")
                 .registerTypeAdapter(LenientAccountsDeserializer.type, new LenientAccountsDeserializer())
+                .registerTypeAdapter(String.class, new TypeSafeStringDeserializer())
                 .create();
         return new Retrofit.Builder()
                 .client(this.okHttpClient)
