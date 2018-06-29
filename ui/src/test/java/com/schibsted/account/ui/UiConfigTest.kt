@@ -32,9 +32,10 @@ class UiConfigTest : WordSpec({
     }
 
     "fromManifest should resolve it's fields from the manifest" {
+        val locale = Locale("fr", "FR")
         val mockBundle: Bundle = mock {
             on { getString(any()) } doReturn listOf(
-                    Locale.FRENCH.toString(),
+                    "fr_FR",
                     "my disabled message"
             )
 
@@ -53,7 +54,7 @@ class UiConfigTest : WordSpec({
 
         val conf = OptionalConfiguration.fromManifest(mockContext)
 
-        conf.locale shouldBe Locale.FRENCH
+        conf.locale shouldBe locale
         conf.signUpEnabled should beOfType<OptionalConfiguration.SignUpMode.Disabled>()
         (conf.signUpEnabled as OptionalConfiguration.SignUpMode.Disabled).disabledMessage shouldBe "my disabled message"
         conf.isCancellable shouldBe true

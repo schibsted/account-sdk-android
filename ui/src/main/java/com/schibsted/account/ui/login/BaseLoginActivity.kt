@@ -49,6 +49,7 @@ import com.schibsted.account.session.User
 import com.schibsted.account.ui.AccountUi
 import com.schibsted.account.ui.InternalUiConfiguration
 import com.schibsted.account.ui.KeyboardManager
+import com.schibsted.account.ui.OptionalConfiguration
 import com.schibsted.account.ui.R
 import com.schibsted.account.ui.UiUtil
 import com.schibsted.account.ui.login.flow.password.FlowSelectionListener
@@ -156,6 +157,10 @@ abstract class BaseLoginActivity : AppCompatActivity(), KeyboardManager, Navigat
         }
     }
 
+    override fun attachBaseContext(base: Context) {
+        super.attachBaseContext(UiUtil.updateContextLocale(base, OptionalConfiguration.fromManifest(base).locale))
+    }
+
     private fun initializeUi() {
         theme.applyStyle(R.style.schacc_NoActionBar, true)
         setContentView(R.layout.schacc_mobile_activity_layout)
@@ -171,7 +176,6 @@ abstract class BaseLoginActivity : AppCompatActivity(), KeyboardManager, Navigat
                 identifier = params.preFilledIdentifier,
                 teaserText = params.teaserText,
                 smartlockMode = params.smartLockMode)
-        UiUtil.setLanguage(this, uiConfiguration.locale)
     }
 
     private fun initializePropertiesFromBundle(savedInstanceState: Bundle?) {
