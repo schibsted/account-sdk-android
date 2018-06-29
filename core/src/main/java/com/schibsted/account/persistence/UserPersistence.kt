@@ -23,7 +23,7 @@ import com.schibsted.account.util.KeyValueStore
  * @param appContext The application context
  */
 internal class UserPersistence(private val appContext: Context) {
-    internal data class Session(val lastActive: Long, val userId: String, val token: UserToken)
+    internal data class Session(val lastActive: Long, val userId: String, val token: UserToken, val clientConfiguration: ClientConfiguration)
 
     private var sessions: List<Session> by SessionStorageDelegate(appContext, PREFERENCE_FILENAME, SAVED_SESSIONS_KEY)
 
@@ -36,7 +36,7 @@ internal class UserPersistence(private val appContext: Context) {
      */
     fun resume(userId: String, callback: ResultCallback<User>) {
         cleanInvalidTokens()
-        val session = sessions.find { it.userId == userId }
+        val session = sessions.find { it.userId == userId && it.clientConfiguration == ClientConfiguration.get() }
 
         if (session == null) {
             callback.onError(ClientError(ClientError.ErrorType.SESSION_NOT_FOUND, "Could not find a previous session for the provided user id"))
@@ -56,8 +56,11 @@ internal class UserPersistence(private val appContext: Context) {
      */
     fun resumeLast(callback: ResultCallback<User>) {
         cleanInvalidTokens()
-        val lastActiveSession = sessions.sortedByDescending { it.lastActive }.firstOrNull()?.token ?: readTokenCompat()
-
+        val validSessions = sessions
+                .filter { it.clientConfiguration == ClientConfiguration.get() }
+                .sortedByDescending { it.lastActive }
+                .firstOrNull()
+        val lastActiveSession = validSessions?.token ?: readTokenCompat()
         if (lastActiveSession == null) {
             callback.onError(ClientError(ClientError.ErrorType.SESSION_NOT_FOUND, "Could not find any previous sessions"))
         } else {
@@ -102,7 +105,7 @@ internal class UserPersistence(private val appContext: Context) {
             !user.isPersistable -> Logger.warn(Logger.DEFAULT_TAG, { "Attempting to persist session, but the user is not flagged as persistable" })
             else -> {
                 val updatedSessions = (sessions.filterNot { it.userId == user.userId.id }) +
-                        Session(System.currentTimeMillis(), user.userId.id, token)
+                        Session(System.currentTimeMillis(), user.userId.id, token, ClientConfiguration.get())
                 this.sessions = updatedSessions.sortedByDescending { it.lastActive }.take(MAX_SESSIONS)
             }
         }

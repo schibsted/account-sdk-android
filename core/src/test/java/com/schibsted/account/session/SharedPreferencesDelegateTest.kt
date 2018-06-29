@@ -8,18 +8,15 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.util.Base64
 import com.google.gson.Gson
-import com.nhaarman.mockito_kotlin.any
-import com.nhaarman.mockito_kotlin.eq
-import com.nhaarman.mockito_kotlin.mock
-import com.nhaarman.mockito_kotlin.times
-import com.nhaarman.mockito_kotlin.verify
+import com.nhaarman.mockito_kotlin.*
+import com.schibsted.account.ClientConfiguration
+import com.schibsted.account.common.util.Logger
 import com.schibsted.account.model.UserId
 import com.schibsted.account.model.UserToken
 import com.schibsted.account.persistence.AES_KEY
 import com.schibsted.account.persistence.PersistenceEncryption
 import com.schibsted.account.persistence.SessionStorageDelegate
 import com.schibsted.account.persistence.UserPersistence
-import com.schibsted.account.common.util.Logger
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import java.security.KeyPair
@@ -38,6 +35,8 @@ class SharedPreferencesDelegateTest {
             "    \"server_time\": 1509975342\n" +
             "}", UserToken::class.java)
 
+    private val testConfig = ClientConfiguration("https://dev-example.com/", "myId", "mySecret")
+
     @Test
     fun noPreviousPrefsShouldUseEmptyList() {
         Logger.loggingEnabled = false
@@ -53,7 +52,7 @@ class SharedPreferencesDelegateTest {
 
     @Test
     fun shouldReadFromPrefsIfAvailable() {
-        val json = Gson().toJson(listOf(UserPersistence.Session(1L, UserId.fromTokenResponse(testToken).id, testToken)))
+        val json = Gson().toJson(listOf(UserPersistence.Session(1L, UserId.fromTokenResponse(testToken).id, testToken, testConfig)))
         val mockPrefs: SharedPreferences = mock { on { getString(any(), eq(null)) }.thenReturn(Base64.encodeToString(json.toByteArray(), Base64.DEFAULT)) }
 
         val mockEncryption: PersistenceEncryption = mock {
@@ -67,12 +66,13 @@ class SharedPreferencesDelegateTest {
         assertEquals(1, nonEmptyList.size)
         assertEquals(UserId.fromTokenResponse(testToken).id, nonEmptyList[0].userId)
         assertEquals(604800, nonEmptyList.first().token.expiresIn)
+        assertEquals(testConfig, nonEmptyList.first().clientConfiguration)
     }
 
     @Test
     fun shouldNotPersistWithEmptyAesKey() {
         Logger.loggingEnabled = false
-        val json = Gson().toJson(listOf(UserPersistence.Session(1L, UserId.fromTokenResponse(testToken).id, testToken)))
+        val json = Gson().toJson(listOf(UserPersistence.Session(1L, UserId.fromTokenResponse(testToken).id, testToken, testConfig)))
         val mockEditor: SharedPreferences.Editor = mock()
         val mockPrefs: SharedPreferences = mock {
             on { getString(any(), eq(null)) }.thenReturn(Base64.encodeToString(json.toByteArray(), Base64.DEFAULT))
@@ -95,7 +95,7 @@ class SharedPreferencesDelegateTest {
     @Test
     fun shouldNotPersistWithNullAesKey() {
         Logger.loggingEnabled = false
-        val json = Gson().toJson(listOf(UserPersistence.Session(1L, UserId.fromTokenResponse(testToken).id, testToken)))
+        val json = Gson().toJson(listOf(UserPersistence.Session(1L, UserId.fromTokenResponse(testToken).id, testToken, testConfig)))
         val mockEditor: SharedPreferences.Editor = mock()
         val mockPrefs: SharedPreferences = mock {
             on { getString(any(), eq(null)) }.thenReturn(Base64.encodeToString(json.toByteArray(), Base64.DEFAULT))
@@ -171,7 +171,7 @@ class SharedPreferencesDelegateTest {
         val mockPrefs: SharedPreferences = mock { on { edit() }.thenReturn(mockEditor) }
 
         var sessions: List<UserPersistence.Session> by SessionStorageDelegate(mockContextWithPrefs(mockPrefs), PREFERENCE_FILENAME, PREFERENCE_KEY)
-        sessions = listOf(UserPersistence.Session(123, "userId", mock()))
+        sessions = listOf(UserPersistence.Session(123, "userId", mock(), testConfig))
 
         verify(mockEditor, times(1)).putString(eq(PREFERENCE_KEY), any())
         verify(mockEditor, times(1)).putString(eq(AES_KEY), any())
