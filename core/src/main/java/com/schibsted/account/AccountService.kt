@@ -9,6 +9,7 @@ import android.arch.lifecycle.LifecycleObserver
 import android.arch.lifecycle.OnLifecycleEvent
 import android.content.Context
 import android.content.Intent
+import android.support.annotation.VisibleForTesting
 import android.support.v4.content.LocalBroadcastManager
 import com.schibsted.account.common.util.Logger
 import com.schibsted.account.persistence.UserPersistenceService
@@ -52,7 +53,8 @@ class AccountService @JvmOverloads constructor(
     companion object {
         private val TAG = Logger.DEFAULT_TAG + "-ASRV"
         internal var localBroadcastManager: LocalBroadcastManager? = null
-            private set
+            @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+            set
         internal var packageName: String = "unknown"
             private set
     }
