@@ -43,10 +43,10 @@ object AccountUi {
      */
     @Parcelize
     data class Params(
-        val teaserText: String? = null,
-        val preFilledIdentifier: String? = null,
-        val smartLockMode: SmartlockMode = SmartlockMode.DISABLED,
-        @OIDCScope val scopes: Array<String> = arrayOf(OIDCScope.SCOPE_OPENID)
+            val teaserText: String? = null,
+            val preFilledIdentifier: String? = null,
+            val smartLockMode: SmartlockMode = SmartlockMode.DISABLED,
+            @OIDCScope val scopes: Array<String> = arrayOf(OIDCScope.SCOPE_OPENID)
     ) : Parcelable {
 
         class Builder {

@@ -19,6 +19,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.schibsted.account.AccountService;
+import com.schibsted.account.ClientConfiguration;
 import com.schibsted.account.Events;
 import com.schibsted.account.engine.integration.ResultCallback;
 import com.schibsted.account.model.error.ClientError;
@@ -57,7 +58,6 @@ public class MainActivity extends AppCompatActivity {
         // Bind the AccountService
         final AccountService accountService = new AccountService(getApplicationContext());
         getLifecycle().addObserver(accountService);
-
         // Listen for logout events
         smartlockReceiver = new SmartlockReceiver(this);
         accountSdkReceiver = new AccountSdkReceiver();

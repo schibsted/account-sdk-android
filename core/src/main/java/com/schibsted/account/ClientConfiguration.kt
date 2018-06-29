@@ -20,9 +20,9 @@ import com.schibsted.account.util.ConfigurationUtils
  * @see <a href="https://selfservice.identity-pre.schibsted.com">Self-Service PRE</a>
  */
 data class ClientConfiguration(
-    @Environment val environment: String,
-    val clientId: String,
-    val clientSecret: String
+        @Environment val environment: String,
+        val clientId: String,
+        val clientSecret: String
 ) : Parcelable {
 
     constructor(source: Parcel) : this(
@@ -40,21 +40,20 @@ data class ClientConfiguration(
     }
 
     companion object {
+        const val DEFAULT_KEY = "DEFAULT_KEY"
         private const val KEY_ID = "clientId"
         private const val KEY_SECRET = "clientSecret"
         private const val KEY_ENVIRONMENT = "environment"
         private var currentConfig: ClientConfiguration? = null
+        private var configId: String = DEFAULT_KEY
 
         @JvmStatic
-        fun get(): ClientConfiguration {
-            val conf = currentConfig
-            if (conf == null) {
-                val newConf = fromParams(ConfigurationUtils.paramsFromAssets())
-                currentConfig = newConf
-                return newConf
-            }
+        fun get(): ClientConfiguration = currentConfig ?: loadConf()
 
-            return conf
+        @JvmStatic
+        fun setConfigurationId(configurationId: String) {
+            this.configId = configurationId
+            currentConfig = loadConf()
         }
 
         @JvmStatic
@@ -62,12 +61,27 @@ data class ClientConfiguration(
             currentConfig = clientConfiguration
         }
 
+        private fun loadConf(): ClientConfiguration {
+            val assetConf = ConfigurationUtils.paramsFromAssets()
+
+            if (assetConf.size > 1 && configId == DEFAULT_KEY) {
+                throw IllegalArgumentException("You have multiple configuration you need to specify the configuration ID")
+            }
+
+            if (assetConf.containsKey(configId)) {
+                return fromParams(assetConf[configId]!!)
+            } else {
+                throw IllegalArgumentException("$configId wasn't found in the configuration file")
+            }
+
+        }
+
         @VisibleForTesting(otherwise = VisibleForTesting.PROTECTED)
         internal fun fromParams(params: Map<String, Any>): ClientConfiguration {
             val clientId = requireNotNull(params[KEY_ID], { "Field $KEY_ID is required in the configuration" }) as String
             val clientSecret = requireNotNull(params[KEY_SECRET], { "Field $KEY_SECRET is required in the configuration" }) as String
-
             val rawEnv = requireNotNull(params[KEY_ENVIRONMENT], { "Field $KEY_ENVIRONMENT is required in the configuration" }) as String
+
             val environment = when (rawEnv) {
                 "DEV" -> Environment.ENVIRONMENT_DEVELOPMENT
                 "PRE" -> Environment.ENVIRONMENT_PREPRODUCTION
