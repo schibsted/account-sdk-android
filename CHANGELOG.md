@@ -1,3 +1,9 @@
+## 1.0.1 (2018-06-29)
+- Added cache for agreement status checks performed on resume (#297)
+- Added type checking to Gson parsing to deal with boolean being parsed as string from SPiD (#295)
+- Fixed issue where Gson parsed the id token incorrectly (#294)
+- Fixed issue where language wasn't set according to the manifest (#293)
+
 ## 1.0.0 (2018-06-21)
 - Added null pointer guard on removing invalid tokens to handle old, corrupt tokens (#278)
 - Added option to override locale in Routes (#276)
