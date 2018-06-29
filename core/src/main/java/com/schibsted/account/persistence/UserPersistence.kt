@@ -5,6 +5,7 @@
 package com.schibsted.account.persistence
 
 import android.content.Context
+import android.content.SharedPreferences
 import android.support.annotation.VisibleForTesting
 import com.schibsted.account.ClientConfiguration
 import com.schibsted.account.common.lib.Try
@@ -16,6 +17,10 @@ import com.schibsted.account.model.error.ClientError
 import com.schibsted.account.network.response.TokenResponse
 import com.schibsted.account.session.User
 import com.schibsted.account.util.KeyValueStore
+import java.text.SimpleDateFormat
+import java.util.Calendar
+import java.util.Date
+import java.util.Random
 
 /**
  * Handles persisting and resuming user's sessions. This supports multiple users, so you can resume
@@ -25,7 +30,50 @@ import com.schibsted.account.util.KeyValueStore
 internal class UserPersistence(private val appContext: Context) {
     internal data class Session(val lastActive: Long, val userId: String, val token: UserToken)
 
-    private var sessions: List<Session> by SessionStorageDelegate(appContext, PREFERENCE_FILENAME, SAVED_SESSIONS_KEY)
+    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    internal var sessions: List<Session> by SessionStorageDelegate(appContext, PREFERENCE_FILENAME, SAVED_SESSIONS_KEY)
+
+    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    internal var acceptedAgreementsCache: String by StorageDelegate(appContext.getSharedPreferences(PREFERENCE_FILENAME, Context.MODE_PRIVATE),
+            SharedPreferences::getString, SharedPreferences.Editor::putString, "", "AGR_CACHE")
+
+    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    internal fun termsPreviouslyAccepted(userId: String): Boolean {
+        val validUntil = acceptedAgreementsCache.split("|").takeIf { it.size == 2 && it.first() == userId }?.let { it[1] } ?: return false
+        val validUntilDate = SimpleDateFormat.getDateTimeInstance().parse(validUntil)
+
+        return Date().before(validUntilDate)
+    }
+
+    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    internal fun putCacheResult(userId: String) {
+        val rand = Random().nextInt(MAX_TERMS_CACHE_MINUTES - MIN_TERMS_CACHE_MINUTES) + MIN_TERMS_CACHE_MINUTES
+
+        val cal = Calendar.getInstance()
+        cal.time = Date()
+        cal.add(Calendar.MINUTE, rand)
+
+        val validUntil = SimpleDateFormat.getDateTimeInstance().format(cal.time)
+        acceptedAgreementsCache = "$userId|$validUntil"
+    }
+
+    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    internal fun resumeSession(token: UserToken?, callback: ResultCallback<User>) {
+        if (token == null) {
+            callback.onError(ClientError(ClientError.ErrorType.SESSION_NOT_FOUND, "Could not find a session to resume"))
+        } else {
+            val user = User(token, true)
+
+            if (termsPreviouslyAccepted(user.userId.id)) {
+                callback.onSuccess(user)
+            } else {
+                user.agreements.ensureAccepted(ResultCallback.fromLambda({ callback.onError(it) }) {
+                    putCacheResult(user.userId.id)
+                    callback.onSuccess(user)
+                })
+            }
+        }
+    }
 
     /**
      * Resume a specific user's session. The session will be resumed and the required checks will
@@ -37,15 +85,7 @@ internal class UserPersistence(private val appContext: Context) {
     fun resume(userId: String, callback: ResultCallback<User>) {
         cleanInvalidTokens()
         val session = sessions.find { it.userId == userId }
-
-        if (session == null) {
-            callback.onError(ClientError(ClientError.ErrorType.SESSION_NOT_FOUND, "Could not find a previous session for the provided user id"))
-        } else {
-            val user = User(session.token, true)
-            user.agreements.ensureAccepted(ResultCallback.fromLambda({ callback.onError(it) }) {
-                callback.onSuccess(user)
-            })
-        }
+        resumeSession(session?.token, callback)
     }
 
     /**
@@ -57,15 +97,7 @@ internal class UserPersistence(private val appContext: Context) {
     fun resumeLast(callback: ResultCallback<User>) {
         cleanInvalidTokens()
         val lastActiveSession = sessions.sortedByDescending { it.lastActive }.firstOrNull()?.token ?: readTokenCompat()
-
-        if (lastActiveSession == null) {
-            callback.onError(ClientError(ClientError.ErrorType.SESSION_NOT_FOUND, "Could not find any previous sessions"))
-        } else {
-            val user = User(lastActiveSession, true)
-            user.agreements.ensureAccepted(ResultCallback.fromLambda({ callback.onError(it) }) {
-                callback.onSuccess(user)
-            })
-        }
+        resumeSession(lastActiveSession, callback)
     }
 
     /**
@@ -113,7 +145,8 @@ internal class UserPersistence(private val appContext: Context) {
     /**
      * Removes sessions with invalid tokens
      */
-    private fun cleanInvalidTokens() {
+    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    internal fun cleanInvalidTokens() {
         val (validSessions, invalidSessions) = sessions.partition { Try { it.token.isValidToken() }.getOrDefault { false } }
         invalidSessions.forEach {
             Logger.warn(Logger.DEFAULT_TAG, { "Found invalid session for user ${it.userId}" })
@@ -139,5 +172,8 @@ internal class UserPersistence(private val appContext: Context) {
         private const val PREFERENCE_FILENAME = "IDENTITY_PREFERENCES"
         private const val SAVED_SESSIONS_KEY = "IDENTITY_SESSIONS"
         private const val MAX_SESSIONS = 10
+
+        internal const val MIN_TERMS_CACHE_MINUTES = 1 * 24 * 60 // One day
+        internal const val MAX_TERMS_CACHE_MINUTES = 7 * 24 * 60 // Seven days
     }
 }
