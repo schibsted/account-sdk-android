@@ -8,7 +8,11 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.util.Base64
 import com.google.gson.Gson
-import com.nhaarman.mockito_kotlin.*
+import com.nhaarman.mockito_kotlin.mock
+import com.nhaarman.mockito_kotlin.any
+import com.nhaarman.mockito_kotlin.eq
+import com.nhaarman.mockito_kotlin.verify
+import com.nhaarman.mockito_kotlin.times
 import com.schibsted.account.ClientConfiguration
 import com.schibsted.account.common.util.Logger
 import com.schibsted.account.model.UserId

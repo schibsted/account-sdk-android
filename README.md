@@ -51,3 +51,18 @@ The environment can be one of `DEV|PRE|PRO|PRO_NORWAY|<CUSTOM_URL>`.
 
 #### How can I debug my implementation?
 By default, the SDK will output information about any errors which occurs with detailed information about the exception, network request and the context. To see these, please ensure your log level is set to debug for the errors, and to verbose if you want to know the context of them as well as seeing the operations the SDK is performing. You can filter on the `SCHACC` tag in Logcat. The debug mode of the SDK is taken from the `BuildConfig.DEBUG` fields, but can be overwritten by changing the value of `Logger.loggingEnabled` so that you can enable logging in a release version as well.
+
+#### How can I witch environment at runtime?
+1. Put all your environments in `schibsted_account.conf` following the pattern below:
+```yaml
+confId: myEnv1
+environment: PRE
+clientId: 58xxxxxxxxxxxxxxxx27
+clientSecret: k8xxxxxxxxxxxxxLm
+
+confId: myEnv2
+environment: PRE
+clientId: 45xxxxxxxxxxxxxxxx68
+clientSecret: p4xxxxxxxxxxxxxGl
+```
+2. To select the environment you want to use call `ClientConfiguration.setConfigurationId(configurationId: String)`
