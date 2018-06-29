@@ -1,0 +1,56 @@
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>StorageDelegate - core</title>
+<link rel="stylesheet" href="../../../style.css">
+</HEAD>
+<BODY>
+<a href="../../index.html">core</a>&nbsp;/&nbsp;<a href="../index.html">com.schibsted.account.persistence</a>&nbsp;/&nbsp;<a href="./index.html">StorageDelegate</a><br/>
+<br/>
+<h1>StorageDelegate</h1>
+<code><span class="keyword">class </span><span class="identifier">StorageDelegate</span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span></code>
+<h3>Constructors</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="-init-.html">&lt;init&gt;</a></p>
+</td>
+<td>
+<code><span class="identifier">StorageDelegate</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.persistence.StorageDelegate$<init>(android.content.SharedPreferences, kotlin.Function3((android.content.SharedPreferences, kotlin.String, com.schibsted.account.persistence.StorageDelegate.T, )), kotlin.Function3((android.content.SharedPreferences.Editor, kotlin.String, com.schibsted.account.persistence.StorageDelegate.T, )), com.schibsted.account.persistence.StorageDelegate.T, kotlin.String)/prefs">prefs</span><span class="symbol">:</span>&nbsp;<a href="https://developer.android.com/reference/android/content/SharedPreferences.html"><span class="identifier">SharedPreferences</span></a><span class="symbol">, </span><span class="identifier" id="com.schibsted.account.persistence.StorageDelegate$<init>(android.content.SharedPreferences, kotlin.Function3((android.content.SharedPreferences, kotlin.String, com.schibsted.account.persistence.StorageDelegate.T, )), kotlin.Function3((android.content.SharedPreferences.Editor, kotlin.String, com.schibsted.account.persistence.StorageDelegate.T, )), com.schibsted.account.persistence.StorageDelegate.T, kotlin.String)/getter">getter</span><span class="symbol">:</span>&nbsp;<a href="https://developer.android.com/reference/android/content/SharedPreferences.html"><span class="identifier">SharedPreferences</span></a><span class="symbol">.</span><span class="symbol">(</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">,</span>&nbsp;<a href="index.html#T"><span class="identifier">T</span></a><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<a href="index.html#T"><span class="identifier">T</span></a><span class="symbol">, </span><span class="identifier" id="com.schibsted.account.persistence.StorageDelegate$<init>(android.content.SharedPreferences, kotlin.Function3((android.content.SharedPreferences, kotlin.String, com.schibsted.account.persistence.StorageDelegate.T, )), kotlin.Function3((android.content.SharedPreferences.Editor, kotlin.String, com.schibsted.account.persistence.StorageDelegate.T, )), com.schibsted.account.persistence.StorageDelegate.T, kotlin.String)/setter">setter</span><span class="symbol">:</span>&nbsp;<a href="https://developer.android.com/reference/android/content/SharedPreferences/Editor.html"><span class="identifier">Editor</span></a><span class="symbol">.</span><span class="symbol">(</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">,</span>&nbsp;<a href="index.html#T"><span class="identifier">T</span></a><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<a href="https://developer.android.com/reference/android/content/SharedPreferences/Editor.html"><span class="identifier">Editor</span></a><span class="symbol">, </span><span class="identifier" id="com.schibsted.account.persistence.StorageDelegate$<init>(android.content.SharedPreferences, kotlin.Function3((android.content.SharedPreferences, kotlin.String, com.schibsted.account.persistence.StorageDelegate.T, )), kotlin.Function3((android.content.SharedPreferences.Editor, kotlin.String, com.schibsted.account.persistence.StorageDelegate.T, )), com.schibsted.account.persistence.StorageDelegate.T, kotlin.String)/defaultValue">defaultValue</span><span class="symbol">:</span>&nbsp;<a href="index.html#T"><span class="identifier">T</span></a><span class="symbol">, </span><span class="identifier" id="com.schibsted.account.persistence.StorageDelegate$<init>(android.content.SharedPreferences, kotlin.Function3((android.content.SharedPreferences, kotlin.String, com.schibsted.account.persistence.StorageDelegate.T, )), kotlin.Function3((android.content.SharedPreferences.Editor, kotlin.String, com.schibsted.account.persistence.StorageDelegate.T, )), com.schibsted.account.persistence.StorageDelegate.T, kotlin.String)/key">key</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">?</span>&nbsp;<span class="symbol">=</span>&nbsp;null<span class="symbol">)</span></code></td>
+</tr>
+</tbody>
+</table>
+<h3>Properties</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="default-value.html">defaultValue</a></p>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">defaultValue</span><span class="symbol">: </span><a href="index.html#T"><span class="identifier">T</span></a></code></td>
+</tr>
+</tbody>
+</table>
+<h3>Functions</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="get-value.html">getValue</a></p>
+</td>
+<td>
+<code><span class="keyword">operator</span> <span class="keyword">fun </span><span class="identifier">getValue</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.persistence.StorageDelegate$getValue(kotlin.Any, kotlin.reflect.KProperty((kotlin.Any)))/thisRef">thisRef</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><span class="identifier">Any</span></a><span class="symbol">?</span><span class="symbol">, </span><span class="identifier" id="com.schibsted.account.persistence.StorageDelegate$getValue(kotlin.Any, kotlin.reflect.KProperty((kotlin.Any)))/property">property</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.reflect/-k-property/index.html"><span class="identifier">KProperty</span></a><span class="symbol">&lt;</span><span class="identifier">*</span><span class="symbol">&gt;</span><span class="symbol">)</span><span class="symbol">: </span><a href="index.html#T"><span class="identifier">T</span></a></code></td>
+</tr>
+<tr>
+<td>
+<p><a href="set-value.html">setValue</a></p>
+</td>
+<td>
+<code><span class="keyword">operator</span> <span class="keyword">fun </span><span class="identifier">setValue</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.persistence.StorageDelegate$setValue(kotlin.Any, kotlin.reflect.KProperty((kotlin.Any)), com.schibsted.account.persistence.StorageDelegate.T)/thisRef">thisRef</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><span class="identifier">Any</span></a><span class="symbol">?</span><span class="symbol">, </span><span class="identifier" id="com.schibsted.account.persistence.StorageDelegate$setValue(kotlin.Any, kotlin.reflect.KProperty((kotlin.Any)), com.schibsted.account.persistence.StorageDelegate.T)/property">property</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.reflect/-k-property/index.html"><span class="identifier">KProperty</span></a><span class="symbol">&lt;</span><span class="identifier">*</span><span class="symbol">&gt;</span><span class="symbol">, </span><span class="identifier" id="com.schibsted.account.persistence.StorageDelegate$setValue(kotlin.Any, kotlin.reflect.KProperty((kotlin.Any)), com.schibsted.account.persistence.StorageDelegate.T)/value">value</span><span class="symbol">:</span>&nbsp;<a href="index.html#T"><span class="identifier">T</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code></td>
+</tr>
+</tbody>
+</table>
+</BODY>
+</HTML>
