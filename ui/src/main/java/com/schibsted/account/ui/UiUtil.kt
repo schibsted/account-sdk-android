@@ -4,8 +4,10 @@
 
 package com.schibsted.account.ui
 
+import android.annotation.TargetApi
 import android.content.Context
 import android.graphics.drawable.Drawable
+import android.os.Build
 import android.support.annotation.ColorInt
 import android.support.annotation.ColorRes
 import android.support.v4.content.ContextCompat
@@ -41,11 +43,28 @@ object UiUtil {
     }
 
     @JvmStatic
-    fun setLanguage(context: Context, locale: Locale) {
+    fun updateContextLocale(context: Context, locale: Locale): Context {
+        Locale.setDefault(locale)
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            updateResourcesLocale(context.applicationContext, locale)
+        } else {
+            updateResourcesLocaleLegacy(context.applicationContext, locale)
+        }
+    }
+
+    @TargetApi(Build.VERSION_CODES.N)
+    private fun updateResourcesLocale(context: Context, locale: Locale): Context {
+        val configuration = context.resources.configuration
+        configuration.setLocale(locale)
+        return context.createConfigurationContext(configuration)
+    }
+
+    private fun updateResourcesLocaleLegacy(context: Context, locale: Locale): Context {
         val resources = context.resources
-        val conf = resources.configuration
-        conf.locale = locale
-        resources.updateConfiguration(conf, resources.displayMetrics)
+        val configuration = resources.configuration
+        configuration.locale = locale
+        resources.updateConfiguration(configuration, resources.displayMetrics)
+        return context
     }
 
     @JvmStatic
@@ -268,6 +287,22 @@ object UiUtil {
         val telephonyService = context.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
         val countryCode = telephonyService.simCountryIso.toUpperCase()
         return countryPrefixes[countryCode]
+    }
+
+    /**
+     * @param localeTag a tag representing a locale
+     * @return a Locale if the tag format is correct null otherwise
+     * @see https://developer.android.com/reference/java/util/Locale
+     */
+    fun getLocaleFromLocaleTag(localeTag: String): Locale? {
+        val localeInfo = localeTag.split("_")
+        if (localeInfo.size == 2) {
+            val (lang, country) = localeInfo
+            if ((lang.length in 2..3) && country.length == 2) {
+                return Locale(lang, country)
+            }
+        }
+        return null
     }
 }
 
