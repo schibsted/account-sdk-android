@@ -6,16 +6,16 @@ package com.schibsted.account.session
 
 import android.content.Context
 import android.content.SharedPreferences
+import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.any
-import com.nhaarman.mockito_kotlin.anyOrNull
 import com.nhaarman.mockito_kotlin.doNothing
 import com.nhaarman.mockito_kotlin.doReturn
-import com.nhaarman.mockito_kotlin.eq
-import com.nhaarman.mockito_kotlin.mock
-import com.nhaarman.mockito_kotlin.never
-import com.nhaarman.mockito_kotlin.spy
-import com.nhaarman.mockito_kotlin.verify
 import com.nhaarman.mockito_kotlin.whenever
+import com.nhaarman.mockito_kotlin.eq
+import com.nhaarman.mockito_kotlin.spy
+import com.nhaarman.mockito_kotlin.anyOrNull
+import com.nhaarman.mockito_kotlin.verify
+import com.nhaarman.mockito_kotlin.never
 import com.schibsted.account.ClientConfiguration
 import com.schibsted.account.common.util.Logger
 import com.schibsted.account.engine.integration.ResultCallback
@@ -30,13 +30,14 @@ import io.kotlintest.matchers.shouldBe
 import io.kotlintest.matchers.shouldEqual
 import io.kotlintest.specs.StringSpec
 import java.text.SimpleDateFormat
-import java.util.Calendar
 import java.util.Date
+import java.util.Locale
+import java.util.Calendar
 
 class UserPersistenceTest : StringSpec({
     Logger.loggingEnabled = false
     ClientConfiguration.set(ClientConfiguration(Environment.ENVIRONMENT_PREPRODUCTION, "myClient", "mySecret"))
-
+    val dateFormat = SimpleDateFormat(UserPersistence.DATE_PARSING_FORMAT, Locale.US)
     val userToken = UserToken(null, "myUser", "accessToken", "refreshToken", "scope", "type", 123)
 
     "When the user is not persistable, it should not be persisted" {
@@ -87,7 +88,7 @@ class UserPersistenceTest : StringSpec({
         cal.add(Calendar.MINUTE, 5)
 
         val up: UserPersistence = mock {
-            on { acceptedAgreementsCache }.thenReturn("myuserid|${SimpleDateFormat.getDateTimeInstance().format(cal.time)}")
+            on { acceptedAgreementsCache }.thenReturn("myuserid|${dateFormat.format(cal.time)}")
             on { termsPreviouslyAccepted(any()) }.thenCallRealMethod()
         }
 
@@ -100,7 +101,7 @@ class UserPersistenceTest : StringSpec({
         cal.add(Calendar.MINUTE, 5)
 
         val up: UserPersistence = mock {
-            on { acceptedAgreementsCache }.thenReturn("myuserid|${SimpleDateFormat.getDateTimeInstance().format(cal.time)}")
+            on { acceptedAgreementsCache }.thenReturn("myuserid|${dateFormat.format(cal.time)}")
             on { termsPreviouslyAccepted(any()) }.thenCallRealMethod()
         }
 
@@ -113,7 +114,7 @@ class UserPersistenceTest : StringSpec({
         cal.add(Calendar.MINUTE, -5)
 
         val up: UserPersistence = mock {
-            on { acceptedAgreementsCache }.thenReturn("myuserid|${SimpleDateFormat.getDateTimeInstance().format(cal.time)}")
+            on { acceptedAgreementsCache }.thenReturn("myuserid|${dateFormat.format(cal.time)}")
             on { termsPreviouslyAccepted(any()) }.thenCallRealMethod()
         }
 
@@ -144,7 +145,6 @@ class UserPersistenceTest : StringSpec({
         val up: UserPersistence = spy(UserPersistence(mockedContext))
 
         (1..10).forEach { up.putCacheResult("myuser") }
-        val format = SimpleDateFormat.getDateTimeInstance()
 
         val currentTime = Date()
         val cal = Calendar.getInstance()
@@ -158,7 +158,7 @@ class UserPersistenceTest : StringSpec({
         val minDate = cal.time
 
         forAll(storedValues.map { it.split("|").last() }) { value ->
-            val date = format.parse(value)
+            val date = dateFormat.parse(value)
             date.after(minDate) shouldBe true
             date.before(maxDate) shouldBe true
         }
