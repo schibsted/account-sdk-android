@@ -19,6 +19,7 @@ import com.schibsted.account.session.User
 import com.schibsted.account.util.KeyValueStore
 import java.text.SimpleDateFormat
 import java.util.Calendar
+import java.util.Locale
 import java.util.Date
 import java.util.Random
 
@@ -28,6 +29,7 @@ import java.util.Random
  * @param appContext The application context
  */
 internal class UserPersistence(private val appContext: Context) {
+
     internal data class Session(val lastActive: Long, val userId: String, val token: UserToken)
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
@@ -39,9 +41,9 @@ internal class UserPersistence(private val appContext: Context) {
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
     internal fun termsPreviouslyAccepted(userId: String): Boolean {
-        val validUntil = acceptedAgreementsCache.split("|").takeIf { it.size == 2 && it.first() == userId }?.let { it[1] } ?: return false
-        val validUntilDate = SimpleDateFormat.getDateTimeInstance().parse(validUntil)
-
+        val validUntil = acceptedAgreementsCache.split(CACHE_PARAMETER_DELIMITER).takeIf { it.size == 2 && it.first() == userId }?.let { it[1] }
+                ?: return false
+        val validUntilDate = SimpleDateFormat(DATE_PARSING_FORMAT, Locale.US).parse(validUntil)
         return Date().before(validUntilDate)
     }
 
@@ -52,9 +54,8 @@ internal class UserPersistence(private val appContext: Context) {
         val cal = Calendar.getInstance()
         cal.time = Date()
         cal.add(Calendar.MINUTE, rand)
-
-        val validUntil = SimpleDateFormat.getDateTimeInstance().format(cal.time)
-        acceptedAgreementsCache = "$userId|$validUntil"
+        val validUntil = SimpleDateFormat(DATE_PARSING_FORMAT, Locale.US).format(cal.time)
+        acceptedAgreementsCache = "$userId$CACHE_PARAMETER_DELIMITER$validUntil"
     }
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
@@ -96,7 +97,8 @@ internal class UserPersistence(private val appContext: Context) {
      */
     fun resumeLast(callback: ResultCallback<User>) {
         cleanInvalidTokens()
-        val lastActiveSession = sessions.sortedByDescending { it.lastActive }.firstOrNull()?.token ?: readTokenCompat()
+        val lastActiveSession = sessions.sortedByDescending { it.lastActive }.firstOrNull()?.token
+                ?: readTokenCompat()
         resumeSession(lastActiveSession, callback)
     }
 
@@ -172,7 +174,8 @@ internal class UserPersistence(private val appContext: Context) {
         private const val PREFERENCE_FILENAME = "IDENTITY_PREFERENCES"
         private const val SAVED_SESSIONS_KEY = "IDENTITY_SESSIONS"
         private const val MAX_SESSIONS = 10
-
+        private const val CACHE_PARAMETER_DELIMITER = "|"
+        internal const val DATE_PARSING_FORMAT = "yyyy-MM-dd'T'HH:mm:ss"
         internal const val MIN_TERMS_CACHE_MINUTES = 1 * 24 * 60 // One day
         internal const val MAX_TERMS_CACHE_MINUTES = 7 * 24 * 60 // Seven days
     }
