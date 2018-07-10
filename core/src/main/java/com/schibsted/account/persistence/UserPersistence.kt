@@ -16,12 +16,9 @@ import com.schibsted.account.model.UserToken
 import com.schibsted.account.model.error.ClientError
 import com.schibsted.account.network.response.TokenResponse
 import com.schibsted.account.session.User
+import com.schibsted.account.util.DateUtils
 import com.schibsted.account.util.KeyValueStore
-import java.text.SimpleDateFormat
-import java.util.Calendar
-import java.util.Locale
 import java.util.Date
-import java.util.Random
 
 /**
  * Handles persisting and resuming user's sessions. This supports multiple users, so you can resume
@@ -43,18 +40,17 @@ internal class UserPersistence(private val appContext: Context) {
     internal fun termsPreviouslyAccepted(userId: String): Boolean {
         val validUntil = acceptedAgreementsCache.split(CACHE_PARAMETER_DELIMITER).takeIf { it.size == 2 && it.first() == userId }?.let { it[1] }
                 ?: return false
-        val validUntilDate = SimpleDateFormat(DATE_PARSING_FORMAT, Locale.US).parse(validUntil)
-        return Date().before(validUntilDate)
+        DateUtils.fromString(validUntil)?.let { return Date().before(it) }
+        acceptedAgreementsCache = ""
+        return false
     }
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
     internal fun putCacheResult(userId: String) {
-        val rand = Random().nextInt(MAX_TERMS_CACHE_MINUTES - MIN_TERMS_CACHE_MINUTES) + MIN_TERMS_CACHE_MINUTES
+        val validUntil = DateUtils.getLaterRandomDateAsString(
+                UserPersistence.MIN_TERMS_CACHE_MINUTES,
+                UserPersistence.MAX_TERMS_CACHE_MINUTES - UserPersistence.MIN_TERMS_CACHE_MINUTES)
 
-        val cal = Calendar.getInstance()
-        cal.time = Date()
-        cal.add(Calendar.MINUTE, rand)
-        val validUntil = SimpleDateFormat(DATE_PARSING_FORMAT, Locale.US).format(cal.time)
         acceptedAgreementsCache = "$userId$CACHE_PARAMETER_DELIMITER$validUntil"
     }
 
@@ -175,7 +171,6 @@ internal class UserPersistence(private val appContext: Context) {
         private const val SAVED_SESSIONS_KEY = "IDENTITY_SESSIONS"
         private const val MAX_SESSIONS = 10
         private const val CACHE_PARAMETER_DELIMITER = "|"
-        internal const val DATE_PARSING_FORMAT = "yyyy-MM-dd'T'HH:mm:ss"
         internal const val MIN_TERMS_CACHE_MINUTES = 1 * 24 * 60 // One day
         internal const val MAX_TERMS_CACHE_MINUTES = 7 * 24 * 60 // Seven days
     }

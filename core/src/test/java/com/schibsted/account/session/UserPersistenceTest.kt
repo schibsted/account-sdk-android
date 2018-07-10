@@ -23,21 +23,19 @@ import com.schibsted.account.model.UserToken
 import com.schibsted.account.network.Environment
 import com.schibsted.account.persistence.UserPersistence
 import com.schibsted.account.test.TestUtil
+import com.schibsted.account.util.DateUtils
 import io.kotlintest.forAll
 import io.kotlintest.matchers.haveSubstring
 import io.kotlintest.matchers.should
 import io.kotlintest.matchers.shouldBe
 import io.kotlintest.matchers.shouldEqual
 import io.kotlintest.specs.StringSpec
-import java.text.SimpleDateFormat
 import java.util.Date
-import java.util.Locale
 import java.util.Calendar
 
 class UserPersistenceTest : StringSpec({
     Logger.loggingEnabled = false
     ClientConfiguration.set(ClientConfiguration(Environment.ENVIRONMENT_PREPRODUCTION, "myClient", "mySecret"))
-    val dateFormat = SimpleDateFormat(UserPersistence.DATE_PARSING_FORMAT, Locale.US)
     val userToken = UserToken(null, "myUser", "accessToken", "refreshToken", "scope", "type", 123)
 
     "When the user is not persistable, it should not be persisted" {
@@ -83,12 +81,8 @@ class UserPersistenceTest : StringSpec({
     }
 
     "Terms previously accepted should check time against the current" {
-        val cal = Calendar.getInstance()
-        cal.time = Date()
-        cal.add(Calendar.MINUTE, 5)
-
         val up: UserPersistence = mock {
-            on { acceptedAgreementsCache }.thenReturn("myuserid|${dateFormat.format(cal.time)}")
+            on { acceptedAgreementsCache }.thenReturn("myuserid|${DateUtils.getLaterRandomDateAsString(1,5)}")
             on { termsPreviouslyAccepted(any()) }.thenCallRealMethod()
         }
 
@@ -101,7 +95,7 @@ class UserPersistenceTest : StringSpec({
         cal.add(Calendar.MINUTE, 5)
 
         val up: UserPersistence = mock {
-            on { acceptedAgreementsCache }.thenReturn("myuserid|${dateFormat.format(cal.time)}")
+            on { acceptedAgreementsCache }.thenReturn("myuserid|${DateUtils.getLaterRandomDateAsString(1,5)}")
             on { termsPreviouslyAccepted(any()) }.thenCallRealMethod()
         }
 
@@ -109,12 +103,8 @@ class UserPersistenceTest : StringSpec({
     }
 
     "Terms cache requires the entry to be valid" {
-        val cal = Calendar.getInstance()
-        cal.time = Date()
-        cal.add(Calendar.MINUTE, -5)
-
         val up: UserPersistence = mock {
-            on { acceptedAgreementsCache }.thenReturn("myuserid|${dateFormat.format(cal.time)}")
+            on { acceptedAgreementsCache }.thenReturn("myuserid|")
             on { termsPreviouslyAccepted(any()) }.thenCallRealMethod()
         }
 
@@ -158,9 +148,9 @@ class UserPersistenceTest : StringSpec({
         val minDate = cal.time
 
         forAll(storedValues.map { it.split("|").last() }) { value ->
-            val date = dateFormat.parse(value)
-            date.after(minDate) shouldBe true
-            date.before(maxDate) shouldBe true
+            val date = DateUtils.fromString(value)
+            date?.after(minDate) shouldBe true
+            date?.before(maxDate) shouldBe true
         }
 
         storedValues.last() shouldEqual up.acceptedAgreementsCache
