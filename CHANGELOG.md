@@ -1,3 +1,6 @@
+## v1.0.2 (2018-07-10)
+- Fixed issue where the date was parsed incorrectly (#302)
+
 ## 1.0.1 (2018-06-29)
 - Added cache for agreement status checks performed on resume (#297)
 - Added type checking to Gson parsing to deal with boolean being parsed as string from SPiD (#295)
