@@ -19,7 +19,7 @@ data class RequiredConfiguration(val redirectUri: URI, val clientName: String) :
             if (redirectScheme.isNullOrBlank()) throw IllegalArgumentException("A value for the string <schacc_conf_redirect_scheme> must be provided in strings.xml")
             if (redirectHost.isNullOrBlank()) throw IllegalArgumentException("A value for the string <schacc_conf_redirect_host> must be provided in strings.xml")
 
-            return RequiredConfiguration(URI.create("$redirectScheme://$redirectHost"), clientName!!)
+            return RequiredConfiguration(URI.create("$redirectScheme$redirectHost"), clientName!!)
         }
     }
 }
