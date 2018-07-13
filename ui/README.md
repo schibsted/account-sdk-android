@@ -14,11 +14,14 @@ __Note:__ You should familiarize yourself with the [Core SDK Readme](../core) wh
 ## Configuration
 The minimal configuration of the SDK UIs are: client name, redirect scheme and redirect host. The client name is displayed on the terms and conditions screen as "I accept the terms and conditions for SPID and _yourAppName_", while the two other fields are required for deep linking and can be found in SelfService.
 
+You can find the redirect scheme and redirect host on self service with the following format `MyschemeMyhost` where `Myscheme` is everything before `:`.
+For example with `spid-myclientid://login` the scheme is `spid-myclientid` and the host is `://login`
+
 `strings.xml`
 ```xml
 <string name="schacc_conf_client_name">My client name</string>
 <string name="schacc_conf_redirect_scheme">spid-myclientid</string>
-<string name="schacc_conf_redirect_host">login</string>
+<string name="schacc_conf_redirect_host">://login</string>
 ``` 
 
 
