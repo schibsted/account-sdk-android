@@ -1,3 +1,7 @@
+## v1.0.3 (2018-07-13)
+- Fixed issue where redirect_uri was not correctly built (#307)
+- Fixed issue where the corrupted terms cache wasn't cleared (#304)
+
 ## v1.0.2 (2018-07-10)
 - Fixed issue where the date was parsed incorrectly (#302)
 
