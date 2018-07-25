@@ -59,7 +59,7 @@ abstract class VerificationController<in T> : Controller<T>()
             val supportedFields = missingFieldsAfterPreFill.filter { RequiredFields.SUPPORTED_FIELDS.contains(it) }.toSet()
 
             if (supportedFields.isNotEmpty()) {
-                RequiredFields.request(contract, supportedFields, { input, callback ->
+                RequiredFields.request(contract, supportedFields) { input, callback ->
 
                     val providedFieldsAndPreFill = RequiredFields(input.fields + preFilledValues)
                     user.profile.update(RequiredFields.transformFieldsToProfile(providedFieldsAndPreFill.fields), object : ResultCallback<NoValue> {
@@ -73,7 +73,7 @@ abstract class VerificationController<in T> : Controller<T>()
                             callback.onError(error)
                         }
                     })
-                })
+                }
             } else {
                 super.navigation.push(StepValidateReqFields(RequiredFields(preFilledValues)))
                 evaluate(contract)

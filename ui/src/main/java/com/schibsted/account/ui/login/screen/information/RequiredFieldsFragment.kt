@@ -29,6 +29,7 @@ import com.schibsted.account.ui.ui.InputField
 import com.schibsted.account.ui.ui.WebFragment
 import com.schibsted.account.ui.ui.component.BirthdayInputView
 import com.schibsted.account.ui.ui.component.InputFieldView
+import com.schibsted.account.ui.ui.component.PhoneInputView
 import com.schibsted.account.ui.ui.rule.ValidationRule
 import kotlinx.android.synthetic.main.schacc_required_fields_layout.*
 
@@ -64,12 +65,12 @@ class RequiredFieldsFragment : FlowFragment<RequiredFieldsContract.Presenter>(),
             }
         }
 
-        lastView?.setImeAction(EditorInfo.IME_ACTION_NEXT, { _, actionId, _ ->
+        lastView?.setImeAction(EditorInfo.IME_ACTION_NEXT) { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_NEXT) {
                 updateMissingFields()
             }
             return@setImeAction false
-        })
+        }
     }
 
     private fun getDescriptionText(): SpannableString {
@@ -105,17 +106,18 @@ class RequiredFieldsFragment : FlowFragment<RequiredFieldsContract.Presenter>(),
     }
 
     private fun generateField(fieldName: String, titleRes: Int, validationRule: ValidationRule): InputFieldView {
-        val generatedView: InputFieldView = if (fieldName == RequiredFields.BIRTHDAY.fieldsValue) {
-            BirthdayInputView(context)
-        } else {
-            InputFieldView.Builder(context, validationRule)
-                    .setInputType(EditorInfo.TYPE_CLASS_TEXT)
-                    .setError(R.string.schacc_required_fields_error)
-                    .setCancelable(true)
-                    .setTitle(titleRes)
-                    .build()
-        }
+        val generatedView: InputFieldView  = when(fieldName){
+            RequiredFields.BIRTHDAY.fieldsValue -> BirthdayInputView(context)
+            RequiredFields.PHONE_NUMBER.fieldsValue -> InputFieldView.Builder(context, validationRule).build() //todo replace by the phone view
+            else ->
+                InputFieldView.Builder(context, validationRule)
+                        .setInputType(EditorInfo.TYPE_CLASS_TEXT)
+                        .setError(R.string.schacc_required_fields_error)
+                        .setCancelable(true)
+                        .setTitle(titleRes)
+                        .build()
 
+        }
         val params = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT)
         params.setMargins(0, 0, 0,
                 TypedValue.applyDimension(
