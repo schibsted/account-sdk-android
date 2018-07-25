@@ -28,8 +28,9 @@ import com.schibsted.account.ui.ui.FlowFragment
 import com.schibsted.account.ui.ui.InputField
 import com.schibsted.account.ui.ui.WebFragment
 import com.schibsted.account.ui.ui.component.BirthdayInputView
-import com.schibsted.account.ui.ui.component.InputFieldView
+import com.schibsted.account.ui.ui.component.FieldView
 import com.schibsted.account.ui.ui.component.PhoneInputView
+import com.schibsted.account.ui.ui.component.SingleFieldView
 import com.schibsted.account.ui.ui.rule.ValidationRule
 import kotlinx.android.synthetic.main.schacc_required_fields_layout.*
 
@@ -52,7 +53,7 @@ class RequiredFieldsFragment : FlowFragment<RequiredFieldsContract.Presenter>(),
         required_fields_links.movementMethod = LinkMovementMethod.getInstance()
         required_fields_links.text = getDescriptionText()
 
-        var lastView: InputFieldView? = null
+        var lastView: FieldView? = null
         RequiredFields.values().forEach {
             missingField.run {
                 if (contains(it.fieldsValue)) {
@@ -105,19 +106,22 @@ class RequiredFieldsFragment : FlowFragment<RequiredFieldsContract.Presenter>(),
         requiredFieldsPresenter.updateMissingFields(generatedFields)
     }
 
-    private fun generateField(fieldName: String, titleRes: Int, validationRule: ValidationRule): InputFieldView {
-        val generatedView: InputFieldView  = when(fieldName){
+    private fun generateField(fieldName: String, titleRes: Int, validationRule: ValidationRule): FieldView {
+        val generatedView: FieldView = when (fieldName) {
             RequiredFields.BIRTHDAY.fieldsValue -> BirthdayInputView(context)
-            RequiredFields.PHONE_NUMBER.fieldsValue -> InputFieldView.Builder(context, validationRule).build() //todo replace by the phone view
+            RequiredFields.PHONE_NUMBER.fieldsValue -> PhoneInputView(context).also {
+                it.setTitle(titleRes)
+            }
             else ->
-                InputFieldView.Builder(context, validationRule)
-                        .setInputType(EditorInfo.TYPE_CLASS_TEXT)
-                        .setError(R.string.schacc_required_fields_error)
-                        .setCancelable(true)
-                        .setTitle(titleRes)
-                        .build()
-
+                SingleFieldView.create(context!!) {
+                    inputType { EditorInfo.TYPE_CLASS_TEXT }
+                    validationRule { validationRule }
+                    error { getString(R.string.schacc_required_fields_error) }
+                    isCancelable { true }
+                    title { getString(titleRes) }
+                }
         }
+
         val params = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT)
         params.setMargins(0, 0, 0,
                 TypedValue.applyDimension(
@@ -126,8 +130,10 @@ class RequiredFieldsFragment : FlowFragment<RequiredFieldsContract.Presenter>(),
                         resources.displayMetrics).toInt())
 
         generatedView.layoutParams = params
-        if (generatedView.inputView.hint.isNullOrBlank()) {
-            generatedView.inputView.hint = getString(titleRes)
+        if (generatedView is SingleFieldView) {
+            if (generatedView.inputField.hint.isNullOrBlank()) {
+                generatedView.inputField.hint = getString(titleRes)
+            }
         }
         return generatedView
     }

@@ -20,20 +20,12 @@ interface FlowView<in T> : BaseView<T> {
     /**
      * Shows a contextual error related to the user's actions
      */
-    fun showError(errorField: ErrorField) {
-        if (!errorField.isErrorVisible) {
-            errorField.showErrorView()
-        }
-    }
+    fun showError(errorField: ErrorField) = errorField.showErrorView()
 
     /**
      * Hides a previously shown error
      *
      * @see .showError
      */
-    fun hideError(errorField: ErrorField) {
-        if (errorField.isErrorVisible) {
-            errorField.hideErrorView()
-        }
-    }
+    fun hideError(errorField: ErrorField) = errorField.hideErrorView()
 }

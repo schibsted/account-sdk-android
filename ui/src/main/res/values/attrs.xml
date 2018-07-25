@@ -4,7 +4,7 @@
   -->
 
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <declare-styleable name="InputFieldView" tools:ignore="ResourceName">
+    <declare-styleable name="SingleFieldView" tools:ignore="ResourceName">
         <attr name="inputType" format="enum">
             <enum name="password" value="0"/>
             <enum name="email" value="1"/>

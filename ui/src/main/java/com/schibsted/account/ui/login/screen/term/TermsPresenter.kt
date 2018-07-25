@@ -41,7 +41,7 @@ class TermsPresenter(private val termsView: TermsContract.View, private val prov
                 tracker?.eventError(TrackingData.UIError.AgreementsNotAccepted, TrackingData.Screen.AGREEMENTS)
                 termsView.showError(termsBox)
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-                    termsBox.errorView.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_ACCESSIBILITY_FOCUSED)
+                    termsBox.errorView?.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_ACCESSIBILITY_FOCUSED)
                 }
             }
         }

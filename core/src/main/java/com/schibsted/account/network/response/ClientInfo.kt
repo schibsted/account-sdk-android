@@ -35,7 +35,7 @@ data class ClientInfo(
             fields.add(GIVEN_NAME)
             fields.add(FAMILY_NAME)
         }
-        if(fields.contains(CLIENT_INFO_PHONE_NUMBER)){
+        if (fields.contains(CLIENT_INFO_PHONE_NUMBER)) {
             fields.remove(CLIENT_INFO_PHONE_NUMBER)
             fields.add(USER_PHONE_NUMBER)
         }
