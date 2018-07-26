@@ -56,7 +56,7 @@ class SelectorDialog : DialogFragment() {
             }
         }
 
-        //position the dialog where the button we've just clicked is
+        // open the dialog where the button we've just clicked is
         with(dialog.window.attributes) {
             gravity = TOP or START
             arg?.getFloatArray(KEY_POSITION)?.let { arrayOfPosition ->

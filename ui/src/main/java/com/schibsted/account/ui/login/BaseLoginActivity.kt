@@ -377,7 +377,7 @@ abstract class BaseLoginActivity : AppCompatActivity(), KeyboardManager, Navigat
             if (motionEvent.action == MotionEvent.ACTION_DOWN) {
                 val rect = Rect()
                 toolbar_title.getGlobalVisibleRect(rect)
-                //if we click on the drawable attached to the editText
+                // if we click on the drawable attached to the editText
                 if (motionEvent.rawX <= toolbar_title.totalPaddingLeft + (rect.left / 2)) {
                     onBackPressed()
                 }
