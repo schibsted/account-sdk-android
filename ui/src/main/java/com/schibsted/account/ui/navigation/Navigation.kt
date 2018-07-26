@@ -132,7 +132,7 @@ class Navigation(
         })
     }
 
-    fun <T : Contract<*>, C : Controller<T>> handleBackPressed(controller: C?, contract: T) {
+    fun <T : Contract<*>, C : Controller<T>> handleBackPressed(controller: C?) {
         when (currentFragment?.tag) {
             LoginScreen.TC_SCREEN.value,
             LoginScreen.REQUIRED_FIELDS_SCREEN.value -> {
