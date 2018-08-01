@@ -13,15 +13,15 @@ buildscript {
     }
 
     ext {
-        kotlinVersion = '1.2.50'
+        kotlinVersion = '1.2.51'
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.1.2'
+        classpath 'com.android.tools.build:gradle:3.1.3'
         classpath "org.ajoberstar:gradle-git:1.7.2"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
         classpath "org.jetbrains.dokka:dokka-android-gradle-plugin:0.9.17"
-        classpath "gradle.plugin.org.jmailen.gradle:kotlinter-gradle:1.11.1"
+        classpath "gradle.plugin.org.jmailen.gradle:kotlinter-gradle:1.15.1"
         classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.7.3'
     }
 }

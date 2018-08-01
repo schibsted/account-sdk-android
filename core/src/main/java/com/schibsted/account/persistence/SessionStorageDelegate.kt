@@ -37,7 +37,7 @@ internal class SessionStorageDelegate(
         val dataToPersist = GSON.toJson(this.data)
         var aesKey: SecretKey? = null
 
-        //Try to get the encrypted aes key from storage
+        // Try to get the encrypted aes key from storage
         var encryptedAesKey = prefs.getString(AES_KEY, null)
 
         if (encryptedAesKey == null) {
@@ -46,7 +46,7 @@ internal class SessionStorageDelegate(
                 encryptedAesKey = Base64.encodeToString(it.second, Base64.DEFAULT)
             }
         } else {
-            //if the encrypted aes key is found, we decrypt it and recreate the aes key from it
+            // if the encrypted aes key is found, we decrypt it and recreate the aes key from it
             aesKey = getOriginalAesKey(Base64.decode(encryptedAesKey, Base64.DEFAULT))
         }
 

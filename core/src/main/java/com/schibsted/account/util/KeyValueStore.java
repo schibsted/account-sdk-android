@@ -220,7 +220,7 @@ public class KeyValueStore {
     public void clearAccessToken() {
         this.writeAccessToken(null);
         this.writeString(KeyValueStore.KEY_RASHOMON_JWT, null);
-        //noinspection PrivateMemberAccessBetweenOuterAndInnerClass
+        // noinspection PrivateMemberAccessBetweenOuterAndInnerClass
         OldSdkCompatOperations.clearAccessToken(this.context);
     }
 

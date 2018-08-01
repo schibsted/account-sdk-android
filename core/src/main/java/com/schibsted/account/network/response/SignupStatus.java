@@ -27,7 +27,7 @@ public final class SignupStatus implements Parcelable {
     public static final Parcelable.Creator<SignupStatus> CREATOR = new Parcelable.Creator<SignupStatus>() {
         public SignupStatus createFromParcel(@NonNull final Parcel source) {
             Preconditions.checkNotNull(source);
-            //noinspection PrivateMemberAccessBetweenOuterAndInnerClass
+            // noinspection PrivateMemberAccessBetweenOuterAndInnerClass
             return new SignupStatus(source);
         }
 
