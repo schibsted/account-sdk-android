@@ -7,7 +7,9 @@ package com.schibsted.account.network
 import android.os.Build
 import com.schibsted.account.AccountService
 import com.schibsted.account.BuildConfig
+import com.schibsted.account.ClientConfiguration
 import com.schibsted.account.common.tracking.UiTracking
+import com.schibsted.account.common.util.existsOnClasspath
 import okhttp3.Interceptor
 import okhttp3.Response
 
@@ -25,6 +27,9 @@ class InfoInterceptor(private val isInternal: Boolean) : Interceptor {
             builder = builder
                     .header("SDK-Type", "android")
                     .header("SDK-Version", BuildConfig.VERSION_NAME)
+                    .header("SDK-Build-Type", BuildConfig.BUILD_TYPE)
+                    .header("SDK-Environment", ClientConfiguration.get().environment)
+                    .header("SDK-UI-Module", if (existsOnClasspath("com.schibsted.account.ui.AccountUi")) "found" else "missing")
 
             UiTracking.trackingIdentifier?.let {
                 builder = builder.header("pulse-jwe", it)
