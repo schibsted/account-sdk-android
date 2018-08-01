@@ -1,3 +1,6 @@
+## v1.0.4 (2018-07-27)
+- Fixed issue where presenters were not initialized (#310)
+
 ## v1.0.3 (2018-07-13)
 - Fixed issue where redirect_uri was not correctly built (#307)
 - Fixed issue where the corrupted terms cache wasn't cleared (#304)
