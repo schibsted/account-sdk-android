@@ -51,7 +51,7 @@ class AccountService @JvmOverloads constructor(
     }
 
     companion object {
-        private val TAG = Logger.DEFAULT_TAG + "-ASRV"
+        private const val TAG = Logger.DEFAULT_TAG + "-ASRV"
         internal var localBroadcastManager: LocalBroadcastManager? = null
             @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
             set

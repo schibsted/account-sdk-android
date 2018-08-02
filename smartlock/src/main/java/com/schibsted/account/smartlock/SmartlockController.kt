@@ -58,7 +58,7 @@ class SmartlockController(private val activity: AppCompatActivity, private val s
      */
     private fun requestCredentials(credentialRequest: CredentialRequest) {
 
-        credentialsClient.request(credentialRequest).addOnCompleteListener({ task ->
+        credentialsClient.request(credentialRequest).addOnCompleteListener { task ->
             if (task.isSuccessful) {
                 retrieveCredential(task.result.credential)
             } else {
@@ -76,7 +76,7 @@ class SmartlockController(private val activity: AppCompatActivity, private val s
                     smartLockCallback.onFailure()
                 }
             }
-        })
+        }
     }
 
     private fun retrieveCredential(credential: Parcelable?) {
@@ -138,7 +138,7 @@ class SmartlockController(private val activity: AppCompatActivity, private val s
      */
     override fun deleteCredentials() {
         currentSmartlockCredential?.let {
-            credentialsClient.delete(currentSmartlockCredential!!).addOnCompleteListener({ task ->
+            credentialsClient.delete(currentSmartlockCredential!!).addOnCompleteListener { task ->
                 if (task.isSuccessful) {
                     smartLockCallback.onCredentialDeleted()
                     Log.e(TAG, "Credential were successfully deleted")
@@ -146,7 +146,7 @@ class SmartlockController(private val activity: AppCompatActivity, private val s
                     smartLockCallback.onFailure()
                     Log.e(TAG, "Credential deletion failed", task.exception)
                 }
-            })
+            }
         }
     }
 

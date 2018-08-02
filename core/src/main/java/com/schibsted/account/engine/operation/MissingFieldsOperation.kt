@@ -17,7 +17,7 @@ internal class MissingFieldsOperation(
 ) {
 
     init {
-        val token = requireNotNull(user.token, { "Cannot get missing fields for logged out user" })
+        val token = requireNotNull(user.token) { "Cannot get missing fields for logged out user" }
         user.userService.getMissingRequiredFields(user.userId.id, token)
                 .enqueue(object : NetworkCallback<ApiContainer<RequiredFieldsResponse>>("Fetching required fields") {
                     override fun onError(error: NetworkError) {

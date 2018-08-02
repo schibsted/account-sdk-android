@@ -26,7 +26,7 @@ class PasswordPresenter(private val view: PasswordContract.View, private var pro
     override fun sign(inputField: InputField, identifier: Identifier?, keepUserLoggedIn: Boolean) {
         view.hideError(inputField)
         view.showProgress()
-        requireNotNull(identifier, { "Identifier can't be null at this stage" })
+        requireNotNull(identifier) { "Identifier can't be null at this stage" }
         if (inputField.isInputValid) {
             provider.provide(Credentials(identifier!!, inputField.input!!, keepUserLoggedIn), object : ResultCallback<NoValue> {
                 override fun onSuccess(result: NoValue) {

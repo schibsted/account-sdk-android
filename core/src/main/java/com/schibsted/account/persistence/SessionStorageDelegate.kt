@@ -169,8 +169,8 @@ internal class SessionStorageDelegate(
     }
 
     companion object {
-        private val TAG = Logger.DEFAULT_TAG + "-SessionStorageDelegate"
-        private val EMPTY_JSON_ARRAY = "[]"
+        private const val TAG = Logger.DEFAULT_TAG + "-SessionStorageDelegate"
+        private const val EMPTY_JSON_ARRAY = "[]"
         private val GSON = Gson()
     }
 }
