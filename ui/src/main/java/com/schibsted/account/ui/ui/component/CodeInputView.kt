@@ -195,7 +195,7 @@ class CodeInputView @JvmOverloads constructor(context: Context, attrs: Attribute
     private fun setFocusOnNextInputView(inputViews: List<CustomEditText>) {
         val nextFocusedViewPosition = focusedViewPosition + 1
         if (nextFocusedViewPosition < inputViews.size) {
-            //if we haven't reached the last digit yet focus the next one.
+            // if we haven't reached the last digit yet focus the next one.
             val view = inputViews[nextFocusedViewPosition]
             view.isFocusableInTouchMode = true
             inputViews[focusedViewPosition].isFocusableInTouchMode = false

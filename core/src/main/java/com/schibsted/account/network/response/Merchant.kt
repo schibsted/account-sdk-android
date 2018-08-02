@@ -4,8 +4,7 @@ import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
-data class Merchant
-(
+data class Merchant(
     val name: String,
     val locale: String,
     val providerId: String,

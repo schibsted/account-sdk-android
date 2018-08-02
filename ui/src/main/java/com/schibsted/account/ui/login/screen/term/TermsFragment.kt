@@ -81,7 +81,7 @@ class TermsFragment : FlowFragment<TermsContract.Presenter>(), TermsContract.Vie
      */
 
     private fun initViews(view: View) {
-        //find view
+        // find view
         primaryActionView = view.findViewById(R.id.terms_button_continue)
         termsCheckView = view.findViewById(R.id.terms_box)
 
@@ -106,7 +106,7 @@ class TermsFragment : FlowFragment<TermsContract.Presenter>(), TermsContract.Vie
      */
     private fun setAgreementLinks(agreements: AgreementLinksResponse) {
 
-        //get data to build texts
+        // get data to build texts
         val spidLabel = getString(R.string.schacc_spid_label)
         val clientLabel = uiConf.clientName
         val termsText: SpannableString
@@ -117,13 +117,12 @@ class TermsFragment : FlowFragment<TermsContract.Presenter>(), TermsContract.Vie
             SpannableString(getString(R.string.schacc_terms_policy, spidLabel, clientLabel))
         }
 
-        //build texts
+        // build texts
         @ColorInt val color = ContextCompat.getColor(context!!, R.color.schacc_primaryEnabled)
 
         termsText.setPartAsClickableLink(color, spidLabel, getLinkAction(agreements.spidTermsUrl))
         termsText.setPartAsClickableLink(color, clientLabel, getLinkAction(agreements.clientTermsUrl))
 
-        //we assign text to the view
         termsCheckView.labelView.text = termsText
         termsCheckView.contentDescription = termsText
 

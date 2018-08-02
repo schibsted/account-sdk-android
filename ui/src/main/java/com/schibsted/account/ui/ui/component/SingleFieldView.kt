@@ -210,7 +210,7 @@ open class SingleFieldView : FieldView {
                 if (motionEvent.action == MotionEvent.ACTION_UP) {
                     val rect = Rect()
                     inputField.getGlobalVisibleRect(rect)
-                    //if we click on the drawable attached to the editText
+                    // if we click on the drawable attached to the editText
                     if (motionEvent.rawX >= rect.right - inputField.totalPaddingRight) {
                         inputField.setText("")
                     }
