@@ -66,8 +66,8 @@ class PersistenceEncryptionTest : WordSpec({
 
             Logger.loggingEnabled = true
             Logger.logWorker = object : Logger.LogWorker {
-                override fun log(level: Logger.Level, tag: String, message: String, throwable: Throwable?) {
-                    logMessage = message
+                override fun log(level: Logger.Level, tag: String, message: String?, throwable: Throwable?) {
+                    logMessage = message!!
                     logException = throwable!!
                 }
             }

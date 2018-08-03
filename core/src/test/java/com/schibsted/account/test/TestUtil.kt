@@ -10,16 +10,16 @@ object TestUtil {
     fun readResource(path: String) = javaClass.classLoader.getResource(path).readText()
 
     val testLogger = object : Logger.LogWorker {
-        override fun log(level: Logger.Level, tag: String, message: String, throwable: Throwable?) {
+        override fun log(level: Logger.Level, tag: String, message: String?, throwable: Throwable?) {
             println("$level <$tag>: $message")
         }
     }
 
     class CaptureLogger : Logger.LogWorker {
-        val messages = mutableListOf<String>()
+        val messages = mutableListOf<String?>()
 
-        override fun log(level: Logger.Level, tag: String, message: String, throwable: Throwable?) {
-            println("Capturing message: " + message)
+        override fun log(level: Logger.Level, tag: String, message: String?, throwable: Throwable?) {
+            println("Capturing message: $message")
             messages.add(message)
         }
 
