@@ -13,18 +13,19 @@ object Logger {
     }
 
     interface LogWorker {
-        fun log(level: Level, tag: String, message: String, throwable: Throwable?)
+        fun log(level: Level, tag: String, message: String?, throwable: Throwable?)
     }
 
     @JvmField
     val DEFAULT_LOG_WORKER = object : LogWorker {
-        override fun log(level: Level, tag: String, message: String, throwable: Throwable?) {
+        override fun log(level: Level, tag: String, message: String?, throwable: Throwable?) {
+            val description = message ?: "<Missing Description>"
             when (level) {
-                Level.VERBOSE -> Log.v(DEFAULT_TAG + tag, message, throwable)
-                Level.DEBUG -> Log.d(DEFAULT_TAG + tag, message, throwable)
-                Level.INFO -> Log.i(DEFAULT_TAG + tag, message, throwable)
-                Level.WARNING -> Log.w(DEFAULT_TAG + tag, message, throwable)
-                Level.ERROR -> Log.e(DEFAULT_TAG + tag, message, throwable)
+                Level.VERBOSE -> Log.v(DEFAULT_TAG + tag, description, throwable)
+                Level.DEBUG -> Log.d(DEFAULT_TAG + tag, description, throwable)
+                Level.INFO -> Log.i(DEFAULT_TAG + tag, description, throwable)
+                Level.WARNING -> Log.w(DEFAULT_TAG + tag, description, throwable)
+                Level.ERROR -> Log.e(DEFAULT_TAG + tag, description, throwable)
             }
         }
     }
@@ -39,43 +40,43 @@ object Logger {
 
     @JvmStatic
     @JvmOverloads
-    fun error(message: String, throwable: Throwable? = null) {
-        error("",  message , throwable)
+    fun error(message: String?, throwable: Throwable? = null) {
+        error("", message, throwable)
     }
 
-    fun error(tag: String, message: String, throwable: Throwable? = null) {
+    fun error(tag: String, message: String?, throwable: Throwable? = null) {
         if (loggingEnabled) logWorker.log(Level.ERROR, tag, message, throwable)
     }
 
     @JvmStatic
     @JvmOverloads
-    fun warn(tag: String, message: String, throwable: Throwable? = null) {
+    fun warn(tag: String, message: String?, throwable: Throwable? = null) {
         if (loggingEnabled) logWorker.log(Level.WARNING, tag, message, throwable)
     }
 
-    fun warn(message: String, throwable: Throwable? = null) = warn("", message, throwable)
+    fun warn(message: String?, throwable: Throwable? = null) = warn("", message, throwable)
 
     @JvmStatic
     @JvmOverloads
-    fun info(message: String, throwable: Throwable? = null) = info("", message, throwable)
+    fun info(message: String?, throwable: Throwable? = null) = info("", message, throwable)
 
-    fun info(tag: String, message: String, throwable: Throwable? = null) {
+    fun info(tag: String, message: String?, throwable: Throwable? = null) {
         if (loggingEnabled) logWorker.log(Level.INFO, tag, message, throwable)
     }
 
     @JvmStatic
     @JvmOverloads
-    fun debug(message: String, throwable: Throwable? = null) = debug("", message, throwable)
+    fun debug(message: String?, throwable: Throwable? = null) = debug("", message, throwable)
 
-    fun debug(tag: String, message: String, throwable: Throwable? = null) {
+    fun debug(tag: String, message: String?, throwable: Throwable? = null) {
         if (loggingEnabled) logWorker.log(Level.DEBUG, tag, message, throwable)
     }
 
     @JvmStatic
     @JvmOverloads
-    fun verbose(message: String, throwable: Throwable? = null) = verbose("", message, throwable)
+    fun verbose(message: String?, throwable: Throwable? = null) = verbose("", message, throwable)
 
-    fun verbose(tag: String, message: String, throwable: Throwable? = null) {
+    fun verbose(tag: String, message: String?, throwable: Throwable? = null) {
         if (loggingEnabled) logWorker.log(Level.VERBOSE, tag, message, throwable)
     }
 }
