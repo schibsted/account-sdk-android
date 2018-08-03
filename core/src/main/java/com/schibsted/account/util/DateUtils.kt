@@ -3,9 +3,9 @@ package com.schibsted.account.util
 import com.schibsted.account.common.util.Logger
 import java.text.ParseException
 import java.text.SimpleDateFormat
+import java.util.Calendar
 import java.util.Date
 import java.util.Locale
-import java.util.Calendar
 import java.util.Random
 
 object DateUtils {
@@ -16,7 +16,7 @@ object DateUtils {
         try {
             date = SimpleDateFormat(DATE_PARSING_FORMAT, Locale.US).parse(stringDate)
         } catch (p: ParseException) {
-            Logger.error(Logger.DEFAULT_TAG + "-Date", { "Unable to parse the date" }, p)
+            Logger.error("Date", "Unable to parse the date", p)
         } finally {
             return date
         }

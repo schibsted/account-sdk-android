@@ -46,7 +46,7 @@ class EmailIdentificationFragment : AbstractIdentificationFragment(), Identifica
     }
 
     public override fun prefillIdentifier(identifier: String?) {
-        val tag = Logger.DEFAULT_TAG + "-" + this.javaClass.simpleName
+        val tag = this.javaClass.simpleName
         Logger.info(tag, "Attempting to prefill  email")
         if (identifier.isNullOrEmpty()) {
             Logger.info(tag, "email wasn't found")

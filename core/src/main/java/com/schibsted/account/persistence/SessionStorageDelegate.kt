@@ -51,9 +51,9 @@ internal class SessionStorageDelegate(
         }
 
         if (dataToPersist.isNullOrEmpty()) {
-            Logger.info(TAG, { "No session to persist, not writing to shared preferences." })
+            Logger.info(TAG, "No session to persist, not writing to shared preferences.")
         } else if (aesKey == null || encryptedAesKey.isNullOrEmpty()) {
-            Logger.info(TAG, { "No encryption key found, not writing to shared preferences." })
+            Logger.info(TAG, "No encryption key found, not writing to shared preferences.")
         } else {
             val encryptedData = Base64.encodeToString(encryption.aesEncrypt(dataToPersist.toByteArray(), aesKey), Base64.DEFAULT)
             persistData(prefs, encryptedData, encryptedAesKey)
@@ -74,7 +74,7 @@ internal class SessionStorageDelegate(
         if (aesKey != null) {
             val data: String? = encryption.aesDecrypt(encryptedData!!, aesKey)
             if (data.isNullOrEmpty() || data.equals(EMPTY_JSON_ARRAY)) {
-                Logger.info(TAG, { "Decrypted sessions from persistence returned an empty set." })
+                Logger.info(TAG, "Decrypted sessions from persistence returned an empty set.")
                 removePersistedData(prefs)
                 return null
             }
@@ -90,7 +90,7 @@ internal class SessionStorageDelegate(
                 null
             }
         } else {
-            Logger.info(TAG, { "Unable to retrieve AES key for decryption, returning empty set." })
+            Logger.info(TAG, "Unable to retrieve AES key for decryption, returning empty set.")
             removePersistedData(prefs)
             return null
         }
@@ -106,7 +106,7 @@ internal class SessionStorageDelegate(
             return try {
                 Base64.decode(data, Base64.DEFAULT)
             } catch (e: IllegalArgumentException) {
-                Logger.error(TAG, { "Unable to decode session data." }, e)
+                Logger.error(TAG, "Unable to decode session data.", e)
                 null
             }
         }
@@ -127,7 +127,7 @@ internal class SessionStorageDelegate(
             editor.putString(AES_KEY, encryptedAesKey)
             editor.apply()
         } ?: let {
-            Logger.error(TAG, { "Unable to write to shared preferences. Not persisting session" })
+            Logger.error(TAG, "Unable to write to shared preferences. Not persisting session")
         }
     }
 
@@ -161,7 +161,7 @@ internal class SessionStorageDelegate(
      * @param prefs : [SharedPreferences] file where data are stored
      */
     private fun removePersistedData(prefs: SharedPreferences) {
-        Logger.info(TAG, { "Clearing the contents of shared preferences" })
+        Logger.info(TAG, "Clearing the contents of shared preferences")
         val editor = prefs.edit()
         editor.remove(preferenceKey)
         editor.remove(AES_KEY)
@@ -169,7 +169,7 @@ internal class SessionStorageDelegate(
     }
 
     companion object {
-        private val TAG = Logger.DEFAULT_TAG + "-SessionStorageDelegate"
+        private val TAG = "SessionStorageDelegate"
         private val EMPTY_JSON_ARRAY = "[]"
         private val GSON = Gson()
     }

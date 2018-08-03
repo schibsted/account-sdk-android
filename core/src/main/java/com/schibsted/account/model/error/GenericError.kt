@@ -8,7 +8,7 @@ import com.schibsted.account.common.util.Logger
 
 internal data class GenericError(val message: () -> String, val details: (() -> String)? = null, val throwable: Throwable? = null) : InternalError {
     init {
-        Logger.debug(Logger.DEFAULT_TAG, { "${message()} :: ${details?.invoke()}" }, throwable)
+        Logger.debug("${message()} :: ${details?.invoke()}", throwable)
     }
 
     override fun toClientError(): ClientError =

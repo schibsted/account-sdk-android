@@ -18,7 +18,7 @@ data class RequiredConfiguration(val redirectUri: URI, val clientName: String) :
                 if (it.contains(":/")) {
                     it
                 } else {
-                    Logger.warn(Logger.DEFAULT_TAG + "-RequiredConfiguration", "Your host is not correct, deep links might fail, please provide a complete host")
+                    Logger.warn("RequiredConfiguration", "Your host is not correct, deep links might fail, please provide a complete host")
                     "://$it"
                 }
             }

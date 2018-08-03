@@ -30,7 +30,7 @@ sealed class DeepLink {
                             ?.takeIf(String::isNotEmpty)
 
                     if (code == null) {
-                        Logger.info(TAG, { "Action recognized, but code validation failed" })
+                        Logger.info(TAG, "Action recognized, but code validation failed")
                         return null
                     }
 
@@ -64,7 +64,7 @@ sealed class DeepLink {
                     val result = uri.getQueryParam(PARAM_ID)?.let { IdentifierProvided(it) }
 
                     if (result == null) {
-                        Logger.info(TAG, { "Action recognized, but param $PARAM_ID was missing" })
+                        Logger.info(TAG, "Action recognized, but param $PARAM_ID was missing")
                     }
 
                     return result
@@ -81,7 +81,7 @@ sealed class DeepLink {
     }
 
     companion object {
-        protected const val TAG = Logger.DEFAULT_TAG + "-DL"
+        protected const val TAG = "DL"
         private const val SCOPE_SEPARATOR = "-"
     }
 }

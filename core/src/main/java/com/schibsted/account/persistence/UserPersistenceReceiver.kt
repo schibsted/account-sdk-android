@@ -15,7 +15,7 @@ import com.schibsted.account.model.UserId
 import com.schibsted.account.session.User
 
 class UserPersistenceReceiver(appContext: Context) : BroadcastReceiver() {
-    private val TAG = Logger.DEFAULT_TAG + "-AUP"
+    private val TAG = "AUP"
 
     private val userPersistence = UserPersistence(appContext)
     private val localBroadcastManager = LocalBroadcastManager.getInstance(appContext)
@@ -23,19 +23,19 @@ class UserPersistenceReceiver(appContext: Context) : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
         when (intent.action) {
             Events.ACTION_USER_LOGIN -> {
-                Logger.verbose(TAG, { "Received event: User logged in" })
+                Logger.verbose(TAG, "Received event: User logged in")
                 val user = intent.extras.getParcelable<User>(Events.EXTRA_USER)
                 user.takeIf { it.isPersistable }?.let { userPersistence.persist(it) }
             }
 
             Events.ACTION_USER_LOGOUT -> {
-                Logger.verbose(TAG, { "Received event: User logged out" })
+                Logger.verbose(TAG, "Received event: User logged out")
                 val userId = intent.extras.getParcelable<UserId>(Events.EXTRA_USER_ID)
                 userPersistence.remove(userId.id)
             }
 
             Events.ACTION_USER_TOKEN_REFRESH -> {
-                Logger.verbose(TAG, { "Received event: Token refreshing" })
+                Logger.verbose(TAG, "Received event: Token refreshing")
                 val user = intent.extras.getParcelable<User>(Events.EXTRA_USER)
                 user.takeIf { it.isPersistable }?.let { userPersistence.persist(it) }
             }

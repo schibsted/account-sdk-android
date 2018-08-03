@@ -76,12 +76,12 @@ data class ClientConfiguration(
                 else -> rawEnv
             }.trim('/') + "/"
 
-            Logger.verbose(Logger.DEFAULT_TAG + "-CONF", {
+            Logger.verbose("CONF",
                 "Read config file:\n" +
                         "Environment:\t$environment \n" +
                         "Client ID:\t${clientId.take(3)}..........${clientId.takeLast(3)} \n" +
                         "Client Secret:\t${clientSecret.take(3)}..........${clientSecret.takeLast(3)} \n"
-            })
+            )
 
             return ClientConfiguration(environment, clientId, clientSecret)
         }

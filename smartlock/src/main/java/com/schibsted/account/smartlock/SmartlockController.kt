@@ -23,7 +23,7 @@ import com.schibsted.account.engine.input.Identifier
 class SmartlockController(private val activity: AppCompatActivity, private val smartLockCallback: SmartLockCallback) : Smartlock {
 
     companion object {
-        private val TAG = Logger.DEFAULT_TAG + " - " + SmartlockController::class.java.simpleName
+        private val TAG = SmartlockController::class.java.simpleName
         /**
          * Request code to send when the user has to choose between multiple account the one to login with.
          */
@@ -65,14 +65,14 @@ class SmartlockController(private val activity: AppCompatActivity, private val s
                 val exception = task.exception
                 if (exception is ResolvableApiException) {
                     if (exception.statusCode == CommonStatusCodes.SIGN_IN_REQUIRED) {
-                        Logger.info(TAG, { "cannot silently log-in, providing the account identifier" })
+                        Logger.info(TAG, "cannot silently log-in, providing the account identifier")
                         resolveException(exception, RC_IDENTIFIER_ONLY)
                     } else {
-                        Logger.info(TAG, { "multiple accounts are found, prompting the user to choose one" })
+                        Logger.info(TAG, "multiple accounts are found, prompting the user to choose one")
                         resolveException(exception, RC_CHOOSE_ACCOUNT)
                     }
                 } else {
-                    Logger.info(TAG, { "unable to get credentials from smartlock" }, exception)
+                    Logger.info(TAG, "unable to get credentials from smartlock", exception)
                     smartLockCallback.onFailure()
                 }
             }
@@ -85,13 +85,13 @@ class SmartlockController(private val activity: AppCompatActivity, private val s
             val password = credential.password ?: ""
             if (password.isEmpty()) {
                 smartLockCallback.onHintRetrieved(credential.id)
-                Logger.info(TAG, { "hint was successfully retrieved" })
+                Logger.info(TAG, "hint was successfully retrieved")
             } else {
                 smartLockCallback.onCredentialRetrieved(credential.id, password, true)
                 currentSmartlockCredential = cred
-                Logger.info(TAG, { "credentials were successfully retrieved" })
+                Logger.info(TAG, "credentials were successfully retrieved")
             }
-        } ?: Logger.info(TAG, { "Failed to retrieve credentials after resolution" })
+        } ?: Logger.info(TAG, "Failed to retrieve credentials after resolution")
     }
 
     /**
@@ -120,15 +120,15 @@ class SmartlockController(private val activity: AppCompatActivity, private val s
         credentialsClient.save(credential).addOnCompleteListener(
                 OnCompleteListener<Void> { task ->
                     if (task.isSuccessful) {
-                        Logger.info(TAG, { "Credential saved." })
+                        Logger.info(TAG, "Credential saved.")
                         return@OnCompleteListener
                     }
                     val rae = task.exception
                     if (rae is ResolvableApiException) {
-                        Logger.info(TAG, { "Ask user agreement to save credentials" })
+                        Logger.info(TAG, "Ask user agreement to save credentials")
                         resolveException(rae, RC_SAVE_CREDENTIALS)
                     } else {
-                        Logger.error(TAG, { "Failed attempt to save credentials" }, rae)
+                        Logger.error(TAG, "Failed attempt to save credentials", rae)
                     }
                 })
     }

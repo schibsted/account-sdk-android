@@ -16,14 +16,14 @@ import java.net.SocketTimeoutException
 
 internal abstract class NetworkCallback<T>(val intent: String) : Callback<T> {
     init {
-        Logger.verbose(Logger.DEFAULT_TAG + "-NET_REQ", { intent })
+        Logger.verbose(TAG, intent)
     }
 
     override fun onFailure(call: Call<T>, t: Throwable) {
         val description = t.message ?: "Unknown"
         val endpoint = call.request().url().toString().safeUrl()
 
-        Logger.error(Logger.DEFAULT_TAG, { "A network error occurred: $description" }, t)
+        Logger.error("A network error occurred: $description", t)
 
         when (t) {
             is JsonSyntaxException -> {
@@ -59,6 +59,7 @@ internal abstract class NetworkCallback<T>(val intent: String) : Callback<T> {
     abstract fun onError(error: NetworkError)
 
     companion object {
+        private const val TAG = "NET_REQ"
         @JvmStatic
         fun <T> lambda(intent: String, errorFun: (NetworkError) -> Unit, successFun: (T) -> Unit): NetworkCallback<T> {
             return object : NetworkCallback<T>(intent) {
