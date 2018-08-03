@@ -62,7 +62,7 @@ data class NetworkError(val code: Int, val type: String, val description: String
 
     companion object {
         private val PARSER = JsonParser()
-        const val TAG = "NetworkError"
+        private val TAG = NetworkError::class.java.simpleName
         fun <T> fromResponse(response: Response<T>): NetworkError {
             require(!response.isSuccessful) { "Cannot parse SPiD error from a successful request" }
 
