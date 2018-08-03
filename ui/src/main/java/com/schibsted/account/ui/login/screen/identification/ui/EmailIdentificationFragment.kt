@@ -13,10 +13,10 @@ import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import com.schibsted.account.common.util.Logger
 import com.schibsted.account.network.response.ClientInfo
-import com.schibsted.account.ui.R
 import com.schibsted.account.ui.InternalUiConfiguration
+import com.schibsted.account.ui.R
 import com.schibsted.account.ui.login.screen.identification.IdentificationContract
-import com.schibsted.account.ui.ui.component.InputFieldView
+import com.schibsted.account.ui.ui.component.SingleFieldView
 import com.schibsted.account.ui.ui.rule.EmailValidationRule
 
 /**
@@ -27,19 +27,18 @@ class EmailIdentificationFragment : AbstractIdentificationFragment(), Identifica
     /**
      * Provides a way to the user to enter his identifier.
      */
-    private lateinit var inputFieldView: InputFieldView
+    private lateinit var inputFieldView: SingleFieldView
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = super.onCreateView(inflater, container, savedInstanceState)
-
-        inputFieldView = InputFieldView.Builder(context, EmailValidationRule)
-                .setCancelable(true)
-                .setInputType(InputType.TYPE_TEXT_VARIATION_WEB_EMAIL_ADDRESS)
-                .setImeOption(EditorInfo.IME_ACTION_DONE)
-                .setError(R.string.schacc_email_identification_error)
-                .setTitle(R.string.schacc_email_label)
-                .setHint(R.string.schacc_required_field_email)
-                .build()
+        inputFieldView = SingleFieldView.create(context!!) {
+            isCancelable { true }
+            inputType { InputType.TYPE_TEXT_VARIATION_WEB_EMAIL_ADDRESS }
+            ime { EditorInfo.IME_ACTION_DONE }
+            error { getString(R.string.schacc_email_identification_error) }
+            title { getString(R.string.schacc_email_label) }
+            hint { getString(R.string.schacc_required_field_email) }
+        }
         inputViewContainer.addView(inputFieldView)
         prefillIdentifier(uiConf.identifier)
         return view
@@ -52,7 +51,7 @@ class EmailIdentificationFragment : AbstractIdentificationFragment(), Identifica
             Logger.info(tag, "email wasn't found")
         } else {
             if (EmailValidationRule.isValid(identifier)) {
-                inputFieldView.inputView.setText(uiConf.identifier)
+                inputFieldView.inputField.setText(uiConf.identifier)
                 Logger.info(tag, "email has been prefilled")
             } else {
                 Logger.warn(tag, "Failed to prefill the email - Wrong format")

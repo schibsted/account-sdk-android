@@ -39,12 +39,12 @@ data class RequiredFields(val fields: Map<String, String>) : Parcelable {
         private const val FAMILY_NAME_KEY = "familyName"
         private const val GIVEN_NAME_KEY = "givenName"
         private const val NAME_KEY = "name"
-
+        private const val PHONE_NUMBER_KEY = "phone_number"
         const val FIELD_EMAIL = "email"
 
         private val DATE_PATTERN = Regex("[0-9]{4}-[0-9]{2}-[0-9]{2}")
 
-        val SUPPORTED_FIELDS = setOf(BIRTHDAY_KEY, DISPLAY_NAME_KEY, OLD_FAMILY_NAME_KEY, OLD_GIVEN_NAME_KEY, FIELD_EMAIL)
+        val SUPPORTED_FIELDS = setOf(BIRTHDAY_KEY, DISPLAY_NAME_KEY, OLD_FAMILY_NAME_KEY, OLD_GIVEN_NAME_KEY, FIELD_EMAIL, PHONE_NUMBER_KEY)
 
         @JvmField
         val CREATOR: Parcelable.Creator<RequiredFields> = object : Parcelable.Creator<RequiredFields> {
@@ -89,7 +89,7 @@ data class RequiredFields(val fields: Map<String, String>) : Parcelable {
                 map.put(NAME_KEY, jsonObject)
             }
 
-            birthdayValue?.let { map.put(BIRTHDAY_KEY, birthdayValue) }
+            birthdayValue?.let { map.put(BIRTHDAY_KEY, it) }
 
             return map
         }

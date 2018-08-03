@@ -86,7 +86,7 @@ class PasswordFragment : FlowFragment<PasswordContract.Presenter>(), PasswordCon
         val accSelectDesc = if (isUserAvailable) R.string.schacc_accessibility_signup_id else R.string.schacc_accessibility_login_id
         account_selector_view.contentDescription = getString(accSelectDesc, identifier?.identifier)
 
-        password_input_view.setValidationRule(if (isUserAvailable) PasswordValidationRule else BasicValidationRule)
+        password_input_view.validationRule = (if (isUserAvailable) PasswordValidationRule else BasicValidationRule)
         primaryActionView.setOnClickListener { signUser() }
 
         password_input_view.setImeAction(EditorInfo.IME_ACTION_NEXT) { _, actionId, _ ->
@@ -111,13 +111,13 @@ class PasswordFragment : FlowFragment<PasswordContract.Presenter>(), PasswordCon
             mobile_password_button_forgot.visibility = View.GONE
             age_limit_info.visibility = View.VISIBLE
             password_input_view.setTitle(R.string.schacc_password_sign_up_label)
-            password_input_view.setInfoText(getString(R.string.schacc_password_extra_info))
+            password_input_view.setInformationMessage(getString(R.string.schacc_password_extra_info))
         } else {
             password_input_view.setTitle(R.string.schacc_password_sign_in_label)
             mobile_password_button_forgot.visibility = View.VISIBLE
         }
 
-        remember_me.textView.text = getString(R.string.schacc_remember_me)
+        remember_me.labelView.text = getString(R.string.schacc_remember_me)
     }
 
     override fun onSaveInstanceState(outState: Bundle) {

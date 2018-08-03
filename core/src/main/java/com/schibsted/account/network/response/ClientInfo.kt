@@ -11,6 +11,8 @@ import kotlinx.android.parcel.RawValue
 private const val FIELD_NAMES = "names"
 private const val GIVEN_NAME = "name.given_name"
 private const val FAMILY_NAME = "name.family_name"
+private const val CLIENT_INFO_PHONE_NUMBER = "phoneNumber"
+private const val USER_PHONE_NUMBER = "phone_number"
 
 @Parcelize
 data class ClientInfo(
@@ -32,6 +34,10 @@ data class ClientInfo(
             fields.remove(FIELD_NAMES)
             fields.add(GIVEN_NAME)
             fields.add(FAMILY_NAME)
+        }
+        if (fields.contains(CLIENT_INFO_PHONE_NUMBER)) {
+            fields.remove(CLIENT_INFO_PHONE_NUMBER)
+            fields.add(USER_PHONE_NUMBER)
         }
         return fields
     }

@@ -86,7 +86,7 @@ class TermsFragment : FlowFragment<TermsContract.Presenter>(), TermsContract.Vie
         termsCheckView = view.findViewById(R.id.terms_box)
 
         val linkMovementMethod = LinkMovementMethod.getInstance()
-        termsCheckView.textView.movementMethod = linkMovementMethod
+        termsCheckView.labelView.movementMethod = linkMovementMethod
         termsCheckView.setError(R.string.schacc_terms_terms_error)
 
         val termsDescription = view.findViewById<TextView>(R.id.terms_description)
@@ -123,12 +123,11 @@ class TermsFragment : FlowFragment<TermsContract.Presenter>(), TermsContract.Vie
         termsText.setPartAsClickableLink(color, spidLabel, getLinkAction(agreements.spidTermsUrl))
         termsText.setPartAsClickableLink(color, clientLabel, getLinkAction(agreements.clientTermsUrl))
 
-        // we assign text to the view
-        termsCheckView.textView.text = termsText
+        termsCheckView.labelView.text = termsText
         termsCheckView.contentDescription = termsText
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-            termsCheckView.textView.importantForAccessibility = View.IMPORTANT_FOR_ACCESSIBILITY_NO
+            termsCheckView.labelView.importantForAccessibility = View.IMPORTANT_FOR_ACCESSIBILITY_NO
         }
     }
 

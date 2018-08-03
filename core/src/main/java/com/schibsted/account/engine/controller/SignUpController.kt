@@ -132,11 +132,11 @@ class SignUpController(private val baseRedirectUri: URI, @OIDCScope private val 
             val supportedFields = missingFieldsAfterPreFill.filter { RequiredFields.SUPPORTED_FIELDS.contains(it) }.toSet()
 
             if (supportedFields.isNotEmpty()) {
-                RequiredFields.request(contract, supportedFields, { input, callback ->
+                RequiredFields.request(contract, supportedFields) { input, callback ->
                     super.navigation.push(StepValidateReqFields(RequiredFields(input.fields + preFilledValues)))
                     callback.onSuccess(NoValue)
                     this.evaluate(contract)
-                })
+                }
             } else {
                 super.navigation.push(StepValidateReqFields(RequiredFields(preFilledValues)))
                 evaluate(contract)

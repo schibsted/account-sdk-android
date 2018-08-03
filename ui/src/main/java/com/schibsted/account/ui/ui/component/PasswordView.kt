@@ -18,15 +18,15 @@ import android.view.MotionEvent
 import com.schibsted.account.ui.R
 import com.schibsted.account.ui.ui.rule.PasswordValidationRule
 
-class PasswordView : InputFieldView {
+class PasswordView : SingleFieldView {
     private val passwordTransformation = PasswordTransformationMethod.getInstance()
 
-    constructor(context: Context?) : super(context)
-    constructor(context: Context?, attrs: AttributeSet?) : super(context, attrs)
+    constructor(context: Context) : super(context)
+    constructor(context: Context, attrs: AttributeSet?) : super(context, attrs)
 
     init {
-        setValidationRule(PasswordValidationRule)
-        setCancelable(false)
+        validationRule = PasswordValidationRule
+        isCancelable = false
         inputField.transformationMethod = passwordTransformation
         inputField.setCompoundDrawablesWithIntrinsicBounds(null, null, ContextCompat.getDrawable(context, R.drawable.schacc_ic_eye_on), null)
         inputField.inputType = InputType.TYPE_TEXT_VARIATION_PASSWORD

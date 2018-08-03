@@ -14,7 +14,7 @@ interface ErrorField {
      * @return `true` if an error view is displayed `false` otherwise
      * @see .showErrorView
      */
-    val isErrorVisible: Boolean
+    var isErrorVisible: Boolean
 
     /**
      * Displays an error message related to the input field

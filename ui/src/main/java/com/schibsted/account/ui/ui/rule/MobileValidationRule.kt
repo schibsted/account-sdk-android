@@ -22,7 +22,7 @@ object MobileValidationRule : ValidationRule {
             if (input.length >= 2) {
                 val prefix = input.substring(0, 1)
                 val number = input.substring(1)
-                return !TextUtils.isEmpty(number) && TextUtils.isDigitsOnly(number) && prefix == PLUS_PREFIX
+                return number.isNotEmpty() && TextUtils.isDigitsOnly(number) && prefix == PLUS_PREFIX
             }
         }
         return false
