@@ -34,7 +34,7 @@ abstract class BaseFragment : Fragment(), Animation.AnimationListener {
         if (activity is KeyboardManager) {
             keyboardManager = activity
         }
-        requireNotNull(keyboardManager, { "the Keyboard manager can't be null" })
+        requireNotNull(keyboardManager) { "the Keyboard manager can't be null" }
     }
 
     /**

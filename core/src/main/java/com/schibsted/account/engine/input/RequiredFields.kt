@@ -53,7 +53,7 @@ data class RequiredFields(val fields: Map<String, String>) : Parcelable {
         }
 
         internal fun request(provider: Provider, missingFields: Set<String>, onProvided: (RequiredFields, ResultCallback<NoValue>) -> Unit) {
-            provider.onRequiredFieldsRequested(InputProvider(onProvided, { validation ->
+            provider.onRequiredFieldsRequested(InputProvider(onProvided) { validation ->
                 when {
                     !validation.fields.keys.containsAll(missingFields) -> {
                         val missing = missingFields.filterNot { validation.fields.contains(it) }.joinToString(", ")
@@ -64,7 +64,7 @@ data class RequiredFields(val fields: Map<String, String>) : Parcelable {
                     }
                     else -> null
                 }
-            }), missingFields)
+            }, missingFields)
         }
 
         @Deprecated("Provide the proper JSON object instead")

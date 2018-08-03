@@ -89,12 +89,12 @@ class PasswordFragment : FlowFragment<PasswordContract.Presenter>(), PasswordCon
         password_input_view.setValidationRule(if (isUserAvailable) PasswordValidationRule else BasicValidationRule)
         primaryActionView.setOnClickListener { signUser() }
 
-        password_input_view.setImeAction(EditorInfo.IME_ACTION_NEXT, { _, actionId, _ ->
+        password_input_view.setImeAction(EditorInfo.IME_ACTION_NEXT) { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_NEXT) {
                 signUser()
             }
             return@setImeAction false
-        })
+        }
 
         remember_me.isChecked = true
     }

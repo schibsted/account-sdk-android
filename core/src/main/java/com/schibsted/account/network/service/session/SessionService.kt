@@ -43,16 +43,16 @@ class SessionService(@Environment environment: String, okHttpClient: OkHttpClien
     ): Call<TokenExchangeResponse> {
         Preconditions.checkNotNull(clientId, accessToken, redirectUri)
         val params = HashMap<String, String>()
-        params.put(PARAM_CLIENT_ID_NO_UNDERSCORE, clientId)
-        params.put(PARAM_TYPE, EXCHANGE_TYPE_SESSION)
-        params.put(BaseNetworkService.PARAM_REDIRECT_URI_NO_UNDERSCORE, redirectUri)
+        params[PARAM_CLIENT_ID_NO_UNDERSCORE] = clientId
+        params[PARAM_TYPE] = EXCHANGE_TYPE_SESSION
+        params[BaseNetworkService.PARAM_REDIRECT_URI_NO_UNDERSCORE] = redirectUri
         return this.sessionContract.exchange(accessToken.bearerAuthHeader(), params)
     }
 
     companion object {
-        private val PARAM_CLIENT_ID_NO_UNDERSCORE = "clientId"
-        private val PARAM_TYPE = "type"
-        private val EXCHANGE_TYPE_CODE = "code"
-        private val EXCHANGE_TYPE_SESSION = "session"
+        private const val PARAM_CLIENT_ID_NO_UNDERSCORE = "clientId"
+        private const val PARAM_TYPE = "type"
+        private const val EXCHANGE_TYPE_CODE = "code"
+        private const val EXCHANGE_TYPE_SESSION = "session"
     }
 }

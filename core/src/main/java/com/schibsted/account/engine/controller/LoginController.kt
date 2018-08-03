@@ -100,9 +100,9 @@ class LoginController @JvmOverloads constructor(
     private fun requestCredentials(provider: LoginContract, onProvided: (Credentials, ResultCallback<NoValue>) -> Unit): StepLoginIdentify? {
         val res = super.findOnStack<StepLoginIdentify>()
         if (res == null) {
-            Credentials.request(provider, { input, callback ->
+            Credentials.request(provider) { input, callback ->
                 onProvided(input, callback)
-            })
+            }
         }
 
         return res

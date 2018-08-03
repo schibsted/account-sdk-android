@@ -12,7 +12,7 @@ import com.schibsted.account.common.util.safeUrl
 import java.net.URI
 
 object DeepLinkHandler {
-    private val TAG = Logger.DEFAULT_TAG + "-DLH"
+    private const val TAG = Logger.DEFAULT_TAG + "-DLH"
     const val PARAM_ACTION = "act"
 
     fun resolveDeepLink(dataString: String?): DeepLink? {

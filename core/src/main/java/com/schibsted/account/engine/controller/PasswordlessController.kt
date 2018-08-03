@@ -80,7 +80,7 @@ class PasswordlessController @JvmOverloads constructor(
     private fun getOrRequestIdentifier(provider: PasswordlessContract): StepNoPwIdentify? {
         val res = findOnStack<StepNoPwIdentify>()
         if (res == null) {
-            Identifier.request(provider, { identifier, callback ->
+            Identifier.request(provider) { identifier, callback ->
                 AccountStatusOperation(identifier, { callback.onError(it.toClientError()) }, { accountStatus ->
                     SendValidationCodeOperation(identifier, this.locale, { callback.onError(it.toClientError()) }, { passwordlessToken ->
                         Agreements.getAgreementLinks(ResultCallback.fromLambda(
@@ -92,7 +92,7 @@ class PasswordlessController @JvmOverloads constructor(
                                 }))
                     })
                 })
-            })
+            }
         }
 
         return res
@@ -101,7 +101,7 @@ class PasswordlessController @JvmOverloads constructor(
     private fun getOrRequestVerificationCode(provider: PasswordlessContract, identifier: Identifier, passwordlessToken: PasswordlessToken): StepNoPwValidationCode? {
         val res = findOnStack<StepNoPwValidationCode>()
         if (res == null) {
-            VerificationCode.request(provider, identifier, { verificationCode, callback ->
+            VerificationCode.request(provider, identifier) { verificationCode, callback ->
                 VerifyCodeOperation(identifier, passwordlessToken, verificationCode, scopes, { callback.onError(it.toClientError()) },
                         { token ->
                             val user = User(token, verificationCode.keepLoggedIn)
@@ -120,7 +120,7 @@ class PasswordlessController @JvmOverloads constructor(
                                 evaluate(provider)
                             }
                         })
-            })
+            }
         }
 
         return res

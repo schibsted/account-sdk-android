@@ -64,12 +64,12 @@ class RequiredFieldsFragment : FlowFragment<RequiredFieldsContract.Presenter>(),
             }
         }
 
-        lastView?.setImeAction(EditorInfo.IME_ACTION_NEXT, { _, actionId, _ ->
+        lastView?.setImeAction(EditorInfo.IME_ACTION_NEXT) { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_NEXT) {
                 updateMissingFields()
             }
             return@setImeAction false
-        })
+        }
     }
 
     private fun getDescriptionText(): SpannableString {

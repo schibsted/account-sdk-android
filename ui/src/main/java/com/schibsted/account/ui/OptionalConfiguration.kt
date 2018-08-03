@@ -85,7 +85,7 @@ data class OptionalConfiguration(
                 when (enabled) {
                     true -> SignUpMode.Enabled
                     false -> {
-                        val disabledMessage = requireNotNull(appInfo.metaData.getString(keySignUpDisabledMessage), { "When sign-up is disabled, you need to specify a reason why" })
+                        val disabledMessage = requireNotNull(appInfo.metaData.getString(keySignUpDisabledMessage)) { "When sign-up is disabled, you need to specify a reason why" }
                         SignUpMode.Disabled(disabledMessage)
                     }
                     null -> null
