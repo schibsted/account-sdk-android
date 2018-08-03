@@ -15,7 +15,7 @@ import retrofit2.Response
 
 data class NetworkError(val code: Int, val type: String, val description: String, val endpoint: String) : InternalError {
     init {
-        Logger.debug(TAG,"Request to ${endpoint.safeUrl()} failed with code $code. \nType: <$type> \nDescription: <$description>")
+        Logger.debug(TAG, "Request to ${endpoint.safeUrl()} failed with code $code. \nType: <$type> \nDescription: <$description>")
     }
 
     override fun toClientError(): ClientError = when {
