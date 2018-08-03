@@ -93,7 +93,7 @@ class VerificationFragment : FlowFragment<VerificationContract.Presenter>(), Ver
         accountSelectorView.contentDescription = getString(R.string.schacc_accessibility_login_id, identifier.identifier)
 
         rememberMeView.isChecked = true
-        rememberMeView.textView.text = getString(R.string.schacc_remember_me)
+        rememberMeView.labelView.text = getString(R.string.schacc_remember_me)
 
         val rememberMeInfoView = view.findViewById<TextView>(R.id.remember_me_info)
         rememberMeInfoView.setOnClickListener {

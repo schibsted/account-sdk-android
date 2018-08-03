@@ -64,10 +64,10 @@ data class NetworkError(val code: Int, val type: String, val description: String
         private val PARSER = JsonParser()
         const val TAG = "NetworkError"
         fun <T> fromResponse(response: Response<T>): NetworkError {
-            require(!response.isSuccessful, { "Cannot parse SPiD error from a successful request" })
+            require(!response.isSuccessful) { "Cannot parse SPiD error from a successful request" }
 
             val (type, desc) = Try {
-                val body = requireNotNull(response.errorBody(), { "Error body cannot be null" }).string()
+                val body = requireNotNull(response.errorBody()) { "Error body cannot be null" }.string()
                 val root = extractErrorRoot(PARSER.parse(body).asJsonObject)
                 val type = extractType(root)
                 val desc = extractDescription(root)

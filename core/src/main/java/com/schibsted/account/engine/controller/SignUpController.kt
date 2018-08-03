@@ -76,7 +76,7 @@ class SignUpController(private val baseRedirectUri: URI, @OIDCScope private val 
     private fun getOrRequestCredentials(contract: SignUpContract): StepSignUpCredentials? {
         val res = findOnStack<StepSignUpCredentials>()
         if (res == null) {
-            Credentials.request(contract, { input, callback ->
+            Credentials.request(contract) { input, callback ->
                 AccountStatusOperation(input.identifier, { callback.onError(it.toClientError()) }, { status: AccountStatusResponse ->
                     if (!status.isAvailable) {
                         callback.onError(ClientError(ClientError.ErrorType.ALREADY_REGISTERED, "Account already registered"))
@@ -97,7 +97,7 @@ class SignUpController(private val baseRedirectUri: URI, @OIDCScope private val 
                                     })
                     )
                 })
-            })
+            }
         }
         return res
     }
@@ -132,11 +132,11 @@ class SignUpController(private val baseRedirectUri: URI, @OIDCScope private val 
             val supportedFields = missingFieldsAfterPreFill.filter { RequiredFields.SUPPORTED_FIELDS.contains(it) }.toSet()
 
             if (supportedFields.isNotEmpty()) {
-                RequiredFields.request(contract, supportedFields, { input, callback ->
+                RequiredFields.request(contract, supportedFields) { input, callback ->
                     super.navigation.push(StepValidateReqFields(RequiredFields(input.fields + preFilledValues)))
                     callback.onSuccess(NoValue)
                     this.evaluate(contract)
-                })
+                }
             } else {
                 super.navigation.push(StepValidateReqFields(RequiredFields(preFilledValues)))
                 evaluate(contract)

@@ -85,7 +85,7 @@ public class MainActivity extends AppCompatActivity {
             user.getProfile().get(new ResultCallback<ProfileData>() {
                 @Override
                 public void onSuccess(ProfileData result) {
-                    userState.setText(getString(R.string.example_app_user_logged_in, result.getDisplayName()));
+                    userState.setText(getString(R.string.example_app_user_logged_in, result.getDisplayName() + "  " + result.getPhoneNumber()));
                 }
 
                 @Override

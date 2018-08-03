@@ -64,10 +64,10 @@ data class ClientConfiguration(
 
         @VisibleForTesting(otherwise = VisibleForTesting.PROTECTED)
         internal fun fromParams(params: Map<String, Any>): ClientConfiguration {
-            val clientId = requireNotNull(params[KEY_ID], { "Field $KEY_ID is required in the configuration" }) as String
-            val clientSecret = requireNotNull(params[KEY_SECRET], { "Field $KEY_SECRET is required in the configuration" }) as String
+            val clientId = requireNotNull(params[KEY_ID]) { "Field $KEY_ID is required in the configuration" } as String
+            val clientSecret = requireNotNull(params[KEY_SECRET]) { "Field $KEY_SECRET is required in the configuration" } as String
 
-            val rawEnv = requireNotNull(params[KEY_ENVIRONMENT], { "Field $KEY_ENVIRONMENT is required in the configuration" }) as String
+            val rawEnv = requireNotNull(params[KEY_ENVIRONMENT]) { "Field $KEY_ENVIRONMENT is required in the configuration" } as String
             val environment = when (rawEnv) {
                 "DEV" -> Environment.ENVIRONMENT_DEVELOPMENT
                 "PRE" -> Environment.ENVIRONMENT_PREPRODUCTION

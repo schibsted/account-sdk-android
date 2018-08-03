@@ -20,7 +20,7 @@ data class TokenResponse(
     @SerializedName("expires_in") val expiresIn: Int
 ) : Parcelable {
 
-    fun bearerAuthHeader(): String = "Bearer " + serializedAccessToken
+    fun bearerAuthHeader(): String = "Bearer $serializedAccessToken"
 
     // This needs to be fail safe form Kotlin's null checks, as parsing done in Java can disregard null checks
     fun isValidToken(): Boolean = Try {

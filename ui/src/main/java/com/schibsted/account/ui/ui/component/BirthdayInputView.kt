@@ -13,13 +13,13 @@ import android.view.inputmethod.EditorInfo
 import com.schibsted.account.ui.R
 import com.schibsted.account.ui.ui.rule.BirthdayValidationRule
 
-class BirthdayInputView : InputFieldView {
+class BirthdayInputView : SingleFieldView {
 
     constructor(context: Context?) : super(context)
     constructor(context: Context?, attrs: AttributeSet?) : super(context, attrs)
 
     init {
-        setValidationRule(BirthdayValidationRule)
+        validationRule = BirthdayValidationRule
         setTextWatcher(object : TextWatcher {
             override fun afterTextChanged(editable: Editable?) {
             }
@@ -46,6 +46,6 @@ class BirthdayInputView : InputFieldView {
                 context.getString(R.string.schacc_required_fields_birthday_hint))
 
         setTitle(R.string.schacc_required_field_birthday)
-        errorView.setText(R.string.schacc_required_fields_birthday_error)
+        errorView?.setText(R.string.schacc_required_fields_birthday_error)
     }
 }

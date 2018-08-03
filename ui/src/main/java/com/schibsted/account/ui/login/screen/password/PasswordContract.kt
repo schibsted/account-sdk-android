@@ -17,10 +17,8 @@ interface PasswordContract {
          * Shows a contextual error related to the user's actions
          */
         fun showError(errorField: ErrorField, @StringRes errorMes: Int) {
-            if (!errorField.isErrorVisible) {
-                errorField.setError(errorMes)
-                errorField.showErrorView()
-            }
+            errorField.setError(errorMes)
+            errorField.showErrorView()
         }
     }
 
