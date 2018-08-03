@@ -40,9 +40,7 @@ object Logger {
 
     @JvmStatic
     @JvmOverloads
-    fun error(message: String?, throwable: Throwable? = null) {
-        error("", message, throwable)
-    }
+    fun error(message: String?, throwable: Throwable? = null) = error("ERROR", message, throwable)
 
     fun error(tag: String, message: String?, throwable: Throwable? = null) {
         if (loggingEnabled) logWorker.log(Level.ERROR, tag, message, throwable)
@@ -54,11 +52,11 @@ object Logger {
         if (loggingEnabled) logWorker.log(Level.WARNING, tag, message, throwable)
     }
 
-    fun warn(message: String?, throwable: Throwable? = null) = warn("", message, throwable)
+    fun warn(message: String?, throwable: Throwable? = null) = warn("WARN", message, throwable)
 
     @JvmStatic
     @JvmOverloads
-    fun info(message: String?, throwable: Throwable? = null) = info("", message, throwable)
+    fun info(message: String?, throwable: Throwable? = null) = info("INFO", message, throwable)
 
     fun info(tag: String, message: String?, throwable: Throwable? = null) {
         if (loggingEnabled) logWorker.log(Level.INFO, tag, message, throwable)
@@ -66,7 +64,7 @@ object Logger {
 
     @JvmStatic
     @JvmOverloads
-    fun debug(message: String?, throwable: Throwable? = null) = debug("", message, throwable)
+    fun debug(message: String?, throwable: Throwable? = null) = debug("DEBUG", message, throwable)
 
     fun debug(tag: String, message: String?, throwable: Throwable? = null) {
         if (loggingEnabled) logWorker.log(Level.DEBUG, tag, message, throwable)
@@ -74,7 +72,7 @@ object Logger {
 
     @JvmStatic
     @JvmOverloads
-    fun verbose(message: String?, throwable: Throwable? = null) = verbose("", message, throwable)
+    fun verbose(message: String?, throwable: Throwable? = null) = verbose("VERBOSE", message, throwable)
 
     fun verbose(tag: String, message: String?, throwable: Throwable? = null) {
         if (loggingEnabled) logWorker.log(Level.VERBOSE, tag, message, throwable)

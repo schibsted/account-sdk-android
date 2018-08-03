@@ -50,7 +50,7 @@ class EmailIdentificationFragment : AbstractIdentificationFragment(), Identifica
             Logger.info(TAG, "email wasn't found")
         } else {
             if (EmailValidationRule.isValid(identifier)) {
-                inputFieldView.inputView.setText(uiConf.identifier)
+                inputFieldView.inputField.setText(uiConf.identifier)
                 Logger.info(TAG, "email has been prefilled")
             } else {
                 Logger.warn(TAG, "Failed to prefill the email - Wrong format")

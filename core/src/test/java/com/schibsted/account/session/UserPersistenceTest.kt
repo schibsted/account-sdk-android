@@ -74,7 +74,7 @@ class UserPersistenceTest : StringSpec({
 
         userPersistence.persist(user)
         logger.messages.size shouldBe 1
-        logger.messages.first() should haveSubstring("user is not flagged as persistable")
+        logger.messages.first()!! should haveSubstring("user is not flagged as persistable")
 
         Logger.logWorker = Logger.DEFAULT_LOG_WORKER
         Logger.loggingEnabled = false
