@@ -42,8 +42,8 @@ internal interface UserContract {
     @GET("api/2/user/{userId}")
     fun getUserProfile(@Header(KEY_AUTHORIZATION) userBearer: String, @Path(KEY_USER_ID) userId: String): Call<ApiContainer<ProfileData>>
 
-    @GET("api/2/subscriptions")
-    fun subscriptions(@Header(KEY_AUTHORIZATION) userBearer: String): Call<SubscriptionsResponse>
+    @GET("api/2/user/{userId}/subscriptions")
+    fun subscriptions(@Header(KEY_AUTHORIZATION) userBearer: String, @Path(KEY_USER_ID) userId: String): Call<SubscriptionsResponse>
 
     companion object {
         const val KEY_AUTHORIZATION = "Authorization"

@@ -34,8 +34,8 @@ class UserService(environment: String, okHttpClient: OkHttpClient) : BaseNetwork
         return this.userContract.requiredFields(userToken.bearerAuthHeader(), userId)
     }
 
-    fun getSubscriptions(userToken: TokenResponse): Call<SubscriptionsResponse> {
-        return this.userContract.subscriptions(userToken.bearerAuthHeader())
+    fun getSubscriptions(userToken: TokenResponse, userId: String): Call<SubscriptionsResponse> {
+        return this.userContract.subscriptions(userToken.bearerAuthHeader(), userId)
     }
 
     /**

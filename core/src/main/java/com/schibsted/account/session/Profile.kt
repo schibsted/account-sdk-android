@@ -60,7 +60,7 @@ class Profile(val user: User, private val userService: UserService = UserService
             callback.onError(ClientError.USER_LOGGED_OUT_ERROR)
             return
         }
-        userService.getSubscriptions(token).enqueue(NetworkCallback.lambda("Fetching user subscriptions",
+        userService.getSubscriptions(token, user.userId.id).enqueue(NetworkCallback.lambda("Fetching user subscriptions",
                 { callback.onError(it.toClientError()) },
                 {
                     callback.onSuccess(it.subscriptions)

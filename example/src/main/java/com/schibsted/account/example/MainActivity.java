@@ -20,16 +20,19 @@ import android.widget.Toast;
 
 import com.schibsted.account.AccountService;
 import com.schibsted.account.Events;
+import com.schibsted.account.common.util.Logger;
 import com.schibsted.account.engine.integration.ResultCallback;
 import com.schibsted.account.model.error.ClientError;
 import com.schibsted.account.network.OIDCScope;
 import com.schibsted.account.network.response.ProfileData;
+import com.schibsted.account.network.response.Subscription;
 import com.schibsted.account.session.User;
 import com.schibsted.account.smartlock.SmartlockReceiver;
 import com.schibsted.account.ui.AccountUi;
 import com.schibsted.account.ui.login.BaseLoginActivity;
 import com.schibsted.account.ui.smartlock.SmartlockMode;
 
+import java.util.List;
 import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
