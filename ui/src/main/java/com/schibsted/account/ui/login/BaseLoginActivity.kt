@@ -74,7 +74,7 @@ import kotlin.properties.Delegates
 abstract class BaseLoginActivity : AppCompatActivity(), KeyboardManager, NavigationListener {
 
     companion object {
-        private const val TAG = "BLA"
+        private val TAG = BaseLoginActivity::class.java.simpleName
         private const val KEY_SCREEN = "SCREEN"
         private const val KEY_FLOW_TYPE = "FLOW_TYPE"
         const val EXTRA_USER = "USER_USER"

@@ -14,7 +14,7 @@ import com.schibsted.account.common.util.Logger
 
 class UserPersistenceService : Service() {
     class Connection : ServiceConnection {
-        private val TAG = "UPSC"
+        private val TAG = UserPersistenceService::class.java.simpleName
 
         var service: UserPersistenceService? = null
             private set

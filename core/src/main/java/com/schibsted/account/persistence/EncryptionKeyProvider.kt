@@ -182,7 +182,7 @@ class EncryptionKeyProvider(private val appContext: Context) {
     }
 
     companion object {
-        private const val TAG = "EncryptionKeyProvider"
+        private val TAG = EncryptionKeyProvider::class.java.simpleName
 
         private const val KEY_ALIAS = "identityKeyAlias"
         private const val KEY_ALGORITHM_RSA = "RSA"

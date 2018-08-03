@@ -169,7 +169,7 @@ internal class SessionStorageDelegate(
     }
 
     companion object {
-        private val TAG = "SessionStorageDelegate"
+        private val TAG = SessionStorageDelegate::class.java.simpleName
         private val EMPTY_JSON_ARRAY = "[]"
         private val GSON = Gson()
     }

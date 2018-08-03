@@ -81,7 +81,7 @@ sealed class DeepLink {
     }
 
     companion object {
-        protected const val TAG = "DL"
+        protected val TAG = DeepLink::class.java.simpleName
         private const val SCOPE_SEPARATOR = "-"
     }
 }

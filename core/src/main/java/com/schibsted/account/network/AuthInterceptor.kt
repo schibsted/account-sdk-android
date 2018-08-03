@@ -159,6 +159,6 @@ class AuthInterceptor internal constructor(
             }
 
     companion object {
-        const val TAG = "-ICPT"
+        private val TAG = AuthInterceptor::class.java.simpleName
     }
 }

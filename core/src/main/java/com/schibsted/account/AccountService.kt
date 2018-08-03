@@ -51,7 +51,7 @@ class AccountService @JvmOverloads constructor(
     }
 
     companion object {
-        private const val TAG = "ASRV"
+        private val TAG = AccountService::class.java.simpleName
         internal var localBroadcastManager: LocalBroadcastManager? = null
             @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
             set
