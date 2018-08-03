@@ -37,9 +37,9 @@ data class Agreements(val acceptAgreements: Boolean) : Parcelable {
         }
 
         internal fun request(provider: Provider, onProvided: (Agreements, ResultCallback<NoValue>) -> Unit, agreementLinks: AgreementLinksResponse) {
-            provider.onAgreementsRequested(InputProvider(onProvided, { validation ->
+            provider.onAgreementsRequested(InputProvider(onProvided) { validation ->
                 if (!validation.acceptAgreements) "Agreements must be accepted" else null
-            }), agreementLinks)
+            }, agreementLinks)
         }
     }
 }

@@ -22,7 +22,7 @@ object ConfigurationUtils {
     @VisibleForTesting(otherwise = VisibleForTesting.PACKAGE_PRIVATE)
     internal fun getConfigResourceStream(path: String): InputStream {
         val stream = ConfigurationUtils::class.java.classLoader.getResourceAsStream(path)
-        require(stream != null, { "Missing configuration asset: $path" })
+        require(stream != null) { "Missing configuration asset: $path" }
         return stream
     }
 
@@ -33,7 +33,7 @@ object ConfigurationUtils {
                 .filterNot { it.startsWith('#') }
                 .map {
                     val parts = it.split(delimiters = *charArrayOf(':'), limit = 2)
-                    require(parts.size == 2, { "Invalid config file format. Should be <key: value>" })
+                    require(parts.size == 2) { "Invalid config file format. Should be <key: value>" }
                     parts[0].trim() to parts[1].trim()
                 }.toMap()
     }

@@ -17,7 +17,7 @@ internal class AgreementsCheckOperation(
 ) {
 
     init {
-        val token = requireNotNull(user.token, { "Cannot get agreements status for logged out user" })
+        val token = requireNotNull(user.token) { "Cannot get agreements status for logged out user" }
         user.userService.getUserAgreements(user.userId.id, token)
                 .enqueue(
                         object : NetworkCallback<ApiContainer<AgreementsResponse>>("Fetching user agreements state") {
