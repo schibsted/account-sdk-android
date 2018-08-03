@@ -10,6 +10,7 @@ import com.schibsted.account.model.NoValue
 import com.schibsted.account.model.error.ClientError
 import com.schibsted.account.network.NetworkCallback
 import com.schibsted.account.network.response.ProfileData
+import com.schibsted.account.network.response.Subscription
 import com.schibsted.account.network.service.user.UserService
 
 class Profile(val user: User, private val userService: UserService = UserService(ClientConfiguration.get().environment, user.authClient)) {
@@ -51,5 +52,18 @@ class Profile(val user: User, private val userService: UserService = UserService
                 { callback.onError(it.toClientError()) },
                 { callback.onSuccess(it.data.fields) })
         )
+    }
+
+    fun getSubscriptions(callback: ResultCallback<List<Subscription>>) {
+        val token = user.token
+        if (token == null) {
+            callback.onError(ClientError.USER_LOGGED_OUT_ERROR)
+            return
+        }
+        userService.getSubscriptions(token).enqueue(NetworkCallback.lambda("Fetching user subscriptions",
+                { callback.onError(it.toClientError()) },
+                {
+                    callback.onSuccess(it.subscriptions)
+                }))
     }
 }
