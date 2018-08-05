@@ -37,7 +37,7 @@ abstract class Controller<in T : Contract<*>>() : Parcelable {
             if (navigation.size > 0) {
                 navigation.pop()
             } else {
-                Logger.warn(Logger.DEFAULT_TAG, { "Attempted to go back when the navigation stack was empty" })
+                Logger.warn("Attempted to go back when the navigation stack was empty")
             }
         }
     }

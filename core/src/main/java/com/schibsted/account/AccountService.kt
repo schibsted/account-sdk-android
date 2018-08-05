@@ -30,12 +30,12 @@ class AccountService @JvmOverloads constructor(
 
     @OnLifecycleEvent(Lifecycle.Event.ON_START)
     fun bind() {
-        Logger.verbose(TAG, { "Binding ${AccountService::class.simpleName}" })
+        Logger.verbose(TAG, "Binding ${AccountService::class.simpleName}")
         this.isPersistenceServiceBound = appContext.bindService(Intent(appContext, UserPersistenceService::class.java), upConnection, Context.BIND_AUTO_CREATE)
                 .also {
                     when (it) {
-                        true -> Logger.verbose(TAG, { "${UserPersistenceService::class.simpleName} was bound successfully" })
-                        false -> Logger.error(TAG, { "Failed to bind ${UserPersistenceService::class.simpleName}. Is it added to the manifest?" })
+                        true -> Logger.verbose(TAG, "${UserPersistenceService::class.simpleName} was bound successfully")
+                        false -> Logger.error(TAG, "Failed to bind ${UserPersistenceService::class.simpleName}. Is it added to the manifest?")
                     }
                 }
     }
@@ -43,15 +43,15 @@ class AccountService @JvmOverloads constructor(
     @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
     fun unbind() {
         if (this.isPersistenceServiceBound) {
-            Logger.verbose(TAG, { "Un-binding ${AccountService::class.simpleName}" })
+            Logger.verbose(TAG, "Un-binding ${AccountService::class.simpleName}")
             appContext.unbindService(upConnection)
         } else {
-            Logger.warn(TAG, { "Cannot un-bind service, as it is currently not bound" })
+            Logger.warn(TAG, "Cannot un-bind service, as it is currently not bound")
         }
     }
 
     companion object {
-        private const val TAG = Logger.DEFAULT_TAG + "-ASRV"
+        private val TAG = AccountService::class.java.simpleName
         internal var localBroadcastManager: LocalBroadcastManager? = null
             @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
             set

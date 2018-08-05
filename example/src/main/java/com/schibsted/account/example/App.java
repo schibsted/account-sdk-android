@@ -10,7 +10,7 @@ import com.schibsted.account.ui.AccountUiHook;
 public class App extends Application implements AccountUiHook {
     @Override
     public void onLoginCompleted(@NonNull User user, @NonNull OnProceedListener onProceedListener) {
-        Logger.debug("XXX", "IU can see the UIs are closing! " + user.getUserId().getId());
+        Logger.debug("IU can see the UIs are closing! " + user.getUserId().getId());
         onProceedListener.proceed();
     }
 

@@ -14,18 +14,18 @@ import com.schibsted.account.common.util.Logger
 
 class UserPersistenceService : Service() {
     class Connection : ServiceConnection {
-        private val TAG = Logger.DEFAULT_TAG + "-UPSC"
+        private val TAG = UserPersistenceService::class.java.simpleName
 
         var service: UserPersistenceService? = null
             private set
 
         override fun onServiceDisconnected(componentName: ComponentName) {
-            Logger.verbose(TAG, { "UserPersistenceService disconnected" })
+            Logger.verbose(TAG, "UserPersistenceService disconnected")
             service = null
         }
 
         override fun onServiceConnected(componentName: ComponentName, binder: IBinder) {
-            Logger.verbose(TAG, { "UserPersistenceService connected" })
+            Logger.verbose(TAG, "UserPersistenceService connected")
             service = (binder as ServiceBinder).getService()
         }
     }

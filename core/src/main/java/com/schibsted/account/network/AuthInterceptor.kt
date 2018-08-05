@@ -80,17 +80,18 @@ class AuthInterceptor internal constructor(
         val originalUrl = originalRequest.url()
         val reqId = requestNo.getAndIncrement()
 
-        Logger.verbose(TAG, { "Attempting to perform authenticated request (ReqId:$reqId) to ${originalUrl.toString().safeUrl()}" })
+        Logger.verbose(TAG, "Attempting to perform authenticated request (ReqId:$reqId) to ${originalUrl.toString().safeUrl()}")
         authChecks.forEach {
             val result = it.validate(originalRequest)
             if (result is AuthCheck.AuthCheckResult.Failed) {
-                Logger.error(TAG, { "Cannot perform authenticated request: ${result.reason}" })
+                Logger.error(TAG, "Cannot perform authenticated request: ${result.reason}")
                 throw AuthException("Cannot perform authenticated request: ${result.reason}")
             }
         }
-        Logger.verbose(TAG, { "Security checks passed for request (ReqId:$reqId)" })
+        Logger.verbose(TAG, "Security checks passed for request (ReqId:$reqId)")
 
-        val token = user.token ?: throw AuthException("Cannot perform authenticated request (ReqId:$reqId) when the user is logged out")
+        val token = user.token
+                ?: throw AuthException("Cannot perform authenticated request (ReqId:$reqId) when the user is logged out")
         val request = with(originalRequest.newBuilder()) {
             if (urlInWhitelist(originalUrl)) {
                 addHeader("Authorization", token.bearerAuthHeader())
@@ -103,13 +104,13 @@ class AuthInterceptor internal constructor(
         val response = chain.proceed(request)
 
         return if (response.code() == 401) {
-            Logger.verbose(TAG, { "Request (ReqId:$reqId) returned 401, checking if token should be refreshed" })
+            Logger.verbose(TAG, "Request (ReqId:$reqId) returned 401, checking if token should be refreshed")
 
             if (urlInWhitelist(response.request().url()) && response.request().url() == originalUrl && user.token != null) {
-                Logger.verbose(TAG, { "Found that token should be refreshed for request (ReqId:$reqId)" })
+                Logger.verbose(TAG, "Found that token should be refreshed for request (ReqId:$reqId)")
                 refreshToken(response, chain, reqId)
             } else {
-                Logger.verbose(TAG, { "Not refreshing token for request (ReqId: $reqId), as the URL is not whitelisted, the URL has changed, or the user was logged out" })
+                Logger.verbose(TAG, "Not refreshing token for request (ReqId: $reqId), as the URL is not whitelisted, the URL has changed, or the user was logged out")
                 response
             }
         } else {
@@ -120,44 +121,44 @@ class AuthInterceptor internal constructor(
     @VisibleForTesting(otherwise = VisibleForTesting.PACKAGE_PRIVATE)
     internal fun refreshToken(failedResponse: Response, chain: Interceptor.Chain, reqId: Int): Response =
             when {
-            // Only the first request should refresh
+                // Only the first request should refresh
                 refreshInProgress.compareAndSet(false, true) -> {
                     lock.close()
-                    Logger.verbose(TAG, { "Refreshing token from request (ReqId:$reqId)" })
+                    Logger.verbose(TAG, "Refreshing token from request (ReqId:$reqId)")
 
                     val refreshResult = user.refreshToken()
                     val newToken = user.token
 
                     val resp = if (refreshResult && newToken != null) {
-                        Logger.verbose(TAG, { "Re-firing request (ReqId:$reqId) after token refreshing" })
+                        Logger.verbose(TAG, "Re-firing request (ReqId:$reqId) after token refreshing")
                         chain.proceed(failedResponse.request().newBuilder().header("Authorization", newToken.bearerAuthHeader()).build())
                     } else {
-                        Logger.error(TAG, { "Token refresh failed (ReqId:$reqId)" })
+                        Logger.error(TAG, "Token refresh failed (ReqId:$reqId)")
                         failedResponse
                     }
                     refreshInProgress.set(false)
                     lock.open()
                     resp
                 }
-            // All subsequent refresh requests will wait instead
+                // All subsequent refresh requests will wait instead
                 lock.block(timeout) -> {
                     val newToken = user.token
                     if (newToken != null) {
-                        Logger.verbose(TAG, { "Re-firing request (ReqId:$reqId) after waiting for token refreshing" })
+                        Logger.verbose(TAG, "Re-firing request (ReqId:$reqId) after waiting for token refreshing")
                         chain.proceed(failedResponse.request().newBuilder().header("Authorization", newToken.bearerAuthHeader()).build())
                     } else {
-                        Logger.verbose(TAG, { "Auth token was null after waiting for refreshing. This request (ReqId:$reqId) will fail" })
+                        Logger.verbose(TAG, "Auth token was null after waiting for refreshing. This request (ReqId:$reqId) will fail")
                         failedResponse
                     }
                 }
-            // The previous check will return false on timeout, calling this block
+                // The previous check will return false on timeout, calling this block
                 else -> {
-                    Logger.verbose(TAG, { "Refreshing token timed out, failing this request (ReqId:$reqId)" })
+                    Logger.verbose(TAG, "Refreshing token timed out, failing this request (ReqId:$reqId)")
                     failedResponse
                 }
             }
 
     companion object {
-        const val TAG = Logger.DEFAULT_TAG + "-ICPT"
+        private val TAG = AuthInterceptor::class.java.simpleName
     }
 }

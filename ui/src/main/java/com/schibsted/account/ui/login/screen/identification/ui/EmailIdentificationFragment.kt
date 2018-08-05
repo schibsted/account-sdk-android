@@ -45,16 +45,15 @@ class EmailIdentificationFragment : AbstractIdentificationFragment(), Identifica
     }
 
     public override fun prefillIdentifier(identifier: String?) {
-        val tag = Logger.DEFAULT_TAG + "-" + this.javaClass.simpleName
-        Logger.info(tag, "Attempting to prefill  email")
+        Logger.info(TAG, "Attempting to prefill  email")
         if (identifier.isNullOrEmpty()) {
-            Logger.info(tag, "email wasn't found")
+            Logger.info(TAG, "email wasn't found")
         } else {
             if (EmailValidationRule.isValid(identifier)) {
                 inputFieldView.inputField.setText(uiConf.identifier)
-                Logger.info(tag, "email has been prefilled")
+                Logger.info(TAG, "email has been prefilled")
             } else {
-                Logger.warn(tag, "Failed to prefill the email - Wrong format")
+                Logger.warn(TAG, "Failed to prefill the email - Wrong format")
             }
         }
     }
@@ -79,7 +78,7 @@ class EmailIdentificationFragment : AbstractIdentificationFragment(), Identifica
     }
 
     companion object {
-
+        private val TAG = EmailIdentificationFragment::class.java.simpleName
         /**
          * provide a new instance of this [Fragment]
          *

@@ -128,8 +128,8 @@ internal class UserPersistence(private val appContext: Context) {
         val token = user.token?.takeIf { it.isValidToken() }
 
         when {
-            token == null -> Logger.warn(Logger.DEFAULT_TAG, { "Attempting to persist session, but the user was logged out" })
-            !user.isPersistable -> Logger.warn(Logger.DEFAULT_TAG, { "Attempting to persist session, but the user is not flagged as persistable" })
+            token == null -> Logger.warn("Attempting to persist session, but the user was logged out")
+            !user.isPersistable -> Logger.warn("Attempting to persist session, but the user is not flagged as persistable")
             else -> {
                 val updatedSessions = (sessions.filterNot { it.userId == user.userId.id }) +
                         Session(System.currentTimeMillis(), user.userId.id, token)
@@ -147,7 +147,7 @@ internal class UserPersistence(private val appContext: Context) {
     internal fun cleanInvalidTokens() {
         val (validSessions, invalidSessions) = sessions.partition { Try { it.token.isValidToken() }.getOrDefault { false } }
         invalidSessions.forEach {
-            Logger.warn(Logger.DEFAULT_TAG, { "Found invalid session for user ${it.userId}" })
+            Logger.warn("Found invalid session for user ${it.userId}")
         }
         this.sessions = validSessions
     }

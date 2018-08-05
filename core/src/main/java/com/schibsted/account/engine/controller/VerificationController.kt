@@ -45,7 +45,7 @@ abstract class VerificationController<in T> : Controller<T>()
     protected fun requestRequiredFields(contract: T, user: User, missingFields: Set<String>): StepValidateReqFields? {
         val res = findOnStack<StepValidateReqFields>()
         if (res == null) {
-            Logger.info(Logger.DEFAULT_TAG, "Missing required fields: $missingFields")
+            Logger.info("Missing required fields: $missingFields")
 
             val preFilledValues = mutableMapOf<String, String>()
             if (missingFields.contains(RequiredFields.FIELD_EMAIL)) {
@@ -53,7 +53,7 @@ abstract class VerificationController<in T> : Controller<T>()
                         ?.let { preFilledValues.put(RequiredFields.FIELD_EMAIL, it) }
             }
 
-            preFilledValues.forEach { Logger.info(Logger.DEFAULT_TAG, "Automatically providing required field: ${it.key}") }
+            preFilledValues.forEach { Logger.info("Automatically providing required field: ${it.key}") }
 
             val missingFieldsAfterPreFill = missingFields - preFilledValues.keys
             val supportedFields = missingFieldsAfterPreFill.filter { RequiredFields.SUPPORTED_FIELDS.contains(it) }.toSet()

@@ -13,7 +13,7 @@ import javax.crypto.KeyGenerator
 import javax.crypto.SecretKey
 import javax.crypto.spec.IvParameterSpec
 
-private const val TAG = Logger.DEFAULT_TAG + "-PersistenceEncryption"
+private val TAG = PersistenceEncryption::class.java.simpleName
 private const val RSA_TRANSFORM = "RSA/ECB/PKCS1Padding"
 private const val AES_TRANSFORM = "AES/CBC/PKCS5Padding"
 const val AES_ALG = "AES"
@@ -28,7 +28,7 @@ class PersistenceEncryption {
             cipher.init(Cipher.ENCRYPT_MODE, publicRsaKey)
             cipher.doFinal(subjectToEncrypt)
         } catch (e: Exception) {
-            Logger.error(TAG, { "Failed to encrypt content" }, e)
+            Logger.error(TAG, "Failed to encrypt content", e)
             null
         }
     }
@@ -39,7 +39,7 @@ class PersistenceEncryption {
             cipher.init(Cipher.DECRYPT_MODE, privateRsaKey)
             return cipher.doFinal(subjectToDecrypt)
         } catch (e: Exception) {
-            Logger.error(TAG, { "Failed to decrypt content" }, e)
+            Logger.error(TAG, "Failed to decrypt content", e)
             null
         }
     }
@@ -50,7 +50,7 @@ class PersistenceEncryption {
             aesCipher.init(Cipher.ENCRYPT_MODE, aesKey, IvParameterSpec(ByteArray(16)))
             return aesCipher.doFinal(encode(subjectToEncrypt))
         } catch (e: Exception) {
-            Logger.error(TAG, { "Failed to encrypt content" }, e)
+            Logger.error(TAG, "Failed to encrypt content", e)
             null
         }
     }
@@ -61,7 +61,7 @@ class PersistenceEncryption {
             aesCipher.init(Cipher.DECRYPT_MODE, aesKey, IvParameterSpec(ByteArray(16)))
             String(decode(aesCipher.doFinal(subject)))
         } catch (e: Exception) {
-            Logger.error(TAG, { "Failed to decrypt content" }, e)
+            Logger.error(TAG, "Failed to decrypt content", e)
             null
         }
     }

@@ -38,16 +38,15 @@ class MobileIdentificationFragment : AbstractIdentificationFragment() {
     }
 
     override fun prefillIdentifier(identifier: String?) {
-        val tag = Logger.DEFAULT_TAG + "-" + this.javaClass.simpleName
-        Logger.info(tag, "Attempting to prefill the phone number")
+        Logger.info(TAG, "Attempting to prefill the phone number")
         if (identifier.isNullOrEmpty()) {
-            Logger.info(tag, "The phone number wasn't found")
+            Logger.info(TAG, "The phone number wasn't found")
         } else {
             if (TextUtils.isDigitsOnly(identifier)) {
                 inputFieldView.setPhoneNumber(uiConf.identifier!!)
-                Logger.info(tag, "The phone number has been prefilled")
+                Logger.info(TAG, "The phone number has been prefilled")
             } else {
-                Logger.warn(tag, "Failed to prefill the phone number - Wrong format")
+                Logger.warn(TAG, "Failed to prefill the phone number - Wrong format")
             }
         }
     }
@@ -77,7 +76,7 @@ class MobileIdentificationFragment : AbstractIdentificationFragment() {
     }
 
     companion object {
-
+        private val TAG = MobileIdentificationFragment::class.java.simpleName
         /**
          * provide a new instance of this [Fragment]
          *

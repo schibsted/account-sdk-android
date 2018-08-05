@@ -75,10 +75,10 @@ class EncryptionKeyProvider(private val appContext: Context) {
             if (keyStore.containsAlias(alias)) {
                 keyStore.deleteEntry(alias)
             } else {
-                Logger.warn(TAG, { "alias $alias was not found" })
+                Logger.warn(TAG, "alias $alias was not found")
             }
         } catch (e: KeyStoreException) {
-            Logger.error(TAG, { "Unable to delete key from keystore" }, e)
+            Logger.error(TAG, "Unable to delete key from keystore", e)
         }
     }
 
@@ -90,10 +90,10 @@ class EncryptionKeyProvider(private val appContext: Context) {
                 val res = keyStore.getEntry(alias, null) as KeyStore.PrivateKeyEntry
                 key = KeyPair(res.certificate.publicKey, res.privateKey)
             } catch (e: Exception) {
-                Logger.error(TAG, { "An exception occurred when attempting to get key from keystore" }, e)
+                Logger.error(TAG, "An exception occurred when attempting to get key from keystore", e)
             }
         } else {
-            Logger.warn(TAG, { "alias $alias was not found" })
+            Logger.warn(TAG, "alias $alias was not found")
         }
         return key
     }
@@ -117,14 +117,15 @@ class EncryptionKeyProvider(private val appContext: Context) {
             }
 
             val startValid = (localizedTime ?: GregorianCalendar()).time
-            val endValid = (localizedTime ?: GregorianCalendar()).apply { add(Calendar.YEAR, 1) }.time
+            val endValid = (localizedTime
+                    ?: GregorianCalendar()).apply { add(Calendar.YEAR, 1) }.time
 
             val paramSpec = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) getApi23Spec(startValid, endValid) else getApi18Spec(startValid, endValid)
             kpg.initialize(paramSpec)
 
             return kpg.genKeyPair()
         } catch (ex: Exception) {
-            Logger.error(TAG, { "An exception occurred when generating key. Will use fallback." }, ex)
+            Logger.error(TAG, "An exception occurred when generating key. Will use fallback.", ex)
             return null
         }
     }
@@ -181,7 +182,7 @@ class EncryptionKeyProvider(private val appContext: Context) {
     }
 
     companion object {
-        private val TAG = Logger.DEFAULT_TAG + "-EncryptionKeyProvider"
+        private val TAG = EncryptionKeyProvider::class.java.simpleName
 
         private const val KEY_ALIAS = "identityKeyAlias"
         private const val KEY_ALGORITHM_RSA = "RSA"

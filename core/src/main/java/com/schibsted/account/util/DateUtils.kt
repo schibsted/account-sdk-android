@@ -3,20 +3,20 @@ package com.schibsted.account.util
 import com.schibsted.account.common.util.Logger
 import java.text.ParseException
 import java.text.SimpleDateFormat
+import java.util.Calendar
 import java.util.Date
 import java.util.Locale
-import java.util.Calendar
 import java.util.Random
 
 object DateUtils {
     private const val DATE_PARSING_FORMAT = "yyyy-MM-dd'T'HH:mm:ss"
-
+    private val TAG = DateUtils::class.java.simpleName
     fun fromString(stringDate: String): Date? {
         var date: Date? = null
         try {
             date = SimpleDateFormat(DATE_PARSING_FORMAT, Locale.US).parse(stringDate)
         } catch (p: ParseException) {
-            Logger.error(Logger.DEFAULT_TAG + "-Date", { "Unable to parse the date" }, p)
+            Logger.error(TAG, "Unable to parse the date", p)
         } finally {
             return date
         }

@@ -74,7 +74,7 @@ import kotlin.properties.Delegates
 abstract class BaseLoginActivity : AppCompatActivity(), KeyboardManager, NavigationListener {
 
     companion object {
-        private const val TAG = "${Logger.DEFAULT_TAG}-BLA"
+        private val TAG = BaseLoginActivity::class.java.simpleName
         private const val KEY_SCREEN = "SCREEN"
         private const val KEY_FLOW_TYPE = "FLOW_TYPE"
         const val EXTRA_USER = "USER_USER"
@@ -255,16 +255,16 @@ abstract class BaseLoginActivity : AppCompatActivity(), KeyboardManager, Navigat
     }
 
     private fun validateAccount(state: DeepLink.ValidateAccount) {
-        Logger.info(TAG, { "Attempting login from deep link, extracting code" })
+        Logger.info(TAG, "Attempting login from deep link, extracting code")
 
         User.fromSessionCode(state.code, uiConfiguration.redirectUri.toString(), state.isPersistable,
                 ResultCallback.fromLambda(
                         { error ->
-                            Logger.info(TAG, { "Automatic login after account validation failed: ${error.message}" })
+                            Logger.info(TAG, "Automatic login after account validation failed: ${error.message}")
                             startIdentificationFragment()
                         },
                         { user ->
-                            Logger.info(TAG, { "Automatic login after account validation was successful" })
+                            Logger.info(TAG, "Automatic login after account validation was successful")
                             navigationController.finishFlow(user)
                         }
                 ), null) // sign-up doesn't support scope yet

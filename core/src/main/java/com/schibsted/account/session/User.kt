@@ -106,7 +106,7 @@ class User(token: UserToken, val isPersistable: Boolean) : Parcelable {
     @Suppress("MemberVisibilityCanBePrivate")
     fun bind(builder: OkHttpClient.Builder, urls: List<String>, allowNonHttps: Boolean, allowNonWhitelistedDomains: Boolean): OkHttpClient.Builder {
         builder.interceptors().removeAll { it is AuthInterceptor || it is InfoInterceptor }.takeIf { it }?.let {
-            Logger.warn(Logger.DEFAULT_TAG, { "The provided builder had previous sessions bound, these are now removed." })
+            Logger.warn("The provided builder had previous sessions bound, these are now removed.")
         }
 
         return builder
@@ -118,30 +118,30 @@ class User(token: UserToken, val isPersistable: Boolean) : Parcelable {
     internal fun refreshToken(): Boolean {
         val token = this.token
         if (token == null) {
-            Logger.warn(Logger.DEFAULT_TAG, { "Attempting to refresh token, but user is logged out" })
+            Logger.warn("Attempting to refresh token, but user is logged out")
             return false
         }
 
         val refreshToken = token.refreshToken
         if (refreshToken == null || refreshToken.isBlank()) {
             this.token = null
-            Logger.warn(Logger.DEFAULT_TAG, { "Attempting to refresh token, but the refresh token is empty." })
+            Logger.warn("Attempting to refresh token, but the refresh token is empty.")
             return false
         }
 
-        Logger.verbose(Logger.DEFAULT_TAG, { "Refreshing user token" })
+        Logger.verbose("Refreshing user token")
         val resp = ServiceHolder.oAuthService.refreshToken(ClientConfiguration.get().clientId,
                 ClientConfiguration.get().clientSecret, refreshToken).execute()
 
         return if (resp.isSuccessful) {
             this.token = requireNotNull(resp.body(), { "Unable to parse token from successful response" })
-            Logger.verbose(Logger.DEFAULT_TAG, { "Refreshing user token was successful" })
+            Logger.verbose("Refreshing user token was successful")
             AccountService.localBroadcastManager?.sendBroadcast(Intent(Events.ACTION_USER_TOKEN_REFRESH).putExtra(Events.EXTRA_USER, this))
             true
         } else {
-            Logger.verbose(Logger.DEFAULT_TAG, { "User token refreshing failed" })
+            Logger.verbose("User token refreshing failed")
             if (listOf(400, 401, 403).contains(resp.code())) {
-                Logger.verbose(Logger.DEFAULT_TAG, { "Logging out user" })
+                Logger.verbose("Logging out user")
                 userService.logout(token).execute()
                 this@User.token = null
 

@@ -15,7 +15,7 @@ import retrofit2.Response
 
 data class NetworkError(val code: Int, val type: String, val description: String, val endpoint: String) : InternalError {
     init {
-        Logger.debug(Logger.DEFAULT_TAG, { "Request to ${endpoint.safeUrl()} failed with code $code. \nType: <$type> \nDescription: <$description>" })
+        Logger.debug(TAG, "Request to ${endpoint.safeUrl()} failed with code $code. \nType: <$type> \nDescription: <$description>")
     }
 
     override fun toClientError(): ClientError = when {
@@ -62,7 +62,7 @@ data class NetworkError(val code: Int, val type: String, val description: String
 
     companion object {
         private val PARSER = JsonParser()
-
+        private val TAG = NetworkError::class.java.simpleName
         fun <T> fromResponse(response: Response<T>): NetworkError {
             require(!response.isSuccessful) { "Cannot parse SPiD error from a successful request" }
 
@@ -73,7 +73,7 @@ data class NetworkError(val code: Int, val type: String, val description: String
                 val desc = extractDescription(root)
                 Pair(type, desc)
             }.getOrElse {
-                Logger.warn(Logger.DEFAULT_TAG + "-" + NetworkError::class.simpleName, { "Parsing SPiD error failed: ${it.message}" }, it)
+                Logger.warn(TAG, "Parsing SPiD error failed: ${it.message}", it)
                 Pair("Unknown type", "No description")
             }
 

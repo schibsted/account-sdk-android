@@ -68,7 +68,7 @@ class SmartlockImpl(private val loginActivity: BaseLoginActivity, private val lo
     }
 
     companion object {
-        private val TAG = Logger.DEFAULT_TAG + " - " + SmartlockImpl::class.java.simpleName
+        private val TAG = SmartlockImpl::class.java.simpleName
         /**
          * Request code sent by the smartlock controller when the user has to choose between multiple account the one to login with.
          * This must be checked in [BaseLoginActivity.onActivityResult]

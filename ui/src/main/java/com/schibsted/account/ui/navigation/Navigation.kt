@@ -61,7 +61,7 @@ class Navigation(
         }
 
         val hooks = (this.activity.application as? AccountUiHook)
-                .also { Logger.info("${Logger.DEFAULT_TAG}-NAV", { "Resolving UI hooks: $it" }) }
+                .also { Logger.info(TAG, "Resolving UI hooks: $it") }
                 ?: AccountUiHook.DEFAULT
 
         hooks.onLoginAborted(AccountUiHook.OnProceedListener {
@@ -117,7 +117,7 @@ class Navigation(
 
     fun finishFlow(user: User) {
         val hooks = (this.activity.application as? AccountUiHook)
-                .also { Logger.info("${Logger.DEFAULT_TAG}-NAV", { "Resolving UI hooks: $it" }) }
+                .also { Logger.info(TAG, "Resolving UI hooks: $it") }
                 ?: AccountUiHook.DEFAULT
 
         hooks.onLoginCompleted(user, AccountUiHook.OnProceedListener {
@@ -196,5 +196,9 @@ class Navigation(
                     navigateTo(fragment, LoginScreen.VERIFICATION_SCREEN)
                 }
         }
+    }
+
+    companion object {
+        private val TAG = Navigation::class.java.simpleName
     }
 }

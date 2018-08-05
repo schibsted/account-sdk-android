@@ -18,7 +18,7 @@ import kotlinx.android.parcel.Parcelize
 @Parcelize
 open class ClientError(val errorType: ErrorType, val message: String) : Parcelable {
     init {
-        Logger.verbose(Logger.DEFAULT_TAG, { "IdentityError: ${this.errorType} ${this.message}" })
+        Logger.verbose("IdentityError: ${this.errorType} ${this.message}")
     }
 
     enum class ErrorType {

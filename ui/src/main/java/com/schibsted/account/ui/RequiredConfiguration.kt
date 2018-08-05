@@ -9,6 +9,7 @@ import java.net.URI
 @Parcelize
 data class RequiredConfiguration(val redirectUri: URI, val clientName: String) : Parcelable {
     companion object {
+        private val TAG = RequiredConfiguration::class.java.simpleName
         @JvmStatic
         @Throws(IllegalArgumentException::class)
         fun fromResources(applicationContext: Context): RequiredConfiguration {
@@ -18,7 +19,7 @@ data class RequiredConfiguration(val redirectUri: URI, val clientName: String) :
                 if (it.contains(":/")) {
                     it
                 } else {
-                    Logger.warn(Logger.DEFAULT_TAG + "-RequiredConfiguration", "Your host is not correct, deep links might fail, please provide a complete host")
+                    Logger.warn(TAG, "Your host is not correct, deep links might fail, please provide a complete host")
                     "://$it"
                 }
             }

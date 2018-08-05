@@ -40,6 +40,7 @@ data class ClientConfiguration(
     }
 
     companion object {
+        private val TAG = ClientConfiguration::class.java.simpleName
         private const val KEY_ID = "clientId"
         private const val KEY_SECRET = "clientSecret"
         private const val KEY_ENVIRONMENT = "environment"
@@ -76,12 +77,12 @@ data class ClientConfiguration(
                 else -> rawEnv
             }.trim('/') + "/"
 
-            Logger.verbose(Logger.DEFAULT_TAG + "-CONF", {
+            Logger.verbose(TAG,
                 "Read config file:\n" +
                         "Environment:\t$environment \n" +
                         "Client ID:\t${clientId.take(3)}..........${clientId.takeLast(3)} \n" +
                         "Client Secret:\t${clientSecret.take(3)}..........${clientSecret.takeLast(3)} \n"
-            })
+            )
 
             return ClientConfiguration(environment, clientId, clientSecret)
         }
