@@ -113,7 +113,7 @@ public class MainActivity extends AppCompatActivity {
             button.setEnabled(false);
             button.setText(R.string.example_app_loading_info);
 
-            final Intent intent = AccountUi.getCallingIntent(getApplicationContext(), AccountUi.FlowType.PASSWORD,
+            final Intent intent = AccountUi.getCallingIntent(getApplicationContext(), AccountUi.FlowType.PASSWORDLESS_EMAIL,
                     new AccountUi.Params(getString(R.string.example_teaser_text), null, SmartlockMode.DISABLED, new String[]{OIDCScope.SCOPE_OPENID}));
             startActivityForResult(intent, PASSWORD_REQUEST_CODE);
         }

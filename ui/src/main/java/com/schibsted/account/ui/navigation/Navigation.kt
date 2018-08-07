@@ -132,12 +132,13 @@ class Navigation(
         })
     }
 
-    fun <T : Contract<*>, C : Controller<T>> handleBackPressed(controller: C?) {
+    fun <T : Contract<*>, C : Controller<T>> handleBackPressed(controller: C?, contract: T) {
         when (currentFragment?.tag) {
             LoginScreen.TC_SCREEN.value,
             LoginScreen.REQUIRED_FIELDS_SCREEN.value -> {
                 fragmentManager.popBackStack()
                 controller?.back()
+                controller?.evaluate(contract)
             }
 
             LoginScreen.CHECK_INBOX_SCREEN.value,
@@ -145,6 +146,7 @@ class Navigation(
             LoginScreen.VERIFICATION_SCREEN.value -> {
                 controller?.back(fragmentManager.backStackEntryCount)
                 fragmentManager.popBackStack(LoginScreen.IDENTIFICATION_SCREEN.value, 0)
+                controller?.evaluate(contract)
             }
 
             LoginScreen.WEB_TC_SCREEN.value,

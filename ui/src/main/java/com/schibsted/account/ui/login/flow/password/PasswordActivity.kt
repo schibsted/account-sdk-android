@@ -11,7 +11,6 @@ import com.schibsted.account.engine.controller.LoginController
 import com.schibsted.account.engine.controller.SignUpController
 import com.schibsted.account.engine.input.Identifier
 import com.schibsted.account.ui.login.BaseLoginActivity
-import com.schibsted.account.ui.login.screen.LoginScreen
 
 class PasswordActivity : BaseLoginActivity(), FlowSelectionListener {
 
@@ -72,16 +71,10 @@ class PasswordActivity : BaseLoginActivity(), FlowSelectionListener {
     override fun onBackPressed() {
         super.onBackPressed()
         if (isUserAvailable()) {
-            navigationController.handleBackPressed(signUpController)
+            navigationController.handleBackPressed(signUpController, signUpContract)
         } else {
-            navigationController.handleBackPressed(loginController)
+            navigationController.handleBackPressed(loginController, loginContract)
         }
-    }
-
-    override fun onNavigationDone(screen: LoginScreen) {
-        super.onNavigationDone(screen)
-        signUpController?.evaluate(signUpContract)
-        loginController?.evaluate(loginContract)
     }
 
     override fun onNavigateBackRequested() {
