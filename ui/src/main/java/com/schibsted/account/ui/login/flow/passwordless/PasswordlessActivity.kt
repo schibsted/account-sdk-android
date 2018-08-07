@@ -20,7 +20,6 @@ import com.schibsted.account.model.LoginResult
 import com.schibsted.account.model.error.ClientError
 import com.schibsted.account.network.response.AgreementLinksResponse
 import com.schibsted.account.ui.login.BaseLoginActivity
-import com.schibsted.account.ui.login.screen.LoginScreen
 import com.schibsted.account.ui.login.screen.identification.ui.MobileIdentificationFragment
 import com.schibsted.account.ui.navigation.Navigation
 import com.schibsted.account.ui.ui.FlowFragment
@@ -95,12 +94,7 @@ class PasswordlessActivity : BaseLoginActivity(), PasswordlessContract {
 
     override fun onBackPressed() {
         super.onBackPressed()
-        navigationController.handleBackPressed(passwordlessController)
-    }
-
-    override fun onNavigationDone(screen: LoginScreen) {
-        super.onNavigationDone(screen)
-        passwordlessController.evaluate(this)
+        navigationController.handleBackPressed(passwordlessController, this)
     }
 
     companion object {
