@@ -36,7 +36,6 @@ class LoginContractImpl(private val loginActivity: BaseLoginActivity) : LoginCon
         } else {
             loginActivity.currentIdentifier?.let { identifier ->
                 val fragment = loginActivity.fragmentProvider.getOrCreatePasswordFragment(
-                        loginActivity.navigationController.currentFragment,
                         provider,
                         identifier,
                         loginActivity.isUserAvailable(),
@@ -48,13 +47,13 @@ class LoginContractImpl(private val loginActivity: BaseLoginActivity) : LoginCon
     }
 
     override fun onAccountVerificationRequested(identifier: Identifier) {
-        val fragment = loginActivity.fragmentProvider.getOrCreateInboxFragment(loginActivity.navigationController.currentFragment, identifier)
+        val fragment = loginActivity.fragmentProvider.getOrCreateInboxFragment(identifier)
         loginActivity.navigationController.navigateToFragment(fragment)
     }
 
     override fun onAgreementsRequested(agreementsProvider: InputProvider<Agreements>, agreementLinks: AgreementLinksResponse) {
         BaseLoginActivity.tracker?.userId = this.loginActivity.loginController?.currentUserId?.legacyId
-        val fragment = loginActivity.fragmentProvider.getOrCreateTermsFragment(loginActivity.navigationController.currentFragment,
+        val fragment = loginActivity.fragmentProvider.getOrCreateTermsFragment(
                 agreementsProvider,
                 loginActivity.isUserAvailable(),
                 agreementLinks)
@@ -65,7 +64,6 @@ class LoginContractImpl(private val loginActivity: BaseLoginActivity) : LoginCon
         BaseLoginActivity.tracker?.userId = this.loginActivity.loginController?.currentUserId?.legacyId
 
         val fragment = loginActivity.fragmentProvider.getOrCreateRequiredFieldsFragment(
-                loginActivity.navigationController.currentFragment,
                 requiredFieldsProvider,
                 fields)
         loginActivity.navigationController.navigateToFragment(fragment)

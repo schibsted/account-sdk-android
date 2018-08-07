@@ -146,7 +146,7 @@ abstract class BaseLoginActivity : AppCompatActivity(), KeyboardManager, Navigat
 
         initializeConfiguration()
         initializePropertiesFromBundle(savedInstanceState)
-        fragmentProvider = FragmentProvider(uiConfiguration)
+        fragmentProvider = FragmentProvider(uiConfiguration, navigationController)
         loginContract = LoginContractImpl(this)
 
         val action = DeepLinkHandler.resolveDeepLink(intent.dataString)
@@ -246,7 +246,6 @@ abstract class BaseLoginActivity : AppCompatActivity(), KeyboardManager, Navigat
 
     fun navigateToIdentificationFragment(clientInfo: ClientInfo, flowSelectionListener: FlowSelectionListener?, provider: InputProvider<Identifier>?) {
         val fragment = fragmentProvider.getOrCreateIdentificationFragment(
-                navigationController.currentFragment,
                 provider = provider,
                 flowType = flowType,
                 flowSelectionListener = flowSelectionListener,
@@ -353,7 +352,7 @@ abstract class BaseLoginActivity : AppCompatActivity(), KeyboardManager, Navigat
                             smartlock?.onFailure()
                         } else {
                             smartlock?.provideHint(smartlockCredentials)
-                            fragmentProvider = FragmentProvider(uiConfiguration)
+                            fragmentProvider = FragmentProvider(uiConfiguration, navigationController)
                             startIdentificationFragment()
                         }
                     }

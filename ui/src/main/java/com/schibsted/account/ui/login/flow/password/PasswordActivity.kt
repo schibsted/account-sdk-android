@@ -20,13 +20,13 @@ class PasswordActivity : BaseLoginActivity(), FlowSelectionListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val savedLoginController = savedInstanceState?.getParcelable<Parcelable>(KEY_LOGIN_CONTROLLER)
-        val savedSignUpController = savedInstanceState?.getParcelable<Parcelable>(KEY_SIGN_UP_CONTROLLER)
+        val savedLoginController = savedInstanceState?.getParcelable<LoginController>(KEY_LOGIN_CONTROLLER)
+        val savedSignUpController = savedInstanceState?.getParcelable<SignUpController>(KEY_SIGN_UP_CONTROLLER)
 
         if (savedLoginController != null) {
-            loginController = savedLoginController as LoginController
+            loginController = savedLoginController
         } else if (savedSignUpController != null) {
-            signUpController = savedSignUpController as SignUpController
+            signUpController = savedSignUpController
         }
 
         if (smartlockCredentials == null && !isSmartlockRunning) {

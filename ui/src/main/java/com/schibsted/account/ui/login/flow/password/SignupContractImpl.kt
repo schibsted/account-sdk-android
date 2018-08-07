@@ -22,7 +22,6 @@ class SignupContractImpl(private val activity: BaseLoginActivity) : SignUpContra
     override fun onCredentialsRequested(provider: InputProvider<Credentials>) {
         activity.currentIdentifier?.let { identifier ->
             val fragment = activity.fragmentProvider.getOrCreatePasswordFragment(
-                    activity.navigationController.currentFragment,
                     provider = provider,
                     currentIdentifier = identifier,
                     userAvailable = activity.isUserAvailable(),
@@ -33,7 +32,7 @@ class SignupContractImpl(private val activity: BaseLoginActivity) : SignUpContra
     }
 
     override fun onAgreementsRequested(agreementsProvider: InputProvider<Agreements>, agreementLinks: AgreementLinksResponse) {
-        val fragment = activity.fragmentProvider.getOrCreateTermsFragment(activity.navigationController.currentFragment,
+        val fragment = activity.fragmentProvider.getOrCreateTermsFragment(
                 provider = agreementsProvider,
                 userAvailable = activity.isUserAvailable(),
                 agreementLinks = agreementLinks)
@@ -42,7 +41,6 @@ class SignupContractImpl(private val activity: BaseLoginActivity) : SignUpContra
 
     override fun onRequiredFieldsRequested(requiredFieldsProvider: InputProvider<RequiredFields>, fields: Set<String>) {
         val fragment = activity.fragmentProvider.getOrCreateRequiredFieldsFragment(
-                activity.navigationController.currentFragment,
                 requiredFieldsProvider,
                 fields)
         activity.navigationController.navigateToFragment(fragment)
@@ -51,7 +49,7 @@ class SignupContractImpl(private val activity: BaseLoginActivity) : SignUpContra
     override fun onFlowReady(callbackProvider: CallbackProvider<Identifier>) {
         callbackProvider.provide(object : ResultCallback<Identifier> {
             override fun onSuccess(result: Identifier) {
-                val fragment = activity.fragmentProvider.getOrCreateInboxFragment(activity.navigationController.currentFragment, result)
+                val fragment = activity.fragmentProvider.getOrCreateInboxFragment(result)
                 activity.navigationController.navigateToFragment(fragment)
             }
 
