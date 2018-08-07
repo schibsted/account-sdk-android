@@ -18,7 +18,6 @@ import android.view.View.OnFocusChangeListener
 import android.view.accessibility.AccessibilityManager
 import android.widget.EditText
 import android.widget.TextView
-import com.schibsted.account.common.util.Logger
 import com.schibsted.account.ui.R
 import com.schibsted.account.ui.ui.rule.CodeValidationRule
 import java.util.ArrayList
