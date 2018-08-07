@@ -4,11 +4,12 @@
 
 package com.schibsted.account.ui.ui.component
 
+import android.content.ClipboardManager
 import android.content.Context
+import android.content.Context.CLIPBOARD_SERVICE
 import android.graphics.PorterDuff
 import android.support.v4.content.ContextCompat
 import android.text.Editable
-import android.text.TextUtils
 import android.text.TextWatcher
 import android.util.AttributeSet
 import android.view.LayoutInflater
@@ -18,13 +19,13 @@ import android.view.accessibility.AccessibilityManager
 import android.widget.EditText
 import android.widget.TextView
 import com.schibsted.account.ui.R
+import com.schibsted.account.ui.ui.rule.CodeValidationRule
 import java.util.ArrayList
 
 /**
  * Widget made to allow the user to enter a 6 digits code
  */
-class CodeInputView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null) : FieldView(context, attrs), View.OnClickListener, CustomEditText.KeyEventListener {
-
+class CodeInputView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null) : FieldView(context, attrs), View.OnClickListener, CustomEditText.KeyEventListener, View.OnLongClickListener {
     /**
      * List of [EditText] used to put in the verification digits
      */
@@ -64,7 +65,7 @@ class CodeInputView @JvmOverloads constructor(context: Context, attrs: Attribute
         val view = LayoutInflater.from(context).inflate(R.layout.schacc_code_verification_widget, this)
         errorView = view.findViewById(R.id.input_error_view)
         inputViews = initializeInputViews(view)
-
+        validationRule = CodeValidationRule
         val focusChangeListener = OnFocusChangeListener { view, _ ->
             if (errorView!!.visibility == View.VISIBLE) {
                 errorView!!.visibility = View.INVISIBLE
@@ -92,6 +93,7 @@ class CodeInputView @JvmOverloads constructor(context: Context, attrs: Attribute
         setInputViewsFocusListener(focusChangeListener, inputViews)
         setInputViewsTextWatcher(internalTextWatcher, inputViews)
         setOnClickListener(this, inputViews)
+        setOnLongClickListener(this, inputViews)
     }
 
     private fun setDeleteKeyListener(eventListener: CustomEditText.KeyEventListener, inputViews: List<CustomEditText>) {
@@ -164,9 +166,25 @@ class CodeInputView @JvmOverloads constructor(context: Context, attrs: Attribute
      * @param inputViews the list of [EditText]
      */
     private fun setOnClickListener(clickListener: View.OnClickListener, inputViews: List<CustomEditText>) {
-        for (inputView in inputViews) {
-            inputView.setOnClickListener(clickListener)
+        inputViews.forEach { it.setOnClickListener(clickListener) }
+    }
+
+    private fun setOnLongClickListener(clickListener: View.OnLongClickListener, inputViews: List<CustomEditText>) {
+        inputViews.forEach { it.setOnLongClickListener(clickListener) }
+    }
+
+    override fun onLongClick(v: View?): Boolean {
+        val clipboardManager = context.getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
+        val clipData = clipboardManager.primaryClip
+
+        if (clipData.itemCount > 0) {
+            val clipBoardData = clipData.getItemAt(0).text.toString()
+            if (validationRule.isValid(clipBoardData)) {
+                inputViews.forEachIndexed { i, input -> input.setText(clipBoardData[i].toString()) }
+            }
+            return true
         }
+        return false
     }
 
     /**
@@ -263,10 +281,7 @@ class CodeInputView @JvmOverloads constructor(context: Context, attrs: Attribute
      *
      * @return `true` if the code is valid `false` otherwise
      */
-    override fun isInputValid(): Boolean {
-        val code = fullInput.trim()
-        return code.length == EXPECTED_LENGTH && TextUtils.isDigitsOnly(code)
-    }
+    override fun isInputValid(): Boolean = validationRule.isValid(fullInput)
 
     /**
      * Shows the error message and apply a red color filter to [.inputViews]'s [EditText]
@@ -322,6 +337,6 @@ class CodeInputView @JvmOverloads constructor(context: Context, attrs: Attribute
     }
 
     companion object {
-        private const val EXPECTED_LENGTH = 6
+        const val EXPECTED_LENGTH = 6
     }
 }
