@@ -8,7 +8,7 @@
 <a href="../../index.html">ui</a>&nbsp;/&nbsp;<a href="../index.html">com.schibsted.account.ui.ui.component</a>&nbsp;/&nbsp;<a href="./index.html">PasswordView</a><br/>
 <br/>
 <h1>PasswordView</h1>
-<code><span class="keyword">class </span><span class="identifier">PasswordView</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../-input-field-view/index.html"><span class="identifier">InputFieldView</span></a></code>
+<code><span class="keyword">class </span><span class="identifier">PasswordView</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../-single-field-view/index.html"><span class="identifier">SingleFieldView</span></a></code>
 <h3>Constructors</h3>
 <table>
 <tbody>
@@ -17,8 +17,8 @@
 <p><a href="-init-.html">&lt;init&gt;</a></p>
 </td>
 <td>
-<code><span class="identifier">PasswordView</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.ui.ui.component.PasswordView$<init>(android.content.Context)/context">context</span><span class="symbol">:</span>&nbsp;<a href="https://developer.android.com/reference/android/content/Context.html"><span class="identifier">Context</span></a><span class="symbol">?</span><span class="symbol">)</span></code><br/>
-<code><span class="identifier">PasswordView</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.ui.ui.component.PasswordView$<init>(android.content.Context, android.util.AttributeSet)/context">context</span><span class="symbol">:</span>&nbsp;<a href="https://developer.android.com/reference/android/content/Context.html"><span class="identifier">Context</span></a><span class="symbol">?</span><span class="symbol">, </span><span class="identifier" id="com.schibsted.account.ui.ui.component.PasswordView$<init>(android.content.Context, android.util.AttributeSet)/attrs">attrs</span><span class="symbol">:</span>&nbsp;<a href="https://developer.android.com/reference/android/util/AttributeSet.html"><span class="identifier">AttributeSet</span></a><span class="symbol">?</span><span class="symbol">)</span></code></td>
+<code><span class="identifier">PasswordView</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.ui.ui.component.PasswordView$<init>(android.content.Context)/context">context</span><span class="symbol">:</span>&nbsp;<a href="https://developer.android.com/reference/android/content/Context.html"><span class="identifier">Context</span></a><span class="symbol">)</span></code><br/>
+<code><span class="identifier">PasswordView</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.ui.ui.component.PasswordView$<init>(android.content.Context, android.util.AttributeSet)/context">context</span><span class="symbol">:</span>&nbsp;<a href="https://developer.android.com/reference/android/content/Context.html"><span class="identifier">Context</span></a><span class="symbol">, </span><span class="identifier" id="com.schibsted.account.ui.ui.component.PasswordView$<init>(android.content.Context, android.util.AttributeSet)/attrs">attrs</span><span class="symbol">:</span>&nbsp;<a href="https://developer.android.com/reference/android/util/AttributeSet.html"><span class="identifier">AttributeSet</span></a><span class="symbol">?</span><span class="symbol">)</span></code></td>
 </tr>
 </tbody>
 </table>
@@ -27,10 +27,17 @@
 <tbody>
 <tr>
 <td>
-<p><a href="../-input-field-view/is-error-visible.html">isErrorVisible</a></p>
+<p><a href="../-single-field-view/input-field.html">inputField</a></p>
 </td>
 <td>
-<code><span class="keyword">open</span> <span class="keyword">val </span><span class="identifier">isErrorVisible</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><span class="identifier">Boolean</span></a></code></td>
+<code><span class="keyword">var </span><span class="identifier">inputField</span><span class="symbol">: </span><a href="https://developer.android.com/reference/android/widget/EditText.html"><span class="identifier">EditText</span></a></code></td>
+</tr>
+<tr>
+<td>
+<p><a href="../-single-field-view/is-cancelable.html">isCancelable</a></p>
+</td>
+<td>
+<code><span class="keyword">var </span><span class="identifier">isCancelable</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><span class="identifier">Boolean</span></a></code></td>
 </tr>
 </tbody>
 </table>
@@ -39,23 +46,14 @@
 <tbody>
 <tr>
 <td>
-<p><a href="../-input-field-view/get-input.html">getInput</a></p>
+<p><a href="../-single-field-view/get-input.html">getInput</a></p>
 </td>
 <td>
-<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">getInput</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">?</span></code>
-<p>Provides the input</p>
-</td>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">getInput</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">?</span></code></td>
 </tr>
 <tr>
 <td>
-<p><a href="../-input-field-view/get-input-view.html">getInputView</a></p>
-</td>
-<td>
-<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">getInputView</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://developer.android.com/reference/android/widget/EditText.html"><span class="identifier">EditText</span></a></code></td>
-</tr>
-<tr>
-<td>
-<p><a href="../-input-field-view/hide-error-view.html">hideErrorView</a></p>
+<p><a href="../-single-field-view/hide-error-view.html">hideErrorView</a></p>
 </td>
 <td>
 <code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">hideErrorView</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code>
@@ -64,83 +62,46 @@
 </tr>
 <tr>
 <td>
-<p><a href="../-input-field-view/is-input-valid.html">isInputValid</a></p>
+<p><a href="../-single-field-view/is-input-valid.html">isInputValid</a></p>
 </td>
 <td>
 <code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">isInputValid</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><span class="identifier">Boolean</span></a></code></td>
 </tr>
 <tr>
 <td>
-<p><a href="../-input-field-view/reset.html">reset</a></p>
+<p><a href="../-single-field-view/reset.html">reset</a></p>
 </td>
 <td>
-<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">reset</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code></td>
+<code><span class="keyword">fun </span><span class="identifier">reset</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code></td>
 </tr>
 <tr>
 <td>
-<p><a href="../-input-field-view/set-cancelable.html">setCancelable</a></p>
+<p><a href="../-single-field-view/set-ime-action.html">setImeAction</a></p>
 </td>
 <td>
-<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">setCancelable</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.ui.ui.component.InputFieldView$setCancelable(kotlin.Boolean)/isCancelable">isCancelable</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><span class="identifier">Boolean</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code></td>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">setImeAction</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.ui.ui.component.SingleFieldView$setImeAction(kotlin.Int, android.widget.TextView.OnEditorActionListener)/imeOption">imeOption</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html"><span class="identifier">Int</span></a><span class="symbol">, </span><span class="identifier" id="com.schibsted.account.ui.ui.component.SingleFieldView$setImeAction(kotlin.Int, android.widget.TextView.OnEditorActionListener)/editorActionListener">editorActionListener</span><span class="symbol">:</span>&nbsp;<a href="https://developer.android.com/reference/android/widget/TextView/OnEditorActionListener.html"><span class="identifier">OnEditorActionListener</span></a><span class="symbol">?</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code></td>
 </tr>
 <tr>
 <td>
-<p><a href="../-input-field-view/set-error.html">setError</a></p>
+<p><a href="../-single-field-view/set-information-message.html">setInformationMessage</a></p>
 </td>
 <td>
-<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">setError</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.ui.ui.component.InputFieldView$setError(kotlin.Int)/message">message</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html"><span class="identifier">Int</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code><br/>
-<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">setError</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.ui.ui.component.InputFieldView$setError(kotlin.String)/message">message</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code></td>
+<code><span class="keyword">fun </span><span class="identifier">setInformationMessage</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.ui.ui.component.SingleFieldView$setInformationMessage(kotlin.String)/message">message</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code></td>
 </tr>
 <tr>
 <td>
-<p><a href="../-input-field-view/set-ime-action.html">setImeAction</a></p>
+<p><a href="../-single-field-view/set-text-watcher.html">setTextWatcher</a></p>
 </td>
 <td>
-<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">setImeAction</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.ui.ui.component.InputFieldView$setImeAction(kotlin.Int, android.widget.TextView.OnEditorActionListener)/imeOption">imeOption</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html"><span class="identifier">Int</span></a><span class="symbol">, </span><span class="identifier" id="com.schibsted.account.ui.ui.component.InputFieldView$setImeAction(kotlin.Int, android.widget.TextView.OnEditorActionListener)/editorActionListener">editorActionListener</span><span class="symbol">:</span>&nbsp;<a href="https://developer.android.com/reference/android/widget/TextView/OnEditorActionListener.html"><span class="identifier">OnEditorActionListener</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code></td>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">setTextWatcher</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.ui.ui.component.SingleFieldView$setTextWatcher(android.text.TextWatcher)/textWatcher">textWatcher</span><span class="symbol">:</span>&nbsp;<a href="https://developer.android.com/reference/android/text/TextWatcher.html"><span class="identifier">TextWatcher</span></a><span class="symbol">?</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code></td>
 </tr>
 <tr>
 <td>
-<p><a href="../-input-field-view/set-info-text.html">setInfoText</a></p>
-</td>
-<td>
-<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">setInfoText</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.ui.ui.component.InputFieldView$setInfoText(kotlin.String)/infoText">infoText</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code></td>
-</tr>
-<tr>
-<td>
-<p><a href="../-input-field-view/set-information-message.html">setInformationMessage</a></p>
-</td>
-<td>
-<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">setInformationMessage</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.ui.ui.component.InputFieldView$setInformationMessage(kotlin.String)/message">message</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code></td>
-</tr>
-<tr>
-<td>
-<p><a href="../-input-field-view/set-text-watcher.html">setTextWatcher</a></p>
-</td>
-<td>
-<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">setTextWatcher</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.ui.ui.component.InputFieldView$setTextWatcher(android.text.TextWatcher)/textWatcher">textWatcher</span><span class="symbol">:</span>&nbsp;<a href="https://developer.android.com/reference/android/text/TextWatcher.html"><span class="identifier">TextWatcher</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code></td>
-</tr>
-<tr>
-<td>
-<p><a href="../-input-field-view/set-title.html">setTitle</a></p>
-</td>
-<td>
-<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">setTitle</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.ui.ui.component.InputFieldView$setTitle(kotlin.Int)/label">label</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html"><span class="identifier">Int</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code><br/>
-<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">setTitle</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.ui.ui.component.InputFieldView$setTitle(kotlin.String)/title">title</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code></td>
-</tr>
-<tr>
-<td>
-<p><a href="../-input-field-view/set-validation-rule.html">setValidationRule</a></p>
-</td>
-<td>
-<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">setValidationRule</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.ui.ui.component.InputFieldView$setValidationRule(com.schibsted.account.ui.ui.rule.ValidationRule)/validationRule">validationRule</span><span class="symbol">:</span>&nbsp;<a href="../../com.schibsted.account.ui.ui.rule/-validation-rule/index.html"><span class="identifier">ValidationRule</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code></td>
-</tr>
-<tr>
-<td>
-<p><a href="../-input-field-view/show-error-view.html">showErrorView</a></p>
+<p><a href="../-single-field-view/show-error-view.html">showErrorView</a></p>
 </td>
 <td>
 <code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">showErrorView</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code>
-<p>Show an error TextView and modify the background of this view accordingly.</p>
+<p>Show an error {@link TextView} and modify the background of this view accordingly.</p>
 </td>
 </tr>
 </tbody>

@@ -17,7 +17,7 @@
 <p><a href="is-error-visible.html">isErrorVisible</a></p>
 </td>
 <td>
-<code><span class="keyword">abstract</span> <span class="keyword">val </span><span class="identifier">isErrorVisible</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><span class="identifier">Boolean</span></a></code>
+<code><span class="keyword">abstract</span> <span class="keyword">var </span><span class="identifier">isErrorVisible</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><span class="identifier">Boolean</span></a></code>
 <p>Checks if an error view is currently displayed</p>
 </td>
 </tr>
@@ -59,21 +59,19 @@
 <tbody>
 <tr>
 <td>
-<p><a href="../../com.schibsted.account.ui.ui.component/-check-box-view/index.html">CheckBoxView</a></p>
-</td>
-<td>
-<code><span class="keyword">open</span> <span class="keyword">class </span><span class="identifier">CheckBoxView</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="https://developer.android.com/reference/android/widget/LinearLayout.html"><span class="identifier">LinearLayout</span></a><span class="symbol">, </span><a href="./index.html"><span class="identifier">ErrorField</span></a></code>
-<p>Defines a custom checkbox error resources and attach a text to this checkbox If you have a android.text.style.ClickableSpan inside your text you should use this class rather than CheckBox in order to avoid to give a focus to the android.text.style.ClickableSpan when clicking on the CheckBox</p>
-</td>
-</tr>
-<tr>
-<td>
 <p><a href="../-input-field/index.html">InputField</a></p>
 </td>
 <td>
 <code><span class="keyword">interface </span><span class="identifier">InputField</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="./index.html"><span class="identifier">ErrorField</span></a></code>
 <p>Describes an input field which is entitled to prevent access to its content if it is considered invalid. Implementations should verify their input before potentially providing it.</p>
 </td>
+</tr>
+<tr>
+<td>
+<p><a href="../../com.schibsted.account.ui.ui.component/-schibsted-view/index.html">SchibstedView</a></p>
+</td>
+<td>
+<code><span class="keyword">abstract</span> <span class="keyword">class </span><span class="identifier">SchibstedView</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="https://developer.android.com/reference/android/widget/LinearLayout.html"><span class="identifier">LinearLayout</span></a><span class="symbol">, </span><a href="./index.html"><span class="identifier">ErrorField</span></a></code></td>
 </tr>
 </tbody>
 </table>

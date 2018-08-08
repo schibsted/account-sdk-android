@@ -8,7 +8,7 @@
 <a href="../../index.html">ui</a>&nbsp;/&nbsp;<a href="../index.html">com.schibsted.account.ui.ui.component</a>&nbsp;/&nbsp;<a href="./index.html">PhoneInputView</a><br/>
 <br/>
 <h1>PhoneInputView</h1>
-<code><span class="keyword">open</span> <span class="keyword">class </span><span class="identifier">PhoneInputView</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="https://developer.android.com/reference/android/widget/LinearLayout.html"><span class="identifier">LinearLayout</span></a><span class="symbol">, </span><a href="../../com.schibsted.account.ui.ui/-input-field/index.html"><span class="identifier">InputField</span></a></code>
+<code><span class="keyword">class </span><span class="identifier">PhoneInputView</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../-field-view/index.html"><span class="identifier">FieldView</span></a></code>
 <p>View use for phone number input</p>
 <h3>Constructors</h3>
 <table>
@@ -18,22 +18,21 @@
 <p><a href="-init-.html">&lt;init&gt;</a></p>
 </td>
 <td>
-<code><span class="identifier">PhoneInputView</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.ui.ui.component.PhoneInputView$<init>(android.content.Context)/context">context</span><span class="symbol">:</span>&nbsp;<a href="https://developer.android.com/reference/android/content/Context.html"><span class="identifier">Context</span></a><span class="symbol">)</span></code><br/>
-<code><span class="identifier">PhoneInputView</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.ui.ui.component.PhoneInputView$<init>(android.content.Context, android.util.AttributeSet)/context">context</span><span class="symbol">:</span>&nbsp;<a href="https://developer.android.com/reference/android/content/Context.html"><span class="identifier">Context</span></a><span class="symbol">, </span><span class="identifier" id="com.schibsted.account.ui.ui.component.PhoneInputView$<init>(android.content.Context, android.util.AttributeSet)/attrs">attrs</span><span class="symbol">:</span>&nbsp;<a href="https://developer.android.com/reference/android/util/AttributeSet.html"><span class="identifier">AttributeSet</span></a><span class="symbol">)</span></code>
-<p>Constructor</p>
+<code><span class="identifier">PhoneInputView</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.ui.ui.component.PhoneInputView$<init>(android.content.Context, android.util.AttributeSet)/context">context</span><span class="symbol">:</span>&nbsp;<a href="https://developer.android.com/reference/android/content/Context.html"><span class="identifier">Context</span></a><span class="symbol">?</span><span class="symbol">, </span><span class="identifier" id="com.schibsted.account.ui.ui.component.PhoneInputView$<init>(android.content.Context, android.util.AttributeSet)/attrs">attrs</span><span class="symbol">:</span>&nbsp;<a href="https://developer.android.com/reference/android/util/AttributeSet.html"><span class="identifier">AttributeSet</span></a><span class="symbol">?</span>&nbsp;<span class="symbol">=</span>&nbsp;null<span class="symbol">)</span></code>
+<p>View use for phone number input</p>
 </td>
 </tr>
 </tbody>
 </table>
-<h3>Properties</h3>
+<h3>Inherited Properties</h3>
 <table>
 <tbody>
 <tr>
 <td>
-<p><a href="is-error-visible.html">isErrorVisible</a></p>
+<p><a href="../-field-view/validation-rule.html">validationRule</a></p>
 </td>
 <td>
-<code><span class="keyword">open</span> <span class="keyword">val </span><span class="identifier">isErrorVisible</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><span class="identifier">Boolean</span></a></code></td>
+<code><span class="keyword">lateinit</span> <span class="keyword">var </span><span class="identifier">validationRule</span><span class="symbol">: </span><a href="../../com.schibsted.account.ui.ui.rule/-validation-rule/index.html"><span class="identifier">ValidationRule</span></a></code></td>
 </tr>
 </tbody>
 </table>
@@ -45,7 +44,7 @@
 <p><a href="get-input.html">getInput</a></p>
 </td>
 <td>
-<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">getInput</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">?</span></code>
+<code><span class="keyword">fun </span><span class="identifier">getInput</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">?</span></code>
 <p>Provides the input</p>
 </td>
 </tr>
@@ -54,15 +53,17 @@
 <p><a href="hide-error-view.html">hideErrorView</a></p>
 </td>
 <td>
-<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">hideErrorView</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code></td>
+<code><span class="keyword">fun </span><span class="identifier">hideErrorView</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code></td>
 </tr>
 <tr>
 <td>
 <p><a href="is-input-valid.html">isInputValid</a></p>
 </td>
 <td>
-<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">isInputValid</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><span class="identifier">Boolean</span></a></code>
-<p>Verifies if the input is a valid. To be valid the input should not be empty, should only contain digits after the first character, and should not be equal to the default prefix provided by the client.</p>
+<code><span class="keyword">fun </span><span class="identifier">isInputValid</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><span class="identifier">Boolean</span></a></code>
+<p>Verifies if the input is a valid.
+To be valid the input should not be empty, should only contain digits after the first character,
+and should not be equal to the default prefix provided by the client.</p>
 </td>
 </tr>
 <tr>
@@ -70,57 +71,43 @@
 <p><a href="reset.html">reset</a></p>
 </td>
 <td>
-<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">reset</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code></td>
+<code><span class="keyword">fun </span><span class="identifier">reset</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code></td>
 </tr>
 <tr>
 <td>
 <p><a href="set-error.html">setError</a></p>
 </td>
 <td>
-<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">setError</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.ui.ui.component.PhoneInputView$setError(kotlin.Int)/message">message</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html"><span class="identifier">Int</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code><br/>
-<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">setError</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.ui.ui.component.PhoneInputView$setError(kotlin.String)/message">message</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code></td>
+<code><span class="keyword">fun </span><span class="identifier">setError</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.ui.ui.component.PhoneInputView$setError(kotlin.Int)/message">message</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html"><span class="identifier">Int</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code><br/>
+<code><span class="keyword">fun </span><span class="identifier">setError</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.ui.ui.component.PhoneInputView$setError(kotlin.String)/message">message</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code></td>
 </tr>
 <tr>
 <td>
 <p><a href="set-ime-action.html">setImeAction</a></p>
 </td>
 <td>
-<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">setImeAction</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.ui.ui.component.PhoneInputView$setImeAction(kotlin.Int, android.widget.TextView.OnEditorActionListener)/imeOption">imeOption</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html"><span class="identifier">Int</span></a><span class="symbol">, </span><span class="identifier" id="com.schibsted.account.ui.ui.component.PhoneInputView$setImeAction(kotlin.Int, android.widget.TextView.OnEditorActionListener)/editorActionListener">editorActionListener</span><span class="symbol">:</span>&nbsp;<a href="https://developer.android.com/reference/android/widget/TextView/OnEditorActionListener.html"><span class="identifier">OnEditorActionListener</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code></td>
+<code><span class="keyword">fun </span><span class="identifier">setImeAction</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.ui.ui.component.PhoneInputView$setImeAction(kotlin.Int, android.widget.TextView.OnEditorActionListener)/imeOption">imeOption</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html"><span class="identifier">Int</span></a><span class="symbol">, </span><span class="identifier" id="com.schibsted.account.ui.ui.component.PhoneInputView$setImeAction(kotlin.Int, android.widget.TextView.OnEditorActionListener)/editorActionListener">editorActionListener</span><span class="symbol">:</span>&nbsp;<a href="https://developer.android.com/reference/android/widget/TextView/OnEditorActionListener.html"><span class="identifier">OnEditorActionListener</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code></td>
 </tr>
 <tr>
 <td>
 <p><a href="set-phone-number.html">setPhoneNumber</a></p>
 </td>
 <td>
-<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">setPhoneNumber</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.ui.ui.component.PhoneInputView$setPhoneNumber(kotlin.String)/phoneNumber">phoneNumber</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code></td>
-</tr>
-<tr>
-<td>
-<p><a href="set-phone-prefix.html">setPhonePrefix</a></p>
-</td>
-<td>
-<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">setPhonePrefix</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.ui.ui.component.PhoneInputView$setPhonePrefix(kotlin.Int)/phonePrefix">phonePrefix</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html"><span class="identifier">Int</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code></td>
-</tr>
-<tr>
-<td>
-<p><a href="set-phone-prefix-hint.html">setPhonePrefixHint</a></p>
-</td>
-<td>
-<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">setPhonePrefixHint</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.ui.ui.component.PhoneInputView$setPhonePrefixHint(kotlin.Int)/phonePrefix">phonePrefix</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html"><span class="identifier">Int</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code></td>
+<code><span class="keyword">fun </span><span class="identifier">setPhoneNumber</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.ui.ui.component.PhoneInputView$setPhoneNumber(kotlin.String)/phoneNumber">phoneNumber</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code></td>
 </tr>
 <tr>
 <td>
 <p><a href="set-text-watcher.html">setTextWatcher</a></p>
 </td>
 <td>
-<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">setTextWatcher</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.ui.ui.component.PhoneInputView$setTextWatcher(android.text.TextWatcher)/textWatcher">textWatcher</span><span class="symbol">:</span>&nbsp;<a href="https://developer.android.com/reference/android/text/TextWatcher.html"><span class="identifier">TextWatcher</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code></td>
+<code><span class="keyword">fun </span><span class="identifier">setTextWatcher</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.ui.ui.component.PhoneInputView$setTextWatcher(android.text.TextWatcher)/textWatcher">textWatcher</span><span class="symbol">:</span>&nbsp;<a href="https://developer.android.com/reference/android/text/TextWatcher.html"><span class="identifier">TextWatcher</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code></td>
 </tr>
 <tr>
 <td>
 <p><a href="show-error-view.html">showErrorView</a></p>
 </td>
 <td>
-<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">showErrorView</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code></td>
+<code><span class="keyword">fun </span><span class="identifier">showErrorView</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code></td>
 </tr>
 </tbody>
 </table>

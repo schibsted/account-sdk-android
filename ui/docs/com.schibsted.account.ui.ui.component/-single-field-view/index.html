@@ -1,0 +1,165 @@
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>SingleFieldView - ui</title>
+<link rel="stylesheet" href="../../../style.css">
+</HEAD>
+<BODY>
+<a href="../../index.html">ui</a>&nbsp;/&nbsp;<a href="../index.html">com.schibsted.account.ui.ui.component</a>&nbsp;/&nbsp;<a href="./index.html">SingleFieldView</a><br/>
+<br/>
+<h1>SingleFieldView</h1>
+<code><span class="keyword">open</span> <span class="keyword">class </span><span class="identifier">SingleFieldView</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../-field-view/index.html"><span class="identifier">FieldView</span></a></code>
+<h3>Types</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="-builder/index.html">Builder</a></p>
+</td>
+<td>
+<code><span class="keyword">class </span><span class="identifier">Builder</span></code></td>
+</tr>
+</tbody>
+</table>
+<h3>Constructors</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="-init-.html">&lt;init&gt;</a></p>
+</td>
+<td>
+<code><span class="identifier">SingleFieldView</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.ui.ui.component.SingleFieldView$<init>(android.content.Context)/context">context</span><span class="symbol">:</span>&nbsp;<a href="https://developer.android.com/reference/android/content/Context.html"><span class="identifier">Context</span></a><span class="symbol">?</span><span class="symbol">)</span></code><br/>
+<code><span class="identifier">SingleFieldView</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.ui.ui.component.SingleFieldView$<init>(android.content.Context, android.util.AttributeSet)/context">context</span><span class="symbol">:</span>&nbsp;<a href="https://developer.android.com/reference/android/content/Context.html"><span class="identifier">Context</span></a><span class="symbol">?</span><span class="symbol">, </span><span class="identifier" id="com.schibsted.account.ui.ui.component.SingleFieldView$<init>(android.content.Context, android.util.AttributeSet)/attrs">attrs</span><span class="symbol">:</span>&nbsp;<a href="https://developer.android.com/reference/android/util/AttributeSet.html"><span class="identifier">AttributeSet</span></a><span class="symbol">?</span><span class="symbol">)</span></code></td>
+</tr>
+</tbody>
+</table>
+<h3>Properties</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="input-field.html">inputField</a></p>
+</td>
+<td>
+<code><span class="keyword">var </span><span class="identifier">inputField</span><span class="symbol">: </span><a href="https://developer.android.com/reference/android/widget/EditText.html"><span class="identifier">EditText</span></a></code></td>
+</tr>
+<tr>
+<td>
+<p><a href="is-cancelable.html">isCancelable</a></p>
+</td>
+<td>
+<code><span class="keyword">var </span><span class="identifier">isCancelable</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><span class="identifier">Boolean</span></a></code></td>
+</tr>
+</tbody>
+</table>
+<h3>Inherited Properties</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="../-field-view/validation-rule.html">validationRule</a></p>
+</td>
+<td>
+<code><span class="keyword">lateinit</span> <span class="keyword">var </span><span class="identifier">validationRule</span><span class="symbol">: </span><a href="../../com.schibsted.account.ui.ui.rule/-validation-rule/index.html"><span class="identifier">ValidationRule</span></a></code></td>
+</tr>
+</tbody>
+</table>
+<h3>Functions</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="get-input.html">getInput</a></p>
+</td>
+<td>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">getInput</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">?</span></code></td>
+</tr>
+<tr>
+<td>
+<p><a href="hide-error-view.html">hideErrorView</a></p>
+</td>
+<td>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">hideErrorView</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code>
+<p>hide the previously displayed error and modify the background of this view accordingly.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="is-input-valid.html">isInputValid</a></p>
+</td>
+<td>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">isInputValid</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><span class="identifier">Boolean</span></a></code></td>
+</tr>
+<tr>
+<td>
+<p><a href="reset.html">reset</a></p>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">reset</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code></td>
+</tr>
+<tr>
+<td>
+<p><a href="set-ime-action.html">setImeAction</a></p>
+</td>
+<td>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">setImeAction</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.ui.ui.component.SingleFieldView$setImeAction(kotlin.Int, android.widget.TextView.OnEditorActionListener)/imeOption">imeOption</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html"><span class="identifier">Int</span></a><span class="symbol">, </span><span class="identifier" id="com.schibsted.account.ui.ui.component.SingleFieldView$setImeAction(kotlin.Int, android.widget.TextView.OnEditorActionListener)/editorActionListener">editorActionListener</span><span class="symbol">:</span>&nbsp;<a href="https://developer.android.com/reference/android/widget/TextView/OnEditorActionListener.html"><span class="identifier">OnEditorActionListener</span></a><span class="symbol">?</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code></td>
+</tr>
+<tr>
+<td>
+<p><a href="set-information-message.html">setInformationMessage</a></p>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">setInformationMessage</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.ui.ui.component.SingleFieldView$setInformationMessage(kotlin.String)/message">message</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code></td>
+</tr>
+<tr>
+<td>
+<p><a href="set-text-watcher.html">setTextWatcher</a></p>
+</td>
+<td>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">setTextWatcher</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.ui.ui.component.SingleFieldView$setTextWatcher(android.text.TextWatcher)/textWatcher">textWatcher</span><span class="symbol">:</span>&nbsp;<a href="https://developer.android.com/reference/android/text/TextWatcher.html"><span class="identifier">TextWatcher</span></a><span class="symbol">?</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code></td>
+</tr>
+<tr>
+<td>
+<p><a href="show-error-view.html">showErrorView</a></p>
+</td>
+<td>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">showErrorView</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code>
+<p>Show an error {@link TextView} and modify the background of this view accordingly.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3>Companion Object Functions</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="create.html">create</a></p>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">create</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.ui.ui.component.SingleFieldView.Companion$create(android.content.Context, kotlin.Function1((com.schibsted.account.ui.ui.component.SingleFieldView.Builder, kotlin.Unit)))/context">context</span><span class="symbol">:</span>&nbsp;<a href="https://developer.android.com/reference/android/content/Context.html"><span class="identifier">Context</span></a><span class="symbol">?</span><span class="symbol">, </span><span class="identifier" id="com.schibsted.account.ui.ui.component.SingleFieldView.Companion$create(android.content.Context, kotlin.Function1((com.schibsted.account.ui.ui.component.SingleFieldView.Builder, kotlin.Unit)))/init">init</span><span class="symbol">:</span>&nbsp;<a href="-builder/index.html"><span class="identifier">Builder</span></a><span class="symbol">.</span><span class="symbol">(</span><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="./index.html"><span class="identifier">SingleFieldView</span></a></code></td>
+</tr>
+</tbody>
+</table>
+<h3>Inheritors</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="../-birthday-input-view/index.html">BirthdayInputView</a></p>
+</td>
+<td>
+<code><span class="keyword">class </span><span class="identifier">BirthdayInputView</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="./index.html"><span class="identifier">SingleFieldView</span></a></code></td>
+</tr>
+<tr>
+<td>
+<p><a href="../-password-view/index.html">PasswordView</a></p>
+</td>
+<td>
+<code><span class="keyword">class </span><span class="identifier">PasswordView</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="./index.html"><span class="identifier">SingleFieldView</span></a></code></td>
+</tr>
+</tbody>
+</table>
+</BODY>
+</HTML>

@@ -23,15 +23,18 @@
 <p><a href="-birthday-input-view/index.html">BirthdayInputView</a></p>
 </td>
 <td>
-<code><span class="keyword">class </span><span class="identifier">BirthdayInputView</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="-input-field-view/index.html"><span class="identifier">InputFieldView</span></a></code></td>
+<code><span class="keyword">class </span><span class="identifier">BirthdayInputView</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="-single-field-view/index.html"><span class="identifier">SingleFieldView</span></a></code></td>
 </tr>
 <tr>
 <td>
 <p><a href="-check-box-view/index.html">CheckBoxView</a></p>
 </td>
 <td>
-<code><span class="keyword">open</span> <span class="keyword">class </span><span class="identifier">CheckBoxView</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="https://developer.android.com/reference/android/widget/LinearLayout.html"><span class="identifier">LinearLayout</span></a><span class="symbol">, </span><a href="../com.schibsted.account.ui.ui/-error-field/index.html"><span class="identifier">ErrorField</span></a></code>
-<p>Defines a custom checkbox error resources and attach a text to this checkbox If you have a android.text.style.ClickableSpan inside your text you should use this class rather than CheckBox in order to avoid to give a focus to the android.text.style.ClickableSpan when clicking on the CheckBox</p>
+<code><span class="keyword">class </span><span class="identifier">CheckBoxView</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="-schibsted-view/index.html"><span class="identifier">SchibstedView</span></a></code>
+<p>Defines a custom checkbox error resources and attach a text to this checkbox
+If you have a <a href="https://developer.android.com/reference/android/text/style/ClickableSpan.html">android.text.style.ClickableSpan</a> inside your text you should use
+this class rather than <a href="https://developer.android.com/reference/android/widget/CheckBox.html">CheckBox</a> in order to avoid to give a focus to the <a href="https://developer.android.com/reference/android/text/style/ClickableSpan.html">android.text.style.ClickableSpan</a>
+when clicking on the <a href="https://developer.android.com/reference/android/widget/CheckBox.html">CheckBox</a></p>
 </td>
 </tr>
 <tr>
@@ -39,7 +42,7 @@
 <p><a href="-code-input-view/index.html">CodeInputView</a></p>
 </td>
 <td>
-<code><span class="keyword">open</span> <span class="keyword">class </span><span class="identifier">CodeInputView</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="https://developer.android.com/reference/android/widget/RelativeLayout.html"><span class="identifier">RelativeLayout</span></a><span class="symbol">, </span><a href="../com.schibsted.account.ui.ui/-input-field/index.html"><span class="identifier">InputField</span></a><span class="symbol">, </span><a href="https://developer.android.com/reference/android/view/View/OnClickListener.html"><span class="identifier">OnClickListener</span></a><span class="symbol">, </span><a href="-custom-edit-text/-key-event-listener/index.html"><span class="identifier">KeyEventListener</span></a></code>
+<code><span class="keyword">class </span><span class="identifier">CodeInputView</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="-field-view/index.html"><span class="identifier">FieldView</span></a><span class="symbol">, </span><a href="https://developer.android.com/reference/android/view/View/OnClickListener.html"><span class="identifier">OnClickListener</span></a><span class="symbol">, </span><a href="-custom-edit-text/-key-event-listener/index.html"><span class="identifier">KeyEventListener</span></a><span class="symbol">, </span><a href="https://developer.android.com/reference/android/view/View/OnLongClickListener.html"><span class="identifier">OnLongClickListener</span></a></code>
 <p>Widget made to allow the user to enter a 6 digits code</p>
 </td>
 </tr>
@@ -57,12 +60,10 @@ https://developer.android.com/reference/android/view/KeyEvent.html</p>
 </tr>
 <tr>
 <td>
-<p><a href="-input-field-view/index.html">InputFieldView</a></p>
+<p><a href="-field-view/index.html">FieldView</a></p>
 </td>
 <td>
-<code><span class="keyword">open</span> <span class="keyword">class </span><span class="identifier">InputFieldView</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="https://developer.android.com/reference/android/widget/LinearLayout.html"><span class="identifier">LinearLayout</span></a><span class="symbol">, </span><a href="../com.schibsted.account.ui.ui/-input-field/index.html"><span class="identifier">InputField</span></a></code>
-<p>Base class for creating a cancelable input view, a cancelable input view allow you to erase the text of <code><a href="#">#inputField</a></code> thanks to a cross on the right of the field.</p>
-</td>
+<code><span class="keyword">abstract</span> <span class="keyword">class </span><span class="identifier">FieldView</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="-schibsted-view/index.html"><span class="identifier">SchibstedView</span></a><span class="symbol">, </span><a href="../com.schibsted.account.ui.ui/-input-field/index.html"><span class="identifier">InputField</span></a></code></td>
 </tr>
 <tr>
 <td>
@@ -76,16 +77,30 @@ https://developer.android.com/reference/android/view/KeyEvent.html</p>
 <p><a href="-password-view/index.html">PasswordView</a></p>
 </td>
 <td>
-<code><span class="keyword">class </span><span class="identifier">PasswordView</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="-input-field-view/index.html"><span class="identifier">InputFieldView</span></a></code></td>
+<code><span class="keyword">class </span><span class="identifier">PasswordView</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="-single-field-view/index.html"><span class="identifier">SingleFieldView</span></a></code></td>
 </tr>
 <tr>
 <td>
 <p><a href="-phone-input-view/index.html">PhoneInputView</a></p>
 </td>
 <td>
-<code><span class="keyword">open</span> <span class="keyword">class </span><span class="identifier">PhoneInputView</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="https://developer.android.com/reference/android/widget/LinearLayout.html"><span class="identifier">LinearLayout</span></a><span class="symbol">, </span><a href="../com.schibsted.account.ui.ui/-input-field/index.html"><span class="identifier">InputField</span></a></code>
+<code><span class="keyword">class </span><span class="identifier">PhoneInputView</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="-field-view/index.html"><span class="identifier">FieldView</span></a></code>
 <p>View use for phone number input</p>
 </td>
+</tr>
+<tr>
+<td>
+<p><a href="-schibsted-view/index.html">SchibstedView</a></p>
+</td>
+<td>
+<code><span class="keyword">abstract</span> <span class="keyword">class </span><span class="identifier">SchibstedView</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="https://developer.android.com/reference/android/widget/LinearLayout.html"><span class="identifier">LinearLayout</span></a><span class="symbol">, </span><a href="../com.schibsted.account.ui.ui/-error-field/index.html"><span class="identifier">ErrorField</span></a></code></td>
+</tr>
+<tr>
+<td>
+<p><a href="-single-field-view/index.html">SingleFieldView</a></p>
+</td>
+<td>
+<code><span class="keyword">open</span> <span class="keyword">class </span><span class="identifier">SingleFieldView</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="-field-view/index.html"><span class="identifier">FieldView</span></a></code></td>
 </tr>
 </tbody>
 </table>
