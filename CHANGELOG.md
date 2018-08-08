@@ -1,3 +1,8 @@
+## v.1.1.0 (2018-08-08)
+- Added the possibility to copy-paste code during passwordless flow(#320)
+- Added the possibility to get user's subscriptions(#319)
+- Fixed an issue where the loading screen was displayed two times(#322)
+
 ## v1.0.4 (2018-07-27)
 - Fixed issue where presenters were not initialized (#310)
 
