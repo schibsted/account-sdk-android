@@ -4,8 +4,6 @@
 
 package com.schibsted.account.ui.ui.rule
 
-import android.text.TextUtils
-
 private const val PLUS_PREFIX = "+"
 
 object MobileValidationRule : ValidationRule {
@@ -22,7 +20,7 @@ object MobileValidationRule : ValidationRule {
             if (input.length >= 2) {
                 val prefix = input.substring(0, 1)
                 val number = input.substring(1)
-                return number.isNotEmpty() && TextUtils.isDigitsOnly(number) && prefix == PLUS_PREFIX
+                return number.isNotEmpty() && number.toIntOrNull() != null && prefix == PLUS_PREFIX
             }
         }
         return false

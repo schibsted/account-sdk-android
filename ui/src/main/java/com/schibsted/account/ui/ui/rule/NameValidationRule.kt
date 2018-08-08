@@ -7,7 +7,7 @@ package com.schibsted.account.ui.ui.rule
 object NameValidationRule : ValidationRule {
     override fun isValid(input: String?): Boolean {
         input?.let {
-            return input.isNotEmpty() && !input.contains("\\d+")
+            return input.isNotEmpty() && !input.contains("\\d+".toRegex())
         }
         return false
     }
