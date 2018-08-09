@@ -27,8 +27,7 @@ import com.schibsted.account.util.DateUtils
 import io.kotlintest.forAll
 import io.kotlintest.matchers.haveSubstring
 import io.kotlintest.matchers.should
-import io.kotlintest.matchers.shouldBe
-import io.kotlintest.matchers.shouldEqual
+import io.kotlintest.shouldBe
 import io.kotlintest.specs.StringSpec
 import java.util.Date
 import java.util.Calendar
@@ -153,7 +152,7 @@ class UserPersistenceTest : StringSpec({
             date?.before(maxDate) shouldBe true
         }
 
-        storedValues.last() shouldEqual up.acceptedAgreementsCache
+        storedValues.last() shouldBe up.acceptedAgreementsCache
     }
 
     "resumeSession should use a valid cached result if available" {

@@ -45,7 +45,7 @@ dependencies {
 
     testImplementation "org.assertj:assertj-core:${libs.assertJ}"
     testImplementation "com.nhaarman:mockito-kotlin:${libs.mockitoKotlin}"
-    testImplementation "io.kotlintest:kotlintest:${libs.kotlintest}"
+    testImplementation "io.kotlintest:kotlintest-runner-junit5:${libs.kotlintest}"
     testImplementation "junit:junit:${libs.jUnit}"
     testImplementation "org.jetbrains.kotlin:kotlin-test-junit:${libs.kotlin}"
 

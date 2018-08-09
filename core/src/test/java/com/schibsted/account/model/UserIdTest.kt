@@ -7,9 +7,8 @@ package com.schibsted.account.model
 import com.google.gson.Gson
 import com.google.gson.JsonParser
 import com.schibsted.account.test.TestUtil
-import io.kotlintest.matchers.shouldBe
-import io.kotlintest.matchers.shouldEqual
-import io.kotlintest.matchers.shouldNotBe
+import io.kotlintest.shouldBe
+import io.kotlintest.shouldNotBe
 import io.kotlintest.specs.StringSpec
 
 class UserIdTest : StringSpec({
@@ -32,8 +31,8 @@ class UserIdTest : StringSpec({
     "extractFields should extract fields from json payload" {
         val json = """{"iss":"https:\/\/identity-pre.schibsted.com\/","class":"token.IDToken","exp":1532519567,"iat":1529927567,"sub":"e0616270-2092-5e9d-856b-48e065d4899f","aud":["58cff98f17e59686158b4567","https:\/\/selfservice.identity-pre.schibsted.com\/"],"azp":"58cff98f17e59686158b4567","legacy_user_id":"11099464"}"""
         val res = UserId.extractFields(json)!!
-        res.first shouldEqual "e0616270-2092-5e9d-856b-48e065d4899f"
-        res.second shouldEqual "11099464"
+        res.first shouldBe "e0616270-2092-5e9d-856b-48e065d4899f"
+        res.second shouldBe "11099464"
     }
 
     "extractFields should only return fields from json payload if they match the type" {

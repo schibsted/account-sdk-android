@@ -31,7 +31,7 @@ import com.schibsted.account.network.response.TokenResponse
 import com.schibsted.account.network.service.authentication.OAuthService
 import com.schibsted.account.session.User
 import com.schibsted.account.test.TestUtil
-import io.kotlintest.matchers.fail
+import io.kotlintest.fail
 import io.kotlintest.specs.WordSpec
 import retrofit2.Call
 

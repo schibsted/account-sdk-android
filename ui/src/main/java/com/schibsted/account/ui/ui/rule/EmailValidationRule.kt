@@ -14,6 +14,7 @@ object EmailValidationRule : ValidationRule {
      * @return true if input is valid false otherwise
      */
     override fun isValid(input: String?): Boolean {
-        return Patterns.EMAIL_ADDRESS.matcher(input).matches()
+
+        return input != null && Patterns.EMAIL_ADDRESS.matcher(input).matches()
     }
 }
