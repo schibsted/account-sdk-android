@@ -5,7 +5,7 @@
 package com.schibsted.account.common.util
 
 import io.kotlintest.matchers.haveSubstring
-import io.kotlintest.matchers.shouldNot
+import io.kotlintest.shouldNot
 import io.kotlintest.specs.StringSpec
 
 class UtilTest : StringSpec({

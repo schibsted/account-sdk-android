@@ -5,8 +5,7 @@
 package com.schibsted.account.util
 
 import com.google.gson.GsonBuilder
-import io.kotlintest.matchers.shouldBe
-import io.kotlintest.matchers.shouldEqual
+import io.kotlintest.shouldBe
 import io.kotlintest.specs.StringSpec
 
 private data class Person(val name: String?, val age: Int)
@@ -36,6 +35,6 @@ class TypeSafeStringDeserializerTest : StringSpec({
 
         res1.name shouldBe null
         res2.name shouldBe null
-        res3.name shouldEqual "Ola Nordmann"
+        res3.name shouldBe "Ola Nordmann"
     }
 })

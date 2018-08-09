@@ -4,7 +4,7 @@
 
 package com.schibsted.account.ui.ui.rule
 
-import io.kotlintest.matchers.shouldBe
+import io.kotlintest.shouldBe
 import io.kotlintest.specs.WordSpec
 
 class CodeValidationRuleTest : WordSpec({

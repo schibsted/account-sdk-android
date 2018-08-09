@@ -6,11 +6,11 @@ package com.schibsted.account.persistence
 
 import com.schibsted.account.common.util.Logger
 import io.kotlintest.matchers.beInstanceOf
-import io.kotlintest.matchers.should
-import io.kotlintest.matchers.shouldBe
-import io.kotlintest.matchers.shouldHave
-import io.kotlintest.matchers.shouldNotBe
-import io.kotlintest.matchers.substring
+import io.kotlintest.matchers.haveSubstring
+import io.kotlintest.should
+import io.kotlintest.shouldBe
+import io.kotlintest.shouldHave
+import io.kotlintest.shouldNotBe
 import io.kotlintest.specs.WordSpec
 import java.security.GeneralSecurityException
 import java.security.KeyPair
@@ -80,7 +80,7 @@ class PersistenceEncryptionTest : WordSpec({
             val decRes = encryption.aesDecrypt(encRes!!, aesKey2)
             decRes shouldBe null
 
-            logMessage shouldHave substring("Failed to decrypt")
+            logMessage shouldHave haveSubstring("Failed to decrypt")
             logException should beInstanceOf(GeneralSecurityException::class)
 
             Logger.logWorker = Logger.DEFAULT_LOG_WORKER

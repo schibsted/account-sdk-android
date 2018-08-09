@@ -5,12 +5,12 @@
 package com.schibsted.account.model
 
 import com.schibsted.account.ClientConfiguration
-import com.schibsted.account.network.Environment
 import com.schibsted.account.common.util.Logger
-import io.kotlintest.matchers.shouldBe
-import io.kotlintest.matchers.shouldHave
-import io.kotlintest.matchers.shouldThrow
-import io.kotlintest.matchers.substring
+import com.schibsted.account.network.Environment
+import io.kotlintest.matchers.haveSubstring
+import io.kotlintest.shouldBe
+import io.kotlintest.shouldHave
+import io.kotlintest.shouldThrow
 import io.kotlintest.specs.WordSpec
 
 class ClientConfigurationTest : WordSpec({
@@ -20,9 +20,11 @@ class ClientConfigurationTest : WordSpec({
     val testParams = mapOf("environment" to "https://dev-example.com/", "clientId" to "myId", "clientSecret" to "mySecret")
     val missingParam = mapOf("environment" to "https://dev-example.com/", "clientId" to "myId")
 
-    "should use the manually specified config" {
-        ClientConfiguration.set(testConfig)
-        ClientConfiguration.get() shouldBe testConfig
+    "Client configuration" should {
+        "use the manually specified config" {
+            ClientConfiguration.set(testConfig)
+            ClientConfiguration.get() shouldBe testConfig
+        }
     }
 
     "fromParams" should {
@@ -35,7 +37,7 @@ class ClientConfigurationTest : WordSpec({
                 ClientConfiguration.fromParams(missingParam)
             }
 
-            exception.message!! shouldHave substring("clientSecret")
+            exception.message!! shouldHave haveSubstring("clientSecret")
         }
 
         "translate environment abbrevations to full URLs" {

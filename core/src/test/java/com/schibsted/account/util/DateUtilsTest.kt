@@ -1,7 +1,7 @@
 package com.schibsted.account.util
 
 import io.kotlintest.matchers.beInstanceOf
-import io.kotlintest.matchers.shouldBe
+import io.kotlintest.shouldBe
 import io.kotlintest.specs.WordSpec
 import java.util.Date
 

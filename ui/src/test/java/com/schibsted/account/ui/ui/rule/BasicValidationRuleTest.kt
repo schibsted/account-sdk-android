@@ -3,30 +3,29 @@
  */
 package com.schibsted.account.ui.ui.rule
 
-import io.kotlintest.matchers.shouldBe
+import io.kotlintest.shouldBe
 import io.kotlintest.specs.WordSpec
 
-class BasicValidationRuleTest : WordSpec( {
+class BasicValidationRuleTest : WordSpec({
     "the input" should {
-        "not be valid if empty "{
+        "not be valid if empty " {
             BasicValidationRule.isValid("") shouldBe false
         }
 
-        "not be valid if null "{
+        "not be valid if null " {
             BasicValidationRule.isValid(null) shouldBe false
         }
 
-        "be valid if alphanumeric "{
+        "be valid if alphanumeric " {
             BasicValidationRule.isValid("sd23") shouldBe true
         }
 
-        "be valid if numeric "{
+        "be valid if numeric " {
             BasicValidationRule.isValid("23") shouldBe true
         }
 
-        "be valid if alphabetic "{
+        "be valid if alphabetic " {
             BasicValidationRule.isValid("abdc") shouldBe true
         }
-
     }
 })

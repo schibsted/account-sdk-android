@@ -4,9 +4,9 @@
 
 package com.schibsted.account.util
 
-import io.kotlintest.matchers.shouldBe
-import io.kotlintest.matchers.shouldNotBe
-import io.kotlintest.matchers.shouldThrow
+import io.kotlintest.shouldBe
+import io.kotlintest.shouldNotBe
+import io.kotlintest.shouldThrow
 import io.kotlintest.specs.WordSpec
 
 class ConfigurationUtilsTest : WordSpec({

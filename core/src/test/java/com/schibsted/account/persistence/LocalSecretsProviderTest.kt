@@ -9,13 +9,10 @@ import android.content.SharedPreferences
 import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.anyOrNull
 import com.nhaarman.mockito_kotlin.mock
-import io.kotlintest.matchers.shouldBe
-import io.kotlintest.matchers.shouldEqual
-import io.kotlintest.properties.forAll
-import io.kotlintest.properties.headers
-import io.kotlintest.properties.row
-import io.kotlintest.properties.table
+import io.kotlintest.data.forall
+import io.kotlintest.shouldBe
 import io.kotlintest.specs.StringSpec
+import io.kotlintest.tables.row
 import java.util.UUID
 
 class LocalSecretsProviderTest : StringSpec({
@@ -57,29 +54,25 @@ class LocalSecretsProviderTest : StringSpec({
         val lsp = LocalSecretsProvider(mockedContext)
         val firstRes = lsp.put("somedata")
         val secondRes = lsp.put("somedata")
-        firstRes shouldEqual secondRes
+        firstRes shouldBe secondRes
     }
 
     "Stored data should be retrievable from the returned key" {
         val lsp = LocalSecretsProvider(mockedContext)
         val myData = "thisIsMydataThereAreManyLikeIt"
         val res = lsp.put(myData)
-        lsp.get(res) shouldEqual myData
+        lsp.get(res) shouldBe myData
     }
 
     "When exceeding the max items, the oldest should be dropped" {
         val lsp = LocalSecretsProvider(mockedContext, 3)
-
-        val table = table(
-                headers("key", "expected value"),
+        forall(
                 row(lsp.put("MyValue 1"), null as String?),
                 row(lsp.put("MyValue 2"), null as String?),
                 row(lsp.put("MyValue 3"), "MyValue 3" as String?),
                 row(lsp.put("MyValue 4"), "MyValue 4" as String?),
                 row(lsp.put("MyValue 5"), "MyValue 5" as String?)
-        )
-
-        forAll(table) { key, expVal ->
+        ) { key, expVal ->
             lsp.get(key) shouldBe expVal
         }
     }

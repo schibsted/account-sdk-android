@@ -3,8 +3,10 @@
  */
 package com.schibsted.account.ui.ui.rule
 
-import io.kotlintest.matchers.shouldBe
+import io.kotlintest.data.forall
+import io.kotlintest.shouldBe
 import io.kotlintest.specs.WordSpec
+import io.kotlintest.tables.row
 
 class EmailValidationRuleTest : WordSpec({
     "input" should {
@@ -53,17 +55,19 @@ class EmailValidationRuleTest : WordSpec({
         }
 
         "not be valid if it contains special chars" {
-            EmailValidationRule.isValid("me#work@gmail.") shouldBe false
-            EmailValidationRule.isValid("me)work@gmail.") shouldBe false
-            EmailValidationRule.isValid("me?work@gmail.") shouldBe false
-            EmailValidationRule.isValid("me!work@gmail.") shouldBe false
-            EmailValidationRule.isValid("me^work@gmail.") shouldBe false
-            EmailValidationRule.isValid("me&work@gmail.") shouldBe false
-            EmailValidationRule.isValid("me*work@gmail.") shouldBe false
-            EmailValidationRule.isValid("me(work@gmail.") shouldBe false
-            EmailValidationRule.isValid("me[work@gmail.") shouldBe false
-            EmailValidationRule.isValid("me]work@gmail.") shouldBe false
-            EmailValidationRule.isValid("mework@gmail.") shouldBe false
+            forall(
+                    row("me#work@gmail."),
+                    row("me)work@gmail."),
+                    row("me?work@gmail."),
+                    row("me!work@gmail."),
+                    row("me^work@gmail."),
+                    row("me&work@gmail."),
+                    row("me*work@gmail."),
+                    row("me(work@gmail."),
+                    row("me[work@gmail."),
+                    row("me]work@gmail."),
+                    row("mework@gmail.")
+            ) { a -> EmailValidationRule.isValid(a) shouldBe false }
         }
     }
 })

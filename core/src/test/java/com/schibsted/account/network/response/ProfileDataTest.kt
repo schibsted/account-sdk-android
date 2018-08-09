@@ -10,8 +10,8 @@ import com.google.gson.reflect.TypeToken
 import com.schibsted.account.test.TestUtil
 import com.schibsted.account.util.LenientAccountsDeserializer
 import io.kotlintest.matchers.beGreaterThan
-import io.kotlintest.matchers.should
-import io.kotlintest.matchers.shouldBe
+import io.kotlintest.should
+import io.kotlintest.shouldBe
 import io.kotlintest.specs.WordSpec
 
 class ProfileDataTest : WordSpec({
