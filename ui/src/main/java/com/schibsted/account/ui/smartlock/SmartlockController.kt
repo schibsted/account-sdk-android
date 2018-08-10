@@ -15,14 +15,13 @@ import com.schibsted.account.engine.integration.contract.LoginContract
 import com.schibsted.account.ui.AccountUi
 import com.schibsted.account.ui.login.BaseLoginActivity
 
-class SmartlockImpl(private val loginActivity: BaseLoginActivity, private val loginController: LoginController, private val loginContract: LoginContract) : SmartLockCallback {
-    private var uiSmartlockController: UiSmartlockController = UiSmartlockController(loginActivity, this)
-    var isSmartlockResolving: Boolean = false
+class SmartlockController(loginActivity: BaseLoginActivity, private val smartlockReceiver: SmartlockReceiver)  {
+    private var uiSmartlockController: UiSmartlockController = UiSmartlockController(loginActivity, smartlockReceiver)
 
     fun start() {
-        if (!isSmartlockResolving) {
+        if (!smartlockReceiver.isSmartlockResolving.value) {
             uiSmartlockController.requestCredentials()
-            isSmartlockResolving = true
+            smartlockReceiver.isSmartlockResolving.value = true
         }
     }
 
@@ -36,39 +35,17 @@ class SmartlockImpl(private val loginActivity: BaseLoginActivity, private val lo
 
     fun provideCredential(parcelable: Parcelable) {
         uiSmartlockController.convertToIdentityCredential(parcelable)?.let {
-            onCredentialRetrieved(it.identifier.identifier, it.password, it.keepLoggedIn)
-        } ?: onFailure()
+            smartlockReceiver.onCredentialRetrieved(it.identifier.identifier, it.password, it.keepLoggedIn)
+        } ?: smartlockReceiver.onFailure()
     }
 
     fun provideHint(parcelable: Parcelable) {
         uiSmartlockController.extractCredentialData(parcelable)?.first?.let {
-            onHintRetrieved(it)
-        } ?: onFailure()
-    }
-
-    override fun onCredentialRetrieved(id: String, password: String, keepMeLoggedIn: Boolean) {
-        isSmartlockResolving = false
-        loginActivity.smartlockCredentials = Credentials(Identifier(Identifier.IdentifierType.EMAIL, id), password, keepMeLoggedIn)
-        loginController.start(loginContract)
-    }
-
-    override fun onHintRetrieved(id: String) {
-        loginActivity.uiConfiguration = loginActivity.uiConfiguration.copy(identifier = id)
-        isSmartlockResolving = false
-    }
-
-    override fun onCredentialDeleted() {
-        loginActivity.smartlockCredentials = null
-    }
-
-    override fun onFailure() {
-        Logger.info(TAG, "Smartlock login failed - smartlock mode ${loginActivity.uiConfiguration.smartlockMode.name}")
-        loginActivity.setResult(AccountUi.SMARTLOCK_FAILED, loginActivity.intent)
-        loginActivity.finish()
+            smartlockReceiver.onHintRetrieved(it)
+        } ?: smartlockReceiver.onFailure()
     }
 
     companion object {
-        private val TAG = SmartlockImpl::class.java.simpleName
         /**
          * Request code sent by the smartlock controller when the user has to choose between multiple account the one to login with.
          * This must be checked in [BaseLoginActivity.onActivityResult]

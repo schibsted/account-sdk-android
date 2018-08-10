@@ -30,7 +30,7 @@ import com.schibsted.account.ui.login.screen.term.TermsPresenter
 import com.schibsted.account.ui.login.screen.verification.VerificationFragment
 import com.schibsted.account.ui.login.screen.verification.VerificationPresenter
 import com.schibsted.account.ui.navigation.Navigation
-import com.schibsted.account.ui.smartlock.SmartlockImpl
+import com.schibsted.account.ui.smartlock.SmartlockController
 import com.schibsted.account.ui.ui.BaseFragment
 
 class FragmentProvider(private val uiConfiguration: InternalUiConfiguration, private val navigation: Navigation) {
@@ -57,12 +57,12 @@ class FragmentProvider(private val uiConfiguration: InternalUiConfiguration, pri
         provider: InputProvider<Credentials>,
         currentIdentifier: Identifier,
         userAvailable: Boolean,
-        smartlockImpl: SmartlockImpl?
+        smartlockController: SmartlockController?
     ): BaseFragment {
         return getFragment(navigation.currentFragment, {
             PasswordFragment.newInstance(currentIdentifier, userAvailable, uiConfiguration)
         }, {
-            it.setPresenter(PasswordPresenter(it, provider, smartlockImpl))
+            it.setPresenter(PasswordPresenter(it, provider, smartlockController))
         })
     }
 

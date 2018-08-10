@@ -15,7 +15,7 @@ import com.schibsted.account.network.OIDCScope
 import com.schibsted.account.network.response.ClientInfo
 import com.schibsted.account.ui.login.flow.password.PasswordActivity
 import com.schibsted.account.ui.login.flow.passwordless.PasswordlessActivity
-import com.schibsted.account.ui.smartlock.SmartlockImpl
+import com.schibsted.account.ui.smartlock.SmartlockController
 import com.schibsted.account.ui.smartlock.SmartlockMode
 import kotlinx.android.parcel.Parcelize
 
@@ -88,7 +88,7 @@ object AccountUi {
              * @param params Additional [Params] for the UIs
              */
     fun getCallingIntent(context: Context, flowType: FlowType, params: Params = Params()): Intent {
-        if (params.smartLockMode != SmartlockMode.DISABLED && !SmartlockImpl.isSmartlockAvailable()) {
+        if (params.smartLockMode != SmartlockMode.DISABLED && !SmartlockController.isSmartlockAvailable()) {
             throw IllegalStateException("SmartLock is enabled, but not found on the classpath. Please verify that the smartlock module is included in your build")
         }
 
