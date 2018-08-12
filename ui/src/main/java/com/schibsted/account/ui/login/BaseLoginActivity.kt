@@ -5,13 +5,14 @@
 package com.schibsted.account.ui.login
 
 import android.app.Activity
+import android.arch.lifecycle.Observer
+import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
 import android.content.Intent
 import android.content.res.Resources
 import android.graphics.PorterDuff
 import android.graphics.Rect
 import android.os.Bundle
-import android.os.Parcelable
 import android.support.annotation.StringRes
 import android.support.annotation.VisibleForTesting
 import android.support.v4.app.DialogFragment
@@ -24,31 +25,21 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.MotionEvent
 import android.view.View
-import android.view.View.GONE
-import android.view.View.VISIBLE
-import android.view.ViewTreeObserver
-import android.view.inputmethod.InputMethodManager
 import com.google.gson.Gson
 import com.schibsted.account.AccountService
 import com.schibsted.account.ClientConfiguration
-import com.schibsted.account.common.lib.Try
-import com.schibsted.account.common.lib.getOrNull
 import com.schibsted.account.common.tracking.TrackingData
 import com.schibsted.account.common.tracking.UiTracking
 import com.schibsted.account.common.util.Logger
-import com.schibsted.account.common.util.getQueryParam
 import com.schibsted.account.engine.controller.LoginController
-import com.schibsted.account.engine.input.Credentials
 import com.schibsted.account.engine.input.Identifier
 import com.schibsted.account.engine.integration.InputProvider
-import com.schibsted.account.engine.integration.ResultCallback
 import com.schibsted.account.network.Environment
 import com.schibsted.account.network.response.ClientInfo
 import com.schibsted.account.persistence.LocalSecretsProvider
-import com.schibsted.account.session.User
 import com.schibsted.account.ui.AccountUi
 import com.schibsted.account.ui.InternalUiConfiguration
-import com.schibsted.account.ui.KeyboardManager
+import com.schibsted.account.ui.KeyboardController
 import com.schibsted.account.ui.OptionalConfiguration
 import com.schibsted.account.ui.R
 import com.schibsted.account.ui.UiUtil
@@ -61,27 +52,23 @@ import com.schibsted.account.ui.login.screen.password.PasswordFragment
 import com.schibsted.account.ui.login.screen.verification.VerificationFragment
 import com.schibsted.account.ui.navigation.Navigation
 import com.schibsted.account.ui.navigation.NavigationListener
-import com.schibsted.account.ui.smartlock.SmartlockImpl
-import com.schibsted.account.ui.smartlock.SmartlockMode
+import com.schibsted.account.ui.smartlock.SmartlockController
+import com.schibsted.account.ui.smartlock.SmartlockTask
 import com.schibsted.account.ui.ui.FlowFragment
 import com.schibsted.account.ui.ui.WebFragment
+import com.schibsted.account.ui.ui.dialog.LoadingDialogFragment
 import com.schibsted.account.util.DeepLink
 import com.schibsted.account.util.DeepLinkHandler
 import kotlinx.android.synthetic.main.schacc_mobile_activity_layout.*
-import java.net.URI
 import kotlin.properties.Delegates
 
-abstract class BaseLoginActivity : AppCompatActivity(), KeyboardManager, NavigationListener {
+abstract class BaseLoginActivity : AppCompatActivity(), NavigationListener {
 
     companion object {
         private val TAG = BaseLoginActivity::class.java.simpleName
         private const val KEY_SCREEN = "SCREEN"
-        private const val KEY_FLOW_TYPE = "FLOW_TYPE"
         const val EXTRA_USER = "USER_USER"
-        const val KEY_CURRENT_IDENTIFIER = "CURRENT_IDENTIFIER"
         const val KEY_SMARTLOCK_CREDENTIALS = "CREDENTIALS"
-        const val KEY_SMARTLOCK_RESOLVING = "KEY_SMARTLOCK_RESOLVING"
-
         @JvmStatic
         var tracker by Delegates.observable<UiTracking?>(null) { _, _, newValue ->
             val conf = ClientConfiguration.get()
@@ -93,68 +80,125 @@ abstract class BaseLoginActivity : AppCompatActivity(), KeyboardManager, Navigat
         }
     }
 
-    /**
-     * defines the state of the keyboard visibility
-     * `true` if the keyboard is visible
-     * `false` otherwise
-     */
-    private var keyboardIsOpen: Boolean = false
+    private var idProvider: InputProvider<Identifier>? = null
+
+    protected lateinit var loginContract: LoginContractImpl
     @JvmField
     protected var menu: Menu? = null
     @JvmField
     protected var screen: LoginScreen? = null
-    protected var activeFlowType: FlowSelectionListener.FlowType? = null
-    var currentIdentifier: Identifier? = null
-    var smartlockCredentials: Credentials? = null
 
-    @VisibleForTesting(otherwise = VisibleForTesting.PROTECTED)
-
-    /**
-     * defines the first element of the layout, this is the main container of the activity
-     */
-    private lateinit var activityRoot: View
-
-    private lateinit var layoutListener: ViewTreeObserver.OnGlobalLayoutListener
+    lateinit var viewModel: LoginActivityViewModel
+    lateinit var accountService: AccountService
     lateinit var navigationController: Navigation
         protected set
     lateinit var fragmentProvider: FragmentProvider
         protected set
 
-    internal var loginController: LoginController? = null
-    protected lateinit var loginContract: LoginContractImpl
-    protected var isSmartlockRunning = false
-
-    internal var smartlock: SmartlockImpl? = null
-    lateinit var accountService: AccountService
-
     @VisibleForTesting(otherwise = VisibleForTesting.PROTECTED)
     internal lateinit var uiConfiguration: InternalUiConfiguration
+    internal var loginController: LoginController? = null
+    internal var smartlockController: SmartlockController? = null
 
-    protected lateinit var flowType: AccountUi.FlowType
-    protected lateinit var params: AccountUi.Params
+    private lateinit var params: AccountUi.Params
+    private lateinit var flowType: AccountUi.FlowType
+    private lateinit var keyboardController: KeyboardController
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true)
+        params = intent.extras?.let { AccountUi.Params(it) } ?: AccountUi.Params()
+        flowType = intent.getStringExtra(AccountUi.KEY_FLOW_TYPE)
+                ?.let { AccountUi.FlowType.valueOf(it) }
+                ?: AccountUi.FlowType.PASSWORD
+
         initializeUi()
         accountService = AccountService(applicationContext)
         lifecycle.addObserver(accountService)
         navigationController = Navigation(this, this)
-
-        smartlockCredentials = intent.getParcelableExtra(KEY_SMARTLOCK_CREDENTIALS)
-        this.flowType = intent.getStringExtra(AccountUi.KEY_FLOW_TYPE)?.let { AccountUi.FlowType.valueOf(it) } ?: AccountUi.FlowType.PASSWORD
-
-        initializeConfiguration()
-        initializePropertiesFromBundle(savedInstanceState)
+        keyboardController = KeyboardController(this)
+        uiConfiguration = initializeConfiguration()
         fragmentProvider = FragmentProvider(uiConfiguration, navigationController)
-        loginContract = LoginContractImpl(this)
+
+        val smartlockTask = SmartlockTask(uiConfiguration.smartlockMode)
+        viewModel = ViewModelProviders.of(this, LoginActivityViewModelFactory(smartlockTask, uiConfiguration.redirectUri, params)).get(LoginActivityViewModel::class.java)
+        viewModel.smartlockCredentials.value = intent.getParcelableExtra(KEY_SMARTLOCK_CREDENTIALS)
+        initializePropertiesFromBundle(savedInstanceState)
+
+        loginContract = LoginContractImpl(this, viewModel)
 
         val action = DeepLinkHandler.resolveDeepLink(intent.dataString)
         if (action is DeepLink.ValidateAccount) {
-            followDeepLink(action)
+            followDeepLink(intent.dataString, action, navigationController.currentFragment?.tag)
         } else {
-            initializeSmartlock()
+            viewModel.initializeSmartlock()
         }
+
+        viewModel.startSmartLockFlow.observe(this, Observer { launchSmartlock ->
+            launchSmartlock?.let {
+                if (launchSmartlock) {
+                    smartlockController = SmartlockController(this, viewModel.smartlockReceiver)
+                    smartlockController?.start()
+                }
+            }
+        })
+
+        viewModel.smartlockResolvingState.observe(this, Observer { isResolving ->
+            isResolving?.let {
+                progressBar.visibility = if (it) View.VISIBLE else View.GONE
+            }
+        })
+
+        viewModel.smartlockResult.observe(this, Observer { result ->
+            when (result) {
+                is SmartlockTask.SmartLockResult.Success -> {
+                    if (result.requestCode == SmartlockController.RC_CHOOSE_ACCOUNT) {
+                        smartlockController?.provideCredential(result.credentials)
+                    } else {
+                        smartlockController?.provideHint(result.credentials)
+                        fragmentProvider = FragmentProvider(uiConfiguration, navigationController)
+                    }
+                }
+                is SmartlockTask.SmartLockResult.Failure -> {
+                    if (result.resultCode != Activity.RESULT_OK) {
+                        Logger.info(TAG, "Smartlock login failed - smartlockController mode ${uiConfiguration.smartlockMode.name}")
+                        setResult(AccountUi.SMARTLOCK_FAILED, intent)
+                        progressBar.visibility = View.GONE
+                        finish()
+                    }
+                }
+            }
+        })
+
+        viewModel.user.observe(this, Observer { user ->
+            if (user == null) {
+                loadRequiredInformation(idProvider)
+            } else {
+                navigationController.finishFlow(user)
+            }
+        })
+
+        viewModel.clientResult.observe(this, Observer {
+            when (it) {
+                is LoginActivityViewModel.ClientResult.Success -> {
+                    BaseLoginActivity.tracker?.merchantId = it.clientInfo.merchantId
+                    navigationController.dismissDialog()
+                    navigateToIdentificationFragment(it.clientInfo, viewModel, idProvider)
+                }
+                is LoginActivityViewModel.ClientResult.Failure -> {
+                    setResult(AccountUi.RESULT_ERROR, Intent().putExtra(AccountUi.EXTRA_ERROR, it.error))
+                    finish()
+                }
+            }
+        })
+
+        viewModel.uiConfiguration.observe(this, Observer { configuration ->
+            configuration?.let { uiConfiguration = it }
+        })
+
+        keyboardController.keyboardVisibility.observe(this, Observer {
+            (navigationController.currentFragment as? FlowFragment<*>)?.onVisibilityChanged(it == true)
+        })
     }
 
     override fun attachBaseContext(base: Context) {
@@ -165,13 +209,11 @@ abstract class BaseLoginActivity : AppCompatActivity(), KeyboardManager, Navigat
         theme.applyStyle(R.style.schacc_NoActionBar, true)
         setContentView(R.layout.schacc_mobile_activity_layout)
         setUpActionBar()
-        activityRoot = findViewById(R.id.activity_layout)
     }
 
-    private fun initializeConfiguration() {
-        this.params = intent.extras?.let { AccountUi.Params(it) } ?: AccountUi.Params()
+    private fun initializeConfiguration(): InternalUiConfiguration {
         val idType = if (flowType == AccountUi.FlowType.PASSWORDLESS_SMS) Identifier.IdentifierType.SMS else Identifier.IdentifierType.EMAIL
-        this.uiConfiguration = InternalUiConfiguration.resolve(application).copy(
+        return InternalUiConfiguration.resolve(application).copy(
                 identifierType = idType,
                 identifier = params.preFilledIdentifier,
                 teaserText = params.teaserText,
@@ -181,70 +223,45 @@ abstract class BaseLoginActivity : AppCompatActivity(), KeyboardManager, Navigat
     private fun initializePropertiesFromBundle(savedInstanceState: Bundle?) {
         if (savedInstanceState != null) {
             savedInstanceState.getString(KEY_SCREEN)?.let { screen = LoginScreen.valueOf(savedInstanceState.getString(KEY_SCREEN)) }
-            savedInstanceState.getParcelable<Parcelable>(KEY_CURRENT_IDENTIFIER)?.let { currentIdentifier = savedInstanceState.getParcelable(KEY_CURRENT_IDENTIFIER) }
-            this.isSmartlockRunning = savedInstanceState.getBoolean(KEY_SMARTLOCK_RESOLVING)
-
-            if (savedInstanceState.getInt(KEY_FLOW_TYPE) == 1) {
-                activeFlowType = FlowSelectionListener.FlowType.LOGIN
-            } else if (savedInstanceState.getInt(KEY_FLOW_TYPE) == 2) {
-                activeFlowType = FlowSelectionListener.FlowType.SIGN_UP
-            }
         } else {
             BaseLoginActivity.tracker?.resetContext()
             BaseLoginActivity.tracker?.flowVariant = TrackingData.FlowVariant.PASSWORD
         }
     }
 
-    private fun initializeSmartlock() {
-        if (SmartlockImpl.isSmartlockAvailable() && uiConfiguration.smartlockMode != SmartlockMode.DISABLED) {
-            loginController = LoginController(true, params.scopes)
-            smartlock = SmartlockImpl(this, loginController!!, loginContract)
-            if (isSmartlockRunning || uiConfiguration.smartlockMode == SmartlockMode.FAILED) {
-                progressBar.visibility = GONE
-            } else {
-                progressBar.visibility = VISIBLE
-                smartlock?.start()
-                this.isSmartlockRunning = smartlock?.isSmartlockResolving ?: false
-            }
-        } else {
-            progressBar.visibility = GONE
-        }
+    fun loadRequiredInformation(provider: InputProvider<Identifier>? = null) {
+        navigationController.navigationToDialog(LoadingDialogFragment())
+        idProvider = provider
+        viewModel.getClientInfo(intent.getParcelableExtra(AccountUi.KEY_CLIENT_INFO))
     }
 
-    private fun followDeepLink(deepLink: DeepLink) {
+    private fun followDeepLink(dataString: String?, deepLink: DeepLink?, fragmentTag: String?) {
         when (deepLink) {
             is DeepLink.ValidateAccount -> {
-                validateAccount(deepLink)
+                viewModel.loginFromDeepLink(deepLink)
             }
             is DeepLink.IdentifierProvided -> {
-                if (navigationController.currentFragment?.tag == LoginScreen.WEB_FORGOT_PASSWORD_SCREEN.value) {
+                if (fragmentTag == LoginScreen.WEB_FORGOT_PASSWORD_SCREEN.value) {
                     navigationController.navigateBackTo(LoginScreen.PASSWORD_SCREEN)
-                } else if (navigationController.currentFragment?.tag == LoginScreen.IDENTIFICATION_SCREEN.value) {
-                    LocalSecretsProvider(applicationContext).get(deepLink.identifier)?.let {
-                        val frag = navigationController.currentFragment as EmailIdentificationFragment
+                } else if (fragmentTag == LoginScreen.IDENTIFICATION_SCREEN.value) {
+                    LocalSecretsProvider(application.applicationContext).get(deepLink.identifier)?.let {
+                        val frag = (navigationController.currentFragment as EmailIdentificationFragment)
                         val id = Gson().fromJson(it, Identifier::class.java)
-
                         id.identifier
                                 .takeIf { Patterns.EMAIL_ADDRESS.matcher(it).matches() }
                                 ?.let { frag.prefillIdentifier(id.identifier) }
                     }
                 }
             }
+            else -> {
+                if (viewModel.isDeepLinkRequestNewPassword(dataString) && fragmentTag == LoginScreen.PASSWORD_SCREEN.value) {
+                    navigationController.navigateBackTo(LoginScreen.PASSWORD_SCREEN)
+                }
+            }
         }
     }
 
-    fun startIdentificationFragment(provider: InputProvider<Identifier>? = null) {
-        val intentClientInfo = intent.getParcelableExtra<ClientInfo?>(AccountUi.KEY_CLIENT_INFO)
-        if (intentClientInfo == null) {
-            LoadClientInfoTask(this, provider)
-        } else {
-            tracker?.merchantId = intentClientInfo.merchantId
-            navigateToIdentificationFragment(intentClientInfo, (this as? FlowSelectionListener), provider)
-            progressBar.visibility = GONE
-        }
-    }
-
-    fun navigateToIdentificationFragment(clientInfo: ClientInfo, flowSelectionListener: FlowSelectionListener?, provider: InputProvider<Identifier>?) {
+    private fun navigateToIdentificationFragment(clientInfo: ClientInfo, flowSelectionListener: FlowSelectionListener?, provider: InputProvider<Identifier>?) {
         val fragment = fragmentProvider.getOrCreateIdentificationFragment(
                 provider = provider,
                 flowType = flowType,
@@ -253,70 +270,21 @@ abstract class BaseLoginActivity : AppCompatActivity(), KeyboardManager, Navigat
         navigationController.navigateToFragment(fragment as AbstractIdentificationFragment)
     }
 
-    private fun validateAccount(state: DeepLink.ValidateAccount) {
-        Logger.info(TAG, "Attempting login from deep link, extracting code")
-
-        User.fromSessionCode(state.code, uiConfiguration.redirectUri.toString(), state.isPersistable,
-                ResultCallback.fromLambda(
-                        { error ->
-                            Logger.info(TAG, "Automatic login after account validation failed: ${error.message}")
-                            startIdentificationFragment()
-                        },
-                        { user ->
-                            Logger.info(TAG, "Automatic login after account validation was successful")
-                            navigationController.finishFlow(user)
-                        }
-                ), null) // sign-up doesn't support scope yet
-    }
-
-    /**
-     * set up the keyboard actionListener
-     * [FlowFragment.onVisibilityChanged] is called when a layout change occurs due to
-     * a change of the soft keyboard visibility
-     */
-    private fun setUpKeyboardListener() {
-        val keyboardThreshold = 150f
-        layoutListener = object : ViewTreeObserver.OnGlobalLayoutListener {
-            private val usableSpace = Rect()
-            private val pxKeyboardThreshold = keyboardThreshold * (resources.displayMetrics.densityDpi / 160f)
-            private val visibleThreshold = Math.round(pxKeyboardThreshold)
-            private var isOpenAlready = false
-
-            override fun onGlobalLayout() {
-                activityRoot.getWindowVisibleDisplayFrame(usableSpace)
-                val heightDiff = activityRoot.rootView.height - usableSpace.height()
-
-                keyboardIsOpen = heightDiff > visibleThreshold
-
-                if (keyboardIsOpen != isOpenAlready) {
-                    isOpenAlready = keyboardIsOpen
-                    onKeyboardVisibilityChanged(keyboardIsOpen)
-                }
-            }
-        }
-
-        activityRoot.viewTreeObserver.addOnGlobalLayoutListener(layoutListener)
-    }
-
     override fun onResume() {
         super.onResume()
-        setUpKeyboardListener()
+        keyboardController.register(navigationController.currentFragment)
         navigationController.register(this)
     }
 
     override fun onPause() {
         super.onPause()
-        activityRoot.viewTreeObserver.removeGlobalOnLayoutListener(layoutListener)
+        keyboardController.unregister(navigationController.currentFragment)
         navigationController.unregister()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         outState.putString(KEY_SCREEN, screen?.value)
-        outState.putInt(KEY_FLOW_TYPE, activeFlowType?.let { if (isUserAvailable()) 2 else 1 }
-                ?: 0)
-        outState.putParcelable(KEY_CURRENT_IDENTIFIER, currentIdentifier)
-        outState.putBoolean(KEY_SMARTLOCK_RESOLVING, this.isSmartlockRunning)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -342,26 +310,8 @@ abstract class BaseLoginActivity : AppCompatActivity(), KeyboardManager, Navigat
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (resultCode == Activity.RESULT_OK) {
-            data?.let {
-                val smartlockCredentials = data.getParcelableExtra(SmartlockImpl.EXTRA_SMARTLOCK_CREDENTIALS) as Parcelable
-                when (requestCode) {
-                    SmartlockImpl.RC_CHOOSE_ACCOUNT -> smartlock?.provideCredential(smartlockCredentials)
-                    SmartlockImpl.RC_IDENTIFIER_ONLY -> {
-                        if (uiConfiguration.smartlockMode == SmartlockMode.FORCED) {
-                            smartlock?.onFailure()
-                        } else {
-                            smartlock?.provideHint(smartlockCredentials)
-                            fragmentProvider = FragmentProvider(uiConfiguration, navigationController)
-                            startIdentificationFragment()
-                        }
-                    }
-                }
-                this.isSmartlockRunning = false
-            }
-        } else {
-            smartlock?.onFailure()
-        }
+        loadRequiredInformation()
+        viewModel.updateSmartlockCredentials(requestCode, resultCode, data?.getParcelableExtra(SmartlockController.EXTRA_SMARTLOCK_CREDENTIALS))
     }
 
     /**
@@ -387,19 +337,6 @@ abstract class BaseLoginActivity : AppCompatActivity(), KeyboardManager, Navigat
         supportActionBar?.elevation = 1f
     }
 
-    override fun isKeyboardOpen(): Boolean = keyboardIsOpen
-
-    /**
-     * Closes down the keyboard
-     * On some devices keyboard may still be showing up, even on screen without field to fill in
-     * Because the keyboard is not part of the application a different behavior might occurs depending
-     * on the system implementation.
-     */
-    override fun closeKeyboard() {
-        val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        imm.hideSoftInputFromWindow(window.decorView.windowToken, 0)
-    }
-
     private fun updateActionBar() {
         updateTitle(screen)
         menu?.findItem(R.id.close_flow)?.isVisible = uiConfiguration.isClosingAllowed
@@ -422,7 +359,7 @@ abstract class BaseLoginActivity : AppCompatActivity(), KeyboardManager, Navigat
         @StringRes
         val title: Int = when (screen) {
             LoginScreen.IDENTIFICATION_SCREEN -> if (this.uiConfiguration.signUpEnabled) R.string.schacc_identification_title else R.string.schacc_identification_login_only_title
-            LoginScreen.PASSWORD_SCREEN -> if (isUserAvailable()) R.string.schacc_register_title else R.string.schacc_welcome_back_title
+            LoginScreen.PASSWORD_SCREEN -> if (viewModel.isUserAvailable()) R.string.schacc_register_title else R.string.schacc_welcome_back_title
             LoginScreen.TC_SCREEN -> R.string.schacc_terms_title
             LoginScreen.REQUIRED_FIELDS_SCREEN -> R.string.schacc_required_fields_title
             LoginScreen.CHECK_INBOX_SCREEN -> R.string.schacc_inbox_check_inbox_title
@@ -430,15 +367,9 @@ abstract class BaseLoginActivity : AppCompatActivity(), KeyboardManager, Navigat
             LoginScreen.WEB_NEED_HELP_SCREEN -> R.string.schacc_web_need_help_title
             LoginScreen.VERIFICATION_SCREEN -> R.string.schacc_verification_title
             LoginScreen.WEB_TC_SCREEN -> return
-            else -> if (SmartlockImpl.isSmartlockAvailable()) R.string.schacc_identification_login_only_title else throw Resources.NotFoundException("Resource not found")
+            else -> if (SmartlockController.isSmartlockAvailable()) R.string.schacc_identification_login_only_title else throw Resources.NotFoundException("Resource not found")
         }
         toolbar_title.text = getString(title)
-    }
-
-    fun onKeyboardVisibilityChanged(keyboardOpen: Boolean) {
-        if (navigationController.currentFragment is FlowFragment<*>) {
-            (navigationController.currentFragment as FlowFragment<*>).onVisibilityChanged(keyboardOpen)
-        }
     }
 
     override fun onBackPressed() {
@@ -446,14 +377,12 @@ abstract class BaseLoginActivity : AppCompatActivity(), KeyboardManager, Navigat
             LoginScreen.VERIFICATION_SCREEN,
             LoginScreen.PASSWORD_SCREEN,
             LoginScreen.CHECK_INBOX_SCREEN -> {
-                currentIdentifier = null
+                viewModel.userIdentifier = null
             }
             else -> {
             }
         }
     }
-
-    fun isUserAvailable() = activeFlowType == FlowSelectionListener.FlowType.SIGN_UP
 
     override fun onWebViewNavigationRequested(where: WebFragment, loginScreen: LoginScreen) {
         navigationController.navigateToWebView(where, loginScreen)
@@ -469,6 +398,7 @@ abstract class BaseLoginActivity : AppCompatActivity(), KeyboardManager, Navigat
 
     override fun onNavigationDone(screen: LoginScreen) {
         this.screen = screen
+        keyboardController.register(navigationController.currentFragment)
         if (!LoginScreen.isWebView(screen.value)) {
             val customFields = mutableMapOf<String, Any>()
             val fragment = navigationController.currentFragment
@@ -489,12 +419,6 @@ abstract class BaseLoginActivity : AppCompatActivity(), KeyboardManager, Navigat
         super.onNewIntent(intent)
 
         val action = DeepLinkHandler.resolveDeepLink(intent.dataString)
-        if (action != null) {
-            followDeepLink(action)
-        } else if (intent.dataString?.let { Try { URI.create(it) } }?.getOrNull()?.getQueryParam("spid_page")?.equals("request+new+password") == true) {
-            if (navigationController.currentFragment is PasswordFragment) {
-                navigationController.navigateBackTo(LoginScreen.IDENTIFICATION_SCREEN)
-            }
-        }
+        followDeepLink(intent.dataString, action, navigationController.currentFragment?.tag)
     }
 }

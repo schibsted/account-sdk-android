@@ -40,6 +40,7 @@ dependencies {
     implementation "com.android.support.constraint:constraint-layout:${libs.constraintLayout}"
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${libs.kotlin}"
     implementation "org.jetbrains.kotlin:kotlin-reflect:${libs.kotlin}"
+    implementation "android.arch.lifecycle:extensions:${libs.lifecycle}"
 
     multidexImplementation "com.android.support:multidex:${libs.multidex}"
 
@@ -48,6 +49,7 @@ dependencies {
     testImplementation "io.kotlintest:kotlintest:${libs.kotlintest}"
     testImplementation "junit:junit:${libs.jUnit}"
     testImplementation "org.jetbrains.kotlin:kotlin-test-junit:${libs.kotlin}"
+
 
     androidTestImplementation "org.mockito:mockito-android:${libs.mockitoAndroid}"
     androidTestImplementation("com.schibsted.spain:barista:${libs.barista}") {
