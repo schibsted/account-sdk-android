@@ -5,17 +5,10 @@
 package com.schibsted.account.ui.smartlock
 
 import android.os.Parcelable
-import com.schibsted.account.common.smartlock.SmartLockCallback
-import com.schibsted.account.common.util.Logger
 import com.schibsted.account.common.util.existsOnClasspath
-import com.schibsted.account.engine.controller.LoginController
-import com.schibsted.account.engine.input.Credentials
-import com.schibsted.account.engine.input.Identifier
-import com.schibsted.account.engine.integration.contract.LoginContract
-import com.schibsted.account.ui.AccountUi
 import com.schibsted.account.ui.login.BaseLoginActivity
 
-class SmartlockController(loginActivity: BaseLoginActivity, private val smartlockReceiver: SmartlockReceiver)  {
+class SmartlockController(loginActivity: BaseLoginActivity, private val smartlockReceiver: SmartlockReceiver) {
     private var uiSmartlockController: UiSmartlockController = UiSmartlockController(loginActivity, smartlockReceiver)
 
     fun start() {

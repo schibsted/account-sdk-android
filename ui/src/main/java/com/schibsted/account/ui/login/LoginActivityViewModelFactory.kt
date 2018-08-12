@@ -5,8 +5,6 @@ package com.schibsted.account.ui.login
 
 import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProvider
-import android.content.Intent
-import com.schibsted.account.engine.input.Credentials
 import com.schibsted.account.ui.AccountUi
 import com.schibsted.account.ui.smartlock.SmartlockTask
 import java.net.URI

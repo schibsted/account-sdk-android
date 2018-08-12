@@ -19,7 +19,6 @@ class SmartlockReceiver(private val loginActivityViewModel: LoginActivityViewMod
         isSmartlockResolving.value = false
         loginActivityViewModel.smartlockCredentials.value = Credentials(Identifier(Identifier.IdentifierType.EMAIL, id), password, keepMeLoggedIn)
         loginActivityViewModel.userFlowType = FlowSelectionListener.FlowType.LOGIN
-
     }
 
     override fun onHintRetrieved(id: String) {

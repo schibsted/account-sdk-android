@@ -4,7 +4,6 @@
 package com.schibsted.account.ui.smartlock
 
 import android.app.Activity
-import android.content.Intent
 import android.os.Parcelable
 import com.schibsted.account.common.lib.ObservableField
 
@@ -15,7 +14,7 @@ class SmartlockTask(private val smartlockMode: SmartlockMode) {
         data class Failure(val resultCode: Int) : SmartLockResult()
     }
 
-    fun initializeSmartlock(isSmartlockRunning: Boolean, isSmartlockAvailable : Boolean = SmartlockController.isSmartlockAvailable()): ObservableField<Boolean> {
+    fun initializeSmartlock(isSmartlockRunning: Boolean, isSmartlockAvailable: Boolean = SmartlockController.isSmartlockAvailable()): ObservableField<Boolean> {
         return if (isSmartlockAvailable && smartlockMode != SmartlockMode.DISABLED) {
             ObservableField(!(isSmartlockRunning || smartlockMode == SmartlockMode.FAILED))
         } else {
@@ -23,7 +22,7 @@ class SmartlockTask(private val smartlockMode: SmartlockMode) {
         }
     }
 
-    fun credentialsFromParcelable(requestCode: Int, resultCode: Int, smartlockCredentials : Parcelable?): ObservableField<SmartLockResult> {
+    fun credentialsFromParcelable(requestCode: Int, resultCode: Int, smartlockCredentials: Parcelable?): ObservableField<SmartLockResult> {
         if (resultCode == Activity.RESULT_OK) {
             smartlockCredentials?.let {
                 when (requestCode) {

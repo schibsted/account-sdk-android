@@ -40,7 +40,7 @@ class LoginActivityViewModelTest : WordSpec({
     val loginActivityViewModel = LoginActivityViewModel(smartlockTask, URI.create("http://redirectUri"), params)
 
     "view model initialization" should {
-        "add a listener to the smartlock resolving state"{
+        "add a listener to the smartlock resolving state" {
             loginActivityViewModel.smartlockReceiver.isSmartlockResolving.hasObservers() shouldBe true
         }
     }
@@ -51,7 +51,7 @@ class LoginActivityViewModelTest : WordSpec({
 
         "with not valid credentials" should {
             whenever(smartlockTask.credentialsFromParcelable(any(), any(), any())) doReturn failure
-            "assign a failure value to the smartlock result observer"{
+            "assign a failure value to the smartlock result observer" {
                 loginActivityViewModel.updateSmartlockCredentials(1, Activity.RESULT_OK, mock())
                 verify(smartlockTask).credentialsFromParcelable(eq(1), eq(Activity.RESULT_OK), any())
                 loginActivityViewModel.smartlockResult.value = failure.value
@@ -60,7 +60,7 @@ class LoginActivityViewModelTest : WordSpec({
 
         "with a valid credentials" should {
             whenever(smartlockTask.credentialsFromParcelable(any(), any(), any())) doReturn success
-            "assign a success value to the smartlock result observer"{
+            "assign a success value to the smartlock result observer" {
                 loginActivityViewModel.updateSmartlockCredentials(1, Activity.RESULT_OK, mock())
                 verify(smartlockTask).credentialsFromParcelable(eq(1), eq(Activity.RESULT_OK), any())
                 loginActivityViewModel.smartlockResult.value = success.value
@@ -69,20 +69,20 @@ class LoginActivityViewModelTest : WordSpec({
     }
 
     "initialize smartlock" should {
-        "initialize the login controller"{
-            whenever(smartlockTask.initializeSmartlock(any())) doReturn ObservableField(false)
+        "initialize the login controller" {
+            whenever(smartlockTask.initializeSmartlock(any(), any())) doReturn ObservableField(false)
             loginActivityViewModel.loginController.value shouldBe null
             loginActivityViewModel.initializeSmartlock()
             verify(smartlockTask).initializeSmartlock(loginActivityViewModel.smartlockReceiver.isSmartlockResolving.value)
             loginActivityViewModel.loginController.value shouldBe instanceOf(LoginController::class)
         }
-        "update the smartlock flow observable with the returned value"{
-            whenever(smartlockTask.initializeSmartlock(any())) doReturn ObservableField(false)
+        "update the smartlock flow observable with the returned value" {
+            whenever(smartlockTask.initializeSmartlock(any(), any())) doReturn ObservableField(false)
             loginActivityViewModel.startSmartLockFlow.value shouldBe null
             loginActivityViewModel.initializeSmartlock()
             loginActivityViewModel.startSmartLockFlow.value shouldBe false
 
-            whenever(smartlockTask.initializeSmartlock(any())) doReturn ObservableField(true)
+            whenever(smartlockTask.initializeSmartlock(any(), any())) doReturn ObservableField(true)
             loginActivityViewModel.startSmartLockFlow.value shouldBe false
             loginActivityViewModel.initializeSmartlock()
             loginActivityViewModel.startSmartLockFlow.value shouldBe true
@@ -92,7 +92,7 @@ class LoginActivityViewModelTest : WordSpec({
     }
 
     "is smartlock resolving" should {
-        "return the value of contained in the receiver"{
+        "return the value of contained in the receiver" {
             loginActivityViewModel.smartlockReceiver.isSmartlockResolving.value = false
             loginActivityViewModel.isSmartlockResolving() shouldBe false
             loginActivityViewModel.smartlockReceiver.isSmartlockResolving.value = true
@@ -103,15 +103,14 @@ class LoginActivityViewModelTest : WordSpec({
     "get client info" should {
         val viewModel: LoginActivityViewModel = mock {}
         "with a null intent info" should {
-            "fetch info from the network"{
+            "fetch info from the network" {
                 whenever(viewModel.getClientInfo(null)).thenCallRealMethod()
                 viewModel.getClientInfo(null)
                 verify(viewModel).fetchClientInfo()
             }
-
         }
         "with a valid intent info" should {
-            "assign the intent data to the clienResult value"{
+            "assign the intent data to the clienResult value" {
                 val clientInfo = ClientInfo("1", "client", "alias", mapOf(), "domain", 3, mapOf(), mapOf(), mock())
                 loginActivityViewModel.getClientInfo(clientInfo)
                 loginActivityViewModel.clientResult.value shouldBe instanceOf(LoginActivityViewModel.ClientResult.Success::class)

@@ -7,7 +7,6 @@ package com.schibsted.account.ui.ui
 import android.support.v4.app.Fragment
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
-import com.schibsted.account.common.util.Logger
 import com.schibsted.account.model.error.ClientError
 import com.schibsted.account.ui.ErrorUtil
 import com.schibsted.account.ui.KeyboardListener
@@ -27,7 +26,6 @@ abstract class BaseFragment : Fragment(), Animation.AnimationListener {
      * The keyboard manager allowing to interact with the state of the soft keyboard
      */
     protected var keyboardListener: KeyboardListener? = null
-
 
     /**
      * this method is used to register the navigation controller
