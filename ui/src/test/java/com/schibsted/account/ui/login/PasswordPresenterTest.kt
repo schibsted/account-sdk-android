@@ -18,7 +18,7 @@ import com.schibsted.account.model.error.ClientError
 import com.schibsted.account.ui.R
 import com.schibsted.account.ui.login.screen.password.PasswordContract
 import com.schibsted.account.ui.login.screen.password.PasswordPresenter
-import com.schibsted.account.ui.smartlock.SmartlockImpl
+import com.schibsted.account.ui.smartlock.SmartlockController
 import com.schibsted.account.ui.ui.InputField
 import io.kotlintest.matchers.shouldThrow
 import io.kotlintest.specs.WordSpec
@@ -31,9 +31,9 @@ class PasswordPresenterTest : WordSpec() {
 
         "sign" should {
             val provider: InputProvider<Credentials> = mock()
-            val smartlockImpl: SmartlockImpl = mock()
+            val smartlockController: SmartlockController = mock()
             val view: PasswordContract.View = mock { on { isActive } doReturn true }
-            val presenter = PasswordPresenter(view, provider, smartlockImpl)
+            val presenter = PasswordPresenter(view, provider, smartlockController)
             val identifier = Identifier(Identifier.IdentifierType.EMAIL, "id")
             val input: InputField = mock {
                 on { isInputValid } doReturn true
@@ -56,13 +56,13 @@ class PasswordPresenterTest : WordSpec() {
                 }
             }
 
-            "save credentials with smartlock if password was successfully provided" {
+            "save credentials with smartlockController if password was successfully provided" {
                 whenever(provider.provide(any(), any())).thenAnswer {
                     (it.getArgument(1) as ResultCallback<NoValue>).onSuccess(mock())
                 }
 
                 presenter.sign(input, identifier, true)
-                verify(smartlockImpl).saveCredential("id", "password")
+                verify(smartlockController).saveCredential("id", "password")
             }
 
             "show dialog error if there's a network error" {

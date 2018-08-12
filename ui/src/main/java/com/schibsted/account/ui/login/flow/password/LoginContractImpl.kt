@@ -18,31 +18,32 @@ import com.schibsted.account.model.NoValue
 import com.schibsted.account.model.error.ClientError
 import com.schibsted.account.network.response.AgreementLinksResponse
 import com.schibsted.account.ui.login.BaseLoginActivity
+import com.schibsted.account.ui.login.LoginActivityViewModel
 import com.schibsted.account.ui.ui.FlowFragment
 
-class LoginContractImpl(private val loginActivity: BaseLoginActivity) : LoginContract {
+class LoginContractImpl(private val loginActivity: BaseLoginActivity, private val loginActivityViewModel: LoginActivityViewModel) : LoginContract {
     override fun onCredentialsRequested(provider: InputProvider<Credentials>) {
-        val credentials = loginActivity.smartlockCredentials
+        val credentials = loginActivityViewModel.smartlockCredentials.value
         if (credentials != null) {
             provider.provide(credentials, object : ResultCallback<NoValue> {
                 override fun onSuccess(result: NoValue) {
                 }
 
                 override fun onError(error: ClientError) {
-                    loginActivity.smartlock?.deleteCredential()
-                    loginActivity.smartlock?.onFailure()
+                    loginActivity.smartlockController?.deleteCredential()
+                    loginActivityViewModel.smartlockReceiver.onFailure()
                 }
             })
         } else {
-            loginActivity.currentIdentifier?.let { identifier ->
+            loginActivityViewModel.userIdentifier?.let { identifier ->
                 val fragment = loginActivity.fragmentProvider.getOrCreatePasswordFragment(
                         provider,
                         identifier,
-                        loginActivity.isUserAvailable(),
-                        loginActivity.smartlock)
+                        loginActivityViewModel.isUserAvailable(),
+                        loginActivity.smartlockController)
                 loginActivity.navigationController.navigateToFragment(fragment)
             }
-                    ?: loginActivity.startIdentificationFragment()
+                    ?: loginActivity.loadRequiredInformation()
         }
     }
 
@@ -55,7 +56,7 @@ class LoginContractImpl(private val loginActivity: BaseLoginActivity) : LoginCon
         BaseLoginActivity.tracker?.userId = this.loginActivity.loginController?.currentUserId?.legacyId
         val fragment = loginActivity.fragmentProvider.getOrCreateTermsFragment(
                 agreementsProvider,
-                loginActivity.isUserAvailable(),
+                loginActivityViewModel.isUserAvailable(),
                 agreementLinks)
         loginActivity.navigationController.navigateToFragment(fragment)
     }
@@ -89,5 +90,8 @@ class LoginContractImpl(private val loginActivity: BaseLoginActivity) : LoginCon
                 }
             }
         })
+    }
+    companion object {
+        val TAG = LoginContractImpl::class.java.simpleName
     }
 }

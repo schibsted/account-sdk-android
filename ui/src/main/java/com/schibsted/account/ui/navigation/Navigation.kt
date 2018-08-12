@@ -74,7 +74,13 @@ class Navigation(
      *
      * @param dialogFragment the [DialogFragment] to display
      */
-    fun navigationToDialog(dialogFragment: DialogFragment) = dialogFragment.show(fragmentManager, DIALOG_SCREEN)
+    fun navigationToDialog(dialogFragment: DialogFragment) {
+        if (fragmentManager.findFragmentByTag(DIALOG_SCREEN) as? DialogFragment == null) {
+            dialogFragment.show(fragmentManager, DIALOG_SCREEN)
+        }else{
+            Logger.warn(TAG,"a dialog is already shown")
+        }
+    }
 
     fun dismissDialog(allowStateLoss: Boolean = false) {
         (fragmentManager.findFragmentByTag(DIALOG_SCREEN) as? DialogFragment)?.let {

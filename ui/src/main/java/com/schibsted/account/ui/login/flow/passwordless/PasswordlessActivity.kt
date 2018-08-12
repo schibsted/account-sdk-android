@@ -43,13 +43,13 @@ class PasswordlessActivity : BaseLoginActivity(), PasswordlessContract {
         }
 
         navigationController = Navigation(this, this)
-        if (smartlockCredentials == null && !isSmartlockRunning) {
+        if (viewModel.smartlockCredentials.value == null && !viewModel.isSmartlockResolving()) {
             passwordlessController.start(this)
         }
     }
 
     override fun onIdentifierRequested(provider: InputProvider<Identifier>) {
-        startIdentificationFragment(provider)
+        loadRequiredInformation(provider)
     }
 
     override fun onVerificationCodeRequested(verificationCodeProvider: InputProvider<VerificationCode>, identifier: Identifier) {
@@ -58,7 +58,7 @@ class PasswordlessActivity : BaseLoginActivity(), PasswordlessContract {
     }
 
     override fun onAgreementsRequested(agreementsProvider: InputProvider<Agreements>, agreementLinks: AgreementLinksResponse) {
-        val fragment = fragmentProvider.getOrCreateTermsFragment(agreementsProvider, isUserAvailable(), agreementLinks)
+        val fragment = fragmentProvider.getOrCreateTermsFragment(agreementsProvider, viewModel.isUserAvailable(), agreementLinks)
         navigationController.navigateToFragment(fragment)
     }
 
