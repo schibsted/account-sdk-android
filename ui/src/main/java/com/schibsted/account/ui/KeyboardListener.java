@@ -7,7 +7,7 @@ package com.schibsted.account.ui;
 /**
  * This interface should be implemented by every activity managing the soft keyboard state
  */
-public interface KeyboardManager {
+public interface KeyboardListener {
 
     /**
      * call this method to know if the keyboard is opened or not
