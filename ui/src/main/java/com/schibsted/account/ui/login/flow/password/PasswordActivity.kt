@@ -4,74 +4,113 @@
 
 package com.schibsted.account.ui.login.flow.password
 
+import android.arch.lifecycle.Observer
 import android.os.Bundle
-import android.os.Parcelable
 import com.schibsted.account.common.tracking.TrackingData
-import com.schibsted.account.engine.controller.LoginController
 import com.schibsted.account.engine.controller.SignUpController
+import com.schibsted.account.engine.input.Agreements
+import com.schibsted.account.engine.input.Credentials
 import com.schibsted.account.engine.input.Identifier
+import com.schibsted.account.engine.input.RequiredFields
+import com.schibsted.account.engine.integration.CallbackProvider
+import com.schibsted.account.engine.integration.InputProvider
+import com.schibsted.account.engine.integration.ResultCallback
+import com.schibsted.account.engine.integration.contract.SignUpContract
+import com.schibsted.account.model.error.ClientError
+import com.schibsted.account.network.response.AgreementLinksResponse
 import com.schibsted.account.ui.login.BaseLoginActivity
+import com.schibsted.account.ui.ui.FlowFragment
 
-class PasswordActivity : BaseLoginActivity(), FlowSelectionListener {
+class PasswordActivity : BaseLoginActivity(), SignUpContract {
 
     private var signUpController: SignUpController? = null
 
-    private val signUpContract = SignupContractImpl(this)
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val savedLoginController = savedInstanceState?.getParcelable<Parcelable>(KEY_LOGIN_CONTROLLER)
-        val savedSignUpController = savedInstanceState?.getParcelable<Parcelable>(KEY_SIGN_UP_CONTROLLER)
-
-        if (savedLoginController != null) {
-            loginController = savedLoginController as LoginController
-        } else if (savedSignUpController != null) {
-            signUpController = savedSignUpController as SignUpController
-        }
-
-        if (smartlockCredentials == null && !isSmartlockRunning) {
-            if (activeFlowType == null) {
-                startIdentificationFragment()
-            } else {
-                signUpController?.start(this.signUpContract)
-                loginController?.start(this.loginContract)
+        viewModel.isFlowReady().observe(this, Observer { shouldFetchInfoFirst ->
+            shouldFetchInfoFirst?.let {
+                if (shouldFetchInfoFirst) {
+                    loadRequiredInformation()
+                } else {
+                    viewModel.startLoginController(this.loginContract)
+                    viewModel.startSignUpController(this)
+                }
             }
-        }
+        })
 
-        smartlockCredentials?.let {
-            this.activeFlowType = FlowSelectionListener.FlowType.LOGIN
-            BaseLoginActivity.tracker?.intent = TrackingData.UserIntent.LOGIN
-            loginController?.start(this@PasswordActivity.loginContract)
-        }
-    }
-
-    override fun onFlowSelected(flowType: FlowSelectionListener.FlowType, identifier: Identifier) {
-        this.currentIdentifier = identifier
-        this.activeFlowType = flowType
-
-        when (flowType) {
-            FlowSelectionListener.FlowType.LOGIN -> {
+        viewModel.smartlockCredentials.observe(this, Observer { credentials ->
+            credentials?.let {
+                viewModel.startLoginController(this.loginContract)
                 BaseLoginActivity.tracker?.intent = TrackingData.UserIntent.LOGIN
-                loginController = LoginController(true, params.scopes).apply { start(this@PasswordActivity.loginContract) }
             }
+        })
 
-            FlowSelectionListener.FlowType.SIGN_UP -> {
+        viewModel.signUpController.observe(this, Observer {
+            if (!viewModel.isSmartlockResolving()) {
+                viewModel.startSignUpController(this)
                 BaseLoginActivity.tracker?.intent = TrackingData.UserIntent.CREATE
-                this.signUpController = SignUpController(uiConfiguration.redirectUri, params.scopes).apply { start(this@PasswordActivity.signUpContract) }
             }
-        }
+        })
+
+        viewModel.loginController.observe(this, Observer {
+            if (!viewModel.isSmartlockResolving()) {
+                viewModel.startLoginController(this.loginContract)
+                BaseLoginActivity.tracker?.intent = TrackingData.UserIntent.LOGIN
+            }
+        })
     }
 
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        outState.putParcelable(KEY_SIGN_UP_CONTROLLER, signUpController)
-        outState.putParcelable(KEY_LOGIN_CONTROLLER, loginController)
+    override fun onCredentialsRequested(provider: InputProvider<Credentials>) {
+        viewModel.userIdentifier?.let { identifier ->
+            val fragment = fragmentProvider.getOrCreatePasswordFragment(
+                    provider = provider,
+                    currentIdentifier = identifier,
+                    userAvailable = viewModel.isUserAvailable(),
+                    smartlockController = null)
+            navigationController.navigateToFragment(fragment)
+        } ?: loadRequiredInformation()
+    }
+
+    override fun onAgreementsRequested(agreementsProvider: InputProvider<Agreements>, agreementLinks: AgreementLinksResponse) {
+        val fragment = fragmentProvider.getOrCreateTermsFragment(
+                provider = agreementsProvider,
+                userAvailable = viewModel.isUserAvailable(),
+                agreementLinks = agreementLinks)
+        navigationController.navigateToFragment(fragment)
+    }
+
+    override fun onRequiredFieldsRequested(requiredFieldsProvider: InputProvider<RequiredFields>, fields: Set<String>) {
+        val fragment = fragmentProvider.getOrCreateRequiredFieldsFragment(
+                requiredFieldsProvider,
+                fields)
+        navigationController.navigateToFragment(fragment)
+    }
+
+    override fun onFlowReady(callbackProvider: CallbackProvider<Identifier>) {
+        callbackProvider.provide(object : ResultCallback<Identifier> {
+            override fun onSuccess(result: Identifier) {
+                val fragment = fragmentProvider.getOrCreateInboxFragment(result)
+                navigationController.navigateToFragment(fragment)
+            }
+
+            override fun onError(error: ClientError) {
+                val currentFragment = navigationController.currentFragment
+                currentFragment?.displayErrorDialog(error)
+
+                if (currentFragment is FlowFragment<*>) {
+                    currentFragment.hideProgress()
+                }
+                if (error.errorType == ClientError.ErrorType.NETWORK_ERROR) {
+                    BaseLoginActivity.tracker?.eventError(TrackingData.UIError.NetworkError, null)
+                }
+            }
+        })
     }
 
     override fun onBackPressed() {
         super.onBackPressed()
-        if (isUserAvailable()) {
-            navigationController.handleBackPressed(signUpController, signUpContract)
+        if (viewModel.isUserAvailable()) {
+            navigationController.handleBackPressed(signUpController, this)
         } else {
             navigationController.handleBackPressed(loginController, loginContract)
         }
@@ -79,10 +118,5 @@ class PasswordActivity : BaseLoginActivity(), FlowSelectionListener {
 
     override fun onNavigateBackRequested() {
         onBackPressed()
-    }
-
-    companion object {
-        const val KEY_LOGIN_CONTROLLER = "LOGIN_CONTROLLER"
-        const val KEY_SIGN_UP_CONTROLLER = "SIGN_UP_CONTROLLER"
     }
 }

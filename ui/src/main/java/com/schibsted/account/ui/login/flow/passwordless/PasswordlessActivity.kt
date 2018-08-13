@@ -43,27 +43,27 @@ class PasswordlessActivity : BaseLoginActivity(), PasswordlessContract {
         }
 
         navigationController = Navigation(this, this)
-        if (smartlockCredentials == null && !isSmartlockRunning) {
+        if (viewModel.smartlockCredentials.value == null && !viewModel.isSmartlockResolving()) {
             passwordlessController.start(this)
         }
     }
 
     override fun onIdentifierRequested(provider: InputProvider<Identifier>) {
-        startIdentificationFragment(provider)
+        loadRequiredInformation(provider)
     }
 
     override fun onVerificationCodeRequested(verificationCodeProvider: InputProvider<VerificationCode>, identifier: Identifier) {
-        val fragment = fragmentProvider.getOrCreateVerificationScreen(navigationController.currentFragment, verificationCodeProvider, identifier, passwordlessController)
+        val fragment = fragmentProvider.getOrCreateVerificationScreen(verificationCodeProvider, identifier, passwordlessController)
         navigationController.navigateToFragment(fragment)
     }
 
     override fun onAgreementsRequested(agreementsProvider: InputProvider<Agreements>, agreementLinks: AgreementLinksResponse) {
-        val fragment = fragmentProvider.getOrCreateTermsFragment(navigationController.currentFragment, agreementsProvider, isUserAvailable(), agreementLinks)
+        val fragment = fragmentProvider.getOrCreateTermsFragment(agreementsProvider, viewModel.isUserAvailable(), agreementLinks)
         navigationController.navigateToFragment(fragment)
     }
 
     override fun onRequiredFieldsRequested(requiredFieldsProvider: InputProvider<RequiredFields>, fields: Set<String>) {
-        val fragment = fragmentProvider.getOrCreateRequiredFieldsFragment(navigationController.currentFragment, requiredFieldsProvider, fields)
+        val fragment = fragmentProvider.getOrCreateRequiredFieldsFragment(requiredFieldsProvider, fields)
         navigationController.navigateToFragment(fragment)
     }
 

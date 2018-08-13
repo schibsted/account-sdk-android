@@ -36,7 +36,7 @@ abstract class FlowFragment<in T> : BaseFragment(), KeyboardVisibilityListener, 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setUpContinueViewVisibility(keyboardManager.isKeyboardOpen)
+        setUpContinueViewVisibility(keyboardListener?.isKeyboardOpen ?: false)
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -88,7 +88,7 @@ abstract class FlowFragment<in T> : BaseFragment(), KeyboardVisibilityListener, 
     override fun showProgress() {
         primaryActionView.showProgress()
         secondaryActionView?.isEnabled = false
-        keyboardManager.closeKeyboard()
+        keyboardListener?.closeKeyboard()
     }
 
     companion object {

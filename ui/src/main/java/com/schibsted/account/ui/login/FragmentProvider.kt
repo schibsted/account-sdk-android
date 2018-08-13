@@ -29,81 +29,80 @@ import com.schibsted.account.ui.login.screen.term.TermsFragment
 import com.schibsted.account.ui.login.screen.term.TermsPresenter
 import com.schibsted.account.ui.login.screen.verification.VerificationFragment
 import com.schibsted.account.ui.login.screen.verification.VerificationPresenter
-import com.schibsted.account.ui.smartlock.SmartlockImpl
+import com.schibsted.account.ui.navigation.Navigation
+import com.schibsted.account.ui.smartlock.SmartlockController
 import com.schibsted.account.ui.ui.BaseFragment
 
-class FragmentProvider(private val uiConfiguration: InternalUiConfiguration) {
+class FragmentProvider(private val uiConfiguration: InternalUiConfiguration, private val navigation: Navigation) {
 
     fun getOrCreateIdentificationFragment(
-        currentFragment: BaseFragment?,
         provider: InputProvider<Identifier>? = null,
         flowType: AccountUi.FlowType,
         flowSelectionListener: FlowSelectionListener? = null,
         clientInfo: ClientInfo
     ): BaseFragment {
 
-        return getFragment<AbstractIdentificationFragment>(currentFragment, {
-            it.setPresenter(IdentificationPresenter(it, provider, flowSelectionListener))
-        }, {
+        return getFragment<AbstractIdentificationFragment>(navigation.currentFragment, {
             if (flowType == AccountUi.FlowType.PASSWORDLESS_SMS) {
                 MobileIdentificationFragment.newInstance(uiConfiguration, clientInfo)
             } else {
                 EmailIdentificationFragment.newInstance(uiConfiguration, clientInfo)
             }
+        }, {
+            it.setPresenter(IdentificationPresenter(it, provider, flowSelectionListener))
         })
     }
 
     fun getOrCreatePasswordFragment(
-        currentFragment: BaseFragment?,
         provider: InputProvider<Credentials>,
         currentIdentifier: Identifier,
         userAvailable: Boolean,
-        smartlockImpl: SmartlockImpl?
+        smartlockController: SmartlockController?
     ): BaseFragment {
-        return getFragment(currentFragment, {
-            it.setPresenter(PasswordPresenter(it, provider, smartlockImpl))
-        }, {
+        return getFragment(navigation.currentFragment, {
             PasswordFragment.newInstance(currentIdentifier, userAvailable, uiConfiguration)
-        })
-    }
-
-    fun getOrCreateInboxFragment(currentFragment: BaseFragment?, currentIdentifier: Identifier): BaseFragment {
-        return currentFragment as? InboxFragment ?: InboxFragment.newInstance(currentIdentifier)
-    }
-
-    fun getOrCreateTermsFragment(currentFragment: BaseFragment?, provider: InputProvider<Agreements>, userAvailable: Boolean, agreementLinks: AgreementLinksResponse): BaseFragment {
-        return getFragment(currentFragment, {
-            it.setPresenter(TermsPresenter(it, provider))
         }, {
-            TermsFragment.newInstance(uiConfiguration, userAvailable, agreementLinks)
+            it.setPresenter(PasswordPresenter(it, provider, smartlockController))
         })
     }
 
-    fun getOrCreateRequiredFieldsFragment(currentFragment: BaseFragment?, provider: InputProvider<RequiredFields>, fields: Set<String>): BaseFragment {
-        return getFragment(currentFragment, {
+    fun getOrCreateInboxFragment(currentIdentifier: Identifier): BaseFragment {
+        return navigation.currentFragment as? InboxFragment
+                ?: InboxFragment.newInstance(currentIdentifier)
+    }
+
+    fun getOrCreateTermsFragment(provider: InputProvider<Agreements>, userAvailable: Boolean, agreementLinks: AgreementLinksResponse): BaseFragment {
+        return getFragment(navigation.currentFragment, {
+            TermsFragment.newInstance(uiConfiguration, userAvailable, agreementLinks)
+        }, {
+            it.setPresenter(TermsPresenter(it, provider))
+        })
+    }
+
+    fun getOrCreateRequiredFieldsFragment(provider: InputProvider<RequiredFields>, fields: Set<String>): BaseFragment {
+        return getFragment(navigation.currentFragment, {
+            RequiredFieldsFragment.newInstance(uiConfiguration)
+        }, {
             it.setPresenter(RequiredFieldsPresenter(it, provider))
             it.missingField = fields
-        }, {
-            RequiredFieldsFragment.newInstance(uiConfiguration)
         })
     }
 
     fun getOrCreateVerificationScreen(
-        currentFragment: BaseFragment?,
         provider: InputProvider<VerificationCode>,
         identifier: Identifier,
         passwordlessController: PasswordlessController
     ): BaseFragment {
-        return getFragment(currentFragment, {
+        return getFragment(navigation.currentFragment, { VerificationFragment.newInstance(identifier) }, {
             it.setPresenter(VerificationPresenter(it, provider))
             it.setPasswordlessController(passwordlessController)
-        }, { VerificationFragment.newInstance(identifier) })
+        })
     }
 
     private inline fun <reified T> getFragment(
         existingFragment: BaseFragment?,
-        applyTo: (T) -> Unit,
-        create: () -> T
+        create: () -> T,
+        applyTo: (T) -> Unit
     ): T {
         return if (existingFragment is T) {
             applyTo(existingFragment)

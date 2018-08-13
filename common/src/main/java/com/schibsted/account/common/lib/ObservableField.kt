@@ -49,4 +49,6 @@ open class ObservableField<T>(initialValue: T) {
     fun removeListener(listener: Observer<T>) {
         listeners.remove(listener)
     }
+
+    fun hasObservers() = listeners.isNotEmpty()
 }

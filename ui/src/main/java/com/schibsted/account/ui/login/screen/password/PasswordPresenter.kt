@@ -14,10 +14,10 @@ import com.schibsted.account.model.error.ClientError
 import com.schibsted.account.ui.ErrorUtil
 import com.schibsted.account.ui.R
 import com.schibsted.account.ui.login.BaseLoginActivity
-import com.schibsted.account.ui.smartlock.SmartlockImpl
+import com.schibsted.account.ui.smartlock.SmartlockController
 import com.schibsted.account.ui.ui.InputField
 
-class PasswordPresenter(private val view: PasswordContract.View, private var provider: InputProvider<Credentials>, private val smartlockImpl: SmartlockImpl?) : PasswordContract.Presenter {
+class PasswordPresenter(private val view: PasswordContract.View, private var provider: InputProvider<Credentials>, private val smartlockController: SmartlockController?) : PasswordContract.Presenter {
 
     init {
         view.setPresenter(this)
@@ -30,7 +30,7 @@ class PasswordPresenter(private val view: PasswordContract.View, private var pro
         if (inputField.isInputValid) {
             provider.provide(Credentials(identifier!!, inputField.input!!, keepUserLoggedIn), object : ResultCallback<NoValue> {
                 override fun onSuccess(result: NoValue) {
-                    smartlockImpl?.saveCredential(identifier.identifier, inputField.input!!)
+                    smartlockController?.saveCredential(identifier.identifier, inputField.input!!)
                 }
 
                 override fun onError(error: ClientError) {
