@@ -7,11 +7,11 @@ package com.schibsted.account.ui.navigation
 import com.schibsted.account.common.util.Logger
 import com.schibsted.account.network.OIDCScope
 import com.schibsted.account.util.DeepLink
-import io.kotlintest.matchers.containsAll
+import io.kotlintest.matchers.containAll
 import io.kotlintest.matchers.haveSubstring
-import io.kotlintest.matchers.should
-import io.kotlintest.matchers.shouldBe
-import io.kotlintest.matchers.shouldNotBe
+import io.kotlintest.should
+import io.kotlintest.shouldBe
+import io.kotlintest.shouldNotBe
 import io.kotlintest.matchers.startWith
 import io.kotlintest.specs.WordSpec
 import java.net.URI
@@ -39,7 +39,7 @@ class DeepLinkTest : WordSpec({
         "correctly parse multiple scopes" {
             val uri = URI.create(redir.toString() + "?act=validate-account&code=ab.c12.3!&sc=name-nickname")
             val decoded = DeepLink.ValidateAccount(uri)
-            decoded!!.scopes.toList() should containsAll(listOf(OIDCScope.SCOPE_READ_NAME, OIDCScope.SCOPE_READ_NICKNAME))
+            decoded!!.scopes.toList() should containAll(listOf(OIDCScope.SCOPE_READ_NAME, OIDCScope.SCOPE_READ_NICKNAME))
         }
     }
 

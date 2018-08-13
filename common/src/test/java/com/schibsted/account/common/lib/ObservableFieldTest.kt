@@ -4,10 +4,10 @@
 
 package com.schibsted.account.common.lib
 
+import io.kotlintest.fail
 import io.kotlintest.matchers.beInstanceOf
-import io.kotlintest.matchers.fail
 import io.kotlintest.matchers.should
-import io.kotlintest.matchers.shouldBe
+import io.kotlintest.shouldBe
 import io.kotlintest.specs.StringSpec
 
 class ObservableFieldTest : StringSpec({

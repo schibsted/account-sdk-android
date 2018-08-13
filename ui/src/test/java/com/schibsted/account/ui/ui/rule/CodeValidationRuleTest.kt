@@ -1,6 +1,10 @@
+/*
+ * Copyright (c) 2018 Schibsted Products & Technology AS. Licensed under the terms of the MIT license. See LICENSE in the project root.
+ */
+
 package com.schibsted.account.ui.ui.rule
 
-import io.kotlintest.matchers.shouldBe
+import io.kotlintest.shouldBe
 import io.kotlintest.specs.WordSpec
 
 class CodeValidationRuleTest : WordSpec({

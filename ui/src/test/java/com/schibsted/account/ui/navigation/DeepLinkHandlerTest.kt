@@ -9,8 +9,7 @@ import com.schibsted.account.common.util.Logger
 import com.schibsted.account.util.DeepLink
 import com.schibsted.account.util.DeepLinkHandler
 import io.kotlintest.matchers.instanceOf
-import io.kotlintest.matchers.shouldBe
-import io.kotlintest.matchers.shouldEqual
+import io.kotlintest.shouldBe
 import io.kotlintest.specs.WordSpec
 import java.net.URI
 
@@ -33,8 +32,8 @@ class DeepLinkHandlerTest : WordSpec({
 
             res shouldBe instanceOf(DeepLink.ValidateAccount::class)
             val cRes = res as DeepLink.ValidateAccount
-            cRes.code shouldEqual "12345"
-            cRes.isPersistable shouldEqual true
+            cRes.code shouldBe "12345"
+            cRes.isPersistable shouldBe true
         }
 
         "correctly handle the identifier provided action" {
@@ -42,7 +41,7 @@ class DeepLinkHandlerTest : WordSpec({
             val res = DeepLinkHandler.resolveDeepLink(uri.toString())
 
             res shouldBe instanceOf(DeepLink.IdentifierProvided::class)
-            (res as DeepLink.IdentifierProvided).identifier shouldEqual "myid@mail.com"
+            (res as DeepLink.IdentifierProvided).identifier shouldBe "myid@mail.com"
         }
 
         "not call anything when not matching the scheme" {

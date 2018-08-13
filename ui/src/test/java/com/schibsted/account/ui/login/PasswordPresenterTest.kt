@@ -20,7 +20,7 @@ import com.schibsted.account.ui.login.screen.password.PasswordContract
 import com.schibsted.account.ui.login.screen.password.PasswordPresenter
 import com.schibsted.account.ui.smartlock.SmartlockController
 import com.schibsted.account.ui.ui.InputField
-import io.kotlintest.matchers.shouldThrow
+import io.kotlintest.shouldThrow
 import io.kotlintest.specs.WordSpec
 
 class PasswordPresenterTest : WordSpec() {

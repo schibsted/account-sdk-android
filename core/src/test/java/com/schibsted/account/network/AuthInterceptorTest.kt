@@ -17,10 +17,10 @@ import com.schibsted.account.session.User
 import com.schibsted.account.test.TestUtil
 import io.kotlintest.forAll
 import io.kotlintest.matchers.beInstanceOf
-import io.kotlintest.matchers.should
-import io.kotlintest.matchers.shouldBe
-import io.kotlintest.matchers.shouldNotBe
-import io.kotlintest.matchers.shouldThrow
+import io.kotlintest.should
+import io.kotlintest.shouldBe
+import io.kotlintest.shouldNotBe
+import io.kotlintest.shouldThrow
 import io.kotlintest.specs.WordSpec
 import kotlinx.coroutines.experimental.async
 import kotlinx.coroutines.experimental.newFixedThreadPoolContext
@@ -55,8 +55,7 @@ class AuthInterceptorTest : WordSpec() {
     init {
         Logger.logWorker = TestUtil.testLogger
         ClientConfiguration.set(ClientConfiguration("http://myenv.com", "id", "secret"))
-
-        should {
+        "interceptor" should {
             "not allow non-HTTPS schemes if not specifically allowed" {
                 shouldThrow<IllegalArgumentException> {
                     AuthInterceptor(mock(), listOf("http://example.com"), allowNonHttps = false)
