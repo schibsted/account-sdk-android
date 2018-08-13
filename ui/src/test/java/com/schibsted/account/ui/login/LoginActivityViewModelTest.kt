@@ -15,8 +15,7 @@ import com.schibsted.account.network.response.ClientInfo
 import com.schibsted.account.ui.AccountUi
 import com.schibsted.account.ui.smartlock.SmartlockTask
 import io.kotlintest.matchers.instanceOf
-import io.kotlintest.matchers.shouldBe
-import io.kotlintest.mock.mock
+import io.kotlintest.shouldBe
 import io.kotlintest.specs.WordSpec
 import org.mockito.internal.verification.Times
 import java.net.URI
@@ -49,22 +48,19 @@ class LoginActivityViewModelTest : WordSpec({
         val failure: ObservableField<SmartlockTask.SmartLockResult> = ObservableField(SmartlockTask.SmartLockResult.Failure(-1))
         val success: ObservableField<SmartlockTask.SmartLockResult> = ObservableField(SmartlockTask.SmartLockResult.Success(-1, mock()))
 
-        "with not valid credentials" should {
+        "assign a failure value to the smartlock result observer with not valid credentials " {
             whenever(smartlockTask.credentialsFromParcelable(any(), any(), any())) doReturn failure
-            "assign a failure value to the smartlock result observer" {
-                loginActivityViewModel.updateSmartlockCredentials(1, Activity.RESULT_OK, mock())
-                verify(smartlockTask).credentialsFromParcelable(eq(1), eq(Activity.RESULT_OK), any())
-                loginActivityViewModel.smartlockResult.value = failure.value
-            }
+            loginActivityViewModel.updateSmartlockCredentials(1, Activity.RESULT_OK, mock())
+            verify(smartlockTask).credentialsFromParcelable(eq(1), eq(Activity.RESULT_OK), any())
+            loginActivityViewModel.smartlockResult.value = failure.value
         }
 
-        "with a valid credentials" should {
+        "assign a success value to the smartlock result observer with a valid credentials" {
             whenever(smartlockTask.credentialsFromParcelable(any(), any(), any())) doReturn success
-            "assign a success value to the smartlock result observer" {
-                loginActivityViewModel.updateSmartlockCredentials(1, Activity.RESULT_OK, mock())
-                verify(smartlockTask).credentialsFromParcelable(eq(1), eq(Activity.RESULT_OK), any())
-                loginActivityViewModel.smartlockResult.value = success.value
-            }
+
+            loginActivityViewModel.updateSmartlockCredentials(1, Activity.RESULT_OK, mock())
+            verify(smartlockTask, Times(2)).credentialsFromParcelable(eq(1), eq(Activity.RESULT_OK), any())
+            loginActivityViewModel.smartlockResult.value = success.value
         }
     }
 
@@ -78,7 +74,7 @@ class LoginActivityViewModelTest : WordSpec({
         }
         "update the smartlock flow observable with the returned value" {
             whenever(smartlockTask.initializeSmartlock(any(), any())) doReturn ObservableField(false)
-            loginActivityViewModel.startSmartLockFlow.value shouldBe null
+            loginActivityViewModel.startSmartLockFlow.value = false
             loginActivityViewModel.initializeSmartlock()
             loginActivityViewModel.startSmartLockFlow.value shouldBe false
 
@@ -87,7 +83,7 @@ class LoginActivityViewModelTest : WordSpec({
             loginActivityViewModel.initializeSmartlock()
             loginActivityViewModel.startSmartLockFlow.value shouldBe true
 
-            verify(smartlockTask, Times(2)).initializeSmartlock(loginActivityViewModel.smartlockReceiver.isSmartlockResolving.value)
+            verify(smartlockTask, Times(3)).initializeSmartlock(loginActivityViewModel.smartlockReceiver.isSmartlockResolving.value)
         }
     }
 
@@ -102,20 +98,17 @@ class LoginActivityViewModelTest : WordSpec({
 
     "get client info" should {
         val viewModel: LoginActivityViewModel = mock {}
-        "with a null intent info" should {
-            "fetch info from the network" {
-                whenever(viewModel.getClientInfo(null)).thenCallRealMethod()
-                viewModel.getClientInfo(null)
-                verify(viewModel).fetchClientInfo()
-            }
+        " fetch info from the network with a null intent info" {
+            whenever(viewModel.getClientInfo(null)).thenCallRealMethod()
+            viewModel.getClientInfo(null)
+            verify(viewModel).fetchClientInfo()
         }
-        "with a valid intent info" should {
-            "assign the intent data to the clienResult value" {
-                val clientInfo = ClientInfo("1", "client", "alias", mapOf(), "domain", 3, mapOf(), mapOf(), mock())
-                loginActivityViewModel.getClientInfo(clientInfo)
-                loginActivityViewModel.clientResult.value shouldBe instanceOf(LoginActivityViewModel.ClientResult.Success::class)
-                (loginActivityViewModel.clientResult.value as LoginActivityViewModel.ClientResult.Success).clientInfo shouldBe clientInfo
-            }
+
+        " assign the intent data to the clienResult value with a valid intent info" {
+            val clientInfo = ClientInfo("1", "client", "alias", mapOf(), "domain", 3, mapOf(), mapOf(), mock())
+            loginActivityViewModel.getClientInfo(clientInfo)
+            loginActivityViewModel.clientResult.value shouldBe instanceOf(LoginActivityViewModel.ClientResult.Success::class)
+            (loginActivityViewModel.clientResult.value as LoginActivityViewModel.ClientResult.Success).clientInfo shouldBe clientInfo
         }
     }
 })
