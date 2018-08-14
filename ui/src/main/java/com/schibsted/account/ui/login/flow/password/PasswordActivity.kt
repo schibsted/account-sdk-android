@@ -26,17 +26,14 @@ class PasswordActivity : BaseLoginActivity(), SignUpContract {
     private var signUpController: SignUpController? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
+
         super.onCreate(savedInstanceState)
-        viewModel.isFlowReady().observe(this, Observer { shouldFetchInfoFirst ->
-            shouldFetchInfoFirst?.let {
-                if (shouldFetchInfoFirst) {
-                    loadRequiredInformation()
-                } else {
-                    viewModel.startLoginController(this.loginContract)
-                    viewModel.startSignUpController(this)
-                }
-            }
-        })
+        if (viewModel.isFlowReady()) {
+            viewModel.startLoginController(this.loginContract)
+            viewModel.startSignUpController(this)
+        } else {
+            loadRequiredInformation()
+        }
 
         viewModel.smartlockCredentials.observe(this, Observer { credentials ->
             credentials?.let {

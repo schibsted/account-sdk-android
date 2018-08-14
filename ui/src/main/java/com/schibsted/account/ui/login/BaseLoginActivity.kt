@@ -122,6 +122,7 @@ abstract class BaseLoginActivity : AppCompatActivity(), NavigationListener {
 
         val smartlockTask = SmartlockTask(uiConfiguration.smartlockMode)
         viewModel = ViewModelProviders.of(this, LoginActivityViewModelFactory(smartlockTask, uiConfiguration.redirectUri, params)).get(LoginActivityViewModel::class.java)
+
         viewModel.smartlockCredentials.value = intent.getParcelableExtra(KEY_SMARTLOCK_CREDENTIALS)
         initializePropertiesFromBundle(savedInstanceState)
 
@@ -179,16 +180,24 @@ abstract class BaseLoginActivity : AppCompatActivity(), NavigationListener {
         })
 
         viewModel.clientResult.observe(this, Observer {
-            when (it) {
+            val result = it?.get()
+            when (result) {
                 is LoginActivityViewModel.ClientResult.Success -> {
-                    BaseLoginActivity.tracker?.merchantId = it.clientInfo.merchantId
-                    navigationController.dismissDialog()
-                    navigateToIdentificationFragment(it.clientInfo, viewModel, idProvider)
+                    BaseLoginActivity.tracker?.merchantId = result.clientInfo.merchantId
+                    navigateToIdentificationFragment(result.clientInfo, viewModel, idProvider)
                 }
                 is LoginActivityViewModel.ClientResult.Failure -> {
-                    setResult(AccountUi.RESULT_ERROR, Intent().putExtra(AccountUi.EXTRA_ERROR, it.error))
+                    setResult(AccountUi.RESULT_ERROR, Intent().putExtra(AccountUi.EXTRA_ERROR, result.error))
                     finish()
                 }
+            }
+        })
+
+        viewModel.clientResolvingState.observe(this, Observer {
+            if (it == true) {
+                navigationController.navigationToDialog(LoadingDialogFragment())
+            } else {
+                navigationController.dismissDialog()
             }
         })
 
@@ -230,7 +239,6 @@ abstract class BaseLoginActivity : AppCompatActivity(), NavigationListener {
     }
 
     fun loadRequiredInformation(provider: InputProvider<Identifier>? = null) {
-        navigationController.navigationToDialog(LoadingDialogFragment())
         idProvider = provider
         viewModel.getClientInfo(intent.getParcelableExtra(AccountUi.KEY_CLIENT_INFO))
     }

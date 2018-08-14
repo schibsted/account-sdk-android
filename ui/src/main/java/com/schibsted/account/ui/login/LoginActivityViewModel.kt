@@ -3,7 +3,6 @@
  */
 package com.schibsted.account.ui.login
 
-import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
 import android.os.Parcelable
@@ -23,6 +22,7 @@ import com.schibsted.account.model.error.ClientError
 import com.schibsted.account.network.response.ClientInfo
 import com.schibsted.account.session.User
 import com.schibsted.account.ui.AccountUi
+import com.schibsted.account.ui.Event
 import com.schibsted.account.ui.InternalUiConfiguration
 import com.schibsted.account.ui.login.flow.password.FlowSelectionListener
 import com.schibsted.account.ui.smartlock.SmartlockReceiver
@@ -36,14 +36,15 @@ class LoginActivityViewModel(
     private val params: AccountUi.Params
 ) : ViewModel(), FlowSelectionListener {
 
-    val loginController = MutableLiveData<LoginController>()
-    val signUpController = MutableLiveData<SignUpController>()
+    val loginController = MutableLiveData<Event<LoginController>>()
+    val signUpController = MutableLiveData<Event<SignUpController>>()
 
     val user = MutableLiveData<User>()
     var userFlowType: FlowSelectionListener.FlowType? = null
     var userIdentifier: Identifier? = null
 
-    val clientResult = MutableLiveData<ClientResult>()
+    val clientResult = MutableLiveData<Event<ClientResult>>()
+    val clientResolvingState = MutableLiveData<Boolean>()
 
     val uiConfiguration = MutableLiveData<InternalUiConfiguration>()
 
@@ -64,10 +65,10 @@ class LoginActivityViewModel(
         userFlowType = flowType
         when (userFlowType) {
             FlowSelectionListener.FlowType.LOGIN -> {
-                loginController.value = LoginController(true, params.scopes)
+                loginController.value = Event(LoginController(true, params.scopes))
             }
             FlowSelectionListener.FlowType.SIGN_UP -> {
-                signUpController.value = SignUpController(redirectUri, params.scopes)
+                signUpController.value = Event(SignUpController(redirectUri, params.scopes))
             }
         }
     }
@@ -76,9 +77,11 @@ class LoginActivityViewModel(
     fun isSmartlockResolving() = smartlockReceiver.isSmartlockResolving.value
 
     fun initializeSmartlock() {
-        smartlockTask.initializeSmartlock(smartlockReceiver.isSmartlockResolving.value).addListener(true, true) {
-            loginController.value = LoginController(true, params.scopes)
-            startSmartLockFlow.value = it
+        smartlockTask.initializeSmartlock(smartlockReceiver.isSmartlockResolving.value).addListener(true, true) { shouldStartSmartlock ->
+            if (shouldStartSmartlock) {
+                loginController.value = Event(LoginController(true, params.scopes))
+            }
+            startSmartLockFlow.value = shouldStartSmartlock
         }
     }
 
@@ -105,24 +108,27 @@ class LoginActivityViewModel(
         if (intentClientInfo == null) {
             fetchClientInfo()
         } else {
-            clientResult.value = ClientResult.Success(intentClientInfo)
+            clientResult.setValue(Event(ClientResult.Success(intentClientInfo)))
         }
     }
 
     internal fun fetchClientInfo() {
+        clientResolvingState.value = true
         ClientInfoOperation({ error ->
-            clientResult.value = ClientResult.Failure(error.toClientError())
+            clientResolvingState.value = false
+            clientResult.setValue(Event(ClientResult.Failure(error.toClientError())))
         }, { info ->
-            clientResult.value = ClientResult.Success(info)
+            clientResolvingState.value = false
+            clientResult.setValue(Event(ClientResult.Success(info)))
         })
     }
 
     fun startLoginController(contract: LoginContract) {
-        loginController.value?.start(contract)
+        loginController.value?.peek()?.start(contract)
     }
 
     fun startSignUpController(contract: SignUpContract) {
-        signUpController.value?.start(contract)
+        signUpController.value?.peek()?.start(contract)
     }
 
     fun updateSmartlockCredentials(requestCode: Int, resultCode: Int, smartlockCredentials: Parcelable?) {
@@ -131,11 +137,8 @@ class LoginActivityViewModel(
         }
     }
 
-    fun isFlowReady(): LiveData<Boolean?> {
-        if (smartlockCredentials.value == null && smartlockReceiver.isSmartlockResolving.value) {
-            return MutableLiveData<Boolean>().apply { value = userFlowType == null }
-        }
-        return MutableLiveData<Boolean>().apply { value = null }
+    fun isFlowReady(): Boolean {
+        return smartlockCredentials.value == null && !smartlockReceiver.isSmartlockResolving.value && userFlowType != null
     }
 
     sealed class ClientResult {
