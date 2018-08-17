@@ -108,7 +108,7 @@ class LoginActivityViewModel(
         if (intentClientInfo == null) {
             fetchClientInfo()
         } else {
-            clientResult.setValue(Event(ClientResult.Success(intentClientInfo)))
+            clientResult.value = Event(ClientResult.Success(intentClientInfo))
         }
     }
 
@@ -116,10 +116,10 @@ class LoginActivityViewModel(
         clientResolvingState.value = true
         ClientInfoOperation({ error ->
             clientResolvingState.value = false
-            clientResult.setValue(Event(ClientResult.Failure(error.toClientError())))
+            clientResult.value = Event(ClientResult.Failure(error.toClientError()))
         }, { info ->
             clientResolvingState.value = false
-            clientResult.setValue(Event(ClientResult.Success(info)))
+            clientResult.value = (Event(ClientResult.Success(info)))
         })
     }
 
@@ -137,9 +137,7 @@ class LoginActivityViewModel(
         }
     }
 
-    fun isFlowReady(): Boolean {
-        return smartlockCredentials.value == null && !smartlockReceiver.isSmartlockResolving.value && userFlowType != null
-    }
+    fun isFlowReady(): Boolean = smartlockCredentials.value == null && !smartlockReceiver.isSmartlockResolving.value && userFlowType != null
 
     sealed class ClientResult {
         data class Success(val clientInfo: ClientInfo) : ClientResult()
