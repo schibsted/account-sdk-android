@@ -9,7 +9,6 @@ import android.os.Parcel
 import android.os.Parcelable
 import android.support.annotation.DrawableRes
 import com.schibsted.account.engine.input.Identifier
-import com.schibsted.account.ui.smartlock.SmartlockMode
 import java.net.URI
 import java.util.Locale
 
@@ -20,7 +19,6 @@ data class InternalUiConfiguration(
     val identifierType: Identifier.IdentifierType = Identifier.IdentifierType.EMAIL,
     val identifier: String? = null,
     val signUpEnabled: Boolean = true,
-    val smartlockMode: SmartlockMode = SmartlockMode.DISABLED,
     @DrawableRes val clientLogo: Int = 0,
     val teaserText: String? = null,
     val signUpNotAllowedErrorMessage: String? = null,
@@ -29,7 +27,7 @@ data class InternalUiConfiguration(
 
     init {
         if (!signUpEnabled && signUpNotAllowedErrorMessage.isNullOrEmpty()) {
-            throw IllegalArgumentException("The property signUpNotAllowedErrorMessage must be specified if signUpEnabled is set to false")
+            throw IllegalArgumentException("The property signUpNotAllowedErrorMessage must be specified if signUpMode is set to false")
         }
     }
 
@@ -40,7 +38,6 @@ data class InternalUiConfiguration(
             source.readSerializable() as Identifier.IdentifierType,
             source.readString(),
             source.readInt() == 1,
-            source.readSerializable() as SmartlockMode,
             source.readInt(),
             source.readString(),
             source.readString(),
@@ -56,7 +53,6 @@ data class InternalUiConfiguration(
         writeSerializable(identifierType)
         writeString(identifier)
         writeInt(if (signUpEnabled) 1 else 0)
-        writeSerializable(smartlockMode)
         writeInt(clientLogo)
         writeString(teaserText)
         writeString(signUpNotAllowedErrorMessage)
@@ -71,23 +67,33 @@ data class InternalUiConfiguration(
         }
 
         @JvmStatic
-        fun resolve(application: Application): InternalUiConfiguration {
+        fun resolve(application: Application, uiParams: AccountUi.Params, idType: Identifier.IdentifierType): InternalUiConfiguration {
             val requiredConfig = RequiredConfiguration.fromResources(application.applicationContext)
-            val optionalConfig = OptionalConfiguration.resolve(application)
+            val optionalConfig = OptionalConfiguration.fromManifest(application)
 
-            // TODO: Pre-filled identifier and teaser text should be arguments instead
+            val signupEnabled = if (optionalConfig.signUpMode == null) {
+                uiParams.signUpMode == SignUpMode.Enabled
+            } else {
+                optionalConfig.signUpMode == SignUpMode.Enabled
+            }
+
+            val locale = optionalConfig.locale ?: uiParams.locale
+            val clientLogo = optionalConfig.clientLogo ?: uiParams.clientLogo
+            val isCancellable = optionalConfig.isCancellable ?: uiParams.isCancellable
+            val disabledMessage = (optionalConfig.signUpMode as? SignUpMode.Disabled)?.disabledMessage
+                    ?: (uiParams.signUpMode as? SignUpMode.Disabled)?.disabledMessage
+
             return InternalUiConfiguration(
                     requiredConfig.clientName,
                     requiredConfig.redirectUri,
-                    optionalConfig.locale,
-                    Identifier.IdentifierType.EMAIL, // TODO: Remove
-                    null, // TODO: Remove
-                    optionalConfig.signUpEnabled == OptionalConfiguration.SignUpMode.Enabled,
-                    SmartlockMode.DISABLED, // TODO: Remove
-                    optionalConfig.clientLogo,
-                    null, // TODO: Remove
-                    (optionalConfig.signUpEnabled as? OptionalConfiguration.SignUpMode.Disabled)?.disabledMessage,
-                    optionalConfig.isCancellable
+                    locale,
+                    idType,
+                    uiParams.preFilledIdentifier,
+                    signupEnabled,
+                    clientLogo,
+                    uiParams.teaserText,
+                    disabledMessage,
+                    isCancellable
             )
         }
     }

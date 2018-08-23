@@ -69,6 +69,7 @@ abstract class BaseLoginActivity : AppCompatActivity(), NavigationListener {
         private const val KEY_SCREEN = "SCREEN"
         const val EXTRA_USER = "USER_USER"
         const val KEY_SMARTLOCK_CREDENTIALS = "CREDENTIALS"
+        const val KEY_LANGUAGE = "KEY_LANGUAGE"
         @JvmStatic
         var tracker by Delegates.observable<UiTracking?>(null) { _, _, newValue ->
             val conf = ClientConfiguration.get()
@@ -108,11 +109,20 @@ abstract class BaseLoginActivity : AppCompatActivity(), NavigationListener {
         super.onCreate(savedInstanceState)
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true)
         params = intent.extras?.let { AccountUi.Params(it) } ?: AccountUi.Params()
+        val isLanguageSet = intent.extras?.getBoolean(KEY_LANGUAGE)
         flowType = intent.getStringExtra(AccountUi.KEY_FLOW_TYPE)
                 ?.let { AccountUi.FlowType.valueOf(it) }
                 ?: AccountUi.FlowType.PASSWORD
 
         initializeUi()
+
+        val locale = OptionalConfiguration.fromManifest(applicationContext).locale
+        if (locale == null && isLanguageSet == false) {
+            UiUtil.updateContextLocale(this, params.locale)
+            intent.putExtra(KEY_LANGUAGE, true)
+            recreate()
+        }
+
         accountService = AccountService(applicationContext)
         lifecycle.addObserver(accountService)
         navigationController = Navigation(this, this)
@@ -120,7 +130,7 @@ abstract class BaseLoginActivity : AppCompatActivity(), NavigationListener {
         uiConfiguration = initializeConfiguration()
         fragmentProvider = FragmentProvider(uiConfiguration, navigationController)
 
-        val smartlockTask = SmartlockTask(uiConfiguration.smartlockMode)
+        val smartlockTask = SmartlockTask(params.smartLockMode)
         viewModel = ViewModelProviders.of(this, LoginActivityViewModelFactory(smartlockTask, uiConfiguration.redirectUri, params)).get(LoginActivityViewModel::class.java)
 
         viewModel.smartlockCredentials.value = intent.getParcelableExtra(KEY_SMARTLOCK_CREDENTIALS)
@@ -162,7 +172,7 @@ abstract class BaseLoginActivity : AppCompatActivity(), NavigationListener {
                 }
                 is SmartlockTask.SmartLockResult.Failure -> {
                     if (result.resultCode != Activity.RESULT_OK) {
-                        Logger.info(TAG, "Smartlock login failed - smartlockController mode ${uiConfiguration.smartlockMode.name}")
+                        Logger.info(TAG, "Smartlock login failed - smartlockController mode ${params.smartLockMode.name}")
                         setResult(AccountUi.SMARTLOCK_FAILED, intent)
                         progressBar.visibility = View.GONE
                         finish()
@@ -211,7 +221,12 @@ abstract class BaseLoginActivity : AppCompatActivity(), NavigationListener {
     }
 
     override fun attachBaseContext(base: Context) {
-        super.attachBaseContext(UiUtil.updateContextLocale(base, OptionalConfiguration.fromManifest(base).locale))
+        val locale = OptionalConfiguration.fromManifest(base.applicationContext).locale
+        if (locale != null) {
+            super.attachBaseContext(UiUtil.updateContextLocale(base, locale))
+        } else {
+            super.attachBaseContext(base)
+        }
     }
 
     private fun initializeUi() {
@@ -222,11 +237,7 @@ abstract class BaseLoginActivity : AppCompatActivity(), NavigationListener {
 
     private fun initializeConfiguration(): InternalUiConfiguration {
         val idType = if (flowType == AccountUi.FlowType.PASSWORDLESS_SMS) Identifier.IdentifierType.SMS else Identifier.IdentifierType.EMAIL
-        return InternalUiConfiguration.resolve(application).copy(
-                identifierType = idType,
-                identifier = params.preFilledIdentifier,
-                teaserText = params.teaserText,
-                smartlockMode = params.smartLockMode)
+        return InternalUiConfiguration.resolve(application, params, idType)
     }
 
     private fun initializePropertiesFromBundle(savedInstanceState: Bundle?) {

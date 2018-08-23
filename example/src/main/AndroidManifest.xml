@@ -20,7 +20,7 @@
 
         <meta-data android:name="@string/schacc_conf_locale" android:value="nb_NO" />
         <meta-data android:name="@string/schacc_conf_cancellable" android:value="false" />
-        <meta-data android:name="@string/schacc_conf_client_logo" android:resource="@drawable/schacc_ic_cancel" />
+        <meta-data android:name="@string/schacc_conf_client_logo" android:resource="@drawable/ic_example_logo" />
 
         <activity android:name="com.schibsted.account.example.MainActivity">
             <intent-filter>

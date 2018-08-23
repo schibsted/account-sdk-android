@@ -9,6 +9,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.os.Parcelable
+import android.support.annotation.DrawableRes
 import com.schibsted.account.engine.integration.ResultCallback
 import com.schibsted.account.engine.operation.ClientInfoOperation
 import com.schibsted.account.network.OIDCScope
@@ -18,6 +19,7 @@ import com.schibsted.account.ui.login.flow.passwordless.PasswordlessActivity
 import com.schibsted.account.ui.smartlock.SmartlockController
 import com.schibsted.account.ui.smartlock.SmartlockMode
 import kotlinx.android.parcel.Parcelize
+import java.util.Locale
 
 object AccountUi {
     const val KEY_PARAMS = "SCHACC_PARAMS"
@@ -42,11 +44,16 @@ object AccountUi {
      *
      */
     @Parcelize
-    data class Params(
+    data class Params internal constructor(
         val teaserText: String? = null,
         val preFilledIdentifier: String? = null,
         val smartLockMode: SmartlockMode = SmartlockMode.DISABLED,
+        val locale: Locale = Locale.getDefault(),
+        val signUpMode: SignUpMode = SignUpMode.Enabled,
+        val isCancellable: Boolean = true,
+        @DrawableRes val clientLogo: Int = 0,
         @OIDCScope val scopes: Array<String> = arrayOf(OIDCScope.SCOPE_OPENID)
+
     ) : Parcelable {
 
         class Builder {
@@ -55,6 +62,9 @@ object AccountUi {
             fun preFilledIdentifier(preFilledIdentifier: String?) = apply { params = params.copy(preFilledIdentifier = preFilledIdentifier) }
             fun smartLockMode(smartLockMode: SmartlockMode) = apply { params = params.copy(smartLockMode = smartLockMode) }
             fun scopes(@OIDCScope scopes: Array<String>) = apply { params = params.copy(scopes = scopes) }
+            fun locale(locale: Locale) = apply { params = params.copy(locale = locale) }
+            fun signUpMode(mode: SignUpMode) = apply { params = params.copy(signUpMode = mode) }
+            fun isCancellable(isCancellable: Boolean) = apply { params = params.copy(isCancellable = isCancellable) }
             fun build() = params
         }
 
@@ -81,12 +91,11 @@ object AccountUi {
         })
     }
 
+    /** @param context The application context
+     * @param flowType Which UI flow to initialize
+     * @param params Additional [Params] for the UIs
+     */
     @JvmStatic
-            /**
-             * @param context The application context
-             * @param flowType Which UI flow to initialize
-             * @param params Additional [Params] for the UIs
-             */
     fun getCallingIntent(context: Context, flowType: FlowType, params: Params = Params()): Intent {
         if (params.smartLockMode != SmartlockMode.DISABLED && !SmartlockController.isSmartlockAvailable()) {
             throw IllegalStateException("SmartLock is enabled, but not found on the classpath. Please verify that the smartlock module is included in your build")
