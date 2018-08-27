@@ -44,6 +44,7 @@ class PasswordActivity : BaseLoginActivity(), SignUpContract {
 
         viewModel.signUpController.observe(this, Observer {
             if (!viewModel.isSmartlockResolving()) {
+                signUpController = it?.peek()
                 viewModel.startSignUpController(this)
                 BaseLoginActivity.tracker?.intent = TrackingData.UserIntent.CREATE
             }
