@@ -41,19 +41,24 @@ object AccountUi {
     /**
      * @param teaserText A teaser text to show on the initial screen
      * @param preFilledIdentifier If the user ID is known, the identifier can be pre-filled
+     * @param smartLockMode A mode used to allow or not the user to log in using smartlock
+     * @param locale the locale to use in the UI
+     * @param signUpMode A mode used to allow or not the user to sign-up using the UI
+     * @param clientLogo a logo to display on the first screen
+     * @param scopes scopes to send along with a network request
      *
+     * Setting one of this value will take precedence over the one you could have defined in the manifest
      */
     @Parcelize
-    data class Params internal constructor(
-        val teaserText: String? = null,
-        val preFilledIdentifier: String? = null,
-        val smartLockMode: SmartlockMode = SmartlockMode.DISABLED,
-        val locale: Locale = Locale.getDefault(),
-        val signUpMode: SignUpMode = SignUpMode.Enabled,
-        val isCancellable: Boolean = true,
-        @DrawableRes val clientLogo: Int = 0,
-        @OIDCScope val scopes: Array<String> = arrayOf(OIDCScope.SCOPE_OPENID)
-
+    data class Params constructor(
+        val teaserText: String? = DEFAULT_TEASER,
+        val preFilledIdentifier: String? = DEFAULT_PREFILLED_IDENTIFIER,
+        val smartLockMode: SmartlockMode = DEFAULT_SMARTLOCK_MODE,
+        val locale: Locale? = null,
+        val signUpMode: SignUpMode = DEFAULT_SIGNUP_MODE,
+        val isCancellable: Boolean = DEFAULT_IS_CANCELLABLE,
+        @DrawableRes val clientLogo: Int = DEFAULT_CLIENT_LOGO,
+        @OIDCScope val scopes: Array<String> = DEFAULT_SCOPES
     ) : Parcelable {
 
         class Builder {
@@ -73,6 +78,16 @@ object AccountUi {
                 // when app is launched via deeplink the parcelable value is null
                 return bundle.getParcelable(KEY_PARAMS) as? Params ?: Params()
             }
+
+            internal val DEFAULT_TEASER: String? = null
+            internal val DEFAULT_PREFILLED_IDENTIFIER: String? = null
+            internal val DEFAULT_SMARTLOCK_MODE = SmartlockMode.DISABLED
+            internal val DEFAULT_LOCALE = Locale.getDefault()
+            internal val DEFAULT_SIGNUP_MODE = SignUpMode.Enabled
+            internal const val DEFAULT_IS_CANCELLABLE = true
+            internal val DEFAULT_SCOPES = arrayOf(OIDCScope.SCOPE_OPENID)
+            @DrawableRes
+            internal val DEFAULT_CLIENT_LOGO = 0
         }
     }
 

@@ -69,7 +69,6 @@ abstract class BaseLoginActivity : AppCompatActivity(), NavigationListener {
         private const val KEY_SCREEN = "SCREEN"
         const val EXTRA_USER = "USER_USER"
         const val KEY_SMARTLOCK_CREDENTIALS = "CREDENTIALS"
-        const val KEY_LANGUAGE = "KEY_LANGUAGE"
         @JvmStatic
         var tracker by Delegates.observable<UiTracking?>(null) { _, _, newValue ->
             val conf = ClientConfiguration.get()
@@ -79,6 +78,7 @@ abstract class BaseLoginActivity : AppCompatActivity(), NavigationListener {
                 else -> "schibsted.com"
             }
         }
+        var isLanguageOverridden = false
     }
 
     private var idProvider: InputProvider<Identifier>? = null
@@ -109,18 +109,18 @@ abstract class BaseLoginActivity : AppCompatActivity(), NavigationListener {
         super.onCreate(savedInstanceState)
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true)
         params = intent.extras?.let { AccountUi.Params(it) } ?: AccountUi.Params()
-        val isLanguageSet = intent.extras?.getBoolean(KEY_LANGUAGE)
         flowType = intent.getStringExtra(AccountUi.KEY_FLOW_TYPE)
                 ?.let { AccountUi.FlowType.valueOf(it) }
                 ?: AccountUi.FlowType.PASSWORD
 
         initializeUi()
 
-        val locale = OptionalConfiguration.fromManifest(applicationContext).locale
-        if (locale == null && isLanguageSet == false) {
-            UiUtil.updateContextLocale(this, params.locale)
-            intent.putExtra(KEY_LANGUAGE, true)
-            recreate()
+        params.locale?.let {
+            if (!isLanguageOverridden) {
+                UiUtil.updateContextLocale(this, it)
+                isLanguageOverridden = true
+                recreate()
+            }
         }
 
         accountService = AccountService(applicationContext)
@@ -222,10 +222,10 @@ abstract class BaseLoginActivity : AppCompatActivity(), NavigationListener {
 
     override fun attachBaseContext(base: Context) {
         val locale = OptionalConfiguration.fromManifest(base.applicationContext).locale
-        if (locale != null) {
-            super.attachBaseContext(UiUtil.updateContextLocale(base, locale))
-        } else {
+        if (locale == null || isLanguageOverridden) {
             super.attachBaseContext(base)
+        } else {
+            super.attachBaseContext(UiUtil.updateContextLocale(base, locale))
         }
     }
 

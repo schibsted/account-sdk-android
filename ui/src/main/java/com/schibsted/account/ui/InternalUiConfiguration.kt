@@ -15,14 +15,14 @@ import java.util.Locale
 data class InternalUiConfiguration(
     val clientName: String,
     val redirectUri: URI,
-    val locale: Locale = Locale.getDefault(),
+    val locale: Locale = AccountUi.Params.DEFAULT_LOCALE,
     val identifierType: Identifier.IdentifierType = Identifier.IdentifierType.EMAIL,
-    val identifier: String? = null,
+    val identifier: String? = AccountUi.Params.DEFAULT_PREFILLED_IDENTIFIER,
     val signUpEnabled: Boolean = true,
-    @DrawableRes val clientLogo: Int = 0,
-    val teaserText: String? = null,
+    @DrawableRes val clientLogo: Int = AccountUi.Params.DEFAULT_CLIENT_LOGO,
+    val teaserText: String? = AccountUi.Params.DEFAULT_TEASER,
     val signUpNotAllowedErrorMessage: String? = null,
-    val isClosingAllowed: Boolean = true
+    val isClosingAllowed: Boolean = AccountUi.Params.DEFAULT_IS_CANCELLABLE
 ) : Parcelable {
 
     init {
@@ -71,17 +71,28 @@ data class InternalUiConfiguration(
             val requiredConfig = RequiredConfiguration.fromResources(application.applicationContext)
             val optionalConfig = OptionalConfiguration.fromManifest(application)
 
-            val signupEnabled = if (optionalConfig.signUpMode == null) {
-                uiParams.signUpMode == SignUpMode.Enabled
-            } else {
-                optionalConfig.signUpMode == SignUpMode.Enabled
+            val signupEnabled = when {
+                uiParams.signUpMode != AccountUi.Params.DEFAULT_SIGNUP_MODE -> uiParams.signUpMode == SignUpMode.Enabled // if overridden programmatically
+                optionalConfig.signUpMode != null -> optionalConfig.signUpMode == SignUpMode.Enabled // if defined in manifest
+                else -> uiParams.signUpMode == SignUpMode.Enabled // if not use fallback
             }
 
-            val locale = optionalConfig.locale ?: uiParams.locale
-            val clientLogo = optionalConfig.clientLogo ?: uiParams.clientLogo
-            val isCancellable = optionalConfig.isCancellable ?: uiParams.isCancellable
-            val disabledMessage = (optionalConfig.signUpMode as? SignUpMode.Disabled)?.disabledMessage
-                    ?: (uiParams.signUpMode as? SignUpMode.Disabled)?.disabledMessage
+            val locale = when {
+                uiParams.locale != null -> uiParams.locale
+                else -> optionalConfig.locale ?: uiParams.locale ?: AccountUi.Params.DEFAULT_LOCALE
+            }
+
+            val clientLogo = when {
+                uiParams.clientLogo != AccountUi.Params.DEFAULT_CLIENT_LOGO -> uiParams.clientLogo
+                else -> optionalConfig.clientLogo ?: uiParams.clientLogo
+            }
+            val isCancellable = when {
+                uiParams.isCancellable != AccountUi.Params.DEFAULT_IS_CANCELLABLE -> uiParams.isCancellable
+                else -> optionalConfig.isCancellable ?: uiParams.isCancellable
+            }
+
+            val disabledMessage = (uiParams.signUpMode as? SignUpMode.Disabled)?.disabledMessage
+                    ?: (optionalConfig.signUpMode as? SignUpMode.Disabled)?.disabledMessage
 
             return InternalUiConfiguration(
                     requiredConfig.clientName,
