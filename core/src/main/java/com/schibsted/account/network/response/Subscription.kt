@@ -3,8 +3,6 @@ package com.schibsted.account.network.response
 import com.schibsted.account.model.Product
 import java.util.Date
 
-data class SubscriptionsResponse(val subscriptions: List<Subscription>)
-
 data class Subscription(
     val subscriptionId: String,
     val clientId: String,

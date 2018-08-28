@@ -4,7 +4,10 @@
 
 package com.schibsted.account.network.service.client
 
+import com.schibsted.account.ResponseContainer
+import com.schibsted.account.common.util.encodeBase64
 import com.schibsted.account.model.ClientToken
+import com.schibsted.account.model.Product
 import com.schibsted.account.network.Environment
 import com.schibsted.account.network.response.AccountStatusResponse
 import com.schibsted.account.network.response.AgreementLinksResponse
@@ -12,7 +15,6 @@ import com.schibsted.account.network.response.ApiContainer
 import com.schibsted.account.network.response.ClientInfo
 import com.schibsted.account.network.response.ProfileData
 import com.schibsted.account.network.service.BaseNetworkService
-import com.schibsted.account.common.util.encodeBase64
 import okhttp3.OkHttpClient
 import retrofit2.Call
 import java.util.HashMap
@@ -62,6 +64,14 @@ class ClientService(@Environment environment: String, okHttpClient: OkHttpClient
 
     fun getClientInfo(clientToken: ClientToken, clientId: String): Call<ApiContainer<ClientInfo>> {
         return this.clientService.getClientInformation(clientToken.bearerAuthHeader(), clientId)
+    }
+
+    fun getProduct(clientToken: ClientToken, productId: String): Call<ApiContainer<Product>> {
+        return this.clientService.getProduct(clientToken.bearerAuthHeader(), productId)
+    }
+
+    fun getProducts(clientToken: ClientToken): Call<ResponseContainer<Product>> {
+        return this.clientService.getProducts(clientToken.bearerAuthHeader())
     }
 
     companion object {

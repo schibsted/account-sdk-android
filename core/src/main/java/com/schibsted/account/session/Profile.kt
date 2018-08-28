@@ -63,7 +63,7 @@ class Profile(val user: User, private val userService: UserService = UserService
         userService.getSubscriptions(token, user.userId.id).enqueue(NetworkCallback.lambda("Fetching user subscriptions",
                 { callback.onError(it.toClientError()) },
                 {
-                    callback.onSuccess(it.subscriptions)
+                    callback.onSuccess(it.value)
                 }))
     }
 }
