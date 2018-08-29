@@ -79,7 +79,7 @@ data class InternalUiConfiguration(
 
             val locale = when {
                 uiParams.locale != null -> uiParams.locale
-                else -> optionalConfig.locale ?: uiParams.locale ?: AccountUi.Params.DEFAULT_LOCALE
+                else -> optionalConfig.locale ?: AccountUi.Params.DEFAULT_LOCALE
             }
 
             val clientLogo = when {
