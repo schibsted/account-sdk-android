@@ -15,14 +15,14 @@ import java.util.Locale
 data class InternalUiConfiguration(
     val clientName: String,
     val redirectUri: URI,
-    val locale: Locale = AccountUi.Params.DEFAULT_LOCALE,
-    val identifierType: Identifier.IdentifierType = Identifier.IdentifierType.EMAIL,
-    val identifier: String? = AccountUi.Params.DEFAULT_PREFILLED_IDENTIFIER,
+    val locale: Locale,
+    val identifierType: Identifier.IdentifierType,
+    val identifier: String?,
     val signUpEnabled: Boolean = true,
-    @DrawableRes val clientLogo: Int = AccountUi.Params.DEFAULT_CLIENT_LOGO,
-    val teaserText: String? = AccountUi.Params.DEFAULT_TEASER,
-    val signUpNotAllowedErrorMessage: String? = null,
-    val isClosingAllowed: Boolean = AccountUi.Params.DEFAULT_IS_CANCELLABLE
+    @DrawableRes val clientLogo: Int,
+    val teaserText: String?,
+    val signUpNotAllowedErrorMessage: String?,
+    val isClosingAllowed: Boolean
 ) : Parcelable {
 
     init {
