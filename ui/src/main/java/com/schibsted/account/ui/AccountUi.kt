@@ -57,6 +57,7 @@ object AccountUi {
         val locale: Locale? = null,
         val signUpMode: SignUpMode = DEFAULT_SIGNUP_MODE,
         val isCancellable: Boolean = DEFAULT_IS_CANCELLABLE,
+        val showRememberMeOption: Boolean = DEFAULT_SHOW_REMEMBER_ME,
         @DrawableRes val clientLogo: Int = DEFAULT_CLIENT_LOGO,
         @OIDCScope val scopes: Array<String> = DEFAULT_SCOPES
     ) : Parcelable {
@@ -70,6 +71,7 @@ object AccountUi {
             fun locale(locale: Locale) = apply { params = params.copy(locale = locale) }
             fun signUpMode(mode: SignUpMode) = apply { params = params.copy(signUpMode = mode) }
             fun isCancellable(isCancellable: Boolean) = apply { params = params.copy(isCancellable = isCancellable) }
+            fun showRememberMeOption(showRememberMeOption: Boolean) = apply { params = params.copy(showRememberMeOption = showRememberMeOption) }
             fun build() = params
         }
 
@@ -84,6 +86,7 @@ object AccountUi {
             internal val DEFAULT_SMARTLOCK_MODE = SmartlockMode.DISABLED
             internal val DEFAULT_LOCALE = Locale.getDefault()
             internal val DEFAULT_SIGNUP_MODE = SignUpMode.Enabled
+            internal val DEFAULT_SHOW_REMEMBER_ME = true
             internal const val DEFAULT_IS_CANCELLABLE = true
             internal val DEFAULT_SCOPES = arrayOf(OIDCScope.SCOPE_OPENID)
             @DrawableRes

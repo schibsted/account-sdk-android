@@ -15,13 +15,15 @@ data class OptionalConfiguration private constructor(
     val locale: Locale?,
     val signUpMode: SignUpMode?,
     val isCancellable: Boolean?,
-    @DrawableRes val clientLogo: Int?
+    @DrawableRes val clientLogo: Int?,
+    val showRememberMeOption: Boolean?
 ) : Parcelable {
 
     constructor(parcel: Parcel) : this(Locale(parcel.readString()),
             parcel.readString()?.let { SignUpMode.Disabled(it) } ?: SignUpMode.Enabled,
             parcel.readInt() == 1,
-            parcel.readClientLogo(parcel.readInt()))
+            parcel.readClientLogo(parcel.readInt()),
+            parcel.readInt() == 1)
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeString(locale.toString())
@@ -31,6 +33,7 @@ data class OptionalConfiguration private constructor(
         })
         parcel.writeInt(if (isCancellable == true) 1 else 0)
         parcel.writeInt(clientLogo ?: 0)
+        parcel.writeInt(if (showRememberMeOption == true) 1 else 0)
     }
 
     override fun describeContents() = 0
@@ -45,6 +48,7 @@ data class OptionalConfiguration private constructor(
             val keySignUpDisabledMessage = appContext.getString(R.string.schacc_conf_signup_disabled_message)
             val keyIsCancellable = appContext.getString(R.string.schacc_conf_cancellable)
             val keyClientLogo = appContext.getString(R.string.schacc_conf_client_logo)
+            val keyShowRememberMe = appContext.getString(R.string.schacc_conf_remember_me)
 
             val locale: Locale? = appInfo.metaData.getString(keyLocale)?.let {
                 UiUtil.getLocaleFromLocaleTag(it)
@@ -62,13 +66,16 @@ data class OptionalConfiguration private constructor(
                 }
             }()
             val isCancellable: Boolean? = appInfo.metaData.get(keyIsCancellable) as? Boolean
+            val showRememberMe: Boolean? = appInfo.metaData.get(keyShowRememberMe) as? Boolean
             val clientLogo: Int? = appInfo.metaData.get(keyClientLogo) as? Int
 
             return OptionalConfiguration(
                     locale,
                     signUpMode,
                     isCancellable,
-                    clientLogo)
+                    clientLogo,
+                    showRememberMe
+            )
         }
 
         @JvmField
