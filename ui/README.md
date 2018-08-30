@@ -26,7 +26,7 @@ For example with `spid-myclientid://login` the scheme is `spid-myclientid` and t
 
 
 ### Additional configuration parameters
-You can further control the behavior of the UIs bu specifying any of the following attributes. These can be specified in your `AndroidManifest.xml` or by implementing `OptionalConfiguration.UiConfigProvider` in your `Application` class. Using only one of these is recommended, but if you were to use both, then the configuration provider will be resolved before the manifest.
+You can further control the behavior of the UIs bu specifying any of the following attributes. These can be specified in your `AndroidManifest.xml` or by using `AccountUi.Params.Builder()`. Using only one of these is recommended, but if you were to use both, then the AccountUi parameters will take precedence over the manifest.
 
 - **Locale:** The locale to use for sending verification email and SMS from Schibsted Account in the following format `language_country` for example `nb_NO`. Defaults: `Locale.getDefault()`.
 - **Sign-up enabled:** Whether or not creation of new accounts should be allowed. Please note that an error message must be specified in order to disable this. Default: true.
@@ -45,18 +45,12 @@ You can further control the behavior of the UIs bu specifying any of the followi
 </application>
 ```
 
-#### Configuration provider
+#### AccountUi parameters
 ```java
-public class App extends Application implements OptionalConfiguration.UiConfigProvider {
-    @NonNull
-    @Override
-    public OptionalConfiguration getUiConfig() {
-        return new UiConfig.Builder()
-                .locale(new Locale("nb", "NO"))
-                .clientLogo(R.drawable.ic_example_logo)
-                .build();
-    }
-}
+ new AccountUi.Params.Builder()
+                               .teaserText(getString(R.string.example_teaser_text))
+                               ...
+                               .build());
 ```
 
 ### Starting the UIs

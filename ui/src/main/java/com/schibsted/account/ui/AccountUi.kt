@@ -9,6 +9,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.os.Parcelable
+import android.support.annotation.DrawableRes
 import com.schibsted.account.engine.integration.ResultCallback
 import com.schibsted.account.engine.operation.ClientInfoOperation
 import com.schibsted.account.network.OIDCScope
@@ -18,6 +19,7 @@ import com.schibsted.account.ui.login.flow.passwordless.PasswordlessActivity
 import com.schibsted.account.ui.smartlock.SmartlockController
 import com.schibsted.account.ui.smartlock.SmartlockMode
 import kotlinx.android.parcel.Parcelize
+import java.util.Locale
 
 object AccountUi {
     const val KEY_PARAMS = "SCHACC_PARAMS"
@@ -39,14 +41,24 @@ object AccountUi {
     /**
      * @param teaserText A teaser text to show on the initial screen
      * @param preFilledIdentifier If the user ID is known, the identifier can be pre-filled
+     * @param smartLockMode A mode used to allow or not the user to log in using smartlock
+     * @param locale the locale to use in the UI
+     * @param signUpMode A mode used to allow or not the user to sign-up using the UI
+     * @param clientLogo a logo to display on the first screen
+     * @param scopes scopes to send along with a network request
      *
+     * Setting one of this value will take precedence over the one you could have defined in the manifest
      */
     @Parcelize
-    data class Params(
-        val teaserText: String? = null,
-        val preFilledIdentifier: String? = null,
-        val smartLockMode: SmartlockMode = SmartlockMode.DISABLED,
-        @OIDCScope val scopes: Array<String> = arrayOf(OIDCScope.SCOPE_OPENID)
+    data class Params constructor(
+        val teaserText: String? = DEFAULT_TEASER,
+        val preFilledIdentifier: String? = DEFAULT_PREFILLED_IDENTIFIER,
+        val smartLockMode: SmartlockMode = DEFAULT_SMARTLOCK_MODE,
+        val locale: Locale? = null,
+        val signUpMode: SignUpMode = DEFAULT_SIGNUP_MODE,
+        val isCancellable: Boolean = DEFAULT_IS_CANCELLABLE,
+        @DrawableRes val clientLogo: Int = DEFAULT_CLIENT_LOGO,
+        @OIDCScope val scopes: Array<String> = DEFAULT_SCOPES
     ) : Parcelable {
 
         class Builder {
@@ -55,6 +67,9 @@ object AccountUi {
             fun preFilledIdentifier(preFilledIdentifier: String?) = apply { params = params.copy(preFilledIdentifier = preFilledIdentifier) }
             fun smartLockMode(smartLockMode: SmartlockMode) = apply { params = params.copy(smartLockMode = smartLockMode) }
             fun scopes(@OIDCScope scopes: Array<String>) = apply { params = params.copy(scopes = scopes) }
+            fun locale(locale: Locale) = apply { params = params.copy(locale = locale) }
+            fun signUpMode(mode: SignUpMode) = apply { params = params.copy(signUpMode = mode) }
+            fun isCancellable(isCancellable: Boolean) = apply { params = params.copy(isCancellable = isCancellable) }
             fun build() = params
         }
 
@@ -63,6 +78,16 @@ object AccountUi {
                 // when app is launched via deeplink the parcelable value is null
                 return bundle.getParcelable(KEY_PARAMS) as? Params ?: Params()
             }
+
+            internal val DEFAULT_TEASER: String? = null
+            internal val DEFAULT_PREFILLED_IDENTIFIER: String? = null
+            internal val DEFAULT_SMARTLOCK_MODE = SmartlockMode.DISABLED
+            internal val DEFAULT_LOCALE = Locale.getDefault()
+            internal val DEFAULT_SIGNUP_MODE = SignUpMode.Enabled
+            internal const val DEFAULT_IS_CANCELLABLE = true
+            internal val DEFAULT_SCOPES = arrayOf(OIDCScope.SCOPE_OPENID)
+            @DrawableRes
+            internal val DEFAULT_CLIENT_LOGO = 0
         }
     }
 
@@ -81,12 +106,11 @@ object AccountUi {
         })
     }
 
+    /** @param context The application context
+     * @param flowType Which UI flow to initialize
+     * @param params Additional [Params] for the UIs
+     */
     @JvmStatic
-            /**
-             * @param context The application context
-             * @param flowType Which UI flow to initialize
-             * @param params Additional [Params] for the UIs
-             */
     fun getCallingIntent(context: Context, flowType: FlowType, params: Params = Params()): Intent {
         if (params.smartLockMode != SmartlockMode.DISABLED && !SmartlockController.isSmartlockAvailable()) {
             throw IllegalStateException("SmartLock is enabled, but not found on the classpath. Please verify that the smartlock module is included in your build")

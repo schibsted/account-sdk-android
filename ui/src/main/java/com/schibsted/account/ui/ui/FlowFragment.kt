@@ -8,6 +8,8 @@ import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.view.View
 import android.widget.Button
+import com.schibsted.account.engine.input.Identifier
+import com.schibsted.account.ui.AccountUi
 import com.schibsted.account.ui.InternalUiConfiguration
 import com.schibsted.account.ui.login.KeyboardVisibilityListener
 import com.schibsted.account.ui.ui.component.LoadingButton
@@ -31,7 +33,7 @@ abstract class FlowFragment<in T> : BaseFragment(), KeyboardVisibilityListener, 
 
         val args = requireNotNull(savedInstanceState ?: arguments)
 
-        this.uiConf = args.getParcelable(KEY_UI_CONF) ?: InternalUiConfiguration.resolve(activity!!.application)
+        this.uiConf = args.getParcelable(KEY_UI_CONF) ?: InternalUiConfiguration.resolve(activity!!.application, AccountUi.Params(), Identifier.IdentifierType.EMAIL)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

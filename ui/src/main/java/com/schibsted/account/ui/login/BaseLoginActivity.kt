@@ -78,6 +78,7 @@ abstract class BaseLoginActivity : AppCompatActivity(), NavigationListener {
                 else -> "schibsted.com"
             }
         }
+        var isLanguageOverridden = false
     }
 
     private var idProvider: InputProvider<Identifier>? = null
@@ -113,6 +114,15 @@ abstract class BaseLoginActivity : AppCompatActivity(), NavigationListener {
                 ?: AccountUi.FlowType.PASSWORD
 
         initializeUi()
+
+        params.locale?.let {
+            if (!isLanguageOverridden) {
+                UiUtil.updateContextLocale(this, it)
+                isLanguageOverridden = true
+                recreate()
+            }
+        }
+
         accountService = AccountService(applicationContext)
         lifecycle.addObserver(accountService)
         navigationController = Navigation(this, this)
@@ -120,7 +130,7 @@ abstract class BaseLoginActivity : AppCompatActivity(), NavigationListener {
         uiConfiguration = initializeConfiguration()
         fragmentProvider = FragmentProvider(uiConfiguration, navigationController)
 
-        val smartlockTask = SmartlockTask(uiConfiguration.smartlockMode)
+        val smartlockTask = SmartlockTask(params.smartLockMode)
         viewModel = ViewModelProviders.of(this, LoginActivityViewModelFactory(smartlockTask, uiConfiguration.redirectUri, params)).get(LoginActivityViewModel::class.java)
 
         viewModel.smartlockCredentials.value = intent.getParcelableExtra(KEY_SMARTLOCK_CREDENTIALS)
@@ -162,7 +172,7 @@ abstract class BaseLoginActivity : AppCompatActivity(), NavigationListener {
                 }
                 is SmartlockTask.SmartLockResult.Failure -> {
                     if (result.resultCode != Activity.RESULT_OK) {
-                        Logger.info(TAG, "Smartlock login failed - smartlockController mode ${uiConfiguration.smartlockMode.name}")
+                        Logger.info(TAG, "Smartlock login failed - smartlockController mode ${params.smartLockMode.name}")
                         setResult(AccountUi.SMARTLOCK_FAILED, intent)
                         progressBar.visibility = View.GONE
                         finish()
@@ -211,7 +221,12 @@ abstract class BaseLoginActivity : AppCompatActivity(), NavigationListener {
     }
 
     override fun attachBaseContext(base: Context) {
-        super.attachBaseContext(UiUtil.updateContextLocale(base, OptionalConfiguration.fromManifest(base).locale))
+        val locale = OptionalConfiguration.fromManifest(base.applicationContext).locale
+        if (locale == null || isLanguageOverridden) {
+            super.attachBaseContext(base)
+        } else {
+            super.attachBaseContext(UiUtil.updateContextLocale(base, locale))
+        }
     }
 
     private fun initializeUi() {
@@ -222,11 +237,7 @@ abstract class BaseLoginActivity : AppCompatActivity(), NavigationListener {
 
     private fun initializeConfiguration(): InternalUiConfiguration {
         val idType = if (flowType == AccountUi.FlowType.PASSWORDLESS_SMS) Identifier.IdentifierType.SMS else Identifier.IdentifierType.EMAIL
-        return InternalUiConfiguration.resolve(application).copy(
-                identifierType = idType,
-                identifier = params.preFilledIdentifier,
-                teaserText = params.teaserText,
-                smartlockMode = params.smartLockMode)
+        return InternalUiConfiguration.resolve(application, params, idType)
     }
 
     private fun initializePropertiesFromBundle(savedInstanceState: Bundle?) {
