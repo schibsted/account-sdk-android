@@ -11,11 +11,11 @@ import android.support.annotation.VisibleForTesting;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
-import com.schibsted.account.ResponseContainer;
+import com.schibsted.account.ListContainer;
 import com.schibsted.account.model.Product;
 import com.schibsted.account.network.Environment;
 import com.schibsted.account.network.response.Subscription;
-import com.schibsted.account.util.CustomDeserializer;
+import com.schibsted.account.util.ListDeserializer;
 import com.schibsted.account.util.LenientAccountsDeserializer;
 import com.schibsted.account.util.Preconditions;
 import com.schibsted.account.util.TypeSafeStringDeserializer;
@@ -57,8 +57,8 @@ public class BaseNetworkService {
         Preconditions.checkNotNull(service);
         final Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd")
                 .registerTypeAdapter(LenientAccountsDeserializer.type, new LenientAccountsDeserializer())
-                .registerTypeAdapter(new TypeToken<ResponseContainer<Subscription>>() {}.getType(), new CustomDeserializer<Subscription>())
-                .registerTypeAdapter(new TypeToken<ResponseContainer<Product>>() {}.getType(), new CustomDeserializer<Product>())
+                .registerTypeAdapter(new TypeToken<ListContainer<Subscription>>() {}.getType(), new ListDeserializer<Subscription>())
+                .registerTypeAdapter(new TypeToken<ListContainer<Product>>() {}.getType(), new ListDeserializer<Product>())
                 .registerTypeAdapter(String.class, new TypeSafeStringDeserializer())
                 .create();
         return new Retrofit.Builder()

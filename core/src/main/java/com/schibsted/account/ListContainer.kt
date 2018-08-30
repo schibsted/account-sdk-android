@@ -3,4 +3,4 @@
  */
 package com.schibsted.account
 
-data class ResponseContainer<T>(val value: List<T>)
+data class ListContainer<T>(val value: List<T>)

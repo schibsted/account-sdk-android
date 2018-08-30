@@ -13,20 +13,15 @@ import com.schibsted.account.network.ServiceHolder
 import com.schibsted.account.network.response.ApiContainer
 
 object Client {
-    var token: ClientToken? = null
 
     @JvmStatic
     fun getProducts(resultCallback: ResultCallback<List<Product>>) {
-        token?.let { fetchProducts(it, resultCallback) }
-                ?: fetchTokenFirst(resultCallback) { getProducts(resultCallback) }
+        fetchTokenFirst(resultCallback) { fetchProducts(it, resultCallback) }
     }
 
     @JvmStatic
     fun getProduct(productId: String, resultCallback: ResultCallback<Product>) {
-        token?.let { fetchProduct(it, productId, resultCallback) }
-                ?: fetchTokenFirst(resultCallback) {
-                    getProduct(productId, resultCallback)
-                }
+        fetchTokenFirst(resultCallback) { fetchProduct(it, productId, resultCallback) }
     }
 
     private fun fetchProduct(token: ClientToken, productId: String, resultCallback: ResultCallback<Product>) {
@@ -44,8 +39,8 @@ object Client {
 
     private fun fetchProducts(token: ClientToken, resultCallback: ResultCallback<List<Product>>) {
         ServiceHolder.clientService.getProducts(token)
-                .enqueue(object : NetworkCallback<ResponseContainer<Product>>("Retrieving all client products") {
-                    override fun onSuccess(result: ResponseContainer<Product>) {
+                .enqueue(object : NetworkCallback<ListContainer<Product>>("Retrieving all client products") {
+                    override fun onSuccess(result: ListContainer<Product>) {
                         resultCallback.onSuccess(result.value)
                     }
 
@@ -55,15 +50,13 @@ object Client {
                 })
     }
 
-    private fun fetchTokenFirst(resultCallback: ResultCallback<*>, nextAction: () -> Unit) {
+    private fun fetchTokenFirst(resultCallback: ResultCallback<*>, nextAction: (t: ClientToken) -> Unit) {
         ClientTokenOperation(
                 {
-                    this.token = null
                     resultCallback.onError(it.toClientError())
                 },
                 { token: ClientToken ->
-                    this.token = token
-                    nextAction.invoke()
+                    nextAction.invoke(token)
                 })
     }
 }

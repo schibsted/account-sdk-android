@@ -9,21 +9,21 @@ import com.google.gson.JsonDeserializer
 import com.google.gson.JsonElement
 import com.google.gson.JsonObject
 import com.google.gson.reflect.TypeToken
-import com.schibsted.account.ResponseContainer
+import com.schibsted.account.ListContainer
 import java.lang.reflect.Type
 
-class CustomDeserializer<T> : JsonDeserializer<ResponseContainer<T>> {
+class ListDeserializer<T> : JsonDeserializer<ListContainer<T>> {
 
-    override fun deserialize(json: JsonElement?, typeOfT: Type?, context: JsonDeserializationContext?): ResponseContainer<T> {
+    override fun deserialize(json: JsonElement?, typeOfT: Type?, context: JsonDeserializationContext?): ListContainer<T> {
         return elements(json)
     }
 
-    private fun elements(json: JsonElement?): ResponseContainer<T> {
+    private fun elements(json: JsonElement?): ListContainer<T> {
         val elements = mutableListOf<T>()
         val gson = GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss").create()
         val data = (json as JsonObject).get("data") as? JsonObject
         data?.entrySet()?.forEach { elements.add(gson.fromJson<T>(it.value, type<T>())) }
-        return ResponseContainer(elements)
+        return ListContainer(elements)
     }
 
     companion object {

@@ -4,7 +4,7 @@
 
 package com.schibsted.account.network.service.client
 
-import com.schibsted.account.ResponseContainer
+import com.schibsted.account.ListContainer
 import com.schibsted.account.common.util.encodeBase64
 import com.schibsted.account.model.ClientToken
 import com.schibsted.account.model.Product
@@ -70,7 +70,7 @@ class ClientService(@Environment environment: String, okHttpClient: OkHttpClient
         return this.clientService.getProduct(clientToken.bearerAuthHeader(), productId)
     }
 
-    fun getProducts(clientToken: ClientToken): Call<ResponseContainer<Product>> {
+    fun getProducts(clientToken: ClientToken): Call<ListContainer<Product>> {
         return this.clientService.getProducts(clientToken.bearerAuthHeader())
     }
 

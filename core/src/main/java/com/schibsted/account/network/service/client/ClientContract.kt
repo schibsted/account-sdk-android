@@ -4,7 +4,7 @@
 
 package com.schibsted.account.network.service.client
 
-import com.schibsted.account.ResponseContainer
+import com.schibsted.account.ListContainer
 import com.schibsted.account.model.Product
 import com.schibsted.account.network.response.AccountStatusResponse
 import com.schibsted.account.network.response.AgreementLinksResponse
@@ -67,5 +67,5 @@ interface ClientContract {
     fun getProduct(@Header("Authorization") clientBearer: String, @Path("productId") productId: String): Call<ApiContainer<Product>>
 
     @GET("api/2/products")
-    fun getProducts(@Header("Authorization") clientBearer: String): Call<ResponseContainer<Product>>
+    fun getProducts(@Header("Authorization") clientBearer: String): Call<ListContainer<Product>>
 }

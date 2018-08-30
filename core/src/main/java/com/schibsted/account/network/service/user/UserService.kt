@@ -4,7 +4,7 @@
 
 package com.schibsted.account.network.service.user
 
-import com.schibsted.account.ResponseContainer
+import com.schibsted.account.ListContainer
 import com.schibsted.account.network.response.AcceptAgreementResponse
 import com.schibsted.account.network.response.AgreementsResponse
 import com.schibsted.account.network.response.ApiContainer
@@ -35,7 +35,7 @@ class UserService(environment: String, okHttpClient: OkHttpClient) : BaseNetwork
         return this.userContract.requiredFields(userToken.bearerAuthHeader(), userId)
     }
 
-    fun getSubscriptions(userToken: TokenResponse, userId: String): Call<ResponseContainer<Subscription>> {
+    fun getSubscriptions(userToken: TokenResponse, userId: String): Call<ListContainer<Subscription>> {
         return this.userContract.subscriptions(userToken.bearerAuthHeader(), userId)
     }
 
