@@ -64,20 +64,11 @@ class PasswordFragment : FlowFragment<PasswordContract.Presenter>(), PasswordCon
                 LocalSecretsProvider(requireContext()).put(GSON.toJson(it))
             }
 
-            val redirectUri = DeepLink.IdentifierProvided.createDeepLinkUri(uiConf.redirectUri, idKey ?: "")
+            val redirectUri = DeepLink.IdentifierProvided.createDeepLinkUri(uiConf.redirectUri, idKey
+                    ?: "")
 
             navigationListener?.onWebViewNavigationRequested(
                     WebFragment.newInstance(Routes.forgotPasswordUrl(redirectUri, uiConf.locale).toString(), uiConf.redirectUri), LoginScreen.WEB_FORGOT_PASSWORD_SCREEN)
-        }
-
-        remember_me_info.setOnClickListener {
-            navigationListener?.onDialogNavigationRequested(
-                    InformationDialogFragment.newInstance(
-                            getString(R.string.schacc_dialog_remember_me_title),
-                            getString(R.string.schacc_dialog_remember_me_description),
-                            R.drawable.schacc_ic_remember_me,
-                            null
-                    ))
         }
 
         account_selector_view.setAccountIdentifier(arrayListOf(identifier))
@@ -97,6 +88,22 @@ class PasswordFragment : FlowFragment<PasswordContract.Presenter>(), PasswordCon
         }
 
         remember_me.isChecked = true
+
+        if (uiConf.showRememberMeEnabled) {
+            remember_me.labelView.text = getString(R.string.schacc_remember_me)
+            remember_me_info.setOnClickListener {
+                navigationListener?.onDialogNavigationRequested(
+                        InformationDialogFragment.newInstance(
+                                getString(R.string.schacc_dialog_remember_me_title),
+                                getString(R.string.schacc_dialog_remember_me_description),
+                                R.drawable.schacc_ic_remember_me,
+                                null
+                        ))
+            }
+        } else {
+            remember_me.visibility = View.GONE
+            remember_me_info.visibility = View.GONE
+        }
     }
 
     fun isRememberMeEnabled() = remember_me.isChecked
@@ -116,8 +123,6 @@ class PasswordFragment : FlowFragment<PasswordContract.Presenter>(), PasswordCon
             password_input_view.setTitle(R.string.schacc_password_sign_in_label)
             mobile_password_button_forgot.visibility = View.VISIBLE
         }
-
-        remember_me.labelView.text = getString(R.string.schacc_remember_me)
     }
 
     override fun onSaveInstanceState(outState: Bundle) {

@@ -425,7 +425,7 @@ abstract class BaseLoginActivity : AppCompatActivity(), NavigationListener {
             when (fragment) {
                 is AbstractIdentificationFragment -> fragment.isTeaserEnabled().let { customFields["teaser"] to it }
                 is PasswordFragment -> fragment.isRememberMeEnabled().let { customFields["keepLoggedIn"] to it }
-                is VerificationFragment -> fragment.isRememberMeEnabled?.let { customFields["keepLoggedIn"] to it }
+                is VerificationFragment -> fragment.isRememberMeEnabled.let { customFields["keepLoggedIn"] to it }
                 else -> {
                 }
             }
