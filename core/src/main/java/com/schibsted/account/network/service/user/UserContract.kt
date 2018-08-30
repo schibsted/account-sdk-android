@@ -4,12 +4,13 @@
 
 package com.schibsted.account.network.service.user
 
+import com.schibsted.account.ListContainer
 import com.schibsted.account.network.response.AcceptAgreementResponse
 import com.schibsted.account.network.response.AgreementsResponse
 import com.schibsted.account.network.response.ApiContainer
 import com.schibsted.account.network.response.ProfileData
 import com.schibsted.account.network.response.RequiredFieldsResponse
-import com.schibsted.account.network.response.SubscriptionsResponse
+import com.schibsted.account.network.response.Subscription
 import retrofit2.Call
 import retrofit2.http.FieldMap
 import retrofit2.http.FormUrlEncoded
@@ -43,7 +44,7 @@ internal interface UserContract {
     fun getUserProfile(@Header(KEY_AUTHORIZATION) userBearer: String, @Path(KEY_USER_ID) userId: String): Call<ApiContainer<ProfileData>>
 
     @GET("api/2/user/{userId}/subscriptions")
-    fun subscriptions(@Header(KEY_AUTHORIZATION) userBearer: String, @Path(KEY_USER_ID) userId: String): Call<SubscriptionsResponse>
+    fun subscriptions(@Header(KEY_AUTHORIZATION) userBearer: String, @Path(KEY_USER_ID) userId: String): Call<ListContainer<Subscription>>
 
     companion object {
         const val KEY_AUTHORIZATION = "Authorization"

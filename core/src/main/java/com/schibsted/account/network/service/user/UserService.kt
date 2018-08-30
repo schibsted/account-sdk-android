@@ -4,12 +4,13 @@
 
 package com.schibsted.account.network.service.user
 
+import com.schibsted.account.ListContainer
 import com.schibsted.account.network.response.AcceptAgreementResponse
 import com.schibsted.account.network.response.AgreementsResponse
 import com.schibsted.account.network.response.ApiContainer
 import com.schibsted.account.network.response.ProfileData
 import com.schibsted.account.network.response.RequiredFieldsResponse
-import com.schibsted.account.network.response.SubscriptionsResponse
+import com.schibsted.account.network.response.Subscription
 import com.schibsted.account.network.response.TokenResponse
 import com.schibsted.account.network.service.BaseNetworkService
 import okhttp3.OkHttpClient
@@ -34,7 +35,7 @@ class UserService(environment: String, okHttpClient: OkHttpClient) : BaseNetwork
         return this.userContract.requiredFields(userToken.bearerAuthHeader(), userId)
     }
 
-    fun getSubscriptions(userToken: TokenResponse, userId: String): Call<SubscriptionsResponse> {
+    fun getSubscriptions(userToken: TokenResponse, userId: String): Call<ListContainer<Subscription>> {
         return this.userContract.subscriptions(userToken.bearerAuthHeader(), userId)
     }
 
