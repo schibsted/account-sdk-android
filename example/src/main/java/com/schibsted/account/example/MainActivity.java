@@ -20,19 +20,15 @@ import android.widget.Toast;
 
 import com.schibsted.account.AccountService;
 import com.schibsted.account.Events;
-import com.schibsted.account.common.util.Logger;
 import com.schibsted.account.engine.integration.ResultCallback;
 import com.schibsted.account.model.error.ClientError;
-import com.schibsted.account.network.OIDCScope;
 import com.schibsted.account.network.response.ProfileData;
-import com.schibsted.account.network.response.Subscription;
 import com.schibsted.account.session.User;
 import com.schibsted.account.smartlock.SmartlockReceiver;
 import com.schibsted.account.ui.AccountUi;
 import com.schibsted.account.ui.login.BaseLoginActivity;
 import com.schibsted.account.ui.smartlock.SmartlockMode;
 
-import java.util.List;
 import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
@@ -114,7 +110,9 @@ public class MainActivity extends AppCompatActivity {
             button.setText(R.string.example_app_loading_info);
 
             final Intent intent = AccountUi.getCallingIntent(getApplicationContext(), AccountUi.FlowType.PASSWORD,
-                    new AccountUi.Params(getString(R.string.example_teaser_text), null, SmartlockMode.DISABLED, new String[]{OIDCScope.SCOPE_OPENID}));
+                    new AccountUi.Params.Builder()
+                            .teaserText(getString(R.string.example_teaser_text))
+                            .smartLockMode(SmartlockMode.DISABLED).build());
             startActivityForResult(intent, PASSWORD_REQUEST_CODE);
         }
     };
@@ -156,11 +154,9 @@ public class MainActivity extends AppCompatActivity {
                 case AccountUi.SMARTLOCK_FAILED:
                     // restart the flow, telling the SDK that SmartLock failed
                     final Intent intent = AccountUi.getCallingIntent(getApplicationContext(), AccountUi.FlowType.PASSWORD,
-                            new AccountUi.Params(
-                                    getString(R.string.example_teaser_text),
-                                    null,
-                                    SmartlockMode.FAILED,
-                                    new String[]{OIDCScope.SCOPE_OPENID}));
+                            new AccountUi.Params.Builder()
+                                    .teaserText(getString(R.string.example_teaser_text))
+                                    .smartLockMode(SmartlockMode.FAILED).build());
 
                     startActivityForResult(intent, PASSWORD_REQUEST_CODE);
                     break;

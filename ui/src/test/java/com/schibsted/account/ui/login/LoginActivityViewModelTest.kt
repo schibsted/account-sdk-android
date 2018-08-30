@@ -108,7 +108,7 @@ class LoginActivityViewModelTest : WordSpec({
             val clientInfo = ClientInfo("1", "client", "alias", mapOf(), "domain", 3, mapOf(), mapOf(), mock())
             loginActivityViewModel.getClientInfo(clientInfo)
             loginActivityViewModel.clientResult.value shouldBe instanceOf(LoginActivityViewModel.ClientResult.Success::class)
-            (loginActivityViewModel.clientResult.value as LoginActivityViewModel.ClientResult.Success).clientInfo shouldBe clientInfo
+            (loginActivityViewModel.clientResult.value?.peek() as LoginActivityViewModel.ClientResult.Success).clientInfo shouldBe clientInfo
         }
     }
 })

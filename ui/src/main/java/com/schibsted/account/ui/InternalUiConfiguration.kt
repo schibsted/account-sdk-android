@@ -9,27 +9,25 @@ import android.os.Parcel
 import android.os.Parcelable
 import android.support.annotation.DrawableRes
 import com.schibsted.account.engine.input.Identifier
-import com.schibsted.account.ui.smartlock.SmartlockMode
 import java.net.URI
 import java.util.Locale
 
 data class InternalUiConfiguration(
     val clientName: String,
     val redirectUri: URI,
-    val locale: Locale = Locale.getDefault(),
+    val locale: Locale = AccountUi.Params.DEFAULT_LOCALE,
     val identifierType: Identifier.IdentifierType = Identifier.IdentifierType.EMAIL,
-    val identifier: String? = null,
+    val identifier: String? = AccountUi.Params.DEFAULT_PREFILLED_IDENTIFIER,
     val signUpEnabled: Boolean = true,
-    val smartlockMode: SmartlockMode = SmartlockMode.DISABLED,
-    @DrawableRes val clientLogo: Int = 0,
-    val teaserText: String? = null,
+    @DrawableRes val clientLogo: Int = AccountUi.Params.DEFAULT_CLIENT_LOGO,
+    val teaserText: String? = AccountUi.Params.DEFAULT_TEASER,
     val signUpNotAllowedErrorMessage: String? = null,
-    val isClosingAllowed: Boolean = true
+    val isClosingAllowed: Boolean = AccountUi.Params.DEFAULT_IS_CANCELLABLE
 ) : Parcelable {
 
     init {
         if (!signUpEnabled && signUpNotAllowedErrorMessage.isNullOrEmpty()) {
-            throw IllegalArgumentException("The property signUpNotAllowedErrorMessage must be specified if signUpEnabled is set to false")
+            throw IllegalArgumentException("The property signUpNotAllowedErrorMessage must be specified if signUpMode is set to false")
         }
     }
 
@@ -40,7 +38,6 @@ data class InternalUiConfiguration(
             source.readSerializable() as Identifier.IdentifierType,
             source.readString(),
             source.readInt() == 1,
-            source.readSerializable() as SmartlockMode,
             source.readInt(),
             source.readString(),
             source.readString(),
@@ -56,7 +53,6 @@ data class InternalUiConfiguration(
         writeSerializable(identifierType)
         writeString(identifier)
         writeInt(if (signUpEnabled) 1 else 0)
-        writeSerializable(smartlockMode)
         writeInt(clientLogo)
         writeString(teaserText)
         writeString(signUpNotAllowedErrorMessage)
@@ -71,23 +67,44 @@ data class InternalUiConfiguration(
         }
 
         @JvmStatic
-        fun resolve(application: Application): InternalUiConfiguration {
+        fun resolve(application: Application, uiParams: AccountUi.Params, idType: Identifier.IdentifierType): InternalUiConfiguration {
             val requiredConfig = RequiredConfiguration.fromResources(application.applicationContext)
-            val optionalConfig = OptionalConfiguration.resolve(application)
+            val optionalConfig = OptionalConfiguration.fromManifest(application)
 
-            // TODO: Pre-filled identifier and teaser text should be arguments instead
+            val signupEnabled = when {
+                uiParams.signUpMode != AccountUi.Params.DEFAULT_SIGNUP_MODE -> uiParams.signUpMode == SignUpMode.Enabled // if overridden programmatically
+                optionalConfig.signUpMode != null -> optionalConfig.signUpMode == SignUpMode.Enabled // if defined in manifest
+                else -> uiParams.signUpMode == SignUpMode.Enabled // if not use fallback
+            }
+
+            val locale = when {
+                uiParams.locale != null -> uiParams.locale
+                else -> optionalConfig.locale ?: AccountUi.Params.DEFAULT_LOCALE
+            }
+
+            val clientLogo = when {
+                uiParams.clientLogo != AccountUi.Params.DEFAULT_CLIENT_LOGO -> uiParams.clientLogo
+                else -> optionalConfig.clientLogo ?: uiParams.clientLogo
+            }
+            val isCancellable = when {
+                uiParams.isCancellable != AccountUi.Params.DEFAULT_IS_CANCELLABLE -> uiParams.isCancellable
+                else -> optionalConfig.isCancellable ?: uiParams.isCancellable
+            }
+
+            val disabledMessage = (uiParams.signUpMode as? SignUpMode.Disabled)?.disabledMessage
+                    ?: (optionalConfig.signUpMode as? SignUpMode.Disabled)?.disabledMessage
+
             return InternalUiConfiguration(
                     requiredConfig.clientName,
                     requiredConfig.redirectUri,
-                    optionalConfig.locale,
-                    Identifier.IdentifierType.EMAIL, // TODO: Remove
-                    null, // TODO: Remove
-                    optionalConfig.signUpEnabled == OptionalConfiguration.SignUpMode.Enabled,
-                    SmartlockMode.DISABLED, // TODO: Remove
-                    optionalConfig.clientLogo,
-                    null, // TODO: Remove
-                    (optionalConfig.signUpEnabled as? OptionalConfiguration.SignUpMode.Disabled)?.disabledMessage,
-                    optionalConfig.isCancellable
+                    locale,
+                    idType,
+                    uiParams.preFilledIdentifier,
+                    signupEnabled,
+                    clientLogo,
+                    uiParams.teaserText,
+                    disabledMessage,
+                    isCancellable
             )
         }
     }

@@ -4,7 +4,6 @@
 
 package com.schibsted.account.ui
 
-import android.app.Application
 import android.content.Context
 import android.content.pm.PackageManager
 import android.os.Parcel
@@ -12,60 +11,31 @@ import android.os.Parcelable
 import android.support.annotation.DrawableRes
 import java.util.Locale
 
-data class OptionalConfiguration(
-    val locale: Locale,
-    val signUpEnabled: SignUpMode,
-    val isCancellable: Boolean,
-    @DrawableRes val clientLogo: Int
+data class OptionalConfiguration private constructor(
+    val locale: Locale?,
+    val signUpMode: SignUpMode?,
+    val isCancellable: Boolean?,
+    @DrawableRes val clientLogo: Int?
 ) : Parcelable {
 
     constructor(parcel: Parcel) : this(Locale(parcel.readString()),
             parcel.readString()?.let { SignUpMode.Disabled(it) } ?: SignUpMode.Enabled,
             parcel.readInt() == 1,
-            parcel.readInt())
+            parcel.readClientLogo(parcel.readInt()))
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeString(locale.toString())
-        parcel.writeString(when (signUpEnabled) {
-            is SignUpMode.Enabled -> null
-            is SignUpMode.Disabled -> signUpEnabled.disabledMessage
+        parcel.writeString(when (signUpMode) {
+            is SignUpMode.Disabled -> signUpMode.disabledMessage
+            else -> null
         })
-        parcel.writeInt(if (isCancellable) 1 else 0)
-        parcel.writeInt(clientLogo)
+        parcel.writeInt(if (isCancellable == true) 1 else 0)
+        parcel.writeInt(clientLogo ?: 0)
     }
 
     override fun describeContents() = 0
 
-    fun newBuilder(): Builder = OptionalConfiguration.Builder()
-            .locale(locale)
-            .signUpEnabled(signUpEnabled)
-            .isCancellable(isCancellable)
-            .clientLogo(clientLogo)
-
-    sealed class SignUpMode {
-        object Enabled : SignUpMode()
-        class Disabled(val disabledMessage: String) : SignUpMode()
-    }
-
-    class Builder {
-        private var uiConfig = OptionalConfiguration.DEFAULT
-
-        fun locale(locale: Locale) = apply { uiConfig = uiConfig.copy(locale = locale) }
-        fun signUpEnabled(signUpEnabled: SignUpMode) = apply { uiConfig = uiConfig.copy(signUpEnabled = signUpEnabled) }
-        fun isCancellable(isCancellable: Boolean) = apply { uiConfig = uiConfig.copy(isCancellable = isCancellable) }
-        fun clientLogo(@DrawableRes clientLogo: Int) = apply { uiConfig = uiConfig.copy(clientLogo = clientLogo) }
-
-        fun build() = uiConfig
-    }
-
-    interface UiConfigProvider {
-        fun getUiConfig(): OptionalConfiguration
-    }
-
     companion object {
-        @JvmField
-        val DEFAULT = OptionalConfiguration(Locale.getDefault(), SignUpMode.Enabled, true, 0)
-
         @JvmStatic
         fun fromManifest(appContext: Context): OptionalConfiguration {
             val appInfo = appContext.packageManager.getApplicationInfo(appContext.packageName, PackageManager.GET_META_DATA)
@@ -80,7 +50,7 @@ data class OptionalConfiguration(
                 UiUtil.getLocaleFromLocaleTag(it)
                         ?: throw IllegalArgumentException("The locale format is wrong, you need to use language_country format. For example en_EN")
             }
-            val signUpEnabled: SignUpMode? = {
+            val signUpMode: SignUpMode? = {
                 val enabled = appInfo.metaData.get(keySignUpEnabled) as? Boolean
                 when (enabled) {
                     true -> SignUpMode.Enabled
@@ -95,21 +65,10 @@ data class OptionalConfiguration(
             val clientLogo: Int? = appInfo.metaData.get(keyClientLogo) as? Int
 
             return OptionalConfiguration(
-                    locale ?: DEFAULT.locale,
-                    signUpEnabled ?: DEFAULT.signUpEnabled,
-                    isCancellable ?: DEFAULT.isCancellable,
-                    clientLogo ?: DEFAULT.clientLogo)
-        }
-
-        @JvmStatic
-        fun fromUiProvider(uiConfigProvider: UiConfigProvider) = uiConfigProvider.getUiConfig()
-
-        @JvmStatic
-        fun resolve(application: Application): OptionalConfiguration {
-            val providerConfig = (application as? UiConfigProvider)?.let { fromUiProvider(application) }
-            val manifestConfig = fromManifest(application.applicationContext)
-
-            return providerConfig ?: manifestConfig
+                    locale,
+                    signUpMode,
+                    isCancellable,
+                    clientLogo)
         }
 
         @JvmField
@@ -119,3 +78,5 @@ data class OptionalConfiguration(
         }
     }
 }
+
+private fun Parcel.readClientLogo(logoRes: Int): Int? = if (logoRes == 0) null else logoRes
