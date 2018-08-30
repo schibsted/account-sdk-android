@@ -46,7 +46,7 @@ object AccountUi {
      * @param signUpMode A mode used to allow or not the user to sign-up using the UI
      * @param clientLogo a logo to display on the first screen
      * @param scopes scopes to send along with a network request
-     *
+     * @param showRememberMeOption If set to false the user will not see the remember me option in the UI
      * Setting one of this value will take precedence over the one you could have defined in the manifest
      */
     @Parcelize

@@ -33,6 +33,7 @@ You can further control the behavior of the UIs bu specifying any of the followi
 - **Sign-up disabled message:** The error message to show when a user attempts to create a new account if it's disabled. No default.
 - **Cancellable:** When set to false, the UIs will no longer show the close button. Default: true.
 - **Client logo:** The logo to display in the UIs. Default: 0.
+- **Remember me:** Whether or not the remember me option is shown to the user.
 
 #### Android manifest
 ```xml
@@ -41,7 +42,8 @@ You can further control the behavior of the UIs bu specifying any of the followi
     <meta-data android:name="@string/schacc_conf_signup_enabled" android:value="false" />
     <meta-data android:name="@string/schacc_conf_signup_disabled_message" android:value="Some reason" />
     <meta-data android:name="@string/schacc_conf_cancellable" android:value="false" />
-    <meta-data android:name="@string/schacc_conf_client_logo" android:resource="@drawable/schacc_ic_cancel" />
+    <meta-data android:name="@string/schacc_conf_client_logo" android:resource="@drawable/client_logo" />
+    <meta-data android:name="@string/schacc_conf_remember_me" android:value="true" />
 </application>
 ```
 
@@ -68,11 +70,11 @@ The UIs can be started through the `getCallingIntent` function in the `AccountUi
 final Intent intent = AccountUi.getCallingIntent(
     getApplicationContext(),
     AccountUi.FlowType.PASSWORD,
-    new AccountUi.Params(
-        getString(R.string.example_teaser_text), 
-        "user@example.com",
-        SmartlockMode.DISABLED,
-        new String[]{OIDCScope.SCOPE_OPENID}));
+    new AccountUi.Params.Builder()
+        .teaserText(getString(R.string.example_teaser_text))
+        .preFilledIdentifier("user@example.com")
+        .smartLockMode(SmartlockMode.DISABLED)
+        .build());
 
 startActivityForResult(intent, PASSWORD_REQUEST_CODE);
 ```
