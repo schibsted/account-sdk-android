@@ -114,6 +114,7 @@
     <string translatable="false" name="schacc_conf_signup_disabled_message">schacc_signup_disabled_message</string>
     <string translatable="false" name="schacc_conf_cancellable">schacc_cancellable</string>
     <string translatable="false" name="schacc_conf_client_logo">schacc_client_logo</string>
+    <string translatable="false" name="schacc_conf_remember_me">schacc_remember_me</string>
     <!-- Accessability -->
     <string name="schacc_accessibility_password">Password</string>
     <string name="schacc_accessibility_login_id">Logging in with %1$s</string>

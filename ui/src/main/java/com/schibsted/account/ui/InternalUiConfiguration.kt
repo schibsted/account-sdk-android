@@ -22,7 +22,8 @@ data class InternalUiConfiguration(
     @DrawableRes val clientLogo: Int = AccountUi.Params.DEFAULT_CLIENT_LOGO,
     val teaserText: String? = AccountUi.Params.DEFAULT_TEASER,
     val signUpNotAllowedErrorMessage: String? = null,
-    val isClosingAllowed: Boolean = AccountUi.Params.DEFAULT_IS_CANCELLABLE
+    val isClosingAllowed: Boolean = AccountUi.Params.DEFAULT_IS_CANCELLABLE,
+    val showRememberMeEnabled: Boolean = AccountUi.Params.DEFAULT_SHOW_REMEMBER_ME
 ) : Parcelable {
 
     init {
@@ -94,6 +95,11 @@ data class InternalUiConfiguration(
             val disabledMessage = (uiParams.signUpMode as? SignUpMode.Disabled)?.disabledMessage
                     ?: (optionalConfig.signUpMode as? SignUpMode.Disabled)?.disabledMessage
 
+            val showRememberMe = when {
+                uiParams.showRememberMeOption != AccountUi.Params.DEFAULT_SHOW_REMEMBER_ME -> uiParams.showRememberMeOption
+                else -> optionalConfig.showRememberMeOption ?: uiParams.showRememberMeOption
+            }
+
             return InternalUiConfiguration(
                     requiredConfig.clientName,
                     requiredConfig.redirectUri,
@@ -104,7 +110,8 @@ data class InternalUiConfiguration(
                     clientLogo,
                     uiParams.teaserText,
                     disabledMessage,
-                    isCancellable
+                    isCancellable,
+                    showRememberMe
             )
         }
     }

@@ -93,16 +93,21 @@ class VerificationFragment : FlowFragment<VerificationContract.Presenter>(), Ver
         accountSelectorView.contentDescription = getString(R.string.schacc_accessibility_login_id, identifier.identifier)
 
         rememberMeView.isChecked = true
-        rememberMeView.labelView.text = getString(R.string.schacc_remember_me)
-
         val rememberMeInfoView = view.findViewById<TextView>(R.id.remember_me_info)
-        rememberMeInfoView.setOnClickListener {
-            navigationListener?.onDialogNavigationRequested(
-                    InformationDialogFragment.newInstance(
-                            getString(R.string.schacc_dialog_remember_me_title),
-                            getString(R.string.schacc_dialog_remember_me_description),
-                            R.drawable.schacc_ic_remember_me, null
-                    ))
+
+        if (uiConf.showRememberMeEnabled) {
+            rememberMeView.labelView.text = getString(R.string.schacc_remember_me)
+            rememberMeInfoView.setOnClickListener {
+                navigationListener?.onDialogNavigationRequested(
+                        InformationDialogFragment.newInstance(
+                                getString(R.string.schacc_dialog_remember_me_title),
+                                getString(R.string.schacc_dialog_remember_me_description),
+                                R.drawable.schacc_ic_remember_me, null
+                        ))
+            }
+        } else {
+            rememberMeView.visibility = View.GONE
+            rememberMeInfoView.visibility = View.GONE
         }
 
         registerListeners()

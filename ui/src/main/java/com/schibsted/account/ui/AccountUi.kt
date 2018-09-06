@@ -46,7 +46,7 @@ object AccountUi {
      * @param signUpMode A mode used to allow or not the user to sign-up using the UI
      * @param clientLogo a logo to display on the first screen
      * @param scopes scopes to send along with a network request
-     *
+     * @param showRememberMeOption If set to false the user will not see the remember me option in the UI
      * Setting one of this value will take precedence over the one you could have defined in the manifest
      */
     @Parcelize
@@ -57,6 +57,7 @@ object AccountUi {
         val locale: Locale? = null,
         val signUpMode: SignUpMode = DEFAULT_SIGNUP_MODE,
         val isCancellable: Boolean = DEFAULT_IS_CANCELLABLE,
+        val showRememberMeOption: Boolean = DEFAULT_SHOW_REMEMBER_ME,
         @DrawableRes val clientLogo: Int = DEFAULT_CLIENT_LOGO,
         @OIDCScope val scopes: Array<String> = DEFAULT_SCOPES
     ) : Parcelable {
@@ -70,6 +71,7 @@ object AccountUi {
             fun locale(locale: Locale) = apply { params = params.copy(locale = locale) }
             fun signUpMode(mode: SignUpMode) = apply { params = params.copy(signUpMode = mode) }
             fun isCancellable(isCancellable: Boolean) = apply { params = params.copy(isCancellable = isCancellable) }
+            fun showRememberMeOption(showRememberMeOption: Boolean) = apply { params = params.copy(showRememberMeOption = showRememberMeOption) }
             fun build() = params
         }
 
@@ -84,6 +86,7 @@ object AccountUi {
             internal val DEFAULT_SMARTLOCK_MODE = SmartlockMode.DISABLED
             internal val DEFAULT_LOCALE = Locale.getDefault()
             internal val DEFAULT_SIGNUP_MODE = SignUpMode.Enabled
+            internal val DEFAULT_SHOW_REMEMBER_ME = true
             internal const val DEFAULT_IS_CANCELLABLE = true
             internal val DEFAULT_SCOPES = arrayOf(OIDCScope.SCOPE_OPENID)
             @DrawableRes

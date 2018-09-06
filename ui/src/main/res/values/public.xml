@@ -14,6 +14,7 @@
     <public type="string" name="schacc_conf_cancellable"/>
     <public type="string" name="schacc_conf_smartlock_mode"/>
     <public type="string" name="schacc_conf_client_logo"/>
+    <public type="string" name="schacc_conf_remember_me"/>
 
     <public type="color" name="schacc_primaryEnabled"/>
     <public type="color" name="schacc_primaryDisabled"/>
