@@ -14,6 +14,19 @@
 <code>teaserText</code> - A teaser text to show on the initial screen</p>
 <p><a name="preFilledIdentifier"></a>
 <code>preFilledIdentifier</code> - If the user ID is known, the identifier can be pre-filled</p>
+<p><a name="smartLockMode"></a>
+<code>smartLockMode</code> - A mode used to allow or not the user to log in using smartlock</p>
+<p><a name="locale"></a>
+<code>locale</code> - the locale to use in the UI</p>
+<p><a name="signUpMode"></a>
+<code>signUpMode</code> - A mode used to allow or not the user to sign-up using the UI</p>
+<p><a name="clientLogo"></a>
+<code>clientLogo</code> - a logo to display on the first screen</p>
+<p><a name="scopes"></a>
+<code>scopes</code> - scopes to send along with a network request</p>
+<p><a name="showRememberMeOption"></a>
+<code>showRememberMeOption</code> - If set to false the user will not see the remember me option in the UI
+Setting one of this value will take precedence over the one you could have defined in the manifest</p>
 <h3>Types</h3>
 <table>
 <tbody>
@@ -34,13 +47,38 @@
 <p><a href="-init-.html">&lt;init&gt;</a></p>
 </td>
 <td>
-<code><span class="identifier">Params</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.ui.AccountUi.Params$<init>(kotlin.String, kotlin.String, com.schibsted.account.ui.smartlock.SmartlockMode, kotlin.Array((kotlin.String)))/teaserText">teaserText</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">?</span>&nbsp;<span class="symbol">=</span>&nbsp;null<span class="symbol">, </span><span class="identifier" id="com.schibsted.account.ui.AccountUi.Params$<init>(kotlin.String, kotlin.String, com.schibsted.account.ui.smartlock.SmartlockMode, kotlin.Array((kotlin.String)))/preFilledIdentifier">preFilledIdentifier</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">?</span>&nbsp;<span class="symbol">=</span>&nbsp;null<span class="symbol">, </span><span class="identifier" id="com.schibsted.account.ui.AccountUi.Params$<init>(kotlin.String, kotlin.String, com.schibsted.account.ui.smartlock.SmartlockMode, kotlin.Array((kotlin.String)))/smartLockMode">smartLockMode</span><span class="symbol">:</span>&nbsp;<a href="../../../com.schibsted.account.ui.smartlock/-smartlock-mode/index.html"><span class="identifier">SmartlockMode</span></a>&nbsp;<span class="symbol">=</span>&nbsp;SmartlockMode.DISABLED<span class="symbol">, </span><span class="identifier" id="com.schibsted.account.ui.AccountUi.Params$<init>(kotlin.String, kotlin.String, com.schibsted.account.ui.smartlock.SmartlockMode, kotlin.Array((kotlin.String)))/scopes">scopes</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-array/index.html"><span class="identifier">Array</span></a><span class="symbol">&lt;</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">&gt;</span>&nbsp;<span class="symbol">=</span>&nbsp;arrayOf(OIDCScope.SCOPE_OPENID)<span class="symbol">)</span></code></td>
+<code><span class="identifier">Params</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.ui.AccountUi.Params$<init>(kotlin.String, kotlin.String, com.schibsted.account.ui.smartlock.SmartlockMode, java.util.Locale, com.schibsted.account.ui.SignUpMode, kotlin.Boolean, kotlin.Boolean, kotlin.Int, kotlin.Array((kotlin.String)))/teaserText">teaserText</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">?</span>&nbsp;<span class="symbol">=</span>&nbsp;DEFAULT_TEASER<span class="symbol">, </span><span class="identifier" id="com.schibsted.account.ui.AccountUi.Params$<init>(kotlin.String, kotlin.String, com.schibsted.account.ui.smartlock.SmartlockMode, java.util.Locale, com.schibsted.account.ui.SignUpMode, kotlin.Boolean, kotlin.Boolean, kotlin.Int, kotlin.Array((kotlin.String)))/preFilledIdentifier">preFilledIdentifier</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">?</span>&nbsp;<span class="symbol">=</span>&nbsp;DEFAULT_PREFILLED_IDENTIFIER<span class="symbol">, </span><span class="identifier" id="com.schibsted.account.ui.AccountUi.Params$<init>(kotlin.String, kotlin.String, com.schibsted.account.ui.smartlock.SmartlockMode, java.util.Locale, com.schibsted.account.ui.SignUpMode, kotlin.Boolean, kotlin.Boolean, kotlin.Int, kotlin.Array((kotlin.String)))/smartLockMode">smartLockMode</span><span class="symbol">:</span>&nbsp;<a href="../../../com.schibsted.account.ui.smartlock/-smartlock-mode/index.html"><span class="identifier">SmartlockMode</span></a>&nbsp;<span class="symbol">=</span>&nbsp;DEFAULT_SMARTLOCK_MODE<span class="symbol">, </span><span class="identifier" id="com.schibsted.account.ui.AccountUi.Params$<init>(kotlin.String, kotlin.String, com.schibsted.account.ui.smartlock.SmartlockMode, java.util.Locale, com.schibsted.account.ui.SignUpMode, kotlin.Boolean, kotlin.Boolean, kotlin.Int, kotlin.Array((kotlin.String)))/locale">locale</span><span class="symbol">:</span>&nbsp;<a href="https://developer.android.com/reference/java/util/Locale.html"><span class="identifier">Locale</span></a><span class="symbol">?</span>&nbsp;<span class="symbol">=</span>&nbsp;null<span class="symbol">, </span><span class="identifier" id="com.schibsted.account.ui.AccountUi.Params$<init>(kotlin.String, kotlin.String, com.schibsted.account.ui.smartlock.SmartlockMode, java.util.Locale, com.schibsted.account.ui.SignUpMode, kotlin.Boolean, kotlin.Boolean, kotlin.Int, kotlin.Array((kotlin.String)))/signUpMode">signUpMode</span><span class="symbol">:</span>&nbsp;<a href="../../-sign-up-mode/index.html"><span class="identifier">SignUpMode</span></a>&nbsp;<span class="symbol">=</span>&nbsp;DEFAULT_SIGNUP_MODE<span class="symbol">, </span><span class="identifier" id="com.schibsted.account.ui.AccountUi.Params$<init>(kotlin.String, kotlin.String, com.schibsted.account.ui.smartlock.SmartlockMode, java.util.Locale, com.schibsted.account.ui.SignUpMode, kotlin.Boolean, kotlin.Boolean, kotlin.Int, kotlin.Array((kotlin.String)))/isCancellable">isCancellable</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><span class="identifier">Boolean</span></a>&nbsp;<span class="symbol">=</span>&nbsp;DEFAULT_IS_CANCELLABLE<span class="symbol">, </span><span class="identifier" id="com.schibsted.account.ui.AccountUi.Params$<init>(kotlin.String, kotlin.String, com.schibsted.account.ui.smartlock.SmartlockMode, java.util.Locale, com.schibsted.account.ui.SignUpMode, kotlin.Boolean, kotlin.Boolean, kotlin.Int, kotlin.Array((kotlin.String)))/showRememberMeOption">showRememberMeOption</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><span class="identifier">Boolean</span></a>&nbsp;<span class="symbol">=</span>&nbsp;DEFAULT_SHOW_REMEMBER_ME<span class="symbol">, </span><span class="identifier" id="com.schibsted.account.ui.AccountUi.Params$<init>(kotlin.String, kotlin.String, com.schibsted.account.ui.smartlock.SmartlockMode, java.util.Locale, com.schibsted.account.ui.SignUpMode, kotlin.Boolean, kotlin.Boolean, kotlin.Int, kotlin.Array((kotlin.String)))/clientLogo">clientLogo</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html"><span class="identifier">Int</span></a>&nbsp;<span class="symbol">=</span>&nbsp;DEFAULT_CLIENT_LOGO<span class="symbol">, </span><span class="identifier" id="com.schibsted.account.ui.AccountUi.Params$<init>(kotlin.String, kotlin.String, com.schibsted.account.ui.smartlock.SmartlockMode, java.util.Locale, com.schibsted.account.ui.SignUpMode, kotlin.Boolean, kotlin.Boolean, kotlin.Int, kotlin.Array((kotlin.String)))/scopes">scopes</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-array/index.html"><span class="identifier">Array</span></a><span class="symbol">&lt;</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">&gt;</span>&nbsp;<span class="symbol">=</span>&nbsp;DEFAULT_SCOPES<span class="symbol">)</span></code></td>
 </tr>
 </tbody>
 </table>
 <h3>Properties</h3>
 <table>
 <tbody>
+<tr>
+<td>
+<p><a href="client-logo.html">clientLogo</a></p>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">clientLogo</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html"><span class="identifier">Int</span></a></code>
+<p>a logo to display on the first screen</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="is-cancellable.html">isCancellable</a></p>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">isCancellable</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><span class="identifier">Boolean</span></a></code></td>
+</tr>
+<tr>
+<td>
+<p><a href="locale.html">locale</a></p>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">locale</span><span class="symbol">: </span><a href="https://developer.android.com/reference/java/util/Locale.html"><span class="identifier">Locale</span></a><span class="symbol">?</span></code>
+<p>the locale to use in the UI</p>
+</td>
+</tr>
 <tr>
 <td>
 <p><a href="pre-filled-identifier.html">preFilledIdentifier</a></p>
@@ -55,14 +93,37 @@
 <p><a href="scopes.html">scopes</a></p>
 </td>
 <td>
-<code><span class="keyword">val </span><span class="identifier">scopes</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-array/index.html"><span class="identifier">Array</span></a><span class="symbol">&lt;</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">&gt;</span></code></td>
+<code><span class="keyword">val </span><span class="identifier">scopes</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-array/index.html"><span class="identifier">Array</span></a><span class="symbol">&lt;</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">&gt;</span></code>
+<p>scopes to send along with a network request</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="show-remember-me-option.html">showRememberMeOption</a></p>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">showRememberMeOption</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><span class="identifier">Boolean</span></a></code>
+<p>If set to false the user will not see the remember me option in the UI
+Setting one of this value will take precedence over the one you could have defined in the manifest</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="sign-up-mode.html">signUpMode</a></p>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">signUpMode</span><span class="symbol">: </span><a href="../../-sign-up-mode/index.html"><span class="identifier">SignUpMode</span></a></code>
+<p>A mode used to allow or not the user to sign-up using the UI</p>
+</td>
 </tr>
 <tr>
 <td>
 <p><a href="smart-lock-mode.html">smartLockMode</a></p>
 </td>
 <td>
-<code><span class="keyword">val </span><span class="identifier">smartLockMode</span><span class="symbol">: </span><a href="../../../com.schibsted.account.ui.smartlock/-smartlock-mode/index.html"><span class="identifier">SmartlockMode</span></a></code></td>
+<code><span class="keyword">val </span><span class="identifier">smartLockMode</span><span class="symbol">: </span><a href="../../../com.schibsted.account.ui.smartlock/-smartlock-mode/index.html"><span class="identifier">SmartlockMode</span></a></code>
+<p>A mode used to allow or not the user to log in using smartlock</p>
+</td>
 </tr>
 <tr>
 <td>

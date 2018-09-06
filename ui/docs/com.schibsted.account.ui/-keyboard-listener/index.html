@@ -1,0 +1,49 @@
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>KeyboardListener - ui</title>
+<link rel="stylesheet" href="../../../style.css">
+</HEAD>
+<BODY>
+<a href="../../index.html">ui</a>&nbsp;/&nbsp;<a href="../index.html">com.schibsted.account.ui</a>&nbsp;/&nbsp;<a href="./index.html">KeyboardListener</a><br/>
+<br/>
+<h1>KeyboardListener</h1>
+<code><span class="keyword">interface </span><span class="identifier">KeyboardListener</span></code>
+<p>This interface should be implemented by every activity managing the soft keyboard state</p>
+<h3>Functions</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="close-keyboard.html">closeKeyboard</a></p>
+</td>
+<td>
+<code><span class="keyword">abstract</span> <span class="keyword">fun </span><span class="identifier">closeKeyboard</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code>
+<p>call this method to close down the soft keyboard</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="is-keyboard-open.html">isKeyboardOpen</a></p>
+</td>
+<td>
+<code><span class="keyword">abstract</span> <span class="keyword">fun </span><span class="identifier">isKeyboardOpen</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><span class="identifier">Boolean</span></a></code>
+<p>call this method to know if the keyboard is opened or not</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3>Inheritors</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="../-keyboard-controller/index.html">KeyboardController</a></p>
+</td>
+<td>
+<code><span class="keyword">class </span><span class="identifier">KeyboardController</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="./index.html"><span class="identifier">KeyboardListener</span></a></code></td>
+</tr>
+</tbody>
+</table>
+</BODY>
+</HTML>

@@ -26,13 +26,14 @@ For example with `spid-myclientid://login` the scheme is `spid-myclientid` and t
 
 
 ### Additional configuration parameters
-You can further control the behavior of the UIs bu specifying any of the following attributes. These can be specified in your `AndroidManifest.xml` or by implementing `OptionalConfiguration.UiConfigProvider` in your `Application` class. Using only one of these is recommended, but if you were to use both, then the configuration provider will be resolved before the manifest.
+You can further control the behavior of the UIs bu specifying any of the following attributes. These can be specified in your `AndroidManifest.xml` or by using `AccountUi.Params.Builder()`. Using only one of these is recommended, but if you were to use both, then the AccountUi parameters will take precedence over the manifest.
 
 - **Locale:** The locale to use for sending verification email and SMS from Schibsted Account in the following format `language_country` for example `nb_NO`. Defaults: `Locale.getDefault()`.
 - **Sign-up enabled:** Whether or not creation of new accounts should be allowed. Please note that an error message must be specified in order to disable this. Default: true.
 - **Sign-up disabled message:** The error message to show when a user attempts to create a new account if it's disabled. No default.
 - **Cancellable:** When set to false, the UIs will no longer show the close button. Default: true.
 - **Client logo:** The logo to display in the UIs. Default: 0.
+- **Remember me:** Whether or not the remember me option is shown to the user.
 
 #### Android manifest
 ```xml
@@ -41,22 +42,17 @@ You can further control the behavior of the UIs bu specifying any of the followi
     <meta-data android:name="@string/schacc_conf_signup_enabled" android:value="false" />
     <meta-data android:name="@string/schacc_conf_signup_disabled_message" android:value="Some reason" />
     <meta-data android:name="@string/schacc_conf_cancellable" android:value="false" />
-    <meta-data android:name="@string/schacc_conf_client_logo" android:resource="@drawable/schacc_ic_cancel" />
+    <meta-data android:name="@string/schacc_conf_client_logo" android:resource="@drawable/client_logo" />
+    <meta-data android:name="@string/schacc_conf_remember_me" android:value="true" />
 </application>
 ```
 
-#### Configuration provider
+#### AccountUi parameters
 ```java
-public class App extends Application implements OptionalConfiguration.UiConfigProvider {
-    @NonNull
-    @Override
-    public OptionalConfiguration getUiConfig() {
-        return new UiConfig.Builder()
-                .locale(new Locale("nb", "NO"))
-                .clientLogo(R.drawable.ic_example_logo)
-                .build();
-    }
-}
+ new AccountUi.Params.Builder()
+                               .teaserText(getString(R.string.example_teaser_text))
+                               ...
+                               .build());
 ```
 
 ### Starting the UIs
@@ -74,11 +70,11 @@ The UIs can be started through the `getCallingIntent` function in the `AccountUi
 final Intent intent = AccountUi.getCallingIntent(
     getApplicationContext(),
     AccountUi.FlowType.PASSWORD,
-    new AccountUi.Params(
-        getString(R.string.example_teaser_text), 
-        "user@example.com",
-        SmartlockMode.DISABLED,
-        new String[]{OIDCScope.SCOPE_OPENID}));
+    new AccountUi.Params.Builder()
+        .teaserText(getString(R.string.example_teaser_text))
+        .preFilledIdentifier("user@example.com")
+        .smartLockMode(SmartlockMode.DISABLED)
+        .build());
 
 startActivityForResult(intent, PASSWORD_REQUEST_CODE);
 ```

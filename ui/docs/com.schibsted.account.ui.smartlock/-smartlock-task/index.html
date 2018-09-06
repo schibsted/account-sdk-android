@@ -1,0 +1,56 @@
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>SmartlockTask - ui</title>
+<link rel="stylesheet" href="../../../style.css">
+</HEAD>
+<BODY>
+<a href="../../index.html">ui</a>&nbsp;/&nbsp;<a href="../index.html">com.schibsted.account.ui.smartlock</a>&nbsp;/&nbsp;<a href="./index.html">SmartlockTask</a><br/>
+<br/>
+<h1>SmartlockTask</h1>
+<code><span class="keyword">class </span><span class="identifier">SmartlockTask</span></code>
+<h3>Types</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="-smart-lock-result/index.html">SmartLockResult</a></p>
+</td>
+<td>
+<code><span class="keyword">sealed</span> <span class="keyword">class </span><span class="identifier">SmartLockResult</span></code></td>
+</tr>
+</tbody>
+</table>
+<h3>Constructors</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="-init-.html">&lt;init&gt;</a></p>
+</td>
+<td>
+<code><span class="identifier">SmartlockTask</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.ui.smartlock.SmartlockTask$<init>(com.schibsted.account.ui.smartlock.SmartlockMode)/smartlockMode">smartlockMode</span><span class="symbol">:</span>&nbsp;<a href="../-smartlock-mode/index.html"><span class="identifier">SmartlockMode</span></a><span class="symbol">)</span></code></td>
+</tr>
+</tbody>
+</table>
+<h3>Functions</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="credentials-from-parcelable.html">credentialsFromParcelable</a></p>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">credentialsFromParcelable</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.ui.smartlock.SmartlockTask$credentialsFromParcelable(kotlin.Int, kotlin.Int, android.os.Parcelable)/requestCode">requestCode</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html"><span class="identifier">Int</span></a><span class="symbol">, </span><span class="identifier" id="com.schibsted.account.ui.smartlock.SmartlockTask$credentialsFromParcelable(kotlin.Int, kotlin.Int, android.os.Parcelable)/resultCode">resultCode</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html"><span class="identifier">Int</span></a><span class="symbol">, </span><span class="identifier" id="com.schibsted.account.ui.smartlock.SmartlockTask$credentialsFromParcelable(kotlin.Int, kotlin.Int, android.os.Parcelable)/smartlockCredentials">smartlockCredentials</span><span class="symbol">:</span>&nbsp;<a href="https://developer.android.com/reference/android/os/Parcelable.html"><span class="identifier">Parcelable</span></a><span class="symbol">?</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">ObservableField</span><span class="symbol">&lt;</span><a href="-smart-lock-result/index.html"><span class="identifier">SmartLockResult</span></a><span class="symbol">&gt;</span></code></td>
+</tr>
+<tr>
+<td>
+<p><a href="initialize-smartlock.html">initializeSmartlock</a></p>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">initializeSmartlock</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.ui.smartlock.SmartlockTask$initializeSmartlock(kotlin.Boolean, kotlin.Boolean)/isSmartlockRunning">isSmartlockRunning</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><span class="identifier">Boolean</span></a><span class="symbol">, </span><span class="identifier" id="com.schibsted.account.ui.smartlock.SmartlockTask$initializeSmartlock(kotlin.Boolean, kotlin.Boolean)/isSmartlockAvailable">isSmartlockAvailable</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><span class="identifier">Boolean</span></a>&nbsp;<span class="symbol">=</span>&nbsp;SmartlockController.isSmartlockAvailable()<span class="symbol">)</span><span class="symbol">: </span><span class="identifier">ObservableField</span><span class="symbol">&lt;</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><span class="identifier">Boolean</span></a><span class="symbol">&gt;</span></code></td>
+</tr>
+</tbody>
+</table>
+</BODY>
+</HTML>

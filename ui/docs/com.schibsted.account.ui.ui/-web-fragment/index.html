@@ -29,10 +29,10 @@
 <tbody>
 <tr>
 <td>
-<p><a href="../-base-fragment/keyboard-manager.html">keyboardManager</a></p>
+<p><a href="../-base-fragment/keyboard-listener.html">keyboardListener</a></p>
 </td>
 <td>
-<code><span class="keyword">lateinit</span> <span class="keyword">var </span><span class="identifier">keyboardManager</span><span class="symbol">: </span><a href="../../com.schibsted.account.ui/-keyboard-manager/index.html"><span class="identifier">KeyboardManager</span></a></code>
+<code><span class="keyword">var </span><span class="identifier">keyboardListener</span><span class="symbol">: </span><a href="../../com.schibsted.account.ui/-keyboard-listener/index.html"><span class="identifier">KeyboardListener</span></a><span class="symbol">?</span></code>
 <p>The keyboard manager allowing to interact with the state of the soft keyboard</p>
 </td>
 </tr>
@@ -108,17 +108,17 @@
 </tr>
 <tr>
 <td>
-<p><a href="../-base-fragment/on-create.html">onCreate</a></p>
-</td>
-<td>
-<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">onCreate</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.ui.ui.BaseFragment$onCreate(android.os.Bundle)/savedInstanceState">savedInstanceState</span><span class="symbol">:</span>&nbsp;<a href="https://developer.android.com/reference/android/os/Bundle.html"><span class="identifier">Bundle</span></a><span class="symbol">?</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code></td>
-</tr>
-<tr>
-<td>
 <p><a href="../-base-fragment/on-create-animation.html">onCreateAnimation</a></p>
 </td>
 <td>
 <code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">onCreateAnimation</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.ui.ui.BaseFragment$onCreateAnimation(kotlin.Int, kotlin.Boolean, kotlin.Int)/transit">transit</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html"><span class="identifier">Int</span></a><span class="symbol">, </span><span class="identifier" id="com.schibsted.account.ui.ui.BaseFragment$onCreateAnimation(kotlin.Int, kotlin.Boolean, kotlin.Int)/enter">enter</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><span class="identifier">Boolean</span></a><span class="symbol">, </span><span class="identifier" id="com.schibsted.account.ui.ui.BaseFragment$onCreateAnimation(kotlin.Int, kotlin.Boolean, kotlin.Int)/nextAnim">nextAnim</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html"><span class="identifier">Int</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://developer.android.com/reference/android/view/animation/Animation.html"><span class="identifier">Animation</span></a></code></td>
+</tr>
+<tr>
+<td>
+<p><a href="../-base-fragment/register-keyboard-controller.html">registerKeyboardController</a></p>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">registerKeyboardController</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.ui.ui.BaseFragment$registerKeyboardController(com.schibsted.account.ui.KeyboardListener)/keyboardListener">keyboardListener</span><span class="symbol">:</span>&nbsp;<a href="../../com.schibsted.account.ui/-keyboard-listener/index.html"><span class="identifier">KeyboardListener</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code></td>
 </tr>
 <tr>
 <td>
@@ -128,6 +128,13 @@
 <code><span class="keyword">fun </span><span class="identifier">registerNavigationController</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.ui.ui.BaseFragment$registerNavigationController(com.schibsted.account.ui.navigation.NavigationListener)/navigationListener">navigationListener</span><span class="symbol">:</span>&nbsp;<a href="../../com.schibsted.account.ui.navigation/-navigation-listener/index.html"><span class="identifier">NavigationListener</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code>
 <p>this method is used to register the navigation controller</p>
 </td>
+</tr>
+<tr>
+<td>
+<p><a href="../-base-fragment/unregister-keyboard-controller.html">unregisterKeyboardController</a></p>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">unregisterKeyboardController</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code></td>
 </tr>
 <tr>
 <td>

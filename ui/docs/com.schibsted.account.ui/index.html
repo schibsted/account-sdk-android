@@ -36,6 +36,15 @@
 </tr>
 <tr>
 <td>
+<p><a href="-event/index.html">Event</a></p>
+</td>
+<td>
+<code><span class="keyword">open</span> <span class="keyword">class </span><span class="identifier">Event</span><span class="symbol">&lt;</span><span class="keyword">out</span>&nbsp;<span class="identifier">T</span><span class="symbol">&gt;</span></code>
+<p>Used as a wrapper for data that is exposed via a LiveData that represents an event.</p>
+</td>
+</tr>
+<tr>
+<td>
 <p><a href="-internal-ui-configuration/index.html">InternalUiConfiguration</a></p>
 </td>
 <td>
@@ -43,10 +52,17 @@
 </tr>
 <tr>
 <td>
-<p><a href="-keyboard-manager/index.html">KeyboardManager</a></p>
+<p><a href="-keyboard-controller/index.html">KeyboardController</a></p>
 </td>
 <td>
-<code><span class="keyword">interface </span><span class="identifier">KeyboardManager</span></code>
+<code><span class="keyword">class </span><span class="identifier">KeyboardController</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="-keyboard-listener/index.html"><span class="identifier">KeyboardListener</span></a></code></td>
+</tr>
+<tr>
+<td>
+<p><a href="-keyboard-listener/index.html">KeyboardListener</a></p>
+</td>
+<td>
+<code><span class="keyword">interface </span><span class="identifier">KeyboardListener</span></code>
 <p>This interface should be implemented by every activity managing the soft keyboard state</p>
 </td>
 </tr>
@@ -63,6 +79,13 @@
 </td>
 <td>
 <code><span class="keyword">data</span> <span class="keyword">class </span><span class="identifier">RequiredConfiguration</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="https://developer.android.com/reference/android/os/Parcelable.html"><span class="identifier">Parcelable</span></a></code></td>
+</tr>
+<tr>
+<td>
+<p><a href="-sign-up-mode/index.html">SignUpMode</a></p>
+</td>
+<td>
+<code><span class="keyword">sealed</span> <span class="keyword">class </span><span class="identifier">SignUpMode</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="https://developer.android.com/reference/android/os/Parcelable.html"><span class="identifier">Parcelable</span></a></code></td>
 </tr>
 <tr>
 <td>

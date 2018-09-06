@@ -1,0 +1,215 @@
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>LoginActivityViewModel - ui</title>
+<link rel="stylesheet" href="../../../style.css">
+</HEAD>
+<BODY>
+<a href="../../index.html">ui</a>&nbsp;/&nbsp;<a href="../index.html">com.schibsted.account.ui.login</a>&nbsp;/&nbsp;<a href="./index.html">LoginActivityViewModel</a><br/>
+<br/>
+<h1>LoginActivityViewModel</h1>
+<code><span class="keyword">class </span><span class="identifier">LoginActivityViewModel</span>&nbsp;<span class="symbol">:</span>&nbsp;<span class="identifier">ViewModel</span><span class="symbol">, </span><a href="../../com.schibsted.account.ui.login.flow.password/-flow-selection-listener/index.html"><span class="identifier">FlowSelectionListener</span></a></code>
+<h3>Types</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="-client-result/index.html">ClientResult</a></p>
+</td>
+<td>
+<code><span class="keyword">sealed</span> <span class="keyword">class </span><span class="identifier">ClientResult</span></code></td>
+</tr>
+</tbody>
+</table>
+<h3>Constructors</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="-init-.html">&lt;init&gt;</a></p>
+</td>
+<td>
+<code><span class="identifier">LoginActivityViewModel</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.ui.login.LoginActivityViewModel$<init>(com.schibsted.account.ui.smartlock.SmartlockTask, java.net.URI, com.schibsted.account.ui.AccountUi.Params)/smartlockTask">smartlockTask</span><span class="symbol">:</span>&nbsp;<a href="../../com.schibsted.account.ui.smartlock/-smartlock-task/index.html"><span class="identifier">SmartlockTask</span></a><span class="symbol">, </span><span class="identifier" id="com.schibsted.account.ui.login.LoginActivityViewModel$<init>(com.schibsted.account.ui.smartlock.SmartlockTask, java.net.URI, com.schibsted.account.ui.AccountUi.Params)/redirectUri">redirectUri</span><span class="symbol">:</span>&nbsp;<a href="https://developer.android.com/reference/java/net/URI.html"><span class="identifier">URI</span></a><span class="symbol">, </span><span class="identifier" id="com.schibsted.account.ui.login.LoginActivityViewModel$<init>(com.schibsted.account.ui.smartlock.SmartlockTask, java.net.URI, com.schibsted.account.ui.AccountUi.Params)/params">params</span><span class="symbol">:</span>&nbsp;<a href="../../com.schibsted.account.ui/-account-ui/-params/index.html"><span class="identifier">Params</span></a><span class="symbol">)</span></code></td>
+</tr>
+</tbody>
+</table>
+<h3>Properties</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="client-resolving-state.html">clientResolvingState</a></p>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">clientResolvingState</span><span class="symbol">: </span><span class="identifier">MutableLiveData</span><span class="symbol">&lt;</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><span class="identifier">Boolean</span></a><span class="symbol">&gt;</span></code></td>
+</tr>
+<tr>
+<td>
+<p><a href="client-result.html">clientResult</a></p>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">clientResult</span><span class="symbol">: </span><span class="identifier">MutableLiveData</span><span class="symbol">&lt;</span><a href="../../com.schibsted.account.ui/-event/index.html"><span class="identifier">Event</span></a><span class="symbol">&lt;</span><a href="-client-result/index.html"><span class="identifier">ClientResult</span></a><span class="symbol">&gt;</span><span class="symbol">&gt;</span></code></td>
+</tr>
+<tr>
+<td>
+<p><a href="login-controller.html">loginController</a></p>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">loginController</span><span class="symbol">: </span><span class="identifier">MutableLiveData</span><span class="symbol">&lt;</span><a href="../../com.schibsted.account.ui/-event/index.html"><span class="identifier">Event</span></a><span class="symbol">&lt;</span><span class="identifier">LoginController</span><span class="symbol">&gt;</span><span class="symbol">&gt;</span></code></td>
+</tr>
+<tr>
+<td>
+<p><a href="sign-up-controller.html">signUpController</a></p>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">signUpController</span><span class="symbol">: </span><span class="identifier">MutableLiveData</span><span class="symbol">&lt;</span><a href="../../com.schibsted.account.ui/-event/index.html"><span class="identifier">Event</span></a><span class="symbol">&lt;</span><span class="identifier">SignUpController</span><span class="symbol">&gt;</span><span class="symbol">&gt;</span></code></td>
+</tr>
+<tr>
+<td>
+<p><a href="smartlock-credentials.html">smartlockCredentials</a></p>
+</td>
+<td>
+<code><span class="keyword">var </span><span class="identifier">smartlockCredentials</span><span class="symbol">: </span><span class="identifier">MutableLiveData</span><span class="symbol">&lt;</span><span class="identifier">Credentials</span><span class="symbol">&gt;</span></code></td>
+</tr>
+<tr>
+<td>
+<p><a href="smartlock-receiver.html">smartlockReceiver</a></p>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">smartlockReceiver</span><span class="symbol">: </span><a href="../../com.schibsted.account.ui.smartlock/-smartlock-receiver/index.html"><span class="identifier">SmartlockReceiver</span></a></code></td>
+</tr>
+<tr>
+<td>
+<p><a href="smartlock-resolving-state.html">smartlockResolvingState</a></p>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">smartlockResolvingState</span><span class="symbol">: </span><span class="identifier">MutableLiveData</span><span class="symbol">&lt;</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><span class="identifier">Boolean</span></a><span class="symbol">&gt;</span></code></td>
+</tr>
+<tr>
+<td>
+<p><a href="smartlock-result.html">smartlockResult</a></p>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">smartlockResult</span><span class="symbol">: </span><span class="identifier">MutableLiveData</span><span class="symbol">&lt;</span><a href="../../com.schibsted.account.ui.smartlock/-smartlock-task/-smart-lock-result/index.html"><span class="identifier">SmartLockResult</span></a><span class="symbol">&gt;</span></code></td>
+</tr>
+<tr>
+<td>
+<p><a href="start-smart-lock-flow.html">startSmartLockFlow</a></p>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">startSmartLockFlow</span><span class="symbol">: </span><span class="identifier">MutableLiveData</span><span class="symbol">&lt;</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><span class="identifier">Boolean</span></a><span class="symbol">&gt;</span></code></td>
+</tr>
+<tr>
+<td>
+<p><a href="ui-configuration.html">uiConfiguration</a></p>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">uiConfiguration</span><span class="symbol">: </span><span class="identifier">MutableLiveData</span><span class="symbol">&lt;</span><a href="../../com.schibsted.account.ui/-internal-ui-configuration/index.html"><span class="identifier">InternalUiConfiguration</span></a><span class="symbol">&gt;</span></code></td>
+</tr>
+<tr>
+<td>
+<p><a href="user.html">user</a></p>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">user</span><span class="symbol">: </span><span class="identifier">MutableLiveData</span><span class="symbol">&lt;</span><span class="identifier">User</span><span class="symbol">&gt;</span></code></td>
+</tr>
+<tr>
+<td>
+<p><a href="user-flow-type.html">userFlowType</a></p>
+</td>
+<td>
+<code><span class="keyword">var </span><span class="identifier">userFlowType</span><span class="symbol">: </span><a href="../../com.schibsted.account.ui.login.flow.password/-flow-selection-listener/-flow-type/index.html"><span class="identifier">FlowType</span></a><span class="symbol">?</span></code></td>
+</tr>
+<tr>
+<td>
+<p><a href="user-identifier.html">userIdentifier</a></p>
+</td>
+<td>
+<code><span class="keyword">var </span><span class="identifier">userIdentifier</span><span class="symbol">: </span><span class="identifier">Identifier</span><span class="symbol">?</span></code></td>
+</tr>
+</tbody>
+</table>
+<h3>Functions</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="get-client-info.html">getClientInfo</a></p>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">getClientInfo</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.ui.login.LoginActivityViewModel$getClientInfo(com.schibsted.account.network.response.ClientInfo)/intentClientInfo">intentClientInfo</span><span class="symbol">:</span>&nbsp;<span class="identifier">ClientInfo</span><span class="symbol">?</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code></td>
+</tr>
+<tr>
+<td>
+<p><a href="initialize-smartlock.html">initializeSmartlock</a></p>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">initializeSmartlock</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code></td>
+</tr>
+<tr>
+<td>
+<p><a href="is-deep-link-request-new-password.html">isDeepLinkRequestNewPassword</a></p>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">isDeepLinkRequestNewPassword</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.ui.login.LoginActivityViewModel$isDeepLinkRequestNewPassword(kotlin.String)/dataString">dataString</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">?</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><span class="identifier">Boolean</span></a></code></td>
+</tr>
+<tr>
+<td>
+<p><a href="is-flow-ready.html">isFlowReady</a></p>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">isFlowReady</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><span class="identifier">Boolean</span></a></code></td>
+</tr>
+<tr>
+<td>
+<p><a href="is-smartlock-resolving.html">isSmartlockResolving</a></p>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">isSmartlockResolving</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><span class="identifier">Boolean</span></a></code></td>
+</tr>
+<tr>
+<td>
+<p><a href="is-user-available.html">isUserAvailable</a></p>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">isUserAvailable</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><span class="identifier">Boolean</span></a></code></td>
+</tr>
+<tr>
+<td>
+<p><a href="login-from-deep-link.html">loginFromDeepLink</a></p>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">loginFromDeepLink</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.ui.login.LoginActivityViewModel$loginFromDeepLink(com.schibsted.account.util.DeepLink.ValidateAccount)/state">state</span><span class="symbol">:</span>&nbsp;<span class="identifier">ValidateAccount</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code></td>
+</tr>
+<tr>
+<td>
+<p><a href="on-flow-selected.html">onFlowSelected</a></p>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">onFlowSelected</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.ui.login.LoginActivityViewModel$onFlowSelected(com.schibsted.account.ui.login.flow.password.FlowSelectionListener.FlowType, com.schibsted.account.engine.input.Identifier)/flowType">flowType</span><span class="symbol">:</span>&nbsp;<a href="../../com.schibsted.account.ui.login.flow.password/-flow-selection-listener/-flow-type/index.html"><span class="identifier">FlowType</span></a><span class="symbol">, </span><span class="identifier" id="com.schibsted.account.ui.login.LoginActivityViewModel$onFlowSelected(com.schibsted.account.ui.login.flow.password.FlowSelectionListener.FlowType, com.schibsted.account.engine.input.Identifier)/identifier">identifier</span><span class="symbol">:</span>&nbsp;<span class="identifier">Identifier</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code></td>
+</tr>
+<tr>
+<td>
+<p><a href="start-login-controller.html">startLoginController</a></p>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">startLoginController</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.ui.login.LoginActivityViewModel$startLoginController(com.schibsted.account.engine.integration.contract.LoginContract)/contract">contract</span><span class="symbol">:</span>&nbsp;<span class="identifier">LoginContract</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code></td>
+</tr>
+<tr>
+<td>
+<p><a href="start-sign-up-controller.html">startSignUpController</a></p>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">startSignUpController</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.ui.login.LoginActivityViewModel$startSignUpController(com.schibsted.account.engine.integration.contract.SignUpContract)/contract">contract</span><span class="symbol">:</span>&nbsp;<span class="identifier">SignUpContract</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code></td>
+</tr>
+<tr>
+<td>
+<p><a href="update-smartlock-credentials.html">updateSmartlockCredentials</a></p>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">updateSmartlockCredentials</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.ui.login.LoginActivityViewModel$updateSmartlockCredentials(kotlin.Int, kotlin.Int, android.os.Parcelable)/requestCode">requestCode</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html"><span class="identifier">Int</span></a><span class="symbol">, </span><span class="identifier" id="com.schibsted.account.ui.login.LoginActivityViewModel$updateSmartlockCredentials(kotlin.Int, kotlin.Int, android.os.Parcelable)/resultCode">resultCode</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html"><span class="identifier">Int</span></a><span class="symbol">, </span><span class="identifier" id="com.schibsted.account.ui.login.LoginActivityViewModel$updateSmartlockCredentials(kotlin.Int, kotlin.Int, android.os.Parcelable)/smartlockCredentials">smartlockCredentials</span><span class="symbol">:</span>&nbsp;<a href="https://developer.android.com/reference/android/os/Parcelable.html"><span class="identifier">Parcelable</span></a><span class="symbol">?</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code></td>
+</tr>
+</tbody>
+</table>
+</BODY>
+</HTML>
