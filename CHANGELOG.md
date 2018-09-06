@@ -1,3 +1,9 @@
+## v.1.2.0 (2018-09-06)
+- Added a configuration option to hide the remember me checkbox (#339)
+- Added the possibility to get client's products (#338)
+- Fixed issue where the dynamic configuration was not applied (#333)
+- Fixed issue where the subscription endpoint was crashing (#336)
+
 ## v.1.1.0 (2018-08-08)
 - Added the possibility to copy-paste code during passwordless flow(#320)
 - Added the possibility to get user's subscriptions(#319)
