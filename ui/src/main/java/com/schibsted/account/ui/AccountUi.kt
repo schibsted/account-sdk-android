@@ -72,6 +72,7 @@ object AccountUi {
             fun signUpMode(mode: SignUpMode) = apply { params = params.copy(signUpMode = mode) }
             fun isCancellable(isCancellable: Boolean) = apply { params = params.copy(isCancellable = isCancellable) }
             fun showRememberMeOption(showRememberMeOption: Boolean) = apply { params = params.copy(showRememberMeOption = showRememberMeOption) }
+            fun setClientLogo(@DrawableRes clientLogo: Int) = apply { params = params.copy(clientLogo = clientLogo) }
             fun build() = params
         }
 
