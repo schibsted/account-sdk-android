@@ -1,3 +1,6 @@
+## v1.2.1 (2018-09-13)
+- Fixed issue where a builder method was missing (#343)
+
 ## v.1.2.0 (2018-09-06)
 - Added a configuration option to hide the remember me checkbox (#339)
 - Added the possibility to get client's products (#338)
