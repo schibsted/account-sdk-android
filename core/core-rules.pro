@@ -1,9 +1,32 @@
 -printusage
+-keepparameternames
+-dontnote sun.misc.Unsafe
+-dontnote  com.schibsted.identity.engine.**
+-keepattributes Exceptions,InnerClasses,Signature,Deprecated,EnclosingMethod
 
 -keep class com.schibsted.account.network.response.* { *; }
 -keep class com.schibsted.account.network.response.*$** { *; }
+-keep class com.schibsted.account.network.AuthException { public *; }
+-keep class com.schibsted.account.persistence.UserPersistence { public *; }
 -keep class com.schibsted.account.persistence.UserPersistence.Session { *; }
+-keep class com.schibsted.account.persistence.LocalSecretsProvider{ *; }
+-keep class com.schibsted.account.engine.** { public protected *; }
+-keep class com.schibsted.account.model.error.* { *; }
+-keep class com.schibsted.account.model.* { *; }
+-keep class com.schibsted.account.session.** { public *; }
+-keep class com.schibsted.account.session.*$** { public *; }
+-keep class com.schibsted.account.util.Preconditions { *; }
+-keep class com.schibsted.account.ClientConfiguration { *; }
+-keep class com.schibsted.account.ClientConfiguration$* { *; }
+-keep class com.schibsted.account.Events { *; }
+-keep class com.schibsted.account.Client { *; }
+-keep class com.schibsted.account.Routes { *; }
+-keep class com.schibsted.account.BuildConfig { *; }
+-keep class com.schibsted.account.AccountService { *; }
+-keep class com.schibsted.account.util.DeepLink { *; }
+-keep class com.schibsted.account.util.DeepLinkHandler { *; }
+-keep class com.schibsted.account.util.DeepLink$* { *; }
 
+-keepnames class android.support.v4.content.LocalBroadcastManager
 -keepnames class com.schibsted.account.persistence.UserPersistenceService
-
--dontwarn com.schibsted.account.util.DeepLinkHandler$loginFromDeepLink$2$3
+-keepclassmembers class com.schibsted.account.network.response.** { *; }
