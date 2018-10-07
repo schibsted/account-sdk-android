@@ -1,3 +1,6 @@
+## v1.2.2 (2018-10-07)
+- Added proguard rules (#350)
+
 ## v1.2.1 (2018-09-13)
 - Fixed issue where a builder method was missing (#343)
 
