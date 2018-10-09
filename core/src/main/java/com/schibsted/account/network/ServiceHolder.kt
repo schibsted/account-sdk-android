@@ -17,7 +17,7 @@ object ServiceHolder {
     internal val defaultClient: OkHttpClient = OkHttpClient.Builder()
             .writeTimeout(TIMEOUT_MS, TimeUnit.MILLISECONDS)
             .readTimeout(TIMEOUT_MS, TimeUnit.MILLISECONDS)
-            .addInterceptor(InfoInterceptor(true))
+            .addInterceptor(InternalInfoInterceptor())
             .build()
 
     internal var oAuthService = OAuthService(ClientConfiguration.get().environment, defaultClient)
