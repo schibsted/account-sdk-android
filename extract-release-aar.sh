@@ -1,7 +1,7 @@
 #!/bin/bash
 
 if [ -z "$1" ]; then
-    echo "Usage: ./extract-proguard-aar <path-to-identity-sdk-android-demo/app>"
+    echo "Usage: ./extract-release-aar <path-to-identity-sdk-android-demo/app>"
     exit
 fi
 
