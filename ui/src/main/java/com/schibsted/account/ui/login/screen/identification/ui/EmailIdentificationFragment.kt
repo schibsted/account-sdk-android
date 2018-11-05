@@ -38,6 +38,7 @@ class EmailIdentificationFragment : AbstractIdentificationFragment(), Identifica
             error { getString(R.string.schacc_email_identification_error) }
             title { getString(R.string.schacc_email_label) }
             hint { getString(R.string.schacc_required_field_email) }
+            validationRule { EmailValidationRule }
         }
         inputViewContainer.addView(inputFieldView)
         prefillIdentifier(uiConf.identifier)
