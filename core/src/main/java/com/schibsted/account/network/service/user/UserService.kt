@@ -8,6 +8,7 @@ import com.schibsted.account.ListContainer
 import com.schibsted.account.network.response.AcceptAgreementResponse
 import com.schibsted.account.network.response.AgreementsResponse
 import com.schibsted.account.network.response.ApiContainer
+import com.schibsted.account.network.response.ProductSubscription
 import com.schibsted.account.network.response.ProfileData
 import com.schibsted.account.network.response.RequiredFieldsResponse
 import com.schibsted.account.network.response.Subscription
@@ -57,5 +58,16 @@ class UserService(environment: String, okHttpClient: OkHttpClient) : BaseNetwork
      */
     fun getUserProfile(userId: String, userToken: TokenResponse): Call<ApiContainer<ProfileData>> {
         return this.userContract.getUserProfile(userToken.serializedAccessToken, userId)
+    }
+
+    /**
+     * Retrieves subscription info on selected product
+     * @param userId The user's ID, must match the one in the token
+     * @param userToken The user's access token
+     * @param productId The product's ID to check (e.g. specific newspaper)
+     * @return On success it will return the [ProductSubscription], failure if something went wrong
+     */
+    fun getProductSubscription(userToken: TokenResponse, userId: String, productId: String): Call<ProductSubscription> {
+        return this.userContract.getProductSubscription(userToken.serializedAccessToken, userId, productId)
     }
 }

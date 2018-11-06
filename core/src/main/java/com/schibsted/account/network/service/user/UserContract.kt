@@ -8,6 +8,7 @@ import com.schibsted.account.ListContainer
 import com.schibsted.account.network.response.AcceptAgreementResponse
 import com.schibsted.account.network.response.AgreementsResponse
 import com.schibsted.account.network.response.ApiContainer
+import com.schibsted.account.network.response.ProductSubscription
 import com.schibsted.account.network.response.ProfileData
 import com.schibsted.account.network.response.RequiredFieldsResponse
 import com.schibsted.account.network.response.Subscription
@@ -46,8 +47,12 @@ internal interface UserContract {
     @GET("api/2/user/{userId}/subscriptions")
     fun subscriptions(@Header(KEY_AUTHORIZATION) userBearer: String, @Path(KEY_USER_ID) userId: String): Call<ListContainer<Subscription>>
 
+    @GET("api/2/user/{userId}/product/{productId}")
+    fun getProductSubscription(@Header(KEY_AUTHORIZATION) userBearer: String, @Path(KEY_USER_ID) userId: String, @Path(KEY_PRODUCT_ID) productId: String): Call<ProductSubscription>
+
     companion object {
         const val KEY_AUTHORIZATION = "Authorization"
         const val KEY_USER_ID = "userId"
+        const val KEY_PRODUCT_ID = "productId"
     }
 }
