@@ -70,7 +70,7 @@ class Profile(val user: User, private val userService: UserService = UserService
 
     fun getProductSubscription(productId: String, callback: ResultCallback<ProductSubscription>) {
         val token = user.token
-        if(token == null) {
+        if (token == null) {
             callback.onError(ClientError.USER_LOGGED_OUT_ERROR)
             return
         }
@@ -79,7 +79,7 @@ class Profile(val user: User, private val userService: UserService = UserService
                 callback.onError(it.toClientError())
             },
             {
-               callback.onSuccess(it)
+                callback.onSuccess(it)
             }
         ))
     }
