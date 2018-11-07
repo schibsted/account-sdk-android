@@ -48,7 +48,7 @@ internal interface UserContract {
     fun subscriptions(@Header(KEY_AUTHORIZATION) userBearer: String, @Path(KEY_USER_ID) userId: String): Call<ListContainer<Subscription>>
 
     @GET("api/2/user/{userId}/product/{productId}")
-    fun getProductSubscription(@Header(KEY_AUTHORIZATION) userBearer: String, @Path(KEY_USER_ID) userId: String, @Path(KEY_PRODUCT_ID) productId: String): Call<ProductSubscription>
+    fun getProductAccess(@Header(KEY_AUTHORIZATION) userBearer: String, @Path(KEY_USER_ID) userId: String, @Path(KEY_PRODUCT_ID) productId: String): Call<ProductSubscription>
 
     companion object {
         const val KEY_AUTHORIZATION = "Authorization"

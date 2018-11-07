@@ -68,13 +68,13 @@ class Profile(val user: User, private val userService: UserService = UserService
                 }))
     }
 
-    fun getProductSubscription(productId: String, callback: ResultCallback<ProductSubscription>) {
+    fun getProductAccess(productId: String, callback: ResultCallback<ProductSubscription>) {
         val token = user.token
         if (token == null) {
             callback.onError(ClientError.USER_LOGGED_OUT_ERROR)
             return
         }
-        userService.getProductSubscription(token, user.userId.id, productId).enqueue(NetworkCallback.lambda("Fetching product info",
+        userService.getProductAccess(token, user.userId.id, productId).enqueue(NetworkCallback.lambda("Fetching product info",
             {
                 callback.onError(it.toClientError())
             },

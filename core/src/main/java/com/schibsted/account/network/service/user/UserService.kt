@@ -67,7 +67,7 @@ class UserService(environment: String, okHttpClient: OkHttpClient) : BaseNetwork
      * @param productId The product's ID to check (e.g. specific newspaper)
      * @return On success it will return the [ProductSubscription], failure if something went wrong
      */
-    fun getProductSubscription(userToken: TokenResponse, userId: String, productId: String): Call<ProductSubscription> {
-        return this.userContract.getProductSubscription(userToken.serializedAccessToken, userId, productId)
+    fun getProductAccess(userToken: TokenResponse, userId: String, productId: String): Call<ProductSubscription> {
+        return this.userContract.getProductAccess(userToken.serializedAccessToken, userId, productId)
     }
 }
