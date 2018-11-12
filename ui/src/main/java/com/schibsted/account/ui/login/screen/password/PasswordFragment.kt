@@ -4,11 +4,13 @@
 
 package com.schibsted.account.ui.login.screen.password
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
+import android.view.inputmethod.InputMethodManager
 import com.google.gson.Gson
 import com.schibsted.account.Routes
 import com.schibsted.account.common.tracking.TrackingData
@@ -79,6 +81,12 @@ class PasswordFragment : FlowFragment<PasswordContract.Presenter>(), PasswordCon
 
         password_input_view.validationRule = (if (isUserAvailable) PasswordValidationRule else BasicValidationRule)
         primaryActionView.setOnClickListener { signUser() }
+
+        password_input_view.inputField.requestFocus()
+        val imm =  activity!!.applicationContext.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.showSoftInput(password_input_view.inputField, InputMethodManager.SHOW_IMPLICIT)
+
+
 
         password_input_view.setImeAction(EditorInfo.IME_ACTION_NEXT) { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_NEXT) {
