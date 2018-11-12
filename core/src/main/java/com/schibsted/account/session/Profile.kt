@@ -9,6 +9,7 @@ import com.schibsted.account.engine.integration.ResultCallback
 import com.schibsted.account.model.NoValue
 import com.schibsted.account.model.error.ClientError
 import com.schibsted.account.network.NetworkCallback
+import com.schibsted.account.network.response.ApiContainer
 import com.schibsted.account.network.response.ProductSubscription
 import com.schibsted.account.network.response.ProfileData
 import com.schibsted.account.network.response.Subscription
@@ -68,7 +69,7 @@ class Profile(val user: User, private val userService: UserService = UserService
                 }))
     }
 
-    fun getProductAccess(productId: String, callback: ResultCallback<ProductSubscription>) {
+    fun getProductAccess(productId: String, callback: ResultCallback<ApiContainer<ProductSubscription.ProductAccess>>) {
         val token = user.token
         if (token == null) {
             callback.onError(ClientError.USER_LOGGED_OUT_ERROR)
