@@ -83,9 +83,9 @@ class PasswordFragment : FlowFragment<PasswordContract.Presenter>(), PasswordCon
         primaryActionView.setOnClickListener { signUser() }
 
         password_input_view.inputField.requestFocus()
-        val imm =  activity!!.applicationContext.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        val imm = activity!!.applicationContext.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.showSoftInput(password_input_view.inputField, InputMethodManager.SHOW_IMPLICIT)
-        
+
         password_input_view.setImeAction(EditorInfo.IME_ACTION_NEXT) { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_NEXT) {
                 signUser()
