@@ -17,7 +17,7 @@ while read -r line; do
     fi
 done <<< "$LOG"
 
-VERSION="$1 ($(date -I))"
+VERSION="$1 ($(date +'%Y-%m-%d'))"
 CONTENT=$(cat $CHANGELOG 2> /dev/null)
 
 echo "## $VERSION"$'\n'"$NOTES"$'\n\n'"$CONTENT" > $CHANGELOG
