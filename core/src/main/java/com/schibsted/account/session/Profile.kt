@@ -9,8 +9,7 @@ import com.schibsted.account.engine.integration.ResultCallback
 import com.schibsted.account.model.NoValue
 import com.schibsted.account.model.error.ClientError
 import com.schibsted.account.network.NetworkCallback
-import com.schibsted.account.network.response.ApiContainer
-import com.schibsted.account.network.response.ProductSubscription
+import com.schibsted.account.network.response.ProductAccess
 import com.schibsted.account.network.response.ProfileData
 import com.schibsted.account.network.response.Subscription
 import com.schibsted.account.network.service.user.UserService
@@ -69,18 +68,18 @@ class Profile(val user: User, private val userService: UserService = UserService
                 }))
     }
 
-    fun getProductAccess(productId: String, callback: ResultCallback<ApiContainer<ProductSubscription.ProductAccess>>) {
+    fun getProductAccess(productId: String, callback: ResultCallback<ProductAccess>) {
         val token = user.token
         if (token == null) {
             callback.onError(ClientError.USER_LOGGED_OUT_ERROR)
             return
         }
-        userService.getProductAccess(token, user.userId.id, productId).enqueue(NetworkCallback.lambda("Fetching product info",
+        userService.getProductAccess(token, user.userId.id, productId).enqueue(NetworkCallback.lambda("Fetching product access",
             {
                 callback.onError(it.toClientError())
             },
             {
-                callback.onSuccess(it)
+                callback.onSuccess(it.data)
             }
         ))
     }
