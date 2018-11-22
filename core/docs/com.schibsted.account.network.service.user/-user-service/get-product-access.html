@@ -1,0 +1,24 @@
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>UserService.getProductAccess - core</title>
+<link rel="stylesheet" href="../../../style.css">
+</HEAD>
+<BODY>
+<a href="../../index.html">core</a>&nbsp;/&nbsp;<a href="../index.html">com.schibsted.account.network.service.user</a>&nbsp;/&nbsp;<a href="index.html">UserService</a>&nbsp;/&nbsp;<a href="./get-product-access.html">getProductAccess</a><br/>
+<br/>
+<h1>getProductAccess</h1>
+<a name="com.schibsted.account.network.service.user.UserService$getProductAccess(com.schibsted.account.network.response.TokenResponse, kotlin.String, kotlin.String)"></a>
+<code><span class="keyword">fun </span><span class="identifier">getProductAccess</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.network.service.user.UserService$getProductAccess(com.schibsted.account.network.response.TokenResponse, kotlin.String, kotlin.String)/userToken">userToken</span><span class="symbol">:</span>&nbsp;<a href="../../com.schibsted.account.network.response/-token-response/index.html"><span class="identifier">TokenResponse</span></a><span class="symbol">, </span><span class="identifier" id="com.schibsted.account.network.service.user.UserService$getProductAccess(com.schibsted.account.network.response.TokenResponse, kotlin.String, kotlin.String)/userId">userId</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">, </span><span class="identifier" id="com.schibsted.account.network.service.user.UserService$getProductAccess(com.schibsted.account.network.response.TokenResponse, kotlin.String, kotlin.String)/productId">productId</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Call</span><span class="symbol">&lt;</span><a href="../../com.schibsted.account.network.response/-api-container/index.html"><span class="identifier">ApiContainer</span></a><span class="symbol">&lt;</span><a href="../../com.schibsted.account.network.response/-product-access/index.html"><span class="identifier">ProductAccess</span></a><span class="symbol">&gt;</span><span class="symbol">&gt;</span></code>
+<p>Checks whether the user has access to the given product.</p>
+<h3>Parameters</h3>
+<p><a name="userId"></a>
+<code>userId</code> - The user's ID, must match the one in the token</p>
+<p><a name="userToken"></a>
+<code>userToken</code> - The user's access token</p>
+<p><a name="productId"></a>
+<code>productId</code> - The product's ID to check (e.g. specific newspaper)</p>
+<p><strong>Return</strong><br/>
+On success it will return if the user has access, failure if something went wrong or the user doesn't have access</p>
+</BODY>
+</HTML>
