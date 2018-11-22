@@ -6,7 +6,7 @@
 3. Once the PR has been merged, you should head over to the [releases page](https://github.schibsted.io/spt-identity/identity-sdk-android/releases) in the repository and "draft a new release"
 4. Enter all the following fields and publish release
     - Tag version: The version you are releasing in the format "v&lt;major&gt;.&lt;minor&gt;.&lt;patch&gt;", example v2.5.17
-    - Release title: Should be in the format "v&lt;major&gt;.&lt;minor&gt;.&lt;patch&gt; Codename (year-month-date)", example "v0.4.0 Archimonde (2017-10-25)". Codename changes for minor version changes, but not patches and should change alphabetically.
+    - Release title: Should be in the format "v&lt;major&gt;.&lt;minor&gt;.&lt;patch&gt; (year-month-date)", example "v0.4.0 (2017-10-25)".
     - Description: A list of changes since the last release, as written in the release notes. Should be in the same format as the changelog.
 
 The release will be published as soon as the travis build for the tag with the version number completes.
