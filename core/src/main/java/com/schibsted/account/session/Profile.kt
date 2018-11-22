@@ -76,7 +76,14 @@ class Profile(val user: User, private val userService: UserService = UserService
         }
         userService.getProductAccess(token, user.userId.id, productId).enqueue(NetworkCallback.lambda("Fetching product access",
             {
-                callback.onError(it.toClientError())
+                if (it.code == 404) {
+                    /* spid-platform returns 404 Not Found when the user doesn't have access to
+                     * the product
+                     */
+                    callback.onSuccess(ProductAccess(productId, false))
+                } else {
+                    callback.onError(it.toClientError())
+                }
             },
             {
                 callback.onSuccess(it.data)
