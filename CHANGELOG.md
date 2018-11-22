@@ -1,3 +1,6 @@
+## v1.4.0 (2018-11-22)
+- Expose product subscription check. (#362)
+
 ## v1.3.0 (2018-11-15)
 - Upgrade kotlin from 1.2.61 to 1.3.10
 - Fix minor typo in extract-release-aar.sh. (#357)
