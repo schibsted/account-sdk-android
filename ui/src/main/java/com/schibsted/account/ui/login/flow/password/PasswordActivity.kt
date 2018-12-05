@@ -6,6 +6,7 @@ package com.schibsted.account.ui.login.flow.password
 
 import android.arch.lifecycle.Observer
 import android.os.Bundle
+import android.view.View
 import com.schibsted.account.common.tracking.TrackingData
 import com.schibsted.account.engine.controller.SignUpController
 import com.schibsted.account.engine.input.Agreements
@@ -18,8 +19,10 @@ import com.schibsted.account.engine.integration.ResultCallback
 import com.schibsted.account.engine.integration.contract.SignUpContract
 import com.schibsted.account.model.error.ClientError
 import com.schibsted.account.network.response.AgreementLinksResponse
+import com.schibsted.account.ui.R
 import com.schibsted.account.ui.login.BaseLoginActivity
 import com.schibsted.account.ui.ui.FlowFragment
+import kotlinx.android.synthetic.main.schacc_mobile_activity_layout.*
 
 class PasswordActivity : BaseLoginActivity(), SignUpContract {
 
@@ -60,6 +63,10 @@ class PasswordActivity : BaseLoginActivity(), SignUpContract {
 
     override fun onCredentialsRequested(provider: InputProvider<Credentials>) {
         viewModel.userIdentifier?.let { identifier ->
+            if (viewModel.isUserAvailable()) {
+                info_bar_widget.visibility = View.VISIBLE
+                info_bar_widget.setMessage(R.string.schacc_password_sign_up_notification)
+            }
             val fragment = fragmentProvider.getOrCreatePasswordFragment(
                     provider = provider,
                     currentIdentifier = identifier,
@@ -108,6 +115,7 @@ class PasswordActivity : BaseLoginActivity(), SignUpContract {
     override fun onBackPressed() {
         super.onBackPressed()
         if (viewModel.isUserAvailable()) {
+            info_bar_widget.visibility = View.GONE
             navigationController.handleBackPressed(signUpController, this)
         } else {
             navigationController.handleBackPressed(loginController, loginContract)

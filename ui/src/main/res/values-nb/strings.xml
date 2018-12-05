@@ -4,7 +4,7 @@
 
 <resources>
     <!--Identification-->
-    <string name="schacc_identification_title">Logg inn eller opprett bruker</string>
+    <string name="schacc_identification_title">Logg inn eller opprett konto</string>
     <string name="schacc_identification_login_only_title">Logg inn</string>
     <string name="schacc_identification_help_link">https://info.privacy.schibsted.com/no/S010</string>
     <string name="schacc_identification_help_link_text">Hva er en Schibsted-konto?</string>
@@ -65,6 +65,8 @@
     <string name="schacc_password_change_email">Endre e-postadresse</string>
     <string name="schacc_password_sign_in_label">Vennligst oppgi passordet ditt</string>
     <string name="schacc_password_sign_up_label">Skriv inn et passord</string>
+    <string name="schacc_password_sign_up_button_label">Opprett konto</string>
+    <string name="schacc_password_sign_up_notification">Du oppretter nå en ny Schibsted-konto.</string>
     <string name="schacc_password_error_length">Passordet ditt skal ha minst 8 tegn</string>
     <string name="schacc_password_forgot_password">Glemt passord?</string>
     <string name="schacc_password_extra_info">Minst 8 tegn</string>
@@ -83,7 +85,7 @@
     <string name="schacc_spid_label">Schibsted-konto</string>
     <string name="schacc_next_step">Fortsett</string>
     <string name="schacc_welcome_back_title">Velkommen tilbake</string>
-    <string name="schacc_register_title">Opprett bruker</string>
+    <string name="schacc_register_title">Opprett konto</string>
     <string name="schacc_ok">OK</string>
     <string name="schacc_identifier_modifier">Ikke deg?</string>
     <string name="schacc_age_limit_information">Du må være minst 16 år for å opprette en Schibsted-konto</string>
