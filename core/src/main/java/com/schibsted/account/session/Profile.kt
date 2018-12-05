@@ -9,6 +9,7 @@ import com.schibsted.account.engine.integration.ResultCallback
 import com.schibsted.account.model.NoValue
 import com.schibsted.account.model.error.ClientError
 import com.schibsted.account.network.NetworkCallback
+import com.schibsted.account.network.response.ProductAccess
 import com.schibsted.account.network.response.ProfileData
 import com.schibsted.account.network.response.Subscription
 import com.schibsted.account.network.service.user.UserService
@@ -65,5 +66,28 @@ class Profile(val user: User, private val userService: UserService = UserService
                 {
                     callback.onSuccess(it.value)
                 }))
+    }
+
+    fun getProductAccess(productId: String, callback: ResultCallback<ProductAccess>) {
+        val token = user.token
+        if (token == null) {
+            callback.onError(ClientError.USER_LOGGED_OUT_ERROR)
+            return
+        }
+        userService.getProductAccess(token, user.userId.id, productId).enqueue(NetworkCallback.lambda("Fetching product access",
+            {
+                if (it.code == 404) {
+                    /* spid-platform returns 404 Not Found when the user doesn't have access to
+                     * the product
+                     */
+                    callback.onSuccess(ProductAccess(productId, false))
+                } else {
+                    callback.onError(it.toClientError())
+                }
+            },
+            {
+                callback.onSuccess(it.data)
+            }
+        ))
     }
 }

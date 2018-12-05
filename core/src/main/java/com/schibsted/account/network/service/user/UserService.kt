@@ -8,6 +8,7 @@ import com.schibsted.account.ListContainer
 import com.schibsted.account.network.response.AcceptAgreementResponse
 import com.schibsted.account.network.response.AgreementsResponse
 import com.schibsted.account.network.response.ApiContainer
+import com.schibsted.account.network.response.ProductAccess
 import com.schibsted.account.network.response.ProfileData
 import com.schibsted.account.network.response.RequiredFieldsResponse
 import com.schibsted.account.network.response.Subscription
@@ -57,5 +58,16 @@ class UserService(environment: String, okHttpClient: OkHttpClient) : BaseNetwork
      */
     fun getUserProfile(userId: String, userToken: TokenResponse): Call<ApiContainer<ProfileData>> {
         return this.userContract.getUserProfile(userToken.serializedAccessToken, userId)
+    }
+
+    /**
+     * Checks whether the user has access to the given product.
+     * @param userId The user's ID, must match the one in the token
+     * @param userToken The user's access token
+     * @param productId The product's ID to check (e.g. specific newspaper)
+     * @return On success it will return if the user has access, failure if something went wrong or the user doesn't have access
+     */
+    fun getProductAccess(userToken: TokenResponse, userId: String, productId: String): Call<ApiContainer<ProductAccess>> {
+        return this.userContract.getProductAccess(userToken.serializedAccessToken, userId, productId)
     }
 }
