@@ -117,6 +117,7 @@ class PasswordFragment : FlowFragment<PasswordContract.Presenter>(), PasswordCon
         if (isUserAvailable) {
             mobile_password_button_forgot.visibility = View.GONE
             age_limit_info.visibility = View.VISIBLE
+            info_bar_message.visibility = View.VISIBLE
             password_input_view.setTitle(R.string.schacc_password_sign_up_label)
             password_input_view.setInformationMessage(getString(R.string.schacc_password_extra_info))
             password_button_continue.setText(R.string.schacc_password_sign_up_button_label)

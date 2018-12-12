@@ -63,10 +63,6 @@ class PasswordActivity : BaseLoginActivity(), SignUpContract {
 
     override fun onCredentialsRequested(provider: InputProvider<Credentials>) {
         viewModel.userIdentifier?.let { identifier ->
-            if (viewModel.isUserAvailable()) {
-                info_bar_widget.visibility = View.VISIBLE
-                info_bar_widget.setMessage(R.string.schacc_password_sign_up_notification)
-            }
             val fragment = fragmentProvider.getOrCreatePasswordFragment(
                     provider = provider,
                     currentIdentifier = identifier,
@@ -115,7 +111,6 @@ class PasswordActivity : BaseLoginActivity(), SignUpContract {
     override fun onBackPressed() {
         super.onBackPressed()
         if (viewModel.isUserAvailable()) {
-            info_bar_widget.visibility = View.GONE
             navigationController.handleBackPressed(signUpController, this)
         } else {
             navigationController.handleBackPressed(loginController, loginContract)

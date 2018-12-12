@@ -47,12 +47,6 @@
                 android:background="@color/schacc_lightGrey" />
         </android.support.design.widget.AppBarLayout>
 
-        <com.schibsted.account.ui.ui.component.InfoBarView
-            android:id="@+id/info_bar_widget"
-            android:visibility="gone"
-            android:layout_width="fill_parent"
-            android:layout_height="40dp" />
-
         <android.support.v4.widget.NestedScrollView
             android:id="@+id/fragment_container"
             android:background="@color/schacc_backgroundColor"
