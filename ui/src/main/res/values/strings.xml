@@ -65,6 +65,8 @@
     <string name="schacc_password_change_email">Change email</string>
     <string name="schacc_password_sign_in_label">Enter your password</string>
     <string name="schacc_password_sign_up_label">Choose your password</string>
+    <string name="schacc_password_sign_up_button_label">Create account</string>
+    <string name="schacc_password_sign_up_notification">You are now creating a new Schibsted account</string>
     <string name="schacc_password_error_length">Your password should have at least 8 characters.</string>
     <string name="schacc_password_forgot_password">Forgot password?</string>
     <string name="schacc_password_extra_info">Minimum 8 characters</string>

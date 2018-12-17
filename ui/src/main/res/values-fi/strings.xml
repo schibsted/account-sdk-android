@@ -65,6 +65,8 @@
     <string name="schacc_password_change_email">Vaihda sähköpostiosoite</string>
     <string name="schacc_password_sign_in_label">Kirjoita salasanasi</string>
     <string name="schacc_password_sign_up_label">Valitse salasana</string>
+    <string name="schacc_password_sign_up_button_label">Luo tilit</string>
+    <string name="schacc_password_sign_up_notification">Olet nyt luomassa uutta Schibsted-tiliä</string>
     <string name="schacc_password_error_length">Salasanassa tulee olla vähintään 8 merkkiä.</string>
     <string name="schacc_password_forgot_password">Unohtuiko salasana?</string>
     <string name="schacc_password_extra_info">Vähintään 8 merkkiä</string>

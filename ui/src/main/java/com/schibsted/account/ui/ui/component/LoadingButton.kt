@@ -40,6 +40,10 @@ class LoadingButton @JvmOverloads constructor(
         loadingButtonContainer.isEnabled = true
     }
 
+    fun setText(text: Int) {
+        button.setText(text)
+    }
+
     override fun setOnClickListener(l: OnClickListener?) {
         super.setOnClickListener(l)
         button.setOnClickListener(l)

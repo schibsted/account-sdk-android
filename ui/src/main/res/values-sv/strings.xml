@@ -65,6 +65,8 @@
     <string name="schacc_password_change_email">Ändra e-postadress</string>
     <string name="schacc_password_sign_in_label">Ange ditt lösenord</string>
     <string name="schacc_password_sign_up_label">Välj ett lösenord</string>
+    <string name="schacc_password_sign_up_button_label">Skapa konto</string>
+    <string name="schacc_password_sign_up_notification">Du skapar nu ett nytt Schibsted-konto</string>
     <string name="schacc_password_error_length">Ditt lösenord måste ha minst 8 tecken</string>
     <string name="schacc_password_forgot_password">Glömt lösenordet?</string>
     <string name="schacc_password_extra_info">Minst 8 tecken</string>
