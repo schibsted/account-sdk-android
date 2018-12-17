@@ -1,3 +1,6 @@
+## v1.4.1 (2018-12-17)
+- Update login flow UX to reduce erroneous creations of accounts.
+
 ## v1.4.0 (2018-11-22)
 - Expose product subscription check. (#362)
 
