@@ -1,3 +1,6 @@
+## v1.4.2 (2019-01-07)
+- Fixed layout for password screen.
+
 ## v1.4.1 (2018-12-17)
 - Update login flow UX to reduce erroneous creations of accounts.
 
