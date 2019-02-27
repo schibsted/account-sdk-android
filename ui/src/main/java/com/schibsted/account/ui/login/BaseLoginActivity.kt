@@ -330,6 +330,9 @@ abstract class BaseLoginActivity : AppCompatActivity(), NavigationListener {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         loadRequiredInformation()
+        if (SmartlockController.hasSmartlockResult(requestCode) && smartlockController == null) {
+            smartlockController = SmartlockController(this, viewModel.smartlockReceiver)
+        }
         viewModel.updateSmartlockCredentials(requestCode, resultCode, data?.getParcelableExtra(SmartlockController.EXTRA_SMARTLOCK_CREDENTIALS))
     }
 

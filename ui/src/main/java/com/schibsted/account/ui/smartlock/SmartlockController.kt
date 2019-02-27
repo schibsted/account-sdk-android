@@ -58,5 +58,11 @@ class SmartlockController(loginActivity: BaseLoginActivity, private val smartloc
         const val EXTRA_SMARTLOCK_CREDENTIALS = "com.google.android.gms.credentials.Credential"
 
         fun isSmartlockAvailable(): Boolean = existsOnClasspath("com.schibsted.account.smartlock.SmartlockController")
+        fun hasSmartlockResult(requestCode: Int): Boolean {
+            return when (requestCode) {
+                RC_CHOOSE_ACCOUNT, RC_IDENTIFIER_ONLY -> true
+                else -> false
+            }
+        }
     }
 }
