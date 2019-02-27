@@ -73,10 +73,7 @@ class PersistenceEncryption {
             String(decode(aesCipher.doFinal(subject)))
         } catch (e: Exception) {
             Logger.error(TAG, "Failed to decrypt content", e)
-            if (e is InvalidKeyException || e is IllegalBlockSizeException || e is BadPaddingException) {
-                throw e
-            }
-            return null
+            null
         }
     }
 

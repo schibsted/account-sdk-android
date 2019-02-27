@@ -6,6 +6,7 @@ package com.schibsted.account.persistence
 
 import android.content.Context
 import android.content.SharedPreferences
+import android.support.annotation.VisibleForTesting
 import android.util.Base64
 import com.google.gson.Gson
 import com.google.gson.JsonParseException
@@ -28,7 +29,8 @@ internal class SessionStorageDelegate(
     private val preferenceFilename: String,
     private val preferenceKey: String,
     private val encryption: PersistenceEncryption = PersistenceEncryption(),
-    private var rsaKeyPair: KeyPair = EncryptionKeyProvider(appContext).keyPair
+    private val encryptionKeyProvider: EncryptionKeyProvider = EncryptionKeyProvider(appContext),
+    private var rsaKeyPair: KeyPair = encryptionKeyProvider.keyPair
 ) {
 
     private var data: List<UserPersistence.Session> = readDataFromPersistence() ?: listOf()
@@ -117,9 +119,7 @@ internal class SessionStorageDelegate(
         }
     }
 
-    private fun updateKeyExpiry(prefs: SharedPreferences, it: List<UserPersistence.Session>) {
-        val encryptionKeyProvider = EncryptionKeyProvider(appContext)
-
+    private fun updateKeyExpiry(prefs: SharedPreferences, sessions: List<UserPersistence.Session>) {
         if (encryptionKeyProvider.isKeyCloseToExpiration()) {
 
             Logger.info("Updating session key expiration")
@@ -128,7 +128,7 @@ internal class SessionStorageDelegate(
 
             removePersistedData(prefs)
 
-            setData(it)
+            setData(sessions)
         }
     }
 
@@ -209,9 +209,9 @@ internal class SessionStorageDelegate(
         }
     }
 
-    private fun refreshKeyPair() {
-        val keyProvider = EncryptionKeyProvider(appContext)
-        rsaKeyPair = keyProvider.refreshKeyPair()
+    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    internal fun refreshKeyPair() {
+        rsaKeyPair = encryptionKeyProvider.refreshKeyPair()
     }
 
     @Throws(InvalidKeyException::class, IllegalBlockSizeException::class, BadPaddingException::class)

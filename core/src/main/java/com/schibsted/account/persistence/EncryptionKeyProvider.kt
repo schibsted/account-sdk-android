@@ -13,6 +13,7 @@ import android.security.KeyPairGeneratorSpec
 import android.security.keystore.KeyGenParameterSpec
 import android.security.keystore.KeyProperties
 import android.support.annotation.RequiresApi
+import android.support.annotation.VisibleForTesting
 import android.util.Base64
 import com.schibsted.account.common.util.Logger
 import java.math.BigInteger
@@ -38,7 +39,8 @@ class EncryptionKeyProvider(private val appContext: Context) {
     internal var keyPair: KeyPair = getStoredEncryptionKey() ?: generateEncryptionKey()
 
     @SuppressLint("NewApi")
-    private fun getStoredEncryptionKey(): KeyPair? {
+    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    internal fun getStoredEncryptionKey(): KeyPair? {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
             val ks = KeyStore.getInstance(KEYSTORE_PROVIDER)
             ks.load(null)
@@ -220,7 +222,8 @@ class EncryptionKeyProvider(private val appContext: Context) {
         private const val SHARED_PREFERENCES_NAME = "IDENTITY_KEYSTORE"
         private const val SHARED_PREFERENCES_PRIVATE_KEY = "IDENTITY_PR_KEY_PAIR"
         private const val SHARED_PREFERENCES_PUBLIC_KEY = "IDENTITY_PU_KEY_PAIR"
-        private const val SHARED_PREFERENCES_KEYS_VALID_UNTIL = "KEYS_VALID_UNTIL"
+        @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+        internal const val SHARED_PREFERENCES_KEYS_VALID_UNTIL = "KEYS_VALID_UNTIL"
 
         private val PRINCIPAL = "CN=$KEY_ALIAS, O=Schibsted Identity"
     }
