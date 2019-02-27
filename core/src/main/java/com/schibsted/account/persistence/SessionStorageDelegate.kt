@@ -12,7 +12,11 @@ import com.google.gson.JsonParseException
 import com.google.gson.JsonSyntaxException
 import com.google.gson.reflect.TypeToken
 import com.schibsted.account.common.util.Logger
+import java.security.InvalidKeyException
 import java.security.KeyPair
+import java.security.PrivateKey
+import javax.crypto.BadPaddingException
+import javax.crypto.IllegalBlockSizeException
 import javax.crypto.SecretKey
 import javax.crypto.spec.SecretKeySpec
 import kotlin.reflect.KProperty
@@ -24,7 +28,7 @@ internal class SessionStorageDelegate(
     private val preferenceFilename: String,
     private val preferenceKey: String,
     private val encryption: PersistenceEncryption = PersistenceEncryption(),
-    private val rsaKeyPair: KeyPair = EncryptionKeyProvider(appContext).keyPair
+    private var rsaKeyPair: KeyPair = EncryptionKeyProvider(appContext).keyPair
 ) {
 
     private var data: List<UserPersistence.Session> = readDataFromPersistence() ?: listOf()
@@ -32,6 +36,10 @@ internal class SessionStorageDelegate(
     operator fun getValue(thisRef: Any?, property: KProperty<*>): List<UserPersistence.Session> = data
 
     operator fun setValue(thisRef: Any?, property: KProperty<*>, value: List<UserPersistence.Session>) {
+        setData(value)
+    }
+
+    private fun setData(value: List<UserPersistence.Session>) {
         this.data = value
         val prefs = appContext.getSharedPreferences(preferenceFilename, Context.MODE_PRIVATE)
         val dataToPersist = GSON.toJson(this.data)
@@ -48,6 +56,12 @@ internal class SessionStorageDelegate(
         } else {
             // if the encrypted aes key is found, we decrypt it and recreate the aes key from it
             aesKey = getOriginalAesKey(Base64.decode(encryptedAesKey, Base64.DEFAULT))
+            if (aesKey == null) {
+                generateAesKeyData()?.let {
+                    aesKey = it.first
+                    encryptedAesKey = Base64.encodeToString(it.second, Base64.DEFAULT)
+                }
+            }
         }
 
         if (dataToPersist.isNullOrEmpty()) {
@@ -81,18 +95,40 @@ internal class SessionStorageDelegate(
 
             val typeToken = object : TypeToken<List<UserPersistence.Session>>() {}.type
 
-            return try {
-                val res: List<UserPersistence.Session> = GSON.fromJson(data, typeToken)
-                res
+            val sessions: List<UserPersistence.Session>? = try {
+                GSON.fromJson(data, typeToken)
             } catch (e: JsonParseException) {
+                Logger.error("Failed to parse sessions!", e)
+                removePersistedData(prefs)
                 null
-            } catch (_: JsonSyntaxException) {
+            } catch (e: JsonSyntaxException) {
+                Logger.error("Failed to parse sessions!", e)
+                removePersistedData(prefs)
                 null
+            }
+
+            return sessions?.also {
+                updateKeyExpiry(prefs, it)
             }
         } else {
             Logger.info(TAG, "Unable to retrieve AES key for decryption, returning empty set.")
             removePersistedData(prefs)
             return null
+        }
+    }
+
+    private fun updateKeyExpiry(prefs: SharedPreferences, it: List<UserPersistence.Session>) {
+        val encryptionKeyProvider = EncryptionKeyProvider(appContext)
+
+        if (encryptionKeyProvider.isKeyCloseToExpiration()) {
+
+            Logger.info("Updating session key expiration")
+
+            refreshKeyPair()
+
+            removePersistedData(prefs)
+
+            setData(it)
         }
     }
 
@@ -137,11 +173,23 @@ internal class SessionStorageDelegate(
      * @return the [SecretKey] if the decryption was successful, null otherwise
      */
     private fun getOriginalAesKey(encryptedAesKey: ByteArray): SecretKey? {
-        val aesEncodedKey = encryption.rsaDecrypt(encryptedAesKey, rsaKeyPair.private)
-        if (aesEncodedKey != null && aesEncodedKey.isNotEmpty()) {
-            return SecretKeySpec(aesEncodedKey, 0, aesEncodedKey.size, AES_ALG)
+        return try {
+            getOriginalAesKey(encryptedAesKey, rsaKeyPair.private)
+        } catch (e: Exception) {
+            refreshKeyPair()
+
+            return null
         }
-        return null
+    }
+
+    private fun getOriginalAesKey(encryptedAesKey: ByteArray, privateKey: PrivateKey): SecretKey? {
+        val aesEncodedKey = encryption.rsaDecrypt(encryptedAesKey, privateKey)
+
+        return if (aesEncodedKey != null && aesEncodedKey.isNotEmpty()) {
+            SecretKeySpec(aesEncodedKey, 0, aesEncodedKey.size, AES_ALG)
+        } else {
+            null
+        }
     }
 
     /**
@@ -152,6 +200,22 @@ internal class SessionStorageDelegate(
     private fun generateAesKeyData(): Pair<SecretKey, ByteArray>? {
         val aesKey = encryption.generateAesKey()
         // we encrypt the newly created aes key
+        return try {
+            generateAesKeyData(aesKey)
+        } catch (e: Exception) {
+            refreshKeyPair()
+
+            generateAesKeyData(aesKey)
+        }
+    }
+
+    private fun refreshKeyPair() {
+        val keyProvider = EncryptionKeyProvider(appContext)
+        rsaKeyPair = keyProvider.refreshKeyPair()
+    }
+
+    @Throws(InvalidKeyException::class, IllegalBlockSizeException::class, BadPaddingException::class)
+    private fun generateAesKeyData(aesKey: SecretKey): Pair<SecretKey, ByteArray>? {
         val byteEncryptedAesKey = encryption.rsaEncrypt(aesKey.encoded, rsaKeyPair.public)
         return byteEncryptedAesKey?.let { Pair(aesKey, byteEncryptedAesKey) }
     }

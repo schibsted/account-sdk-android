@@ -6,9 +6,12 @@ package com.schibsted.account.persistence
 
 import android.util.Base64
 import com.schibsted.account.common.util.Logger
+import java.security.InvalidKeyException
 import java.security.PrivateKey
 import java.security.PublicKey
+import javax.crypto.BadPaddingException
 import javax.crypto.Cipher
+import javax.crypto.IllegalBlockSizeException
 import javax.crypto.KeyGenerator
 import javax.crypto.SecretKey
 import javax.crypto.spec.IvParameterSpec
@@ -22,6 +25,7 @@ class PersistenceEncryption {
 
     fun generateAesKey(): SecretKey = KeyGenerator.getInstance(AES_ALG).apply { init(128) }.generateKey()
 
+    @Throws(InvalidKeyException::class, IllegalBlockSizeException::class, BadPaddingException::class)
     fun rsaEncrypt(subjectToEncrypt: ByteArray?, publicRsaKey: PublicKey): ByteArray? {
         return try {
             val cipher = Cipher.getInstance(RSA_TRANSFORM)
@@ -29,18 +33,25 @@ class PersistenceEncryption {
             cipher.doFinal(subjectToEncrypt)
         } catch (e: Exception) {
             Logger.error(TAG, "Failed to encrypt content", e)
-            null
+            if (e is InvalidKeyException || e is IllegalBlockSizeException || e is BadPaddingException) {
+                throw e
+            }
+            return null
         }
     }
 
+    @Throws(InvalidKeyException::class, IllegalBlockSizeException::class, BadPaddingException::class)
     fun rsaDecrypt(subjectToDecrypt: ByteArray, privateRsaKey: PrivateKey): ByteArray? {
         val cipher = Cipher.getInstance(RSA_TRANSFORM)
         return try {
             cipher.init(Cipher.DECRYPT_MODE, privateRsaKey)
-            return cipher.doFinal(subjectToDecrypt)
+            cipher.doFinal(subjectToDecrypt)
         } catch (e: Exception) {
             Logger.error(TAG, "Failed to decrypt content", e)
-            null
+            if (e is InvalidKeyException || e is IllegalBlockSizeException || e is BadPaddingException) {
+                throw e
+            }
+            return null
         }
     }
 
@@ -62,7 +73,10 @@ class PersistenceEncryption {
             String(decode(aesCipher.doFinal(subject)))
         } catch (e: Exception) {
             Logger.error(TAG, "Failed to decrypt content", e)
-            null
+            if (e is InvalidKeyException || e is IllegalBlockSizeException || e is BadPaddingException) {
+                throw e
+            }
+            return null
         }
     }
 

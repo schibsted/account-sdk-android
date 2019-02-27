@@ -25,15 +25,17 @@ import java.security.spec.AlgorithmParameterSpec
 import java.security.spec.PKCS8EncodedKeySpec
 import java.security.spec.RSAKeyGenParameterSpec
 import java.security.spec.X509EncodedKeySpec
+import java.text.DateFormat
 import java.util.Calendar
 import java.util.Date
 import java.util.GregorianCalendar
 import java.util.SimpleTimeZone
 import java.util.TimeZone
+import java.util.concurrent.TimeUnit
 import javax.security.auth.x500.X500Principal
 
 class EncryptionKeyProvider(private val appContext: Context) {
-    internal val keyPair: KeyPair = getStoredEncryptionKey() ?: generateEncryptionKey()
+    internal var keyPair: KeyPair = getStoredEncryptionKey() ?: generateEncryptionKey()
 
     @SuppressLint("NewApi")
     private fun getStoredEncryptionKey(): KeyPair? {
@@ -53,6 +55,16 @@ class EncryptionKeyProvider(private val appContext: Context) {
         return getKeyFromSharedPreferences()
     }
 
+    internal fun isKeyCloseToExpiration(): Boolean {
+        val prefs = appContext.getSharedPreferences(SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE)
+
+        val expiryTime = prefs.getLong(SHARED_PREFERENCES_KEYS_VALID_UNTIL, 0)
+        val today = Date()
+        val expiresIn: Long = expiryTime - today.time
+
+        return expiresIn < TimeUnit.DAYS.toMillis(90)
+    }
+
     private fun getKeyFromSharedPreferences(): KeyPair? {
         val prefs = appContext.getSharedPreferences(SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE)
         return prefs.getString(SHARED_PREFERENCES_PUBLIC_KEY, null)?.let {
@@ -66,6 +78,13 @@ class EncryptionKeyProvider(private val appContext: Context) {
             val privateKey = kf.generatePrivate(PKCS8EncodedKeySpec(privateByteKey))
 
             KeyPair(publicKey, privateKey)
+        }
+    }
+
+    @SuppressLint("NewApi")
+    internal fun refreshKeyPair(): KeyPair {
+        return generateEncryptionKey().also {
+            keyPair = it
         }
     }
 
@@ -123,11 +142,21 @@ class EncryptionKeyProvider(private val appContext: Context) {
             val paramSpec = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) getApi23Spec(startValid, endValid) else getApi18Spec(startValid, endValid)
             kpg.initialize(paramSpec)
 
-            return kpg.genKeyPair()
+            return kpg.genKeyPair().also {
+                persistTimestamp(endValid)
+            }
         } catch (ex: Exception) {
             Logger.error(TAG, "An exception occurred when generating key. Will use fallback.", ex)
             return null
         }
+    }
+
+    private fun persistTimestamp(endValid: Date) {
+        val prefs = appContext.getSharedPreferences(SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE)
+        Logger.info(TAG, "Created new keys valid until: ${DateFormat.getDateTimeInstance().format(Date(endValid.time))}, created at ${DateFormat.getDateTimeInstance().format(Date(System.currentTimeMillis()))}")
+        prefs.edit()
+                .putLong(SHARED_PREFERENCES_KEYS_VALID_UNTIL, endValid.time)
+                .apply()
     }
 
     private fun generateEncryptionKeyFallback(): KeyPair {
@@ -191,6 +220,7 @@ class EncryptionKeyProvider(private val appContext: Context) {
         private const val SHARED_PREFERENCES_NAME = "IDENTITY_KEYSTORE"
         private const val SHARED_PREFERENCES_PRIVATE_KEY = "IDENTITY_PR_KEY_PAIR"
         private const val SHARED_PREFERENCES_PUBLIC_KEY = "IDENTITY_PU_KEY_PAIR"
+        private const val SHARED_PREFERENCES_KEYS_VALID_UNTIL = "KEYS_VALID_UNTIL"
 
         private val PRINCIPAL = "CN=$KEY_ALIAS, O=Schibsted Identity"
     }
