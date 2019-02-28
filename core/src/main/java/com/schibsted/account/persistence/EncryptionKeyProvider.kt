@@ -64,7 +64,7 @@ class EncryptionKeyProvider(private val appContext: Context) {
         val today = Date()
         val expiresIn: Long = expiryTime - today.time
 
-        return expiresIn < TimeUnit.DAYS.toMillis(90)
+        return expiryTime != NO_EXPIRY && expiresIn < TimeUnit.DAYS.toMillis(90)
     }
 
     private fun getKeyFromSharedPreferences(): KeyPair? {
@@ -145,7 +145,7 @@ class EncryptionKeyProvider(private val appContext: Context) {
             kpg.initialize(paramSpec)
 
             return kpg.genKeyPair().also {
-                persistTimestamp(endValid)
+                persistTimestamp(endValid.time)
             }
         } catch (ex: Exception) {
             Logger.error(TAG, "An exception occurred when generating key. Will use fallback.", ex)
@@ -153,12 +153,17 @@ class EncryptionKeyProvider(private val appContext: Context) {
         }
     }
 
-    private fun persistTimestamp(endValid: Date) {
+    private fun persistTimestamp(endValid: Long) {
         val prefs = appContext.getSharedPreferences(SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE)
-        Logger.info(TAG, "Created new keys valid until: ${DateFormat.getDateTimeInstance().format(Date(endValid.time))}, created at ${DateFormat.getDateTimeInstance().format(Date(System.currentTimeMillis()))}")
-        prefs.edit()
-                .putLong(SHARED_PREFERENCES_KEYS_VALID_UNTIL, endValid.time)
-                .apply()
+        Logger.info(
+            TAG, "Created new keys valid until: ${if (endValid == -1L) "forever" else
+                DateFormat.getDateTimeInstance().format(Date(endValid))}, created at ${
+            DateFormat.getDateTimeInstance().format(Date(System.currentTimeMillis()))}"
+        )
+        with(prefs.edit()) {
+            putLong(SHARED_PREFERENCES_KEYS_VALID_UNTIL, endValid)
+            apply()
+        }
     }
 
     private fun generateEncryptionKeyFallback(): KeyPair {
@@ -178,6 +183,7 @@ class EncryptionKeyProvider(private val appContext: Context) {
             apply()
         }
         return KeyPair(publicKey, privateKey)
+            .also { persistTimestamp(-1L) }
     }
 
     @SuppressLint("NewApi")
@@ -224,6 +230,8 @@ class EncryptionKeyProvider(private val appContext: Context) {
         private const val SHARED_PREFERENCES_PUBLIC_KEY = "IDENTITY_PU_KEY_PAIR"
         @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
         internal const val SHARED_PREFERENCES_KEYS_VALID_UNTIL = "KEYS_VALID_UNTIL"
+        @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+        internal const val NO_EXPIRY = -1L
 
         private val PRINCIPAL = "CN=$KEY_ALIAS, O=Schibsted Identity"
     }
