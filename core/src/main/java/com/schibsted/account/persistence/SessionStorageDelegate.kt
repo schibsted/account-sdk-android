@@ -38,13 +38,13 @@ internal class SessionStorageDelegate(
     operator fun getValue(thisRef: Any?, property: KProperty<*>): List<UserPersistence.Session> = data
 
     operator fun setValue(thisRef: Any?, property: KProperty<*>, value: List<UserPersistence.Session>) {
-        setData(value)
+        this.data = value
+
+        writeDataToPersistence(data, appContext.getSharedPreferences(preferenceFilename, Context.MODE_PRIVATE))
     }
 
-    private fun setData(value: List<UserPersistence.Session>) {
-        this.data = value
-        val prefs = appContext.getSharedPreferences(preferenceFilename, Context.MODE_PRIVATE)
-        val dataToPersist = GSON.toJson(this.data)
+    private fun writeDataToPersistence(data: List<UserPersistence.Session>, prefs: SharedPreferences) {
+        val dataToPersist = GSON.toJson(data)
         var aesKey: SecretKey? = null
 
         // Try to get the encrypted aes key from storage
@@ -128,7 +128,7 @@ internal class SessionStorageDelegate(
 
             removePersistedData(prefs)
 
-            setData(sessions)
+            writeDataToPersistence(sessions, prefs)
         }
     }
 
