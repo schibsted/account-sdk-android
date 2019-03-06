@@ -15,7 +15,6 @@ import io.kotlintest.shouldThrow
 import io.kotlintest.specs.WordSpec
 import java.security.GeneralSecurityException
 import java.security.InvalidKeyException
-import java.security.KeyException
 import java.security.KeyPair
 import java.security.KeyPairGenerator
 import java.security.PrivateKey
@@ -57,16 +56,15 @@ class PersistenceEncryptionTest : WordSpec({
     "using an invalid rsa key" should {
         val aesKey = encryption.generateAesKey()
         val rsa = generateKey()
-        val invalidPublicKey = object: PublicKey {
+        val invalidPublicKey = object : PublicKey {
             override fun getAlgorithm(): String = "RSA"
-
 
             override fun getEncoded(): ByteArray = "public".toByteArray()
 
             override fun getFormat(): String = "X.509"
         }
 
-        val invalidPrivateKey = object: PrivateKey {
+        val invalidPrivateKey = object : PrivateKey {
             override fun getAlgorithm(): String = "RSA"
 
             override fun getEncoded(): ByteArray = "private".toByteArray()
@@ -75,20 +73,20 @@ class PersistenceEncryptionTest : WordSpec({
         }
 
         "throw an exception when encrypting" {
-            val exception = shouldThrow<KeyException> {
+            val exception = shouldThrow<RsaKeyException> {
                 encryption.rsaEncrypt(aesKey.encoded, invalidPublicKey)
             }
 
-            assert(exception is InvalidKeyException)
+            assert(exception.cause is InvalidKeyException)
         }
 
         "throw an exception when decrypting" {
-            val exception = shouldThrow<KeyException> {
+            val exception = shouldThrow<RsaKeyException> {
                 val encRes = encryption.rsaEncrypt(aesKey.encoded, rsa.public)
                 encryption.rsaDecrypt(encRes!!, invalidPrivateKey)
             }
 
-            assert(exception is InvalidKeyException)
+            assert(exception.cause is InvalidKeyException)
         }
     }
 

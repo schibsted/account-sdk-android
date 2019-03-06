@@ -9,9 +9,7 @@ import com.schibsted.account.common.util.Logger
 import java.security.InvalidKeyException
 import java.security.PrivateKey
 import java.security.PublicKey
-import javax.crypto.BadPaddingException
 import javax.crypto.Cipher
-import javax.crypto.IllegalBlockSizeException
 import javax.crypto.KeyGenerator
 import javax.crypto.SecretKey
 import javax.crypto.spec.IvParameterSpec
@@ -25,7 +23,7 @@ class PersistenceEncryption {
 
     fun generateAesKey(): SecretKey = KeyGenerator.getInstance(AES_ALG).apply { init(128) }.generateKey()
 
-    @Throws(InvalidKeyException::class, IllegalBlockSizeException::class, BadPaddingException::class)
+    @Throws(RsaKeyException::class)
     fun rsaEncrypt(subjectToEncrypt: ByteArray?, publicRsaKey: PublicKey): ByteArray? {
         return try {
             val cipher = Cipher.getInstance(RSA_TRANSFORM)
@@ -33,14 +31,14 @@ class PersistenceEncryption {
             cipher.doFinal(subjectToEncrypt)
         } catch (e: Exception) {
             Logger.error(TAG, "Failed to encrypt content", e)
-            if (e is InvalidKeyException || e is IllegalBlockSizeException || e is BadPaddingException) {
-                throw e
+            if (e is InvalidKeyException) {
+                throw RsaKeyException("Failed to encrypt data", e)
             }
-            return null
+            null
         }
     }
 
-    @Throws(InvalidKeyException::class, IllegalBlockSizeException::class, BadPaddingException::class)
+    @Throws(RsaKeyException::class)
     fun rsaDecrypt(subjectToDecrypt: ByteArray, privateRsaKey: PrivateKey): ByteArray? {
         val cipher = Cipher.getInstance(RSA_TRANSFORM)
         return try {
@@ -48,10 +46,10 @@ class PersistenceEncryption {
             cipher.doFinal(subjectToDecrypt)
         } catch (e: Exception) {
             Logger.error(TAG, "Failed to decrypt content", e)
-            if (e is InvalidKeyException || e is IllegalBlockSizeException || e is BadPaddingException) {
-                throw e
+            if (e is InvalidKeyException) {
+                throw RsaKeyException("Failed to decrypt data", e)
             }
-            return null
+            null
         }
     }
 

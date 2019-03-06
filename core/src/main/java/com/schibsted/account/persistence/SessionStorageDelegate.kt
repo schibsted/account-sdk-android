@@ -13,11 +13,8 @@ import com.google.gson.JsonParseException
 import com.google.gson.JsonSyntaxException
 import com.google.gson.reflect.TypeToken
 import com.schibsted.account.common.util.Logger
-import java.security.InvalidKeyException
 import java.security.KeyPair
 import java.security.PrivateKey
-import javax.crypto.BadPaddingException
-import javax.crypto.IllegalBlockSizeException
 import javax.crypto.SecretKey
 import javax.crypto.spec.SecretKeySpec
 import kotlin.reflect.KProperty
@@ -121,13 +118,9 @@ internal class SessionStorageDelegate(
 
     private fun updateKeyExpiry(prefs: SharedPreferences, sessions: List<UserPersistence.Session>) {
         if (encryptionKeyProvider.isKeyCloseToExpiration()) {
-
             Logger.info("Updating session key expiration")
-
             refreshKeyPair()
-
             removePersistedData(prefs)
-
             writeDataToPersistence(sessions, prefs)
         }
     }
@@ -175,10 +168,10 @@ internal class SessionStorageDelegate(
     private fun getOriginalAesKey(encryptedAesKey: ByteArray): SecretKey? {
         return try {
             getOriginalAesKey(encryptedAesKey, rsaKeyPair.private)
-        } catch (e: Exception) {
+        } catch (e: RsaKeyException) {
             refreshKeyPair()
 
-            return null
+            null
         }
     }
 
@@ -202,7 +195,7 @@ internal class SessionStorageDelegate(
         // we encrypt the newly created aes key
         return try {
             generateAesKeyData(aesKey)
-        } catch (e: Exception) {
+        } catch (e: RsaKeyException) {
             refreshKeyPair()
 
             generateAesKeyData(aesKey)
@@ -214,7 +207,7 @@ internal class SessionStorageDelegate(
         rsaKeyPair = encryptionKeyProvider.refreshKeyPair()
     }
 
-    @Throws(InvalidKeyException::class, IllegalBlockSizeException::class, BadPaddingException::class)
+    @Throws(RsaKeyException::class)
     private fun generateAesKeyData(aesKey: SecretKey): Pair<SecretKey, ByteArray>? {
         val byteEncryptedAesKey = encryption.rsaEncrypt(aesKey.encoded, rsaKeyPair.public)
         return byteEncryptedAesKey?.let { Pair(aesKey, byteEncryptedAesKey) }

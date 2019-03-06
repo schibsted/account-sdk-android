@@ -84,7 +84,7 @@ class SharedPreferencesDelegateTest {
         val json = Gson().toJson(listOf(UserPersistence.Session(1L, UserId.fromTokenResponse(testToken).id, testToken)))
         val mockEditor: SharedPreferences.Editor = mock()
         val mockPrefs: SharedPreferences = mock {
-            on { getLong(eq(EncryptionKeyProvider.SHARED_PREFERENCES_KEYS_VALID_UNTIL), anyLong()) }.thenReturn(System.currentTimeMillis())
+            on { getLong(eq(EncryptionKeyProvider.SHARED_PREFERENCES_KEY_PAIR_VALID_UNTIL), anyLong()) }.thenReturn(System.currentTimeMillis())
             on { getString(any(), eq(null)) }.thenReturn(Base64.encodeToString(json.toByteArray(), Base64.DEFAULT))
             on { edit() }.thenReturn(mockEditor)
         }

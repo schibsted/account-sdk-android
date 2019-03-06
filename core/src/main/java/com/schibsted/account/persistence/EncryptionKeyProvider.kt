@@ -60,7 +60,7 @@ class EncryptionKeyProvider(private val appContext: Context) {
     internal fun isKeyCloseToExpiration(): Boolean {
         val prefs = appContext.getSharedPreferences(SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE)
 
-        val expiryTime = prefs.getLong(SHARED_PREFERENCES_KEYS_VALID_UNTIL, 0)
+        val expiryTime = prefs.getLong(SHARED_PREFERENCES_KEY_PAIR_VALID_UNTIL, NO_EXPIRY)
         val today = Date()
         val expiresIn: Long = expiryTime - today.time
 
@@ -156,12 +156,12 @@ class EncryptionKeyProvider(private val appContext: Context) {
     private fun persistTimestamp(endValid: Long) {
         val prefs = appContext.getSharedPreferences(SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE)
         Logger.info(
-            TAG, "Created new keys valid until: ${if (endValid == -1L) "forever" else
+            TAG, "Created new keys valid until: ${if (endValid == NO_EXPIRY) "forever" else
                 DateFormat.getDateTimeInstance().format(Date(endValid))}, created at ${
             DateFormat.getDateTimeInstance().format(Date(System.currentTimeMillis()))}"
         )
         with(prefs.edit()) {
-            putLong(SHARED_PREFERENCES_KEYS_VALID_UNTIL, endValid)
+            putLong(SHARED_PREFERENCES_KEY_PAIR_VALID_UNTIL, endValid)
             apply()
         }
     }
@@ -183,7 +183,7 @@ class EncryptionKeyProvider(private val appContext: Context) {
             apply()
         }
         return KeyPair(publicKey, privateKey)
-            .also { persistTimestamp(-1L) }
+            .also { persistTimestamp(NO_EXPIRY) }
     }
 
     @SuppressLint("NewApi")
@@ -229,7 +229,7 @@ class EncryptionKeyProvider(private val appContext: Context) {
         private const val SHARED_PREFERENCES_PRIVATE_KEY = "IDENTITY_PR_KEY_PAIR"
         private const val SHARED_PREFERENCES_PUBLIC_KEY = "IDENTITY_PU_KEY_PAIR"
         @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
-        internal const val SHARED_PREFERENCES_KEYS_VALID_UNTIL = "KEYS_VALID_UNTIL"
+        internal const val SHARED_PREFERENCES_KEY_PAIR_VALID_UNTIL = "KEY_PAIR_VALID_UNTIL"
         @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
         internal const val NO_EXPIRY = -1L
 
