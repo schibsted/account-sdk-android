@@ -26,9 +26,7 @@ internal class SessionStorageDelegate(
     private val preferenceFilename: String,
     private val preferenceKey: String,
     private val encryption: PersistenceEncryption = PersistenceEncryption(),
-    private val encryptionKeyProvider: EncryptionKeyProvider = EncryptionKeyProvider(appContext),
-    private var rsaKeyPair: KeyPair = encryptionKeyProvider.keyPair
-) {
+    private val encryptionKeyProvider: EncryptionKeyProvider = EncryptionKeyProvider(appContext)) {
 
     private var data: List<UserPersistence.Session> = readDataFromPersistence() ?: listOf()
 
@@ -167,7 +165,7 @@ internal class SessionStorageDelegate(
      */
     private fun getOriginalAesKey(encryptedAesKey: ByteArray): SecretKey? {
         return try {
-            getOriginalAesKey(encryptedAesKey, rsaKeyPair.private)
+            getOriginalAesKey(encryptedAesKey, encryptionKeyProvider.keyPair.private)
         } catch (e: RsaKeyException) {
             refreshKeyPair()
 
@@ -204,12 +202,12 @@ internal class SessionStorageDelegate(
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
     internal fun refreshKeyPair() {
-        rsaKeyPair = encryptionKeyProvider.refreshKeyPair()
+        encryptionKeyProvider.refreshKeyPair()
     }
 
     @Throws(RsaKeyException::class)
     private fun generateAesKeyData(aesKey: SecretKey): Pair<SecretKey, ByteArray>? {
-        val byteEncryptedAesKey = encryption.rsaEncrypt(aesKey.encoded, rsaKeyPair.public)
+        val byteEncryptedAesKey = encryption.rsaEncrypt(aesKey.encoded, encryptionKeyProvider.keyPair.public)
         return byteEncryptedAesKey?.let { Pair(aesKey, byteEncryptedAesKey) }
     }
 
