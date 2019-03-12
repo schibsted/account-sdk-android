@@ -138,6 +138,10 @@ abstract class BaseLoginActivity : AppCompatActivity(), NavigationListener {
 
         loginContract = LoginContractImpl(this, viewModel)
 
+        if (SmartlockController.isSmartlockAvailable()) {
+            smartlockController = SmartlockController(this, viewModel.smartlockReceiver)
+        }
+
         val action = DeepLinkHandler.resolveDeepLink(intent.dataString)
         if (action is DeepLink.ValidateAccount) {
             followDeepLink(intent.dataString, action, navigationController.currentFragment?.tag)
@@ -148,7 +152,6 @@ abstract class BaseLoginActivity : AppCompatActivity(), NavigationListener {
         viewModel.startSmartLockFlow.observe(this, Observer { launchSmartlock ->
             launchSmartlock?.let {
                 if (launchSmartlock) {
-                    smartlockController = SmartlockController(this, viewModel.smartlockReceiver)
                     smartlockController?.start()
                 }
             }
