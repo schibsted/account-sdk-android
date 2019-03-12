@@ -25,7 +25,8 @@ internal class SessionStorageDelegate(
     private val preferenceFilename: String,
     private val preferenceKey: String,
     private val encryption: PersistenceEncryption = PersistenceEncryption(),
-    private val encryptionKeyProvider: EncryptionKeyProvider = EncryptionKeyProvider(appContext)) {
+    private val encryptionKeyProvider: EncryptionKeyProvider = EncryptionKeyProvider(appContext)
+) {
 
     private var data: List<UserPersistence.Session> = readDataFromPersistence() ?: listOf()
 
