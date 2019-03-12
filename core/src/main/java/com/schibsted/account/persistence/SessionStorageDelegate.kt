@@ -13,7 +13,6 @@ import com.google.gson.JsonParseException
 import com.google.gson.JsonSyntaxException
 import com.google.gson.reflect.TypeToken
 import com.schibsted.account.common.util.Logger
-import java.security.KeyPair
 import java.security.PrivateKey
 import javax.crypto.SecretKey
 import javax.crypto.spec.SecretKeySpec

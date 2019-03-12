@@ -93,7 +93,6 @@ class SharedPreferencesDelegateTest {
 
         val mockKeyProvider: EncryptionKeyProvider = mock {
             on { isKeyCloseToExpiration() }.thenReturn(true)
-            on { refreshKeyPair() }.thenReturn(generateKey())
             on { keyPair }.thenReturn(generateKey())
         }
 

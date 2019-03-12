@@ -84,8 +84,8 @@ class EncryptionKeyProvider(private val appContext: Context) {
     }
 
     @SuppressLint("NewApi")
-    internal fun refreshKeyPair(): KeyPair {
-        return generateEncryptionKey().also {
+    internal fun refreshKeyPair() {
+        generateEncryptionKey().also {
             keyPair = it
         }
     }
