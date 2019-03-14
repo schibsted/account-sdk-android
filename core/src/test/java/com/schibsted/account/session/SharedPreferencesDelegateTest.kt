@@ -20,11 +20,15 @@ import com.schibsted.account.persistence.PersistenceEncryption
 import com.schibsted.account.persistence.SessionStorageDelegate
 import com.schibsted.account.persistence.UserPersistence
 import com.schibsted.account.common.util.Logger
+import com.schibsted.account.persistence.AES_ALG
+import com.schibsted.account.persistence.EncryptionKeyProvider
 import org.junit.Assert.assertEquals
 import org.junit.Test
+import org.mockito.ArgumentMatchers.anyLong
 import java.security.KeyPair
 import java.security.KeyPairGenerator
 import java.security.spec.RSAKeyGenParameterSpec
+import javax.crypto.spec.SecretKeySpec
 
 class SharedPreferencesDelegateTest {
     private val testToken = Gson().fromJson("{\n" +
@@ -53,8 +57,15 @@ class SharedPreferencesDelegateTest {
 
     @Test
     fun shouldReadFromPrefsIfAvailable() {
+        Logger.loggingEnabled = false
         val json = Gson().toJson(listOf(UserPersistence.Session(1L, UserId.fromTokenResponse(testToken).id, testToken)))
-        val mockPrefs: SharedPreferences = mock { on { getString(any(), eq(null)) }.thenReturn(Base64.encodeToString(json.toByteArray(), Base64.DEFAULT)) }
+        val mockPrefs: SharedPreferences = mock {
+            on { getString(any(), eq(null)) }.thenReturn(Base64.encodeToString(json.toByteArray(), Base64.DEFAULT))
+        }
+
+        val mockKeyProvider: EncryptionKeyProvider = mock {
+            on { keyPair }.thenReturn(generateKey())
+        }
 
         val mockEncryption: PersistenceEncryption = mock {
             on { rsaDecrypt(any(), any()) }.then { ByteArray(16) }
@@ -62,11 +73,41 @@ class SharedPreferencesDelegateTest {
             on { aesDecrypt(any(), any()) }.then { json }
         }
 
-        val nonEmptyList by SessionStorageDelegate(mockContextWithPrefs(mockPrefs), PREFERENCE_FILENAME, PREFERENCE_KEY, mockEncryption, generateKey())
+        val nonEmptyList by SessionStorageDelegate(mockContextWithPrefs(mockPrefs), PREFERENCE_FILENAME, PREFERENCE_KEY, mockEncryption, mockKeyProvider)
 
         assertEquals(1, nonEmptyList.size)
         assertEquals(UserId.fromTokenResponse(testToken).id, nonEmptyList[0].userId)
         assertEquals(604800, nonEmptyList.first().token.expiresIn)
+    }
+
+    @Test
+    fun shouldRefreshKeyPair() {
+        Logger.loggingEnabled = false
+        val json = Gson().toJson(listOf(UserPersistence.Session(1L, UserId.fromTokenResponse(testToken).id, testToken)))
+        val mockEditor: SharedPreferences.Editor = mock()
+        val mockPrefs: SharedPreferences = mock {
+            on { getLong(eq(EncryptionKeyProvider.SHARED_PREFERENCES_KEY_PAIR_VALID_UNTIL), anyLong()) }.thenReturn(System.currentTimeMillis())
+            on { getString(any(), eq(null)) }.thenReturn(Base64.encodeToString(json.toByteArray(), Base64.DEFAULT))
+            on { edit() }.thenReturn(mockEditor)
+        }
+
+        val mockKeyProvider: EncryptionKeyProvider = mock {
+            on { isKeyCloseToExpiration() }.thenReturn(true)
+            on { keyPair }.thenReturn(generateKey())
+        }
+
+        val mockEncryption: PersistenceEncryption = mock {
+            on { rsaDecrypt(any(), any()) }.then { ByteArray(16) }
+            on { rsaEncrypt(any(), any()) }.then { ByteArray(16) }
+            on { aesEncrypt(any(), any()) }.then { it.getArgument(0) }
+            on { aesDecrypt(any(), any()) }.then { json }
+            on { generateAesKey() }.then { SecretKeySpec(ByteArray(16), 0, 16, AES_ALG) }
+        }
+
+        val nonEmptyList by SessionStorageDelegate(mockContextWithPrefs(mockPrefs), PREFERENCE_FILENAME, PREFERENCE_KEY, mockEncryption, mockKeyProvider)
+
+        assertEquals(1, nonEmptyList.size)
+        verify(mockKeyProvider, times(1)).refreshKeyPair()
     }
 
     @Test
@@ -79,13 +120,18 @@ class SharedPreferencesDelegateTest {
             on { edit() }.thenReturn(mockEditor)
         }
 
+        val mockKeyProvider: EncryptionKeyProvider = mock {
+            on { getStoredEncryptionKey() }.thenReturn(generateKey())
+            on { keyPair }.thenReturn(generateKey())
+        }
+
         val mockEncryption: PersistenceEncryption = mock {
             on { rsaDecrypt(any(), any()) }.then { ByteArray(0) }
             on { aesEncrypt(any(), any()) }.then { it.getArgument(0) }
             on { aesDecrypt(any(), any()) }.then { json }
         }
 
-        val emptyList by SessionStorageDelegate(mockContextWithPrefs(mockPrefs), PREFERENCE_FILENAME, PREFERENCE_KEY, mockEncryption, generateKey())
+        val emptyList by SessionStorageDelegate(mockContextWithPrefs(mockPrefs), PREFERENCE_FILENAME, PREFERENCE_KEY, mockEncryption, mockKeyProvider)
         assert(emptyList.isEmpty())
 
         verify(mockEditor, times(0)).putString(any(), any())
@@ -102,13 +148,18 @@ class SharedPreferencesDelegateTest {
             on { edit() }.thenReturn(mockEditor)
         }
 
+        val mockKeyProvider: EncryptionKeyProvider = mock {
+            on { getStoredEncryptionKey() }.thenReturn(generateKey())
+            on { keyPair }.thenReturn(generateKey())
+        }
+
         val mockEncryption: PersistenceEncryption = mock {
             on { rsaDecrypt(any(), any()) }.then { null }
             on { aesEncrypt(any(), any()) }.then { it.getArgument(0) }
             on { aesDecrypt(any(), any()) }.then { json }
         }
 
-        val emptyList by SessionStorageDelegate(mockContextWithPrefs(mockPrefs), PREFERENCE_FILENAME, PREFERENCE_KEY, mockEncryption, generateKey())
+        val emptyList by SessionStorageDelegate(mockContextWithPrefs(mockPrefs), PREFERENCE_FILENAME, PREFERENCE_KEY, mockEncryption, mockKeyProvider)
         assert(emptyList.isEmpty())
 
         verify(mockEditor, times(0)).putString(any(), any())
@@ -121,12 +172,16 @@ class SharedPreferencesDelegateTest {
         val mockEditor: SharedPreferences.Editor = mock()
         val mockPrefs: SharedPreferences = mock { on { edit() }.thenReturn(mockEditor) }
 
+        val mockKeyProvider: EncryptionKeyProvider = mock {
+            on { getStoredEncryptionKey() }.thenReturn(generateKey())
+        }
+
         val mockEncryption: PersistenceEncryption = mock {
             on { aesEncrypt(any(), any()) }.then { it.getArgument(0) }
             on { aesDecrypt(any(), any()) }.then { null }
         }
 
-        val emptyList by SessionStorageDelegate(mockContextWithPrefs(mockPrefs), PREFERENCE_FILENAME, PREFERENCE_KEY, mockEncryption, generateKey())
+        val emptyList by SessionStorageDelegate(mockContextWithPrefs(mockPrefs), PREFERENCE_FILENAME, PREFERENCE_KEY, mockEncryption, mockKeyProvider)
         assert(emptyList.isEmpty())
 
         verify(mockEditor, times(0)).putString(any(), any())
@@ -139,12 +194,16 @@ class SharedPreferencesDelegateTest {
         val mockEditor: SharedPreferences.Editor = mock()
         val mockPrefs: SharedPreferences = mock { on { edit() }.thenReturn(mockEditor) }
 
+        val mockKeyProvider: EncryptionKeyProvider = mock {
+            on { getStoredEncryptionKey() }.thenReturn(generateKey())
+        }
+
         val mockEncryption: PersistenceEncryption = mock {
             on { aesEncrypt(any(), any()) }.then { it.getArgument(0) }
             on { aesDecrypt(any(), any()) }.then { "" }
         }
 
-        val emptyList by SessionStorageDelegate(mockContextWithPrefs(mockPrefs), PREFERENCE_FILENAME, PREFERENCE_KEY, mockEncryption, generateKey())
+        val emptyList by SessionStorageDelegate(mockContextWithPrefs(mockPrefs), PREFERENCE_FILENAME, PREFERENCE_KEY, mockEncryption, mockKeyProvider)
         assert(emptyList.isEmpty())
 
         verify(mockEditor, times(0)).putString(any(), any())
@@ -188,13 +247,18 @@ class SharedPreferencesDelegateTest {
             on { edit() }.thenReturn(mockEditor)
         }
 
+        val mockKeyProvider: EncryptionKeyProvider = mock {
+            on { getStoredEncryptionKey() }.thenReturn(generateKey())
+            on { keyPair }.thenReturn(generateKey())
+        }
+
         val mockEncryption: PersistenceEncryption = mock {
             on { rsaDecrypt(any(), any()) }.then { ByteArray(16) }
             on { aesEncrypt(any(), any()) }.then { it.getArgument(0) }
             on { aesDecrypt(any(), any()) }.then { data }
         }
 
-        val sessions by SessionStorageDelegate(mockContextWithPrefs(mockPrefs), PREFERENCE_FILENAME, PREFERENCE_KEY, mockEncryption, generateKey())
+        val sessions by SessionStorageDelegate(mockContextWithPrefs(mockPrefs), PREFERENCE_FILENAME, PREFERENCE_KEY, mockEncryption, mockKeyProvider)
 
         verify(mockEditor, times(1)).remove(eq(PREFERENCE_KEY))
         verify(mockEditor, times(1)).remove(eq(AES_KEY))

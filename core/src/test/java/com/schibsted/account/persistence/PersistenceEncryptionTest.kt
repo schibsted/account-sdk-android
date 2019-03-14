@@ -11,10 +11,14 @@ import io.kotlintest.should
 import io.kotlintest.shouldBe
 import io.kotlintest.shouldHave
 import io.kotlintest.shouldNotBe
+import io.kotlintest.shouldThrow
 import io.kotlintest.specs.WordSpec
 import java.security.GeneralSecurityException
+import java.security.InvalidKeyException
 import java.security.KeyPair
 import java.security.KeyPairGenerator
+import java.security.PrivateKey
+import java.security.PublicKey
 import java.security.spec.RSAKeyGenParameterSpec
 import java.util.Arrays
 
@@ -46,6 +50,43 @@ class PersistenceEncryptionTest : WordSpec({
             val encRes = encryption.rsaEncrypt(aesKey.encoded, rsa.public)
             val aesEncodedKey = encryption.rsaDecrypt(encRes!!, rsa.private)
             assert(Arrays.equals(aesEncodedKey, aesKey.encoded))
+        }
+    }
+
+    "using an invalid rsa key" should {
+        val aesKey = encryption.generateAesKey()
+        val rsa = generateKey()
+        val invalidPublicKey = object : PublicKey {
+            override fun getAlgorithm(): String = "RSA"
+
+            override fun getEncoded(): ByteArray = "public".toByteArray()
+
+            override fun getFormat(): String = "X.509"
+        }
+
+        val invalidPrivateKey = object : PrivateKey {
+            override fun getAlgorithm(): String = "RSA"
+
+            override fun getEncoded(): ByteArray = "private".toByteArray()
+
+            override fun getFormat(): String = "PKCS#8"
+        }
+
+        "throw an exception when encrypting" {
+            val exception = shouldThrow<RsaKeyException> {
+                encryption.rsaEncrypt(aesKey.encoded, invalidPublicKey)
+            }
+
+            assert(exception.cause is InvalidKeyException)
+        }
+
+        "throw an exception when decrypting" {
+            val exception = shouldThrow<RsaKeyException> {
+                val encRes = encryption.rsaEncrypt(aesKey.encoded, rsa.public)
+                encryption.rsaDecrypt(encRes!!, invalidPrivateKey)
+            }
+
+            assert(exception.cause is InvalidKeyException)
         }
     }
 

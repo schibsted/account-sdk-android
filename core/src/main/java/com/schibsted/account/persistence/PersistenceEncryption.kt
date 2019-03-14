@@ -6,6 +6,7 @@ package com.schibsted.account.persistence
 
 import android.util.Base64
 import com.schibsted.account.common.util.Logger
+import java.security.InvalidKeyException
 import java.security.PrivateKey
 import java.security.PublicKey
 import javax.crypto.Cipher
@@ -22,6 +23,7 @@ class PersistenceEncryption {
 
     fun generateAesKey(): SecretKey = KeyGenerator.getInstance(AES_ALG).apply { init(128) }.generateKey()
 
+    @Throws(RsaKeyException::class)
     fun rsaEncrypt(subjectToEncrypt: ByteArray?, publicRsaKey: PublicKey): ByteArray? {
         return try {
             val cipher = Cipher.getInstance(RSA_TRANSFORM)
@@ -29,17 +31,24 @@ class PersistenceEncryption {
             cipher.doFinal(subjectToEncrypt)
         } catch (e: Exception) {
             Logger.error(TAG, "Failed to encrypt content", e)
+            if (e is InvalidKeyException) {
+                throw RsaKeyException("Failed to encrypt data", e)
+            }
             null
         }
     }
 
+    @Throws(RsaKeyException::class)
     fun rsaDecrypt(subjectToDecrypt: ByteArray, privateRsaKey: PrivateKey): ByteArray? {
         val cipher = Cipher.getInstance(RSA_TRANSFORM)
         return try {
             cipher.init(Cipher.DECRYPT_MODE, privateRsaKey)
-            return cipher.doFinal(subjectToDecrypt)
+            cipher.doFinal(subjectToDecrypt)
         } catch (e: Exception) {
             Logger.error(TAG, "Failed to decrypt content", e)
+            if (e is InvalidKeyException) {
+                throw RsaKeyException("Failed to decrypt data", e)
+            }
             null
         }
     }
