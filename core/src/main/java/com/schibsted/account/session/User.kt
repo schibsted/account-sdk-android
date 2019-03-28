@@ -54,6 +54,8 @@ class User(token: UserToken, val isPersistable: Boolean) : Parcelable {
 
     val profile = Profile(this)
 
+    val device = Device(AccountService.packageName, AccountService.packageVersion, AccountService.androidId, this)
+
     fun isActive(): Boolean = token != null
 
     /**

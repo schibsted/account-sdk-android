@@ -23,6 +23,7 @@ import com.schibsted.account.model.NoValue
 import com.schibsted.account.model.UserId
 import com.schibsted.account.model.error.ClientError
 import com.schibsted.account.network.OIDCScope
+import com.schibsted.account.network.response.DeviceFingerprint
 import com.schibsted.account.session.Agreements
 import com.schibsted.account.session.User
 
@@ -55,6 +56,7 @@ class LoginController @JvmOverloads constructor(
             }) { it ->
                 val user = User(it, credentials.keepLoggedIn)
                 this.currentUserId = user.userId
+                user.device.createFingerprint()
 
                 if (this.verifyUser) { // Attempt the happy path and proceed straight to login
                     AgreementsCheckOperation(user, { callback.onError(it.toClientError()) }) { agreementsCheck ->
@@ -69,6 +71,7 @@ class LoginController @JvmOverloads constructor(
                                 })
                         )
                     }
+
                 } else {
                     super.navigation.push(StepLoginIdentify(credentials, user, true, setOf()))
                     callback.onSuccess(NoValue)
