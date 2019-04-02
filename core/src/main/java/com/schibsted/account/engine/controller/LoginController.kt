@@ -23,7 +23,6 @@ import com.schibsted.account.model.NoValue
 import com.schibsted.account.model.UserId
 import com.schibsted.account.model.error.ClientError
 import com.schibsted.account.network.OIDCScope
-import com.schibsted.account.network.response.DeviceFingerprint
 import com.schibsted.account.session.Agreements
 import com.schibsted.account.session.User
 
