@@ -33,7 +33,7 @@ class AccountService @JvmOverloads constructor(
                 .getPackageInfo(appContext.packageName, PackageManager.GET_META_DATA)
                 .versionCode
                 .toString()
-        AccountService.androidId =  Settings.Secure.ANDROID_ID
+        AccountService.androidId = Settings.Secure.ANDROID_ID
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_START)
