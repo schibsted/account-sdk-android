@@ -69,7 +69,7 @@ class UserService(environment: String, okHttpClient: OkHttpClient) : BaseNetwork
      * @param userToken The user's access token
      * @return On Success it will return a new device fingerprint, failure otherwise
      */
-    fun createDeviceFingerprint(userToken: TokenResponse, deviceData: Map<String, Any>): Call<ApiContainer<DeviceFingerprint>> {
+    fun createDeviceFingerprint(userToken: TokenResponse, deviceData: Map<String, String>): Call<ApiContainer<DeviceFingerprint>> {
         return this.userContract.createDeviceFingerprint(userToken.bearerAuthHeader(), deviceData)
     }
 }

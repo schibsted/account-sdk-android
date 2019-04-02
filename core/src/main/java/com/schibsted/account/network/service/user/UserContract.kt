@@ -46,7 +46,7 @@ internal interface UserContract {
 
     @FormUrlEncoded
     @POST("api/2/devices")
-    fun createDeviceFingerprint(@Header(KEY_AUTHORIZATION) userBearer: String, @FieldMap device: Map<String, @JvmSuppressWildcards Any>): Call<ApiContainer<DeviceFingerprint>>
+    fun createDeviceFingerprint(@Header(KEY_AUTHORIZATION) userBearer: String, @FieldMap device: Map<String, String>): Call<ApiContainer<DeviceFingerprint>>
 
     companion object {
         const val KEY_AUTHORIZATION = "Authorization"

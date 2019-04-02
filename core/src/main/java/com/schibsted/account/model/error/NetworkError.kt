@@ -23,7 +23,7 @@ data class NetworkError(val code: Int, val type: String, val description: String
         code == 409 && type == "ApiException" && description.startsWith("display_name") ->
             ClientError(ClientError.ErrorType.INVALID_DISPLAY_NAME, "Invalid display name")
         code == 400 && type == "ApiException"  && description.startsWith("Invalid payload data", ignoreCase = true)->
-            ClientError(ClientError.ErrorType.INVALID_DEVICE_PAYLOAD_DATA, "Invalid device payload data")
+            ClientError(ClientError.ErrorType.INVALID_DEVICE_FINGERPRINT_PAYLOAD_DATA, "Invalid device fingerprint payload data")
         code == 400 -> when (type) {
             "invalid_user_credentials" -> ClientError(ClientError.ErrorType.INVALID_USER_CREDENTIALS, "Invalid user credentials")
             "invalid_client_credentials" -> ClientError(ClientError.ErrorType.INVALID_CLIENT_CREDENTIALS, "Invalid client credentials")

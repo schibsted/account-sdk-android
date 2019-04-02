@@ -71,7 +71,6 @@ class LoginController @JvmOverloads constructor(
                                 })
                         )
                     }
-
                 } else {
                     super.navigation.push(StepLoginIdentify(credentials, user, true, setOf()))
                     callback.onSuccess(NoValue)
