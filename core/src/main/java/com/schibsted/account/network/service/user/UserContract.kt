@@ -5,7 +5,14 @@
 package com.schibsted.account.network.service.user
 
 import com.schibsted.account.ListContainer
-import com.schibsted.account.network.response.*
+import com.schibsted.account.network.response.AcceptAgreementResponse
+import com.schibsted.account.network.response.AgreementsResponse
+import com.schibsted.account.network.response.ApiContainer
+import com.schibsted.account.network.response.ProductAccess
+import com.schibsted.account.network.response.ProfileData
+import com.schibsted.account.network.response.RequiredFieldsResponse
+import com.schibsted.account.network.response.Subscription
+import com.schibsted.account.network.response.DeviceFingerprint
 import retrofit2.Call
 import retrofit2.http.FieldMap
 import retrofit2.http.FormUrlEncoded
