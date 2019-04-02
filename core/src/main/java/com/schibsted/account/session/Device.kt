@@ -3,9 +3,7 @@
  */
 package com.schibsted.account.session
 
-
 import com.schibsted.account.ClientConfiguration
-import com.schibsted.account.common.util.Logger
 import com.schibsted.account.engine.integration.ResultCallback
 import com.schibsted.account.model.error.ClientError
 import com.schibsted.account.network.NetworkCallback
@@ -19,7 +17,6 @@ internal class Device(private val applicationName: String, private val applicati
             callback?.onError(ClientError.USER_LOGGED_OUT_ERROR)
             return
         }
-
 
         val deviceData = hashMapOf(
                 "deviceId" to androidId,
