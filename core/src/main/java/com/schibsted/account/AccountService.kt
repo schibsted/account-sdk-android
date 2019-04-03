@@ -4,6 +4,7 @@
 
 package com.schibsted.account
 
+import android.annotation.SuppressLint
 import android.arch.lifecycle.Lifecycle
 import android.arch.lifecycle.LifecycleObserver
 import android.arch.lifecycle.OnLifecycleEvent
@@ -33,7 +34,12 @@ class AccountService @JvmOverloads constructor(
                 .getPackageInfo(appContext.packageName, PackageManager.GET_META_DATA)
                 .versionCode
                 .toString()
-        AccountService.androidId = Settings.Secure.ANDROID_ID
+        @SuppressLint("HardwareIds")
+        AccountService.androidId = Settings.Secure
+                .getString(
+                        appContext.contentResolver,
+                        Settings.Secure.ANDROID_ID
+                )
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_START)
