@@ -12,6 +12,7 @@ import com.schibsted.account.network.response.ProductAccess
 import com.schibsted.account.network.response.ProfileData
 import com.schibsted.account.network.response.RequiredFieldsResponse
 import com.schibsted.account.network.response.Subscription
+import com.schibsted.account.network.response.DeviceFingerprint
 import retrofit2.Call
 import retrofit2.http.FieldMap
 import retrofit2.http.FormUrlEncoded
@@ -49,6 +50,10 @@ internal interface UserContract {
 
     @GET("api/2/user/{userId}/product/{productId}")
     fun getProductAccess(@Header(KEY_AUTHORIZATION) userBearer: String, @Path(KEY_USER_ID) userId: String, @Path(KEY_PRODUCT_ID) productId: String): Call<ApiContainer<ProductAccess>>
+
+    @FormUrlEncoded
+    @POST("api/2/devices")
+    fun createDeviceFingerprint(@Header(KEY_AUTHORIZATION) userBearer: String, @FieldMap device: Map<String, String>): Call<ApiContainer<DeviceFingerprint>>
 
     companion object {
         const val KEY_AUTHORIZATION = "Authorization"

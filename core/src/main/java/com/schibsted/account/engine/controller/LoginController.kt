@@ -55,6 +55,7 @@ class LoginController @JvmOverloads constructor(
             }) { it ->
                 val user = User(it, credentials.keepLoggedIn)
                 this.currentUserId = user.userId
+                user.device.createFingerprint()
 
                 if (this.verifyUser) { // Attempt the happy path and proceed straight to login
                     AgreementsCheckOperation(user, { callback.onError(it.toClientError()) }) { agreementsCheck ->

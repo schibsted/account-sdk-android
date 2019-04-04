@@ -105,6 +105,7 @@ class PasswordlessController @JvmOverloads constructor(
                 VerifyCodeOperation(identifier, passwordlessToken, verificationCode, scopes, { callback.onError(it.toClientError()) },
                         { token ->
                             val user = User(token, verificationCode.keepLoggedIn)
+                            user.device.createFingerprint()
 
                             if (this.verifyUser) {
                                 AgreementsCheckOperation(user, { callback.onError(it.toClientError()) }) { agreementsCheck ->

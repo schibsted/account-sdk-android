@@ -48,7 +48,8 @@ open class ClientError(val errorType: ErrorType, val message: String) : Parcelab
 
         INVALID_STATE,
         INVALID_INPUT,
-        INVALID_DISPLAY_NAME
+        INVALID_DISPLAY_NAME,
+        INVALID_DEVICE_FINGERPRINT_PAYLOAD_DATA
     }
 
     companion object {
