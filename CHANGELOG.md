@@ -1,5 +1,7 @@
 ## v1.5.0 (2019-04-04)
 - Create a device fingerprint for new successful logins.
+- Fixed issues where encryption key pair expires but not refreshed. (#378)
+- Ensure SmartLock is always initiated. (#379)
 
 ## v1.4.2 (2019-01-07)
 - Fixed layout for password screen.
