@@ -1,3 +1,6 @@
+## v1.5.0 (2019-04-04)
+- Create a device fingerprint for new successful logins.
+
 ## v1.4.2 (2019-01-07)
 - Fixed layout for password screen.
 
