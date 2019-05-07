@@ -21,10 +21,6 @@ import retrofit2.Call
 class UserService(environment: String, okHttpClient: OkHttpClient) : BaseNetworkService(environment, okHttpClient) {
     private val userContract: UserContract = createService(UserContract::class.java)
 
-    fun logout(accessToken: TokenResponse): Call<Unit> {
-        return this.userContract.logout(accessToken.bearerAuthHeader())
-    }
-
     fun getUserAgreements(userId: String, userToken: TokenResponse): Call<ApiContainer<AgreementsResponse>> {
         return this.userContract.agreements(userToken.bearerAuthHeader(), userId)
     }

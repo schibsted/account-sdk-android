@@ -26,9 +26,6 @@ import retrofit2.http.Path
  */
 internal interface UserContract {
 
-    @GET("api/2/logout")
-    fun logout(@Header(KEY_AUTHORIZATION) userBearer: String): Call<Unit>
-
     @POST("api/2/user/{userId}/agreements/accept")
     fun agreementAccept(@Header(KEY_AUTHORIZATION) userBearer: String, @Path(KEY_USER_ID) userId: String): Call<ApiContainer<AcceptAgreementResponse>>
 

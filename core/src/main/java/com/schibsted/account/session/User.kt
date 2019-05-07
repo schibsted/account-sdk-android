@@ -67,16 +67,6 @@ class User(token: UserToken, val isPersistable: Boolean) : Parcelable {
         val token = this.token
         if (token != null) {
             AccountService.localBroadcastManager?.sendBroadcast(Intent(Events.ACTION_USER_LOGOUT).putExtra(Events.EXTRA_USER_ID, userId))
-            userService.logout(token).enqueue(NetworkCallback.lambda("Logging out user",
-                    {
-                        callback?.onError(it.toClientError())
-                        this@User.token = null
-                    },
-                    {
-                        callback?.onSuccess(NoValue)
-                        this@User.token = null
-                    })
-            )
         } else {
             callback?.onError(ClientError(ClientError.ErrorType.INVALID_STATE, "User already logged out"))
         }
@@ -144,7 +134,6 @@ class User(token: UserToken, val isPersistable: Boolean) : Parcelable {
             Logger.verbose("User token refreshing failed")
             if (listOf(400, 401, 403).contains(resp.code())) {
                 Logger.verbose("Logging out user")
-                userService.logout(token).execute()
                 this@User.token = null
 
                 AccountService.localBroadcastManager?.sendBroadcast(Intent(Events.ACTION_USER_LOGOUT).putExtra(Events.EXTRA_USER_ID, userId))
