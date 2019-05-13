@@ -1,3 +1,6 @@
+## v1.6.0 (2019-05-13)
+- Don't call /api/2/logout endpoint on user logout. (#384)
+
 ## v1.5.0 (2019-04-04)
 - Create a device fingerprint for new successful logins.
 - Fixed issues where encryption key pair expires but not refreshed. (#378)
