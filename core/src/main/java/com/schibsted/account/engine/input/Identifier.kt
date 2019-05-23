@@ -20,7 +20,7 @@ data class Identifier(val identifierType: IdentifierType, val identifier: String
     }
 
     /**
-     * Asks SPiD for the account status of this identifier
+     * Asks Schibsted account for the account status of this identifier
      */
     fun getAccountStatus(callbackData: ResultCallback<AccountStatusResponse>) {
         AccountStatusOperation(this, { callbackData.onError(it.toClientError()) }, {

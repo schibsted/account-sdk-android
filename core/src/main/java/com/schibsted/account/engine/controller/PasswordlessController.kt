@@ -128,7 +128,7 @@ class PasswordlessController @JvmOverloads constructor(
     }
 
     /**
-     * Resend the verification code to the user. Please note that this is throttled by the SPiD
+     * Resend the verification code to the user. Please note that this is throttled by the Schibsted account
      * back-end and will fail if requested too often
      */
     @Suppress("unused")

@@ -15,7 +15,7 @@ import com.schibsted.account.network.response.PasswordlessToken
 import com.schibsted.account.network.response.TokenResponse
 
 /**
- * Task to request user credentials and signup with SPiD using these
+ * Task to request user credentials and signup with Schibsted account using these
  */
 internal class VerifyCodeOperation(
     identifier: Identifier,

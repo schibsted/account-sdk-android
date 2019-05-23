@@ -12,7 +12,7 @@ import com.schibsted.account.network.ServiceHolder
 import com.schibsted.account.network.response.TokenResponse
 
 /**
- * A task to get client credentials for a SPiD client
+ * A task to get client credentials for a Schibsted account client
  */
 internal class ClientTokenOperation internal constructor(
     private val failure: (error: NetworkError) -> Unit,

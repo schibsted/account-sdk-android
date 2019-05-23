@@ -22,7 +22,7 @@ interface TermsContract {
 
         /**
          * Requests a navigation to a [com.schibsted.account.ui.ui.WebFragment]. It should be use to show terms and policies of
-         * SPiD and the client as a web page.
+         * Schibsted account and the client as a web page.
          *
          * @param link the client to go to.
          */

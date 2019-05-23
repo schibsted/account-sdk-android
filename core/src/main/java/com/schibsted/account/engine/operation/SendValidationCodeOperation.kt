@@ -13,7 +13,7 @@ import com.schibsted.account.network.response.PasswordlessToken
 import java.util.Locale
 
 /**
- * Task to request user credentials and signup with SPiD using these
+ * Task to request user credentials and signup with Schibsted account using these
  */
 internal class SendValidationCodeOperation(
     identifier: Identifier,

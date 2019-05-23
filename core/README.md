@@ -1,6 +1,6 @@
-This is the core part of the Account SDK, which simplifies accessing and using the SPiD platform. The core SDK has two responsibilities: Controlling login flows for users and providing easy to use network calls. This provides the login engine, which is used by our UIs and can optionally be used to do custom implementation
+This is the core part of the Account SDK, which simplifies accessing and using Schibsted account. The core SDK has two responsibilities: Controlling login flows for users and providing easy to use network calls. This provides the login engine, which is used by our UIs and can optionally be used to do custom implementation
 
-Please note that using the APIs alone is neither recommended or supported by the Account team. If you choose not to use the controllers, you do so at your own peril. The APIs will not be covered in this readme, but you can have look at the _service package_, which provides Retrofit2 calls for the SPiD APIs.
+Please note that using the APIs alone is neither recommended or supported by the Account team. If you choose not to use the controllers, you do so at your own peril. The APIs will not be covered in this readme, but you can have look at the _service package_, which provides Retrofit2 calls for the Schibsted account APIs.
 
 
 ## Getting started
@@ -59,7 +59,7 @@ User user = User.resumeLastSession(context, new new ResultCallback<User>() { ...
 ```
 
 ### Logging out
-To logout a user, you call the `logout(...)` function on the `User` object. This will invalidate the token with SPiD and your session will no longer be valid. The `AccountService` will pick this up and remove the session from persistence.
+To logout a user, you call the `logout(...)` function on the `User` object. This will invalidate the token with Schibsted account and your session will no longer be valid. The `AccountService` will pick this up and remove the session from persistence.
 
 ## Advanced usage
 

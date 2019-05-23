@@ -24,7 +24,7 @@ data class Agreements(val acceptAgreements: Boolean) : Parcelable {
 
     interface Provider {
         /**
-         * Called when a user has not agreed to the SPiD or platform agreements
+         * Called when a user has not agreed to the Schibsted account or platform agreements
          */
         fun onAgreementsRequested(agreementsProvider: InputProvider<Agreements>, agreementLinks: AgreementLinksResponse)
     }

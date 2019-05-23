@@ -11,7 +11,7 @@ import com.schibsted.account.network.ServiceHolder
 import com.schibsted.account.network.response.PasswordlessToken
 
 /**
- * Task to request user credentials and signup with SPiD using these
+ * Task to request user credentials and signup with Schibsted account using these
  */
 internal class ResendCodeOperation(
     passwordlessToken: PasswordlessToken,
