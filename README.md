@@ -1,6 +1,6 @@
 These SDKs allows for connecting to Schibsted Account. The functionality of the modules are described below and exists primarily in two variants; with and without UIs. 
 
-**For support, please contact [support@spid.no](mailto:support@spid.no)**
+**For support, please contact [schibstedaccount@schibsted.com](mailto:schibstedaccount@schibsted.com)**
 
 ### Modules
 **UI module**<br>
