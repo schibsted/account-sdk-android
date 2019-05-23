@@ -18,7 +18,7 @@ Any errors which occurs when executing a task will will be propagated to the cal
 When the login flow is completed, the `onLoginCompleted` function will be called with your `User` object, which also contains the session.
 
 ## Usage
-After a successful login, you get a `User` object. The user object is responsible for performing actions on the user, like updating profile data. It also has a reference to its session, from which you can request one time login codes or logout the current session. After logging out a session, you should not perform any actions on either the session or the user, as the token will now be invalidated by SPiD.
+After a successful login, you get a `User` object. The user object is responsible for performing actions on the user, like updating profile data. It also has a reference to its session, from which you can request one time login codes or logout the current session. After logging out a session, you should not perform any actions on either the session or the user.
 
 ### Persisting user sessions
 The SDK provides the `AccountService` which includes the `UserPersistenceService`. This automates persisting and refreshing the stored user on token updates etc as well as logouts. To use this, you should bind this anywhere where your user is active. 
@@ -49,7 +49,7 @@ public class MyActivity extends AppCompatActivity {
 ```
 
 ### Resuming user sessions
-You can manage user sessions by using the static functions of the `User` class. Normal use cases are usually limited to resuming sessions, but it's also possible to remove previous sessions or clear all sessions. Please note that if your intention is to log out the user, you should call `user.logout(...)` to ensure the tokens are invalidated with the back-end.
+You can manage user sessions by using the static functions of the `User` class. Normal use cases are usually limited to resuming sessions, but it's also possible to remove previous sessions or clear all sessions. Please note that if your intention is to log out the user, you should call `user.logout(...)`.
 
 __Example__
 ```java
@@ -59,7 +59,7 @@ User user = User.resumeLastSession(context, new new ResultCallback<User>() { ...
 ```
 
 ### Logging out
-To logout a user, you call the `logout(...)` function on the `User` object. This will invalidate the token with Schibsted account and your session will no longer be valid. The `AccountService` will pick this up and remove the session from persistence.
+To logout a user, you call the `logout(...)` function on the `User` object. This will invalidate the user session and `AccountService` will pick this up and remove the session from persistence.
 
 ## Advanced usage
 
