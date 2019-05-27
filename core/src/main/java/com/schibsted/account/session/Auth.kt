@@ -23,7 +23,7 @@ class Auth(val user: User) {
      * @param redirectUri The desired redirect to receive from /session/<onetimecode> when the
      *                    session represented by the code received is created.
      * @param callback A callback with the one time session URL
-     * @see <a href="http://techdocs.spid.no/endpoints/POST/oauth/exchange/">POST /oauth/exchange</a>
+     * @see <a href="https://techdocs.login.schibsted.com/endpoints/POST/oauth/exchange/">POST /oauth/exchange</a>
      */
     fun oneTimeSessionUrl(targetClientId: String, redirectUri: String, callback: ResultCallback<String>) {
         val token = user.token

@@ -9,9 +9,9 @@ import com.google.gson.annotations.SerializedName;
 /**
  * Represents the signup status for an identifier.
  *
- * @see <a href="https://techdocs.spid.no/endpoints/GET/phone/%7Bphone%7D/status/">
+ * @see <a href="https://techdocs.login.schibsted.com/endpoints/GET/phone/%7Bphone%7D/status/">
  * GET /phone/{phone}/status | Schibsted account API Documentation</a>
- * @see <a href="https://techdocs.spid.no/endpoints/GET/email/%7Bemail%7D/status/">
+ * @see <a href="https://techdocs.login.schibsted.com/endpoints/GET/email/%7Bemail%7D/status/">
  * GET /email/{email}/status | Schibsted account API Documentation</a>
  */
 @SuppressWarnings("PMD.MissingStaticMethodInNonInstantiatableClass")

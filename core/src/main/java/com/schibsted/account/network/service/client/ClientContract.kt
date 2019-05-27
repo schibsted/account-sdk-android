@@ -38,7 +38,7 @@ interface ClientContract {
      * @param identifier The identifier whose status is to be queried.
      * @return A representation of the call ready for execution.
      * @see [
-     * GET /phone/{phone}/status | Schibsted account API Documentation](http://techdocs.spid.no/endpoints/GET/phone/%7Bphone%7D/status/)
+     * GET /phone/{phone}/status | Schibsted account API Documentation](https://techdocs.login.schibsted.com/endpoints/GET/phone/%7Bphone%7D/status/)
      */
     @GET("api/2/phone/{phone}/status")
     fun checkPhoneStatus(@Header("Authorization") clientBearer: String, @Path("phone") phoneBase64: String): Call<ApiContainer<AccountStatusResponse>>
@@ -49,7 +49,7 @@ interface ClientContract {
      * @param identifier The identifier whose status is to be queried.
      * @return A representation of the call ready for execution.
      * @see [
-     * GET /phone/{phone}/status | Schibsted account API Documentation](http://techdocs.spid.no/endpoints/GET/phone/%7Bphone%7D/status/)
+     * GET /phone/{phone}/status | Schibsted account API Documentation](https://techdocs.login.schibsted.com/endpoints/GET/phone/%7Bphone%7D/status/)
      */
     @GET("api/2/email/{email}/status")
     fun checkEmailStatus(
