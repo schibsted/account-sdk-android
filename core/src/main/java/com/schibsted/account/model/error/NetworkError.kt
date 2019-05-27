@@ -35,7 +35,7 @@ data class NetworkError(val code: Int, val type: String, val description: String
             else -> unknownSpidError()
         }
         code == 401 -> ClientError(ClientError.ErrorType.UNAUTHORIZED, "Invalid access token")
-        code == 403 -> ClientError(ClientError.ErrorType.FORBIDDEN, "Client is not authorized to access this API endpoint. Contact SPiD to request access")
+        code == 403 -> ClientError(ClientError.ErrorType.FORBIDDEN, "Client is not authorized to access this API endpoint. Contact Schibsted account to request access")
         code == 429 && type == "too_many_requests" -> ClientError(ClientError.ErrorType.TOO_MANY_REQUESTS, "Too many requests")
         code == 503 || code == 504 -> ClientError(ClientError.ErrorType.CONNECTION_TIMED_OUT, "The connection has timed out")
         code == -1 -> when (type) {
@@ -55,7 +55,7 @@ data class NetworkError(val code: Int, val type: String, val description: String
 
     private fun unknownSpidError(): ClientError =
             GenericError(
-                    { "Unhandled error from SPiD of type <$type>" },
+                    { "Unhandled error from Schibsted account of type <$type>" },
                     {
                         "Request to ${endpoint.safeUrl()} -> $code: <${description.takeIf(String::isNotBlank)
                                 ?: "Missing description"}> is not covered in SpidError"

@@ -47,7 +47,7 @@ abstract class AbstractIdentificationFragment : FlowFragment<IdentificationContr
     protected lateinit var inputViewContainer: FrameLayout
 
     /**
-     * Field used to display the policy of SPiD and the clientAccepted.
+     * Field used to display the policy of Schibsted account and the clientAccepted.
      */
     private lateinit var identificationPolicy: TextView
 

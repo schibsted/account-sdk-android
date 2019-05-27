@@ -1,7 +1,7 @@
 # Contributing to the Identity SDK for Android
 
 ## Code of conduct
-The project is governed by the [Code of Conduct](CODE_OF_CONDUCT.md), adapted from [Contributor Covenant Code of Conduct](https://www.contributor-covenant.org/version/1/4/code-of-conduct.html). Please report any unacceptable behavior to [support@spid.no](mailto:support@spid.no)
+The project is governed by the [Code of Conduct](CODE_OF_CONDUCT.md), adapted from [Contributor Covenant Code of Conduct](https://www.contributor-covenant.org/version/1/4/code-of-conduct.html). Please report any unacceptable behavior to [schibstedaccount@schibsted.com](mailto:schibstedaccount@schibsted.com)
 
 ## License
 The Account SDK for Android is released under the [MIT License](LICENSE). Any code submitted will be licensed under the same conditions unless explicitly stated otherwise.

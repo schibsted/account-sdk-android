@@ -16,7 +16,7 @@ import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.POST;
 
 /**
- * Describes passwordless authentication interactions with the SPiD backend.
+ * Describes passwordless authentication interactions with the Schibsted account backend.
  */
 interface PasswordlessContract {
     /**

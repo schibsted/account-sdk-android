@@ -59,7 +59,7 @@ class User(token: UserToken, val isPersistable: Boolean) : Parcelable {
     fun isActive(): Boolean = token != null
 
     /**
-     * Destroys the current session and removes it's access tokens from SPiD. Attempting to use this
+     * Destroys the current session and removes it's access tokens from Schibsted account. Attempting to use this
      * session afterwards will cause errors
      * @param callback A callback with the result of the logout
      */

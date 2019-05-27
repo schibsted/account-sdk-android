@@ -48,7 +48,7 @@ class UserService(environment: String, okHttpClient: OkHttpClient) : BaseNetwork
     }
 
     /**
-     * Retrieves the user data from SPiD
+     * Retrieves the user data from Schibsted account
      * @param userId The user's ID, must match the one in the token
      * @param userToken The user's access token
      * @return On success it will return the profile data, failure if something went wrong

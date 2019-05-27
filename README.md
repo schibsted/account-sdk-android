@@ -27,7 +27,7 @@ These SDKs allows for connecting to Schibsted Account. The functionality of the 
 
 
 ## Getting started
-To get started with either SDK, you'll need to request access to SPiD before you can start using them. This process is documented on the [SPiD Techdocs](https://techdocs.spid.no/selfservice/access/) site. Once you have access and have created your client so that you have access to your client ID and secret, you should head over to the [documentation pages](http://schibsted.github.io/account-sdk-android).
+To get started with either SDK, you'll need to request access to Schibsted account before you can start using them. This process is documented on the [Schibsted account techdocs](https://techdocs.login.schibsted.com/selfservice/access/) site. Once you have access and have created your client so that you have access to your client ID and secret, you should head over to the [documentation pages](http://schibsted.github.io/account-sdk-android).
 
 ### Gradle setup
 ```

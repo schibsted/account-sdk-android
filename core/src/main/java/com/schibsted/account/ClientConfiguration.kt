@@ -12,9 +12,9 @@ import com.schibsted.account.network.Environment
 import com.schibsted.account.util.ConfigurationUtils
 
 /**
- * This contains the client configuration as found in the self service pages in SPiD
- * @param environment The SPiD [Environment] to use
- * @param clientId The ID of the SPiD client to use. Can be found in Self-Service
+ * This contains the client configuration as found in the self service pages in Schibsted account
+ * @param environment The Schibsted account [Environment] to use
+ * @param clientId The ID of the Schibsted account client to use. Can be found in Self-Service
  * @param clientSecret The client's secret. Can be found in Self-Service
  * @see <a href="https://selfservice.login.schibsted.com/login">Self-Service PRO</a>
  * @see <a href="https://selfservice.identity-pre.schibsted.com">Self-Service PRE</a>

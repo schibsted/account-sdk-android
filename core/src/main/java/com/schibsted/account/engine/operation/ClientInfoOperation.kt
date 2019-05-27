@@ -13,7 +13,7 @@ import com.schibsted.account.network.response.ApiContainer
 import com.schibsted.account.network.response.ClientInfo
 
 /**
- * A task to get client credentials for a SPiD client
+ * A task to get client credentials for a Schibsted account client
  */
 class ClientInfoOperation constructor(
     private val failure: (error: NetworkError) -> Unit,

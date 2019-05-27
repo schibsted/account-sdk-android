@@ -18,7 +18,7 @@ import retrofit2.http.Header;
 import retrofit2.http.POST;
 
 /**
- * Describes OAuth interactions with the SPiD backend.
+ * Describes OAuth interactions with the Schibsted account backend.
  */
 interface OAuthContract {
     /**

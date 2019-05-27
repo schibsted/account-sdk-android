@@ -22,7 +22,7 @@ import retrofit2.http.POST
 import retrofit2.http.Path
 
 /**
- * Describes profile interactions with the SPiD backend.
+ * Describes profile interactions with the Schibsted account backend.
  */
 internal interface UserContract {
 
