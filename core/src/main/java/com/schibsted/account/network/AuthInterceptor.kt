@@ -45,7 +45,7 @@ internal fun protocolCheck(allowNonHttps: Boolean = false) = AuthCheck { req ->
  * @param allowNonHttps Whether or not non-https domains should be allowed. Defaults to false
  * @param timeout The timeout for token refreshing
  */
-class AuthInterceptor internal constructor(
+class AuthInterceptor constructor(
     private val user: User,
     private val urlWhitelist: List<String>,
     private val allowNonHttps: Boolean = false,
