@@ -6,6 +6,7 @@ package com.schibsted.account.ui
 import android.arch.lifecycle.MutableLiveData
 import android.content.Context
 import android.graphics.Rect
+import android.support.v4.app.FragmentActivity
 import android.support.v7.app.AppCompatActivity
 import android.view.View
 import android.view.ViewTreeObserver
@@ -18,6 +19,18 @@ class KeyboardController(private val activity: AppCompatActivity) : KeyboardList
     private val layoutListener: ViewTreeObserver.OnGlobalLayoutListener
     private var keyboardIsOpen: Boolean = false
     val keyboardVisibility = MutableLiveData<Boolean>()
+
+    companion object {
+        fun closeKeyboard(activity: FragmentActivity) {
+            val imm = activity.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            imm.hideSoftInputFromWindow(activity.window.decorView.windowToken, 0)
+        }
+
+        fun showKeyboard(activity: FragmentActivity) {
+            val imm = activity.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0)
+        }
+    }
 
     init {
         val keyboardThreshold = 150f
@@ -48,8 +61,7 @@ class KeyboardController(private val activity: AppCompatActivity) : KeyboardList
      * on the system implementation.
      */
     override fun closeKeyboard() {
-        val imm = activity.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        imm.hideSoftInputFromWindow(activity.window.decorView.windowToken, 0)
+        Companion.closeKeyboard(activity)
     }
 
     /**
