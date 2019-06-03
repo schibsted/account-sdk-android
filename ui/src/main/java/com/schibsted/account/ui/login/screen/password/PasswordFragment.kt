@@ -16,6 +16,7 @@ import com.schibsted.account.engine.input.Identifier
 import com.schibsted.account.model.error.ClientError
 import com.schibsted.account.persistence.LocalSecretsProvider
 import com.schibsted.account.ui.InternalUiConfiguration
+import com.schibsted.account.ui.KeyboardController
 import com.schibsted.account.ui.R
 import com.schibsted.account.ui.login.BaseLoginActivity
 import com.schibsted.account.ui.login.screen.LoginScreen
@@ -88,6 +89,9 @@ class PasswordFragment : FlowFragment<PasswordContract.Presenter>(), PasswordCon
             }
             return@setImeAction false
         }
+
+        password_input_view.requestFocus()
+        activity?.let { KeyboardController.showKeyboard(it) }
 
         remember_me.isChecked = true
 
