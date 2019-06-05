@@ -1,3 +1,8 @@
+## v1.7.0 (2019-06-05)
+- Expose AuthInterceptor class. (#389)
+- Move internal request interceptor to its own class. (#355)
+- 'SPiD'->'Schibsted account' rebranding (text-only change). (#386)
+
 ## v1.6.0 (2019-05-13)
 - Don't call /api/2/logout endpoint on user logout. (#384)
 
