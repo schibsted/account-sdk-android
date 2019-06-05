@@ -4,6 +4,7 @@
 
 package com.schibsted.account.ui.login.screen.identification.ui
 
+import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.text.InputType
@@ -11,6 +12,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
+import android.view.inputmethod.InputMethodManager
 import com.schibsted.account.common.util.Logger
 import com.schibsted.account.network.response.ClientInfo
 import com.schibsted.account.ui.InternalUiConfiguration
@@ -42,6 +44,12 @@ class EmailIdentificationFragment : AbstractIdentificationFragment(), Identifica
         inputViewContainer.addView(inputFieldView)
         prefillIdentifier(uiConf.identifier)
         return view
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        inputFieldView.inputField.requestFocus()
+        val imm = activity!!.applicationContext.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.showSoftInput(inputFieldView.inputField, InputMethodManager.SHOW_IMPLICIT)
     }
 
     public override fun prefillIdentifier(identifier: String?) {
