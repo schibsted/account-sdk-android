@@ -103,7 +103,7 @@ class User(token: UserToken, val isPersistable: Boolean) : Parcelable {
 
         return builder
                 .addInterceptor(AuthInterceptor(this, urls, allowNonHttps, allowNonWhitelistedDomains))
-                .addInterceptor(InfoInterceptor(false))
+                .addInterceptor(InfoInterceptor())
     }
 
     @WorkerThread
