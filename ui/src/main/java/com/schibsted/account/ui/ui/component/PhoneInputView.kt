@@ -33,7 +33,7 @@ class PhoneInputView
 @JvmOverloads constructor(context: Context?, attrs: AttributeSet? = null) : FieldView(context, attrs) {
 
     private val prefixView: EditText
-    private val mobileNumberView: SingleFieldView
+    val mobileNumberView: SingleFieldView
 
     init {
         val view = LayoutInflater.from(context).inflate(R.layout.schacc_phone_widget, this)
