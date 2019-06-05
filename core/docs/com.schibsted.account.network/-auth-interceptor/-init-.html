@@ -1,0 +1,32 @@
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>AuthInterceptor.<init> - core</title>
+<link rel="stylesheet" href="../../../style.css">
+</HEAD>
+<BODY>
+<a href="../../index.html">core</a>&nbsp;/&nbsp;<a href="../index.html">com.schibsted.account.network</a>&nbsp;/&nbsp;<a href="index.html">AuthInterceptor</a>&nbsp;/&nbsp;<a href="./-init-.html">&lt;init&gt;</a><br/>
+<br/>
+<h1>&lt;init&gt;</h1>
+<a name="com.schibsted.account.network.AuthInterceptor$&lt;init&gt;(com.schibsted.account.session.User, kotlin.collections.List((kotlin.String)), kotlin.Boolean, kotlin.Boolean, kotlin.Long, kotlin.sequences.Sequence((com.schibsted.account.network.AuthCheck)))"></a>
+<code><span class="identifier">AuthInterceptor</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.network.AuthInterceptor$<init>(com.schibsted.account.session.User, kotlin.collections.List((kotlin.String)), kotlin.Boolean, kotlin.Boolean, kotlin.Long, kotlin.sequences.Sequence((com.schibsted.account.network.AuthCheck)))/user">user</span><span class="symbol">:</span>&nbsp;<a href="../../com.schibsted.account.session/-user/index.html"><span class="identifier">User</span></a><span class="symbol">, </span><span class="identifier" id="com.schibsted.account.network.AuthInterceptor$<init>(com.schibsted.account.session.User, kotlin.collections.List((kotlin.String)), kotlin.Boolean, kotlin.Boolean, kotlin.Long, kotlin.sequences.Sequence((com.schibsted.account.network.AuthCheck)))/urlWhitelist">urlWhitelist</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html"><span class="identifier">List</span></a><span class="symbol">&lt;</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">&gt;</span><span class="symbol">, </span><span class="identifier" id="com.schibsted.account.network.AuthInterceptor$<init>(com.schibsted.account.session.User, kotlin.collections.List((kotlin.String)), kotlin.Boolean, kotlin.Boolean, kotlin.Long, kotlin.sequences.Sequence((com.schibsted.account.network.AuthCheck)))/allowNonHttps">allowNonHttps</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><span class="identifier">Boolean</span></a>&nbsp;<span class="symbol">=</span>&nbsp;false<span class="symbol">, </span><span class="identifier" id="com.schibsted.account.network.AuthInterceptor$<init>(com.schibsted.account.session.User, kotlin.collections.List((kotlin.String)), kotlin.Boolean, kotlin.Boolean, kotlin.Long, kotlin.sequences.Sequence((com.schibsted.account.network.AuthCheck)))/allowNonWhitelistedDomains">allowNonWhitelistedDomains</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><span class="identifier">Boolean</span></a>&nbsp;<span class="symbol">=</span>&nbsp;false<span class="symbol">, </span><span class="identifier" id="com.schibsted.account.network.AuthInterceptor$<init>(com.schibsted.account.session.User, kotlin.collections.List((kotlin.String)), kotlin.Boolean, kotlin.Boolean, kotlin.Long, kotlin.sequences.Sequence((com.schibsted.account.network.AuthCheck)))/timeout">timeout</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html"><span class="identifier">Long</span></a>&nbsp;<span class="symbol">=</span>&nbsp;10_000<span class="symbol">, </span><span class="identifier" id="com.schibsted.account.network.AuthInterceptor$<init>(com.schibsted.account.session.User, kotlin.collections.List((kotlin.String)), kotlin.Boolean, kotlin.Boolean, kotlin.Long, kotlin.sequences.Sequence((com.schibsted.account.network.AuthCheck)))/authChecks">authChecks</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.sequences/-sequence/index.html"><span class="identifier">Sequence</span></a><span class="symbol">&lt;</span><a href="../-auth-check/index.html"><span class="identifier">AuthCheck</span></a><span class="symbol">&gt;</span>&nbsp;<span class="symbol">=</span>&nbsp;sequenceOf(
+            checkUrlInWhitelist(urlWhitelist, allowNonWhitelistedDomains),
+            protocolCheck(allowNonHttps)
+    )<span class="symbol">)</span></code>
+<p>Creates an interceptor which will do authenticated requests to whitelisted urls. By default, requests to non-whitelisted
+domains will be rejected as well as non-https requests. This can be overridden using <a href="#">allowNonWhitelistedDomains</a> and
+<a href="#">allowNonHttps</a>. Will throw an <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-illegal-argument-exception/index.html">IllegalArgumentException</a> if whitelisted domains are not over HTTPS if non-https is not allowed</p>
+<h3>Parameters</h3>
+<p><a name="user"></a>
+<code>user</code> - The user session to bind</p>
+<p><a name="urlWhitelist"></a>
+<code>urlWhitelist</code> - The whitelist of URLs which be authenticated against</p>
+<p><a name="allowNonWhitelistedDomains"></a>
+<code>allowNonWhitelistedDomains</code> - By default, all non-whitelisted domains will be rejected unless this is set to true.
+Please note that the auth header will not be injected for any domains not in the whitelist. Defaults to false</p>
+<p><a name="allowNonHttps"></a>
+<code>allowNonHttps</code> - Whether or not non-https domains should be allowed. Defaults to false</p>
+<p><a name="timeout"></a>
+<code>timeout</code> - The timeout for token refreshing</p>
+</BODY>
+</HTML>

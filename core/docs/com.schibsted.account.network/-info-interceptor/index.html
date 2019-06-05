@@ -8,7 +8,7 @@
 <a href="../../index.html">core</a>&nbsp;/&nbsp;<a href="../index.html">com.schibsted.account.network</a>&nbsp;/&nbsp;<a href="./index.html">InfoInterceptor</a><br/>
 <br/>
 <h1>InfoInterceptor</h1>
-<code><span class="keyword">class </span><span class="identifier">InfoInterceptor</span>&nbsp;<span class="symbol">:</span>&nbsp;<span class="identifier">Interceptor</span></code>
+<code><span class="keyword">open</span> <span class="keyword">class </span><span class="identifier">InfoInterceptor</span>&nbsp;<span class="symbol">:</span>&nbsp;<span class="identifier">Interceptor</span></code>
 <h3>Constructors</h3>
 <table>
 <tbody>
@@ -17,7 +17,7 @@
 <p><a href="-init-.html">&lt;init&gt;</a></p>
 </td>
 <td>
-<code><span class="identifier">InfoInterceptor</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.network.InfoInterceptor$<init>(kotlin.Boolean)/isInternal">isInternal</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><span class="identifier">Boolean</span></a><span class="symbol">)</span></code></td>
+<code><span class="identifier">InfoInterceptor</span><span class="symbol">(</span><span class="symbol">)</span></code></td>
 </tr>
 </tbody>
 </table>
@@ -26,10 +26,29 @@
 <tbody>
 <tr>
 <td>
+<p><a href="get-request-builder.html">getRequestBuilder</a></p>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">getRequestBuilder</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.network.InfoInterceptor$getRequestBuilder(kotlin.String, okhttp3.Interceptor.Chain)/userAgentHeaderName">userAgentHeaderName</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">, </span><span class="identifier" id="com.schibsted.account.network.InfoInterceptor$getRequestBuilder(kotlin.String, okhttp3.Interceptor.Chain)/chain">chain</span><span class="symbol">:</span>&nbsp;<span class="identifier">Chain</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Builder</span></code></td>
+</tr>
+<tr>
+<td>
 <p><a href="intercept.html">intercept</a></p>
 </td>
 <td>
-<code><span class="keyword">fun </span><span class="identifier">intercept</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.network.InfoInterceptor$intercept(okhttp3.Interceptor.Chain)/chain">chain</span><span class="symbol">:</span>&nbsp;<span class="identifier">Chain</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Response</span></code></td>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">intercept</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.network.InfoInterceptor$intercept(okhttp3.Interceptor.Chain)/chain">chain</span><span class="symbol">:</span>&nbsp;<span class="identifier">Chain</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Response</span></code></td>
+</tr>
+</tbody>
+</table>
+<h3>Inheritors</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="../-internal-info-interceptor/index.html">InternalInfoInterceptor</a></p>
+</td>
+<td>
+<code><span class="keyword">class </span><span class="identifier">InternalInfoInterceptor</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="./index.html"><span class="identifier">InfoInterceptor</span></a></code></td>
 </tr>
 </tbody>
 </table>
