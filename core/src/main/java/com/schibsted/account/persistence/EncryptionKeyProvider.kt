@@ -137,7 +137,8 @@ class EncryptionKeyProvider(private val appContext: Context) {
                 GregorianCalendar(SimpleTimeZone(0, it))
             }
 
-            val startValid = (localizedTime ?: GregorianCalendar()).time
+            val startValid = (localizedTime
+                    ?: GregorianCalendar()).apply { add(Calendar.HOUR_OF_DAY, -26) }.time:
             val endValid = (localizedTime
                     ?: GregorianCalendar()).apply { add(Calendar.YEAR, 1) }.time
 
