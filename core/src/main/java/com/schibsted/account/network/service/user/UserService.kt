@@ -54,7 +54,7 @@ class UserService(environment: String, okHttpClient: OkHttpClient) : BaseNetwork
      * @return On success it will return the profile data, failure if something went wrong
      */
     fun getUserProfile(userId: String, userToken: TokenResponse): Call<ApiContainer<ProfileData>> {
-        return this.userContract.getUserProfile(userToken.serializedAccessToken, userId)
+        return this.userContract.getUserProfile(userToken.bearerAuthHeader(), userId)
     }
 
     /**
@@ -65,7 +65,7 @@ class UserService(environment: String, okHttpClient: OkHttpClient) : BaseNetwork
      * @return On success it will return if the user has access, failure if something went wrong or the user doesn't have access
      */
     fun getProductAccess(userToken: TokenResponse, userId: String, productId: String): Call<ApiContainer<ProductAccess>> {
-        return this.userContract.getProductAccess(userToken.serializedAccessToken, userId, productId)
+        return this.userContract.getProductAccess(userToken.bearerAuthHeader(), userId, productId)
     }
 
     /**
