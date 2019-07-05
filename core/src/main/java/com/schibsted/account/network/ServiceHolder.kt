@@ -25,4 +25,10 @@ object ServiceHolder {
     internal var clientService = ClientService(ClientConfiguration.get().environment, defaultClient)
 
     internal var passwordlessService = PasswordlessService(ClientConfiguration.get().environment, defaultClient)
+
+    internal fun reset() {
+        oAuthService = OAuthService(ClientConfiguration.get().environment, defaultClient)
+        clientService = ClientService(ClientConfiguration.get().environment, defaultClient)
+        passwordlessService = PasswordlessService(ClientConfiguration.get().environment, defaultClient)
+    }
 }
