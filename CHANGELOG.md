@@ -1,3 +1,7 @@
+## 1.7.2 (2019-07-09)
+- Bug fix: Add a bearer prefix to the Authorization header (#394)
+- Fix for Retreiving stored user credentials fails 100% time on Huawei P20 device (#392)
+
 ## v1.7.0 (2019-06-05)
 - Expose AuthInterceptor class. (#389)
 - Move internal request interceptor to its own class. (#355)
