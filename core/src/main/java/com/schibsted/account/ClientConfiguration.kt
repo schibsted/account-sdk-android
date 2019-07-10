@@ -9,6 +9,7 @@ import android.os.Parcelable
 import android.support.annotation.VisibleForTesting
 import com.schibsted.account.common.util.Logger
 import com.schibsted.account.network.Environment
+import com.schibsted.account.network.ServiceHolder
 import com.schibsted.account.util.ConfigurationUtils
 
 /**
@@ -61,6 +62,8 @@ data class ClientConfiguration(
         @JvmStatic
         fun set(clientConfiguration: ClientConfiguration) {
             currentConfig = clientConfiguration
+
+            ServiceHolder.reset()
         }
 
         @VisibleForTesting(otherwise = VisibleForTesting.PROTECTED)
