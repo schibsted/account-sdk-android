@@ -57,6 +57,8 @@ class PasswordFragment : FlowFragment<PasswordContract.Presenter>(), PasswordCon
         super.onViewCreated(view, savedInstanceState)
         addUserOptions(isUserAvailable)
 
+        info_bar_message.setCompoundDrawablesWithIntrinsicBounds(R.drawable.schacc_ic_info, 0, 0, 0)
+
         mobile_password_button_forgot.setOnClickListener {
             BaseLoginActivity.tracker?.eventEngagement(TrackingData.Engagement.CLICK, TrackingData.UIElement.FORGOT_PASSWORD, TrackingData.Screen.PASSWORD)
 
