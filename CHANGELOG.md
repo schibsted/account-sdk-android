@@ -1,3 +1,7 @@
+## 1.8.0 (2019-08-12)
+- Fix pre-Lollipop vector drawables crash, according to current appcompat libraries setup. (#399)
+- Added resetting of services to  ClientConfiguration set method. (#397)
+
 ## 1.7.2 (2019-07-09)
 - Bug fix: Add a bearer prefix to the Authorization header (#394)
 - Fix for Retreiving stored user credentials fails 100% time on Huawei P20 device (#392)
