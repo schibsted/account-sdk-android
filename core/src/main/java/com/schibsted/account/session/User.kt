@@ -67,6 +67,7 @@ class User(token: UserToken, val isPersistable: Boolean) : Parcelable {
         val token = this.token
         if (token != null) {
             AccountService.localBroadcastManager?.sendBroadcast(Intent(Events.ACTION_USER_LOGOUT).putExtra(Events.EXTRA_USER_ID, userId))
+            callback?.onSuccess(NoValue)
         } else {
             callback?.onError(ClientError(ClientError.ErrorType.INVALID_STATE, "User already logged out"))
         }
