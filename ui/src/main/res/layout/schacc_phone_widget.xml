@@ -26,6 +26,7 @@
         android:layout_marginRight="0dp"
         android:layout_marginTop="4dp"
         android:inputType="phone"
+        android:imeOptions="actionNext"
         android:maxLength="4"
         app:layout_constraintEnd_toStartOf="@+id/guideline"
         app:layout_constraintStart_toStartOf="parent"
