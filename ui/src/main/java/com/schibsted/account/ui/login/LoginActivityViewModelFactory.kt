@@ -6,19 +6,19 @@ package com.schibsted.account.ui.login
 import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProvider
 import com.schibsted.account.ui.AccountUi
+import com.schibsted.account.ui.InternalUiConfiguration
 import com.schibsted.account.ui.smartlock.SmartlockTask
-import java.net.URI
 
 class LoginActivityViewModelFactory(
     private val smartlockTask: SmartlockTask,
-    private val redirectUri: URI,
+    private val uiConfiguration: InternalUiConfiguration,
     private val params: AccountUi.Params
 ) : ViewModelProvider.Factory {
 
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         return modelClass.getConstructor(
                 smartlockTask::class.java,
-                redirectUri::class.java,
-                params::class.java).newInstance(smartlockTask, redirectUri, params)
+                uiConfiguration::class.java,
+                params::class.java).newInstance(smartlockTask, uiConfiguration, params)
     }
 }
