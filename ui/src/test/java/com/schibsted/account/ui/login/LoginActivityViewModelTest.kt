@@ -18,7 +18,6 @@ import io.kotlintest.matchers.instanceOf
 import io.kotlintest.shouldBe
 import io.kotlintest.specs.WordSpec
 import org.mockito.internal.verification.Times
-import java.net.URI
 
 class LoginActivityViewModelTest : WordSpec({
 
@@ -36,7 +35,7 @@ class LoginActivityViewModelTest : WordSpec({
 
     val smartlockTask: SmartlockTask = mock()
     val params: AccountUi.Params = AccountUi.Params()
-    val loginActivityViewModel = LoginActivityViewModel(smartlockTask, URI.create("http://redirectUri"), params)
+    val loginActivityViewModel = LoginActivityViewModel(smartlockTask, mock(), params)
 
     "view model initialization" should {
         "add a listener to the smartlock resolving state" {
