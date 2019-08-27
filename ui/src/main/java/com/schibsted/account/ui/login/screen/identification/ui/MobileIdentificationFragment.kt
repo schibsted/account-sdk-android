@@ -43,7 +43,7 @@ class MobileIdentificationFragment : AbstractIdentificationFragment() {
             Logger.info(TAG, "The phone number wasn't found")
         } else {
             if (TextUtils.isDigitsOnly(identifier)) {
-                inputFieldView.setPhoneNumber(uiConf.identifier!!)
+                inputFieldView.setPhoneNumber(identifier!!)
                 Logger.info(TAG, "The phone number has been prefilled")
             } else {
                 Logger.warn(TAG, "Failed to prefill the phone number - Wrong format")

@@ -32,9 +32,10 @@ import java.net.URI
 
 class LoginActivityViewModel(
     private val smartlockTask: SmartlockTask,
-    private val redirectUri: URI,
+    uiConfiguration: InternalUiConfiguration,
     private val params: AccountUi.Params
 ) : ViewModel(), FlowSelectionListener {
+    private val redirectUri = uiConfiguration.redirectUri
 
     val loginController = MutableLiveData<Event<LoginController>>()
     val signUpController = MutableLiveData<Event<SignUpController>>()
@@ -58,6 +59,7 @@ class LoginActivityViewModel(
         smartlockReceiver.isSmartlockResolving.addListener(false, true) {
             smartlockResolvingState.value = smartlockReceiver.isSmartlockResolving.value
         }
+        this.uiConfiguration.value = uiConfiguration
     }
 
     override fun onFlowSelected(flowType: FlowSelectionListener.FlowType, identifier: Identifier) {
