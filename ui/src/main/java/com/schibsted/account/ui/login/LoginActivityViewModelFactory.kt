@@ -8,7 +8,6 @@ import android.arch.lifecycle.ViewModelProvider
 import com.schibsted.account.ui.AccountUi
 import com.schibsted.account.ui.InternalUiConfiguration
 import com.schibsted.account.ui.smartlock.SmartlockTask
-import java.net.URI
 
 class LoginActivityViewModelFactory(
     private val smartlockTask: SmartlockTask,
