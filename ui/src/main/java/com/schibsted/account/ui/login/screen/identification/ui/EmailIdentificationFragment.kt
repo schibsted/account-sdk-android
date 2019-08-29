@@ -48,7 +48,10 @@ class EmailIdentificationFragment : AbstractIdentificationFragment(), Identifica
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         inputFieldView.inputField.requestFocus()
-        activity?.let { KeyboardController.showKeyboard(it) }
+        if (inputFieldView.inputField.text.isNullOrBlank()) {
+            Logger.info(TAG, "Showing keyboard")
+            activity?.let { KeyboardController.showKeyboard(it) }
+        }
     }
 
     public override fun prefillIdentifier(identifier: String?) {
