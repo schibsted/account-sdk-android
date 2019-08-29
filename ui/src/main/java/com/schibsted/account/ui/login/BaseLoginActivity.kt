@@ -303,6 +303,7 @@ abstract class BaseLoginActivity : AppCompatActivity(), NavigationListener {
 
     override fun onPause() {
         super.onPause()
+        keyboardController.closeKeyboard()
         keyboardController.unregister(navigationController.currentFragment)
         navigationController.unregister()
     }
