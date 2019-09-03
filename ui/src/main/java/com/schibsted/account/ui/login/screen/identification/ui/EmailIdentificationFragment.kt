@@ -49,7 +49,7 @@ class EmailIdentificationFragment : AbstractIdentificationFragment(), Identifica
         super.onViewCreated(view, savedInstanceState)
         inputFieldView.inputField.requestFocus()
         if (inputFieldView.inputField.text.isNullOrBlank()) {
-            Logger.info(TAG, "Showing keyboard")
+            Logger.debug(TAG, "Showing keyboard")
             activity?.let { KeyboardController.showKeyboard(it) }
         }
     }
