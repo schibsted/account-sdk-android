@@ -12,6 +12,7 @@ class SmartlockTask(private val smartlockMode: SmartlockMode) {
     sealed class SmartLockResult {
         data class Success(val requestCode: Int, val credentials: Parcelable) : SmartLockResult()
         data class Failure(val resultCode: Int) : SmartLockResult()
+        data class NoValue(val resultCode: Int) : SmartLockResult()
     }
 
     fun initializeSmartlock(isSmartlockRunning: Boolean, isSmartlockAvailable: Boolean = SmartlockController.isSmartlockAvailable()): ObservableField<Boolean> {
@@ -36,10 +37,18 @@ class SmartlockTask(private val smartlockMode: SmartlockMode) {
                         }
                     }
                 }
-                return ObservableField(SmartLockResult.Failure(resultCode))
-            } ?: return ObservableField(SmartLockResult.Failure(resultCode))
+                return nonSuccessResult(resultCode)
+            } ?: return nonSuccessResult(resultCode)
         } else {
-            return ObservableField(SmartLockResult.Failure(resultCode))
+            return nonSuccessResult(resultCode)
+        }
+    }
+
+    private fun nonSuccessResult(resultCode: Int): ObservableField<SmartLockResult> {
+        return if (smartlockMode == SmartlockMode.FORCED) {
+            ObservableField(SmartLockResult.Failure(resultCode))
+        } else {
+            ObservableField(SmartLockResult.NoValue(resultCode))
         }
     }
 }
