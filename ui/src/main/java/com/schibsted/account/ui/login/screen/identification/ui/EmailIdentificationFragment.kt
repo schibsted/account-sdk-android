@@ -14,6 +14,7 @@ import android.view.inputmethod.EditorInfo
 import com.schibsted.account.common.util.Logger
 import com.schibsted.account.network.response.ClientInfo
 import com.schibsted.account.ui.InternalUiConfiguration
+import com.schibsted.account.ui.KeyboardController
 import com.schibsted.account.ui.R
 import com.schibsted.account.ui.login.screen.identification.IdentificationContract
 import com.schibsted.account.ui.ui.component.SingleFieldView
@@ -44,13 +45,22 @@ class EmailIdentificationFragment : AbstractIdentificationFragment(), Identifica
         return view
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        inputFieldView.inputField.requestFocus()
+        if (inputFieldView.inputField.text.isNullOrBlank()) {
+            Logger.debug(TAG, "Showing keyboard")
+            activity?.let { KeyboardController.showKeyboard(it) }
+        }
+    }
+
     public override fun prefillIdentifier(identifier: String?) {
         Logger.info(TAG, "Attempting to prefill  email")
         if (identifier.isNullOrEmpty()) {
             Logger.info(TAG, "email wasn't found")
         } else {
             if (EmailValidationRule.isValid(identifier)) {
-                inputFieldView.inputField.setText(uiConf.identifier)
+                inputFieldView.inputField.setText(identifier)
                 Logger.info(TAG, "email has been prefilled")
             } else {
                 Logger.warn(TAG, "Failed to prefill the email - Wrong format")

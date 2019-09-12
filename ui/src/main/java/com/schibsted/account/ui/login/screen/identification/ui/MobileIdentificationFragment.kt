@@ -14,6 +14,7 @@ import android.view.inputmethod.EditorInfo
 import com.schibsted.account.common.util.Logger
 import com.schibsted.account.network.response.ClientInfo
 import com.schibsted.account.ui.InternalUiConfiguration
+import com.schibsted.account.ui.KeyboardController
 import com.schibsted.account.ui.ui.component.PhoneInputView
 
 /**
@@ -37,13 +38,19 @@ class MobileIdentificationFragment : AbstractIdentificationFragment() {
         return view
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        inputFieldView.mobileNumberView.requestFocus()
+        activity?.let { KeyboardController.showKeyboard(it) }
+    }
+
     override fun prefillIdentifier(identifier: String?) {
         Logger.info(TAG, "Attempting to prefill the phone number")
         if (identifier.isNullOrEmpty()) {
             Logger.info(TAG, "The phone number wasn't found")
         } else {
             if (TextUtils.isDigitsOnly(identifier)) {
-                inputFieldView.setPhoneNumber(uiConf.identifier!!)
+                inputFieldView.setPhoneNumber(identifier!!)
                 Logger.info(TAG, "The phone number has been prefilled")
             } else {
                 Logger.warn(TAG, "Failed to prefill the phone number - Wrong format")

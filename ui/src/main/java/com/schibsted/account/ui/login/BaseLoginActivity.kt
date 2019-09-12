@@ -131,7 +131,7 @@ abstract class BaseLoginActivity : AppCompatActivity(), NavigationListener {
         fragmentProvider = FragmentProvider(uiConfiguration, navigationController)
 
         val smartlockTask = SmartlockTask(params.smartLockMode)
-        viewModel = ViewModelProviders.of(this, LoginActivityViewModelFactory(smartlockTask, uiConfiguration.redirectUri, params)).get(LoginActivityViewModel::class.java)
+        viewModel = ViewModelProviders.of(this, LoginActivityViewModelFactory(smartlockTask, uiConfiguration, params)).get(LoginActivityViewModel::class.java)
 
         viewModel.smartlockCredentials.value = intent.getParcelableExtra(KEY_SMARTLOCK_CREDENTIALS)
         initializePropertiesFromBundle(savedInstanceState)
@@ -171,6 +171,9 @@ abstract class BaseLoginActivity : AppCompatActivity(), NavigationListener {
                     } else {
                         smartlockController?.provideHint(result.credentials)
                         fragmentProvider = FragmentProvider(uiConfiguration, navigationController)
+                        navigationController.currentFragment
+                                ?.let { it as? EmailIdentificationFragment }
+                                ?.prefillIdentifier(uiConfiguration.identifier)
                     }
                 }
                 is SmartlockTask.SmartLockResult.Failure -> {
@@ -180,6 +183,10 @@ abstract class BaseLoginActivity : AppCompatActivity(), NavigationListener {
                         progressBar.visibility = View.GONE
                         finish()
                     }
+                }
+                is SmartlockTask.SmartLockResult.NoValue -> {
+                    Logger.info(TAG, "Smartlock login failed or was cancelled - smartlockController mode ${params.smartLockMode.name}")
+                    progressBar.visibility = View.GONE
                 }
             }
         })
@@ -300,6 +307,7 @@ abstract class BaseLoginActivity : AppCompatActivity(), NavigationListener {
 
     override fun onPause() {
         super.onPause()
+        keyboardController.closeKeyboard()
         keyboardController.unregister(navigationController.currentFragment)
         navigationController.unregister()
     }
