@@ -28,7 +28,7 @@
 
         <ImageView
             android:id="@+id/schibsted_logo"
-            app:srcCompat="@drawable/schacc_schibsted_logo"
+            app:srcCompat="@drawable/schacc_schibsted_logo_soft_black"
             android:contentDescription="@null"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
