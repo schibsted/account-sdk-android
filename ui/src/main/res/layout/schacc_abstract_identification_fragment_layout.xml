@@ -29,11 +29,11 @@
             android:maxHeight="@dimen/schacc_logo_dimension"
             android:maxWidth="@dimen/schacc_logo_dimension"
             android:adjustViewBounds="true"
-            tools:src="@drawable/schacc_schibsted_logo" />
+            tools:src="@drawable/schacc_schibsted_logo_soft_black" />
 
         <ImageView
             android:id="@+id/schibsted_logo"
-            app:srcCompat="@drawable/schacc_schibsted_logo"
+            app:srcCompat="@drawable/schacc_schibsted_logo_soft_black"
             android:contentDescription="@null"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
