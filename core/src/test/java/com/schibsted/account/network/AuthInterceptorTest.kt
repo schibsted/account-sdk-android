@@ -288,8 +288,6 @@ class AuthInterceptorTest : WordSpec() {
         }
 
         "protocolCheck" should {
-            val icpt = AuthInterceptor(defaultMockUser, listOf(), allowNonHttps = false, allowNonWhitelistedDomains = true)
-
             "not throw an exception if url is using the HTTPS protocol" {
                 val req = Request.Builder().url("https://example.com").build()
                 protocolCheck(false).validate(req) shouldBe AuthCheck.AuthCheckResult.Passed

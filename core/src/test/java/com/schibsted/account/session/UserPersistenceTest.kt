@@ -26,7 +26,7 @@ import com.schibsted.account.test.TestUtil
 import com.schibsted.account.util.DateUtils
 import io.kotlintest.forAll
 import io.kotlintest.matchers.haveSubstring
-import io.kotlintest.matchers.should
+import io.kotlintest.should
 import io.kotlintest.shouldBe
 import io.kotlintest.specs.StringSpec
 import java.util.Date
