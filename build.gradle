@@ -56,6 +56,7 @@ ext {
             mockitoAndroid  : "2.13.0",
             multidex        : "1.0.3",
             retrofit        : "2.3.0",
+            slf4jSimple     : "1.7.26",
             smartlock       : "15.0.1",
             support         : "27.1.1"
     ]
