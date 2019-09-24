@@ -2,6 +2,7 @@ package com.schibsted.account.ui.login
 
 import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.anyOrNull
+import com.nhaarman.mockito_kotlin.doReturn
 import com.nhaarman.mockito_kotlin.eq
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.never
@@ -24,46 +25,65 @@ import com.schibsted.account.ui.ui.InputField
 import io.kotlintest.specs.WordSpec
 
 class IdentificationPresenterTest : WordSpec() {
+    private fun viewMock(isActive: Boolean = true): IdentificationContract.View {
+        return mock { on { it.isActive } doReturn isActive }
+    }
+
+    private fun identitificationPresenter(
+            view: IdentificationContract.View = viewMock(),
+            flowSelectionListener: FlowSelectionListener? = null
+    ): IdentificationPresenter {
+        val presenter = IdentificationPresenter(view, null, flowSelectionListener)
+        presenter.id = mock()
+        return presenter
+    }
+
+    private fun setAccountStatusResponse(presenter: IdentificationPresenter, isAvailable: Boolean): Unit {
+        val result: AccountStatusResponse = mock { on { it.isAvailable } doReturn isAvailable }
+        whenever(presenter.id.getAccountStatus(any())).thenAnswer {
+            (it.getArgument(0) as ResultCallback<AccountStatusResponse>).onSuccess(result)
+        }
+    }
 
     init {
         Logger.loggingEnabled = false
-
         "initialization" should {
-            val view: IdentificationContract.View = mock()
-            val presenter = IdentificationPresenter(view, mock(), mock())
-            " assign the presenter to the view" {
+            "assign the presenter to the view" {
+                val view = viewMock()
+                val presenter = identitificationPresenter(view)
                 verify(view).setPresenter(presenter)
             }
         }
 
         "verify input" should {
-            val view: IdentificationContract.View = mock()
-            val presenter = IdentificationPresenter(view, mock(), mock())
-
             "do nothing is the view isn't active" {
-                whenever(view.isActive).thenReturn(false)
+                val view = viewMock(false)
+                val presenter = identitificationPresenter(view)
                 presenter.verifyInput(mock(), mock(), false, "message")
                 verify(view, never())
             }
 
             "hide previously shown errors" {
-                whenever(view.isActive).thenReturn(true)
+                val view = viewMock()
+                val presenter = identitificationPresenter(view)
                 presenter.verifyInput(mock(), mock(), false, "message")
                 verify(view).hideError(any())
             }
             "show error if the input isn't valid" {
+                val view = viewMock()
+                val presenter = identitificationPresenter(view)
                 val input: InputField = mock()
                 whenever(input.isInputValid).thenReturn(false)
-                whenever(view.isActive).thenReturn(true)
                 presenter.verifyInput(input, mock(), false, "message")
                 verify(view).showError(any())
             }
 
             "Track error if the input isn't valid" {
+                val view = viewMock()
+                val presenter = identitificationPresenter(view)
                 val input: InputField = mock()
                 BaseLoginActivity.tracker = mock()
                 whenever(input.isInputValid).thenReturn(false)
-                whenever(view.isActive).thenReturn(true)
 
                 presenter.verifyInput(input, Identifier.IdentifierType.SMS, false, "message")
                 verify(BaseLoginActivity.tracker)?.eventError(TrackingData.UIError.InvalidPhone, TrackingData.Screen.IDENTIFICATION)
@@ -73,9 +93,10 @@ class IdentificationPresenterTest : WordSpec() {
             }
 
             "show progress if the input is valid" {
+                val view = viewMock()
+                val presenter = identitificationPresenter(view)
                 ClientConfiguration.set(ClientConfiguration("https://example.com", "id", "secret"))
                 val input: InputField = mock()
-                whenever(view.isActive).thenReturn(true)
                 whenever(input.isInputValid).thenReturn(true)
                 whenever(input.input).thenReturn("test@test.com")
                 presenter.verifyInput(input, Identifier.IdentifierType.SMS, false, "message")
@@ -84,81 +105,71 @@ class IdentificationPresenterTest : WordSpec() {
         }
 
         "success to get account status" should {
-            val view: IdentificationContract.View = mock()
-            val flowListener: FlowSelectionListener = mock()
-            val presenter = IdentificationPresenter(view, null, flowListener)
-            presenter.id = mock()
-            val result: AccountStatusResponse = mock()
             BaseLoginActivity.tracker = mock()
-            whenever(presenter.id.getAccountStatus(any())).thenAnswer {
-                (it.getArgument(0) as ResultCallback<AccountStatusResponse>).onSuccess(result)
-            }
 
             "set tracking intent to CREATE if user is available" {
-                whenever(result.isAvailable).thenReturn(true)
+                val presenter = identitificationPresenter()
+                setAccountStatusResponse(presenter, true)
                 presenter.getAccountStatus(mock(), false, "sdf")
                 verify(BaseLoginActivity.tracker)?.intent = TrackingData.UserIntent.CREATE
             }
 
             "set tracking intent to LOGIN if user is not available" {
-                whenever(result.isAvailable).thenReturn(false)
+                val presenter = identitificationPresenter()
+                setAccountStatusResponse(presenter, false)
                 presenter.getAccountStatus(mock(), false, "sdf")
                 verify(BaseLoginActivity.tracker)?.intent = TrackingData.UserIntent.LOGIN
             }
 
-            "show  error if user is available is signup not allowed" {
-                whenever(view.isActive).thenReturn(true)
-                whenever(result.isAvailable).thenReturn(true)
+            "show error if user is available is signup not allowed" {
+                val view = viewMock()
+                val presenter = identitificationPresenter(view)
+                setAccountStatusResponse(presenter, true)
                 presenter.getAccountStatus(mock(), false, "sdf")
                 verify(view).showErrorDialog(any(), anyOrNull())
                 verify(view).hideProgress()
             }
 
             "clear field" {
-                whenever(result.isAvailable).thenReturn(true)
+                val presenter = identitificationPresenter()
+                setAccountStatusResponse(presenter, true)
                 presenter.getAccountStatus(mock(), true, "sdf")
             }
 
             "call the flow listener with right values" {
-                whenever(result.isAvailable).thenReturn(true)
+                val flowListener: FlowSelectionListener = mock()
+                val presenter = identitificationPresenter(flowSelectionListener = flowListener)
+                setAccountStatusResponse(presenter, true)
                 presenter.getAccountStatus(mock(), true, "sdf")
                 verify(flowListener).onFlowSelected(eq(FlowSelectionListener.FlowType.SIGN_UP), any())
 
-                whenever(result.isAvailable).thenReturn(false)
+                setAccountStatusResponse(presenter, false)
                 presenter.getAccountStatus(mock(), true, "sdf")
                 verify(flowListener).onFlowSelected(eq(FlowSelectionListener.FlowType.LOGIN), any())
             }
-            "clear field when providing identifer is successfull" {
+            "clear field when providing identifer is successful" {
+                val view = viewMock()
                 val provider: InputProvider<Identifier>? = mock()
-                val pres = IdentificationPresenter(view, provider, flowListener)
-                whenever(result.isAvailable).thenReturn(true)
-                whenever(view.isActive).thenReturn(true)
-                pres.id = mock()
+                val flowListener: FlowSelectionListener = mock()
+                val presenter = IdentificationPresenter(view, provider, flowListener)
+                presenter.id = mock()
+                setAccountStatusResponse(presenter, true)
 
-                whenever(pres.id.getAccountStatus(any())).thenAnswer {
-                    (it.getArgument(0) as ResultCallback<AccountStatusResponse>).onSuccess(result)
-                }
-                whenever(provider!!.provide(any(), any())).thenAnswer {
-                    (it.getArgument(1) as ResultCallback<NoValue>).onSuccess(mock())
-                }
-
-                pres.getAccountStatus(mock(), true, "sdf")
+                presenter.getAccountStatus(mock(), true, "sdf")
             }
 
             "show error track it and hide progress" {
+                val view = viewMock()
                 val provider: InputProvider<Identifier>? = mock()
-                val pres = IdentificationPresenter(view, provider, flowListener)
-                pres.id = mock()
-                whenever(view.isActive).thenReturn(true)
+                val flowListener: FlowSelectionListener = mock()
+                val presenter = IdentificationPresenter(view, provider, flowListener)
+                presenter.id = mock()
                 var error = ClientError(ClientError.ErrorType.NETWORK_ERROR, "")
-                whenever(result.isAvailable).thenReturn(true)
-                whenever(pres.id.getAccountStatus(any())).thenAnswer {
-                    (it.getArgument(0) as ResultCallback<AccountStatusResponse>).onSuccess(result)
-                }
+                setAccountStatusResponse(presenter, true)
                 whenever(provider!!.provide(any(), any())).thenAnswer {
                     (it.getArgument(1) as ResultCallback<NoValue>).onError(error)
                 }
-                pres.getAccountStatus(mock(), true, "sdf")
+                presenter.getAccountStatus(mock(), true, "sdf")
 
                 verify(view).showErrorDialog(error)
 
@@ -166,7 +177,7 @@ class IdentificationPresenterTest : WordSpec() {
                     error = ClientError(ClientError.ErrorType.INVALID_EMAIL, "")
                     (it.getArgument(1) as ResultCallback<NoValue>).onError(error)
                 }
-                pres.getAccountStatus(mock(), true, "sdf")
+                presenter.getAccountStatus(mock(), true, "sdf")
 
                 verify(view).showError(any())
                 verify(view, times(2)).hideProgress()
@@ -175,14 +186,10 @@ class IdentificationPresenterTest : WordSpec() {
         }
 
         "fail to get account status" should {
-            val view: IdentificationContract.View = mock()
-            val flowListener: FlowSelectionListener = mock()
-            val presenter = IdentificationPresenter(view, null, flowListener)
-            presenter.id = mock()
-            BaseLoginActivity.tracker = mock()
-            whenever(view.isActive).thenReturn(true)
-
             "show error dialog if it's a server error" {
+                val view = viewMock()
+                val presenter = identitificationPresenter(view)
+
                 val error = ClientError(ClientError.ErrorType.NETWORK_ERROR, "")
                 whenever(presenter.id.getAccountStatus(any())).thenAnswer {
                     (it.getArgument(0) as ResultCallback<AccountStatusResponse>).onError(error)
@@ -193,6 +200,9 @@ class IdentificationPresenterTest : WordSpec() {
             }
 
             "show error dialog if it's a signup not allowed error" {
+                val view = viewMock()
+                val presenter = identitificationPresenter(view)
+
                 val error = ClientError(ClientError.ErrorType.SIGNUP_FORBIDDEN, "")
                 whenever(presenter.id.getAccountStatus(any())).thenAnswer {
                     (it.getArgument(0) as ResultCallback<AccountStatusResponse>).onError(error)
@@ -203,6 +213,9 @@ class IdentificationPresenterTest : WordSpec() {
             }
 
             "show error field if it's a client error and signup allowed" {
+                val view = viewMock()
+                val presenter = identitificationPresenter(view)
+
                 val error = ClientError(ClientError.ErrorType.INVALID_EMAIL, "")
                 whenever(presenter.id.getAccountStatus(any())).thenAnswer {
                     (it.getArgument(0) as ResultCallback<AccountStatusResponse>).onError(error)
