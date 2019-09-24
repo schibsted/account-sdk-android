@@ -65,9 +65,9 @@ class LoginControllerTest : WordSpec({
     val mockOAuthService: OAuthService = mock {
         on { tokenFromPassword(any(), any(), any(), any(), any()) }.thenReturn(mockCall)
     }
+    ClientConfiguration.set(ClientConfiguration("https://example.com", "id", "secret"))
     ServiceHolder.oAuthService = mockOAuthService
 
-    ClientConfiguration.set(ClientConfiguration("https://example.com", "id", "secret"))
     Logger.loggingEnabled = false
 
     "calling perform" should {
