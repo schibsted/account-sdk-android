@@ -45,7 +45,7 @@ dependencies {
     multidexImplementation "com.android.support:multidex:${libs.multidex}"
 
     testImplementation "org.assertj:assertj-core:${libs.assertJ}"
-    testImplementation "com.nhaarman:mockito-kotlin:${libs.mockitoKotlin}"
+    testImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:${libs.mockitoKotlin2}"
     testImplementation "io.kotlintest:kotlintest-runner-junit5:${libs.kotlintest}"
     testImplementation "junit:junit:${libs.jUnit}"
     testImplementation "org.jetbrains.kotlin:kotlin-test-junit:${libs.kotlin}"

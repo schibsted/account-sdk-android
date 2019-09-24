@@ -7,9 +7,9 @@ import android.content.pm.ApplicationInfo
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.test.mock.MockContext
-import com.nhaarman.mockito_kotlin.any
-import com.nhaarman.mockito_kotlin.doReturn
-import com.nhaarman.mockito_kotlin.mock
+import com.nhaarman.mockitokotlin2.any
+import com.nhaarman.mockitokotlin2.doReturn
+import com.nhaarman.mockitokotlin2.mock
 import io.kotlintest.matchers.beOfType
 import io.kotlintest.should
 import io.kotlintest.shouldBe
@@ -22,12 +22,12 @@ class UiConfigTest : WordSpec({
         "resolve it's fields from the manifest" {
             val locale = Locale("fr", "FR")
             val mockBundle: Bundle = mock {
-                on { getString(any()) } doReturn listOf(
+                on { getString(any()) }.doReturn(
                         "fr_FR",
                         "my disabled message"
                 )
 
-                on { get(any()) }.thenReturn(
+                on { get(any()) }.doReturn(
                         false,
                         true,
                         555

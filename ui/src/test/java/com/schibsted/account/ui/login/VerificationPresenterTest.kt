@@ -1,11 +1,11 @@
 package com.schibsted.account.ui.login
 
-import com.nhaarman.mockito_kotlin.any
-import com.nhaarman.mockito_kotlin.doReturn
-import com.nhaarman.mockito_kotlin.mock
-import com.nhaarman.mockito_kotlin.times
-import com.nhaarman.mockito_kotlin.verify
-import com.nhaarman.mockito_kotlin.whenever
+import com.nhaarman.mockitokotlin2.any
+import com.nhaarman.mockitokotlin2.doReturn
+import com.nhaarman.mockitokotlin2.mock
+import com.nhaarman.mockitokotlin2.times
+import com.nhaarman.mockitokotlin2.verify
+import com.nhaarman.mockitokotlin2.whenever
 import com.schibsted.account.ClientConfiguration
 import com.schibsted.account.common.tracking.TrackingData
 import com.schibsted.account.common.util.Logger
