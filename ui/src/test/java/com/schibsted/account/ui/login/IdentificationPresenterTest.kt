@@ -30,15 +30,15 @@ class IdentificationPresenterTest : WordSpec() {
     }
 
     private fun identitificationPresenter(
-            view: IdentificationContract.View = viewMock(),
-            flowSelectionListener: FlowSelectionListener? = null
+        view: IdentificationContract.View = viewMock(),
+        flowSelectionListener: FlowSelectionListener? = null
     ): IdentificationPresenter {
         val presenter = IdentificationPresenter(view, null, flowSelectionListener)
         presenter.id = mock()
         return presenter
     }
 
-    private fun setAccountStatusResponse(presenter: IdentificationPresenter, isAvailable: Boolean): Unit {
+    private fun setAccountStatusResponse(presenter: IdentificationPresenter, isAvailable: Boolean) {
         val result: AccountStatusResponse = mock { on { it.isAvailable } doReturn isAvailable }
         whenever(presenter.id.getAccountStatus(any())).thenAnswer {
             (it.getArgument(0) as ResultCallback<AccountStatusResponse>).onSuccess(result)

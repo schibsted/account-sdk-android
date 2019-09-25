@@ -28,9 +28,10 @@ class PasswordPresenterTest : WordSpec() {
         return mock { on { it.isActive } doReturn isActive }
     }
 
-    private fun passwordPresenter(view: PasswordContract.View = viewMock(),
-                                  provider: InputProvider<Credentials> = mock())
-            : PasswordPresenter {
+    private fun passwordPresenter(
+        view: PasswordContract.View = viewMock(),
+        provider: InputProvider<Credentials> = mock()
+    ): PasswordPresenter {
         return PasswordPresenter(view, provider, null)
     }
 

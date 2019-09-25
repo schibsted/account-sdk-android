@@ -27,8 +27,8 @@ class RequiredFieldsPresenterTest : WordSpec() {
     }
 
     private fun requiredFieldsPresenter(
-            view: RequiredFieldsContract.View = viewMock(),
-            provider: InputProvider<RequiredFields> = mock()
+        view: RequiredFieldsContract.View = viewMock(),
+        provider: InputProvider<RequiredFields> = mock()
     ): RequiredFieldsPresenter {
         return RequiredFieldsPresenter(view, provider)
     }

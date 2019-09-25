@@ -25,8 +25,9 @@ class TermsPresenterTest : WordSpec() {
     }
 
     private fun termsPresenter(
-            view: TermsContract.View = viewMock(),
-            provider: InputProvider<Agreements> = mock()): TermsPresenter {
+        view: TermsContract.View = viewMock(),
+        provider: InputProvider<Agreements> = mock()
+    ): TermsPresenter {
         return TermsPresenter(view, provider)
     }
 

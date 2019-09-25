@@ -26,8 +26,8 @@ class VerificationPresenterTest : WordSpec() {
     }
 
     private fun verificationPresenter(
-            view: VerificationContract.View = viewMock(),
-            provider: InputProvider<VerificationCode> = mock()
+        view: VerificationContract.View = viewMock(),
+        provider: InputProvider<VerificationCode> = mock()
     ): VerificationPresenter {
         return VerificationPresenter(view, provider)
     }
