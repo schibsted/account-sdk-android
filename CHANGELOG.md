@@ -1,3 +1,11 @@
+## v1.9.0 (2019-09-30)
+- New Schibsted logo. (#409)
+- Ignore SmartLock failure to avoid restarting login activity. (#408)
+- Focus on the input field and pop up keyboard when opening login activity (#407)
+- Fix #393: Prefill identifier from SmartLock when no stored credentials. (#404)
+- Make the phone prefix input field show 'next' option in the keyboard. (#383)
+- Added missing callback invocation on success. (#403)
+
 ## 1.8.0 (2019-08-12)
 - Fix pre-Lollipop vector drawables crash, according to current appcompat libraries setup. (#399)
 - Added resetting of services to  ClientConfiguration set method. (#397)
