@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (c) 2018 Schibsted Products & Technology AS. Licensed under the terms of the MIT license. See LICENSE in the project root.
+  -->
+
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/identification_container"
+    android:windowBackground="@color/schacc_grey"
+    android:layout_height="wrap_content"
+    android:layout_width="match_parent">
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/logos_container"
+        android:padding="@dimen/schacc_medium_spacing"
+        android:paddingBottom="@dimen/schacc_extra_large_spacing"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/client_logo"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:contentDescription="@null"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <ImageView
+            android:id="@+id/schibsted_logo"
+            app:srcCompat="@drawable/schacc_schibsted_logo_soft_black"
+            android:contentDescription="@null"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="@dimen/schacc_small_spacing"
+            android:layout_marginRight="@dimen/schacc_small_spacing"
+            app:layout_constraintTop_toTopOf="parent" />
+    </android.support.constraint.ConstraintLayout>
+
+    <TextView
+        android:id="@+id/schacc_teaser_text"
+        style="@style/schacc_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/schacc_medium_spacing"
+        android:layout_marginLeft="@dimen/schacc_medium_spacing"
+        android:layout_marginRight="@dimen/schacc_medium_spacing"
+        android:layout_marginStart="@dimen/schacc_medium_spacing"
+        android:ellipsize="none"
+        android:maxLines="3"
+        android:paddingBottom="20dp"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="@+id/logos_container"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/logos_container"
+        tools:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce malesuada tristique dolor, vel lacinia justo semper eget. Curabitur non urna non felis tincidunt faucibus at non dui."
+        tools:visibility="visible" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/schacc_rounded_container"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/schacc_teaser_text"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <android.support.constraint.ConstraintLayout
+            style="@style/schacc_container"
+            android:paddingTop="@dimen/schacc_extra_large_spacing">
+
+            <FrameLayout
+                android:id="@+id/onestep_identification_input_view"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <com.schibsted.account.ui.ui.component.PasswordView
+                android:id="@+id/onestep_password_input_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginTop="@dimen/schacc_medium_spacing"
+                app:errorText="@string/schacc_password_error_length"
+                app:imeOptions="done"
+                app:layout_constraintTop_toBottomOf="@+id/onestep_identification_input_view"/>
+
+            <TextView
+                android:id="@+id/onestep_login_forgot_password"
+                style="@style/schacc_text.link"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/schacc_small_spacing"
+                android:text="@string/schacc_password_forgot_password"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/onestep_password_input_view" />
+
+            <com.schibsted.account.ui.ui.component.CheckBoxView
+                android:id="@+id/onestep_login_remember_me"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/schacc_medium_spacing"
+                android:contentDescription="@string/schacc_remember_me"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/onestep_login_forgot_password" />
+
+            <TextView
+                android:id="@+id/onestep_login_remember_me_info"
+                style="@style/schacc_text.link"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/schacc_remember_me_link_spacing"
+                android:layout_marginLeft="@dimen/schacc_remember_me_link_spacing"
+                android:layout_marginTop="@dimen/schacc_small_spacing"
+                android:text="@string/schacc_remember_me_info"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/onestep_login_remember_me" />
+
+            <com.schibsted.account.ui.ui.component.LoadingButton
+                android:id="@+id/onestep_identification_button_continue"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:text="@string/schacc_next_step"
+                app:layout_constraintTop_toBottomOf="@+id/onestep_login_remember_me_info"
+                android:layout_marginBottom="@dimen/schacc_medium_spacing"
+                android:layout_marginTop="@dimen/schacc_medium_spacing" />
+
+            <Button
+                android:id="@+id/onestep_identification_button_signup"
+                style="@style/schacc_widget.button.secondary"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/schacc_password_sign_up_button_label"
+                tools:text="Create account"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/onestep_identification_button_continue"
+                app:layout_constraintBottom_toBottomOf="parent" />
+        </android.support.constraint.ConstraintLayout>
+    </FrameLayout>
+</android.support.constraint.ConstraintLayout>

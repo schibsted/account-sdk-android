@@ -21,6 +21,7 @@ import com.schibsted.account.ui.login.screen.LoginScreen
 import com.schibsted.account.ui.login.screen.identification.ui.AbstractIdentificationFragment
 import com.schibsted.account.ui.login.screen.inbox.InboxFragment
 import com.schibsted.account.ui.login.screen.information.RequiredFieldsFragment
+import com.schibsted.account.ui.login.screen.onesteplogin.OneStepLoginFragment
 import com.schibsted.account.ui.login.screen.password.PasswordFragment
 import com.schibsted.account.ui.login.screen.term.TermsFragment
 import com.schibsted.account.ui.login.screen.verification.VerificationFragment
@@ -113,11 +114,15 @@ class Navigation(
             val transaction = fragmentManager.beginTransaction()
             currentFragment = fragment
             currentFragment?.registerNavigationController(navigationListener)
-            transaction
-                    .setCustomAnimations(R.anim.schacc_right_in, R.anim.schacc_left_out, R.anim.schacc_left_in, R.anim.schacc_right_out)
-                    .replace(R.id.fragment_container, currentFragment, loginScreen.value)
-            transaction.addToBackStack(loginScreen.value)
-            transaction.commitAllowingStateLoss()
+
+            currentFragment?.let {
+                transaction
+                        .setCustomAnimations(R.anim.schacc_right_in, R.anim.schacc_left_out, R.anim.schacc_left_in, R.anim.schacc_right_out)
+                        .replace(R.id.fragment_container, it, loginScreen.value)
+                transaction.addToBackStack(loginScreen.value)
+                transaction.commitAllowingStateLoss()
+            }
+
         }
     }
 
@@ -179,8 +184,14 @@ class Navigation(
     fun <F : BaseFragment> navigateToFragment(fragment: F) {
         when (fragment) {
             is AbstractIdentificationFragment -> {
+                // How to introduce the single flow screen?
                 if (fragment.tag != LoginScreen.IDENTIFICATION_SCREEN.value) {
                     navigateTo(fragment, LoginScreen.IDENTIFICATION_SCREEN)
+                }
+            }
+            is OneStepLoginFragment -> {
+                if (fragment.tag != LoginScreen.ONE_STEP_LOGIN_SCREEN.value) {
+                    navigateTo(fragment, LoginScreen.ONE_STEP_LOGIN_SCREEN)
                 }
             }
             is PasswordFragment ->

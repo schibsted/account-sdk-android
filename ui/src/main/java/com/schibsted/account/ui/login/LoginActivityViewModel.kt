@@ -14,6 +14,7 @@ import com.schibsted.account.engine.controller.LoginController
 import com.schibsted.account.engine.controller.SignUpController
 import com.schibsted.account.engine.input.Credentials
 import com.schibsted.account.engine.input.Identifier
+import com.schibsted.account.engine.integration.InputProvider
 import com.schibsted.account.engine.integration.ResultCallback
 import com.schibsted.account.engine.integration.contract.LoginContract
 import com.schibsted.account.engine.integration.contract.SignUpContract
@@ -50,6 +51,7 @@ class LoginActivityViewModel(
     val uiConfiguration = MutableLiveData<InternalUiConfiguration>()
 
     var smartlockCredentials = MutableLiveData<Credentials>()
+    var credentialsProvider = MutableLiveData<InputProvider<Credentials>>()
     val smartlockReceiver: SmartlockReceiver = SmartlockReceiver(this)
     val startSmartLockFlow = MutableLiveData<Boolean>()
     val smartlockResolvingState = MutableLiveData<Boolean>()
@@ -66,7 +68,7 @@ class LoginActivityViewModel(
         userIdentifier = identifier
         userFlowType = flowType
         when (userFlowType) {
-            FlowSelectionListener.FlowType.LOGIN -> {
+            FlowSelectionListener.FlowType.LOGIN, FlowSelectionListener.FlowType.ONE_STEP_LOGIN-> {
                 loginController.value = Event(LoginController(true, params.scopes))
             }
             FlowSelectionListener.FlowType.SIGN_UP -> {

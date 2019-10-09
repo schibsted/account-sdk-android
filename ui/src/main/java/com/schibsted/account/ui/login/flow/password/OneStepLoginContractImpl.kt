@@ -1,0 +1,42 @@
+/*
+ * Copyright (c) 2018 Schibsted Products & Technology AS. Licensed under the terms of the MIT license. See LICENSE in the project root.
+ */
+
+package com.schibsted.account.ui.login.flow.password
+
+import com.schibsted.account.common.tracking.TrackingData
+import com.schibsted.account.engine.input.Agreements
+import com.schibsted.account.engine.input.Credentials
+import com.schibsted.account.engine.input.Identifier
+import com.schibsted.account.engine.input.RequiredFields
+import com.schibsted.account.engine.integration.CallbackProvider
+import com.schibsted.account.engine.integration.InputProvider
+import com.schibsted.account.engine.integration.ResultCallback
+import com.schibsted.account.engine.integration.contract.LoginContract
+import com.schibsted.account.model.LoginResult
+import com.schibsted.account.model.NoValue
+import com.schibsted.account.model.error.ClientError
+import com.schibsted.account.network.response.AgreementLinksResponse
+import com.schibsted.account.ui.login.BaseLoginActivity
+import com.schibsted.account.ui.login.LoginActivityViewModel
+import com.schibsted.account.ui.ui.FlowFragment
+
+class OneStepLoginContractImpl(private val loginActivity: BaseLoginActivity, private val loginActivityViewModel: LoginActivityViewModel) : LoginContractImpl(loginActivity, loginActivityViewModel) {
+    override fun onCredentialsRequested(provider: InputProvider<Credentials>) {
+        var credentials = loginActivityViewModel.smartlockCredentials.value
+        if (credentials != null) {
+            provider.provide(credentials, object : ResultCallback<NoValue> {
+                override fun onSuccess(result: NoValue) {
+                }
+
+                override fun onError(error: ClientError) {
+                    loginActivity.smartlockController?.deleteCredential()
+                    loginActivityViewModel.smartlockReceiver.onFailure()
+                }
+            })
+        } else {
+
+            loginActivityViewModel.credentialsProvider.value =  provider
+        }
+    }
+}

@@ -109,7 +109,7 @@ public class MainActivity extends AppCompatActivity {
             button.setEnabled(false);
             button.setText(R.string.example_app_loading_info);
 
-            final Intent intent = AccountUi.getCallingIntent(getApplicationContext(), AccountUi.FlowType.PASSWORD,
+            final Intent intent = AccountUi.getCallingIntent(getApplicationContext(), AccountUi.FlowType.ONE_STEP_PASSWORD_LOGIN,
                     new AccountUi.Params.Builder()
                             .teaserText(getString(R.string.example_teaser_text))
                             .smartLockMode(SmartlockMode.DISABLED).build());
