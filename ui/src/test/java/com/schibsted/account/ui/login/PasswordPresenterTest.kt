@@ -20,6 +20,7 @@ import com.schibsted.account.ui.login.screen.password.PasswordContract
 import com.schibsted.account.ui.login.screen.password.PasswordPresenter
 import com.schibsted.account.ui.smartlock.SmartlockController
 import com.schibsted.account.ui.ui.InputField
+import com.schibsted.account.util.KeyValueStore
 import io.kotlintest.shouldThrow
 import io.kotlintest.specs.WordSpec
 
@@ -48,21 +49,21 @@ class PasswordPresenterTest : WordSpec() {
             "hide previously shown error" {
                 val view = viewMock()
                 val presenter = passwordPresenter(view)
-                presenter.sign(mock(), mock(), true)
+                presenter.sign(mock(), mock(), true, mock())
                 verify(view).hideError(any())
             }
 
             "show progress" {
                 val view = viewMock()
                 val presenter = passwordPresenter(view)
-                presenter.sign(mock(), mock(), true)
+                presenter.sign(mock(), mock(), true, mock())
                 verify(view).showProgress()
             }
 
             "throw an exception if identifier is null" {
                 val presenter = passwordPresenter()
                 shouldThrow<IllegalArgumentException> {
-                    presenter.sign(mock(), null, true)
+                    presenter.sign(mock(), null, true, mock())
                 }
             }
 
@@ -75,7 +76,7 @@ class PasswordPresenterTest : WordSpec() {
                 val smartlockController: SmartlockController = mock()
 
                 val presenter = PasswordPresenter(view, provider, smartlockController)
-                presenter.sign(input, identifier, true)
+                presenter.sign(input, identifier, true, mock())
                 verify(smartlockController).saveCredential("id", "password")
             }
 
@@ -88,7 +89,7 @@ class PasswordPresenterTest : WordSpec() {
 
                 val view = viewMock()
                 val presenter = passwordPresenter(view, provider)
-                presenter.sign(input, identifier, true)
+                presenter.sign(input, identifier, true, mock())
                 verify(view).showErrorDialog(eq(error), anyOrNull())
             }
 
@@ -102,7 +103,7 @@ class PasswordPresenterTest : WordSpec() {
                 }
                 val view = viewMock()
                 val presenter = passwordPresenter(view, provider)
-                presenter.sign(input, identifier, true)
+                presenter.sign(input, identifier, true, mock())
                 verify(view).showError(eq(input), eq(R.string.schacc_password_error_incorrect))
                 verify(BaseLoginActivity.tracker)?.eventError(TrackingData.UIError.InvalidCredentials, TrackingData.Screen.PASSWORD)
             }
@@ -117,7 +118,7 @@ class PasswordPresenterTest : WordSpec() {
 
                 val view = viewMock()
                 val presenter = passwordPresenter(view, provider)
-                presenter.sign(input, identifier, true)
+                presenter.sign(input, identifier, true, mock())
                 verify(view).showError(eq(input), eq(R.string.schacc_password_error_length))
                 verify(BaseLoginActivity.tracker)?.eventError(TrackingData.UIError.InvalidPassword, TrackingData.Screen.PASSWORD)
             }
@@ -130,26 +131,50 @@ class PasswordPresenterTest : WordSpec() {
                 }
                 val view = viewMock()
                 val presenter = passwordPresenter(view, provider)
-                presenter.sign(input, identifier, true)
+                presenter.sign(input, identifier, true, mock())
                 verify(view).hideProgress()
             }
 
             "show password error if input is not valid and track it" {
                 BaseLoginActivity.tracker = mock()
-                whenever(input.isInputValid).thenReturn(false)
+                val input: InputField = mock { on { isInputValid } doReturn false }
                 val view = viewMock()
                 val presenter = passwordPresenter(view)
-                presenter.sign(input, identifier, true)
+                presenter.sign(input, identifier, true, mock())
                 verify(view).showError(eq(input), eq(R.string.schacc_password_error_length))
                 verify(BaseLoginActivity.tracker)?.eventError(TrackingData.UIError.InvalidPassword, TrackingData.Screen.PASSWORD)
             }
 
             "hide progress if input isn't valid" {
-                whenever(input.isInputValid).thenReturn(false)
+                val input: InputField = mock { on { isInputValid } doReturn false }
                 val view = viewMock()
                 val presenter = passwordPresenter(view)
-                presenter.sign(input, identifier, true)
+                presenter.sign(input, identifier, true, mock())
                 verify(view).hideProgress()
+            }
+
+            "store the identifier value for prefilling if the keepUserLoggedIn=true" {
+                val provider: InputProvider<Credentials> = mock()
+                whenever(provider.provide(any(), any())).thenAnswer {
+                    (it.getArgument(1) as ResultCallback<NoValue>).onSuccess(mock())
+                }
+                val view = viewMock()
+                val presenter = passwordPresenter(view, provider)
+                val keyValueStore: KeyValueStore = mock()
+                presenter.sign(input, identifier, true, keyValueStore)
+                verify(keyValueStore).writeEmailPrefillValue(identifier.identifier)
+            }
+
+            "clear the identifier value for prefilling if the keepUserLoggedIn=false" {
+                val provider: InputProvider<Credentials> = mock()
+                whenever(provider.provide(any(), any())).thenAnswer {
+                    (it.getArgument(1) as ResultCallback<NoValue>).onSuccess(mock())
+                }
+                val view = viewMock()
+                val presenter = passwordPresenter(view, provider)
+                val keyValueStore: KeyValueStore = mock()
+                presenter.sign(input, identifier, false, keyValueStore)
+                verify(keyValueStore).clearEmailPrefillValue()
             }
         }
     }

@@ -28,6 +28,7 @@ import com.schibsted.account.ui.ui.dialog.SelectorDialog
 import com.schibsted.account.ui.ui.rule.BasicValidationRule
 import com.schibsted.account.ui.ui.rule.PasswordValidationRule
 import com.schibsted.account.util.DeepLink
+import com.schibsted.account.util.KeyValueStore
 import kotlinx.android.synthetic.main.schacc_password_fragment_layout.*
 
 private const val KEY_IDENTIFIER = "IDENTIFIER"
@@ -116,7 +117,7 @@ class PasswordFragment : FlowFragment<PasswordContract.Presenter>(), PasswordCon
 
     private fun signUser() {
         BaseLoginActivity.tracker?.eventInteraction(TrackingData.InteractionType.SEND, TrackingData.Screen.PASSWORD)
-        presenter.sign(password_input_view, identifier, remember_me.isChecked)
+        presenter.sign(password_input_view, identifier, remember_me.isChecked, this.context?.let { KeyValueStore(it) })
     }
 
     private fun addUserOptions(isUserAvailable: Boolean) {
