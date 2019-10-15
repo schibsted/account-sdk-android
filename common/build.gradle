@@ -15,7 +15,8 @@ dependencies {
 
     testImplementation "junit:junit:${libs.jUnit}"
     testImplementation "io.kotlintest:kotlintest-runner-junit5:${libs.kotlintest}"
-    testImplementation "com.nhaarman:mockito-kotlin:${libs.mockitoKotlin}"
+    testImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:${libs.mockitoKotlin2}"
+    testImplementation "org.slf4j:slf4j-simple:${libs.slf4jSimple}"
 }
 
 bintrayUpload.dependsOn ':common:check', ':common:assembleRelease'

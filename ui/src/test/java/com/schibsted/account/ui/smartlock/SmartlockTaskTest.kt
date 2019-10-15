@@ -5,7 +5,7 @@ package com.schibsted.account.ui.smartlock
 
 import android.app.Activity
 import android.os.Parcelable
-import com.nhaarman.mockito_kotlin.mock
+import com.nhaarman.mockitokotlin2.mock
 import io.kotlintest.data.forall
 import io.kotlintest.shouldBe
 import io.kotlintest.specs.WordSpec

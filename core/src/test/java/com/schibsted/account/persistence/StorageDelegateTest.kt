@@ -5,9 +5,9 @@
 package com.schibsted.account.persistence
 
 import android.content.SharedPreferences
-import com.nhaarman.mockito_kotlin.any
-import com.nhaarman.mockito_kotlin.mock
-import com.nhaarman.mockito_kotlin.verify
+import com.nhaarman.mockitokotlin2.any
+import com.nhaarman.mockitokotlin2.mock
+import com.nhaarman.mockitokotlin2.verify
 import io.kotlintest.shouldBe
 import io.kotlintest.specs.WordSpec
 

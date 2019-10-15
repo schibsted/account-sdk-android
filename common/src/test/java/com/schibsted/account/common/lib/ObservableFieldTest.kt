@@ -6,7 +6,7 @@ package com.schibsted.account.common.lib
 
 import io.kotlintest.fail
 import io.kotlintest.matchers.beInstanceOf
-import io.kotlintest.matchers.should
+import io.kotlintest.should
 import io.kotlintest.shouldBe
 import io.kotlintest.specs.StringSpec
 

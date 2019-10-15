@@ -6,9 +6,9 @@ package com.schibsted.account.persistence
 
 import android.content.Context
 import android.content.SharedPreferences
-import com.nhaarman.mockito_kotlin.any
-import com.nhaarman.mockito_kotlin.anyOrNull
-import com.nhaarman.mockito_kotlin.mock
+import com.nhaarman.mockitokotlin2.any
+import com.nhaarman.mockitokotlin2.anyOrNull
+import com.nhaarman.mockitokotlin2.mock
 import io.kotlintest.data.forall
 import io.kotlintest.shouldBe
 import io.kotlintest.specs.StringSpec
@@ -16,56 +16,61 @@ import io.kotlintest.tables.row
 import java.util.UUID
 
 class LocalSecretsProviderTest : StringSpec({
-    val data = mutableMapOf<String, String>()
+    fun mockedContext(): Context {
+        val data = mutableMapOf<String, String>()
 
-    val mockEditor: SharedPreferences.Editor = mock {
-        on { putString(any(), any()) }.then {
-            val arg1 = it.getArgument(0) as String
-            val arg2 = it.getArgument(1) as String
-            data[arg1] = arg2
-            null
-        }
-    }
-
-    val mockedSharedPreferences: SharedPreferences = mock {
-        on { getString(any(), anyOrNull()) }.then {
-            data[it.getArgument(0) as String] ?: it.getArgument(1) as String?
+        val mockEditor: SharedPreferences.Editor = mock {
+            on { putString(any(), any()) }.then {
+                val arg1 = it.getArgument(0) as String
+                val arg2 = it.getArgument(1) as String
+                data[arg1] = arg2
+                null
+            }
         }
 
-        on { edit() }.thenReturn(mockEditor)
-    }
+        val mockedSharedPreferences: SharedPreferences = mock {
+            on { getString(any(), anyOrNull()) }.then {
+                data[it.getArgument(0) as String] ?: it.getArgument(1) as String?
+            }
 
-    val mockedContext: Context = mock {
-        on { getSharedPreferences(any(), any()) }.thenReturn(mockedSharedPreferences)
+            on { edit() }.thenReturn(mockEditor)
+        }
+
+        val mockedContext: Context = mock {
+            on { getSharedPreferences(any(), any()) }.thenReturn(mockedSharedPreferences)
+        }
+
+        return mockedContext
     }
 
     "Retrieving data which does not exist should not crash" {
-        val lsp = LocalSecretsProvider(mockedContext)
+        val lsp = LocalSecretsProvider(mockedContext())
         lsp.get("someKey") shouldBe null
     }
 
     "Storing data should return a secret key in the UUID format" {
-        val lsp = LocalSecretsProvider(mockedContext)
+        val lsp = LocalSecretsProvider(mockedContext())
         val res = lsp.put("somedata")
         UUID.fromString(res)
     }
 
     "Storing an existing data value should return the same key" {
-        val lsp = LocalSecretsProvider(mockedContext)
+        val lsp = LocalSecretsProvider(mockedContext())
         val firstRes = lsp.put("somedata")
         val secondRes = lsp.put("somedata")
         firstRes shouldBe secondRes
     }
 
     "Stored data should be retrievable from the returned key" {
-        val lsp = LocalSecretsProvider(mockedContext)
+        val lsp = LocalSecretsProvider(mockedContext())
         val myData = "thisIsMydataThereAreManyLikeIt"
         val res = lsp.put(myData)
         lsp.get(res) shouldBe myData
     }
 
     "When exceeding the max items, the oldest should be dropped" {
-        val lsp = LocalSecretsProvider(mockedContext, 3)
+        var fixedClock = 1L
+        val lsp = LocalSecretsProvider(mockedContext(), 3)
         forall(
                 row(lsp.put("MyValue 1"), null as String?),
                 row(lsp.put("MyValue 2"), null as String?),
