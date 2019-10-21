@@ -35,4 +35,9 @@ class SmartlockReceiver(private val loginActivityViewModel: LoginActivityViewMod
         isSmartlockResolving.value = false
         loginActivityViewModel.smartlockResult.value = SmartlockTask.SmartLockResult.Failure(Activity.RESULT_CANCELED)
     }
+
+    override fun onNoValue() {
+        isSmartlockResolving.value = false
+        loginActivityViewModel.smartlockCredentials.value = null
+    }
 }

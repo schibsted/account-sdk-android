@@ -10,4 +10,5 @@ interface SmartLockCallback {
     fun onHintRetrieved(id: String)
     fun onCredentialDeleted()
     fun onFailure()
+    fun onNoValue()
 }
