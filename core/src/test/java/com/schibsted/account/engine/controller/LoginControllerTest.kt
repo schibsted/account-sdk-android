@@ -5,11 +5,11 @@
 package com.schibsted.account.engine.controller
 
 import com.google.gson.Gson
-import com.nhaarman.mockito_kotlin.any
-import com.nhaarman.mockito_kotlin.argWhere
-import com.nhaarman.mockito_kotlin.mock
-import com.nhaarman.mockito_kotlin.never
-import com.nhaarman.mockito_kotlin.verify
+import com.nhaarman.mockitokotlin2.any
+import com.nhaarman.mockitokotlin2.argWhere
+import com.nhaarman.mockitokotlin2.mock
+import com.nhaarman.mockitokotlin2.never
+import com.nhaarman.mockitokotlin2.verify
 import com.schibsted.account.AccountService
 import com.schibsted.account.ClientConfiguration
 import com.schibsted.account.common.util.Logger
@@ -65,9 +65,9 @@ class LoginControllerTest : WordSpec({
     val mockOAuthService: OAuthService = mock {
         on { tokenFromPassword(any(), any(), any(), any(), any()) }.thenReturn(mockCall)
     }
+    ClientConfiguration.set(ClientConfiguration("https://example.com", "id", "secret"))
     ServiceHolder.oAuthService = mockOAuthService
 
-    ClientConfiguration.set(ClientConfiguration("https://example.com", "id", "secret"))
     Logger.loggingEnabled = false
 
     "calling perform" should {

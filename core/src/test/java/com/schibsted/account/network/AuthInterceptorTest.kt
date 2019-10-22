@@ -4,12 +4,12 @@
 
 package com.schibsted.account.network
 
-import com.nhaarman.mockito_kotlin.any
-import com.nhaarman.mockito_kotlin.argThat
-import com.nhaarman.mockito_kotlin.mock
-import com.nhaarman.mockito_kotlin.never
-import com.nhaarman.mockito_kotlin.times
-import com.nhaarman.mockito_kotlin.verify
+import com.nhaarman.mockitokotlin2.any
+import com.nhaarman.mockitokotlin2.argThat
+import com.nhaarman.mockitokotlin2.mock
+import com.nhaarman.mockitokotlin2.never
+import com.nhaarman.mockitokotlin2.times
+import com.nhaarman.mockitokotlin2.verify
 import com.schibsted.account.ClientConfiguration
 import com.schibsted.account.common.util.Logger
 import com.schibsted.account.model.UserToken
@@ -288,8 +288,6 @@ class AuthInterceptorTest : WordSpec() {
         }
 
         "protocolCheck" should {
-            val icpt = AuthInterceptor(defaultMockUser, listOf(), allowNonHttps = false, allowNonWhitelistedDomains = true)
-
             "not throw an exception if url is using the HTTPS protocol" {
                 val req = Request.Builder().url("https://example.com").build()
                 protocolCheck(false).validate(req) shouldBe AuthCheck.AuthCheckResult.Passed

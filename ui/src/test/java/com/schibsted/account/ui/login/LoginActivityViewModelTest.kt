@@ -3,12 +3,13 @@ package com.schibsted.account.ui.login
 import android.app.Activity
 import android.arch.core.executor.ArchTaskExecutor
 import android.arch.core.executor.TaskExecutor
-import com.nhaarman.mockito_kotlin.any
-import com.nhaarman.mockito_kotlin.doReturn
-import com.nhaarman.mockito_kotlin.eq
-import com.nhaarman.mockito_kotlin.mock
-import com.nhaarman.mockito_kotlin.verify
-import com.nhaarman.mockito_kotlin.whenever
+import com.nhaarman.mockitokotlin2.any
+import com.nhaarman.mockitokotlin2.doReturn
+import com.nhaarman.mockitokotlin2.eq
+import com.nhaarman.mockitokotlin2.mock
+import com.nhaarman.mockitokotlin2.times
+import com.nhaarman.mockitokotlin2.verify
+import com.nhaarman.mockitokotlin2.whenever
 import com.schibsted.account.common.lib.ObservableField
 import com.schibsted.account.engine.controller.LoginController
 import com.schibsted.account.network.response.ClientInfo
@@ -17,7 +18,6 @@ import com.schibsted.account.ui.smartlock.SmartlockTask
 import io.kotlintest.matchers.instanceOf
 import io.kotlintest.shouldBe
 import io.kotlintest.specs.WordSpec
-import org.mockito.internal.verification.Times
 
 class LoginActivityViewModelTest : WordSpec({
 
@@ -58,18 +58,18 @@ class LoginActivityViewModelTest : WordSpec({
             whenever(smartlockTask.credentialsFromParcelable(any(), any(), any())) doReturn success
 
             loginActivityViewModel.updateSmartlockCredentials(1, Activity.RESULT_OK, mock())
-            verify(smartlockTask, Times(2)).credentialsFromParcelable(eq(1), eq(Activity.RESULT_OK), any())
+            verify(smartlockTask, times(2)).credentialsFromParcelable(eq(1), eq(Activity.RESULT_OK), any())
             loginActivityViewModel.smartlockResult.value = success.value
         }
     }
 
     "initialize smartlock" should {
         "initialize the login controller" {
-            whenever(smartlockTask.initializeSmartlock(any(), any())) doReturn ObservableField(false)
+            whenever(smartlockTask.initializeSmartlock(any(), any())) doReturn ObservableField(true)
             loginActivityViewModel.loginController.value shouldBe null
             loginActivityViewModel.initializeSmartlock()
             verify(smartlockTask).initializeSmartlock(loginActivityViewModel.smartlockReceiver.isSmartlockResolving.value)
-            loginActivityViewModel.loginController.value shouldBe instanceOf(LoginController::class)
+            loginActivityViewModel.loginController.value!!.peek() shouldBe instanceOf(LoginController::class)
         }
         "update the smartlock flow observable with the returned value" {
             whenever(smartlockTask.initializeSmartlock(any(), any())) doReturn ObservableField(false)
@@ -82,7 +82,7 @@ class LoginActivityViewModelTest : WordSpec({
             loginActivityViewModel.initializeSmartlock()
             loginActivityViewModel.startSmartLockFlow.value shouldBe true
 
-            verify(smartlockTask, Times(3)).initializeSmartlock(loginActivityViewModel.smartlockReceiver.isSmartlockResolving.value)
+            verify(smartlockTask, times(3)).initializeSmartlock(loginActivityViewModel.smartlockReceiver.isSmartlockResolving.value)
         }
     }
 
@@ -97,17 +97,16 @@ class LoginActivityViewModelTest : WordSpec({
 
     "get client info" should {
         val viewModel: LoginActivityViewModel = mock {}
-        " fetch info from the network with a null intent info" {
+        "fetch info from the network with a null intent info" {
             whenever(viewModel.getClientInfo(null)).thenCallRealMethod()
             viewModel.getClientInfo(null)
             verify(viewModel).fetchClientInfo()
         }
 
-        " assign the intent data to the clienResult value with a valid intent info" {
+        "assign the intent data to the clienResult value with a valid intent info" {
             val clientInfo = ClientInfo("1", "client", "alias", mapOf(), "domain", 3, mapOf(), mapOf(), mock())
             loginActivityViewModel.getClientInfo(clientInfo)
-            loginActivityViewModel.clientResult.value shouldBe instanceOf(LoginActivityViewModel.ClientResult.Success::class)
-            (loginActivityViewModel.clientResult.value?.peek() as LoginActivityViewModel.ClientResult.Success).clientInfo shouldBe clientInfo
+            (loginActivityViewModel.clientResult.value!!.peek() as LoginActivityViewModel.ClientResult.Success).clientInfo shouldBe clientInfo
         }
     }
 })

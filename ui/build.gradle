@@ -45,11 +45,11 @@ dependencies {
     multidexImplementation "com.android.support:multidex:${libs.multidex}"
 
     testImplementation "org.assertj:assertj-core:${libs.assertJ}"
-    testImplementation "com.nhaarman:mockito-kotlin:${libs.mockitoKotlin}"
+    testImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:${libs.mockitoKotlin2}"
     testImplementation "io.kotlintest:kotlintest-runner-junit5:${libs.kotlintest}"
     testImplementation "junit:junit:${libs.jUnit}"
     testImplementation "org.jetbrains.kotlin:kotlin-test-junit:${libs.kotlin}"
-
+    testImplementation "org.slf4j:slf4j-simple:${libs.slf4jSimple}"
 
     androidTestImplementation "org.mockito:mockito-android:${libs.mockitoAndroid}"
     androidTestImplementation("com.schibsted.spain:barista:${libs.barista}") {

@@ -4,25 +4,41 @@
 
 package com.schibsted.account
 
+import android.content.pm.PackageInfo
+import android.content.pm.PackageManager
 import android.test.mock.MockContext
-import com.nhaarman.mockito_kotlin.any
-import com.nhaarman.mockito_kotlin.doReturn
-import com.nhaarman.mockito_kotlin.mock
-import com.nhaarman.mockito_kotlin.never
-import com.nhaarman.mockito_kotlin.verify
+import com.nhaarman.mockitokotlin2.any
+import com.nhaarman.mockitokotlin2.doReturn
+import com.nhaarman.mockitokotlin2.mock
+import com.nhaarman.mockitokotlin2.never
+import com.nhaarman.mockitokotlin2.verify
 import com.schibsted.account.common.util.Logger
 import io.kotlintest.shouldBe
 import io.kotlintest.specs.WordSpec
+import org.mockito.ArgumentMatchers.anyString
 
 class AccountServiceTest : WordSpec({
     Logger.loggingEnabled = false
 
+    fun mockAppContext(bindReturnValue: Boolean): MockContext {
+        val packageManageMock: PackageManager = mock {
+            on { getPackageInfo(anyString(), any()) } doReturn run {
+                val packageInfo = PackageInfo()
+                packageInfo.versionCode = 1234
+                packageInfo
+            }
+        }
+        val mockContext: MockContext = mock {
+            on { bindService(any(), any(), any()) } doReturn bindReturnValue
+            on { packageName } doReturn "com.example.app"
+            on { packageManager } doReturn packageManageMock
+        }
+        return mockContext
+    }
+
     "unbind" should {
         "not be called when bind fails" {
-            val mockContext: MockContext = mock {
-                on { bindService(any(), any(), any()) } doReturn false
-                on { packageName } doReturn "com.example.app"
-            }
+            val mockContext = mockAppContext(false)
             val srv = AccountService(mockContext, mock())
 
             srv.bind()
@@ -34,10 +50,7 @@ class AccountServiceTest : WordSpec({
         }
 
         "be called when bind succeeds" {
-            val mockContext: MockContext = mock {
-                on { bindService(any(), any(), any()) } doReturn true
-                on { packageName } doReturn "com.example.app"
-            }
+            val mockContext = mockAppContext(true)
             val srv = AccountService(mockContext, mock())
 
             srv.bind()

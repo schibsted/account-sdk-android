@@ -4,4 +4,5 @@
     <issue id="IconDensities" severity="ignore" />
     <issue id="RtlEnabled" severity="warning" />
     <issue id="GradleDependency" severity="ignore" />
+    <issue id="OldTargetApi" severity="ignore" />
 </lint>

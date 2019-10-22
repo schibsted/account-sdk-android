@@ -73,7 +73,7 @@
     <string name="schacc_password_error_length">Passordet ditt skal ha minst 8 tegn</string>
     <string name="schacc_password_forgot_password">Glemt passord?</string>
     <string name="schacc_password_extra_info">Minst 8 tegn</string>
-    <string name="schacc_password_error_incorrect">Passordet du oppga er feil. Prøv igjen senere.</string>
+    <string name="schacc_password_error_incorrect">Passordet du oppga er feil. Vennligst prøv igjen.</string>
     <!--Inbox-->
     <string name="schacc_inbox_information">Vi har sendt enbekreftelseskobling til: %1$s</string>
     <string name="schacc_inbox_change_identifier">Bruk annen e-post</string>
