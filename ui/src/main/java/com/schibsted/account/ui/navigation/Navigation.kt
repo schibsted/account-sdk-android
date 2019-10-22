@@ -157,6 +157,7 @@ class Navigation(
             LoginScreen.VERIFICATION_SCREEN.value -> {
                 controller?.back(fragmentManager.backStackEntryCount)
                 fragmentManager.popBackStack(LoginScreen.IDENTIFICATION_SCREEN.value, 0)
+                fragmentManager.popBackStack(LoginScreen.ONE_STEP_LOGIN_SCREEN.value, 0)
                 controller?.evaluate(contract)
             }
 
@@ -184,7 +185,6 @@ class Navigation(
     fun <F : BaseFragment> navigateToFragment(fragment: F) {
         when (fragment) {
             is AbstractIdentificationFragment -> {
-                // How to introduce the single flow screen?
                 if (fragment.tag != LoginScreen.IDENTIFICATION_SCREEN.value) {
                     navigateTo(fragment, LoginScreen.IDENTIFICATION_SCREEN)
                 }

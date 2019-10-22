@@ -11,25 +11,20 @@
     android:layout_width="match_parent">
 
     <android.support.constraint.ConstraintLayout
-
         android:id="@+id/logos_container"
         android:padding="@dimen/schacc_medium_spacing"
-        android:paddingBottom="@dimen/schacc_large_spacing"
+        android:paddingBottom="@dimen/schacc_extra_large_spacing"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
             android:id="@+id/client_logo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:contentDescription="@null"
-            android:maxHeight="@dimen/schacc_logo_dimension"
-            android:maxWidth="@dimen/schacc_logo_dimension"
-            android:adjustViewBounds="true"
-            tools:src="@drawable/schacc_schibsted_logo_soft_black" />
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
 
         <ImageView
             android:id="@+id/schibsted_logo"
@@ -48,35 +43,33 @@
         style="@style/schacc_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/schacc_medium_spacing"
+        android:layout_marginLeft="@dimen/schacc_medium_spacing"
         android:layout_marginRight="@dimen/schacc_medium_spacing"
+        android:layout_marginStart="@dimen/schacc_medium_spacing"
         android:ellipsize="none"
         android:maxLines="3"
         android:paddingBottom="20dp"
         android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="@+id/logos_container"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/logos_container"
         tools:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce malesuada tristique dolor, vel lacinia justo semper eget. Curabitur non urna non felis tincidunt faucibus at non dui."
-        app:layout_constraintEnd_toEndOf="@+id/logos_container"
-        android:layout_marginEnd="@dimen/schacc_medium_spacing"
-        app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginLeft="@dimen/schacc_medium_spacing"
-        android:layout_marginStart="@dimen/schacc_medium_spacing"
         tools:visibility="visible" />
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:background="@drawable/schacc_rounded_container"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/schacc_teaser_text"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        tools:layout_height="wrap_content">
+        app:layout_constraintEnd_toEndOf="parent">
 
         <android.support.constraint.ConstraintLayout
             style="@style/schacc_container"
-            android:focusable="true"
-            android:paddingTop="@dimen/schacc_large_spacing">
-            <!--
+            android:paddingTop="@dimen/schacc_extra_large_spacing">
+
             <FrameLayout
                 android:id="@+id/onestep_identification_input_view"
                 android:focusable="true"
@@ -85,48 +78,17 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"/>
-
-
-
-
-            <FrameLayout
-                android:id="@+id/credentials_input_view"
-                android:focusable="true"
-                android:layout_marginTop="16dp"
-                android:focusableInTouchMode="true"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                app:layout_constraintTop_toBottomOf="@+id/identification_input_view"
-                app:layout_constraintStart_toStartOf="parent"/>
--->
-
-            <com.schibsted.account.ui.ui.component.SingleFieldView
-                android:id="@+id/onestep_login_input_view"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:focusable="true"
-                android:focusableInTouchMode="true"
-                app:inputType="email"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:layout_marginTop="@dimen/schacc_medium_spacing"
-                app:errorText="@string/schacc_email_identification_error"
-                app:titleText="@string/schacc_email_label"
-                app:imeOptions="next"
-            />
+                app:layout_constraintStart_toStartOf="parent" />
 
             <com.schibsted.account.ui.ui.component.PasswordView
                 android:id="@+id/onestep_password_input_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/account_selector_view"
+                android:orientation="vertical"
                 android:layout_marginTop="@dimen/schacc_medium_spacing"
                 app:errorText="@string/schacc_password_error_length"
-                app:titleText=""
                 app:imeOptions="done"
-                app:layout_constraintTop_toBottomOf="@+id/onestep_login_input_view"/>
+                app:layout_constraintTop_toBottomOf="@+id/onestep_identification_input_view"/>
 
             <TextView
                 android:id="@+id/onestep_login_forgot_password"
@@ -147,7 +109,6 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/onestep_login_forgot_password" />
 
-
             <TextView
                 android:id="@+id/onestep_login_remember_me_info"
                 style="@style/schacc_text.link"
@@ -160,33 +121,14 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/onestep_login_remember_me" />
 
-
-            <!--
-            <TextView
-                android:id="@+id/identification_share_policy"
-                style="@style/schacc_text.secondary"
-                android:layout_marginTop="@dimen/schacc_large_spacing"
-                app:layout_constraintTop_toBottomOf="@+id/onestep_login_remember_me_info"/>
-
-
-            <TextView
-                android:id="@+id/help_link"
-                style="@style/schacc_text.link"
-                android:text="@string/schacc_identification_help_link_text"
-                android:layout_marginTop="@dimen/schacc_small_spacing"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/identification_share_policy" />
-            -->
-
-
             <com.schibsted.account.ui.ui.component.LoadingButton
                 android:id="@+id/onestep_identification_button_continue"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintBottom_toTopOf="@+id/onestep_identification_button_signup"
                 app:text="@string/schacc_next_step"
-                android:layout_marginBottom="@dimen/schacc_medium_spacing" />
+                app:layout_constraintTop_toBottomOf="@+id/onestep_login_remember_me_info"
+                android:layout_marginBottom="@dimen/schacc_medium_spacing"
+                android:layout_marginTop="@dimen/schacc_medium_spacing" />
 
             <Button
                 android:id="@+id/onestep_identification_button_signup"
@@ -196,6 +138,7 @@
                 android:text="@string/schacc_password_sign_up_button_label"
                 tools:text="Create account"
                 app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/onestep_identification_button_continue"
                 app:layout_constraintBottom_toBottomOf="parent" />
         </android.support.constraint.ConstraintLayout>
     </FrameLayout>

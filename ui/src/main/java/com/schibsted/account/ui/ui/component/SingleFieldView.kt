@@ -40,10 +40,10 @@ open class SingleFieldView : FieldView {
     constructor(context: Context?) : this(context, null)
     constructor(context: Context?, attrs: AttributeSet?) : super(context, attrs) {
         val view = LayoutInflater.from(context).inflate(R.layout.schacc_input_field_widget, this)
-        errorView = view.findViewById(R.id.input_error_view)
-        infoView = view.findViewById(R.id.input_extra_info_view)
-        labelView = view.findViewById(R.id.input_field_widget_label)
-        inputField = view.findViewById(R.id.input)
+        errorView = view.findViewById(R.id.schacc_input_field_widget_error_view)
+        infoView = view.findViewById(R.id.schacc_input_field_widget_extra_info_view)
+        labelView = view.findViewById(R.id.schacc_input_field_widget_label)
+        inputField = view.findViewById(R.id.schacc_input_field_widget_input)
         validationRule = BasicValidationRule
         getXmlProperties(context, attrs)
         init()
@@ -115,10 +115,13 @@ open class SingleFieldView : FieldView {
      */
     private fun init() {
         val focusChangeListener = OnFocusChangeListener { view, hasFocus ->
-            if (errorView?.visibility == View.VISIBLE) {
+            if (hasFocus && errorView?.visibility == View.VISIBLE) {
                 errorView?.visibility = View.GONE
             }
-            setBackgroundDependingOnFocus(hasFocus, inputField)
+
+            if (errorView?.visibility != View.VISIBLE || hasFocus) {
+                setBackgroundDependingOnFocus(hasFocus, inputField)
+            }
             if (isCancelable) {
                 if (hasFocus) {
                     updateCancelAction(inputField.text.toString())

@@ -26,6 +26,7 @@ import com.schibsted.account.ui.AccountUi
 import com.schibsted.account.ui.Event
 import com.schibsted.account.ui.InternalUiConfiguration
 import com.schibsted.account.ui.login.flow.password.FlowSelectionListener
+import com.schibsted.account.ui.login.screen.LoginScreen
 import com.schibsted.account.ui.smartlock.SmartlockReceiver
 import com.schibsted.account.ui.smartlock.SmartlockTask
 import com.schibsted.account.util.DeepLink
@@ -40,7 +41,7 @@ class LoginActivityViewModel(
 
     val loginController = MutableLiveData<Event<LoginController>>()
     val signUpController = MutableLiveData<Event<SignUpController>>()
-
+    val activityTitle = MutableLiveData<LoginScreen>()
     val user = MutableLiveData<User>()
     var userFlowType: FlowSelectionListener.FlowType? = null
     var userIdentifier: Identifier? = null
@@ -73,6 +74,21 @@ class LoginActivityViewModel(
             }
             FlowSelectionListener.FlowType.SIGN_UP -> {
                 signUpController.value = Event(SignUpController(redirectUri, params.scopes))
+            }
+            FlowSelectionListener.FlowType.ONE_STEP_SIGNUP -> {
+                signUpController.value = Event(SignUpController(redirectUri, params.scopes))
+            }
+        }
+    }
+
+    override fun onFlowSelected(flowType: FlowSelectionListener.FlowType) {
+        when (flowType) {
+            FlowSelectionListener.FlowType.ONE_STEP_SIGNUP -> {
+                activityTitle.value = LoginScreen.ONE_STEP_SIGNUP_SCREEN
+            }
+
+            FlowSelectionListener.FlowType.ONE_STEP_LOGIN -> {
+                activityTitle.value = LoginScreen.ONE_STEP_LOGIN_SCREEN
             }
         }
     }

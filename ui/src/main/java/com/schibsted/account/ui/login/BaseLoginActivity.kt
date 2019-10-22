@@ -106,7 +106,7 @@ abstract class BaseLoginActivity : AppCompatActivity(), NavigationListener {
     internal var smartlockController: SmartlockController? = null
 
     private lateinit var params: AccountUi.Params
-    private lateinit var flowType: AccountUi.FlowType
+    internal lateinit var flowType: AccountUi.FlowType
     private lateinit var keyboardController: KeyboardController
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -231,6 +231,10 @@ abstract class BaseLoginActivity : AppCompatActivity(), NavigationListener {
 
         keyboardController.keyboardVisibility.observe(this, Observer {
             (navigationController.currentFragment as? FlowFragment<*>)?.onVisibilityChanged(it == true)
+        })
+
+        viewModel.activityTitle.observe(this, Observer {
+            updateTitle(viewModel.activityTitle.value)
         })
     }
 
@@ -408,8 +412,9 @@ abstract class BaseLoginActivity : AppCompatActivity(), NavigationListener {
     private fun updateTitle(screen: LoginScreen?) {
         @StringRes
         val title: Int = when (screen) {
-            LoginScreen.IDENTIFICATION_SCREEN -> if (this.uiConfiguration.signUpEnabled) R.string.schacc_identification_title else R.string.schacc_identification_login_only_title
-            LoginScreen.ONE_STEP_LOGIN_SCREEN -> R.string.schacc_identification_login_only_title
+            LoginScreen.IDENTIFICATION_SCREEN,
+            LoginScreen.ONE_STEP_LOGIN_SCREEN  -> R.string.schacc_identification_login_only_title
+            LoginScreen.ONE_STEP_SIGNUP_SCREEN -> if (this.uiConfiguration.signUpEnabled) R.string.schacc_register_title else R.string.schacc_identification_login_only_title
             LoginScreen.PASSWORD_SCREEN -> if (viewModel.isUserAvailable()) R.string.schacc_register_title else R.string.schacc_welcome_back_title
             LoginScreen.TC_SCREEN -> R.string.schacc_terms_title
             LoginScreen.REQUIRED_FIELDS_SCREEN -> R.string.schacc_required_fields_title

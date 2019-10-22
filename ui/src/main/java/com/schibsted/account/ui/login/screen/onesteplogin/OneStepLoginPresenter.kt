@@ -4,7 +4,6 @@
 
 package com.schibsted.account.ui.login.screen.onesteplogin
 
-import android.arch.lifecycle.Lifecycle
 import android.arch.lifecycle.LifecycleOwner
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.Observer
@@ -22,12 +21,10 @@ import com.schibsted.account.ui.login.BaseLoginActivity
 import com.schibsted.account.ui.login.flow.password.FlowSelectionListener
 import com.schibsted.account.ui.smartlock.SmartlockController
 import com.schibsted.account.ui.ui.InputField
-import com.schibsted.account.ui.ui.component.PhoneInputView
 
 class OneStepLoginPresenter(
         private val view: OneStepLoginContract.View,
         private var credProvider: MutableLiveData<InputProvider<Credentials>>,
-        private val idProvider: InputProvider<Identifier>?,
         private val smartlockController: SmartlockController?,
         private val flowSelectionListener: FlowSelectionListener?
 ) : OneStepLoginContract.Presenter {
@@ -36,28 +33,16 @@ class OneStepLoginPresenter(
         view.setPresenter(this)
     }
 
-    internal lateinit var id: Identifier
+    internal  var id: Identifier? = null
 
-    private fun identifyUser(identifier: InputField) {
-        idProvider?.provide(id, object : ResultCallback<NoValue> {
-            override fun onSuccess(result: NoValue) { }
+    private var isOneStepSignUp: Boolean = false
 
-            override fun onError(error: ClientError) {
-                if (view.isActive) {
-                    if (ErrorUtil.isServerError(error.errorType)) {
-                        view.showErrorDialog(error, null)
-                    } else {
-                        view.showError(identifier)
-                    }
-                    view.hideProgress()
-                    trackError(error)
-                }
-            }
-        })
-    }
+    private val trackingScreen: TrackingData.Screen
+        get() = if (isOneStepSignUp) TrackingData.Screen.ONE_STEP_SIGNUP else TrackingData.Screen.ONE_STEP_LOGIN
+
 
     override fun getAccountStatus(input: InputField, allowSignUp: Boolean, signUpErrorMessage: String?) {
-        id.getAccountStatus(object : ResultCallback<AccountStatusResponse> {
+        id?.getAccountStatus(object : ResultCallback<AccountStatusResponse> {
             override fun onSuccess(result: AccountStatusResponse) {
                 BaseLoginActivity.tracker?.let {
                     it.intent = if (result.isAvailable) TrackingData.UserIntent.CREATE else TrackingData.UserIntent.LOGIN
@@ -68,12 +53,17 @@ class OneStepLoginPresenter(
                     return
                 }
 
-                if (idProvider == null) { // Having no provider means we have a password flow
-                    val flowType = if (result.isAvailable) FlowSelectionListener.FlowType.SIGN_UP else FlowSelectionListener.FlowType.LOGIN
-                    flowSelectionListener?.onFlowSelected(flowType, id)
-                } else { // Otherwise, passwordless
-                    identifyUser(input)
+                val flowType = when {
+                    result.isAvailable && !isOneStepSignUp -> FlowSelectionListener.FlowType.SIGN_UP
+                    result.isAvailable && isOneStepSignUp -> FlowSelectionListener.FlowType.ONE_STEP_SIGNUP
+                    !result.isAvailable && isOneStepSignUp -> {
+                        showEmailExistsError(input)
+                        view.hideProgress()
+                        return
+                    }
+                    else -> FlowSelectionListener.FlowType.ONE_STEP_LOGIN
                 }
+                flowSelectionListener?.onFlowSelected(flowType, id!!)
             }
 
             override fun onError(error: ClientError) {
@@ -81,47 +71,40 @@ class OneStepLoginPresenter(
                     val isSignUpForbidden = error.errorType == ClientError.ErrorType.SIGNUP_FORBIDDEN
                     val showDialog = isSignUpForbidden || ErrorUtil.isServerError(error.errorType)
                     if (showDialog) {
-                        if (isSignUpForbidden) {
-                            view.showErrorDialog(error, signUpErrorMessage)
-                        } else {
-                            view.showErrorDialog(error, null)
-                        }
+                        view.showErrorDialog(error, signUpErrorMessage)
                     } else {
                         view.showError(input)
                     }
-                    // view.hideProgress()
                 }
             }
         })
     }
 
     /**
-     * Verify the input of the user, the input could be a phone number or an email address.
+     * Verify the input of the user, the input could be an email address.
      *
      *
      * This method request a navigation to the next screen if the call was successful or show an error
      * otherwise.
      *
      * @param identifier [InputField] representing the input
-     * @see PhoneInputView.getInput
      */
-    override fun verifyInput(identifier: InputField, identifierType: Identifier.IdentifierType, allowSignup: Boolean, signUpErrorMessage: String?) {
+    override fun verifyInput(
+            identifier: InputField,
+            identifierType: Identifier.IdentifierType,
+            allowSignup: Boolean,
+            signUpErrorMessage: String?
+    ) {
         if (view.isActive) {
             view.hideError(identifier)
             if (identifier.isInputValid) {
-                //view.showProgress()
                 identifier.input?.let {
                     id = Identifier(identifierType, it)
                     getAccountStatus(identifier, allowSignup, signUpErrorMessage)
                 }
             } else {
                 BaseLoginActivity.tracker?.let {
-                    val event = if (identifierType == Identifier.IdentifierType.SMS) {
-                        TrackingData.UIError.InvalidPhone
-                    } else {
-                        TrackingData.UIError.InvalidEmail
-                    }
-                    it.eventError(event, TrackingData.Screen.IDENTIFICATION)
+                    it.eventError(TrackingData.UIError.InvalidEmail, trackingScreen)
                 }
                 view.showError(identifier)
             }
@@ -131,35 +114,40 @@ class OneStepLoginPresenter(
     private fun trackError(error: ClientError) {
         BaseLoginActivity.tracker?.let {
             when {
-                error.errorType == ClientError.ErrorType.NETWORK_ERROR -> it.eventError(TrackingData.UIError.NetworkError, TrackingData.Screen.IDENTIFICATION)
-                error.errorType == ClientError.ErrorType.INVALID_EMAIL -> it.eventError(TrackingData.UIError.InvalidEmail, TrackingData.Screen.IDENTIFICATION)
-                error.errorType == ClientError.ErrorType.INVALID_PHONE_NUMBER -> it.eventError(TrackingData.UIError.InvalidPhone, TrackingData.Screen.IDENTIFICATION)
+                error.errorType == ClientError.ErrorType.NETWORK_ERROR -> it.eventError(TrackingData.UIError.NetworkError, trackingScreen)
+                error.errorType == ClientError.ErrorType.INVALID_EMAIL -> it.eventError(TrackingData.UIError.InvalidEmail, trackingScreen)
                 else -> {
                 }
             }
         }
     }
 
-    override fun sign(inputField: InputField, keepUserLoggedIn: Boolean, lifecycleOwner: LifecycleOwner) {
-        view.hideError(inputField)
+    override fun sign(identifier: InputField, credentials: InputField, keepUserLoggedIn: Boolean, lifecycleOwner: LifecycleOwner) {
+
+        view.hideError(credentials)
         view.showProgress()
-        requireNotNull(id) { "Identifier can't be null at this stage" }
-        if (inputField.isInputValid) {
-            credProvider.observe(lifecycleOwner, Observer { provider ->
-                credProvider.value?.provide(Credentials(id!!, inputField.input!!, keepUserLoggedIn), object : ResultCallback<NoValue> {
+        if (id == null) {
+            view.showError(identifier)
+            view.hideProgress()
+            return
+        }
+
+        if (credentials.isInputValid) {
+            credProvider.observe(lifecycleOwner, Observer {
+                credProvider.value?.provide(Credentials(id!!, credentials.input!!, keepUserLoggedIn), object : ResultCallback<NoValue> {
                     override fun onSuccess(result: NoValue) {
-                        smartlockController?.saveCredential(id.identifier, inputField.input!!)
+                        smartlockController?.saveCredential(id!!.identifier, credentials.input!!)
                     }
 
                     override fun onError(error: ClientError) {
                         when {
                             ErrorUtil.isServerError(error.errorType) -> view.showErrorDialog(error)
                             error.errorType == ClientError.ErrorType.INVALID_USER_CREDENTIALS -> {
-                                view.showError(inputField, R.string.schacc_password_error_incorrect)
-                                BaseLoginActivity.tracker?.eventError(TrackingData.UIError.InvalidCredentials, TrackingData.Screen.PASSWORD)
+                                view.showError(credentials, R.string.schacc_password_error_incorrect)
+                                BaseLoginActivity.tracker?.eventError(TrackingData.UIError.InvalidCredentials, trackingScreen)
                             }
                             else -> {
-                                showPasswordLengthError(inputField)
+                                showPasswordLengthError(credentials)
                             }
                         }
                         view.hideProgress()
@@ -168,13 +156,63 @@ class OneStepLoginPresenter(
             })
 
         } else {
-            showPasswordLengthError(inputField)
+            showPasswordLengthError(credentials)
             view.hideProgress()
         }
     }
 
+    override fun signup(identifier: InputField, credInputField: InputField, keepUserLoggedIn: Boolean, lifecycleOwner: LifecycleOwner) {
+        view.hideError(credInputField)
+        view.showProgress()
+
+        if (id == null) {
+            view.showError(identifier)
+            view.hideProgress()
+        } else {
+            if (credInputField.isInputValid) {
+                credProvider.observe(lifecycleOwner, Observer {
+                    credProvider.value?.provide(Credentials(id!!, credInputField.input!!, keepUserLoggedIn), object : ResultCallback<NoValue> {
+                        override fun onSuccess(result: NoValue) {}
+
+                        override fun onError(error: ClientError) {
+                            when {
+                                ErrorUtil.isServerError(error.errorType) -> view.showErrorDialog(error)
+                                else -> {
+                                    showPasswordLengthError(credInputField)
+                                }
+                            }
+                            view.hideProgress()
+                        }
+                    })
+                })
+
+            } else {
+                showPasswordLengthError(credInputField)
+                view.hideProgress()
+            }
+        }
+
+    }
+
+    override fun startSignin() {
+        view.hideProgress()
+        isOneStepSignUp = false
+        flowSelectionListener?.onFlowSelected(FlowSelectionListener.FlowType.ONE_STEP_LOGIN)
+    }
+
+    override fun startSignup() {
+        view.hideProgress()
+        isOneStepSignUp = true
+        flowSelectionListener?.onFlowSelected(FlowSelectionListener.FlowType.ONE_STEP_SIGNUP)
+    }
+
     private fun showPasswordLengthError(inputField: InputField) {
         view.showError(inputField, R.string.schacc_password_error_length)
-        BaseLoginActivity.tracker?.eventError(TrackingData.UIError.InvalidPassword, TrackingData.Screen.PASSWORD)
+        BaseLoginActivity.tracker?.eventError(TrackingData.UIError.InvalidPassword, TrackingData.Screen.ONE_STEP_LOGIN)
+    }
+
+    private fun showEmailExistsError(inputField: InputField) {
+        view.showError(inputField, R.string.schacc_email_already_in_use_error)
+        BaseLoginActivity.tracker?.eventError(TrackingData.UIError.InvalidPassword, TrackingData.Screen.ONE_STEP_SIGNUP)
     }
 }

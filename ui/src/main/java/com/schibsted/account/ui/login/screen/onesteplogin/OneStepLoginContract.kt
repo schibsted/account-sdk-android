@@ -41,7 +41,11 @@ interface OneStepLoginContract {
         fun verifyInput(identifier: InputField, identifierType: Identifier.IdentifierType, allowSignup: Boolean, signUpErrorMessage: String?)
 
         fun getAccountStatus(input: InputField, allowSignUp: Boolean, signUpErrorMessage: String?)
-        fun sign(inputField: InputField, keepUserLoggedIn: Boolean, lifecycleOwner: LifecycleOwner)
+        fun startSignin()
+        fun sign(identifier: InputField, CredInputField: InputField, keepUserLoggedIn: Boolean, lifecycleOwner: LifecycleOwner)
+        fun startSignup()
+        fun signup(identifier: InputField, CredInputField: InputField, keepUserLoggedIn: Boolean, lifecycleOwner: LifecycleOwner)
+
     }
 
 

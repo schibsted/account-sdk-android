@@ -115,7 +115,7 @@
                 app:errorText="@string/schacc_email_identification_error"
                 app:titleText="@string/schacc_email_label"
                 app:imeOptions="next"
-            />
+                />
 
             <com.schibsted.account.ui.ui.component.PasswordView
                 android:id="@+id/onestep_password_input_view"
@@ -159,6 +159,15 @@
                 android:text="@string/schacc_remember_me_info"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/onestep_login_remember_me" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/schacc_text.secondary"
+                android:text="@string/schacc_terms_sign_up_description"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/onestep_login_remember_me_info"
+                />
 
 
             <!--

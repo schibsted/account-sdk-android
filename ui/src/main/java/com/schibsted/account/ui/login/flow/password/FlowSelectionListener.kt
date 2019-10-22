@@ -8,8 +8,9 @@ import com.schibsted.account.engine.input.Identifier
 
 interface FlowSelectionListener {
     enum class FlowType {
-        LOGIN, SIGN_UP, ONE_STEP_LOGIN
+        LOGIN, SIGN_UP, ONE_STEP_LOGIN, ONE_STEP_SIGNUP
     }
 
     fun onFlowSelected(flowType: FlowType, identifier: Identifier)
+    fun onFlowSelected(flowType: FlowType)
 }

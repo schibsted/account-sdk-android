@@ -17,6 +17,7 @@
     <string name="schacc_mobile_prefix_hint">+%1$d</string>
 
     <string name="schacc_email_identification_error">Anna kelvollinen sähköpostiosoite.</string>
+    <string name="schacc_email_already_in_use_error">Already in use email. Please choose an new one.</string>
     <string name="schacc_email_label">Anna sähköpostiosoitteesi</string>
     <!--Verification-->
     <string name="schacc_verification_title">Koodi on lähetetty sinulle</string>
@@ -66,6 +67,7 @@
     <string name="schacc_password_sign_in_label">Kirjoita salasanasi</string>
     <string name="schacc_password_sign_up_label">Valitse salasana</string>
     <string name="schacc_password_sign_up_button_label">Luo tilit</string>
+    <string name="schacc_password_sign_up_have_account_button_label">I have an account</string>
     <string name="schacc_password_sign_up_notification">Olet nyt luomassa uutta Schibsted-tiliä</string>
     <string name="schacc_password_error_length">Salasanassa tulee olla vähintään 8 merkkiä.</string>
     <string name="schacc_password_forgot_password">Unohtuiko salasana?</string>

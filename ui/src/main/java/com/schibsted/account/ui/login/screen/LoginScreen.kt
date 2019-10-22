@@ -18,6 +18,17 @@ enum class LoginScreen constructor(val value: String) {
     ONE_STEP_LOGIN_SCREEN("ONE_STEP_LOGIN_SCREEN"),
 
     /**
+     * Represents the screen used to perform one step signup
+     *
+     * @see com.schibsted.account.ui.passwordless.identification.ui.AbstractIdentificationFragment
+     *
+     * @see com.schibsted.account.ui.passwordless.identification.ui.EmailIdentificationFragment
+     *
+     * @see com.schibsted.account.ui.passwordless.identification.ui.MobileIdentificationFragment
+     */
+    ONE_STEP_SIGNUP_SCREEN("ONE_STEP_SIGNUP_SCREEN"),
+
+    /**
      * Represents the screen used to ask the phone number or the email address
      *
      * @see com.schibsted.account.ui.passwordless.identification.ui.AbstractIdentificationFragment

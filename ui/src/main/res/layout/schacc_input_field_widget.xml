@@ -10,11 +10,11 @@
     android:orientation="vertical">
 
     <TextView
-        android:id="@+id/input_field_widget_label"
+        android:id="@+id/schacc_input_field_widget_label"
         style="@style/schacc_text.label" />
 
     <EditText
-        android:id="@+id/input"
+        android:id="@+id/schacc_input_field_widget_input"
         style="@style/schacc_input_field_widget"
         android:layout_width="match_parent"
         android:layout_height="@dimen/schacc_default_widget_dimension"
@@ -22,14 +22,14 @@
         tools:ignore="LabelFor" />
 
     <TextView
-        android:id="@+id/input_error_view"
+        android:id="@+id/schacc_input_field_widget_error_view"
         style="@style/schacc_text.error"
         android:layout_marginTop="4dp"
         android:visibility="gone"
         tools:text="error" />
 
     <TextView
-        android:id="@+id/input_extra_info_view"
+        android:id="@+id/schacc_input_field_widget_extra_info_view"
         style="@style/schacc_text.secondary"
         android:layout_marginTop="4dp"
         android:visibility="gone"
