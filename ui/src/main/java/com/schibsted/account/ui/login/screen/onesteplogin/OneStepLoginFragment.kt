@@ -159,6 +159,7 @@ class OneStepLoginFragment : FlowFragment<OneStepLoginContract.Presenter>(), One
             activity?.let { KeyboardController.showKeyboard(it) }
         }
 
+        secondaryActionView?.visibility = if (uiConf.signUpEnabled) View.VISIBLE else View.GONE
     }
 
     override fun onResume() {
