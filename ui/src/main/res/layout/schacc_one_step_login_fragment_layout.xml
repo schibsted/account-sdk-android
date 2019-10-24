@@ -76,31 +76,6 @@
             style="@style/schacc_container"
             android:focusable="true"
             android:paddingTop="@dimen/schacc_large_spacing">
-            <!--
-            <FrameLayout
-                android:id="@+id/onestep_identification_input_view"
-                android:focusable="true"
-                android:focusableInTouchMode="true"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"/>
-
-
-
-
-            <FrameLayout
-                android:id="@+id/credentials_input_view"
-                android:focusable="true"
-                android:layout_marginTop="16dp"
-                android:focusableInTouchMode="true"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                app:layout_constraintTop_toBottomOf="@+id/identification_input_view"
-                app:layout_constraintStart_toStartOf="parent"/>
--->
 
             <com.schibsted.account.ui.ui.component.SingleFieldView
                 android:id="@+id/onestep_login_input_view"

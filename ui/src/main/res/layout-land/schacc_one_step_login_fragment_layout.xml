@@ -70,8 +70,8 @@
             style="@style/schacc_container"
             android:paddingTop="@dimen/schacc_extra_large_spacing">
 
-            <FrameLayout
-                android:id="@+id/onestep_identification_input_view"
+            <com.schibsted.account.ui.ui.component.SingleFieldView
+                android:id="@+id/onestep_login_input_view"
                 android:focusable="true"
                 android:focusableInTouchMode="true"
                 android:layout_width="match_parent"
@@ -88,7 +88,7 @@
                 android:layout_marginTop="@dimen/schacc_medium_spacing"
                 app:errorText="@string/schacc_password_error_length"
                 app:imeOptions="done"
-                app:layout_constraintTop_toBottomOf="@+id/onestep_identification_input_view"/>
+                app:layout_constraintTop_toBottomOf="@+id/onestep_login_input_view"/>
 
             <TextView
                 android:id="@+id/onestep_login_forgot_password"
