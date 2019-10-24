@@ -166,7 +166,7 @@ class OneStepLoginFragment : FlowFragment<OneStepLoginContract.Presenter>(), One
         registerLoginListeners()
     }
 
-    private fun prefillIdentifier(identifier: String?) {
+    internal fun prefillIdentifier(identifier: String?) {
         Logger.info(TAG, "Attempting to prefill  email")
         if (identifier.isNullOrEmpty()) {
             Logger.info(TAG, "email wasn't found")

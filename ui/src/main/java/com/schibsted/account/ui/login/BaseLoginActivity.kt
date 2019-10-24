@@ -175,9 +175,17 @@ abstract class BaseLoginActivity : AppCompatActivity(), NavigationListener {
                     } else {
                         smartlockController?.provideHint(result.credentials)
                         fragmentProvider = FragmentProvider(uiConfiguration, navigationController)
-                        navigationController.currentFragment
-                                ?.let { it as? EmailIdentificationFragment }
-                                ?.prefillIdentifier(uiConfiguration.identifier)
+                        when (flowType) {
+                            AccountUi.FlowType.ONE_STEP_PASSWORD_LOGIN ->
+                                navigationController.currentFragment
+                                    ?.let { it as? OneStepLoginFragment }
+                                    ?.prefillIdentifier(uiConfiguration.identifier)
+                            else ->
+                                navigationController.currentFragment
+                                    ?.let { it as? EmailIdentificationFragment }
+                                    ?.prefillIdentifier(uiConfiguration.identifier)
+                        }
+
                     }
                 }
                 is SmartlockTask.SmartLockResult.Failure -> {
