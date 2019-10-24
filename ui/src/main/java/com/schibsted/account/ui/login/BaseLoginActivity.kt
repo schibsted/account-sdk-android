@@ -199,6 +199,7 @@ abstract class BaseLoginActivity : AppCompatActivity(), NavigationListener {
                 is SmartlockTask.SmartLockResult.NoValue -> {
                     Logger.info(TAG, "Smartlock login failed or was cancelled - smartlockController mode ${params.smartLockMode.name}")
                     progressBar.visibility = View.GONE
+                    viewModel.smartlockReceiver.onNoValue()
                 }
             }
         })
