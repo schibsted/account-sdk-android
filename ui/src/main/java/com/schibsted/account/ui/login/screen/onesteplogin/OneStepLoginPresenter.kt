@@ -21,6 +21,7 @@ import com.schibsted.account.ui.login.BaseLoginActivity
 import com.schibsted.account.ui.login.flow.password.FlowSelectionListener
 import com.schibsted.account.ui.smartlock.SmartlockController
 import com.schibsted.account.ui.ui.InputField
+import com.schibsted.account.util.KeyValueStore
 
 class OneStepLoginPresenter(
         private val view: OneStepLoginContract.View,
@@ -122,7 +123,7 @@ class OneStepLoginPresenter(
         }
     }
 
-    override fun sign(identifier: InputField, credentials: InputField, keepUserLoggedIn: Boolean, lifecycleOwner: LifecycleOwner) {
+    override fun sign(identifier: InputField, credentials: InputField, keepUserLoggedIn: Boolean, lifecycleOwner: LifecycleOwner, keyValueStore: KeyValueStore?) {
 
         view.hideError(credentials)
         view.showProgress()
@@ -137,6 +138,11 @@ class OneStepLoginPresenter(
                 credProvider.value?.provide(Credentials(id!!, credentials.input!!, keepUserLoggedIn), object : ResultCallback<NoValue> {
                     override fun onSuccess(result: NoValue) {
                         smartlockController?.saveCredential(id!!.identifier, credentials.input!!)
+                        if (keepUserLoggedIn) {
+                            keyValueStore?.writeEmailPrefillValue(id!!.identifier)
+                        } else {
+                            keyValueStore?.clearEmailPrefillValue()
+                        }
                     }
 
                     override fun onError(error: ClientError) {

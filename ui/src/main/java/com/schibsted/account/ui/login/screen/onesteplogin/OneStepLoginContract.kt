@@ -12,6 +12,7 @@ import com.schibsted.account.ui.login.screen.password.PasswordContract
 import com.schibsted.account.ui.ui.ErrorField
 import com.schibsted.account.ui.ui.FlowView
 import com.schibsted.account.ui.ui.InputField
+import com.schibsted.account.util.KeyValueStore
 
 interface OneStepLoginContract {
 
@@ -42,7 +43,7 @@ interface OneStepLoginContract {
 
         fun getAccountStatus(input: InputField, allowSignUp: Boolean, signUpErrorMessage: String?)
         fun startSignin()
-        fun sign(identifier: InputField, CredInputField: InputField, keepUserLoggedIn: Boolean, lifecycleOwner: LifecycleOwner)
+        fun sign(identifier: InputField, CredInputField: InputField, keepUserLoggedIn: Boolean, lifecycleOwner: LifecycleOwner, keyValueStore: KeyValueStore?)
         fun startSignup()
         fun signup(identifier: InputField, CredInputField: InputField, keepUserLoggedIn: Boolean, lifecycleOwner: LifecycleOwner)
 

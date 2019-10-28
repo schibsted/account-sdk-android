@@ -36,6 +36,7 @@ import com.schibsted.account.ui.ui.component.SingleFieldView
 import com.schibsted.account.ui.ui.dialog.InformationDialogFragment
 import com.schibsted.account.ui.ui.rule.EmailValidationRule
 import com.schibsted.account.util.DeepLink
+import com.schibsted.account.util.KeyValueStore
 
 
 private const val KEY_IDENTIFIER = "IDENTIFIER"
@@ -170,7 +171,12 @@ class OneStepLoginFragment : FlowFragment<OneStepLoginContract.Presenter>(), One
     internal fun prefillIdentifier(identifier: String?) {
         Logger.info(TAG, "Attempting to prefill  email")
         if (identifier.isNullOrEmpty()) {
-            Logger.info(TAG, "email wasn't found")
+            Logger.info(TAG, "email wasn't found in config")
+            val storedEmailPrefillValue: String? = this.context?.let { KeyValueStore(it).readEmailPrefillValue() }
+            storedEmailPrefillValue?.let {
+                Logger.info(TAG, "email has been prefilled from stored value")
+                inputFieldView.inputField.setText(it)
+            }
         } else {
             if (EmailValidationRule.isValid(identifier)) {
                 inputFieldView.inputField.setText(identifier)
@@ -244,7 +250,7 @@ class OneStepLoginFragment : FlowFragment<OneStepLoginContract.Presenter>(), One
         BaseLoginActivity.tracker?.eventInteraction(TrackingData.InteractionType.SEND, TrackingData.Screen.ONE_STEP_LOGIN)
         identifier = args?.getParcelable(KEY_IDENTIFIER)
 
-        loginPresenter.sign(inputFieldView, credInputFieldView, rememberMe.isChecked, viewLifecycleOwner)
+        loginPresenter.sign(inputFieldView, credInputFieldView, rememberMe.isChecked, viewLifecycleOwner, this.context?.let { KeyValueStore(it) })
     }
 
     private fun signUpUser() {
