@@ -61,10 +61,8 @@ class EmailIdentificationFragment : AbstractIdentificationFragment(), Identifica
             Logger.info(TAG, "email wasn't found in config")
             val storedEmailPrefillValue: String? = this.context?.let { KeyValueStore(it).readEmailPrefillValue() }
             storedEmailPrefillValue?.let {
-                if (EmailValidationRule.isValid(it)) {
-                    Logger.info(TAG, "email has been prefilled from stored value")
-                    inputFieldView.inputField.setText(it)
-                }
+                Logger.info(TAG, "email has been prefilled from stored value")
+                inputFieldView.inputField.setText(it)
             }
         } else {
             if (EmailValidationRule.isValid(identifier)) {
