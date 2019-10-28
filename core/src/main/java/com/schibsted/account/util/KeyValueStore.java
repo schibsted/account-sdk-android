@@ -48,6 +48,7 @@ public class KeyValueStore {
     static final String KEY_CONNECTION = "Connection";
     @VisibleForTesting
     static final String KEY_AUTH_CODE = "AuthCode";
+    static final String KEY_EMAIL_PREFILL_VALUE = "EmailPrefillValue";
     private static final String KEY_PREFERENCES_FILE = "preferences";
     private static final String KEY_CLIENT_CREDENTIALS = "ClientCredentials";
     private static final Gson GSON = new Gson();
@@ -222,6 +223,19 @@ public class KeyValueStore {
         this.writeString(KeyValueStore.KEY_RASHOMON_JWT, null);
         // noinspection PrivateMemberAccessBetweenOuterAndInnerClass
         OldSdkCompatOperations.clearAccessToken(this.context);
+    }
+
+    @Nullable
+    public String readEmailPrefillValue() {
+        return this.readString(KEY_EMAIL_PREFILL_VALUE);
+    }
+
+    public void writeEmailPrefillValue(String email) {
+        this.writeString(KEY_EMAIL_PREFILL_VALUE, email);
+    }
+
+    public void clearEmailPrefillValue() {
+        this.writeString(KEY_EMAIL_PREFILL_VALUE, null);
     }
 
     /**

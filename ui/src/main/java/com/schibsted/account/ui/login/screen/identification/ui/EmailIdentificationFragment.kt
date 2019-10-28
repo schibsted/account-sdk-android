@@ -19,6 +19,7 @@ import com.schibsted.account.ui.R
 import com.schibsted.account.ui.login.screen.identification.IdentificationContract
 import com.schibsted.account.ui.ui.component.SingleFieldView
 import com.schibsted.account.ui.ui.rule.EmailValidationRule
+import com.schibsted.account.util.KeyValueStore
 
 /**
  * a [Fragment] displaying the email identification screen
@@ -57,7 +58,14 @@ class EmailIdentificationFragment : AbstractIdentificationFragment(), Identifica
     public override fun prefillIdentifier(identifier: String?) {
         Logger.info(TAG, "Attempting to prefill  email")
         if (identifier.isNullOrEmpty()) {
-            Logger.info(TAG, "email wasn't found")
+            Logger.info(TAG, "email wasn't found in config")
+            val storedEmailPrefillValue: String? = this.context?.let { KeyValueStore(it).readEmailPrefillValue() }
+            storedEmailPrefillValue?.let {
+                if (EmailValidationRule.isValid(it)) {
+                    Logger.info(TAG, "email has been prefilled from stored value")
+                    inputFieldView.inputField.setText(it)
+                }
+            }
         } else {
             if (EmailValidationRule.isValid(identifier)) {
                 inputFieldView.inputField.setText(identifier)
