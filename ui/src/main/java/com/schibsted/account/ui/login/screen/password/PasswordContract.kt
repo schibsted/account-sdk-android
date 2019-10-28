@@ -9,6 +9,7 @@ import com.schibsted.account.engine.input.Identifier
 import com.schibsted.account.ui.ui.ErrorField
 import com.schibsted.account.ui.ui.FlowView
 import com.schibsted.account.ui.ui.InputField
+import com.schibsted.account.util.KeyValueStore
 
 interface PasswordContract {
 
@@ -23,6 +24,6 @@ interface PasswordContract {
     }
 
     interface Presenter {
-        fun sign(inputField: InputField, identifier: Identifier?, keepUserLoggedIn: Boolean)
+        fun sign(inputField: InputField, identifier: Identifier?, keepUserLoggedIn: Boolean, keyValueStore: KeyValueStore?)
     }
 }

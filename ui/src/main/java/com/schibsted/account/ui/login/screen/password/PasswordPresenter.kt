@@ -16,6 +16,7 @@ import com.schibsted.account.ui.R
 import com.schibsted.account.ui.login.BaseLoginActivity
 import com.schibsted.account.ui.smartlock.SmartlockController
 import com.schibsted.account.ui.ui.InputField
+import com.schibsted.account.util.KeyValueStore
 
 class PasswordPresenter(private val view: PasswordContract.View, private var provider: InputProvider<Credentials>, private val smartlockController: SmartlockController?) : PasswordContract.Presenter {
 
@@ -23,7 +24,7 @@ class PasswordPresenter(private val view: PasswordContract.View, private var pro
         view.setPresenter(this)
     }
 
-    override fun sign(inputField: InputField, identifier: Identifier?, keepUserLoggedIn: Boolean) {
+    override fun sign(inputField: InputField, identifier: Identifier?, keepUserLoggedIn: Boolean, keyValueStore: KeyValueStore?) {
         view.hideError(inputField)
         view.showProgress()
         requireNotNull(identifier) { "Identifier can't be null at this stage" }
@@ -31,6 +32,11 @@ class PasswordPresenter(private val view: PasswordContract.View, private var pro
             provider.provide(Credentials(identifier!!, inputField.input!!, keepUserLoggedIn), object : ResultCallback<NoValue> {
                 override fun onSuccess(result: NoValue) {
                     smartlockController?.saveCredential(identifier.identifier, inputField.input!!)
+                    if (keepUserLoggedIn) {
+                        keyValueStore?.writeEmailPrefillValue(identifier.identifier)
+                    } else {
+                        keyValueStore?.clearEmailPrefillValue()
+                    }
                 }
 
                 override fun onError(error: ClientError) {
