@@ -200,7 +200,7 @@ class OneStepLoginFragment : FlowFragment<OneStepLoginContract.Presenter>(), One
         credInputFieldView.setImeAction(EditorInfo.IME_ACTION_DONE) { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
                 identifyUser(inputFieldView, TrackingData.Screen.ONE_STEP_LOGIN)
-                signUser()
+                signInUser()
             }
             false
         }
@@ -208,7 +208,7 @@ class OneStepLoginFragment : FlowFragment<OneStepLoginContract.Presenter>(), One
 
         primaryActionView.setOnClickListener {
             identifyUser(inputFieldView, TrackingData.Screen.ONE_STEP_LOGIN)
-            signUser()
+            signInUser()
         }
 
         secondaryActionView?.setOnClickListener {
@@ -246,11 +246,11 @@ class OneStepLoginFragment : FlowFragment<OneStepLoginContract.Presenter>(), One
         }
     }
 
-    private fun signUser() {
+    private fun signInUser() {
         BaseLoginActivity.tracker?.eventInteraction(TrackingData.InteractionType.SEND, TrackingData.Screen.ONE_STEP_LOGIN)
         identifier = args?.getParcelable(KEY_IDENTIFIER)
 
-        loginPresenter.sign(inputFieldView, credInputFieldView, rememberMe.isChecked, viewLifecycleOwner, this.context?.let { KeyValueStore(it) })
+        loginPresenter.signIn(inputFieldView, credInputFieldView, rememberMe.isChecked, viewLifecycleOwner, this.context?.let { KeyValueStore(it) })
     }
 
     private fun signUpUser() {

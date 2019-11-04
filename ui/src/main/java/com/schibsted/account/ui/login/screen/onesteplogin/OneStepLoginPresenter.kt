@@ -123,7 +123,7 @@ class OneStepLoginPresenter(
         }
     }
 
-    override fun sign(identifier: InputField, credentials: InputField, keepUserLoggedIn: Boolean, lifecycleOwner: LifecycleOwner, keyValueStore: KeyValueStore?) {
+    override fun signIn(identifier: InputField, credentials: InputField, keepUserLoggedIn: Boolean, lifecycleOwner: LifecycleOwner, keyValueStore: KeyValueStore?) {
 
         view.hideError(credentials)
         view.showProgress()

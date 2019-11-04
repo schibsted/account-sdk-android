@@ -96,7 +96,6 @@
                 android:id="@+id/onestep_password_input_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/account_selector_view"
                 android:layout_marginTop="@dimen/schacc_medium_spacing"
                 app:errorText="@string/schacc_password_error_length"
                 app:titleText=""

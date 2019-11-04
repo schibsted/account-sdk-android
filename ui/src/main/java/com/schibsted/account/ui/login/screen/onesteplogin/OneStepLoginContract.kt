@@ -43,7 +43,7 @@ interface OneStepLoginContract {
 
         fun getAccountStatus(input: InputField, allowSignUp: Boolean, signUpErrorMessage: String?)
         fun startSignin()
-        fun sign(identifier: InputField, CredInputField: InputField, keepUserLoggedIn: Boolean, lifecycleOwner: LifecycleOwner, keyValueStore: KeyValueStore?)
+        fun signIn(identifier: InputField, CredInputField: InputField, keepUserLoggedIn: Boolean, lifecycleOwner: LifecycleOwner, keyValueStore: KeyValueStore?)
         fun startSignup()
         fun signup(identifier: InputField, CredInputField: InputField, keepUserLoggedIn: Boolean, lifecycleOwner: LifecycleOwner)
 
