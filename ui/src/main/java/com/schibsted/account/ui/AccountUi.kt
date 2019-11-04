@@ -99,7 +99,7 @@ object AccountUi {
     private var clientInfo: ClientInfo? = null
 
     enum class FlowType {
-        PASSWORD, PASSWORDLESS_EMAIL, PASSWORDLESS_SMS, ONE_STEP_PASSWORD_LOGIN;
+        PASSWORD, PASSWORDLESS_EMAIL, PASSWORDLESS_SMS, ONE_STEP_PASSWORD;
     }
 
     @JvmStatic
@@ -122,7 +122,7 @@ object AccountUi {
 
         var intent = when (flowType) {
             FlowType.PASSWORD,
-            FlowType.ONE_STEP_PASSWORD_LOGIN -> Intent(context, PasswordActivity::class.java)
+            FlowType.ONE_STEP_PASSWORD -> Intent(context, PasswordActivity::class.java)
             FlowType.PASSWORDLESS_EMAIL,
             FlowType.PASSWORDLESS_SMS -> Intent(context, PasswordlessActivity::class.java)
         }

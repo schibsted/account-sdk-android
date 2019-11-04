@@ -140,7 +140,7 @@ abstract class BaseLoginActivity : AppCompatActivity(), NavigationListener {
         viewModel.smartlockCredentials.value = intent.getParcelableExtra(KEY_SMARTLOCK_CREDENTIALS)
         initializePropertiesFromBundle(savedInstanceState)
 
-        loginContract = if (flowType == AccountUi.FlowType.ONE_STEP_PASSWORD_LOGIN) OneStepLoginContractImpl(this, viewModel) else LoginContractImpl(this, viewModel)
+        loginContract = if (flowType == AccountUi.FlowType.ONE_STEP_PASSWORD) OneStepLoginContractImpl(this, viewModel) else LoginContractImpl(this, viewModel)
 
         if (SmartlockController.isSmartlockAvailable()) {
             smartlockController = SmartlockController(this, viewModel.smartlockReceiver)
@@ -176,7 +176,7 @@ abstract class BaseLoginActivity : AppCompatActivity(), NavigationListener {
                         smartlockController?.provideHint(result.credentials)
                         fragmentProvider = FragmentProvider(uiConfiguration, navigationController)
                         when (flowType) {
-                            AccountUi.FlowType.ONE_STEP_PASSWORD_LOGIN ->
+                            AccountUi.FlowType.ONE_STEP_PASSWORD ->
                                 navigationController.currentFragment
                                     ?.let { it as? OneStepLoginFragment }
                                     ?.prefillIdentifier(uiConfiguration.identifier)
@@ -312,7 +312,7 @@ abstract class BaseLoginActivity : AppCompatActivity(), NavigationListener {
             flowSelectionListener: FlowSelectionListener?,
             idProvider: InputProvider<Identifier>?
             ) {
-        if (flowType ==  AccountUi.FlowType.ONE_STEP_PASSWORD_LOGIN) {
+        if (flowType ==  AccountUi.FlowType.ONE_STEP_PASSWORD) {
             val fragment = fragmentProvider.getOrCreateOneStepLoginFragment(
                     idProvider = idProvider,
                     credProvider = viewModel.credentialsProvider,
