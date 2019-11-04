@@ -1,14 +1,15 @@
-<?xml version="1.0" encoding="utf-8"?><!--
-  ~ Copyright (c) 2018 Schibsted Products & Technology AS. Licensed under the terms of the MIT license. See LICENSE in the project root.
-  -->
-
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/identification_container"
-    android:windowBackground="@color/schacc_grey"
-    android:layout_height="wrap_content"
-    android:layout_width="match_parent">
+    android:fillViewport="true">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/logos_container"
@@ -47,6 +48,7 @@
         android:layout_marginLeft="@dimen/schacc_medium_spacing"
         android:layout_marginRight="@dimen/schacc_medium_spacing"
         android:layout_marginStart="@dimen/schacc_medium_spacing"
+        android:layout_below="@+id/logos_container"
         android:ellipsize="none"
         android:maxLines="3"
         android:paddingBottom="20dp"
@@ -57,17 +59,9 @@
         tools:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce malesuada tristique dolor, vel lacinia justo semper eget. Curabitur non urna non felis tincidunt faucibus at non dui."
         tools:visibility="visible" />
 
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/schacc_rounded_container"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/schacc_teaser_text"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
-
         <android.support.constraint.ConstraintLayout
             style="@style/schacc_container"
+            android:layout_below="@+id/schacc_teaser_text"
             android:paddingTop="@dimen/schacc_extra_large_spacing">
 
             <com.schibsted.account.ui.ui.component.SingleFieldView
@@ -141,5 +135,6 @@
                 app:layout_constraintTop_toBottomOf="@+id/onestep_identification_button_continue"
                 app:layout_constraintBottom_toBottomOf="parent" />
         </android.support.constraint.ConstraintLayout>
-    </FrameLayout>
-</android.support.constraint.ConstraintLayout>
+
+    </RelativeLayout>
+</ScrollView>

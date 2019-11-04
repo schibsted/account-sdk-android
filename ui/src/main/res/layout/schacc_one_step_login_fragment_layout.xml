@@ -1,80 +1,69 @@
-<?xml version="1.0" encoding="utf-8"?><!--
-  ~ Copyright (c) 2018 Schibsted Products & Technology AS. Licensed under the terms of the MIT license. See LICENSE in the project root.
-  -->
-
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/identification_container"
-    android:windowBackground="@color/schacc_grey"
-    android:layout_height="wrap_content"
-    android:layout_width="match_parent">
+    android:fillViewport="true">
 
-    <android.support.constraint.ConstraintLayout
-
-        android:id="@+id/logos_container"
-        android:padding="@dimen/schacc_medium_spacing"
-        android:paddingBottom="@dimen/schacc_large_spacing"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <ImageView
-            android:id="@+id/client_logo"
-            android:layout_width="wrap_content"
+        android:orientation="vertical">
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/logos_container"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:contentDescription="@null"
-            android:maxHeight="@dimen/schacc_logo_dimension"
-            android:maxWidth="@dimen/schacc_logo_dimension"
-            android:adjustViewBounds="true"
-            tools:src="@drawable/schacc_schibsted_logo_soft_black" />
+            android:layout_alignParentTop="true"
+            android:padding="@dimen/schacc_medium_spacing"
+            android:paddingBottom="@dimen/schacc_large_spacing">
+            <ImageView
+                android:id="@+id/client_logo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:contentDescription="@null"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:maxHeight="@dimen/schacc_logo_dimension"
+                android:maxWidth="@dimen/schacc_logo_dimension"
+                android:adjustViewBounds="true"
+                tools:src="@drawable/schacc_schibsted_logo_soft_black" />
 
-        <ImageView
-            android:id="@+id/schibsted_logo"
-            app:srcCompat="@drawable/schacc_schibsted_logo_soft_black"
-            android:contentDescription="@null"
-            android:layout_width="wrap_content"
+            <ImageView
+                android:id="@+id/schibsted_logo"
+                app:srcCompat="@drawable/schacc_schibsted_logo_soft_black"
+                android:contentDescription="@null"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginEnd="@dimen/schacc_small_spacing"
+                android:layout_marginRight="@dimen/schacc_small_spacing"/>
+        </android.support.constraint.ConstraintLayout>
+
+        <TextView
+            android:id="@+id/schacc_teaser_text"
+            style="@style/schacc_text"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginEnd="@dimen/schacc_small_spacing"
-            android:layout_marginRight="@dimen/schacc_small_spacing"
-            app:layout_constraintTop_toTopOf="parent" />
-    </android.support.constraint.ConstraintLayout>
-
-    <TextView
-        android:id="@+id/schacc_teaser_text"
-        style="@style/schacc_text"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginRight="@dimen/schacc_medium_spacing"
-        android:ellipsize="none"
-        android:maxLines="3"
-        android:paddingBottom="20dp"
-        android:visibility="gone"
-        app:layout_constraintTop_toBottomOf="@id/logos_container"
-        tools:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce malesuada tristique dolor, vel lacinia justo semper eget. Curabitur non urna non felis tincidunt faucibus at non dui."
-        app:layout_constraintEnd_toEndOf="@+id/logos_container"
-        android:layout_marginEnd="@dimen/schacc_medium_spacing"
-        app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginLeft="@dimen/schacc_medium_spacing"
-        android:layout_marginStart="@dimen/schacc_medium_spacing"
-        tools:visibility="visible" />
-
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:background="@drawable/schacc_rounded_container"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/schacc_teaser_text"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        tools:layout_height="wrap_content">
+            android:layout_below="@id/logos_container"
+            android:layout_marginRight="@dimen/schacc_medium_spacing"
+            android:ellipsize="none"
+            android:maxLines="3"
+            android:paddingBottom="20dp"
+            android:visibility="gone"
+            tools:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce malesuada tristique dolor, vel lacinia justo semper eget. Curabitur non urna non felis tincidunt faucibus at non dui."
+            android:layout_marginEnd="@dimen/schacc_medium_spacing"
+            android:layout_marginLeft="@dimen/schacc_medium_spacing"
+            android:layout_marginStart="@dimen/schacc_medium_spacing"
+            tools:visibility="visible" />
 
         <android.support.constraint.ConstraintLayout
             style="@style/schacc_container"
             android:focusable="true"
+            android:layout_below="@id/schacc_teaser_text"
             android:paddingTop="@dimen/schacc_large_spacing">
 
             <com.schibsted.account.ui.ui.component.SingleFieldView
@@ -152,5 +141,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent" />
         </android.support.constraint.ConstraintLayout>
-    </FrameLayout>
-</android.support.constraint.ConstraintLayout>
+
+    </RelativeLayout>
+
+</ScrollView>
