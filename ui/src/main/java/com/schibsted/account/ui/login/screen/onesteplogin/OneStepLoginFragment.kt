@@ -264,6 +264,8 @@ class OneStepLoginFragment : FlowFragment<OneStepLoginContract.Presenter>(), One
         loginPresenter.startSignin()
         credInputFieldView.setTitle(R.string.schacc_password_sign_in_label)
         credInputFieldView.setInformationMessage("")
+        credInputFieldView.hideErrorView()
+        inputFieldView.hideErrorView()
         forgotPasswordLink.visibility = View.VISIBLE
         secondaryActionView?.setText(R.string.schacc_register_title)
         registerLoginListeners()
@@ -272,6 +274,8 @@ class OneStepLoginFragment : FlowFragment<OneStepLoginContract.Presenter>(), One
 
     private fun showSignup() {
         BaseLoginActivity.tracker?.eventInteraction(TrackingData.InteractionType.SEND, TrackingData.Screen.ONE_STEP_SIGNUP)
+        credInputFieldView.hideErrorView()
+        inputFieldView.hideErrorView()
         loginPresenter.startSignup()
         credInputFieldView.setTitle(R.string.schacc_password_sign_up_label)
         credInputFieldView.setInformationMessage(getString(R.string.schacc_password_extra_info))
