@@ -30,7 +30,7 @@ class CustomEditText(context: Context?, attrs: AttributeSet?) : AppCompatEditTex
 
         override fun sendKeyEvent(event: KeyEvent): Boolean {
             if (event.action == KeyEvent.ACTION_DOWN && event.keyCode == KeyEvent.KEYCODE_DEL) {
-                if (text.isEmpty()) {
+                if (text!!.isEmpty()) {
                     keyEventListener?.onDeleteKeyPressed()
                 }
             }
