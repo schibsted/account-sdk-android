@@ -113,11 +113,13 @@ class Navigation(
             val transaction = fragmentManager.beginTransaction()
             currentFragment = fragment
             currentFragment?.registerNavigationController(navigationListener)
-            transaction
-                    .setCustomAnimations(R.anim.schacc_right_in, R.anim.schacc_left_out, R.anim.schacc_left_in, R.anim.schacc_right_out)
-                    .replace(R.id.fragment_container, currentFragment, loginScreen.value)
-            transaction.addToBackStack(loginScreen.value)
-            transaction.commitAllowingStateLoss()
+            currentFragment?.let {
+                transaction
+                        .setCustomAnimations(R.anim.schacc_right_in, R.anim.schacc_left_out, R.anim.schacc_left_in, R.anim.schacc_right_out)
+                        .replace(R.id.fragment_container, it, loginScreen.value)
+                transaction.addToBackStack(loginScreen.value)
+                transaction.commitAllowingStateLoss()
+            }
         }
     }
 
