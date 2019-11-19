@@ -65,7 +65,7 @@ class PasswordActivity : BaseLoginActivity(), SignUpContract {
             viewModel.credentialsProvider.value =  provider
 
         } else {
-        viewModel.userIdentifier?.let { identifier ->
+            viewModel.userIdentifier?.let { identifier ->
             val fragment = fragmentProvider.getOrCreatePasswordFragment(
                     provider = provider,
                     currentIdentifier = identifier,
