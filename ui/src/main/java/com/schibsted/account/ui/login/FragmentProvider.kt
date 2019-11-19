@@ -64,7 +64,7 @@ class FragmentProvider(private val uiConfiguration: InternalUiConfiguration, pri
             clientInfo: ClientInfo
     ): BaseFragment {
 
-        return getFragment<OneStepLoginFragment>(navigation.currentFragment, {
+        return getFragment(navigation.currentFragment, {
             OneStepLoginFragment.newInstance(uiConfiguration, clientInfo)
         }, {
             it.setPresenter(OneStepLoginPresenter(it, credProvider,smartlockController, flowSelectionListener))

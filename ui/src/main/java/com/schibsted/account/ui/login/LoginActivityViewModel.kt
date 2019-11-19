@@ -93,7 +93,7 @@ class LoginActivityViewModel(
         }
     }
 
-    fun isUserAvailable() = userFlowType == FlowSelectionListener.FlowType.SIGN_UP
+    fun isUserAvailable() = userFlowType == FlowSelectionListener.FlowType.SIGN_UP || userFlowType == FlowSelectionListener.FlowType.ONE_STEP_SIGNUP
     fun isSmartlockResolving() = smartlockReceiver.isSmartlockResolving.value
 
     fun initializeSmartlock() {
