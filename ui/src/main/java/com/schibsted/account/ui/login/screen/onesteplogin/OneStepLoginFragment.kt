@@ -57,6 +57,7 @@ class OneStepLoginFragment : FlowFragment<OneStepLoginContract.Presenter>(), One
     override val isActive: Boolean
         get() = isAdded
 
+    private var isSignup: Boolean = false
     private lateinit var inputFieldView: SingleFieldView
     private lateinit var credInputFieldView: PasswordView
     private lateinit var rememberMe: CheckBoxView
@@ -117,7 +118,6 @@ class OneStepLoginFragment : FlowFragment<OneStepLoginContract.Presenter>(), One
 
         credInputFieldView.setTitle(R.string.schacc_password_sign_in_label)
 
-        prefillIdentifier(uiConf.identifier)
         return view
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -161,6 +161,19 @@ class OneStepLoginFragment : FlowFragment<OneStepLoginContract.Presenter>(), One
         }
 
         secondaryActionView?.visibility = if (uiConf.signUpEnabled) View.VISIBLE else View.GONE
+
+        prefillIdentifier(uiConf.identifier)
+    }
+
+    override fun onStart() {
+        super.onStart()
+        if (identifier != null ) {
+            inputFieldView.inputField.setText(identifier?.identifier)
+        }
+
+        if (isSignup) {
+            showSignup()
+        }
     }
 
     override fun onResume() {
@@ -248,18 +261,16 @@ class OneStepLoginFragment : FlowFragment<OneStepLoginContract.Presenter>(), One
 
     private fun signInUser() {
         BaseLoginActivity.tracker?.eventInteraction(TrackingData.InteractionType.SEND, TrackingData.Screen.ONE_STEP_LOGIN)
-        identifier = args?.getParcelable(KEY_IDENTIFIER)
-
         loginPresenter.signIn(inputFieldView, credInputFieldView, rememberMe.isChecked, viewLifecycleOwner, this.context?.let { KeyValueStore(it) })
     }
 
     private fun signUpUser() {
         BaseLoginActivity.tracker?.eventInteraction(TrackingData.InteractionType.SEND, TrackingData.Screen.ONE_STEP_SIGNUP)
-        identifier = args?.getParcelable(KEY_IDENTIFIER)
         loginPresenter.signup(inputFieldView, credInputFieldView, rememberMe.isChecked, viewLifecycleOwner)
     }
 
     private fun showSignIn() {
+        isSignup = false
         BaseLoginActivity.tracker?.eventInteraction(TrackingData.InteractionType.SEND, TrackingData.Screen.ONE_STEP_LOGIN)
         loginPresenter.startSignin()
         credInputFieldView.setTitle(R.string.schacc_password_sign_in_label)
@@ -273,6 +284,7 @@ class OneStepLoginFragment : FlowFragment<OneStepLoginContract.Presenter>(), One
     }
 
     private fun showSignup() {
+        isSignup = true
         BaseLoginActivity.tracker?.eventInteraction(TrackingData.InteractionType.SEND, TrackingData.Screen.ONE_STEP_SIGNUP)
         credInputFieldView.hideErrorView()
         inputFieldView.hideErrorView()
@@ -285,13 +297,13 @@ class OneStepLoginFragment : FlowFragment<OneStepLoginContract.Presenter>(), One
     }
 
     protected fun identifyUser(inputField: InputField, trackingScreen: TrackingData.Screen) {
+        identifier = Identifier(Identifier.IdentifierType.EMAIL, inputFieldView.input!! )
         BaseLoginActivity.tracker?.eventInteraction(TrackingData.InteractionType.SEND, trackingScreen)
         loginPresenter.verifyInput(inputField, uiConf.identifierType, uiConf.signUpEnabled, uiConf.signUpNotAllowedErrorMessage)
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        outState.putParcelable(KEY_UI_CONF, uiConf)
         outState.putParcelable(KEY_CLIENT_INFO, clientInfo)
     }
 
