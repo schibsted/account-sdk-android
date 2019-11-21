@@ -29,6 +29,8 @@ android {
     }
 
     resourcePrefix 'schacc_'
+
+    useLibrary 'android.test.mock'
 }
 
 dependencies {
@@ -56,6 +58,7 @@ dependencies {
         exclude group: 'com.android.support'
         exclude group: 'org.jetbrains.kotlin'
     }
+    androidTestImplementation "androidx.test.espresso:espresso-core:${libs.esspressoCore}"
 }
 
 bintrayUpload.dependsOn ':ui:check', ':ui:assembleRelease'

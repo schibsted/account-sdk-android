@@ -58,7 +58,8 @@ ext {
             retrofit        : "2.3.0",
             slf4jSimple     : "1.7.26",
             smartlock       : "15.0.1",
-            support         : "28.0.0"
+            support         : "28.0.0",
+            esspressoCore   : "3.1.0"
     ]
 
     conf = [
