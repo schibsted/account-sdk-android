@@ -69,13 +69,23 @@ class LoginActivityViewModel(
         userIdentifier = identifier
         userFlowType = flowType
         when (userFlowType) {
-            FlowSelectionListener.FlowType.LOGIN, FlowSelectionListener.FlowType.ONE_STEP_LOGIN-> {
+            FlowSelectionListener.FlowType.LOGIN -> {
+                activityTitle.value = LoginScreen.IDENTIFICATION_SCREEN
                 loginController.value = Event(LoginController(true, params.scopes))
             }
+
+            FlowSelectionListener.FlowType.ONE_STEP_LOGIN -> {
+                activityTitle.value = LoginScreen.ONE_STEP_LOGIN_SCREEN
+                loginController.value = Event(LoginController(true, params.scopes))
+            }
+
             FlowSelectionListener.FlowType.SIGN_UP -> {
+                activityTitle.value = LoginScreen.PASSWORD_SCREEN
                 signUpController.value = Event(SignUpController(redirectUri, params.scopes))
             }
+
             FlowSelectionListener.FlowType.ONE_STEP_SIGNUP -> {
+                activityTitle.value = LoginScreen.ONE_STEP_SIGNUP_SCREEN
                 signUpController.value = Event(SignUpController(redirectUri, params.scopes))
             }
         }
@@ -89,6 +99,10 @@ class LoginActivityViewModel(
 
             FlowSelectionListener.FlowType.ONE_STEP_LOGIN -> {
                 activityTitle.value = LoginScreen.ONE_STEP_LOGIN_SCREEN
+            }
+
+            FlowSelectionListener.FlowType.SIGN_UP -> {
+                activityTitle.value = LoginScreen.PASSWORD_SCREEN
             }
         }
     }
