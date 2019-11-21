@@ -185,7 +185,6 @@ abstract class BaseLoginActivity : AppCompatActivity(), NavigationListener {
                                     ?.let { it as? EmailIdentificationFragment }
                                     ?.prefillIdentifier(uiConfiguration.identifier)
                         }
-
                     }
                 }
                 is SmartlockTask.SmartLockResult.Failure -> {
@@ -308,11 +307,11 @@ abstract class BaseLoginActivity : AppCompatActivity(), NavigationListener {
     }
 
     private fun navigateToIdentificationFragment(
-            clientInfo: ClientInfo,
-            flowSelectionListener: FlowSelectionListener?,
-            idProvider: InputProvider<Identifier>?
-            ) {
-        if (flowType ==  AccountUi.FlowType.ONE_STEP_PASSWORD) {
+        clientInfo: ClientInfo,
+        flowSelectionListener: FlowSelectionListener?,
+        idProvider: InputProvider<Identifier>?
+    ) {
+        if (flowType == AccountUi.FlowType.ONE_STEP_PASSWORD) {
             val fragment = fragmentProvider.getOrCreateOneStepLoginFragment(
                     idProvider = idProvider,
                     credProvider = viewModel.credentialsProvider,
@@ -329,7 +328,6 @@ abstract class BaseLoginActivity : AppCompatActivity(), NavigationListener {
                     clientInfo = clientInfo)
             navigationController.navigateToFragment(fragment as AbstractIdentificationFragment)
         }
-
     }
 
     override fun onResume() {
@@ -403,7 +401,7 @@ abstract class BaseLoginActivity : AppCompatActivity(), NavigationListener {
     private fun updateActionBar() {
         updateTitle(screen)
         menu?.findItem(R.id.close_flow)?.isVisible = uiConfiguration.isClosingAllowed
-        if (screen == LoginScreen.IDENTIFICATION_SCREEN || screen == LoginScreen.ONE_STEP_LOGIN_SCREEN ) {
+        if (screen == LoginScreen.IDENTIFICATION_SCREEN || screen == LoginScreen.ONE_STEP_LOGIN_SCREEN) {
             toolbar_title.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null)
         } else {
             val drawable = ContextCompat.getDrawable(this, R.drawable.schacc_ic_arrow_back)
@@ -422,7 +420,7 @@ abstract class BaseLoginActivity : AppCompatActivity(), NavigationListener {
         @StringRes
         val title: Int = when (screen) {
             LoginScreen.IDENTIFICATION_SCREEN,
-            LoginScreen.ONE_STEP_LOGIN_SCREEN  -> R.string.schacc_identification_login_only_title
+            LoginScreen.ONE_STEP_LOGIN_SCREEN -> R.string.schacc_identification_login_only_title
             LoginScreen.ONE_STEP_SIGNUP_SCREEN -> if (this.uiConfiguration.signUpEnabled) R.string.schacc_register_title else R.string.schacc_identification_login_only_title
             LoginScreen.PASSWORD_SCREEN -> if (viewModel.isUserAvailable()) R.string.schacc_register_title else R.string.schacc_welcome_back_title
             LoginScreen.TC_SCREEN -> R.string.schacc_terms_title

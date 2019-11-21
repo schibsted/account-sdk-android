@@ -4,6 +4,8 @@ android {
             consumerProguardFiles "core-rules.pro"
         }
     }
+
+    useLibrary 'android.test.mock'
 }
 
 dependencies {

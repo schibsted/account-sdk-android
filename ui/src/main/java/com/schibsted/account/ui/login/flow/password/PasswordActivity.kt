@@ -18,7 +18,6 @@ import com.schibsted.account.engine.integration.ResultCallback
 import com.schibsted.account.engine.integration.contract.SignUpContract
 import com.schibsted.account.model.error.ClientError
 import com.schibsted.account.network.response.AgreementLinksResponse
-import com.schibsted.account.ui.AccountUi
 import com.schibsted.account.ui.login.BaseLoginActivity
 import com.schibsted.account.ui.login.screen.LoginScreen
 import com.schibsted.account.ui.ui.FlowFragment
@@ -62,8 +61,7 @@ class PasswordActivity : BaseLoginActivity(), SignUpContract {
 
     override fun onCredentialsRequested(provider: InputProvider<Credentials>) {
         if (viewModel.activityTitle.value == LoginScreen.ONE_STEP_SIGNUP_SCREEN) {
-            viewModel.credentialsProvider.value =  provider
-
+            viewModel.credentialsProvider.value = provider
         } else {
             viewModel.userIdentifier?.let { identifier ->
             val fragment = fragmentProvider.getOrCreatePasswordFragment(

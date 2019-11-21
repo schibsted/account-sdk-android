@@ -24,23 +24,22 @@ import com.schibsted.account.ui.ui.InputField
 import com.schibsted.account.util.KeyValueStore
 
 class OneStepLoginPresenter(
-        private val view: OneStepLoginContract.View,
-        private var credProvider: MutableLiveData<InputProvider<Credentials>>,
-        private val smartlockController: SmartlockController?,
-        private val flowSelectionListener: FlowSelectionListener?
+    private val view: OneStepLoginContract.View,
+    private var credProvider: MutableLiveData<InputProvider<Credentials>>,
+    private val smartlockController: SmartlockController?,
+    private val flowSelectionListener: FlowSelectionListener?
 ) : OneStepLoginContract.Presenter {
 
     init {
         view.setPresenter(this)
     }
 
-    internal  var id: Identifier? = null
+    internal var id: Identifier? = null
 
     private var isOneStepSignUp: Boolean = false
 
     private val trackingScreen: TrackingData.Screen
         get() = if (isOneStepSignUp) TrackingData.Screen.ONE_STEP_SIGNUP else TrackingData.Screen.ONE_STEP_LOGIN
-
 
     override fun getAccountStatus(input: InputField, allowSignUp: Boolean, signUpErrorMessage: String?) {
         id?.getAccountStatus(object : ResultCallback<AccountStatusResponse> {
@@ -91,10 +90,10 @@ class OneStepLoginPresenter(
      * @param identifier [InputField] representing the input
      */
     override fun verifyInput(
-            identifier: InputField,
-            identifierType: Identifier.IdentifierType,
-            allowSignup: Boolean,
-            signUpErrorMessage: String?
+        identifier: InputField,
+        identifierType: Identifier.IdentifierType,
+        allowSignup: Boolean,
+        signUpErrorMessage: String?
     ) {
         if (view.isActive) {
             view.hideError(identifier)
@@ -160,7 +159,6 @@ class OneStepLoginPresenter(
                     }
                 })
             })
-
         } else {
             showPasswordLengthError(credentials)
             view.hideProgress()
@@ -191,13 +189,11 @@ class OneStepLoginPresenter(
                         }
                     })
                 })
-
             } else {
                 showPasswordLengthError(credInputField)
                 view.hideProgress()
             }
         }
-
     }
 
     override fun startSignin() {

@@ -26,8 +26,7 @@ class OneStepLoginContractImpl(private val loginActivity: BaseLoginActivity, pri
                 }
             })
         } else {
-
-            loginActivityViewModel.credentialsProvider.value =  provider
+            loginActivityViewModel.credentialsProvider.value = provider
         }
     }
 }

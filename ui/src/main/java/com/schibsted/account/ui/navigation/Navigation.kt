@@ -122,7 +122,6 @@ class Navigation(
                 transaction.addToBackStack(loginScreen.value)
                 transaction.commitAllowingStateLoss()
             }
-
         }
     }
 

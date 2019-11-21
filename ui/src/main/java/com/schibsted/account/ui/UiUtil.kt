@@ -285,7 +285,7 @@ object UiUtil {
     @JvmStatic
     fun getSimCountry(context: Context): Int? {
         val telephonyService = context.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
-        val countryCode = telephonyService.simCountryIso.toUpperCase()
+        val countryCode = telephonyService.simCountryIso.toUpperCase(Locale.ROOT)
         return countryPrefixes[countryCode]
     }
 

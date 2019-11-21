@@ -14,4 +14,10 @@
     <issue id="GoogleAppIndexingApiWarning" severity="ignore"/>
 
     <issue id="ParcelCreator" severity="ignore"/>
+    <issue id="MissingConstraints" severity="informational"/>
+    <issue id="Recycle" severity="informational"/>
+    <issue id="DuplicateStrings" severity="informational"/>
+    <issue id="VectorRaster" severity="informational"/>
+    <issue id="Autofill" severity="informational"/>
+    <issue id="ConstantLocale" severity="informational"/>
 </lint>

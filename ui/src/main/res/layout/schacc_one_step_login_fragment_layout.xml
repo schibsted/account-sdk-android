@@ -29,7 +29,7 @@
                 android:maxHeight="@dimen/schacc_logo_dimension"
                 android:maxWidth="@dimen/schacc_logo_dimension"
                 android:adjustViewBounds="true"
-                tools:src="@drawable/schacc_schibsted_logo_soft_black" />
+                tools:src="@drawable/schacc_schibsted_logo_soft_black"/>
 
             <ImageView
                 android:id="@+id/schibsted_logo"
@@ -78,8 +78,7 @@
                 android:layout_marginTop="@dimen/schacc_medium_spacing"
                 app:errorText="@string/schacc_email_identification_error"
                 app:titleText="@string/schacc_email_label"
-                app:imeOptions="next"
-            />
+                app:imeOptions="next" />
 
             <com.schibsted.account.ui.ui.component.PasswordView
                 android:id="@+id/onestep_password_input_view"

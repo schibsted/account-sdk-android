@@ -7,8 +7,6 @@ package com.schibsted.account.ui.login.screen.onesteplogin
 import android.arch.lifecycle.LifecycleOwner
 import android.support.annotation.StringRes
 import com.schibsted.account.engine.input.Identifier
-import com.schibsted.account.ui.login.screen.identification.IdentificationContract
-import com.schibsted.account.ui.login.screen.password.PasswordContract
 import com.schibsted.account.ui.ui.ErrorField
 import com.schibsted.account.ui.ui.FlowView
 import com.schibsted.account.ui.ui.InputField
@@ -46,8 +44,5 @@ interface OneStepLoginContract {
         fun signIn(identifier: InputField, credInputField: InputField, keepUserLoggedIn: Boolean, lifecycleOwner: LifecycleOwner, keyValueStore: KeyValueStore?)
         fun startSignup()
         fun signup(identifier: InputField, credInputField: InputField, keepUserLoggedIn: Boolean, lifecycleOwner: LifecycleOwner)
-
     }
-
-
 }

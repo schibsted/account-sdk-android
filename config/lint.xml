@@ -5,4 +5,7 @@
     <issue id="RtlEnabled" severity="warning" />
     <issue id="GradleDependency" severity="ignore" />
     <issue id="OldTargetApi" severity="ignore" />
+    <issue id="WrongConstant" severity="ignore" />
+    <issue id="SyntheticAccessor" severity="ignore" />
+    <issue id="UnknownNullness" severity="ignore" />
 </lint>

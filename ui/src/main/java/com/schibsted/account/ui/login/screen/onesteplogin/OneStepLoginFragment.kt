@@ -38,14 +38,13 @@ import com.schibsted.account.ui.ui.rule.EmailValidationRule
 import com.schibsted.account.util.DeepLink
 import com.schibsted.account.util.KeyValueStore
 
-
 private const val KEY_IDENTIFIER = "IDENTIFIER"
 private const val KEY_USER_AVAILABLE = "USER_EXISTING"
 private const val KEY_UI_CONF = "UI_CONF"
 /**
  * a [Fragment] displaying the one step login screen
  */
-class OneStepLoginFragment : FlowFragment<OneStepLoginContract.Presenter>(), OneStepLoginContract.View{
+class OneStepLoginFragment : FlowFragment<OneStepLoginContract.Presenter>(), OneStepLoginContract.View {
     /**
      * The presenter tied with this [com.schibsted.account.ui.login.screen.onesteplogin.OneStepLoginContract.View]
      */
@@ -167,7 +166,7 @@ class OneStepLoginFragment : FlowFragment<OneStepLoginContract.Presenter>(), One
 
     override fun onStart() {
         super.onStart()
-        if (identifier != null ) {
+        if (identifier != null) {
             inputFieldView.inputField.setText(identifier?.identifier)
         }
 
@@ -218,7 +217,6 @@ class OneStepLoginFragment : FlowFragment<OneStepLoginContract.Presenter>(), One
             false
         }
 
-
         primaryActionView.setOnClickListener {
             identifyUser(inputFieldView, TrackingData.Screen.ONE_STEP_LOGIN)
             signInUser()
@@ -247,7 +245,6 @@ class OneStepLoginFragment : FlowFragment<OneStepLoginContract.Presenter>(), One
             }
             false
         }
-
 
         primaryActionView.setOnClickListener {
             identifyUser(inputFieldView, TrackingData.Screen.ONE_STEP_SIGNUP)
@@ -280,7 +277,6 @@ class OneStepLoginFragment : FlowFragment<OneStepLoginContract.Presenter>(), One
         forgotPasswordLink.visibility = View.VISIBLE
         secondaryActionView?.setText(R.string.schacc_register_title)
         registerLoginListeners()
-
     }
 
     private fun showSignup() {
@@ -297,7 +293,7 @@ class OneStepLoginFragment : FlowFragment<OneStepLoginContract.Presenter>(), One
     }
 
     protected fun identifyUser(inputField: InputField, trackingScreen: TrackingData.Screen) {
-        identifier = Identifier(Identifier.IdentifierType.EMAIL, inputFieldView.input!! )
+        identifier = Identifier(Identifier.IdentifierType.EMAIL, inputFieldView.input!!)
         BaseLoginActivity.tracker?.eventInteraction(TrackingData.InteractionType.SEND, trackingScreen)
         loginPresenter.verifyInput(inputField, uiConf.identifierType, uiConf.signUpEnabled, uiConf.signUpNotAllowedErrorMessage)
     }
@@ -310,7 +306,6 @@ class OneStepLoginFragment : FlowFragment<OneStepLoginContract.Presenter>(), One
     override fun showErrorDialog(error: ClientError, errorMessage: String?) {
         displayErrorDialog(error, errorMessage)
     }
-
 
     companion object {
         private val TAG = OneStepLoginFragment::class.java.simpleName
@@ -333,4 +328,3 @@ class OneStepLoginFragment : FlowFragment<OneStepLoginContract.Presenter>(), One
         private val GSON = Gson()
     }
 }
-
