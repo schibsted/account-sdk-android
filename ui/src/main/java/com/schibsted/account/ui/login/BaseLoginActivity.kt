@@ -461,6 +461,11 @@ abstract class BaseLoginActivity : AppCompatActivity(), NavigationListener {
 
     override fun onNavigationDone(screen: LoginScreen) {
         this.screen = screen
+
+        if (screen == LoginScreen.ONE_STEP_LOGIN_SCREEN && viewModel.activityTitle.value == LoginScreen.ONE_STEP_SIGNUP_SCREEN) {
+            this.screen = LoginScreen.ONE_STEP_SIGNUP_SCREEN
+        }
+
         keyboardController.register(navigationController.currentFragment)
         if (!LoginScreen.isWebView(screen.value)) {
             val customFields = mutableMapOf<String, Any>()

@@ -169,14 +169,13 @@ class OneStepLoginFragment : FlowFragment<OneStepLoginContract.Presenter>(), One
         if (identifier != null) {
             inputFieldView.inputField.setText(identifier?.identifier)
         }
-
-        if (isSignup) {
-            showSignup()
-        }
     }
 
     override fun onResume() {
         super.onResume()
+        if (isSignup) {
+            showSignup()
+        }
         registerLoginListeners()
     }
 
