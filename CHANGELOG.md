@@ -1,3 +1,7 @@
+## v1.11.0 (2019-11-26)
+- Expose SDK version for tracking implementations. (#423)
+- Upgrade Android SDK platform version. (#422)
+
 ## v1.10.0 (2019-10-28)
 - Pre-fill email if possible from previous login. (#412)
 - Fix #414: Resolve SmartLock flow when it's cancelled. (#415)
