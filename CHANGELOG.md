@@ -1,3 +1,6 @@
+## v1.11.1 (2019-11-27)
+- Downgrade Gradle 5.4.1->4.6 (#425)
+
 ## v1.11.0 (2019-11-26)
 - Expose SDK version for tracking implementations. (#423)
 - Upgrade Android SDK platform version. (#422)
