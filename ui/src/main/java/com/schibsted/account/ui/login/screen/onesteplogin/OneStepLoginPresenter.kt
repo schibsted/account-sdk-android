@@ -41,7 +41,12 @@ class OneStepLoginPresenter(
     private val trackingScreen: TrackingData.Screen
         get() = if (isOneStepSignUp) TrackingData.Screen.ONE_STEP_SIGNUP else TrackingData.Screen.ONE_STEP_LOGIN
 
-    override fun getAccountStatus(input: InputField, allowSignUp: Boolean, signUpErrorMessage: String?) {
+    override fun getAccountStatus(
+            input: InputField,
+            allowSignUp: Boolean,
+            signUpErrorMessage: String?,
+            callback: () -> Unit
+    ) {
         id?.getAccountStatus(object : ResultCallback<AccountStatusResponse> {
             override fun onSuccess(result: AccountStatusResponse) {
                 BaseLoginActivity.tracker?.let {
@@ -64,6 +69,12 @@ class OneStepLoginPresenter(
                     else -> FlowSelectionListener.FlowType.ONE_STEP_LOGIN
                 }
                 flowSelectionListener?.onFlowSelected(flowType, id!!)
+                when (flowType) {
+                    FlowSelectionListener.FlowType.ONE_STEP_SIGNUP,
+                    FlowSelectionListener.FlowType.ONE_STEP_LOGIN
+                    -> callback()
+                }
+
             }
 
             override fun onError(error: ClientError) {
@@ -93,14 +104,15 @@ class OneStepLoginPresenter(
         identifier: InputField,
         identifierType: Identifier.IdentifierType,
         allowSignup: Boolean,
-        signUpErrorMessage: String?
+        signUpErrorMessage: String?,
+        callback: () -> Unit
     ) {
         if (view.isActive) {
             view.hideError(identifier)
             if (identifier.isInputValid) {
                 identifier.input?.let {
                     id = Identifier(identifierType, it)
-                    getAccountStatus(identifier, allowSignup, signUpErrorMessage)
+                    getAccountStatus(identifier, allowSignup, signUpErrorMessage, callback)
                 }
             } else {
                 BaseLoginActivity.tracker?.let {
@@ -215,6 +227,6 @@ class OneStepLoginPresenter(
 
     private fun showEmailExistsError(inputField: InputField) {
         view.showError(inputField, R.string.schacc_email_already_in_use_error)
-        BaseLoginActivity.tracker?.eventError(TrackingData.UIError.InvalidPassword, TrackingData.Screen.ONE_STEP_SIGNUP)
+        BaseLoginActivity.tracker?.eventError(TrackingData.UIError.AlreadyInUseEmail, TrackingData.Screen.ONE_STEP_SIGNUP)
     }
 }

@@ -203,22 +203,26 @@ class OneStepLoginFragment : FlowFragment<OneStepLoginContract.Presenter>(), One
     private fun registerLoginListeners() {
         inputFieldView.setImeAction(EditorInfo.IME_ACTION_NEXT) { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_NEXT) {
-                identifyUser(inputFieldView, TrackingData.Screen.ONE_STEP_LOGIN)
+                identifyUser(inputFieldView, TrackingData.Screen.ONE_STEP_LOGIN) {
+
+                }
             }
             false
         }
 
         credInputFieldView.setImeAction(EditorInfo.IME_ACTION_DONE) { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
-                identifyUser(inputFieldView, TrackingData.Screen.ONE_STEP_LOGIN)
-                signInUser()
+                identifyUser(inputFieldView, TrackingData.Screen.ONE_STEP_LOGIN) {
+                    signUpUser()
+                }
             }
             false
         }
 
         primaryActionView.setOnClickListener {
-            identifyUser(inputFieldView, TrackingData.Screen.ONE_STEP_LOGIN)
-            signInUser()
+            identifyUser(inputFieldView, TrackingData.Screen.ONE_STEP_LOGIN){
+                signUpUser()
+            }
         }
 
         secondaryActionView?.setOnClickListener {
@@ -232,22 +236,26 @@ class OneStepLoginFragment : FlowFragment<OneStepLoginContract.Presenter>(), One
     private fun registerSignUpListeners() {
         inputFieldView.setImeAction(EditorInfo.IME_ACTION_NEXT) { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_NEXT) {
-                identifyUser(inputFieldView, TrackingData.Screen.ONE_STEP_SIGNUP)
+                identifyUser(inputFieldView, TrackingData.Screen.ONE_STEP_SIGNUP) {
+
+                }
             }
             false
         }
 
         credInputFieldView.setImeAction(EditorInfo.IME_ACTION_DONE) { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
-                identifyUser(inputFieldView, TrackingData.Screen.ONE_STEP_SIGNUP)
-                signUpUser()
+                identifyUser(inputFieldView, TrackingData.Screen.ONE_STEP_SIGNUP) {
+                    signUpUser()
+                }
             }
             false
         }
 
         primaryActionView.setOnClickListener {
-            identifyUser(inputFieldView, TrackingData.Screen.ONE_STEP_SIGNUP)
-            signUpUser()
+            identifyUser(inputFieldView, TrackingData.Screen.ONE_STEP_SIGNUP) {
+                signUpUser()
+            }
         }
 
         secondaryActionView?.setOnClickListener {
@@ -291,10 +299,10 @@ class OneStepLoginFragment : FlowFragment<OneStepLoginContract.Presenter>(), One
         registerSignUpListeners()
     }
 
-    protected fun identifyUser(inputField: InputField, trackingScreen: TrackingData.Screen) {
+    protected fun identifyUser(inputField: InputField, trackingScreen: TrackingData.Screen, callback: () -> Unit) {
         identifier = Identifier(Identifier.IdentifierType.EMAIL, inputFieldView.input!!)
         BaseLoginActivity.tracker?.eventInteraction(TrackingData.InteractionType.SEND, trackingScreen)
-        loginPresenter.verifyInput(inputField, uiConf.identifierType, uiConf.signUpEnabled, uiConf.signUpNotAllowedErrorMessage)
+        loginPresenter.verifyInput(inputField, uiConf.identifierType, uiConf.signUpEnabled, uiConf.signUpNotAllowedErrorMessage, callback)
     }
 
     override fun onSaveInstanceState(outState: Bundle) {

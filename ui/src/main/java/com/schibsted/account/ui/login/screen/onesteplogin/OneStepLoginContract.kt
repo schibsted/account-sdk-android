@@ -37,9 +37,9 @@ interface OneStepLoginContract {
          * @param allowSignup a flag used to know if the signup option is allowed
          * @param signUpErrorMessage an optional error message to show if the user want to signup but it's not allowed
          */
-        fun verifyInput(identifier: InputField, identifierType: Identifier.IdentifierType, allowSignup: Boolean, signUpErrorMessage: String?)
+        fun verifyInput(identifier: InputField, identifierType: Identifier.IdentifierType, allowSignup: Boolean, signUpErrorMessage: String?, callback: () -> Unit)
 
-        fun getAccountStatus(input: InputField, allowSignUp: Boolean, signUpErrorMessage: String?)
+        fun getAccountStatus(input: InputField, allowSignUp: Boolean, signUpErrorMessage: String?, callback: () -> Unit)
         fun startSignin()
         fun signIn(identifier: InputField, credInputField: InputField, keepUserLoggedIn: Boolean, lifecycleOwner: LifecycleOwner, keyValueStore: KeyValueStore?)
         fun startSignup()

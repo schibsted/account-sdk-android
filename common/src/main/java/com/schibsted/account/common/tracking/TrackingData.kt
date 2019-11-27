@@ -85,6 +85,7 @@ object TrackingData {
         object AgreementsNotAccepted : UIError(ErrorType.VALIDATION, "All agreements must be accepted")
         object InvalidPhone : UIError(ErrorType.VALIDATION, "The provided phone number is not valid")
         object InvalidEmail : UIError(ErrorType.VALIDATION, "The provided email is not valid")
+        object AlreadyInUseEmail : UIError(ErrorType.VALIDATION, "The provided email is already in use")
         object InvalidPassword : UIError(ErrorType.VALIDATION, "The provided password is not valid")
         class InvalidRequiredField(field: String) : UIError(ErrorType.VALIDATION, "Required field has invalid format: $field")
 
