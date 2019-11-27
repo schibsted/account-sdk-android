@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018 Schibsted Products & Technology AS. Licensed under the terms of the MIT license. See LICENSE in the project root.
+ * Copyright (c) 2019 Schibsted Products & Technology AS. Licensed under the terms of the MIT license. See LICENSE in the project root.
  */
 
 package com.schibsted.account.ui.login.flow.password
@@ -14,7 +14,7 @@ import com.schibsted.account.ui.login.LoginActivityViewModel
 
 class OneStepLoginContractImpl(private val loginActivity: BaseLoginActivity, private val loginActivityViewModel: LoginActivityViewModel) : LoginContractImpl(loginActivity, loginActivityViewModel) {
     override fun onCredentialsRequested(provider: InputProvider<Credentials>) {
-        var credentials = loginActivityViewModel.smartlockCredentials.value
+        val credentials = loginActivityViewModel.smartlockCredentials.value
         if (credentials != null) {
             provider.provide(credentials, object : ResultCallback<NoValue> {
                 override fun onSuccess(result: NoValue) {

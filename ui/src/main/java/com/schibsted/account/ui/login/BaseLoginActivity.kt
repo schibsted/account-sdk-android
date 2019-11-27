@@ -32,7 +32,6 @@ import com.schibsted.account.common.tracking.TrackingData
 import com.schibsted.account.common.tracking.UiTracking
 import com.schibsted.account.common.util.Logger
 import com.schibsted.account.engine.controller.LoginController
-import com.schibsted.account.engine.input.Credentials
 import com.schibsted.account.engine.input.Identifier
 import com.schibsted.account.engine.integration.InputProvider
 import com.schibsted.account.network.Environment
@@ -85,7 +84,6 @@ abstract class BaseLoginActivity : AppCompatActivity(), NavigationListener {
     }
 
     private var idProvider: InputProvider<Identifier>? = null
-    private var credProvider: InputProvider<Credentials>? = null
 
     protected lateinit var loginContract: LoginContractImpl
     @JvmField
@@ -106,7 +104,7 @@ abstract class BaseLoginActivity : AppCompatActivity(), NavigationListener {
     internal var smartlockController: SmartlockController? = null
 
     private lateinit var params: AccountUi.Params
-    internal lateinit var flowType: AccountUi.FlowType
+    private lateinit var flowType: AccountUi.FlowType
     private lateinit var keyboardController: KeyboardController
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -421,7 +419,7 @@ abstract class BaseLoginActivity : AppCompatActivity(), NavigationListener {
         val title: Int = when (screen) {
             LoginScreen.IDENTIFICATION_SCREEN,
             LoginScreen.ONE_STEP_LOGIN_SCREEN -> R.string.schacc_identification_login_only_title
-            LoginScreen.ONE_STEP_SIGNUP_SCREEN -> if (this.uiConfiguration.signUpEnabled) R.string.schacc_register_title else R.string.schacc_identification_login_only_title
+            LoginScreen.ONE_STEP_SIGNUP_SCREEN -> R.string.schacc_register_title
             LoginScreen.PASSWORD_SCREEN -> if (viewModel.isUserAvailable()) R.string.schacc_register_title else R.string.schacc_welcome_back_title
             LoginScreen.TC_SCREEN -> R.string.schacc_terms_title
             LoginScreen.REQUIRED_FIELDS_SCREEN -> R.string.schacc_required_fields_title

@@ -58,7 +58,7 @@ dependencies {
         exclude group: 'com.android.support'
         exclude group: 'org.jetbrains.kotlin'
     }
-    androidTestImplementation "androidx.test.espresso:espresso-core:${libs.esspressoCore}"
+    androidTestImplementation "androidx.test.espresso:espresso-core:${libs.espressoCore}"
 }
 
 bintrayUpload.dependsOn ':ui:check', ':ui:assembleRelease'

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018 Schibsted Products & Technology AS. Licensed under the terms of the MIT license. See LICENSE in the project root.
+ * Copyright (c) 2019 Schibsted Products & Technology AS. Licensed under the terms of the MIT license. See LICENSE in the project root.
  */
 
 package com.schibsted.account.ui.login.screen.onesteplogin
@@ -38,9 +38,6 @@ import com.schibsted.account.ui.ui.rule.EmailValidationRule
 import com.schibsted.account.util.DeepLink
 import com.schibsted.account.util.KeyValueStore
 
-private const val KEY_IDENTIFIER = "IDENTIFIER"
-private const val KEY_USER_AVAILABLE = "USER_EXISTING"
-private const val KEY_UI_CONF = "UI_CONF"
 /**
  * a [Fragment] displaying the one step login screen
  */
@@ -197,6 +194,7 @@ class OneStepLoginFragment : FlowFragment<OneStepLoginContract.Presenter>(), One
             }
         }
     }
+
     /**
      * setup listeners for the sign in views of this class
      */

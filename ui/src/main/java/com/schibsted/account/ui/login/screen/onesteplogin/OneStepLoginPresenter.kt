@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018 Schibsted Products & Technology AS. Licensed under the terms of the MIT license. See LICENSE in the project root.
+ * Copyright (c) 2019 Schibsted Products & Technology AS. Licensed under the terms of the MIT license. See LICENSE in the project root.
  */
 
 package com.schibsted.account.ui.login.screen.onesteplogin
@@ -115,21 +115,8 @@ class OneStepLoginPresenter(
                     getAccountStatus(identifier, allowSignup, signUpErrorMessage, callback)
                 }
             } else {
-                BaseLoginActivity.tracker?.let {
-                    it.eventError(TrackingData.UIError.InvalidEmail, trackingScreen)
-                }
+                BaseLoginActivity.tracker?.eventError(TrackingData.UIError.InvalidEmail, trackingScreen)
                 view.showError(identifier)
-            }
-        }
-    }
-
-    private fun trackError(error: ClientError) {
-        BaseLoginActivity.tracker?.let {
-            when {
-                error.errorType == ClientError.ErrorType.NETWORK_ERROR -> it.eventError(TrackingData.UIError.NetworkError, trackingScreen)
-                error.errorType == ClientError.ErrorType.INVALID_EMAIL -> it.eventError(TrackingData.UIError.InvalidEmail, trackingScreen)
-                else -> {
-                }
             }
         }
     }
