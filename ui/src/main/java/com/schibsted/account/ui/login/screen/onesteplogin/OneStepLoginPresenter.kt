@@ -42,10 +42,10 @@ class OneStepLoginPresenter(
         get() = if (isOneStepSignUp) TrackingData.Screen.ONE_STEP_SIGNUP else TrackingData.Screen.ONE_STEP_LOGIN
 
     override fun getAccountStatus(
-            input: InputField,
-            allowSignUp: Boolean,
-            signUpErrorMessage: String?,
-            callback: () -> Unit
+        input: InputField,
+        allowSignUp: Boolean,
+        signUpErrorMessage: String?,
+        callback: () -> Unit
     ) {
         id?.getAccountStatus(object : ResultCallback<AccountStatusResponse> {
             override fun onSuccess(result: AccountStatusResponse) {
@@ -73,8 +73,8 @@ class OneStepLoginPresenter(
                     FlowSelectionListener.FlowType.ONE_STEP_SIGNUP,
                     FlowSelectionListener.FlowType.ONE_STEP_LOGIN
                     -> callback()
+                    else -> {}
                 }
-
             }
 
             override fun onError(error: ClientError) {
@@ -134,7 +134,13 @@ class OneStepLoginPresenter(
         }
     }
 
-    override fun signIn(identifier: InputField, credentials: InputField, keepUserLoggedIn: Boolean, lifecycleOwner: LifecycleOwner, keyValueStore: KeyValueStore?) {
+    override fun signIn(
+        identifier: InputField,
+        credentials: InputField,
+        keepUserLoggedIn: Boolean,
+        lifecycleOwner: LifecycleOwner,
+        keyValueStore: KeyValueStore?
+    ) {
 
         view.hideError(credentials)
         view.showProgress()

@@ -203,9 +203,7 @@ class OneStepLoginFragment : FlowFragment<OneStepLoginContract.Presenter>(), One
     private fun registerLoginListeners() {
         inputFieldView.setImeAction(EditorInfo.IME_ACTION_NEXT) { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_NEXT) {
-                identifyUser(inputFieldView, TrackingData.Screen.ONE_STEP_LOGIN) {
-
-                }
+                identifyUser(inputFieldView, TrackingData.Screen.ONE_STEP_LOGIN) {}
             }
             false
         }
@@ -220,7 +218,7 @@ class OneStepLoginFragment : FlowFragment<OneStepLoginContract.Presenter>(), One
         }
 
         primaryActionView.setOnClickListener {
-            identifyUser(inputFieldView, TrackingData.Screen.ONE_STEP_LOGIN){
+            identifyUser(inputFieldView, TrackingData.Screen.ONE_STEP_LOGIN) {
                 signUpUser()
             }
         }
@@ -236,9 +234,7 @@ class OneStepLoginFragment : FlowFragment<OneStepLoginContract.Presenter>(), One
     private fun registerSignUpListeners() {
         inputFieldView.setImeAction(EditorInfo.IME_ACTION_NEXT) { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_NEXT) {
-                identifyUser(inputFieldView, TrackingData.Screen.ONE_STEP_SIGNUP) {
-
-                }
+                identifyUser(inputFieldView, TrackingData.Screen.ONE_STEP_SIGNUP) {}
             }
             false
         }
