@@ -220,6 +220,10 @@ abstract class BaseLoginActivity : AppCompatActivity(), NavigationListener {
                     setResult(AccountUi.RESULT_ERROR, Intent().putExtra(AccountUi.EXTRA_ERROR, result.error))
                     finish()
                 }
+
+                else -> {
+                    navigateToIdentificationFragment(null, viewModel, idProvider)
+                }
             }
         })
 
@@ -305,7 +309,7 @@ abstract class BaseLoginActivity : AppCompatActivity(), NavigationListener {
     }
 
     private fun navigateToIdentificationFragment(
-        clientInfo: ClientInfo,
+        clientInfo: ClientInfo?,
         flowSelectionListener: FlowSelectionListener?,
         idProvider: InputProvider<Identifier>?
     ) {
@@ -323,7 +327,7 @@ abstract class BaseLoginActivity : AppCompatActivity(), NavigationListener {
                     provider = idProvider,
                     flowType = flowType,
                     flowSelectionListener = flowSelectionListener,
-                    clientInfo = clientInfo)
+                    clientInfo = clientInfo!!)
             navigationController.navigateToFragment(fragment as AbstractIdentificationFragment)
         }
     }

@@ -38,6 +38,8 @@ import com.schibsted.account.ui.ui.rule.EmailValidationRule
 import com.schibsted.account.util.DeepLink
 import com.schibsted.account.util.KeyValueStore
 
+const val KEY_USER_EMAIL = "KEY_USER_EMAIL"
+
 /**
  * a [Fragment] displaying the one step login screen
  */
@@ -75,6 +77,10 @@ class OneStepLoginFragment : FlowFragment<OneStepLoginContract.Presenter>(), One
         args = savedInstanceState ?: arguments
 
         clientInfo = args!!.getParcelable(KEY_CLIENT_INFO)
+
+        args!!.getString(KEY_USER_EMAIL)?.let {
+            identifier = Identifier(Identifier.IdentifierType.EMAIL, it)
+        }
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -209,7 +215,7 @@ class OneStepLoginFragment : FlowFragment<OneStepLoginContract.Presenter>(), One
         credInputFieldView.setImeAction(EditorInfo.IME_ACTION_DONE) { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
                 identifyUser(inputFieldView, TrackingData.Screen.ONE_STEP_LOGIN) {
-                    signUpUser()
+                    signInUser()
                 }
             }
             false
@@ -217,7 +223,7 @@ class OneStepLoginFragment : FlowFragment<OneStepLoginContract.Presenter>(), One
 
         primaryActionView.setOnClickListener {
             identifyUser(inputFieldView, TrackingData.Screen.ONE_STEP_LOGIN) {
-                signUpUser()
+                signInUser()
             }
         }
 
@@ -269,7 +275,6 @@ class OneStepLoginFragment : FlowFragment<OneStepLoginContract.Presenter>(), One
 
     private fun showSignIn() {
         isSignup = false
-        BaseLoginActivity.tracker?.eventInteraction(TrackingData.InteractionType.SEND, TrackingData.Screen.ONE_STEP_LOGIN)
         loginPresenter.startSignin()
         credInputFieldView.setTitle(R.string.schacc_password_sign_in_label)
         credInputFieldView.setInformationMessage("")
@@ -282,7 +287,6 @@ class OneStepLoginFragment : FlowFragment<OneStepLoginContract.Presenter>(), One
 
     private fun showSignup() {
         isSignup = true
-        BaseLoginActivity.tracker?.eventInteraction(TrackingData.InteractionType.SEND, TrackingData.Screen.ONE_STEP_SIGNUP)
         credInputFieldView.hideErrorView()
         inputFieldView.hideErrorView()
         loginPresenter.startSignup()
@@ -302,6 +306,7 @@ class OneStepLoginFragment : FlowFragment<OneStepLoginContract.Presenter>(), One
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         outState.putParcelable(KEY_CLIENT_INFO, clientInfo)
+        outState.putString(KEY_USER_EMAIL, identifier?.identifier)
     }
 
     override fun showErrorDialog(error: ClientError, errorMessage: String?) {
@@ -317,11 +322,13 @@ class OneStepLoginFragment : FlowFragment<OneStepLoginContract.Presenter>(), One
          * @param uiConfiguration
          * @return a parametrized instance of [MobileIdentificationFragment]
          */
-        fun newInstance(uiConfiguration: InternalUiConfiguration, clientInfo: ClientInfo): OneStepLoginFragment {
+        fun newInstance(uiConfiguration: InternalUiConfiguration, clientInfo: ClientInfo?): OneStepLoginFragment {
             val args = Bundle()
             val fragment = OneStepLoginFragment()
             args.putParcelable(KEY_UI_CONF, uiConfiguration)
-            args.putParcelable(KEY_CLIENT_INFO, clientInfo)
+            if (clientInfo != null) {
+                args.putParcelable(KEY_CLIENT_INFO, clientInfo)
+            }
             fragment.arguments = args
             return fragment
         }

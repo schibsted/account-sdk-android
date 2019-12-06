@@ -36,7 +36,6 @@ public class BaseNetworkService {
     @RestrictTo(RestrictTo.Scope.TESTS)
     @VisibleForTesting
     protected static final String PARAM_CLIENT_SECRET = "client_secret";
-
     @RestrictTo(RestrictTo.Scope.TESTS)
     @VisibleForTesting
     protected static final String PARAM_PASSWORD = "password";
