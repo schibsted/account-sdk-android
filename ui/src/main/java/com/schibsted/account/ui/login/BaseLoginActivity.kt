@@ -220,9 +220,10 @@ abstract class BaseLoginActivity : AppCompatActivity(), NavigationListener {
                     setResult(AccountUi.RESULT_ERROR, Intent().putExtra(AccountUi.EXTRA_ERROR, result.error))
                     finish()
                 }
-
                 else -> {
-                    navigateToIdentificationFragment(null, viewModel, idProvider)
+                    if (flowType == AccountUi.FlowType.ONE_STEP_PASSWORD) {
+                        navigateToIdentificationFragment(null, viewModel, idProvider)
+                    }
                 }
             }
         })
