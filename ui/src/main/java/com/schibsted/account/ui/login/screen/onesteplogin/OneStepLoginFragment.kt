@@ -322,13 +322,11 @@ class OneStepLoginFragment : FlowFragment<OneStepLoginContract.Presenter>(), One
          * @param uiConfiguration
          * @return a parametrized instance of [MobileIdentificationFragment]
          */
-        fun newInstance(uiConfiguration: InternalUiConfiguration, clientInfo: ClientInfo?): OneStepLoginFragment {
+        fun newInstance(uiConfiguration: InternalUiConfiguration, clientInfo: ClientInfo): OneStepLoginFragment {
             val args = Bundle()
             val fragment = OneStepLoginFragment()
             args.putParcelable(KEY_UI_CONF, uiConfiguration)
-            if (clientInfo != null) {
-                args.putParcelable(KEY_CLIENT_INFO, clientInfo)
-            }
+            args.putParcelable(KEY_CLIENT_INFO, clientInfo)
             fragment.arguments = args
             return fragment
         }

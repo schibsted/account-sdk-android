@@ -210,7 +210,10 @@ abstract class BaseLoginActivity : AppCompatActivity(), NavigationListener {
         })
 
         viewModel.clientResult.observe(this, Observer {
-            val result = it?.get()
+            var result = it?.get()
+            if (result == null && flowType == AccountUi.FlowType.ONE_STEP_PASSWORD) {
+                result = it?.peek()
+            }
             when (result) {
                 is LoginActivityViewModel.ClientResult.Success -> {
                     BaseLoginActivity.tracker?.merchantId = result.clientInfo.merchantId
@@ -219,11 +222,6 @@ abstract class BaseLoginActivity : AppCompatActivity(), NavigationListener {
                 is LoginActivityViewModel.ClientResult.Failure -> {
                     setResult(AccountUi.RESULT_ERROR, Intent().putExtra(AccountUi.EXTRA_ERROR, result.error))
                     finish()
-                }
-                else -> {
-                    if (flowType == AccountUi.FlowType.ONE_STEP_PASSWORD) {
-                        navigateToIdentificationFragment(null, viewModel, idProvider)
-                    }
                 }
             }
         })
@@ -310,7 +308,7 @@ abstract class BaseLoginActivity : AppCompatActivity(), NavigationListener {
     }
 
     private fun navigateToIdentificationFragment(
-        clientInfo: ClientInfo?,
+        clientInfo: ClientInfo,
         flowSelectionListener: FlowSelectionListener?,
         idProvider: InputProvider<Identifier>?
     ) {
@@ -328,7 +326,7 @@ abstract class BaseLoginActivity : AppCompatActivity(), NavigationListener {
                     provider = idProvider,
                     flowType = flowType,
                     flowSelectionListener = flowSelectionListener,
-                    clientInfo = clientInfo!!)
+                    clientInfo = clientInfo)
             navigationController.navigateToFragment(fragment as AbstractIdentificationFragment)
         }
     }

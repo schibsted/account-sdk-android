@@ -61,7 +61,7 @@ class FragmentProvider(private val uiConfiguration: InternalUiConfiguration, pri
         credProvider: MutableLiveData<InputProvider<Credentials>>,
         smartlockController: SmartlockController?,
         flowSelectionListener: FlowSelectionListener? = null,
-        clientInfo: ClientInfo?
+        clientInfo: ClientInfo
     ): BaseFragment {
 
         return getFragment(navigation.currentFragment, {
