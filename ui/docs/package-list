@@ -11,6 +11,7 @@ com.schibsted.account.ui.login.screen.identification
 com.schibsted.account.ui.login.screen.identification.ui
 com.schibsted.account.ui.login.screen.inbox
 com.schibsted.account.ui.login.screen.information
+com.schibsted.account.ui.login.screen.onesteplogin
 com.schibsted.account.ui.login.screen.password
 com.schibsted.account.ui.login.screen.term
 com.schibsted.account.ui.login.screen.verification

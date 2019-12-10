@@ -1,0 +1,74 @@
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>OneStepLoginPresenter - ui</title>
+<link rel="stylesheet" href="../../../style.css">
+</HEAD>
+<BODY>
+<a href="../../index.html">ui</a>&nbsp;/&nbsp;<a href="../index.html">com.schibsted.account.ui.login.screen.onesteplogin</a>&nbsp;/&nbsp;<a href="./index.html">OneStepLoginPresenter</a><br/>
+<br/>
+<h1>OneStepLoginPresenter</h1>
+<code><span class="keyword">class </span><span class="identifier">OneStepLoginPresenter</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../-one-step-login-contract/-presenter/index.html"><span class="identifier">Presenter</span></a></code>
+<h3>Constructors</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="-init-.html">&lt;init&gt;</a></p>
+</td>
+<td>
+<code><span class="identifier">OneStepLoginPresenter</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.ui.login.screen.onesteplogin.OneStepLoginPresenter$<init>(com.schibsted.account.ui.login.screen.onesteplogin.OneStepLoginContract.View, android.arch.lifecycle.MutableLiveData((com.schibsted.account.engine.integration.InputProvider((com.schibsted.account.engine.input.Credentials)))), com.schibsted.account.ui.smartlock.SmartlockController, com.schibsted.account.ui.login.flow.password.FlowSelectionListener)/view">view</span><span class="symbol">:</span>&nbsp;<a href="../-one-step-login-contract/-view/index.html"><span class="identifier">View</span></a><span class="symbol">, </span><span class="identifier" id="com.schibsted.account.ui.login.screen.onesteplogin.OneStepLoginPresenter$<init>(com.schibsted.account.ui.login.screen.onesteplogin.OneStepLoginContract.View, android.arch.lifecycle.MutableLiveData((com.schibsted.account.engine.integration.InputProvider((com.schibsted.account.engine.input.Credentials)))), com.schibsted.account.ui.smartlock.SmartlockController, com.schibsted.account.ui.login.flow.password.FlowSelectionListener)/credProvider">credProvider</span><span class="symbol">:</span>&nbsp;<span class="identifier">MutableLiveData</span><span class="symbol">&lt;</span><span class="identifier">InputProvider</span><span class="symbol">&lt;</span><span class="identifier">Credentials</span><span class="symbol">&gt;</span><span class="symbol">&gt;</span><span class="symbol">, </span><span class="identifier" id="com.schibsted.account.ui.login.screen.onesteplogin.OneStepLoginPresenter$<init>(com.schibsted.account.ui.login.screen.onesteplogin.OneStepLoginContract.View, android.arch.lifecycle.MutableLiveData((com.schibsted.account.engine.integration.InputProvider((com.schibsted.account.engine.input.Credentials)))), com.schibsted.account.ui.smartlock.SmartlockController, com.schibsted.account.ui.login.flow.password.FlowSelectionListener)/smartlockController">smartlockController</span><span class="symbol">:</span>&nbsp;<a href="../../com.schibsted.account.ui.smartlock/-smartlock-controller/index.html"><span class="identifier">SmartlockController</span></a><span class="symbol">?</span><span class="symbol">, </span><span class="identifier" id="com.schibsted.account.ui.login.screen.onesteplogin.OneStepLoginPresenter$<init>(com.schibsted.account.ui.login.screen.onesteplogin.OneStepLoginContract.View, android.arch.lifecycle.MutableLiveData((com.schibsted.account.engine.integration.InputProvider((com.schibsted.account.engine.input.Credentials)))), com.schibsted.account.ui.smartlock.SmartlockController, com.schibsted.account.ui.login.flow.password.FlowSelectionListener)/flowSelectionListener">flowSelectionListener</span><span class="symbol">:</span>&nbsp;<a href="../../com.schibsted.account.ui.login.flow.password/-flow-selection-listener/index.html"><span class="identifier">FlowSelectionListener</span></a><span class="symbol">?</span><span class="symbol">)</span></code></td>
+</tr>
+</tbody>
+</table>
+<h3>Functions</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="get-account-status.html">getAccountStatus</a></p>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">getAccountStatus</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.ui.login.screen.onesteplogin.OneStepLoginPresenter$getAccountStatus(com.schibsted.account.ui.ui.InputField, kotlin.Boolean, kotlin.String, kotlin.Function0((kotlin.Unit)))/input">input</span><span class="symbol">:</span>&nbsp;<a href="../../com.schibsted.account.ui.ui/-input-field/index.html"><span class="identifier">InputField</span></a><span class="symbol">, </span><span class="identifier" id="com.schibsted.account.ui.login.screen.onesteplogin.OneStepLoginPresenter$getAccountStatus(com.schibsted.account.ui.ui.InputField, kotlin.Boolean, kotlin.String, kotlin.Function0((kotlin.Unit)))/allowSignUp">allowSignUp</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><span class="identifier">Boolean</span></a><span class="symbol">, </span><span class="identifier" id="com.schibsted.account.ui.login.screen.onesteplogin.OneStepLoginPresenter$getAccountStatus(com.schibsted.account.ui.ui.InputField, kotlin.Boolean, kotlin.String, kotlin.Function0((kotlin.Unit)))/signUpErrorMessage">signUpErrorMessage</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">?</span><span class="symbol">, </span><span class="identifier" id="com.schibsted.account.ui.login.screen.onesteplogin.OneStepLoginPresenter$getAccountStatus(com.schibsted.account.ui.ui.InputField, kotlin.Boolean, kotlin.String, kotlin.Function0((kotlin.Unit)))/callback">callback</span><span class="symbol">:</span>&nbsp;<span class="symbol">(</span><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code></td>
+</tr>
+<tr>
+<td>
+<p><a href="sign-in.html">signIn</a></p>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">signIn</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.ui.login.screen.onesteplogin.OneStepLoginPresenter$signIn(com.schibsted.account.ui.ui.InputField, com.schibsted.account.ui.ui.InputField, kotlin.Boolean, android.arch.lifecycle.LifecycleOwner, com.schibsted.account.util.KeyValueStore)/identifier">identifier</span><span class="symbol">:</span>&nbsp;<a href="../../com.schibsted.account.ui.ui/-input-field/index.html"><span class="identifier">InputField</span></a><span class="symbol">, </span><span class="identifier" id="com.schibsted.account.ui.login.screen.onesteplogin.OneStepLoginPresenter$signIn(com.schibsted.account.ui.ui.InputField, com.schibsted.account.ui.ui.InputField, kotlin.Boolean, android.arch.lifecycle.LifecycleOwner, com.schibsted.account.util.KeyValueStore)/credentials">credentials</span><span class="symbol">:</span>&nbsp;<a href="../../com.schibsted.account.ui.ui/-input-field/index.html"><span class="identifier">InputField</span></a><span class="symbol">, </span><span class="identifier" id="com.schibsted.account.ui.login.screen.onesteplogin.OneStepLoginPresenter$signIn(com.schibsted.account.ui.ui.InputField, com.schibsted.account.ui.ui.InputField, kotlin.Boolean, android.arch.lifecycle.LifecycleOwner, com.schibsted.account.util.KeyValueStore)/keepUserLoggedIn">keepUserLoggedIn</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><span class="identifier">Boolean</span></a><span class="symbol">, </span><span class="identifier" id="com.schibsted.account.ui.login.screen.onesteplogin.OneStepLoginPresenter$signIn(com.schibsted.account.ui.ui.InputField, com.schibsted.account.ui.ui.InputField, kotlin.Boolean, android.arch.lifecycle.LifecycleOwner, com.schibsted.account.util.KeyValueStore)/lifecycleOwner">lifecycleOwner</span><span class="symbol">:</span>&nbsp;<span class="identifier">LifecycleOwner</span><span class="symbol">, </span><span class="identifier" id="com.schibsted.account.ui.login.screen.onesteplogin.OneStepLoginPresenter$signIn(com.schibsted.account.ui.ui.InputField, com.schibsted.account.ui.ui.InputField, kotlin.Boolean, android.arch.lifecycle.LifecycleOwner, com.schibsted.account.util.KeyValueStore)/keyValueStore">keyValueStore</span><span class="symbol">:</span>&nbsp;<span class="identifier">KeyValueStore</span><span class="symbol">?</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code></td>
+</tr>
+<tr>
+<td>
+<p><a href="signup.html">signup</a></p>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">signup</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.ui.login.screen.onesteplogin.OneStepLoginPresenter$signup(com.schibsted.account.ui.ui.InputField, com.schibsted.account.ui.ui.InputField, kotlin.Boolean, android.arch.lifecycle.LifecycleOwner)/identifier">identifier</span><span class="symbol">:</span>&nbsp;<a href="../../com.schibsted.account.ui.ui/-input-field/index.html"><span class="identifier">InputField</span></a><span class="symbol">, </span><span class="identifier" id="com.schibsted.account.ui.login.screen.onesteplogin.OneStepLoginPresenter$signup(com.schibsted.account.ui.ui.InputField, com.schibsted.account.ui.ui.InputField, kotlin.Boolean, android.arch.lifecycle.LifecycleOwner)/credInputField">credInputField</span><span class="symbol">:</span>&nbsp;<a href="../../com.schibsted.account.ui.ui/-input-field/index.html"><span class="identifier">InputField</span></a><span class="symbol">, </span><span class="identifier" id="com.schibsted.account.ui.login.screen.onesteplogin.OneStepLoginPresenter$signup(com.schibsted.account.ui.ui.InputField, com.schibsted.account.ui.ui.InputField, kotlin.Boolean, android.arch.lifecycle.LifecycleOwner)/keepUserLoggedIn">keepUserLoggedIn</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><span class="identifier">Boolean</span></a><span class="symbol">, </span><span class="identifier" id="com.schibsted.account.ui.login.screen.onesteplogin.OneStepLoginPresenter$signup(com.schibsted.account.ui.ui.InputField, com.schibsted.account.ui.ui.InputField, kotlin.Boolean, android.arch.lifecycle.LifecycleOwner)/lifecycleOwner">lifecycleOwner</span><span class="symbol">:</span>&nbsp;<span class="identifier">LifecycleOwner</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code></td>
+</tr>
+<tr>
+<td>
+<p><a href="start-signin.html">startSignin</a></p>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">startSignin</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code></td>
+</tr>
+<tr>
+<td>
+<p><a href="start-signup.html">startSignup</a></p>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">startSignup</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code></td>
+</tr>
+<tr>
+<td>
+<p><a href="verify-input.html">verifyInput</a></p>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">verifyInput</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.ui.login.screen.onesteplogin.OneStepLoginPresenter$verifyInput(com.schibsted.account.ui.ui.InputField, com.schibsted.account.engine.input.Identifier.IdentifierType, kotlin.Boolean, kotlin.String, kotlin.Function0((kotlin.Unit)))/identifier">identifier</span><span class="symbol">:</span>&nbsp;<a href="../../com.schibsted.account.ui.ui/-input-field/index.html"><span class="identifier">InputField</span></a><span class="symbol">, </span><span class="identifier" id="com.schibsted.account.ui.login.screen.onesteplogin.OneStepLoginPresenter$verifyInput(com.schibsted.account.ui.ui.InputField, com.schibsted.account.engine.input.Identifier.IdentifierType, kotlin.Boolean, kotlin.String, kotlin.Function0((kotlin.Unit)))/identifierType">identifierType</span><span class="symbol">:</span>&nbsp;<span class="identifier">IdentifierType</span><span class="symbol">, </span><span class="identifier" id="com.schibsted.account.ui.login.screen.onesteplogin.OneStepLoginPresenter$verifyInput(com.schibsted.account.ui.ui.InputField, com.schibsted.account.engine.input.Identifier.IdentifierType, kotlin.Boolean, kotlin.String, kotlin.Function0((kotlin.Unit)))/allowSignup">allowSignup</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><span class="identifier">Boolean</span></a><span class="symbol">, </span><span class="identifier" id="com.schibsted.account.ui.login.screen.onesteplogin.OneStepLoginPresenter$verifyInput(com.schibsted.account.ui.ui.InputField, com.schibsted.account.engine.input.Identifier.IdentifierType, kotlin.Boolean, kotlin.String, kotlin.Function0((kotlin.Unit)))/signUpErrorMessage">signUpErrorMessage</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">?</span><span class="symbol">, </span><span class="identifier" id="com.schibsted.account.ui.login.screen.onesteplogin.OneStepLoginPresenter$verifyInput(com.schibsted.account.ui.ui.InputField, com.schibsted.account.engine.input.Identifier.IdentifierType, kotlin.Boolean, kotlin.String, kotlin.Function0((kotlin.Unit)))/callback">callback</span><span class="symbol">:</span>&nbsp;<span class="symbol">(</span><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code>
+<p>Verify the input of the user, the input could be an email address.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</BODY>
+</HTML>

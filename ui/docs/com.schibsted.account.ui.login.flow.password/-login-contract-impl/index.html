@@ -8,7 +8,7 @@
 <a href="../../index.html">ui</a>&nbsp;/&nbsp;<a href="../index.html">com.schibsted.account.ui.login.flow.password</a>&nbsp;/&nbsp;<a href="./index.html">LoginContractImpl</a><br/>
 <br/>
 <h1>LoginContractImpl</h1>
-<code><span class="keyword">class </span><span class="identifier">LoginContractImpl</span>&nbsp;<span class="symbol">:</span>&nbsp;<span class="identifier">LoginContract</span></code>
+<code><span class="keyword">open</span> <span class="keyword">class </span><span class="identifier">LoginContractImpl</span>&nbsp;<span class="symbol">:</span>&nbsp;<span class="identifier">LoginContract</span></code>
 <h3>Constructors</h3>
 <table>
 <tbody>
@@ -29,35 +29,35 @@
 <p><a href="on-account-verification-requested.html">onAccountVerificationRequested</a></p>
 </td>
 <td>
-<code><span class="keyword">fun </span><span class="identifier">onAccountVerificationRequested</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.ui.login.flow.password.LoginContractImpl$onAccountVerificationRequested(com.schibsted.account.engine.input.Identifier)/identifier">identifier</span><span class="symbol">:</span>&nbsp;<span class="identifier">Identifier</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code></td>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">onAccountVerificationRequested</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.ui.login.flow.password.LoginContractImpl$onAccountVerificationRequested(com.schibsted.account.engine.input.Identifier)/identifier">identifier</span><span class="symbol">:</span>&nbsp;<span class="identifier">Identifier</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code></td>
 </tr>
 <tr>
 <td>
 <p><a href="on-agreements-requested.html">onAgreementsRequested</a></p>
 </td>
 <td>
-<code><span class="keyword">fun </span><span class="identifier">onAgreementsRequested</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.ui.login.flow.password.LoginContractImpl$onAgreementsRequested(com.schibsted.account.engine.integration.InputProvider((com.schibsted.account.engine.input.Agreements)), com.schibsted.account.network.response.AgreementLinksResponse)/agreementsProvider">agreementsProvider</span><span class="symbol">:</span>&nbsp;<span class="identifier">InputProvider</span><span class="symbol">&lt;</span><span class="identifier">Agreements</span><span class="symbol">&gt;</span><span class="symbol">, </span><span class="identifier" id="com.schibsted.account.ui.login.flow.password.LoginContractImpl$onAgreementsRequested(com.schibsted.account.engine.integration.InputProvider((com.schibsted.account.engine.input.Agreements)), com.schibsted.account.network.response.AgreementLinksResponse)/agreementLinks">agreementLinks</span><span class="symbol">:</span>&nbsp;<span class="identifier">AgreementLinksResponse</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code></td>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">onAgreementsRequested</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.ui.login.flow.password.LoginContractImpl$onAgreementsRequested(com.schibsted.account.engine.integration.InputProvider((com.schibsted.account.engine.input.Agreements)), com.schibsted.account.network.response.AgreementLinksResponse)/agreementsProvider">agreementsProvider</span><span class="symbol">:</span>&nbsp;<span class="identifier">InputProvider</span><span class="symbol">&lt;</span><span class="identifier">Agreements</span><span class="symbol">&gt;</span><span class="symbol">, </span><span class="identifier" id="com.schibsted.account.ui.login.flow.password.LoginContractImpl$onAgreementsRequested(com.schibsted.account.engine.integration.InputProvider((com.schibsted.account.engine.input.Agreements)), com.schibsted.account.network.response.AgreementLinksResponse)/agreementLinks">agreementLinks</span><span class="symbol">:</span>&nbsp;<span class="identifier">AgreementLinksResponse</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code></td>
 </tr>
 <tr>
 <td>
 <p><a href="on-credentials-requested.html">onCredentialsRequested</a></p>
 </td>
 <td>
-<code><span class="keyword">fun </span><span class="identifier">onCredentialsRequested</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.ui.login.flow.password.LoginContractImpl$onCredentialsRequested(com.schibsted.account.engine.integration.InputProvider((com.schibsted.account.engine.input.Credentials)))/provider">provider</span><span class="symbol">:</span>&nbsp;<span class="identifier">InputProvider</span><span class="symbol">&lt;</span><span class="identifier">Credentials</span><span class="symbol">&gt;</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code></td>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">onCredentialsRequested</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.ui.login.flow.password.LoginContractImpl$onCredentialsRequested(com.schibsted.account.engine.integration.InputProvider((com.schibsted.account.engine.input.Credentials)))/provider">provider</span><span class="symbol">:</span>&nbsp;<span class="identifier">InputProvider</span><span class="symbol">&lt;</span><span class="identifier">Credentials</span><span class="symbol">&gt;</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code></td>
 </tr>
 <tr>
 <td>
 <p><a href="on-flow-ready.html">onFlowReady</a></p>
 </td>
 <td>
-<code><span class="keyword">fun </span><span class="identifier">onFlowReady</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.ui.login.flow.password.LoginContractImpl$onFlowReady(com.schibsted.account.engine.integration.CallbackProvider((com.schibsted.account.model.LoginResult)))/callbackProvider">callbackProvider</span><span class="symbol">:</span>&nbsp;<span class="identifier">CallbackProvider</span><span class="symbol">&lt;</span><span class="identifier">LoginResult</span><span class="symbol">&gt;</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code></td>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">onFlowReady</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.ui.login.flow.password.LoginContractImpl$onFlowReady(com.schibsted.account.engine.integration.CallbackProvider((com.schibsted.account.model.LoginResult)))/callbackProvider">callbackProvider</span><span class="symbol">:</span>&nbsp;<span class="identifier">CallbackProvider</span><span class="symbol">&lt;</span><span class="identifier">LoginResult</span><span class="symbol">&gt;</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code></td>
 </tr>
 <tr>
 <td>
 <p><a href="on-required-fields-requested.html">onRequiredFieldsRequested</a></p>
 </td>
 <td>
-<code><span class="keyword">fun </span><span class="identifier">onRequiredFieldsRequested</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.ui.login.flow.password.LoginContractImpl$onRequiredFieldsRequested(com.schibsted.account.engine.integration.InputProvider((com.schibsted.account.engine.input.RequiredFields)), kotlin.collections.Set((kotlin.String)))/requiredFieldsProvider">requiredFieldsProvider</span><span class="symbol">:</span>&nbsp;<span class="identifier">InputProvider</span><span class="symbol">&lt;</span><span class="identifier">RequiredFields</span><span class="symbol">&gt;</span><span class="symbol">, </span><span class="identifier" id="com.schibsted.account.ui.login.flow.password.LoginContractImpl$onRequiredFieldsRequested(com.schibsted.account.engine.integration.InputProvider((com.schibsted.account.engine.input.RequiredFields)), kotlin.collections.Set((kotlin.String)))/fields">fields</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-set/index.html"><span class="identifier">Set</span></a><span class="symbol">&lt;</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">&gt;</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code></td>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">onRequiredFieldsRequested</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.ui.login.flow.password.LoginContractImpl$onRequiredFieldsRequested(com.schibsted.account.engine.integration.InputProvider((com.schibsted.account.engine.input.RequiredFields)), kotlin.collections.Set((kotlin.String)))/requiredFieldsProvider">requiredFieldsProvider</span><span class="symbol">:</span>&nbsp;<span class="identifier">InputProvider</span><span class="symbol">&lt;</span><span class="identifier">RequiredFields</span><span class="symbol">&gt;</span><span class="symbol">, </span><span class="identifier" id="com.schibsted.account.ui.login.flow.password.LoginContractImpl$onRequiredFieldsRequested(com.schibsted.account.engine.integration.InputProvider((com.schibsted.account.engine.input.RequiredFields)), kotlin.collections.Set((kotlin.String)))/fields">fields</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-set/index.html"><span class="identifier">Set</span></a><span class="symbol">&lt;</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">&gt;</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code></td>
 </tr>
 </tbody>
 </table>
@@ -70,6 +70,18 @@
 </td>
 <td>
 <code><span class="keyword">val </span><span class="identifier">TAG</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a></code></td>
+</tr>
+</tbody>
+</table>
+<h3>Inheritors</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="../-one-step-login-contract-impl/index.html">OneStepLoginContractImpl</a></p>
+</td>
+<td>
+<code><span class="keyword">class </span><span class="identifier">OneStepLoginContractImpl</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="./index.html"><span class="identifier">LoginContractImpl</span></a></code></td>
 </tr>
 </tbody>
 </table>
