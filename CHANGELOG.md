@@ -1,3 +1,6 @@
+## v1.12.0-beta (2019-12-10)
+- One step Login/ Sign up flow (#417)
+
 ## v1.11.1 (2019-11-27)
 - Downgrade Gradle 5.4.1->4.6 (#425)
 
