@@ -224,7 +224,7 @@ class CodeInputView @JvmOverloads constructor(context: Context, attrs: Attribute
             to ensure it to be erased when the delete key is pressed
              */
             val view = inputViews[focusedViewPosition]
-            val length = if (view.text != null) view.text!!.length else 0
+            val length = view.text?.length ?: 0
             view.setSelection(length)
         }
     }

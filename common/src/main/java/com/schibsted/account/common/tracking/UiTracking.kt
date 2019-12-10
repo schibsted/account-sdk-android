@@ -4,6 +4,7 @@
 
 package com.schibsted.account.common.tracking
 
+import com.schibsted.account.common.BuildConfig
 import com.schibsted.account.common.tracking.TrackingData.Engagement
 import com.schibsted.account.common.tracking.TrackingData.FlowVariant
 import com.schibsted.account.common.tracking.TrackingData.InteractionType
@@ -56,5 +57,7 @@ abstract class UiTracking {
     companion object {
         var trackingIdentifier: String? = null
             private set
+
+        const val SDK_VERSION: String = BuildConfig.VERSION_NAME
     }
 }

@@ -114,7 +114,6 @@ class Navigation(
             val transaction = fragmentManager.beginTransaction()
             currentFragment = fragment
             currentFragment?.registerNavigationController(navigationListener)
-
             currentFragment?.let {
                 transaction
                         .setCustomAnimations(R.anim.schacc_right_in, R.anim.schacc_left_out, R.anim.schacc_left_in, R.anim.schacc_right_out)

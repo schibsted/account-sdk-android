@@ -1,3 +1,16 @@
+## v1.11.1 (2019-11-27)
+- Downgrade Gradle 5.4.1->4.6 (#425)
+
+## v1.11.0 (2019-11-26)
+- Expose SDK version for tracking implementations. (#423)
+- Upgrade Android SDK platform version. (#422)
+
+## v1.10.0 (2019-10-28)
+- Pre-fill email if possible from previous login. (#412)
+- Fix #414: Resolve SmartLock flow when it's cancelled. (#415)
+- Update Norwegian translation for 'schacc_password_error_incorrect'. (#416)
+- Fix tests. (#410)
+
 ## v1.9.0 (2019-09-30)
 - New Schibsted logo. (#409)
 - Ignore SmartLock failure to avoid restarting login activity. (#408)
