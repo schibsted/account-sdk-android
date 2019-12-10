@@ -4,6 +4,7 @@
 
 package com.schibsted.account.ui.login
 
+import android.arch.lifecycle.MutableLiveData
 import com.schibsted.account.engine.controller.PasswordlessController
 import com.schibsted.account.engine.input.Agreements
 import com.schibsted.account.engine.input.Credentials
@@ -23,6 +24,8 @@ import com.schibsted.account.ui.login.screen.identification.ui.MobileIdentificat
 import com.schibsted.account.ui.login.screen.inbox.InboxFragment
 import com.schibsted.account.ui.login.screen.information.RequiredFieldsFragment
 import com.schibsted.account.ui.login.screen.information.RequiredFieldsPresenter
+import com.schibsted.account.ui.login.screen.onesteplogin.OneStepLoginFragment
+import com.schibsted.account.ui.login.screen.onesteplogin.OneStepLoginPresenter
 import com.schibsted.account.ui.login.screen.password.PasswordFragment
 import com.schibsted.account.ui.login.screen.password.PasswordPresenter
 import com.schibsted.account.ui.login.screen.term.TermsFragment
@@ -50,6 +53,21 @@ class FragmentProvider(private val uiConfiguration: InternalUiConfiguration, pri
             }
         }, {
             it.setPresenter(IdentificationPresenter(it, provider, flowSelectionListener))
+        })
+    }
+
+    fun getOrCreateOneStepLoginFragment(
+        idProvider: InputProvider<Identifier>? = null,
+        credProvider: MutableLiveData<InputProvider<Credentials>>,
+        smartlockController: SmartlockController?,
+        flowSelectionListener: FlowSelectionListener? = null,
+        clientInfo: ClientInfo
+    ): BaseFragment {
+
+        return getFragment(navigation.currentFragment, {
+            OneStepLoginFragment.newInstance(uiConfiguration, clientInfo)
+        }, {
+            it.setPresenter(OneStepLoginPresenter(it, credProvider, smartlockController, flowSelectionListener))
         })
     }
 

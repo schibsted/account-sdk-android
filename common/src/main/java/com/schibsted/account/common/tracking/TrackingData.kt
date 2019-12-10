@@ -15,7 +15,7 @@ object TrackingData {
      * Describes a screen
      */
     enum class Screen {
-        IDENTIFICATION, PASSWORD, VERIFICATION_CODE, AGREEMENTS, REQUIRED_FIELDS, ACCOUNT_VERIFICATION;
+        IDENTIFICATION, ONE_STEP_LOGIN, ONE_STEP_SIGNUP, PASSWORD, VERIFICATION_CODE, AGREEMENTS, REQUIRED_FIELDS, ACCOUNT_VERIFICATION;
     }
 
     /**
@@ -23,7 +23,7 @@ object TrackingData {
      */
     enum class UIElement {
         ABOUT_SCH_ACCOUNT, CHANGE_IDENTIFIER, AGREEMENTS_SUMMARY, AGREEMENTS_SPID, AGREEMENTS_CLIENT, PRIVACY_SPID, PRIVACY_CLIENT,
-        RESEND_VERIFICATION_CODE, FORGOT_PASSWORD, REMEMBER_ME_INFO, ADJUST_PRIVACY_CHOICES, LEARN_MORE_ABOUT_SCHIBSTED
+        RESEND_VERIFICATION_CODE, FORGOT_PASSWORD, REMEMBER_ME_INFO, ADJUST_PRIVACY_CHOICES, LEARN_MORE_ABOUT_SCHIBSTED, CREATE_ACCOUNT
     }
 
     /**
@@ -85,6 +85,7 @@ object TrackingData {
         object AgreementsNotAccepted : UIError(ErrorType.VALIDATION, "All agreements must be accepted")
         object InvalidPhone : UIError(ErrorType.VALIDATION, "The provided phone number is not valid")
         object InvalidEmail : UIError(ErrorType.VALIDATION, "The provided email is not valid")
+        object AlreadyInUseEmail : UIError(ErrorType.VALIDATION, "The provided email is already in use")
         object InvalidPassword : UIError(ErrorType.VALIDATION, "The provided password is not valid")
         class InvalidRequiredField(field: String) : UIError(ErrorType.VALIDATION, "Required field has invalid format: $field")
 

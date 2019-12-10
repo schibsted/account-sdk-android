@@ -14,6 +14,7 @@ import com.schibsted.account.engine.controller.LoginController
 import com.schibsted.account.engine.controller.SignUpController
 import com.schibsted.account.engine.input.Credentials
 import com.schibsted.account.engine.input.Identifier
+import com.schibsted.account.engine.integration.InputProvider
 import com.schibsted.account.engine.integration.ResultCallback
 import com.schibsted.account.engine.integration.contract.LoginContract
 import com.schibsted.account.engine.integration.contract.SignUpContract
@@ -25,6 +26,7 @@ import com.schibsted.account.ui.AccountUi
 import com.schibsted.account.ui.Event
 import com.schibsted.account.ui.InternalUiConfiguration
 import com.schibsted.account.ui.login.flow.password.FlowSelectionListener
+import com.schibsted.account.ui.login.screen.LoginScreen
 import com.schibsted.account.ui.smartlock.SmartlockReceiver
 import com.schibsted.account.ui.smartlock.SmartlockTask
 import com.schibsted.account.util.DeepLink
@@ -39,7 +41,7 @@ class LoginActivityViewModel(
 
     val loginController = MutableLiveData<Event<LoginController>>()
     val signUpController = MutableLiveData<Event<SignUpController>>()
-
+    val activityTitle = MutableLiveData<LoginScreen>()
     val user = MutableLiveData<User>()
     var userFlowType: FlowSelectionListener.FlowType? = null
     var userIdentifier: Identifier? = null
@@ -50,6 +52,7 @@ class LoginActivityViewModel(
     val uiConfiguration = MutableLiveData<InternalUiConfiguration>()
 
     var smartlockCredentials = MutableLiveData<Credentials>()
+    var credentialsProvider = MutableLiveData<InputProvider<Credentials>>()
     val smartlockReceiver: SmartlockReceiver = SmartlockReceiver(this)
     val startSmartLockFlow = MutableLiveData<Boolean>()
     val smartlockResolvingState = MutableLiveData<Boolean>()
@@ -67,15 +70,44 @@ class LoginActivityViewModel(
         userFlowType = flowType
         when (userFlowType) {
             FlowSelectionListener.FlowType.LOGIN -> {
+                activityTitle.value = LoginScreen.IDENTIFICATION_SCREEN
                 loginController.value = Event(LoginController(true, params.scopes))
             }
+
+            FlowSelectionListener.FlowType.ONE_STEP_LOGIN -> {
+                activityTitle.value = LoginScreen.ONE_STEP_LOGIN_SCREEN
+                loginController.value = Event(LoginController(true, params.scopes))
+            }
+
             FlowSelectionListener.FlowType.SIGN_UP -> {
+                activityTitle.value = LoginScreen.PASSWORD_SCREEN
+                signUpController.value = Event(SignUpController(redirectUri, params.scopes))
+            }
+
+            FlowSelectionListener.FlowType.ONE_STEP_SIGNUP -> {
+                activityTitle.value = LoginScreen.ONE_STEP_SIGNUP_SCREEN
                 signUpController.value = Event(SignUpController(redirectUri, params.scopes))
             }
         }
     }
 
-    fun isUserAvailable() = userFlowType == FlowSelectionListener.FlowType.SIGN_UP
+    override fun onFlowSelected(flowType: FlowSelectionListener.FlowType) {
+        when (flowType) {
+            FlowSelectionListener.FlowType.ONE_STEP_SIGNUP -> {
+                activityTitle.value = LoginScreen.ONE_STEP_SIGNUP_SCREEN
+            }
+
+            FlowSelectionListener.FlowType.ONE_STEP_LOGIN -> {
+                activityTitle.value = LoginScreen.ONE_STEP_LOGIN_SCREEN
+            }
+
+            FlowSelectionListener.FlowType.SIGN_UP -> {
+                activityTitle.value = LoginScreen.PASSWORD_SCREEN
+            }
+        }
+    }
+
+    fun isUserAvailable() = userFlowType == FlowSelectionListener.FlowType.SIGN_UP || userFlowType == FlowSelectionListener.FlowType.ONE_STEP_SIGNUP
     fun isSmartlockResolving() = smartlockReceiver.isSmartlockResolving.value
 
     fun initializeSmartlock() {

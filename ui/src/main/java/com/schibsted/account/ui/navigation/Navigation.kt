@@ -21,6 +21,7 @@ import com.schibsted.account.ui.login.screen.LoginScreen
 import com.schibsted.account.ui.login.screen.identification.ui.AbstractIdentificationFragment
 import com.schibsted.account.ui.login.screen.inbox.InboxFragment
 import com.schibsted.account.ui.login.screen.information.RequiredFieldsFragment
+import com.schibsted.account.ui.login.screen.onesteplogin.OneStepLoginFragment
 import com.schibsted.account.ui.login.screen.password.PasswordFragment
 import com.schibsted.account.ui.login.screen.term.TermsFragment
 import com.schibsted.account.ui.login.screen.verification.VerificationFragment
@@ -154,6 +155,7 @@ class Navigation(
             LoginScreen.VERIFICATION_SCREEN.value -> {
                 controller?.back(fragmentManager.backStackEntryCount)
                 fragmentManager.popBackStack(LoginScreen.IDENTIFICATION_SCREEN.value, 0)
+                fragmentManager.popBackStack(LoginScreen.ONE_STEP_LOGIN_SCREEN.value, 0)
                 controller?.evaluate(contract)
             }
 
@@ -183,6 +185,11 @@ class Navigation(
             is AbstractIdentificationFragment -> {
                 if (fragment.tag != LoginScreen.IDENTIFICATION_SCREEN.value) {
                     navigateTo(fragment, LoginScreen.IDENTIFICATION_SCREEN)
+                }
+            }
+            is OneStepLoginFragment -> {
+                if (fragment.tag != LoginScreen.ONE_STEP_LOGIN_SCREEN.value) {
+                    navigateTo(fragment, LoginScreen.ONE_STEP_LOGIN_SCREEN)
                 }
             }
             is PasswordFragment ->

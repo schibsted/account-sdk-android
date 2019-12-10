@@ -21,7 +21,7 @@ import com.schibsted.account.ui.login.BaseLoginActivity
 import com.schibsted.account.ui.login.LoginActivityViewModel
 import com.schibsted.account.ui.ui.FlowFragment
 
-class LoginContractImpl(private val loginActivity: BaseLoginActivity, private val loginActivityViewModel: LoginActivityViewModel) : LoginContract {
+open class LoginContractImpl(private val loginActivity: BaseLoginActivity, private val loginActivityViewModel: LoginActivityViewModel) : LoginContract {
     override fun onCredentialsRequested(provider: InputProvider<Credentials>) {
         val credentials = loginActivityViewModel.smartlockCredentials.value
         if (credentials != null) {

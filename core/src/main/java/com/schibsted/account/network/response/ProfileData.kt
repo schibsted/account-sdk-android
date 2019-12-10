@@ -5,6 +5,7 @@
 package com.schibsted.account.network.response
 
 import com.google.gson.annotations.SerializedName
+import java.util.Locale
 
 data class ProfileData(
     val id: String? = null,
@@ -81,7 +82,7 @@ data class ProfileData(
             @SerializedName("invoice")
             INVOICE;
 
-            override fun toString(): String = super.toString().toLowerCase()
+            override fun toString(): String = super.toString().toLowerCase(Locale.ROOT)
         }
     }
 

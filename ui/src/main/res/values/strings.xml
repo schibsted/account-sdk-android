@@ -17,6 +17,8 @@
     <string name="schacc_mobile_prefix_hint">+%1$d</string>
 
     <string name="schacc_email_identification_error">Please enter a valid email address.</string>
+    <string name="schacc_email_already_in_use_error">Email already in use. Please login or use a different email.</string>
+
     <string name="schacc_email_label">Enter your email address</string>
     <!--Verification-->
     <string name="schacc_verification_title">We sent you a code</string>
@@ -67,6 +69,7 @@
     <string name="schacc_password_sign_up_label">Choose your password</string>
     <string name="schacc_password_sign_up_button_label">Create account</string>
     <string name="schacc_password_sign_up_notification">You are now creating a new Schibsted account</string>
+    <string name="schacc_password_sign_up_have_account_button_label">I have an account</string>
     <string name="schacc_password_error_length">Your password should have at least 8 characters.</string>
     <string name="schacc_password_forgot_password">Forgot password?</string>
     <string name="schacc_password_extra_info">Minimum 8 characters</string>

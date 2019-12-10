@@ -45,9 +45,11 @@ import com.schibsted.account.ui.R
 import com.schibsted.account.ui.UiUtil
 import com.schibsted.account.ui.login.flow.password.FlowSelectionListener
 import com.schibsted.account.ui.login.flow.password.LoginContractImpl
+import com.schibsted.account.ui.login.flow.password.OneStepLoginContractImpl
 import com.schibsted.account.ui.login.screen.LoginScreen
 import com.schibsted.account.ui.login.screen.identification.ui.AbstractIdentificationFragment
 import com.schibsted.account.ui.login.screen.identification.ui.EmailIdentificationFragment
+import com.schibsted.account.ui.login.screen.onesteplogin.OneStepLoginFragment
 import com.schibsted.account.ui.login.screen.password.PasswordFragment
 import com.schibsted.account.ui.login.screen.verification.VerificationFragment
 import com.schibsted.account.ui.navigation.Navigation
@@ -136,7 +138,7 @@ abstract class BaseLoginActivity : AppCompatActivity(), NavigationListener {
         viewModel.smartlockCredentials.value = intent.getParcelableExtra(KEY_SMARTLOCK_CREDENTIALS)
         initializePropertiesFromBundle(savedInstanceState)
 
-        loginContract = LoginContractImpl(this, viewModel)
+        loginContract = if (flowType == AccountUi.FlowType.ONE_STEP_PASSWORD) OneStepLoginContractImpl(this, viewModel) else LoginContractImpl(this, viewModel)
 
         if (SmartlockController.isSmartlockAvailable()) {
             smartlockController = SmartlockController(this, viewModel.smartlockReceiver)
@@ -171,9 +173,16 @@ abstract class BaseLoginActivity : AppCompatActivity(), NavigationListener {
                     } else {
                         smartlockController?.provideHint(result.credentials)
                         fragmentProvider = FragmentProvider(uiConfiguration, navigationController)
-                        navigationController.currentFragment
-                                ?.let { it as? EmailIdentificationFragment }
-                                ?.prefillIdentifier(uiConfiguration.identifier)
+                        when (flowType) {
+                            AccountUi.FlowType.ONE_STEP_PASSWORD ->
+                                navigationController.currentFragment
+                                    ?.let { it as? OneStepLoginFragment }
+                                    ?.prefillIdentifier(uiConfiguration.identifier)
+                            else ->
+                                navigationController.currentFragment
+                                    ?.let { it as? EmailIdentificationFragment }
+                                    ?.prefillIdentifier(uiConfiguration.identifier)
+                        }
                     }
                 }
                 is SmartlockTask.SmartLockResult.Failure -> {
@@ -201,7 +210,10 @@ abstract class BaseLoginActivity : AppCompatActivity(), NavigationListener {
         })
 
         viewModel.clientResult.observe(this, Observer {
-            val result = it?.get()
+            var result = it?.get()
+            if (result == null && flowType == AccountUi.FlowType.ONE_STEP_PASSWORD) {
+                result = it?.peek()
+            }
             when (result) {
                 is LoginActivityViewModel.ClientResult.Success -> {
                     BaseLoginActivity.tracker?.merchantId = result.clientInfo.merchantId
@@ -228,6 +240,10 @@ abstract class BaseLoginActivity : AppCompatActivity(), NavigationListener {
 
         keyboardController.keyboardVisibility.observe(this, Observer {
             (navigationController.currentFragment as? FlowFragment<*>)?.onVisibilityChanged(it == true)
+        })
+
+        viewModel.activityTitle.observe(this, Observer {
+            updateTitle(viewModel.activityTitle.value)
         })
     }
 
@@ -291,13 +307,28 @@ abstract class BaseLoginActivity : AppCompatActivity(), NavigationListener {
         }
     }
 
-    private fun navigateToIdentificationFragment(clientInfo: ClientInfo, flowSelectionListener: FlowSelectionListener?, provider: InputProvider<Identifier>?) {
-        val fragment = fragmentProvider.getOrCreateIdentificationFragment(
-                provider = provider,
-                flowType = flowType,
-                flowSelectionListener = flowSelectionListener,
-                clientInfo = clientInfo)
-        navigationController.navigateToFragment(fragment as AbstractIdentificationFragment)
+    private fun navigateToIdentificationFragment(
+        clientInfo: ClientInfo,
+        flowSelectionListener: FlowSelectionListener?,
+        idProvider: InputProvider<Identifier>?
+    ) {
+        if (flowType == AccountUi.FlowType.ONE_STEP_PASSWORD) {
+            val fragment = fragmentProvider.getOrCreateOneStepLoginFragment(
+                    idProvider = idProvider,
+                    credProvider = viewModel.credentialsProvider,
+                    flowSelectionListener = flowSelectionListener,
+                    clientInfo = clientInfo,
+                    smartlockController = smartlockController
+            )
+            navigationController.navigateToFragment(fragment as OneStepLoginFragment)
+        } else {
+            val fragment = fragmentProvider.getOrCreateIdentificationFragment(
+                    provider = idProvider,
+                    flowType = flowType,
+                    flowSelectionListener = flowSelectionListener,
+                    clientInfo = clientInfo)
+            navigationController.navigateToFragment(fragment as AbstractIdentificationFragment)
+        }
     }
 
     override fun onResume() {
@@ -371,7 +402,7 @@ abstract class BaseLoginActivity : AppCompatActivity(), NavigationListener {
     private fun updateActionBar() {
         updateTitle(screen)
         menu?.findItem(R.id.close_flow)?.isVisible = uiConfiguration.isClosingAllowed
-        if (screen == LoginScreen.IDENTIFICATION_SCREEN) {
+        if (screen == LoginScreen.IDENTIFICATION_SCREEN || screen == LoginScreen.ONE_STEP_LOGIN_SCREEN) {
             toolbar_title.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null)
         } else {
             val drawable = ContextCompat.getDrawable(this, R.drawable.schacc_ic_arrow_back)
@@ -389,7 +420,9 @@ abstract class BaseLoginActivity : AppCompatActivity(), NavigationListener {
     private fun updateTitle(screen: LoginScreen?) {
         @StringRes
         val title: Int = when (screen) {
-            LoginScreen.IDENTIFICATION_SCREEN -> if (this.uiConfiguration.signUpEnabled) R.string.schacc_identification_title else R.string.schacc_identification_login_only_title
+            LoginScreen.IDENTIFICATION_SCREEN,
+            LoginScreen.ONE_STEP_LOGIN_SCREEN -> R.string.schacc_identification_login_only_title
+            LoginScreen.ONE_STEP_SIGNUP_SCREEN -> R.string.schacc_register_title
             LoginScreen.PASSWORD_SCREEN -> if (viewModel.isUserAvailable()) R.string.schacc_register_title else R.string.schacc_welcome_back_title
             LoginScreen.TC_SCREEN -> R.string.schacc_terms_title
             LoginScreen.REQUIRED_FIELDS_SCREEN -> R.string.schacc_required_fields_title
@@ -429,6 +462,11 @@ abstract class BaseLoginActivity : AppCompatActivity(), NavigationListener {
 
     override fun onNavigationDone(screen: LoginScreen) {
         this.screen = screen
+
+        if (screen == LoginScreen.ONE_STEP_LOGIN_SCREEN && viewModel.activityTitle.value == LoginScreen.ONE_STEP_SIGNUP_SCREEN) {
+            this.screen = LoginScreen.ONE_STEP_SIGNUP_SCREEN
+        }
+
         keyboardController.register(navigationController.currentFragment)
         if (!LoginScreen.isWebView(screen.value)) {
             val customFields = mutableMapOf<String, Any>()
