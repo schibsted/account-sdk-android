@@ -124,8 +124,6 @@ subprojects { proj ->
         buildToolsVersion conf.buildTools
         compileSdkVersion conf.compileSdk
 
-//        useLibrary 'android.test.mock'
-
         defaultConfig {
             minSdkVersion conf.minSdk
             targetSdkVersion conf.targetSdk
