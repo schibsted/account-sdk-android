@@ -1,3 +1,6 @@
+## v1.12.1-beta (2019-12-16)
+- One step login fixes (#427)
+
 ## v1.12.0-beta (2019-12-10)
 - One step Login/ Sign up flow (#417)
 
