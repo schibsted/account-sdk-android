@@ -228,6 +228,7 @@ class OneStepLoginFragment : FlowFragment<OneStepLoginContract.Presenter>(), One
         }
 
         secondaryActionView?.setOnClickListener {
+            BaseLoginActivity.tracker?.eventEngagement(TrackingData.Engagement.CLICK, TrackingData.UIElement.SIGN_UP, TrackingData.Screen.ONE_STEP_LOGIN)
             showSignup()
         }
     }
@@ -259,6 +260,7 @@ class OneStepLoginFragment : FlowFragment<OneStepLoginContract.Presenter>(), One
         }
 
         secondaryActionView?.setOnClickListener {
+            BaseLoginActivity.tracker?.eventEngagement(TrackingData.Engagement.CLICK, TrackingData.UIElement.SIGN_IN, TrackingData.Screen.ONE_STEP_SIGNUP)
             showSignIn()
         }
     }

@@ -33,6 +33,8 @@ object UiUtil {
         LoginScreen.TC_SCREEN -> TrackingData.Screen.AGREEMENTS
         LoginScreen.REQUIRED_FIELDS_SCREEN -> TrackingData.Screen.REQUIRED_FIELDS
         LoginScreen.CHECK_INBOX_SCREEN -> TrackingData.Screen.ACCOUNT_VERIFICATION
+        LoginScreen.ONE_STEP_LOGIN_SCREEN -> TrackingData.Screen.ONE_STEP_LOGIN
+        LoginScreen.ONE_STEP_SIGNUP_SCREEN -> TrackingData.Screen.ONE_STEP_SIGNUP
         else -> null
     }
 
