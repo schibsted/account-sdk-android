@@ -106,6 +106,7 @@ task clean(type: Delete, group: 'build') {
 
 subprojects { proj ->
     if (proj.name == "example") return
+    if (proj.name == "common") return
 
     apply plugin: 'com.android.library'
     apply plugin: 'kotlin-android'
