@@ -1,4 +1,3 @@
-import groovy.util.Node
 import org.jetbrains.kotlin.config.KotlinCompilerVersion
 import java.util.*
 
@@ -10,9 +9,7 @@ plugins {
     id("com.jfrog.bintray")
 }
 
-val gitTag = findProperty("TRAVIS_TAG")?.toString()
-        ?: "git describe --tags --abbrev=0".execute()
-version = gitTag.trim().replace("refs/tags/", "").replace("^v".toRegex(), "")
+version = projectVersion
 group = "com.schibsted.account"
 description = "The core module for the Schibsted Account SDK"
 
@@ -24,7 +21,7 @@ android {
         minSdkVersion(14)
         targetSdkVersion(28)
         versionName = project.version.toString()
-        consumerProguardFiles("common-rules.pro")
+        consumerProguardFiles("core-rules.pro")
         testInstrumentationRunner = "android.support.test.runner.AndroidJUnitRunner"
     }
 
@@ -94,33 +91,7 @@ publishing {
 
                 pom {
                     name.set("Schibsted Account SDK Core Module")
-                    description.set(project.description)
-                    url.set("https://github.com/schibsted/account-sdk-android")
-                    licenses {
-                        license {
-                            name.set("MIT License")
-                            url.set("http://www.opensource.org/licenses/mit-license.php")
-                        }
-                    }
-                    developers {
-                        developer {
-                            name.set("Håvard Kindem")
-                            email.set("havard.kindem@schibsted.com")
-                            organization.set("Schibsted")
-                            organizationUrl.set("http://www.schibsted.com/")
-                        }
-                        developer {
-                            name.set("Antoine Promerova")
-                            email.set("antoine.promerova@schibsted.com")
-                            organization.set("Schibsted")
-                            organizationUrl.set("http://www.schibsted.com/")
-                        }
-                    }
-                    scm {
-                        connection.set("scm:git:git://github.com/schibsted/account-sdk-android.git")
-                        developerConnection.set("scm:git:ssh://github.com:schibsted/account-sdk-android.git")
-                        url.set("https://github.com/schibsted/account-sdk-android")
-                    }
+                    fillGenericDetails(project)
                     withXml {
                         collectDependencies(project)
                     }
@@ -160,57 +131,4 @@ bintray {
     }
 
     tasks.bintrayUpload { dependsOn("check") }
-}
-
-/**
- * Executes string as shell command and returns result as string.
- */
-fun String.execute(): String = Runtime.getRuntime().exec(this)
-        .inputStream.bufferedReader().use { it.readText() }
-
-/**
- * Adds "implementation" and "api" dependencies of a project into a "dependencies" xml node.
- */
-fun XmlProvider.collectDependencies(project: Project) {
-
-    @Suppress("UNNECESSARY_SAFE_CALL")
-    fun Node.appendExclusion(excludeRule: ExcludeRule) = appendNode("exclusion").apply {
-        excludeRule.group?.run { appendNode("groupId", this) }
-        excludeRule.module?.run { appendNode("artifactId", this) }
-    }
-
-    fun Node.appendExclusions(dep: ModuleDependency) = appendNode("exclusions").apply {
-        dep.excludeRules.forEach {
-            appendExclusion(it)
-        }
-    }
-
-    fun Node.appendDependency(dep: Dependency, scope: String) = appendNode("dependency").apply {
-        appendNode("groupId", dep.group)
-        appendNode("artifactId", dep.name)
-        appendNode("version", dep.version)
-        appendNode("scope", scope)
-        if (dep is ModuleDependency && dep.excludeRules.isNotEmpty()) {
-            appendExclusions(dep)
-        }
-    }
-
-    fun Node.appendDependencies(apiDeps: List<Dependency>, implDeps: List<Dependency>) = appendNode("dependencies").apply {
-        fun Dependency.isValid() = group != null && version != null && name != "unspecified"
-
-        apiDeps.filter { it.isValid() }.forEach {
-            appendDependency(it, "compile")
-        }
-        implDeps.filter { it.isValid() }.forEach {
-            appendDependency(it, "runtime")
-        }
-    }
-
-    val apiDeps = project.configurations["api"].allDependencies.toList()
-    val implDeps = project.configurations["implementation"].allDependencies
-            .filter { it !in apiDeps }
-
-    if (apiDeps.isNotEmpty() || implDeps.isNotEmpty()) {
-        asNode().appendDependencies(apiDeps, implDeps)
-    }
 }
