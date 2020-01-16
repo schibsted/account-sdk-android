@@ -13,16 +13,16 @@ buildscript {
     }
 
     ext {
-        kotlinVersion = '1.3.10'
+        kotlinVersion = "1.3.61"
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.2.1'
-        classpath "org.ajoberstar:gradle-git:1.7.2"
+        classpath "com.android.tools.build:gradle:3.5.2"
+        classpath "org.ajoberstar.grgit:grgit-gradle:4.0.1"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
-        classpath "org.jetbrains.dokka:dokka-android-gradle-plugin:0.9.17"
-        classpath "gradle.plugin.org.jmailen.gradle:kotlinter-gradle:1.15.1"
-        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.7.3'
+        classpath "org.jetbrains.dokka:dokka-android-gradle-plugin:0.9.18"
+        classpath "org.jmailen.gradle:kotlinter-gradle:2.2.0"
+        classpath "com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.4"
     }
 }
 
@@ -141,8 +141,8 @@ subprojects { proj ->
         }
 
         kotlinOptions {
-            apiVersion = '1.2'
-            languageVersion = '1.2'
+            apiVersion = '1.3'
+            languageVersion = '1.3'
         }
 
         dexOptions {
