@@ -109,6 +109,7 @@ subprojects { proj ->
     if (proj.name == "common") return
     if (proj.name == "core") return
     if (proj.name == "smartlock") return
+    if (proj.name == "ui") return
 
     apply plugin: 'com.android.library'
     apply plugin: 'kotlin-android'
