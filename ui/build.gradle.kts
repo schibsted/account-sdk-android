@@ -1,3 +1,4 @@
+import org.jetbrains.dokka.gradle.DokkaTask
 import org.jetbrains.kotlin.config.KotlinCompilerVersion
 import java.util.*
 
@@ -5,6 +6,7 @@ plugins {
     id("com.android.library")
     kotlin("android")
     kotlin("android.extensions")
+    id("org.jetbrains.dokka-android")
     `maven-publish`
     id("com.jfrog.bintray")
 }
@@ -66,8 +68,8 @@ dependencies {
     implementation("com.android.support:support-annotations:28.0.0")
     implementation("com.android.support:design:28.0.0")
     implementation("com.android.support.constraint:constraint-layout:1.0.2")
-    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk7:${KotlinCompilerVersion.VERSION}")
-    implementation("org.jetbrains.kotlin:kotlin-reflect:${KotlinCompilerVersion.VERSION}")
+    implementation(kotlin("stdlib", KotlinCompilerVersion.VERSION))
+    implementation(kotlin("reflect", KotlinCompilerVersion.VERSION))
     implementation("android.arch.lifecycle:extensions:1.1.0")
 
     val multidexImplementation by configurations
@@ -77,7 +79,7 @@ dependencies {
     testImplementation("com.nhaarman.mockitokotlin2:mockito-kotlin:2.2.0")
     testImplementation("io.kotlintest:kotlintest-runner-junit5:3.1.9")
     testImplementation("junit:junit:4.12")
-    testImplementation("org.jetbrains.kotlin:kotlin-test-junit:${KotlinCompilerVersion.VERSION}")
+    testImplementation(kotlin("test-junit", KotlinCompilerVersion.VERSION))
     testImplementation("org.slf4j:slf4j-simple:1.7.26")
 
     androidTestImplementation("org.mockito:mockito-android:2.13.0")
@@ -88,71 +90,91 @@ dependencies {
     androidTestImplementation("androidx.test.espresso:espresso-core:3.2.0")
 }
 
-tasks.withType(Test::class) {
-    testLogging {
-        showCauses = true
-        showStackTraces = true
-        showExceptions = true
-        setExceptionFormat("full")
-        showStandardStreams = true
-        events("passed", "skipped", "failed")
+tasks {
+    withType(Test::class) {
+        testLogging {
+            showCauses = true
+            showStackTraces = true
+            showExceptions = true
+            setExceptionFormat("full")
+            showStandardStreams = true
+            events("passed", "skipped", "failed")
+        }
+        useJUnitPlatform()
     }
-    useJUnitPlatform()
+
+    dokka {
+        // See "generate_docs.sh" for usage.
+        outputFormat = "html"
+        outputDirectory = "${rootProject.buildDir}/docs"
+    }
 }
 
 publishing {
-    publications {
-        create<MavenPublication>("mavenJar") {
-            afterEvaluate {
-                artifactId = "account-sdk-android-ui"
-                groupId = project.group.toString()
-                version = project.version.toString()
+    tasks.publish { dependsOn("check") }
 
-                artifact(tasks["bundleSingledexReleaseAar"])
-                //TODO: Add sources and javadoc
-//                artifact(tasks["sourcesJar"])
-//                artifact(tasks["javadocJar"])
+    val dokkaJavadoc by tasks.registering(DokkaTask::class) {
+        outputFormat = "javadoc"
+        outputDirectory = "$buildDir/javadoc"
+    }
+    val javadocJar by tasks.registering(Jar::class) {
+        group = PublishingPlugin.PUBLISH_TASK_GROUP
+        from(dokkaJavadoc)
+        archiveClassifier.set("javadoc")
+    }
+    val sourcesJar by tasks.registering(Jar::class) {
+        group = PublishingPlugin.PUBLISH_TASK_GROUP
+        from(android.sourceSets["main"].java.srcDirs)
+        archiveClassifier.set("sources")
+    }
 
-                pom {
-                    name.set("Schibsted Account SDK UI Module")
-                    fillGenericDetails(project)
-                    withXml {
-                        collectDependencies(project)
-                    }
+    val mavenJar by publications.registering(MavenPublication::class) {
+        afterEvaluate {
+            artifactId = "account-sdk-android-ui"
+            groupId = project.group.toString()
+            version = project.version.toString()
+
+            artifact(tasks["bundleSingledexReleaseAar"])
+            artifact(javadocJar.get())
+            artifact(sourcesJar.get())
+
+            pom {
+                name.set("Schibsted Account SDK UI Module")
+                fillGenericDetails(project)
+                withXml {
+                    collectDependencies(project)
                 }
             }
         }
     }
 
-    tasks.publish { dependsOn("check") }
-}
+    bintray {
+        tasks.bintrayUpload { dependsOn("check") }
 
-bintray {
-    user = findProperty("bintrayUser")?.toString()
-            ?: System.getenv("BINTRAY_USER")?.toString()
-    if (user == null) logger.error("BINTRAY_USER is null!")
-    key = findProperty("bintrayApiKey")?.toString()
-            ?: System.getenv("BINTRAY_API_KEY")?.toString()
-    if (key == null) logger.error("BINTRAY_API_KEY is null!")
+        setPublications(mavenJar.name)
 
-    setPublications("mavenJar")
+        user = findProperty("bintrayUser")?.toString()
+                ?: System.getenv("BINTRAY_USER")?.toString()
+        if (user == null) logger.error("BINTRAY_USER is null!")
+        key = findProperty("bintrayApiKey")?.toString()
+                ?: System.getenv("BINTRAY_API_KEY")?.toString()
+        if (key == null) logger.error("BINTRAY_API_KEY is null!")
 
-    pkg.apply {
-        repo = "Account-SDK-Android"
-        name = "UI"
-        description = "UI module for the Schibsted Account SDK"
-        userOrg = "schibsted"
-        setLicenses("MIT")
-        vcsUrl = "https://github.com/schibsted/account-sdk-android.git"
-        publish = true
+        pkg.apply {
+            repo = "Account-SDK-Android"
+            name = "UI"
+            description = "UI module for the Schibsted Account SDK"
+            userOrg = "schibsted"
+            setLicenses("MIT")
+            vcsUrl = "https://github.com/schibsted/account-sdk-android.git"
+            publish = true
 
-        version.apply {
-            name = project.version.toString()
-            desc = "Account SDK Android UI ${project.version}"
-            vcsTag = gitTag
-            released = Date().toString()
+            version.apply {
+                name = project.version.toString()
+                desc = "Account SDK Android UI ${project.version}"
+                vcsTag = gitTag
+                released = Date().toString()
+            }
         }
     }
-
-    tasks.bintrayUpload { dependsOn("check") }
 }
