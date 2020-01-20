@@ -2,6 +2,12 @@ plugins {
     id("com.android.application")
 }
 
+repositories {
+    google()
+    jcenter()
+    mavenCentral()
+}
+
 android {
     buildToolsVersion("29.0.2")
     compileSdkVersion(28)
