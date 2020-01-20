@@ -33,16 +33,6 @@ android {
         vectorDrawables.useSupportLibrary = true
     }
 
-    flavorDimensions("default")
-    productFlavors {
-        create("singledex") {
-            multiDexEnabled = false
-        }
-        create("multidex") {
-            multiDexEnabled = true
-        }
-    }
-
     lintOptions {
         isAbortOnError = false
     }
@@ -71,9 +61,6 @@ dependencies {
     implementation(kotlin("stdlib", KotlinCompilerVersion.VERSION))
     implementation(kotlin("reflect", KotlinCompilerVersion.VERSION))
     implementation("android.arch.lifecycle:extensions:1.1.0")
-
-    val multidexImplementation by configurations
-    multidexImplementation("com.android.support:multidex:1.0.3")
 
     testImplementation("org.assertj:assertj-core:3.14.0")
     testImplementation("com.nhaarman.mockitokotlin2:mockito-kotlin:2.2.0")
@@ -134,7 +121,7 @@ publishing {
             groupId = project.group.toString()
             version = project.version.toString()
 
-            artifact(tasks["bundleSingledexReleaseAar"])
+            artifact(tasks["bundleReleaseAar"])
             artifact(javadocJar.get())
             artifact(sourcesJar.get())
 

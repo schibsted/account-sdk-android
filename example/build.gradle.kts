@@ -14,8 +14,6 @@ android {
         versionCode = 1
         testInstrumentationRunner = "android.support.test.runner.AndroidJUnitRunner"
 
-        missingDimensionStrategy("default", "singledex", "multidex")
-
         resValue("string", "schacc_conf_redirect_scheme",
                 findProperty("schacc_redirect_scheme")?.toString() ?: "spid-dummyscheme")
     }
