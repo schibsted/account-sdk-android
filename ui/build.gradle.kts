@@ -36,13 +36,6 @@ dependencies {
     testImplementation("junit:junit:${Constants.Versions.JUNIT}")
     testImplementation(kotlin("test-junit", KotlinCompilerVersion.VERSION))
     testImplementation("org.slf4j:slf4j-simple:${Constants.Versions.SLF4J}")
-
-    androidTestImplementation("org.mockito:mockito-android:${Constants.Versions.MOCKITO_ANDROID}")
-    androidTestImplementation("com.schibsted.spain:barista:${Constants.Versions.BARISTA}") {
-        exclude(group="com.android.support")
-        exclude(group="org.jetbrains.kotlin")
-    }
-    androidTestImplementation("androidx.test.espresso:espresso-core:${Constants.Versions.ESPRESSO}")
 }
 
 publishing {

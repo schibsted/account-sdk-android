@@ -33,8 +33,6 @@ dependencies {
     testImplementation("com.nhaarman.mockitokotlin2:mockito-kotlin:${Constants.Versions.MOCKITO_KOTLIN}")
     testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:${Constants.Versions.KOTLINX_COROUTINES_CORE}")
     testImplementation("org.slf4j:slf4j-simple:${Constants.Versions.SLF4J}")
-
-    androidTestImplementation("androidx.test.espresso:espresso-core:${Constants.Versions.ESPRESSO}")
 }
 
 publishing {
