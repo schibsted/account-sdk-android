@@ -32,7 +32,9 @@ dependencies {
 
     testImplementation("org.assertj:assertj-core:${Constants.Versions.ASSERTJ_CORE}")
     testImplementation("com.nhaarman.mockitokotlin2:mockito-kotlin:${Constants.Versions.MOCKITO_KOTLIN}")
-    testImplementation("io.kotlintest:kotlintest-runner-junit5:${Constants.Versions.KOTLINTEST_RUNNER_JUNIT5}")
+    testImplementation("io.kotlintest:kotlintest-runner-junit5:${Constants.Versions.KOTLINTEST_RUNNER_JUNIT5}") {
+        exclude(group="org.jetbrains.kotlin")
+    }
     testImplementation("junit:junit:${Constants.Versions.JUNIT}")
     testImplementation(kotlin("test-junit", KotlinCompilerVersion.VERSION))
     testImplementation("org.slf4j:slf4j-simple:${Constants.Versions.SLF4J}")
