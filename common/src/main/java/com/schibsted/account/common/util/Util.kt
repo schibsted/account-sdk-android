@@ -10,18 +10,32 @@ import android.util.Base64
 import java.io.UnsupportedEncodingException
 import java.net.URI
 import java.security.GeneralSecurityException
-import java.util.Stack
+import java.util.*
 import javax.crypto.Cipher
 import javax.crypto.SecretKeyFactory
 import javax.crypto.spec.PBEKeySpec
 import javax.crypto.spec.PBEParameterSpec
 
+/**
+ * Returns string value to be used for basic auth header ("Basic " + base64-encoded string
+ * that contains clientId and clientSecret separated by a colon).
+ */
 fun createBasicAuthHeader(clientId: String, clientSecret: String): String =
         "Basic ${encodeBase64("$clientId:$clientSecret")}"
 
+/**
+ * Encodes given string as Base64.
+ */
 fun encodeBase64(str: String): String = Base64.encodeToString(str.toByteArray(Charsets.UTF_8), Base64.NO_WRAP)
+
+/**
+ * Decodes given Base64 string.
+ */
 fun decodeBase64(str: String): String = Base64.decode(str, Base64.NO_WRAP).toString(Charsets.UTF_8)
 
+/**
+ * Returns true if a class with the given name exists in the classpath.
+ */
 fun existsOnClasspath(className: String): Boolean {
     return try {
         Class.forName(className)
@@ -32,7 +46,7 @@ fun existsOnClasspath(className: String): Boolean {
 }
 
 object SecurityUtil {
-    private val CYPHER_METHOD = "PBEWithMD5AndDES"
+    private const val CYPHER_METHOD = "PBEWithMD5AndDES"
 
     @JvmStatic
     @Throws(GeneralSecurityException::class, UnsupportedEncodingException::class)
@@ -48,6 +62,9 @@ object SecurityUtil {
     }
 }
 
+/**
+ * Replaces everything after '?' with the word "<hidden>" and returns the result.
+ */
 fun String.safeUrl(): String {
     val parts = this.split('?', limit = 2)
     val domain = parts[0]
@@ -61,8 +78,11 @@ fun <T> Parcel.readStack(loader: ClassLoader): Stack<T> {
     return Stack<T>().apply { addAll(items) }
 }
 
+/**
+ * Returns value of a query param with the given name, or null, if it doesn't exist.
+ */
 fun URI.getQueryParam(p: String): String? = this.query?.split('&')
         ?.map { it.split('=') }
-        ?.map { it.first() to it.getOrElse(1, { "" }) }
+        ?.map { it.first() to it.getOrElse(1) { "" } }
         ?.toMap()
         ?.get(p)
