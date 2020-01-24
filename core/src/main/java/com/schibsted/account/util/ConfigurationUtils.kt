@@ -28,13 +28,13 @@ object ConfigurationUtils {
         }
     }
 
-    @VisibleForTesting(otherwise = VisibleForTesting.PACKAGE_PRIVATE)
+    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
     internal fun getConfigResourceStream(path: String): InputStream {
         val stream = ConfigurationUtils::class.java.classLoader?.getResourceAsStream(path)
         return checkNotNull(stream) { "Missing configuration asset: $path" }
     }
 
-    @VisibleForTesting(otherwise = VisibleForTesting.PACKAGE_PRIVATE)
+    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
     internal fun parseConfigFile(lines: List<String>): Map<String, String> {
         return lines
                 .map { it.trim() }
