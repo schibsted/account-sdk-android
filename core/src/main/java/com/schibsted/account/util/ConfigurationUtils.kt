@@ -7,12 +7,21 @@ package com.schibsted.account.util
 import android.support.annotation.VisibleForTesting
 import java.io.InputStream
 
+/**
+ * Loads configuration from "assets/schibsted_account.conf". This file may contain
+ * (1) key-value pairs separated by a single colon ":" character, or comments
+ * that start with "#" character.
+ */
 object ConfigurationUtils {
     private const val CONFIG_FILE_PATH = "assets/schibsted_account.conf"
+    private const val SEPARATOR = ':'
+    private const val COMMENT_MARKER = '#'
 
-    fun paramsFromAssets(): Map<String, Any> {
+    /**
+     * Loads configuration from "assets/schibsted_account.conf" as a map of keys and values.
+     */
+    fun paramsFromAssets(): Map<String, String> {
         val stream = getConfigResourceStream(CONFIG_FILE_PATH)
-
         stream.use {
             val lines = it.reader(Charsets.UTF_8).readLines()
             return parseConfigFile(lines)
@@ -21,19 +30,19 @@ object ConfigurationUtils {
 
     @VisibleForTesting(otherwise = VisibleForTesting.PACKAGE_PRIVATE)
     internal fun getConfigResourceStream(path: String): InputStream {
-        val stream = ConfigurationUtils::class.java.classLoader.getResourceAsStream(path)
-        require(stream != null) { "Missing configuration asset: $path" }
-        return stream
+        val stream = ConfigurationUtils::class.java.classLoader?.getResourceAsStream(path)
+        return checkNotNull(stream) { "Missing configuration asset: $path" }
     }
 
     @VisibleForTesting(otherwise = VisibleForTesting.PACKAGE_PRIVATE)
-    internal fun parseConfigFile(lines: List<String>): Map<String, Any> {
+    internal fun parseConfigFile(lines: List<String>): Map<String, String> {
         return lines
-                .filter { it.trim().isNotEmpty() }
-                .filterNot { it.startsWith('#') }
+                .map { it.trim() }
+                .filter { it.isNotEmpty() }
+                .filterNot { it.startsWith(COMMENT_MARKER) }
                 .map {
-                    val parts = it.split(delimiters = *charArrayOf(':'), limit = 2)
-                    require(parts.size == 2) { "Invalid config file format. Should be <key: value>" }
+                    val parts = it.split(SEPARATOR, limit = 2)
+                    check(parts.size == 2) { "Invalid config file format. Should be <key: value>" }
                     parts[0].trim() to parts[1].trim()
                 }.toMap()
     }

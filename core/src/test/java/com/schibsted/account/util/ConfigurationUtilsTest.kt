@@ -12,7 +12,7 @@ import io.kotlintest.specs.WordSpec
 class ConfigurationUtilsTest : WordSpec({
     "getConfigResourceStream" should {
         "require that the asset exists" {
-            shouldThrow<IllegalArgumentException> {
+            shouldThrow<IllegalStateException> {
                 ConfigurationUtils.getConfigResourceStream("some/missing/path/file.conf")
             }
         }
@@ -41,7 +41,7 @@ class ConfigurationUtilsTest : WordSpec({
         }
 
         "trim blank space and lines" {
-            val lines = listOf("key1: value1", "key2:value2", " key3 :   value3  ", " ")
+            val lines = listOf("key1: value1", "key2:value2", " key3 :   value3  ", " ", " #comment")
             val pairs = ConfigurationUtils.parseConfigFile(lines)
 
             pairs.size shouldBe 3
@@ -52,7 +52,7 @@ class ConfigurationUtilsTest : WordSpec({
 
         "throw an exception if the syntax is wrong" {
             val lines = listOf("key -- value")
-            shouldThrow<IllegalArgumentException> { ConfigurationUtils.parseConfigFile(lines) }
+            shouldThrow<IllegalStateException> { ConfigurationUtils.parseConfigFile(lines) }
         }
     }
 })
