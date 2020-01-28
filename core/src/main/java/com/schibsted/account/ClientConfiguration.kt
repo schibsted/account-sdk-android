@@ -41,7 +41,7 @@ data class ClientConfiguration(
     }
 
     companion object {
-        private val TAG = ClientConfiguration::class.java.simpleName
+        private const val TAG = "ClientConfiguration"
         private const val KEY_ID = "clientId"
         private const val KEY_SECRET = "clientSecret"
         private const val KEY_ENVIRONMENT = "environment"

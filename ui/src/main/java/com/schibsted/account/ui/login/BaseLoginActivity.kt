@@ -37,12 +37,7 @@ import com.schibsted.account.engine.integration.InputProvider
 import com.schibsted.account.network.Environment
 import com.schibsted.account.network.response.ClientInfo
 import com.schibsted.account.persistence.LocalSecretsProvider
-import com.schibsted.account.ui.AccountUi
-import com.schibsted.account.ui.InternalUiConfiguration
-import com.schibsted.account.ui.KeyboardController
-import com.schibsted.account.ui.OptionalConfiguration
-import com.schibsted.account.ui.R
-import com.schibsted.account.ui.UiUtil
+import com.schibsted.account.ui.*
 import com.schibsted.account.ui.login.flow.password.FlowSelectionListener
 import com.schibsted.account.ui.login.flow.password.LoginContractImpl
 import com.schibsted.account.ui.login.flow.password.OneStepLoginContractImpl
@@ -67,7 +62,7 @@ import kotlin.properties.Delegates
 abstract class BaseLoginActivity : AppCompatActivity(), NavigationListener {
 
     companion object {
-        private val TAG = BaseLoginActivity::class.java.simpleName
+        private const val TAG = "BaseLoginActivity"
         private const val KEY_SCREEN = "SCREEN"
         const val EXTRA_USER = "USER_USER"
         const val KEY_SMARTLOCK_CREDENTIALS = "CREDENTIALS"

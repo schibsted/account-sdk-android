@@ -65,7 +65,7 @@ class AccountService @JvmOverloads constructor(
     }
 
     companion object {
-        private val TAG = AccountService::class.java.simpleName
+        private const val TAG = "AccountService"
         internal var localBroadcastManager: LocalBroadcastManager? = null
             @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
             set

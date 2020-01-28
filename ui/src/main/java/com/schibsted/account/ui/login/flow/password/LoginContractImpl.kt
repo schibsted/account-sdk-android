@@ -92,6 +92,6 @@ open class LoginContractImpl(private val loginActivity: BaseLoginActivity, priva
         })
     }
     companion object {
-        val TAG = LoginContractImpl::class.java.simpleName
+        const val TAG = "LoginContractImpl"
     }
 }

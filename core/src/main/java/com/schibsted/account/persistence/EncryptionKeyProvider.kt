@@ -17,21 +17,13 @@ import android.support.annotation.VisibleForTesting
 import android.util.Base64
 import com.schibsted.account.common.util.Logger
 import java.math.BigInteger
-import java.security.KeyFactory
-import java.security.KeyPair
-import java.security.KeyPairGenerator
-import java.security.KeyStore
-import java.security.KeyStoreException
+import java.security.*
 import java.security.spec.AlgorithmParameterSpec
 import java.security.spec.PKCS8EncodedKeySpec
 import java.security.spec.RSAKeyGenParameterSpec
 import java.security.spec.X509EncodedKeySpec
 import java.text.DateFormat
-import java.util.Calendar
-import java.util.Date
-import java.util.GregorianCalendar
-import java.util.SimpleTimeZone
-import java.util.TimeZone
+import java.util.*
 import java.util.concurrent.TimeUnit
 import javax.security.auth.x500.X500Principal
 
@@ -220,7 +212,7 @@ class EncryptionKeyProvider(private val appContext: Context) {
     }
 
     companion object {
-        private val TAG = EncryptionKeyProvider::class.java.simpleName
+        private const val TAG = "EncryptionKeyProvider"
 
         private const val KEY_ALIAS = "identityKeyAlias"
         private const val KEY_ALGORITHM_RSA = "RSA"

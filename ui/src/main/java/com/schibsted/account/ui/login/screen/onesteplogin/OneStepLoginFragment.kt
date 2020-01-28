@@ -316,7 +316,7 @@ class OneStepLoginFragment : FlowFragment<OneStepLoginContract.Presenter>(), One
     }
 
     companion object {
-        private val TAG = OneStepLoginFragment::class.java.simpleName
+        private const val TAG = "OneStepLoginFragment"
         const val KEY_CLIENT_INFO = "KEY_CLIENT_INFO"
         /**
          * provide a new instance of this [Fragment]

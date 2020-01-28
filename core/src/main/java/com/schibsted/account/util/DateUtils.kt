@@ -3,14 +3,12 @@ package com.schibsted.account.util
 import com.schibsted.account.common.util.Logger
 import java.text.ParseException
 import java.text.SimpleDateFormat
-import java.util.Calendar
-import java.util.Date
-import java.util.Locale
-import java.util.Random
+import java.util.*
 
 object DateUtils {
     private const val DATE_PARSING_FORMAT = "yyyy-MM-dd'T'HH:mm:ss"
-    private val TAG = DateUtils::class.java.simpleName
+    private const val TAG = "DateUtils"
+
     fun fromString(stringDate: String): Date? {
         var date: Date? = null
         try {

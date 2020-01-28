@@ -7,11 +7,7 @@ import android.content.IntentSender
 import android.os.Parcelable
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
-import com.google.android.gms.auth.api.credentials.Credential
-import com.google.android.gms.auth.api.credentials.CredentialRequest
-import com.google.android.gms.auth.api.credentials.Credentials
-import com.google.android.gms.auth.api.credentials.CredentialsOptions
-import com.google.android.gms.auth.api.credentials.IdentityProviders
+import com.google.android.gms.auth.api.credentials.*
 import com.google.android.gms.common.api.CommonStatusCodes
 import com.google.android.gms.common.api.ResolvableApiException
 import com.google.android.gms.tasks.OnCompleteListener
@@ -23,7 +19,7 @@ import com.schibsted.account.engine.input.Identifier
 class SmartlockController(private val activity: AppCompatActivity, private val smartLockCallback: SmartLockCallback) : Smartlock {
 
     companion object {
-        private val TAG = SmartlockController::class.java.simpleName
+        private const val TAG = "SmartlockController"
         /**
          * Request code to send when the user has to choose between multiple account the one to login with.
          */

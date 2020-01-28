@@ -159,6 +159,6 @@ class AuthInterceptor constructor(
             }
 
     companion object {
-        private val TAG = AuthInterceptor::class.java.simpleName
+        private const val TAG = "AuthInterceptor"
     }
 }
