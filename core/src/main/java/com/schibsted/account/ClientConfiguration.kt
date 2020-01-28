@@ -4,13 +4,13 @@
 
 package com.schibsted.account
 
-import android.os.Parcel
 import android.os.Parcelable
 import android.support.annotation.VisibleForTesting
 import com.schibsted.account.common.util.Logger
 import com.schibsted.account.network.Environment
 import com.schibsted.account.network.ServiceHolder
 import com.schibsted.account.util.ConfigurationUtils
+import kotlinx.android.parcel.Parcelize
 
 /**
  * This contains the client configuration as found in the self service pages in Schibsted account
@@ -20,43 +20,27 @@ import com.schibsted.account.util.ConfigurationUtils
  * @see <a href="https://selfservice.login.schibsted.com/login">Self-Service PRO</a>
  * @see <a href="https://selfservice.identity-pre.schibsted.com">Self-Service PRE</a>
  */
+@Parcelize
 data class ClientConfiguration(
     @Environment val environment: String,
     val clientId: String,
     val clientSecret: String
 ) : Parcelable {
 
-    constructor(source: Parcel) : this(
-            source.readString(),
-            source.readString(),
-            source.readString()
-    )
-
-    override fun describeContents() = 0
-
-    override fun writeToParcel(dest: Parcel, flags: Int) = with(dest) {
-        writeString(environment)
-        writeString(clientId)
-        writeString(clientSecret)
-    }
-
     companion object {
         private const val TAG = "ClientConfiguration"
         private const val KEY_ID = "clientId"
         private const val KEY_SECRET = "clientSecret"
         private const val KEY_ENVIRONMENT = "environment"
-        private var currentConfig: ClientConfiguration? = null
+        private lateinit var currentConfig: ClientConfiguration
 
         @JvmStatic
         fun get(): ClientConfiguration {
-            val conf = currentConfig
-            if (conf == null) {
-                val newConf = fromParams(ConfigurationUtils.paramsFromAssets())
-                currentConfig = newConf
-                return newConf
+            if (!::currentConfig.isInitialized) {
+                currentConfig = fromParams(ConfigurationUtils.paramsFromAssets())
             }
 
-            return conf
+            return currentConfig
         }
 
         @JvmStatic
@@ -66,7 +50,7 @@ data class ClientConfiguration(
             ServiceHolder.reset()
         }
 
-        @VisibleForTesting(otherwise = VisibleForTesting.PROTECTED)
+        @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
         internal fun fromParams(params: Map<String, String>): ClientConfiguration {
             val clientId = requireNotNull(params[KEY_ID]) { "Field $KEY_ID is required in the configuration" }
             val clientSecret = requireNotNull(params[KEY_SECRET]) { "Field $KEY_SECRET is required in the configuration" }
@@ -88,12 +72,6 @@ data class ClientConfiguration(
             )
 
             return ClientConfiguration(environment, clientId, clientSecret)
-        }
-
-        @JvmField
-        val CREATOR: Parcelable.Creator<ClientConfiguration> = object : Parcelable.Creator<ClientConfiguration> {
-            override fun createFromParcel(source: Parcel): ClientConfiguration = ClientConfiguration(source)
-            override fun newArray(size: Int): Array<ClientConfiguration?> = arrayOfNulls(size)
         }
     }
 }
