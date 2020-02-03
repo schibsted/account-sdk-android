@@ -6,16 +6,7 @@ package com.schibsted.account.session
 
 import android.content.Context
 import android.content.SharedPreferences
-import com.nhaarman.mockitokotlin2.mock
-import com.nhaarman.mockitokotlin2.any
-import com.nhaarman.mockitokotlin2.doNothing
-import com.nhaarman.mockitokotlin2.doReturn
-import com.nhaarman.mockitokotlin2.whenever
-import com.nhaarman.mockitokotlin2.eq
-import com.nhaarman.mockitokotlin2.spy
-import com.nhaarman.mockitokotlin2.anyOrNull
-import com.nhaarman.mockitokotlin2.verify
-import com.nhaarman.mockitokotlin2.never
+import com.nhaarman.mockitokotlin2.*
 import com.schibsted.account.ClientConfiguration
 import com.schibsted.account.common.util.Logger
 import com.schibsted.account.engine.integration.ResultCallback
@@ -29,8 +20,7 @@ import io.kotlintest.matchers.haveSubstring
 import io.kotlintest.should
 import io.kotlintest.shouldBe
 import io.kotlintest.specs.StringSpec
-import java.util.Date
-import java.util.Calendar
+import java.util.*
 
 class UserPersistenceTest : StringSpec({
     Logger.loggingEnabled = false
@@ -57,8 +47,13 @@ class UserPersistenceTest : StringSpec({
             }
         }
 
+        val mockedAppContext: Context = mock {
+            on { getSharedPreferences(any(), any()) }.thenReturn(mockedSharedPrefs)
+        }
+
         val mockContext: Context = mock {
-            on { getSharedPreferences(any(), eq(0)) }.thenReturn(mockedSharedPrefs)
+            on { applicationContext }.thenReturn(mockedAppContext)
+            on { getSharedPreferences(any(), any()) }.thenReturn(mockedSharedPrefs)
         }
 
         val userPersistence: UserPersistence = spy(UserPersistence(mockContext))
@@ -114,26 +109,31 @@ class UserPersistenceTest : StringSpec({
         val storedValues = mutableListOf<String>()
 
         val editor: SharedPreferences.Editor = mock {
-            on { putString(eq("AGR_CACHE"), any()) }.then {
+            on { putString(eq("AGR_CACHE"), anyOrNull()) }.then {
                 storedValues.add(it.arguments[1] as String)
                 mock<SharedPreferences.Editor>()
             }
         }
 
         val prefs: SharedPreferences = mock {
-            on { getString(eq("AGR_CACHE"), any()) }.then {
+            on { getString(eq("AGR_CACHE"), anyOrNull()) }.then {
                 storedValues.last()
             }
             on { edit() }.thenReturn(editor)
         }
 
+        val mockedAppContext: Context = mock {
+            on { getSharedPreferences(any(), any()) }.thenReturn(prefs)
+        }
+
         val mockedContext: Context = mock {
+            on { applicationContext }.thenReturn(mockedAppContext)
             on { getSharedPreferences(any(), any()) }.thenReturn(prefs)
         }
 
         val up: UserPersistence = spy(UserPersistence(mockedContext))
 
-        (1..10).forEach { up.putCacheResult("myuser") }
+        repeat(10) { up.putCacheResult("myuser") }
 
         val currentTime = Date()
         val cal = Calendar.getInstance()
