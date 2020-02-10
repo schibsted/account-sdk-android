@@ -59,7 +59,7 @@ internal abstract class NetworkCallback<T>(val intent: String) : Callback<T> {
     abstract fun onError(error: NetworkError)
 
     companion object {
-        private val TAG = NetworkCallback::class.java.simpleName
+        private const val TAG = "NetworkCallback"
         @JvmStatic
         fun <T> lambda(intent: String, errorFun: (NetworkError) -> Unit, successFun: (T) -> Unit): NetworkCallback<T> {
             return object : NetworkCallback<T>(intent) {

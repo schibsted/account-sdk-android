@@ -83,7 +83,7 @@ class MobileIdentificationFragment : AbstractIdentificationFragment() {
     }
 
     companion object {
-        private val TAG = MobileIdentificationFragment::class.java.simpleName
+        private const val TAG = "MobileIdentificationFragment"
         /**
          * provide a new instance of this [Fragment]
          *

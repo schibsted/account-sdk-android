@@ -14,7 +14,7 @@ import javax.crypto.KeyGenerator
 import javax.crypto.SecretKey
 import javax.crypto.spec.IvParameterSpec
 
-private val TAG = PersistenceEncryption::class.java.simpleName
+private const val TAG = "PersistenceEncryption"
 private const val RSA_TRANSFORM = "RSA/ECB/PKCS1Padding"
 private const val AES_TRANSFORM = "AES/CBC/PKCS5Padding"
 const val AES_ALG = "AES"

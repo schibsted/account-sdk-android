@@ -15,7 +15,7 @@ import com.schibsted.account.model.UserId
 import com.schibsted.account.session.User
 
 class UserPersistenceReceiver(appContext: Context) : BroadcastReceiver() {
-    private val TAG = UserPersistenceReceiver::class.java.simpleName
+    private val TAG = "UserPersistenceReceiver"
 
     private val userPersistence = UserPersistence(appContext)
     private val localBroadcastManager = LocalBroadcastManager.getInstance(appContext)

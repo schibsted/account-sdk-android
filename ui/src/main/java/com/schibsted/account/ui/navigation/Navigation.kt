@@ -216,6 +216,6 @@ class Navigation(
     }
 
     companion object {
-        private val TAG = Navigation::class.java.simpleName
+        private const val TAG = "Navigation"
     }
 }

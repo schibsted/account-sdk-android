@@ -94,7 +94,7 @@ class EmailIdentificationFragment : AbstractIdentificationFragment(), Identifica
     }
 
     companion object {
-        private val TAG = EmailIdentificationFragment::class.java.simpleName
+        private const val TAG = "EmailIdentificationFragment"
         /**
          * provide a new instance of this [Fragment]
          *

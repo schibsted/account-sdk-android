@@ -179,6 +179,6 @@ class LoginActivityViewModel(
     }
 
     companion object {
-        private val TAG = LoginActivityViewModel::class.java.simpleName
+        private const val TAG = "LoginActivityViewModel"
     }
 }

@@ -9,7 +9,7 @@ import java.net.URI
 @Parcelize
 data class RequiredConfiguration(val redirectUri: URI, val clientName: String) : Parcelable {
     companion object {
-        private val TAG = RequiredConfiguration::class.java.simpleName
+        private const val TAG = "RequiredConfiguration"
         @JvmStatic
         @Throws(IllegalArgumentException::class)
         fun fromResources(applicationContext: Context): RequiredConfiguration {
