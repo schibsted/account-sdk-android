@@ -139,7 +139,7 @@ abstract class BaseLoginActivity : AppCompatActivity(), NavigationListener {
             smartlockController = SmartlockController(this, viewModel.smartlockReceiver)
         }
 
-        val action = DeepLinkHandler.resolveDeepLink(intent.dataString)
+        val action = DeepLinkHandler.resolveDeepLink(this, intent.dataString)
         if (action is DeepLink.ValidateAccount) {
             followDeepLink(intent.dataString, action, navigationController.currentFragment?.tag)
         } else {
@@ -482,7 +482,7 @@ abstract class BaseLoginActivity : AppCompatActivity(), NavigationListener {
     override fun onNewIntent(intent: Intent) {
         super.onNewIntent(intent)
 
-        val action = DeepLinkHandler.resolveDeepLink(intent.dataString)
+        val action = DeepLinkHandler.resolveDeepLink(this, intent.dataString)
         followDeepLink(intent.dataString, action, navigationController.currentFragment?.tag)
     }
 }
