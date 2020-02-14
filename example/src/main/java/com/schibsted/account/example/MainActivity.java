@@ -10,7 +10,9 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.customtabs.CustomTabsIntent;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -20,6 +22,7 @@ import android.widget.Toast;
 
 import com.schibsted.account.AccountService;
 import com.schibsted.account.Events;
+import com.schibsted.account.Routes;
 import com.schibsted.account.engine.integration.ResultCallback;
 import com.schibsted.account.model.error.ClientError;
 import com.schibsted.account.network.response.ProfileData;
@@ -29,6 +32,7 @@ import com.schibsted.account.ui.AccountUi;
 import com.schibsted.account.ui.login.BaseLoginActivity;
 import com.schibsted.account.ui.smartlock.SmartlockMode;
 
+import java.net.URI;
 import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
@@ -49,6 +53,20 @@ public class MainActivity extends AppCompatActivity {
 
         userState = findViewById(R.id.example_app_user_state_view);
         button = findViewById(R.id.example_app_button);
+
+        Button webLoginButton = findViewById(R.id.web_flow_login_button);
+        final Activity ctx = this;
+        webLoginButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String redirectScheme = ctx.getString(R.string.schacc_conf_redirect_scheme);
+                String redirectHost = ctx.getString(R.string.schacc_conf_redirect_host);
+                URI redirectUri = URI.create(redirectScheme + redirectHost);
+                CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
+                CustomTabsIntent customTabsIntent = builder.build();
+                customTabsIntent.launchUrl(ctx, Uri.parse(Routes.loginUrl(ctx, redirectUri, true).toString()));
+            }
+        });
 
         final TextView sdkVersion = findViewById(R.id.example_app_sdk_version_view);
         sdkVersion.setText(com.schibsted.account.BuildConfig.VERSION_NAME + " - " + com.schibsted.account.BuildConfig.BUILD_TYPE.toUpperCase(Locale.getDefault()));

@@ -6,6 +6,7 @@
     <string name="app_name">Account SDK Example</string>
     <string name="application_label">my company name</string>
     <string name="example_app_login">Login</string>
+    <string name="example_app_web_flow_login">Login using web flow</string>
     <string name="example_app_logout">Logout</string>
     <string name="example_app_user_logged_in">Logged in as: %1$s</string>
     <string name="example_app_user_logged_out">User not logged in</string>
