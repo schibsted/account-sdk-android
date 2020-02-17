@@ -23,11 +23,11 @@ class LocalSecretsProvider(context: Context, private val maxEntries: Int = MAX_E
     }
 
     private var secrets: List<Entry>
-        get() = prefs.getString(PREFS_FILENAME, null)?.let {
+        get() = prefs.getString(PREFS_KEY, null)?.let {
             GSON.fromJson<List<Entry>>(it, typeToken<List<Entry>>())
         } ?: emptyList()
         set(value) = with(prefs.edit()) {
-            putString(PREFS_FILENAME, GSON.toJson(value))
+            putString(PREFS_KEY, GSON.toJson(value))
             apply()
         }
 
@@ -55,7 +55,9 @@ class LocalSecretsProvider(context: Context, private val maxEntries: Int = MAX_E
     }
 
     companion object {
+        // For legacy reasons, both filename and the key are the same:
         private const val PREFS_FILENAME = "AccountSdkLocalSecrets"
+        private const val PREFS_KEY = "AccountSdkLocalSecrets"
         private const val MAX_ENTRIES = 10
         private val GSON = Gson()
     }
