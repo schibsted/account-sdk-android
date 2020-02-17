@@ -9,6 +9,8 @@ import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
+import java.security.KeyPair
+import java.security.interfaces.RSAKey
 import java.util.concurrent.TimeUnit
 
 @RunWith(AndroidJUnit4::class)
@@ -20,9 +22,7 @@ class EncryptionKeyProviderTest {
     @Before
     fun setUp() {
         appContext = InstrumentationRegistry.getTargetContext()
-        prefs = appContext.getSharedPreferences(FILENAME, Context.MODE_PRIVATE).also {
-            it.edit().clear().commit()
-        }
+        prefs = appContext.getSharedPreferences(FILENAME, Context.MODE_PRIVATE)
     }
 
     @After
@@ -37,7 +37,7 @@ class EncryptionKeyProviderTest {
         val first = provider.keyPair
         val second = provider.keyPair
 
-        assertEquals(first.public, second.public)
+        assertEquals(first, second)
     }
 
     @Test
@@ -46,11 +46,15 @@ class EncryptionKeyProviderTest {
         val providerInstance1 = EncryptionKeyProvider.createApi14(appContext)
         val first = providerInstance1.keyPair
 
+        // The purpose of having multiple instances of EncryptionKeyProvider is to emulate
+        // app re-start. The first provider represents the first app session, the second one
+        // represents a new session after restart. The same applies to other tests below.
+
         // The second provider retrieves KeyPair from storage:
         val providerInstance2 = EncryptionKeyProvider.createApi14(appContext)
         val second = providerInstance2.keyPair
 
-        assertEquals(first.public, second.public)
+        assertEquals(first, second)
     }
 
     @Test
@@ -63,12 +67,12 @@ class EncryptionKeyProviderTest {
 
         val second = providerInstance1.keyPair
 
-        assertNotEquals(first.public, second.public)
+        assertNotEquals(first, second)
 
         val providerInstance2 = EncryptionKeyProvider.createApi14(appContext)
         val third = providerInstance2.keyPair
 
-        assertEquals(second.public, third.public)
+        assertEquals(second, third)
     }
 
     @Test
@@ -78,7 +82,7 @@ class EncryptionKeyProviderTest {
         val first = provider.keyPair
         val second = provider.keyPair
 
-        assertEquals(first.public, second.public)
+        assertEquals(first, second)
     }
 
     @Test
@@ -91,7 +95,7 @@ class EncryptionKeyProviderTest {
         val providerInstance2 = EncryptionKeyProvider.createApi18(appContext)
         val second = providerInstance2.keyPair
 
-        assertEquals(first.public, second.public)
+        assertEquals(first, second)
     }
 
     @Test
@@ -104,19 +108,17 @@ class EncryptionKeyProviderTest {
 
         val second = providerInstance1.keyPair
 
-        assertNotEquals(first.public, second.public)
+        assertNotEquals(first, second)
 
         val providerInstance2 = EncryptionKeyProvider.createApi18(appContext)
         val third = providerInstance2.keyPair
 
-        assertEquals(second.public, third.public)
-        assertEquals(second.private, third.private)
+        assertEquals(second, third)
 
         val providerInstance3 = EncryptionKeyProvider.createApi18(appContext)
         val fourth = providerInstance3.keyPair
 
-        assertEquals(third.public, fourth.public)
-        assertEquals(third.private, fourth.private)
+        assertEquals(third, fourth)
     }
 
     @Test
@@ -126,7 +128,7 @@ class EncryptionKeyProviderTest {
         val first = provider.keyPair
         val second = provider.keyPair
 
-        assertEquals(first.public, second.public)
+        assertEquals(first, second)
     }
 
     @Test
@@ -139,7 +141,7 @@ class EncryptionKeyProviderTest {
         val providerInstance2 = EncryptionKeyProvider.createApi23(appContext)
         val second = providerInstance2.keyPair
 
-        assertEquals(first.public, second.public)
+        assertEquals(first, second)
     }
 
     @Test
@@ -152,12 +154,12 @@ class EncryptionKeyProviderTest {
 
         val second = providerInstance1.keyPair
 
-        assertNotEquals(first.public, second.public)
+        assertNotEquals(first, second)
 
         val providerInstance2 = EncryptionKeyProvider.createApi23(appContext)
         val third = providerInstance2.keyPair
 
-        assertEquals(second.public, third.public)
+        assertEquals(second, third)
     }
 
     @Test
@@ -167,7 +169,7 @@ class EncryptionKeyProviderTest {
         val first = provider.keyPair
         val second = provider.keyPair
 
-        assertEquals(first.public, second.public)
+        assertEquals(first, second)
     }
 
     @Test
@@ -180,7 +182,7 @@ class EncryptionKeyProviderTest {
         val providerInstance2 = EncryptionKeyProvider.createApi28(appContext)
         val second = providerInstance2.keyPair
 
-        assertEquals(first.public, second.public)
+        assertEquals(first, second)
     }
 
     @Test
@@ -193,12 +195,12 @@ class EncryptionKeyProviderTest {
 
         val second = providerInstance1.keyPair
 
-        assertNotEquals(first.public, second.public)
+        assertNotEquals(first, second)
 
         val providerInstance2 = EncryptionKeyProvider.createApi28(appContext)
         val third = providerInstance2.keyPair
 
-        assertEquals(second.public, third.public)
+        assertEquals(second, third)
     }
 
     @Test
@@ -236,5 +238,29 @@ class EncryptionKeyProviderTest {
     companion object {
         private const val FILENAME = "IDENTITY_KEYSTORE"
         private const val KEY_EXPIRATION = "KEY_PAIR_VALID_UNTIL"
+
+        fun assertEquals(expected: KeyPair?, actual: KeyPair?) {
+            if (expected == null && actual == null) return
+
+            val privateExpected = expected?.private as RSAKey
+            val privateActual = actual?.private as RSAKey
+            assertEquals(privateExpected.modulus, privateActual.modulus)
+
+            val publicExpected = expected.public as RSAKey
+            val publicActual = actual.public as RSAKey
+            assertEquals(publicExpected.modulus, publicActual.modulus)
+        }
+
+        fun assertNotEquals(expected: KeyPair?, actual: KeyPair?) {
+            if (expected == null && actual == null) fail()
+
+            val privateExpected = expected?.private as RSAKey
+            val privateActual = actual?.private as RSAKey
+            assertNotEquals(privateExpected.modulus, privateActual.modulus)
+
+            val publicExpected = expected.public as RSAKey
+            val publicActual = actual.public as RSAKey
+            assertNotEquals(publicExpected.modulus, publicActual.modulus)
+        }
     }
 }
