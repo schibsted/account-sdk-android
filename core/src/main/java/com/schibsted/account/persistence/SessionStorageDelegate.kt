@@ -39,6 +39,8 @@ internal class SessionStorageDelegate(
     }
 
     private fun writeDataToPersistence(data: List<UserPersistence.Session>, prefs: SharedPreferences) {
+        refreshUncertainKeys(prefs)
+
         val dataToPersist = GSON.toJson(data)
         var aesKey: SecretKey? = null
 
@@ -105,6 +107,7 @@ internal class SessionStorageDelegate(
             }
 
             return sessions?.also {
+                refreshUncertainKeysAndPersist(prefs, it)
                 updateKeyExpiry(prefs, it)
             }
         } else {
@@ -121,6 +124,44 @@ internal class SessionStorageDelegate(
             removePersistedData(prefs)
             writeDataToPersistence(sessions, prefs)
         }
+    }
+
+    private var isKeyExpirationCertain: Boolean
+        get() {
+            return appContext.getSharedPreferences(preferenceFilename, Context.MODE_PRIVATE)
+                    .getBoolean(KEYS_REFRESHED, false)
+        }
+        set(value) {
+            appContext.getSharedPreferences(preferenceFilename, Context.MODE_PRIVATE).edit()
+                    .run {
+                        putBoolean(KEYS_REFRESHED, value)
+                        apply()
+                    }
+        }
+
+    /**
+     * Workaround for issue, introduced in v1.5.0: if a key was created before upgrade 1.5.0,
+     * it has validity of 1 year but is treated as valid forever.
+     */
+    private fun refreshUncertainKeys(prefs: SharedPreferences) {
+        if (isKeyExpirationCertain) return
+
+        Logger.info(TAG, "Forcing one-time key refresh because of uncertain key validity.")
+
+        removePersistedData(prefs)
+        refreshKeyPair()
+        isKeyExpirationCertain = true
+    }
+
+    /**
+     * Workaround for issue, introduced in v1.5.0: if a key was created before upgrade 1.5.0,
+     * it has validity of 1 year but is treated as valid forever.
+     */
+    private fun refreshUncertainKeysAndPersist(prefs: SharedPreferences, sessions: List<UserPersistence.Session>) {
+        if (isKeyExpirationCertain) return
+
+        refreshUncertainKeys(prefs)
+        writeDataToPersistence(sessions, prefs)
     }
 
     /**
@@ -226,6 +267,7 @@ internal class SessionStorageDelegate(
     companion object {
         private val TAG = SessionStorageDelegate::class.java.simpleName
         private const val EMPTY_JSON_ARRAY = "[]"
+        private const val KEYS_REFRESHED = "IDENTITY_RSA_KEYS_REFRESHED"
         private val GSON = Gson()
     }
 }
