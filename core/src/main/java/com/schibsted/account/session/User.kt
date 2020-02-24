@@ -169,12 +169,13 @@ class User(token: UserToken, val isPersistable: Boolean) : Parcelable {
          * @param code The session code to create the user from
          * @param redirectUri The redirect URI. Must be found in self service
          * @param isPersistable If the user can be persisted or not. The user's wishes must be respected to be GDPR compliant
+         * @param codeVerifier The code verifier used for web flow login with PKCE
          * @param callback The callback to which we provide the User
          */
         @JvmStatic
-        fun fromSessionCode(code: String, redirectUri: String, isPersistable: Boolean, callback: ResultCallback<User>, @OIDCScope scopes: Array<String>?) {
+        fun fromSessionCode(code: String, redirectUri: String, isPersistable: Boolean, codeVerifier: String? = null, callback: ResultCallback<User>, @OIDCScope scopes: Array<String>?) {
             val conf = ClientConfiguration.get()
-            ServiceHolder.oAuthService.tokenFromAuthCode(conf.clientId, conf.clientSecret, code, redirectUri, scopes)
+            ServiceHolder.oAuthService.tokenFromAuthCode(conf.clientId, conf.clientSecret, code, redirectUri, scopes, codeVerifier)
                     .enqueue(NetworkCallback.lambda("Resuming session from session code",
                             { callback.onError(it.toClientError()) },
                             { token ->

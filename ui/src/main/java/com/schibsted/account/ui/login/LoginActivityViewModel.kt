@@ -121,7 +121,8 @@ class LoginActivityViewModel(
 
     fun loginFromDeepLink(state: DeepLink.ValidateAccount) {
         Logger.info(TAG, "Attempting login from deep link, extracting code")
-        User.fromSessionCode(state.code, redirectUri.toString(), state.isPersistable,
+        val codeVerifier = if (state is DeepLink.WebFlowLogin) state.codeVerifier else null
+        User.fromSessionCode(state.code, redirectUri.toString(), state.isPersistable, codeVerifier,
                 ResultCallback.fromLambda(
                         { error ->
                             Logger.info(TAG, "Automatic login after account validation failed: ${error.message}")

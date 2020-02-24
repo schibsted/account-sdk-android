@@ -28,7 +28,8 @@ class OAuthService(@Environment environment: String, okHttpClient: OkHttpClient)
         clientSecret: String,
         authCode: String,
         redirectUri: String,
-        scopes: Array<String>?
+        scopes: Array<String>?,
+        codeVerifier: String? = null
     ): Call<TokenResponse> {
 
         val params = mutableMapOf(
@@ -36,6 +37,7 @@ class OAuthService(@Environment environment: String, okHttpClient: OkHttpClient)
                 PARAM_CODE to authCode,
                 PARAM_REDIRECT_URI_UNDERSCORE to redirectUri)
         scopes?.let { params.put(PARAM_SCOPE, scopes.joinToString { " " }) }
+        codeVerifier?.let { params.put(PARAM_CODE_VERIFIER, codeVerifier) }
 
         return this.oauthContract.token(createBasicAuthHeader(clientId, clientSecret), params)
     }
@@ -116,5 +118,6 @@ class OAuthService(@Environment environment: String, okHttpClient: OkHttpClient)
 
         private val PARAM_GRANT_TYPE = "grant_type"
         private val PARAM_USERNAME = "username"
+        private val PARAM_CODE_VERIFIER = "code_verifier"
     }
 }

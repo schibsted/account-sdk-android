@@ -5,10 +5,12 @@
 package com.schibsted.account
 
 import android.content.Context
+import android.util.Base64
 import com.schibsted.account.util.DeepLink
 import java.net.URI
 import java.net.URLEncoder
-import java.util.Locale
+import java.security.MessageDigest
+import java.util.*
 
 object Routes {
     private val charPool: List<Char> = ('a'..'z') + ('A'..'Z') + ('0'..'9')
@@ -45,7 +47,8 @@ object Routes {
     @JvmOverloads
     fun loginUrl(context: Context, redirectUri: URI, persistUser: Boolean, scopes: Collection<String>? = null): URI {
         val state = randomString(10)
-        DeepLink.WebFlowLogin.storePrefs(context, state, persistUser)
+        val codeVerifier = randomString(60)
+        DeepLink.WebFlowLogin.storeData(context, DeepLink.WebFlowLogin.Companion.Data(state, codeVerifier, persistUser))
 
         val scopeStr = scopes?.joinToString(" ") ?: "openid"
         val params = mapOf(
@@ -53,7 +56,9 @@ object Routes {
                 "scope" to scopeStr,
                 "state" to state,
                 "nonce" to randomString(10),
-                "new-flow" to "true"
+                "new-flow" to "true",
+                "code_challenge" to codeChallenge(codeVerifier),
+                "code_challenge_method" to "S256"
         )
 
         return urlFromPath("oauth/authorize", redirectUri, params)
@@ -64,5 +69,14 @@ object Routes {
                 .map { _ -> kotlin.random.Random.nextInt(0, charPool.size) }
                 .map(charPool::get)
                 .joinToString("");
+    }
+
+    private fun codeChallenge(codeVerifier: String): String {
+        val bytes = codeVerifier.toByteArray()
+        val md = MessageDigest.getInstance("SHA-256")
+        val digest = md.digest(bytes)
+
+        val flags = Base64.URL_SAFE or Base64.NO_PADDING or Base64.NO_WRAP
+        return Base64.encodeToString(digest, flags)
     }
 }
