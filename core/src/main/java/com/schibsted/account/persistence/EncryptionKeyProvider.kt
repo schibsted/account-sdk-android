@@ -90,7 +90,8 @@ private const val KEYSTORE_PROVIDER = "AndroidKeyStore"
 private const val PREFS_FILENAME = "IDENTITY_KEYSTORE"
 private const val PREFS_PRIVATE_KEY = "IDENTITY_PR_KEY_PAIR"
 private const val PREFS_PUBLIC_KEY = "IDENTITY_PU_KEY_PAIR"
-private const val PREFS_EXPIRATION = "KEY_PAIR_VALID_UNTIL"
+private const val PREFS_EXPIRATION = "IDENTITY_KEY_EXPIRATION_DATE"
+private const val UNKNOWN = 0L
 private const val NEVER = -1L
 
 private abstract class BaseProvider(
@@ -102,7 +103,7 @@ private abstract class BaseProvider(
     }
 
     protected var expiration: Long
-        get() = prefs.getLong(PREFS_EXPIRATION, NEVER)
+        get() = prefs.getLong(PREFS_EXPIRATION, UNKNOWN)
         set(value) = with(prefs.edit()) {
             putLong(PREFS_EXPIRATION, value)
             apply()
@@ -126,6 +127,7 @@ private abstract class BaseProvider(
         val exp = expiration
         val threshold = System.currentTimeMillis() + TimeUnit.DAYS.toMillis(90)
         return when(exp) {
+            UNKNOWN -> true
             NEVER -> false
             else -> exp < threshold
         }

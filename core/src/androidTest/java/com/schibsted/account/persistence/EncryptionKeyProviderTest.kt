@@ -229,15 +229,26 @@ class EncryptionKeyProviderTest {
         val provider = EncryptionKeyProvider.create(appContext)
         provider.refreshKeyPair()
 
-        val expiration = System.currentTimeMillis() + TimeUnit.DAYS.toMillis(90)
+        // 90 days is exactly the threshold when we consider the key too close to expiration:
+        val expiration = System.currentTimeMillis() + TimeUnit.DAYS.toMillis(90) - 100L
         prefs.edit().putLong(KEY_EXPIRATION, expiration).commit()
+
+        assertTrue(provider.isKeyCloseToExpiration())
+    }
+
+    @Test
+    fun keyIsCloseToExpiration_whenExpirationDateUnknown() {
+        val provider = EncryptionKeyProvider.create(appContext)
+        provider.refreshKeyPair()
+
+        prefs.edit().remove(KEY_EXPIRATION).commit()
 
         assertTrue(provider.isKeyCloseToExpiration())
     }
 
     companion object {
         private const val FILENAME = "IDENTITY_KEYSTORE"
-        private const val KEY_EXPIRATION = "KEY_PAIR_VALID_UNTIL"
+        private const val KEY_EXPIRATION = "IDENTITY_KEY_EXPIRATION_DATE"
 
         fun assertEquals(expected: KeyPair?, actual: KeyPair?) {
             if (expected == null && actual == null) return
