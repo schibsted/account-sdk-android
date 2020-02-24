@@ -2,6 +2,7 @@ import org.jetbrains.kotlin.config.KotlinCompilerVersion
 
 plugins {
     `shared-configuration`
+    kotlin("android")
 }
 
 description = "The common module for the Schibsted Account SDK"
@@ -10,10 +11,14 @@ android {
     defaultConfig {
         consumerProguardFiles("common-rules.pro")
     }
+    kotlinOptions {
+        apiVersion = "1.3"
+        languageVersion = "1.3"
+    }
 }
 
 dependencies {
-    implementation(kotlin("stdlib", KotlinCompilerVersion.VERSION))
+    implementation(kotlin("stdlib-jdk7", KotlinCompilerVersion.VERSION))
     implementation(kotlin("reflect", KotlinCompilerVersion.VERSION))
 
     testImplementation("junit:junit:${Constants.Versions.JUNIT}")

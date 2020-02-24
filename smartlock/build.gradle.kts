@@ -2,6 +2,7 @@ import org.jetbrains.kotlin.config.KotlinCompilerVersion
 
 plugins {
     `shared-configuration`
+    kotlin("android")
 }
 
 description = "The Smartlock module for the Schibsted Account SDK"
@@ -10,17 +11,22 @@ android {
     defaultConfig {
         consumerProguardFiles("smartlock-rules.pro")
     }
+    kotlinOptions {
+        apiVersion = "1.3"
+        languageVersion = "1.3"
+    }
 }
 
 dependencies {
+    implementation(kotlin("stdlib-jdk7", KotlinCompilerVersion.VERSION))
+    implementation(kotlin("reflect", KotlinCompilerVersion.VERSION))
+
     implementation(project(":common"))
     implementation(project(":core"))
     implementation("com.android.support:appcompat-v7:${Constants.Versions.SUPPORT}")
     implementation("com.google.android.gms:play-services-auth:${Constants.Versions.PLAY_SERVICES_AUTH}") {
         exclude(group="com.android.support")
     }
-    implementation(kotlin("stdlib", KotlinCompilerVersion.VERSION))
-    implementation(kotlin("reflect", KotlinCompilerVersion.VERSION))
 }
 
 publishing {
