@@ -6,226 +6,191 @@ package com.schibsted.account.persistence
 
 import android.content.Context
 import android.content.SharedPreferences
-import android.support.annotation.VisibleForTesting
-import android.util.Base64
 import com.google.gson.Gson
-import com.google.gson.JsonParseException
-import com.google.gson.JsonSyntaxException
 import com.google.gson.reflect.TypeToken
 import com.schibsted.account.common.util.Logger
-import java.security.PrivateKey
+import com.schibsted.account.persistence.UserPersistence.Session
+import java.lang.reflect.Type
+import java.security.InvalidKeyException
 import javax.crypto.SecretKey
-import javax.crypto.spec.SecretKeySpec
 import kotlin.reflect.KProperty
 
-internal const val AES_KEY = "IDENTITY_AES_PREF_KEY"
-
 internal class SessionStorageDelegate(
-    private val appContext: Context,
-    private val preferenceFilename: String,
-    private val preferenceKey: String,
-    private val encryption: PersistenceEncryption = PersistenceEncryption(),
-    private val encryptionKeyProvider: EncryptionKeyProvider = EncryptionKeyProvider(appContext)
+        context: Context,
+        filename: String,
+        private val encryptionKeyProvider: EncryptionKeyProvider = EncryptionKeyProvider.create(context),
+        private val encryptionUtils: EncryptionUtils = EncryptionUtils.INSTANCE
 ) {
-
-    private var data: List<UserPersistence.Session> = readDataFromPersistence() ?: listOf()
-
-    operator fun getValue(thisRef: Any?, property: KProperty<*>): List<UserPersistence.Session> = data
-
-    operator fun setValue(thisRef: Any?, property: KProperty<*>, value: List<UserPersistence.Session>) {
-        this.data = value
-
-        writeDataToPersistence(data, appContext.getSharedPreferences(preferenceFilename, Context.MODE_PRIVATE))
-    }
-
-    private fun writeDataToPersistence(data: List<UserPersistence.Session>, prefs: SharedPreferences) {
-        val dataToPersist = GSON.toJson(data)
-        var aesKey: SecretKey? = null
-
-        // Try to get the encrypted aes key from storage
-        var encryptedAesKey = prefs.getString(AES_KEY, null)
-
-        if (encryptedAesKey == null) {
-            generateAesKeyData()?.let {
-                aesKey = it.first
-                encryptedAesKey = Base64.encodeToString(it.second, Base64.DEFAULT)
-            }
-        } else {
-            // if the encrypted aes key is found, we decrypt it and recreate the aes key from it
-            aesKey = getOriginalAesKey(Base64.decode(encryptedAesKey, Base64.DEFAULT))
-            if (aesKey == null) {
-                generateAesKeyData()?.let {
-                    aesKey = it.first
-                    encryptedAesKey = Base64.encodeToString(it.second, Base64.DEFAULT)
-                }
-            }
-        }
-
-        if (dataToPersist.isNullOrEmpty()) {
-            Logger.info(TAG, "No session to persist, not writing to shared preferences.")
-        } else if (aesKey == null || encryptedAesKey.isNullOrEmpty()) {
-            Logger.info(TAG, "No encryption key found, not writing to shared preferences.")
-        } else {
-            val encryptedData = Base64.encodeToString(encryption.aesEncrypt(dataToPersist.toByteArray(), aesKey), Base64.DEFAULT)
-            persistData(prefs, encryptedData, encryptedAesKey)
-        }
-    }
-
-    private fun readDataFromPersistence(): List<UserPersistence.Session>? {
-        val prefs = appContext.getSharedPreferences(preferenceFilename, Context.MODE_PRIVATE)
-        val persistedData = prefs.getString(preferenceKey, null)
-        val persistedAesKey = prefs.getString(AES_KEY, null)
-
-        val encryptedData = decodeData(persistedData)
-        val encryptedAesKey = decodeData(persistedAesKey)
-
-        val isDataReadable = encryptedAesKey != null && encryptedAesKey.isNotEmpty() && encryptedData != null && encryptedData.isNotEmpty()
-        val aesKey = if (isDataReadable) getOriginalAesKey(encryptedAesKey!!) else null
-
-        if (aesKey != null) {
-            val data: String? = encryption.aesDecrypt(encryptedData!!, aesKey)
-            if (data.isNullOrEmpty() || data.equals(EMPTY_JSON_ARRAY)) {
-                Logger.info(TAG, "Decrypted sessions from persistence returned an empty set.")
-                removePersistedData(prefs)
-                return null
-            }
-
-            val typeToken = object : TypeToken<List<UserPersistence.Session>>() {}.type
-
-            val sessions: List<UserPersistence.Session>? = try {
-                GSON.fromJson(data, typeToken)
-            } catch (e: JsonParseException) {
-                Logger.error("Failed to parse sessions!", e)
-                removePersistedData(prefs)
-                null
-            } catch (e: JsonSyntaxException) {
-                Logger.error("Failed to parse sessions!", e)
-                removePersistedData(prefs)
-                null
-            }
-
-            return sessions?.also {
-                updateKeyExpiry(prefs, it)
-            }
-        } else {
-            Logger.info(TAG, "Unable to retrieve AES key for decryption, returning empty set.")
-            removePersistedData(prefs)
-            return null
-        }
-    }
-
-    private fun updateKeyExpiry(prefs: SharedPreferences, sessions: List<UserPersistence.Session>) {
-        if (encryptionKeyProvider.isKeyCloseToExpiration()) {
-            Logger.info("Updating session key expiration")
-            refreshKeyPair()
-            removePersistedData(prefs)
-            writeDataToPersistence(sessions, prefs)
-        }
-    }
-
-    /**
-     * If data are not null, decode the data using [Base64]
-     * @param data the [Base64] encoded [String]
-     * @return the decoded data as a [ByteArray] or null if the decoding failed
-     */
-    private fun decodeData(data: String?): ByteArray? {
-        if (data != null && data.isNotEmpty()) {
-            return try {
-                Base64.decode(data, Base64.DEFAULT)
-            } catch (e: IllegalArgumentException) {
-                Logger.error(TAG, "Unable to decode session data.", e)
-                null
-            }
-        }
-        return null
-    }
-
-    /**
-     * If the data are not null, persists data and the encrypted [SecretKey] to [SharedPreferences]
-     * @param sharedPreferences : [SharedPreferences] file where information are stored
-     * @param encryptedData : a [String] representing the encrypted data to store
-     * @param encryptedAesKey : a [String] representing the encrypted [SecretKey] to store
-     *
-     */
-    private fun persistData(sharedPreferences: SharedPreferences, encryptedData: String?, encryptedAesKey: String) {
-        encryptedData?.let {
-            val editor = sharedPreferences.edit()
-            editor.putString(preferenceKey, encryptedData)
-            editor.putString(AES_KEY, encryptedAesKey)
-            editor.apply()
-        } ?: let {
-            Logger.error(TAG, "Unable to write to shared preferences. Not persisting session")
-        }
-    }
-
-    /**
-     * Builds a [SecretKey] with a given [ByteArray] representing the encrypted [SecretKey]
-     * @param encryptedAesKey the representation of the encrypted [SecretKey]
-     * @return the [SecretKey] if the decryption was successful, null otherwise
-     */
-    private fun getOriginalAesKey(encryptedAesKey: ByteArray): SecretKey? {
-        return try {
-            getOriginalAesKey(encryptedAesKey, encryptionKeyProvider.keyPair.private)
-        } catch (e: RsaKeyException) {
-            refreshKeyPair()
-
-            null
-        }
-    }
-
-    private fun getOriginalAesKey(encryptedAesKey: ByteArray, privateKey: PrivateKey): SecretKey? {
-        val aesEncodedKey = encryption.rsaDecrypt(encryptedAesKey, privateKey)
-
-        return if (aesEncodedKey != null && aesEncodedKey.isNotEmpty()) {
-            SecretKeySpec(aesEncodedKey, 0, aesEncodedKey.size, AES_ALG)
-        } else {
-            null
-        }
-    }
-
-    /**
-     * Generates an AES key and its rsa encrypted form
-     * @return a [SecretKey] representing the aes key and a [ByteArray] representing
-     * the encrypted form of the [SecretKey] or null if encryption failed
-     */
-    private fun generateAesKeyData(): Pair<SecretKey, ByteArray>? {
-        val aesKey = encryption.generateAesKey()
-        // we encrypt the newly created aes key
-        return try {
-            generateAesKeyData(aesKey)
-        } catch (e: RsaKeyException) {
-            refreshKeyPair()
-
-            generateAesKeyData(aesKey)
-        }
-    }
-
-    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
-    internal fun refreshKeyPair() {
-        encryptionKeyProvider.refreshKeyPair()
-    }
-
-    @Throws(RsaKeyException::class)
-    private fun generateAesKeyData(aesKey: SecretKey): Pair<SecretKey, ByteArray>? {
-        val byteEncryptedAesKey = encryption.rsaEncrypt(aesKey.encoded, encryptionKeyProvider.keyPair.public)
-        return byteEncryptedAesKey?.let { Pair(aesKey, byteEncryptedAesKey) }
-    }
-
-    /**
-     * Removes data from the [SharedPreferences] file, it removes the persisted [SecretKey] as well
-     * @param prefs : [SharedPreferences] file where data are stored
-     */
-    private fun removePersistedData(prefs: SharedPreferences) {
-        Logger.info(TAG, "Clearing the contents of shared preferences")
-        val editor = prefs.edit()
-        editor.remove(preferenceKey)
-        editor.remove(AES_KEY)
-        editor.apply()
-    }
 
     companion object {
         private const val TAG = "SessionStorageDelegate"
-        private const val EMPTY_JSON_ARRAY = "[]"
+        private const val PREF_KEY_DATA = "IDENTITY_SESSIONS"
+        private const val PREF_KEY_AES = "IDENTITY_AES_PREF_KEY"
         private val GSON = Gson()
+    }
+
+    private val appContext = context.applicationContext
+
+    private val prefs: SharedPreferences by lazy {
+        appContext.getSharedPreferences(filename, Context.MODE_PRIVATE)
+    }
+
+    private lateinit var sessions: List<Session>
+
+    operator fun getValue(thisRef: Any?, property: KProperty<*>): List<Session> {
+        if (!::sessions.isInitialized) {
+            sessions = retrieveSessions()
+        }
+        return sessions
+    }
+
+    operator fun setValue(thisRef: Any?, property: KProperty<*>, value: List<Session>) {
+        sessions = value
+        storeSessions(value)
+    }
+
+    private fun retrieveSessions() = runCatching {
+        readStorage()
+    }.onFailure {
+        Logger.error(TAG, "Failed to read storage. Attempting to repair...", it)
+        repairUnreadableStorage(it)
+    }.onSuccess {
+        reEncodeStorageIfNeeded(it)
+    }.getOrDefault(emptyList())
+
+    private fun storeSessions(list: List<Session>) {
+        runCatching {
+            writeStorage(list)
+        }.onFailure {
+            Logger.error(TAG, "Failed to write storage. Attempting to repair...", it)
+            repairUnwritableStorage(list, it)
+        }
+    }
+
+    /**
+     * Retrieves sessions from [SharedPreferences]. If reading or decryption fails for any reason,
+     * removes existing data and key from [SharedPreferences].
+     */
+    private fun readStorage(): List<Session> {
+        val data = retrieveStoredData() ?: return emptyList()
+        val json = String(data)
+        val typeToken: Type = object : TypeToken<List<Session>>() {}.type
+        return GSON.fromJson(json, typeToken)
+    }
+
+    /**
+     * Stores sessions to [SharedPreferences]. If storing or encryption fails for any reason,
+     * removes existing data and key from [SharedPreferences].
+     */
+    private fun writeStorage(items: List<Session>) {
+        val (secretKey, encryptedKey) = retrieveStoredKey() ?: generateSecretKey()
+        val json = GSON.toJson(items).toByteArray().encodeBase64()
+        val encryptedData = encryptionUtils.aesEncrypt(json, secretKey)
+        storeDataAndKey(encryptedData to encryptedKey)
+    }
+
+    /**
+     * Reads [SharedPreferences], decrypts data (if it exists) and returns the result.
+     * If decryption fails, removes stored data.
+     */
+    private fun retrieveStoredData(): ByteArray? {
+        val (encryptedData, encryptedKey) = getDataAndKey() ?: return null
+        val secretKey = recreateSecretKey(encryptedKey)
+        return encryptionUtils.aesDecrypt(encryptedData, secretKey).decodeBase64()
+    }
+
+    /**
+     * Returns [SecretKey] and its encrypted [ByteArray] representation from [SharedPreferences],
+     * or null, if it doesn't exist.
+     */
+    private fun retrieveStoredKey(): Pair<SecretKey, ByteArray>? {
+        val (_, key) = getDataAndKey() ?: return null
+        return recreateSecretKey(key) to key
+    }
+
+    /**
+     * Builds a [SecretKey] from its encrypted [ByteArray] representation.
+     */
+    private fun recreateSecretKey(bytes: ByteArray): SecretKey {
+        val privateRsaKey = encryptionKeyProvider.keyPair.private
+        val decryptedAesKey = encryptionUtils.rsaDecrypt(bytes, privateRsaKey)
+        return encryptionUtils.recreateAesKey(decryptedAesKey)
+    }
+
+    /**
+     * Generates new [SecretKey] and its encrypted [ByteArray] representation.
+     */
+    private fun generateSecretKey(): Pair<SecretKey, ByteArray> {
+        val secretKey = encryptionUtils.generateAesKey()
+        val publicRsaKey = encryptionKeyProvider.keyPair.public
+        val encodedKey = encryptionUtils.rsaEncrypt(secretKey.encoded, publicRsaKey)
+        return secretKey to encodedKey
+    }
+
+    /**
+     * Returns encrypted data and related AES key from [SharedPreferences].
+     */
+    private fun getDataAndKey(): Pair<ByteArray, ByteArray>? = prefs.run {
+        val data = getBytes(PREF_KEY_DATA) ?: return null
+        val key = getBytes(PREF_KEY_AES) ?: return null
+        return data to key
+    }
+
+    /**
+     * Stores encrypted data and related AES key (in its encrypted [ByteArray] representation)
+     * to [SharedPreferences].
+     */
+    private fun storeDataAndKey(dataAndKey: Pair<ByteArray, ByteArray>) = prefs.edit().run {
+        putBytes(PREF_KEY_DATA, dataAndKey.first)
+        putBytes(PREF_KEY_AES, dataAndKey.second)
+        apply()
+    }
+
+    private fun removeDataAndKey() = prefs.edit().run {
+        remove(PREF_KEY_DATA)
+        remove(PREF_KEY_AES)
+        apply()
+    }
+
+    private fun SharedPreferences.Editor.putBytes(key: String, value: ByteArray) =
+            putString(key, String(value.encodeBase64()))
+
+    private fun SharedPreferences.getBytes(key: String): ByteArray? =
+            getString(key, null)?.toByteArray()?.decodeBase64()
+
+    private fun repairUnreadableStorage(throwable: Throwable) {
+        removeDataAndKey()
+        if (throwable is InvalidKeyException) {
+            try {
+                encryptionKeyProvider.refreshKeyPair()
+            } catch (e: Exception) {
+                Logger.error(TAG, "Failed to refresh RSA KeyPair", e)
+            }
+        }
+    }
+
+    private fun repairUnwritableStorage(list: List<Session>, throwable: Throwable) {
+        removeDataAndKey()
+        if (throwable is InvalidKeyException) {
+            try {
+                encryptionKeyProvider.refreshKeyPair()
+                writeStorage(list)
+            } catch (e: Exception) {
+                removeDataAndKey()
+                Logger.error(TAG, "Failed to write storage with new RSA keys", e)
+            }
+        }
+    }
+
+    private fun reEncodeStorageIfNeeded(list: List<Session>) {
+        if (encryptionKeyProvider.isKeyCloseToExpiration()) {
+            removeDataAndKey()
+            try {
+                encryptionKeyProvider.refreshKeyPair()
+                storeSessions(list)
+            } catch (e: Exception) {
+                Logger.error(TAG, "Failed to re-encode storage with new RSA keys", e)
+            }
+        }
     }
 }

@@ -41,6 +41,10 @@ dependencies {
     testImplementation("com.nhaarman.mockitokotlin2:mockito-kotlin:${Constants.Versions.MOCKITO_KOTLIN}")
     testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:${Constants.Versions.KOTLINX_COROUTINES_CORE}")
     testImplementation("org.slf4j:slf4j-simple:${Constants.Versions.SLF4J}")
+
+    androidTestImplementation("com.android.support.test:runner:${Constants.Versions.TEST_RUNNER}")
+    androidTestImplementation("org.mockito:mockito-android:${Constants.Versions.MOCKITO_ANDROID}")
+    androidTestImplementation("com.nhaarman.mockitokotlin2:mockito-kotlin:${Constants.Versions.MOCKITO_KOTLIN}")
 }
 
 publishing {
