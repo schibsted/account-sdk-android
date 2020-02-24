@@ -2,6 +2,7 @@ import org.jetbrains.kotlin.config.KotlinCompilerVersion
 
 plugins {
     `shared-configuration`
+    kotlin("android")
     kotlin("android.extensions")
 }
 
@@ -17,17 +18,22 @@ android {
     }
     resourcePrefix("schacc_")
     useLibrary("android.test.mock")
+    kotlinOptions {
+        apiVersion = "1.3"
+        languageVersion = "1.3"
+    }
 }
 
 dependencies {
+    implementation(kotlin("stdlib-jdk7", KotlinCompilerVersion.VERSION))
+    implementation(kotlin("reflect", KotlinCompilerVersion.VERSION))
+
     api(project(":core"))
     compileOnly(project(":smartlock"))
 
     implementation("com.android.support:support-annotations:${Constants.Versions.SUPPORT}")
     implementation("com.android.support:design:${Constants.Versions.SUPPORT}")
     implementation("com.android.support.constraint:constraint-layout:${Constants.Versions.CONSTRAINT_LAYOUT}")
-    implementation(kotlin("stdlib", KotlinCompilerVersion.VERSION))
-    implementation(kotlin("reflect", KotlinCompilerVersion.VERSION))
     implementation("android.arch.lifecycle:extensions:${Constants.Versions.LIFECYCLE}")
 
     testImplementation("org.assertj:assertj-core:${Constants.Versions.ASSERTJ_CORE}")

@@ -2,6 +2,7 @@ import org.jetbrains.kotlin.config.KotlinCompilerVersion
 
 plugins {
     `shared-configuration`
+    kotlin("android")
     kotlin("android.extensions")
 }
 
@@ -12,6 +13,10 @@ android {
         consumerProguardFiles("core-rules.pro")
     }
     useLibrary("android.test.mock")
+    kotlinOptions {
+        apiVersion = "1.3"
+        languageVersion = "1.3"
+    }
 }
 
 androidExtensions {
@@ -19,14 +24,15 @@ androidExtensions {
 }
 
 dependencies {
+    implementation(kotlin("stdlib-jdk7", KotlinCompilerVersion.VERSION))
+    implementation(kotlin("reflect", KotlinCompilerVersion.VERSION))
+
     api(project(":common"))
 
     api("com.squareup.retrofit2:converter-gson:${Constants.Versions.RETROFIT}")
     implementation("com.squareup.retrofit2:retrofit:${Constants.Versions.RETROFIT}")
     implementation("com.android.support:support-annotations:${Constants.Versions.SUPPORT}")
     implementation("com.android.support:support-core-utils:${Constants.Versions.SUPPORT}")
-    implementation(kotlin("stdlib", KotlinCompilerVersion.VERSION))
-    implementation(kotlin("reflect", KotlinCompilerVersion.VERSION))
 
     testImplementation("junit:junit:${Constants.Versions.JUNIT}")
     testImplementation("io.kotlintest:kotlintest-runner-junit5:${Constants.Versions.KOTLINTEST_RUNNER_JUNIT5}") {
