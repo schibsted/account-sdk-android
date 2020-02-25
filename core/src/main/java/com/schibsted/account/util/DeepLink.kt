@@ -86,7 +86,6 @@ sealed class DeepLink {
                     return null
                 }
 
-
                 return WebFlowLogin(code, storedData.persistUser, storedData.codeVerifier)
             }
 
