@@ -55,11 +55,17 @@ internal class SessionStorageDelegate(
         Logger.error(TAG, "Failed to read storage. Attempting to repair...", it)
         repairUnreadableStorage(it)
     }.onSuccess {
-        reEncodeStorageIfNeeded(it)
+        if (encryptionKeyProvider.isKeyCloseToExpiration()) {
+            storeSessions(it)
+        }
     }.getOrDefault(emptyList())
 
     private fun storeSessions(list: List<Session>) {
         runCatching {
+            if (encryptionKeyProvider.isKeyCloseToExpiration()) {
+                removeDataAndKey()
+                encryptionKeyProvider.refreshKeyPair()
+            }
             writeStorage(list)
         }.onFailure {
             Logger.error(TAG, "Failed to write storage. Attempting to repair...", it)
@@ -178,18 +184,6 @@ internal class SessionStorageDelegate(
             } catch (e: Exception) {
                 removeDataAndKey()
                 Logger.error(TAG, "Failed to write storage with new RSA keys", e)
-            }
-        }
-    }
-
-    private fun reEncodeStorageIfNeeded(list: List<Session>) {
-        if (encryptionKeyProvider.isKeyCloseToExpiration()) {
-            removeDataAndKey()
-            try {
-                encryptionKeyProvider.refreshKeyPair()
-                storeSessions(list)
-            } catch (e: Exception) {
-                Logger.error(TAG, "Failed to re-encode storage with new RSA keys", e)
             }
         }
     }
