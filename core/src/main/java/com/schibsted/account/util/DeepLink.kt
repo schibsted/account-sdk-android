@@ -100,10 +100,10 @@ sealed class DeepLink {
             }
 
             private fun getData(prefs: SharedPreferences): Data {
-                val oauthState = prefs.getString(SHARED_PREFERENCES_OAUTH_STATE, "")
-                val codeVerifier = prefs.getString(SHARED_PREFERENCES_CODE_VERIFIER, "")
+                val oauthState = prefs.getString(SHARED_PREFERENCES_OAUTH_STATE, null) ?: ""
+                val codeVerifier = prefs.getString(SHARED_PREFERENCES_CODE_VERIFIER, null) ?: ""
                 val persistUser = prefs.getBoolean(SHARED_PREFERENCES_PERSIST_USER, true)
-                return Data(oauthState!!, codeVerifier!!, persistUser)
+                return Data(oauthState, codeVerifier, persistUser)
             }
 
             private fun clearData(prefs: SharedPreferences) {
