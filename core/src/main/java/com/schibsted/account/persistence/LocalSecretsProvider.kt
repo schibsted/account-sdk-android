@@ -7,27 +7,36 @@ package com.schibsted.account.persistence
 import android.content.Context
 import com.google.gson.Gson
 import com.schibsted.account.util.typeToken
-import java.util.UUID
+import java.util.*
 
 /**
  * Manages a mapping between randomly generated IDs and data. This allows for referring to data using a secret key
  * while the actual data never leaves the device. Example usage: Redirect URIs
  */
-class LocalSecretsProvider(appContext: Context, private val maxEntries: Int = MAX_ENTRIES) {
+class LocalSecretsProvider(context: Context, private val maxEntries: Int = MAX_ENTRIES) {
     private data class Entry(val time: Long, val key: String, val value: String)
 
-    private val prefs = appContext.getSharedPreferences(SHARED_PREFS_KEY, Context.MODE_PRIVATE)
+    private val appContext = context.applicationContext
 
-    private fun secrets() = prefs.getString(SHARED_PREFS_KEY, "[]")?.let {
-        GSON.fromJson<List<Entry>>(it, typeToken<List<Entry>>())
+    private val prefs by lazy {
+        appContext.getSharedPreferences(PREFS_FILENAME, Context.MODE_PRIVATE)
     }
+
+    private var secrets: List<Entry>
+        get() = prefs.getString(PREFS_KEY, null)?.let {
+            GSON.fromJson<List<Entry>>(it, typeToken<List<Entry>>())
+        } ?: emptyList()
+        set(value) = with(prefs.edit()) {
+            putString(PREFS_KEY, GSON.toJson(value))
+            apply()
+        }
 
     /**
      * Retrieves previously stored data from a generated key
      * @param secretKey The secret key for the persisted data
      * @return The data previously stored or null if no data is available under that key
      */
-    fun get(secretKey: String): String? = secrets()?.find { it.key == secretKey }?.value
+    fun get(secretKey: String): String? = secrets.find { it.key == secretKey }?.value
 
     /**
      * Generates a random key for the value you provide and stores the value. If the value already exists,
@@ -36,28 +45,20 @@ class LocalSecretsProvider(appContext: Context, private val maxEntries: Int = MA
      * @return The randomly generated key for your value
      */
     fun put(value: String): String {
-        val previousResult = secrets()?.find { it.value == value }?.key
-        if (previousResult != null) {
-            return previousResult
-        }
-
-        val secretKey = UUID.randomUUID().toString()
-        val updatedSecrets = ((secrets()
-                ?: listOf()) + Entry(System.currentTimeMillis(), secretKey, value))
-                .sortedByDescending { it.time }.take(maxEntries)
-
-        with(prefs.edit()) {
-            putString(SHARED_PREFS_KEY, GSON.toJson(updatedSecrets))
-            apply()
-        }
-
-        return secretKey
+        return secrets.find { it.value == value }?.key
+                ?: UUID.randomUUID().toString()
+                        .also { uuid ->
+                            val now = System.currentTimeMillis()
+                            secrets = (secrets.asSequence() + Entry(now, uuid, value))
+                                    .sortedByDescending { it.time }.take(maxEntries).toList()
+                        }
     }
 
     companion object {
-        private const val SHARED_PREFS_KEY = "AccountSdkLocalSecrets"
+        // For legacy reasons, both filename and the key are the same:
+        private const val PREFS_FILENAME = "AccountSdkLocalSecrets"
+        private const val PREFS_KEY = "AccountSdkLocalSecrets"
         private const val MAX_ENTRIES = 10
-
         private val GSON = Gson()
     }
 }

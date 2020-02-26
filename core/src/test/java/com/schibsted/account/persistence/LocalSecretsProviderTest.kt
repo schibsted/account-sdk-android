@@ -8,12 +8,13 @@ import android.content.Context
 import android.content.SharedPreferences
 import com.nhaarman.mockitokotlin2.any
 import com.nhaarman.mockitokotlin2.anyOrNull
+import com.nhaarman.mockitokotlin2.doReturn
 import com.nhaarman.mockitokotlin2.mock
 import io.kotlintest.data.forall
 import io.kotlintest.shouldBe
 import io.kotlintest.specs.StringSpec
 import io.kotlintest.tables.row
-import java.util.UUID
+import java.util.*
 
 class LocalSecretsProviderTest : StringSpec({
     fun mockedContext(): Context {
@@ -36,8 +37,12 @@ class LocalSecretsProviderTest : StringSpec({
             on { edit() }.thenReturn(mockEditor)
         }
 
+        val mockedAppContext: Context = mock {
+            on { getSharedPreferences(any(), any()) } doReturn mockedSharedPreferences
+        }
+
         val mockedContext: Context = mock {
-            on { getSharedPreferences(any(), any()) }.thenReturn(mockedSharedPreferences)
+            on { applicationContext } doReturn mockedAppContext
         }
 
         return mockedContext
@@ -69,7 +74,6 @@ class LocalSecretsProviderTest : StringSpec({
     }
 
     "When exceeding the max items, the oldest should be dropped" {
-        var fixedClock = 1L
         val lsp = LocalSecretsProvider(mockedContext(), 3)
         forall(
                 row(lsp.put("MyValue 1"), null as String?),

@@ -11,7 +11,6 @@ import org.gradle.api.tasks.bundling.Jar
 import org.gradle.api.tasks.testing.Test
 import org.gradle.kotlin.dsl.*
 import org.jetbrains.dokka.gradle.DokkaAndroidTask
-import org.jetbrains.kotlin.gradle.dsl.KotlinJvmOptions
 import java.util.*
 
 /**
@@ -40,7 +39,6 @@ class SharedConfigurationPlugin: Plugin<Project> {
 
     private fun Project.configureAndroid() = run {
         apply(plugin="com.android.library")
-        apply(plugin="org.jetbrains.kotlin.android")
 
         android {
             buildToolsVersion("29.0.2")
@@ -55,11 +53,6 @@ class SharedConfigurationPlugin: Plugin<Project> {
 
             lintOptions {
                 isAbortOnError = false
-            }
-
-            kotlinOptions {
-                apiVersion = "1.3"
-                languageVersion = "1.3"
             }
 
             dexOptions {
@@ -167,9 +160,6 @@ class SharedConfigurationPlugin: Plugin<Project> {
 
     private fun Project.android(configure: LibraryExtension.() -> Unit): Unit =
             (this as ExtensionAware).extensions.configure("android", configure)
-
-    private fun LibraryExtension.kotlinOptions(configure: KotlinJvmOptions.() -> Unit): Unit =
-            (this as ExtensionAware).extensions.configure("kotlinOptions", configure)
 
     private fun Project.publishing(configure: PublishingExtension.() -> Unit): Unit =
             (this as ExtensionAware).extensions.configure("publishing", configure)
