@@ -70,8 +70,8 @@ class DeepLinkTest : WordSpec({
                 on { remove(ArgumentMatchers.anyString()) } doReturn it
             }
             val sharedPrefs: SharedPreferences = mock {
-                on { getString("OAUTH_STATE", "") } doReturn "test-state"
-                on { getString("CODE_VERIFIER", "") } doReturn "code-verifier"
+                on { getString("OAUTH_STATE", null) } doReturn "test-state"
+                on { getString("CODE_VERIFIER", null) } doReturn "code-verifier"
                 on { getBoolean("PERSIST_USER", true) } doReturn false
                 on { edit() } doReturn sharedPrefsEditor
             }
