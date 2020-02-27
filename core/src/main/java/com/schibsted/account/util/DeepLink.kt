@@ -4,6 +4,8 @@
 
 package com.schibsted.account.util
 
+import android.content.Context
+import android.content.SharedPreferences
 import com.schibsted.account.common.lib.Try
 import com.schibsted.account.common.lib.getOrDefault
 import com.schibsted.account.common.util.Logger
@@ -17,9 +19,8 @@ sealed class DeepLink {
         IDENTIFIER_PROVIDED("identifier-provided");
     }
 
-    class ValidateAccount private constructor(val code: String, val isPersistable: Boolean, @OIDCScope val scopes: Array<String>) : DeepLink() {
+    open class ValidateAccount protected constructor(val code: String, val isPersistable: Boolean, @OIDCScope val scopes: Array<String>) : DeepLink() {
         companion object {
-            private const val PARAM_CODE = "code"
             private const val PARAM_PERSISTABLE = "pers"
             private const val PARAM_SCOPES = "sc"
 
@@ -55,6 +56,67 @@ sealed class DeepLink {
         }
     }
 
+    class WebFlowLogin private constructor(code: String, isPersistable: Boolean, val codeVerifier: String) : ValidateAccount(code, isPersistable, arrayOf(OIDCScope.SCOPE_OPENID)) {
+        companion object {
+            private const val PARAM_STATE = "state"
+            private const val PREFERENCE_FILENAME = "WEB_FLOW_LOGIN"
+            private const val SHARED_PREFERENCES_OAUTH_STATE = "OAUTH_STATE"
+            private const val SHARED_PREFERENCES_CODE_VERIFIER = "CODE_VERIFIER"
+            private const val SHARED_PREFERENCES_PERSIST_USER = "PERSIST_USER"
+
+            data class Data(val oauthState: String, val codeVerifier: String, val persistUser: Boolean)
+
+            operator fun invoke(context: Context, uri: URI): WebFlowLogin? {
+                val prefs = context.applicationContext.getSharedPreferences(PREFERENCE_FILENAME, Context.MODE_PRIVATE)
+                val storedData = getData(prefs)
+                val state = uri.getQueryParam(PARAM_STATE)
+
+                if (state == null) {
+                    Logger.info(TAG, "WebFlowLogin: state is missing from response")
+                    return null
+                } else if (state != storedData.oauthState) {
+                    Logger.info(TAG, "WebFlowLogin: unexpected state")
+                    return null
+                }
+
+                clearData(prefs)
+                val code = uri.getQueryParam(PARAM_CODE)
+                if (code == null) {
+                    Logger.info(TAG, "WebFlowLogin: code is missing from response")
+                    return null
+                }
+
+                return WebFlowLogin(code, storedData.persistUser, storedData.codeVerifier)
+            }
+
+            fun storeData(context: Context, data: Data) {
+                val prefs = context.applicationContext.getSharedPreferences(PREFERENCE_FILENAME, Context.MODE_PRIVATE)
+                with(prefs.edit()) {
+                    putString(SHARED_PREFERENCES_OAUTH_STATE, data.oauthState)
+                    putString(SHARED_PREFERENCES_CODE_VERIFIER, data.codeVerifier)
+                    putBoolean(SHARED_PREFERENCES_PERSIST_USER, data.persistUser)
+                    apply()
+                }
+            }
+
+            private fun getData(prefs: SharedPreferences): Data {
+                val oauthState = prefs.getString(SHARED_PREFERENCES_OAUTH_STATE, null) ?: ""
+                val codeVerifier = prefs.getString(SHARED_PREFERENCES_CODE_VERIFIER, null) ?: ""
+                val persistUser = prefs.getBoolean(SHARED_PREFERENCES_PERSIST_USER, true)
+                return Data(oauthState, codeVerifier, persistUser)
+            }
+
+            private fun clearData(prefs: SharedPreferences) {
+                with(prefs.edit()) {
+                    remove(SHARED_PREFERENCES_OAUTH_STATE)
+                    remove(SHARED_PREFERENCES_CODE_VERIFIER)
+                    remove(SHARED_PREFERENCES_PERSIST_USER)
+                    apply()
+                }
+            }
+        }
+    }
+
     class IdentifierProvided private constructor(val identifier: String) : DeepLink() {
         companion object {
             private const val PARAM_ID = "id"
@@ -82,6 +144,7 @@ sealed class DeepLink {
 
     companion object {
         protected const val TAG = "DeepLink"
+        protected const val PARAM_CODE = "code"
         private const val SCOPE_SEPARATOR = "-"
     }
 }

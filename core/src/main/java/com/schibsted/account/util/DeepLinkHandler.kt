@@ -4,6 +4,7 @@
 
 package com.schibsted.account.util
 
+import android.content.Context
 import com.schibsted.account.common.lib.Try
 import com.schibsted.account.common.lib.getOrElse
 import com.schibsted.account.common.util.Logger
@@ -15,7 +16,7 @@ object DeepLinkHandler {
     private const val TAG = "DeepLinkHandler"
     const val PARAM_ACTION = "act"
 
-    fun resolveDeepLink(dataString: String?): DeepLink? {
+    fun resolveDeepLink(context: Context, dataString: String?): DeepLink? {
         if (dataString == null) {
             Logger.info(TAG, "Received null value deep link. Not performing any actions")
             return null
@@ -37,9 +38,14 @@ object DeepLinkHandler {
                 Logger.info(TAG, "Deep link recognized as IdentifierProvided")
                 DeepLink.IdentifierProvided(uri)
             }
+            null -> {
+                // No specified action in the URI, try to parse it as WebFlowLogin
+                val result = DeepLink.WebFlowLogin(context, uri)
+                result?.also { Logger.info(TAG, "Deep link recognized as Web Flow Login") }
+            }
             else -> {
                 Logger.info(TAG, "Deep link with action <${uri.getQueryParam(PARAM_ACTION)}> not recognized")
-                null
+                return null
             }
         }
     }
