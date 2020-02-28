@@ -90,7 +90,7 @@
     <string name="schacc_register_title">Luo tili</string>
     <string name="schacc_ok">OK</string>
     <string name="schacc_identifier_modifier">Et sinä?</string>
-    <string name="schacc_age_limit_information">Sinun tulee olla vähintään 16 vuoden ikäinen, jotta voit luoda Schibsted-tilin</string>
+    <string name="schacc_age_limit_information">Sinun tulee olla vähintään 15 vuoden ikäinen, jotta voit luoda Schibsted-tilin</string>
     <string name="schacc_remember_me">Muista minut tällä laitteella</string>
     <string name="schacc_remember_me_info">Mikä tämä on?</string>
     <string name="schacc_dialog_remember_me_title">@string/schacc_remember_me</string>

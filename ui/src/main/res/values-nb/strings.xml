@@ -91,7 +91,7 @@
     <string name="schacc_register_title">Opprett konto</string>
     <string name="schacc_ok">OK</string>
     <string name="schacc_identifier_modifier">Ikke deg?</string>
-    <string name="schacc_age_limit_information">Du må være minst 16 år for å opprette en Schibsted-konto</string>
+    <string name="schacc_age_limit_information">Du må være minst 15 år for å opprette en Schibsted-konto</string>
     <string name="schacc_remember_me">Husk meg på denne enheten</string>
     <string name="schacc_remember_me_info">Hva er dette?</string>
     <string name="schacc_dialog_remember_me_title">@string/schacc_remember_me</string>
