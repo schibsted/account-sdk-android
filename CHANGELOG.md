@@ -1,3 +1,22 @@
+## 1.12.0 (2020-03-02)
+- Add missing Norwegian translation for one-step login. (#446)
+- Update age limit according to change in regulation. (#445)
+- Web flow login. (#444)
+- Fix user persistence
+    - Force RSA key refresh on upgrade to 1.12
+    - Refactor persistence package (#437)
+- Code improvements
+    - Configure Kotlin in each related project (#442)
+    - Minor fixes to ClientConfiguration. (#436)
+    - Log tags must be hardcoded. (#435)
+    - Minor fixes to ConfigurationUtils and its tests (#434)
+    - Fix tests in common (#433)
+    - Upgrade build scripts (#431)
+    - Remove unused code (#432)
+
+## v1.11.2 (2020-02-19)
+* Force RSA key refresh on upgrade to v1.11.2
+
 ## v1.12.1-beta (2019-12-16)
 - One step login fixes (#427)
 
