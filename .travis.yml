@@ -3,7 +3,7 @@ branches:
   only:
     - master
     # We release from tags that follow semantic versioning:
-    - /^\d+\.\d+\.\d+(?:-rc\d+)?$/
+    - /v^\d+\.\d+\.\d+(?:-rc\d+)?$/
 android:
   components:
     - android-28
