@@ -68,28 +68,37 @@
 <p><a href="create-basic-auth-header.html">createBasicAuthHeader</a></p>
 </td>
 <td>
-<code><span class="keyword">fun </span><span class="identifier">createBasicAuthHeader</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.common.util$createBasicAuthHeader(kotlin.String, kotlin.String)/clientId">clientId</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">, </span><span class="identifier" id="com.schibsted.account.common.util$createBasicAuthHeader(kotlin.String, kotlin.String)/clientSecret">clientSecret</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a></code></td>
+<code><span class="keyword">fun </span><span class="identifier">createBasicAuthHeader</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.common.util$createBasicAuthHeader(kotlin.String, kotlin.String)/clientId">clientId</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">, </span><span class="identifier" id="com.schibsted.account.common.util$createBasicAuthHeader(kotlin.String, kotlin.String)/clientSecret">clientSecret</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a></code>
+<p>Returns string value to be used for basic auth header ("Basic " + base64-encoded string
+that contains clientId and clientSecret separated by a colon).</p>
+</td>
 </tr>
 <tr>
 <td>
 <p><a href="decode-base64.html">decodeBase64</a></p>
 </td>
 <td>
-<code><span class="keyword">fun </span><span class="identifier">decodeBase64</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.common.util$decodeBase64(kotlin.String)/str">str</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a></code></td>
+<code><span class="keyword">fun </span><span class="identifier">decodeBase64</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.common.util$decodeBase64(kotlin.String)/str">str</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a></code>
+<p>Decodes given Base64 string.</p>
+</td>
 </tr>
 <tr>
 <td>
 <p><a href="encode-base64.html">encodeBase64</a></p>
 </td>
 <td>
-<code><span class="keyword">fun </span><span class="identifier">encodeBase64</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.common.util$encodeBase64(kotlin.String)/str">str</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a></code></td>
+<code><span class="keyword">fun </span><span class="identifier">encodeBase64</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.common.util$encodeBase64(kotlin.String)/str">str</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a></code>
+<p>Encodes given string as Base64.</p>
+</td>
 </tr>
 <tr>
 <td>
 <p><a href="exists-on-classpath.html">existsOnClasspath</a></p>
 </td>
 <td>
-<code><span class="keyword">fun </span><span class="identifier">existsOnClasspath</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.common.util$existsOnClasspath(kotlin.String)/className">className</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><span class="identifier">Boolean</span></a></code></td>
+<code><span class="keyword">fun </span><span class="identifier">existsOnClasspath</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.common.util$existsOnClasspath(kotlin.String)/className">className</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><span class="identifier">Boolean</span></a></code>
+<p>Returns true if a class with the given name exists in the classpath.</p>
+</td>
 </tr>
 </tbody>
 </table>

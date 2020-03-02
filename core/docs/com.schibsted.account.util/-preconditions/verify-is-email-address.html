@@ -9,11 +9,11 @@
 <br/>
 <h1>verifyIsEmailAddress</h1>
 <a name="com.schibsted.account.util.Preconditions$verifyIsEmailAddress(kotlin.CharSequence)"></a>
-<code><span class="keyword">static</span> <span class="keyword">fun </span><span class="identifier">verifyIsEmailAddress</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.util.Preconditions$verifyIsEmailAddress(kotlin.CharSequence)/candidate">candidate</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-char-sequence/index.html"><span class="identifier">CharSequence</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code>
+<code><span class="keyword">static</span> <span class="keyword">fun </span><span class="identifier">verifyIsEmailAddress</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.util.Preconditions$verifyIsEmailAddress(kotlin.CharSequence)/candidate">candidate</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-char-sequence/index.html"><span class="identifier">CharSequence</span></a><span class="symbol">!</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code>
 <p>Verifies that the given candidate is a well-formed e-mail address.</p>
 <h3>Parameters</h3>
 <p><a name="candidate"></a>
-<code>candidate</code> - The candidate to perform the verification on.</p>
+<code>candidate</code> - <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-char-sequence/index.html"><span class="identifier">CharSequence</span></a><span class="symbol">!</span><span class="symbol">:</span> The candidate to perform the verification on.</p>
 <h3>Exceptions</h3>
 <p><a name="IllegalArgumentException"></a>
 <code>IllegalArgumentException</code> - If the candidate is not a well-formed e-mail address.</p>

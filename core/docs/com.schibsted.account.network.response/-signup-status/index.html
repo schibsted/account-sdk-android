@@ -20,7 +20,7 @@
 <p><a href="-init-.html">&lt;init&gt;</a></p>
 </td>
 <td>
-<code><span class="identifier">SignupStatus</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.network.response.SignupStatus$<init>(kotlin.String, com.schibsted.account.network.response.AccountStatusResponse)/identifier">identifier</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">, </span><span class="identifier" id="com.schibsted.account.network.response.SignupStatus$<init>(kotlin.String, com.schibsted.account.network.response.AccountStatusResponse)/source">source</span><span class="symbol">:</span>&nbsp;<a href="../-account-status-response/index.html"><span class="identifier">AccountStatusResponse</span></a><span class="symbol">)</span></code>
+<code><span class="identifier">SignupStatus</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.network.response.SignupStatus$<init>(kotlin.String, com.schibsted.account.network.response.AccountStatusResponse)/identifier">identifier</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">!</span><span class="symbol">, </span><span class="identifier" id="com.schibsted.account.network.response.SignupStatus$<init>(kotlin.String, com.schibsted.account.network.response.AccountStatusResponse)/source">source</span><span class="symbol">:</span>&nbsp;<a href="../-account-status-response/index.html"><span class="identifier">AccountStatusResponse</span></a><span class="symbol">!</span><span class="symbol">)</span></code>
 <p>Constructor.</p>
 </td>
 </tr>
@@ -34,8 +34,8 @@
 <p><a href="-c-r-e-a-t-o-r.html">CREATOR</a></p>
 </td>
 <td>
-<code><span class="keyword">static</span> <span class="keyword">val </span><span class="identifier">CREATOR</span><span class="symbol">: </span><a href="https://developer.android.com/reference/android/os/Parcelable/Creator.html"><span class="identifier">Creator</span></a><span class="symbol">&lt;</span><a href="./index.html"><span class="identifier">SignupStatus</span></a><span class="symbol">&gt;</span></code>
-<p>Required by Parcelable. <strong>You probably should not be accessing this manually</strong>.</p>
+<code><span class="keyword">static</span> <span class="keyword">val </span><span class="identifier">CREATOR</span><span class="symbol">: </span><a href="https://developer.android.com/reference/android/os/Parcelable/Creator.html"><span class="identifier">Creator</span></a><span class="symbol">&lt;</span><a href="./index.html"><span class="identifier">SignupStatus</span></a><span class="symbol">!</span><span class="symbol">&gt;</span><span class="symbol">!</span></code>
+<p>Required by <code><a href="https://developer.android.com/reference/android/os/Parcelable.html">Parcelable</a></code>. <strong>You probably should not be accessing this manually</strong>.</p>
 </td>
 </tr>
 </tbody>
@@ -49,7 +49,7 @@
 </td>
 <td>
 <code><span class="keyword">fun </span><span class="identifier">describeContents</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html"><span class="identifier">Int</span></a></code>
-<p>Required by Parcelable. <strong>You probably should not be accessing this manually</strong>.</p>
+<p>Required by <code><a href="https://developer.android.com/reference/android/os/Parcelable.html">Parcelable</a></code>. <strong>You probably should not be accessing this manually</strong>.</p>
 </td>
 </tr>
 <tr>
@@ -92,7 +92,7 @@
 </td>
 <td>
 <code><span class="keyword">fun </span><span class="identifier">writeToParcel</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.network.response.SignupStatus$writeToParcel(android.os.Parcel, kotlin.Int)/out">out</span><span class="symbol">:</span>&nbsp;<a href="https://developer.android.com/reference/android/os/Parcel.html"><span class="identifier">Parcel</span></a><span class="symbol">, </span><span class="identifier" id="com.schibsted.account.network.response.SignupStatus$writeToParcel(android.os.Parcel, kotlin.Int)/flags">flags</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html"><span class="identifier">Int</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code>
-<p>Required by Parcelable. <strong>You probably should not be accessing this manually</strong>.</p>
+<p>Required by <code><a href="https://developer.android.com/reference/android/os/Parcelable.html">Parcelable</a></code>. <strong>You probably should not be accessing this manually</strong>.</p>
 </td>
 </tr>
 </tbody>

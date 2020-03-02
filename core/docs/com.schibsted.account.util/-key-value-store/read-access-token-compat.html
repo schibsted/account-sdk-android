@@ -9,12 +9,12 @@
 <br/>
 <h1>readAccessTokenCompat</h1>
 <a name="com.schibsted.account.util.KeyValueStore$readAccessTokenCompat(kotlin.String)"></a>
-<code><span class="identifier">@Nullable</span> <span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">readAccessTokenCompat</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.util.KeyValueStore$readAccessTokenCompat(kotlin.String)/clientSecret">clientSecret</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="../../com.schibsted.account.network.response/-token-response/index.html"><span class="identifier">TokenResponse</span></a><span class="symbol">?</span></code>
+<code><span class="identifier">@Nullable</span> <span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">readAccessTokenCompat</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.util.KeyValueStore$readAccessTokenCompat(kotlin.String)/clientSecret">clientSecret</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">!</span><span class="symbol">)</span><span class="symbol">: </span><a href="../../com.schibsted.account.network.response/-token-response/index.html"><span class="identifier">TokenResponse</span></a><span class="symbol">?</span></code>
 <p>Reads the stored access token, if a valid one is stored.</p>
 <h3>Parameters</h3>
 <p><a name="clientSecret"></a>
-<code>clientSecret</code> - The client secret, used for the purpose of decrypting the token as it was encrypted by the old one. If <code>null</code>, a check for old sdk credentials is skipped, otherwise it is performed</p>
+<code>clientSecret</code> - <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">!</span><span class="symbol">:</span> The client secret, used for the purpose of decrypting the token as it was encrypted by the old one. If <code>null</code>, a check for old sdk credentials is skipped, otherwise it is performed</p>
 <p><strong>Return</strong><br/>
-The stored access token, if any. <code>null</code> otherwise.</p>
+<a href="../../com.schibsted.account.network.response/-token-response/index.html"><span class="identifier">TokenResponse</span></a><span class="symbol">?</span><span class="symbol">:</span> The stored access token, if any. <code>null</code> otherwise.</p>
 </BODY>
 </HTML>

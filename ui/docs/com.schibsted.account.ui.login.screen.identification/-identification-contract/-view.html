@@ -8,7 +8,7 @@
 <a href="../../index.html">ui</a>&nbsp;/&nbsp;<a href="../index.html">com.schibsted.account.ui.login.screen.identification</a>&nbsp;/&nbsp;<a href="index.html">IdentificationContract</a>&nbsp;/&nbsp;<a href="./-view.html">View</a><br/>
 <br/>
 <h1>View</h1>
-<code><span class="keyword">interface </span><span class="identifier">View</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../../com.schibsted.account.ui.ui/-flow-view/index.html"><span class="identifier">FlowView</span></a><span class="symbol">&lt;</span><a href="-presenter/index.html"><span class="identifier">Presenter</span></a><span class="symbol">&gt;</span></code>
+<code><span class="keyword">interface </span><span class="identifier">View</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../../com.schibsted.account.ui.ui/-flow-view/index.html"><span class="identifier">FlowView</span></a><span class="symbol">&lt;</span><a href="-presenter/index.html"><span class="identifier">IdentificationContract.Presenter</span></a><span class="symbol">&gt;</span></code>
 <p>defines methods implemented by views related to identification process</p>
 <h3>Inherited Functions</h3>
 <table>
@@ -59,7 +59,7 @@
 <p><a href="../../com.schibsted.account.ui.login.screen.identification.ui/-abstract-identification-fragment/index.html">AbstractIdentificationFragment</a></p>
 </td>
 <td>
-<code><span class="keyword">abstract</span> <span class="keyword">class </span><span class="identifier">AbstractIdentificationFragment</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../../com.schibsted.account.ui.ui/-flow-fragment/index.html"><span class="identifier">FlowFragment</span></a><span class="symbol">&lt;</span><a href="-presenter/index.html"><span class="identifier">Presenter</span></a><span class="symbol">&gt;</span><span class="symbol">, </span><a href="./-view.html"><span class="identifier">View</span></a></code>
+<code><span class="keyword">abstract</span> <span class="keyword">class </span><span class="identifier">AbstractIdentificationFragment</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../../com.schibsted.account.ui.ui/-flow-fragment/index.html"><span class="identifier">FlowFragment</span></a><span class="symbol">&lt;</span><a href="-presenter/index.html"><span class="identifier">IdentificationContract.Presenter</span></a><span class="symbol">&gt;</span><span class="symbol">, </span><a href="./-view.html"><span class="identifier">IdentificationContract.View</span></a></code>
 <p>Abstract class containing the common logic and ui for the identification process</p>
 </td>
 </tr>
@@ -68,7 +68,7 @@
 <p><a href="../../com.schibsted.account.ui.login.screen.identification.ui/-email-identification-fragment/index.html">EmailIdentificationFragment</a></p>
 </td>
 <td>
-<code><span class="keyword">class </span><span class="identifier">EmailIdentificationFragment</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../../com.schibsted.account.ui.login.screen.identification.ui/-abstract-identification-fragment/index.html"><span class="identifier">AbstractIdentificationFragment</span></a><span class="symbol">, </span><a href="./-view.html"><span class="identifier">View</span></a></code>
+<code><span class="keyword">class </span><span class="identifier">EmailIdentificationFragment</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../../com.schibsted.account.ui.login.screen.identification.ui/-abstract-identification-fragment/index.html"><span class="identifier">AbstractIdentificationFragment</span></a><span class="symbol">, </span><a href="./-view.html"><span class="identifier">IdentificationContract.View</span></a></code>
 <p>a <a href="#">Fragment</a> displaying the email identification screen</p>
 </td>
 </tr>

@@ -8,7 +8,9 @@
 <a href="../../index.html">common</a>&nbsp;/&nbsp;<a href="../index.html">com.schibsted.account.common.lib</a>&nbsp;/&nbsp;<a href="./index.html">ObservableField</a><br/>
 <br/>
 <h1>ObservableField</h1>
-<code><span class="keyword">open</span> <span class="keyword">class </span><span class="identifier">ObservableField</span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span></code>
+<code><span class="keyword">class </span><span class="identifier">ObservableField</span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span></code>
+<p>Allows to reactively observe value and its changes. Emitted values are guaranteed
+to be distinct.</p>
 <h3>Types</h3>
 <table>
 <tbody>
@@ -17,14 +19,21 @@
 <p><a href="-observer/index.html">Observer</a></p>
 </td>
 <td>
-<code><span class="keyword">interface </span><span class="identifier">Observer</span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span></code></td>
+<code><span class="keyword">interface </span><span class="identifier">Observer</span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span></code>
+<p>Interface for value observers.</p>
+</td>
 </tr>
 <tr>
 <td>
 <p><a href="-single.html">Single</a></p>
 </td>
 <td>
-<code><span class="keyword">interface </span><span class="identifier">Single</span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="-observer/index.html"><span class="identifier">Observer</span></a><span class="symbol">&lt;</span><a href="-single.html#T"><span class="identifier">T</span></a><span class="symbol">&gt;</span></code></td>
+<code><span class="keyword">interface </span><span class="identifier">Single</span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="-observer/index.html"><span class="identifier">ObservableField.Observer</span></a><span class="symbol">&lt;</span><a href="-single.html#T"><span class="identifier">T</span></a><span class="symbol">&gt;</span></code>
+<p>Interface for value observers that are supposed to be invoked only once after
+a value change. Note, if an Single is added to ObservableField with flag
+<code>notifyInitially = true</code>, it will be called immediately AND it will be called again
+after a value change.</p>
+</td>
 </tr>
 </tbody>
 </table>
@@ -36,7 +45,10 @@
 <p><a href="-init-.html">&lt;init&gt;</a></p>
 </td>
 <td>
-<code><span class="identifier">ObservableField</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.common.lib.ObservableField$<init>(com.schibsted.account.common.lib.ObservableField.T)/initialValue">initialValue</span><span class="symbol">:</span>&nbsp;<a href="index.html#T"><span class="identifier">T</span></a><span class="symbol">)</span></code></td>
+<code><span class="identifier">ObservableField</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.common.lib.ObservableField$<init>(com.schibsted.account.common.lib.ObservableField.T)/initialValue">initialValue</span><span class="symbol">:</span>&nbsp;<a href="index.html#T"><span class="identifier">T</span></a><span class="symbol">)</span></code>
+<p>Allows to reactively observe value and its changes. Emitted values are guaranteed
+to be distinct.</p>
+</td>
 </tr>
 </tbody>
 </table>
@@ -48,7 +60,9 @@
 <p><a href="value.html">value</a></p>
 </td>
 <td>
-<code><span class="keyword">var </span><span class="identifier">value</span><span class="symbol">: </span><a href="index.html#T"><span class="identifier">T</span></a></code></td>
+<code><span class="keyword">var </span><span class="identifier">value</span><span class="symbol">: </span><a href="index.html#T"><span class="identifier">T</span></a></code>
+<p>Value to be observed.</p>
+</td>
 </tr>
 </tbody>
 </table>
@@ -60,22 +74,32 @@
 <p><a href="add-listener.html">addListener</a></p>
 </td>
 <td>
-<code><span class="keyword">fun </span><span class="identifier">addListener</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.common.lib.ObservableField$addListener(com.schibsted.account.common.lib.ObservableField.Observer((com.schibsted.account.common.lib.ObservableField.T)), kotlin.Boolean)/listener">listener</span><span class="symbol">:</span>&nbsp;<a href="-observer/index.html"><span class="identifier">Observer</span></a><span class="symbol">&lt;</span><a href="index.html#T"><span class="identifier">T</span></a><span class="symbol">&gt;</span><span class="symbol">, </span><span class="identifier" id="com.schibsted.account.common.lib.ObservableField$addListener(com.schibsted.account.common.lib.ObservableField.Observer((com.schibsted.account.common.lib.ObservableField.T)), kotlin.Boolean)/notifyInitially">notifyInitially</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><span class="identifier">Boolean</span></a>&nbsp;<span class="symbol">=</span>&nbsp;false<span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code><br/>
-<code><span class="keyword">fun </span><span class="identifier">addListener</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.common.lib.ObservableField$addListener(kotlin.Boolean, kotlin.Boolean, kotlin.Function1((com.schibsted.account.common.lib.ObservableField.T, kotlin.Unit)))/single">single</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><span class="identifier">Boolean</span></a>&nbsp;<span class="symbol">=</span>&nbsp;false<span class="symbol">, </span><span class="identifier" id="com.schibsted.account.common.lib.ObservableField$addListener(kotlin.Boolean, kotlin.Boolean, kotlin.Function1((com.schibsted.account.common.lib.ObservableField.T, kotlin.Unit)))/notifyInitially">notifyInitially</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><span class="identifier">Boolean</span></a>&nbsp;<span class="symbol">=</span>&nbsp;false<span class="symbol">, </span><span class="identifier" id="com.schibsted.account.common.lib.ObservableField$addListener(kotlin.Boolean, kotlin.Boolean, kotlin.Function1((com.schibsted.account.common.lib.ObservableField.T, kotlin.Unit)))/lambda">lambda</span><span class="symbol">:</span>&nbsp;<span class="symbol">(</span><a href="index.html#T"><span class="identifier">T</span></a><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="-observer/index.html"><span class="identifier">Observer</span></a><span class="symbol">&lt;</span><a href="index.html#T"><span class="identifier">T</span></a><span class="symbol">&gt;</span></code></td>
+<code><span class="keyword">fun </span><span class="identifier">addListener</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.common.lib.ObservableField$addListener(com.schibsted.account.common.lib.ObservableField.Observer((com.schibsted.account.common.lib.ObservableField.T)), kotlin.Boolean)/listener">listener</span><span class="symbol">:</span>&nbsp;<a href="-observer/index.html"><span class="identifier">ObservableField.Observer</span></a><span class="symbol">&lt;</span><a href="index.html#T"><span class="identifier">T</span></a><span class="symbol">&gt;</span><span class="symbol">, </span><span class="identifier" id="com.schibsted.account.common.lib.ObservableField$addListener(com.schibsted.account.common.lib.ObservableField.Observer((com.schibsted.account.common.lib.ObservableField.T)), kotlin.Boolean)/notifyInitially">notifyInitially</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><span class="identifier">Boolean</span></a>&nbsp;<span class="symbol">=</span>&nbsp;false<span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code>
+<p>Adds an observer for the value. If <code>notifyInitially = true</code>, it will be called immediately
+with the currently existing value.</p>
+<code><span class="keyword">fun </span><span class="identifier">addListener</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.common.lib.ObservableField$addListener(kotlin.Boolean, kotlin.Boolean, kotlin.Function1((com.schibsted.account.common.lib.ObservableField.T, kotlin.Unit)))/single">single</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><span class="identifier">Boolean</span></a>&nbsp;<span class="symbol">=</span>&nbsp;false<span class="symbol">, </span><span class="identifier" id="com.schibsted.account.common.lib.ObservableField$addListener(kotlin.Boolean, kotlin.Boolean, kotlin.Function1((com.schibsted.account.common.lib.ObservableField.T, kotlin.Unit)))/notifyInitially">notifyInitially</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><span class="identifier">Boolean</span></a>&nbsp;<span class="symbol">=</span>&nbsp;false<span class="symbol">, </span><span class="identifier" id="com.schibsted.account.common.lib.ObservableField$addListener(kotlin.Boolean, kotlin.Boolean, kotlin.Function1((com.schibsted.account.common.lib.ObservableField.T, kotlin.Unit)))/lambda">lambda</span><span class="symbol">:</span>&nbsp;<span class="symbol">(</span><a href="index.html#T"><span class="identifier">T</span></a><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="-observer/index.html"><span class="identifier">ObservableField.Observer</span></a><span class="symbol">&lt;</span><a href="index.html#T"><span class="identifier">T</span></a><span class="symbol">&gt;</span></code>
+<p>Adds lambda as an observer for the value. If <code>notifyInitially = true</code>, it will be called
+immediately with the currently existing value. If  <code>single = true</code>, the observer will be
+automatically removed after the first change of the value.</p>
+</td>
 </tr>
 <tr>
 <td>
 <p><a href="has-observers.html">hasObservers</a></p>
 </td>
 <td>
-<code><span class="keyword">fun </span><span class="identifier">hasObservers</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><span class="identifier">Boolean</span></a></code></td>
+<code><span class="keyword">fun </span><span class="identifier">hasObservers</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><span class="identifier">Boolean</span></a></code>
+<p>Returns true if the observed value has active observers.</p>
+</td>
 </tr>
 <tr>
 <td>
 <p><a href="remove-listener.html">removeListener</a></p>
 </td>
 <td>
-<code><span class="keyword">fun </span><span class="identifier">removeListener</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.common.lib.ObservableField$removeListener(com.schibsted.account.common.lib.ObservableField.Observer((com.schibsted.account.common.lib.ObservableField.T)))/listener">listener</span><span class="symbol">:</span>&nbsp;<a href="-observer/index.html"><span class="identifier">Observer</span></a><span class="symbol">&lt;</span><a href="index.html#T"><span class="identifier">T</span></a><span class="symbol">&gt;</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code></td>
+<code><span class="keyword">fun </span><span class="identifier">removeListener</span><span class="symbol">(</span><span class="identifier" id="com.schibsted.account.common.lib.ObservableField$removeListener(com.schibsted.account.common.lib.ObservableField.Observer((com.schibsted.account.common.lib.ObservableField.T)))/listener">listener</span><span class="symbol">:</span>&nbsp;<a href="-observer/index.html"><span class="identifier">ObservableField.Observer</span></a><span class="symbol">&lt;</span><a href="index.html#T"><span class="identifier">T</span></a><span class="symbol">&gt;</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code>
+<p>Removes an observer. Removed observers will not be notified any more.</p>
+</td>
 </tr>
 </tbody>
 </table>

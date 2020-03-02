@@ -74,6 +74,21 @@ You can authenticate your requests by binding a session to an `OkHttpClient` fro
 
 The second parameter specifies which hosts you will use the authenticated requests for. For security reasons you __should not attach session information to requests that does not need to be authenticated__, as this would allow third parties to hijack a session from a user.
 
+### Login using web flows
+By navigating (for example by using Custom Tabs) to the URL for Schibsted account web login those flows can be used to log a user in.
+This can also be used to pick up an already logged in user session in the browser and get a logged in user in the native app.
+
+__Example__
+```java
+String redirectScheme = ctx.getString(R.string.schacc_conf_redirect_scheme);
+String redirectHost = ctx.getString(R.string.schacc_conf_redirect_host);
+Boolean persistUser = true;
+URI redirectUri = URI.create(redirectScheme + redirectHost);
+CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
+CustomTabsIntent customTabsIntent = builder.build();
+customTabsIntent.launchUrl(ctx, Uri.parse(Routes.loginUrl(ctx, redirectUri, persistUser).toString()));
+```
+
 ## FAQ
 **What is the difference between _one time code_ and _one time session url_?**<br>
 The two serves different purposes, the _one time code_ is used to give an auth code which can be used to get a token on behalf of the user. This can be passed to your back-end if you need to perform actions on the user. The _one time session url_ is normally used to authenticate a web view. Pass this to a web view with a redirect of your choice and you will end up having the user authenticated in that web view.

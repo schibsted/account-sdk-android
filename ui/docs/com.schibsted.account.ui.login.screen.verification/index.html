@@ -26,7 +26,7 @@ for the code verification feature</p>
 <p><a href="-verification-fragment/index.html">VerificationFragment</a></p>
 </td>
 <td>
-<code><span class="keyword">class </span><span class="identifier">VerificationFragment</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../com.schibsted.account.ui.ui/-flow-fragment/index.html"><span class="identifier">FlowFragment</span></a><span class="symbol">&lt;</span><a href="-verification-contract/-presenter/index.html"><span class="identifier">Presenter</span></a><span class="symbol">&gt;</span><span class="symbol">, </span><a href="-verification-contract/-view/index.html"><span class="identifier">View</span></a><span class="symbol">, </span><a href="../com.schibsted.account.ui.ui.component/-account-selector-view/-listener/index.html"><span class="identifier">Listener</span></a></code>
+<code><span class="keyword">class </span><span class="identifier">VerificationFragment</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../com.schibsted.account.ui.ui/-flow-fragment/index.html"><span class="identifier">FlowFragment</span></a><span class="symbol">&lt;</span><a href="-verification-contract/-presenter/index.html"><span class="identifier">VerificationContract.Presenter</span></a><span class="symbol">&gt;</span><span class="symbol">, </span><a href="-verification-contract/-view/index.html"><span class="identifier">VerificationContract.View</span></a><span class="symbol">, </span><a href="../com.schibsted.account.ui.ui.component/-account-selector-view/-listener/index.html"><span class="identifier">AccountSelectorView.Listener</span></a></code>
 <p>a <a href="#">Fragment</a> displaying the code verification screen</p>
 </td>
 </tr>
@@ -35,7 +35,7 @@ for the code verification feature</p>
 <p><a href="-verification-presenter/index.html">VerificationPresenter</a></p>
 </td>
 <td>
-<code><span class="keyword">class </span><span class="identifier">VerificationPresenter</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="-verification-contract/-presenter/index.html"><span class="identifier">Presenter</span></a></code>
+<code><span class="keyword">class </span><span class="identifier">VerificationPresenter</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="-verification-contract/-presenter/index.html"><span class="identifier">VerificationContract.Presenter</span></a></code>
 <p>Following the MVP design pattern this interface represent the implementation of the <a href="-verification-contract/-presenter/index.html">VerificationContract.Presenter</a>.
 this class executes the code verification business logic and ask for UI updates depending on results.</p>
 </td>
