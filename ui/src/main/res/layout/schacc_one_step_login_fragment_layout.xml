@@ -66,6 +66,17 @@
             android:layout_below="@id/schacc_teaser_text"
             android:paddingTop="@dimen/schacc_large_spacing">
 
+            <TextView
+                android:id="@+id/age_limit_info"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/schacc_age_limit_information"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"/>
+
             <com.schibsted.account.ui.ui.component.SingleFieldView
                 android:id="@+id/onestep_login_input_view"
                 android:layout_width="match_parent"
@@ -75,6 +86,7 @@
                 app:inputType="email"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/age_limit_info"
                 android:layout_marginTop="@dimen/schacc_medium_spacing"
                 app:errorText="@string/schacc_email_identification_error"
                 app:titleText="@string/schacc_email_label"

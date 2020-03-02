@@ -31,7 +31,6 @@ import com.schibsted.account.ui.ui.InputField
 import com.schibsted.account.ui.ui.WebFragment
 import com.schibsted.account.ui.ui.component.CheckBoxView
 import com.schibsted.account.ui.ui.component.PasswordView
-
 import com.schibsted.account.ui.ui.component.SingleFieldView
 import com.schibsted.account.ui.ui.dialog.InformationDialogFragment
 import com.schibsted.account.ui.ui.rule.EmailValidationRule
@@ -62,6 +61,7 @@ class OneStepLoginFragment : FlowFragment<OneStepLoginContract.Presenter>(), One
     private lateinit var rememberMeInfo: TextView
     private lateinit var teaserText: TextView
     private lateinit var forgotPasswordLink: TextView
+    private lateinit var ageLimitInfo: TextView
 
     /**
      * ties a presenter to this view
@@ -101,6 +101,7 @@ class OneStepLoginFragment : FlowFragment<OneStepLoginContract.Presenter>(), One
         val schibstedLogo = view.findViewById<ImageView>(R.id.schibsted_logo)
         val clientLogo = view.findViewById<ImageView>(R.id.client_logo)
         forgotPasswordLink = view.findViewById(R.id.onestep_login_forgot_password)
+        ageLimitInfo = view.findViewById(R.id.age_limit_info)
 
         if (uiConf.teaserText?.isNotEmpty() == true) {
             this.teaserText.text = uiConf.teaserText
@@ -284,6 +285,7 @@ class OneStepLoginFragment : FlowFragment<OneStepLoginContract.Presenter>(), One
         inputFieldView.hideErrorView()
         forgotPasswordLink.visibility = View.VISIBLE
         secondaryActionView?.setText(R.string.schacc_register_title)
+        ageLimitInfo.visibility = View.GONE
         registerLoginListeners()
     }
 
@@ -296,6 +298,7 @@ class OneStepLoginFragment : FlowFragment<OneStepLoginContract.Presenter>(), One
         credInputFieldView.setInformationMessage(getString(R.string.schacc_password_extra_info))
         forgotPasswordLink.visibility = View.GONE
         secondaryActionView?.setText(R.string.schacc_password_sign_up_have_account_button_label)
+        ageLimitInfo.visibility = View.VISIBLE
         registerSignUpListeners()
     }
 

@@ -91,7 +91,7 @@
     <string name="schacc_register_title">Create account</string>
     <string name="schacc_ok">OK</string>
     <string name="schacc_identifier_modifier">Not you?</string>
-    <string name="schacc_age_limit_information">You need to be at least 16 years old to create a Schibsted account</string>
+    <string name="schacc_age_limit_information">You need to be at least 15 years old to create a Schibsted account</string>
     <string name="schacc_remember_me">Remember me on this device</string>
     <string name="schacc_remember_me_info">What\'s this?</string>
     <string name="schacc_dialog_remember_me_title">@string/schacc_remember_me</string>
