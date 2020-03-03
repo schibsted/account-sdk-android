@@ -47,7 +47,8 @@ cp -r ../build/docs/style.css smartlock/
 
 # Stage all files in git and create a commit
 git add .
-git commit -m "Docs generated at $(date)"
+
+git diff-index --quiet HEAD || git commit -m "Docs generated at $(date)"
 
 # Push the new files up to GitHub
 git push origin gh-pages
