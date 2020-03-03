@@ -1,3 +1,7 @@
+## v1.12.1 (2020-03-03)
+- Do not fail deployment when generated docs have no changes.
+- Use publication's artifactId for POM generation of ProjectDependency.
+
 ## 1.12.0 (2020-03-02)
 - Add missing Norwegian translation for one-step login. (#446)
 - Update age limit according to change in regulation. (#445)
