@@ -35,9 +35,7 @@ dependencies {
     implementation("com.android.support:support-core-utils:${Constants.Versions.SUPPORT}")
 
     testImplementation("junit:junit:${Constants.Versions.JUNIT}")
-    testImplementation("io.kotlintest:kotlintest-runner-junit5:${Constants.Versions.KOTLINTEST_RUNNER_JUNIT5}") {
-        exclude(group="org.jetbrains.kotlin")
-    }
+    testImplementation("io.kotlintest:kotlintest-runner-junit5:${Constants.Versions.KOTLINTEST_RUNNER_JUNIT5}")
     testImplementation("com.nhaarman.mockitokotlin2:mockito-kotlin:${Constants.Versions.MOCKITO_KOTLIN}")
     testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:${Constants.Versions.KOTLINX_COROUTINES_CORE}")
     testImplementation("org.slf4j:slf4j-simple:${Constants.Versions.SLF4J}")
