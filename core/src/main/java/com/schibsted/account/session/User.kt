@@ -39,7 +39,7 @@ class User(token: UserToken, val isPersistable: Boolean) : Parcelable {
     internal var token: UserToken? = token
         private set
 
-    val userId: UserId = UserId.fromTokenResponse(token)
+    val userId: UserId = requireNotNull(UserId.fromTokenResponse(token)) { "User id could not be parsed from token" }
 
     internal var authClient = ServiceHolder.defaultClient.newBuilder()
             .addInterceptor(AuthInterceptor(this, listOf(ClientConfiguration.get().environment))).build()

@@ -19,16 +19,26 @@ internal class ResumeDelegate(private val agreementCache: AgreementCache) {
     fun proceed(token: UserToken,
                 success: (user: User) -> Unit,
                 failure: (error: ClientError) -> Unit) {
-        val user = User(token, isPersistable = true)
-        if (agreementCache.hasValidAgreement(user.userId.id)) {
-            success(user)
+        val user = try {
+             User(token, isPersistable = true)
+        } catch (e: IllegalArgumentException) {
+            null
+        }
+
+        if (user != null) {
+            if (agreementCache.hasValidAgreement(user.userId.id)) {
+                success(user)
+            } else {
+                user.agreements.ensureAccepted(object : ResultCallback<NoValue> {
+                    override fun onError(error: ClientError) = failure(error)
+                    override fun onSuccess(result: NoValue) = success(user).also {
+                        agreementCache.storeAgreement(user.userId.id)
+                    }
+                })
+            }
         } else {
-            user.agreements.ensureAccepted(object : ResultCallback<NoValue> {
-                override fun onError(error: ClientError) = failure(error)
-                override fun onSuccess(result: NoValue) = success(user).also {
-                    agreementCache.storeAgreement(user.userId.id)
-                }
-            })
+            val error = ClientError(ClientError.ErrorType.SESSION_NOT_FOUND, "Could not find a session to resume")
+            failure(error)
         }
     }
 }

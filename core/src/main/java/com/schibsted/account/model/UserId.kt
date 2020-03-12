@@ -17,13 +17,15 @@ data class UserId(val id: String, val legacyId: String?) : Parcelable {
     companion object {
         private val parser = JsonParser()
 
-        fun fromTokenResponse(token: TokenResponse): UserId {
-            val idTokenResult = token.idToken?.let { extractPayload(it) }?.let { extractFields(it) }
+        fun fromTokenResponse(token: TokenResponse): UserId? {
+            val idTokenResult = token.idToken.let { extractPayload(it) }?.let { extractFields(it) }
 
             val idTokenSub = idTokenResult?.first
             val idTokenLegacyUserId = idTokenResult?.second
 
-            return UserId(idTokenSub ?: idTokenLegacyUserId ?: token.userId, idTokenLegacyUserId ?: token.userId)
+            return idTokenSub?.let {
+                UserId(it, idTokenLegacyUserId)
+            }
         }
 
         internal fun extractFields(payload: String): Pair<String?, String?>? = Try {
