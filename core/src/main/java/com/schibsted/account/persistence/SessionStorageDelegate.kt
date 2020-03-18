@@ -24,8 +24,8 @@ internal class SessionStorageDelegate(
 
     companion object {
         private const val TAG = "SessionStorageDelegate"
-        private const val PREF_KEY_DATA = "IDENTITY_SESSIONS"
-        private const val PREF_KEY_AES = "IDENTITY_AES_PREF_KEY"
+        private const val PREF_KEY_DATA = "com.schibsted.account.persistence.SessionStorageDelegate.sessions"
+        private const val PREF_KEY_AES = "com.schibsted.account.persistence.SessionStorageDelegate.aeskey"
         private val GSON = Gson()
     }
 
@@ -39,12 +39,13 @@ internal class SessionStorageDelegate(
 
     operator fun getValue(thisRef: Any?, property: KProperty<*>): List<Session> {
         if (!::sessions.isInitialized) {
-            sessions = retrieveSessions()
+            sessions = retrieveMigratedLegacyData() ?: retrieveSessions()
         }
         return sessions
     }
 
     operator fun setValue(thisRef: Any?, property: KProperty<*>, value: List<Session>) {
+        clearLegacyData()
         sessions = value
         storeSessions(value)
     }
@@ -90,7 +91,7 @@ internal class SessionStorageDelegate(
      */
     private fun writeStorage(items: List<Session>) {
         val (secretKey, encryptedKey) = retrieveStoredKey() ?: generateSecretKey()
-        val json = GSON.toJson(items).toByteArray().encodeBase64()
+        val json = GSON.toJson(items).toByteArray()
         val encryptedData = encryptionUtils.aesEncrypt(json, secretKey)
         storeDataAndKey(encryptedData to encryptedKey)
     }
@@ -102,7 +103,7 @@ internal class SessionStorageDelegate(
     private fun retrieveStoredData(): ByteArray? {
         val (encryptedData, encryptedKey) = getDataAndKey() ?: return null
         val secretKey = recreateSecretKey(encryptedKey)
-        return encryptionUtils.aesDecrypt(encryptedData, secretKey).decodeBase64()
+        return encryptionUtils.aesDecrypt(encryptedData, secretKey)
     }
 
     /**
@@ -185,6 +186,22 @@ internal class SessionStorageDelegate(
                 removeDataAndKey()
                 Logger.error(TAG, "Failed to write storage with new RSA keys", e)
             }
+        }
+    }
+
+    /**
+     * Old versions of the SDK contained a couple of bugs in encryption/decryption utils.
+     * Sessions encrypted in the old way cannot be decrypted using fixed encryption utils.
+     * Therefore, we had to move the old decryption code to SessionsStorageLegacy.
+     * Sessions encrypted in the new way are stored in a new location in SharedPreferences.
+     * This lets us migrate the existing session list and not cause unintended "sign-outs".
+     */
+    private val legacy = SessionStorageLegacy(appContext, encryptionKeyProvider, encryptionUtils)
+    private fun clearLegacyData() = legacy.clear()
+    private fun retrieveMigratedLegacyData(): List<Session>? = legacy.retrieve()?.also {
+        legacy.clear()
+        if (it.isNotEmpty()) {
+            storeSessions(it)
         }
     }
 }
