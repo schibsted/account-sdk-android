@@ -24,8 +24,10 @@ internal class SessionStorageDelegate(
 
     companion object {
         private const val TAG = "SessionStorageDelegate"
-        private const val PREF_KEY_DATA = "com.schibsted.account.persistence.SessionStorageDelegate.sessions"
-        private const val PREF_KEY_AES = "com.schibsted.account.persistence.SessionStorageDelegate.aeskey"
+        private const val PREFIX = "com.schibsted.account.persistence.SessionStorageDelegate"
+        private const val PREF_MIGRATED = "$PREFIX.migrationCompleted"
+        private const val PREF_KEY_DATA = "$PREFIX.sessions"
+        private const val PREF_KEY_AES = "$PREFIX.aeskey"
         private val GSON = Gson()
     }
 
@@ -38,8 +40,9 @@ internal class SessionStorageDelegate(
     private lateinit var sessions: List<Session>
 
     operator fun getValue(thisRef: Any?, property: KProperty<*>): List<Session> {
+        migrateLegacyData()
         if (!::sessions.isInitialized) {
-            sessions = retrieveMigratedLegacyData() ?: retrieveSessions()
+            sessions = retrieveSessions()
         }
         return sessions
     }
@@ -196,12 +199,26 @@ internal class SessionStorageDelegate(
      * Sessions encrypted in the new way are stored in a new location in SharedPreferences.
      * This lets us migrate the existing session list and not cause unintended "sign-outs".
      */
-    private val legacy = SessionStorageLegacy(appContext, encryptionKeyProvider, encryptionUtils)
-    private fun clearLegacyData() = legacy.clear()
-    private fun retrieveMigratedLegacyData(): List<Session>? = legacy.retrieve()?.also {
-        legacy.clear()
-        if (it.isNotEmpty()) {
-            storeSessions(it)
+    private val legacy: SessionStorageLegacy? by lazy {
+        // SessionStorageLegacy uses SharedPrefs. Calling its methods will involve disk IO.
+        // Having this extra check allows us to avoid needless IO:
+        if (prefs.getBoolean(PREF_MIGRATED, false)) {
+            null
+        } else {
+            SessionStorageLegacy(appContext, encryptionKeyProvider, encryptionUtils)
+        }
+    }
+
+    private fun clearLegacyData() = legacy?.run {
+        clear()
+        prefs.edit().putBoolean(PREF_MIGRATED, true).apply()
+    }
+
+    private fun migrateLegacyData() = legacy?.run {
+        val legacyData = retrieve()
+        clearLegacyData()
+        if (!legacyData.isNullOrEmpty()) {
+            storeSessions(legacyData)
         }
     }
 }
