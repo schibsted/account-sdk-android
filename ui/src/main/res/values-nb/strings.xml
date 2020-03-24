@@ -68,7 +68,7 @@
     <string name="schacc_password_sign_in_label">Vennligst oppgi passordet ditt</string>
     <string name="schacc_password_sign_up_label">Skriv inn et passord</string>
     <string name="schacc_password_sign_up_button_label">Opprett konto</string>
-    <string name="schacc_password_sign_up_have_account_button_label">I have an account</string>
+    <string name="schacc_password_sign_up_have_account_button_label">Jeg har allerede en konto</string>
     <string name="schacc_password_sign_up_notification">Du oppretter nå en ny Schibsted-konto</string>
     <string name="schacc_password_error_length">Passordet ditt skal ha minst 8 tegn</string>
     <string name="schacc_password_forgot_password">Glemt passord?</string>
@@ -91,7 +91,7 @@
     <string name="schacc_register_title">Opprett konto</string>
     <string name="schacc_ok">OK</string>
     <string name="schacc_identifier_modifier">Ikke deg?</string>
-    <string name="schacc_age_limit_information">Du må være minst 16 år for å opprette en Schibsted-konto</string>
+    <string name="schacc_age_limit_information">Du må være minst 15 år for å opprette en Schibsted-konto</string>
     <string name="schacc_remember_me">Husk meg på denne enheten</string>
     <string name="schacc_remember_me_info">Hva er dette?</string>
     <string name="schacc_dialog_remember_me_title">@string/schacc_remember_me</string>

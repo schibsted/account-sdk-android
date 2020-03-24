@@ -1,9 +1,9 @@
 import groovy.util.Node
 import org.gradle.api.Project
 import org.gradle.api.XmlProvider
-import org.gradle.api.artifacts.Dependency
-import org.gradle.api.artifacts.ExcludeRule
-import org.gradle.api.artifacts.ModuleDependency
+import org.gradle.api.artifacts.*
+import org.gradle.api.plugins.ExtensionAware
+import org.gradle.api.publish.PublishingExtension
 import org.gradle.api.publish.maven.MavenPom
 import org.gradle.kotlin.dsl.get
 
@@ -50,8 +50,8 @@ fun MavenPom.fillGenericDetails(project: Project) {
 fun XmlProvider.collectDependencies(project: Project) {
 
     fun Node.appendExclusion(excludeRule: ExcludeRule) = appendNode("exclusion").apply {
-        appendNode("groupId", excludeRule.group ?: "*")
-        appendNode("artifactId", excludeRule.module ?: "*")
+        appendNode("groupId", excludeRule.group as? String ?: "*")
+        appendNode("artifactId", excludeRule.module as? String ?: "*")
     }
 
     fun Node.appendExclusions(dep: ModuleDependency) = appendNode("exclusions").apply {
@@ -60,9 +60,15 @@ fun XmlProvider.collectDependencies(project: Project) {
         }
     }
 
+    fun Dependency.getArtifactId(): String = when(this) {
+            is ProjectDependency -> dependencyProject.publishing.publications.mavenJar.artifactId
+            is ExternalModuleDependency -> name
+            else -> throw RuntimeException("Unsupported dependency type: ${this::class.java}")
+        }
+
     fun Node.appendDependency(dep: Dependency, scope: String) = appendNode("dependency").apply {
         appendNode("groupId", dep.group)
-        appendNode("artifactId", dep.name)
+        appendNode("artifactId", dep.getArtifactId())
         appendNode("version", dep.version)
         appendNode("scope", scope)
         if (dep is ModuleDependency && dep.excludeRules.isNotEmpty()) {
@@ -89,3 +95,6 @@ fun XmlProvider.collectDependencies(project: Project) {
         asNode().appendDependencies(apiDeps, implDeps)
     }
 }
+
+private val Project.publishing: PublishingExtension get() =
+    (this as ExtensionAware).extensions.getByName("publishing") as PublishingExtension
