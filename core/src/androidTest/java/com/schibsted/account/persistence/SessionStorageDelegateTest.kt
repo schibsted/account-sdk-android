@@ -237,30 +237,29 @@ class SessionStorageDelegateTest {
     companion object {
 
         private const val prefsFileName = "SessionStorageDelegatePrefs"
-        private const val PREF_KEY_DATA = "IDENTITY_SESSIONS"
-        private const val PREF_KEY_AES = "IDENTITY_AES_PREF_KEY"
+        private const val PREF_KEY_DATA = "com.schibsted.account.persistence.SessionStorageDelegate.sessions"
+        private const val PREF_KEY_AES = "com.schibsted.account.persistence.SessionStorageDelegate.aeskey"
 
         // A hard-coded list with two sessions encoded using the key below.
         // Contains string that would be written to SharedPreferences when calling:
         // val sessions = listOf(createSession("test user 1"), createSession("test user 2"))
         private val encodedData = """
-        |iexbS4JK18zgFARQ6q3CVAudIWWBq8pvARW+oudZ8jYaMRBkpRgT9fN9EMGXKrzPAJ4eu1oMBIO5
-        |CR9202id9TSKLeZoo0C9pJpvh7sLlIrDTRhKqsIV/KlwuvxH2lQp4/kHqaObNW8tPuV7jfidZ2t7
-        |zRs5cZHJhe6dW3r6M2d3rcCCFeN9OzRWRb8RP9NhxYLYMTfeehUftUWGzqY0XEsexLEWCviXATOe
-        |o9MGT+9gsliyBHxRaTEmQPcqWC5jbwZRcyFGi2JnOjpjDKE8XJLo8egmIsSZIEao7NpkZEbZZmBD
-        |7uLsy1yW4kdpoawi0MOMuNC8QG/1Ua8XBpgCbx2mE4FHCR58aJRhLAjJbpl3MYCb0WaQALfd34LS
-        |SYQ0m9r8BAYQmNn0PzbUTvQW51Ghp3Qk5BWaNv9WtYTtSBCgJ/GuJqZkPfrLsn4wV/oJbtA2yYtW
-        |jgdPG/SFMudTamKCB7uM7s1tpe5Cdd29Ht4SjmxF1sNTGePWKwkI9pVNbvFQryZSae/W/qucIxek
-        |cOyc0qMgO+YBQ4pWK5LYTCQ2T4Og+cvrY/Ao94OAlEoR5XvqPUPaJjyjJhWriCb3xe/6iK/n203R
-        |uX8Td6QqIJpYH0X6WGU6z3O/TXDvAKmeuwv0+fpuKvJqasB7+A88yGLj5HBslJSR7aGsgkpLqrxy
-        |VoJ7g9Z0Ru0IJFgrJGsgH9H1Po/0yy8eG7FykePbIFO8/8or4ChxwSog3OfVJRowSLw5SiSra+nb
-        |354wTnUQev5Rzp11fTCI+4DP4qTfQJOD8qv/ZjNj9YqlOdZ9Je4=
+        |zXJkIeEu1AhxPe920d6qnIuwfEePrYvdqZCTNc/hgf/yyj5R2fOp+7zZxTXaxMFY7aAYQ5+pf81c
+        |fnAcOsnMZtGBz+gzh9wEdAJ2sptZeCD+3cURnhwnm8vsY6aiBFTaZfVijDShMrgR07BLz5xeBhq9
+        |rRlxFcSRw8NqAEl7qA4lbcRBXs3ZK5EmvnUYJzz7m43HZhldaWiA/ogz8viKhGTKr0+Ggfj86A2L
+        |v1Xmhi93sDqSuLocSTwKUe77OPbXXrw/4H0V5By3nYNZbJMTxbvnD4kEEkmBfWtthR18YQ4To7MQ
+        |anQvgsSv3aj5UiZSaWqyS8pCjC2VoLLvbi5wel3NhIxq89+WLSupjA/o8uPJiJLP8GSTTnkD6Ou/
+        |nk0l+C3NdFMKHmoRvlPutxAGaogUgAqWEKwVs+Ic4P9EReEIPxYTn1ZMBiImFlF0RlIyeCi10FQn
+        |e/2mClkj4GpTF2b8TM1JnQgMOOgSUMRJeEcd7Vur1rs42f8nV2/swBaZeQKmSlvnlPA2wU9jPAQ7
+        |jtptvaesgKWfTasho0V4Xmocl491kzVozUoaFTgK82L/192iLQOU2Igvp6UJOdCG5SW+h2YV5xEA
+        |cKb/fzGRvY4=
         """.trimMargin()
+
         // A hard-coded AES key used to encrypt the string above:
         private val encodedKey = """
-        |SMeRUY871ZXkUN7GlQo0+UAhPry6VcPGvmE8mJjy9qklEFaUFZm3RQoMO1oPRYgy4DZVkZsq/JZU
-        |C9H+4Qfn8iWjjxKA0+IKYc5oIU7mjO41EsesfzELHDzytmvD0OlcawmFPFYI8lhYd9pgB0AT71Zt
-        |BO4CU7tN26d1Y3rvUPs=
+        |qP7TpCy/tjn9adamec3FCLm8jnDr1TuCSM88tMD903Xm99XXPIpP7poYu+7b04HebggdXy692I64
+        |Ljyt+K7i6I/wpFAVysQC/u4fvwRi1F9ggfuiVJ2K1kXqwdALLTiwlfem4bxsKJjPE3bON6q9ghXS
+        |HPnU8nk6tyWFIwu14FU=
         """.trimMargin()
 
         private val publicRsaKey = """
