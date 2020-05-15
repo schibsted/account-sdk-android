@@ -94,7 +94,7 @@ class AuthInterceptor constructor(
                 ?: throw AuthException("Cannot perform authenticated request (ReqId:$reqId) when the user is logged out")
         val request = with(originalRequest.newBuilder()) {
             if (urlInWhitelist(originalUrl)) {
-                addHeader("Authorization", token.bearerAuthHeader())
+                header("Authorization", token.bearerAuthHeader())
             }
             build()
         }
