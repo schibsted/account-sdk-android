@@ -1,3 +1,16 @@
+## v1.13.0 (2020-05-15)
+- Always overwrite HTTP Authorization header in AuthInterceptor. (#461)
+- Fix security alert reported in #457 (#460)
+    - Don't use SessionStorageLegacy after migration.
+    - Use random IV in EncryptionUtils.
+- Enable compatibility with Java 8 features. (#458)
+- Remove exclusions from build.gradle files. (#456)
+- Update tests (#455)
+    - Fix outdated tests.
+    - Upgrade test dependencies.
+    - Upgrade Gradle to 6.2.2 and Android Gradle plugin to 3.6.1
+- Refactor UserPersistence. (#451)
+
 ## v1.12.1 (2020-03-03)
 - Do not fail deployment when generated docs have no changes.
 - Use publication's artifactId for POM generation of ProjectDependency.
