@@ -23,11 +23,12 @@ import retrofit2.Call;
 
 public class PasswordlessService extends BaseNetworkService {
 
-    public static final String PARAM_CONNECTION_EMAIL = "email";
-    public static final String PARAM_CONNECTION_SMS = "sms";
+    private static final String PARAM_CONNECTION_EMAIL = "email";
+    private static final String PARAM_CONNECTION_SMS = "sms";
     private static final String PARAM_LOCALE = "locale";
     private static final String PARAM_PHONE_NUMBER = "phone_number";
     private static final String PARAM_CONNECTION = "connection";
+    private static final String PARAM_CLIENT_ID = "client_id";
 
     private final PasswordlessContract passwordlessContract;
 

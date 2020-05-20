@@ -11,7 +11,7 @@ import com.schibsted.account.model.error.NetworkError
 import com.schibsted.account.network.NetworkCallback
 import com.schibsted.account.network.OIDCScope
 import com.schibsted.account.network.ServiceHolder
-import com.schibsted.account.network.response.TokenResponse
+import com.schibsted.account.network.response.UserTokenResponse
 
 /**
  * Task to request user credentials and signup with Schibsted account using these
@@ -26,12 +26,12 @@ internal class LoginOperation(
     init {
         ServiceHolder.oAuthService.tokenFromPassword(ClientConfiguration.get().clientId,
                 ClientConfiguration.get().clientSecret, credentials.identifier.identifier, credentials.password, *scopes)
-                .enqueue(object : NetworkCallback<TokenResponse>("Identifying with username and password in LoginOperation") {
+                .enqueue(object : NetworkCallback<UserTokenResponse>("Identifying with username and password in LoginOperation") {
                     override fun onError(error: NetworkError) {
                         failure(error)
                     }
 
-                    override fun onSuccess(result: TokenResponse) {
+                    override fun onSuccess(result: UserTokenResponse) {
                         success(result)
                     }
                 })

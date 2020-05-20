@@ -5,8 +5,6 @@
 package com.schibsted.account.network.service;
 
 import android.support.annotation.NonNull;
-import android.support.annotation.RestrictTo;
-import android.support.annotation.VisibleForTesting;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -15,8 +13,8 @@ import com.schibsted.account.ListContainer;
 import com.schibsted.account.model.Product;
 import com.schibsted.account.network.Environment;
 import com.schibsted.account.network.response.Subscription;
-import com.schibsted.account.util.ListDeserializer;
 import com.schibsted.account.util.LenientAccountsDeserializer;
+import com.schibsted.account.util.ListDeserializer;
 import com.schibsted.account.util.Preconditions;
 import com.schibsted.account.util.TypeSafeStringDeserializer;
 
@@ -26,21 +24,10 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class BaseNetworkService {
 
-
     protected static final String PARAM_PASSWORDLESS_TOKEN = "passwordless_token";
     protected static final String PARAM_REDIRECT_URI_NO_UNDERSCORE = "redirectUri";
-    @RestrictTo(RestrictTo.Scope.TESTS)
-    @VisibleForTesting
-    protected static final String PARAM_CLIENT_ID = "client_id";
-
-    @RestrictTo(RestrictTo.Scope.TESTS)
-    @VisibleForTesting
-    protected static final String PARAM_CLIENT_SECRET = "client_secret";
-    @RestrictTo(RestrictTo.Scope.TESTS)
-    @VisibleForTesting
-    protected static final String PARAM_PASSWORD = "password";
     private final String environment;
-    private OkHttpClient okHttpClient;
+    private final OkHttpClient okHttpClient;
 
     protected BaseNetworkService(@Environment String environment, @NonNull OkHttpClient okHttpClient) {
         this.environment = environment;

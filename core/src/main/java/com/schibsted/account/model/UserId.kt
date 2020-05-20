@@ -9,7 +9,6 @@ import android.util.Base64
 import com.google.gson.JsonParser
 import com.schibsted.account.common.lib.Try
 import com.schibsted.account.common.lib.getOrNull
-import com.schibsted.account.network.response.TokenResponse
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
@@ -17,7 +16,7 @@ data class UserId(val id: String, val legacyId: String?) : Parcelable {
     companion object {
         private val parser = JsonParser()
 
-        fun fromTokenResponse(token: TokenResponse): UserId {
+        fun fromTokenResponse(token: UserToken): UserId {
             val idTokenResult = token.idToken?.let { extractPayload(it) }?.let { extractFields(it) }
 
             val idTokenSub = idTokenResult?.first

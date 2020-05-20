@@ -5,11 +5,7 @@
 package com.schibsted.account.engine.controller
 
 import com.google.gson.Gson
-import com.nhaarman.mockitokotlin2.any
-import com.nhaarman.mockitokotlin2.argWhere
-import com.nhaarman.mockitokotlin2.mock
-import com.nhaarman.mockitokotlin2.never
-import com.nhaarman.mockitokotlin2.verify
+import com.nhaarman.mockitokotlin2.*
 import com.schibsted.account.AccountService
 import com.schibsted.account.ClientConfiguration
 import com.schibsted.account.common.util.Logger
@@ -27,7 +23,7 @@ import com.schibsted.account.model.error.ClientError
 import com.schibsted.account.network.NetworkCallback
 import com.schibsted.account.network.OIDCScope
 import com.schibsted.account.network.ServiceHolder
-import com.schibsted.account.network.response.TokenResponse
+import com.schibsted.account.network.response.UserTokenResponse
 import com.schibsted.account.network.service.authentication.OAuthService
 import com.schibsted.account.session.User
 import com.schibsted.account.test.TestUtil
@@ -59,8 +55,8 @@ class LoginControllerTest : WordSpec({
         }
     }
 
-    val mockCall: Call<TokenResponse> = mock {
-        on { enqueue(any()) }.then { it.getArgument<NetworkCallback<TokenResponse>>(0).onSuccess(userToken) }
+    val mockCall: Call<UserTokenResponse> = mock {
+        on { enqueue(any()) }.then { it.getArgument<NetworkCallback<UserTokenResponse>>(0).onSuccess(userToken) }
     }
     val mockOAuthService: OAuthService = mock {
         on { tokenFromPassword(any(), any(), any(), any(), any()) }.thenReturn(mockCall)

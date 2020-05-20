@@ -10,7 +10,7 @@ import com.google.gson.annotations.SerializedName
 import com.schibsted.account.common.lib.Try
 import com.schibsted.account.common.lib.getOrDefault
 
-data class TokenResponse(
+data class ClientTokenResponse(
     @SerializedName("id_token") val idToken: String? = null,
     @SerializedName("user_id") val userId: String,
     @SerializedName("access_token") val serializedAccessToken: String,
@@ -52,10 +52,10 @@ data class TokenResponse(
 
     companion object {
         @JvmField
-        val CREATOR = object : Parcelable.Creator<TokenResponse> {
-            override fun createFromParcel(parcel: Parcel): TokenResponse = TokenResponse(parcel)
+        val CREATOR = object : Parcelable.Creator<ClientTokenResponse> {
+            override fun createFromParcel(parcel: Parcel): ClientTokenResponse = ClientTokenResponse(parcel)
 
-            override fun newArray(size: Int): Array<TokenResponse?> = arrayOfNulls(size)
+            override fun newArray(size: Int): Array<ClientTokenResponse?> = arrayOfNulls(size)
         }
     }
 }
