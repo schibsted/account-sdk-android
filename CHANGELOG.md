@@ -1,3 +1,6 @@
+## v1.13.1 (2020-06-04)
+- Don't treat a 400 Bad Request to a refresh request as a logout. (#464)
+
 ## v1.13.0 (2020-05-15)
 - Always overwrite HTTP Authorization header in AuthInterceptor. (#461)
 - Fix security alert reported in #457 (#460)
