@@ -133,7 +133,7 @@ class User(token: UserToken, val isPersistable: Boolean) : Parcelable {
             true
         } else {
             Logger.verbose("User token refreshing failed")
-            if (listOf(400, 401, 403).contains(resp.code())) {
+            if (listOf(401, 403).contains(resp.code())) {
                 Logger.verbose("Logging out user")
                 this@User.token = null
 
