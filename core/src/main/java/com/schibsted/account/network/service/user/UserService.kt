@@ -5,6 +5,7 @@
 package com.schibsted.account.network.service.user
 
 import com.schibsted.account.ListContainer
+import com.schibsted.account.model.UserToken
 import com.schibsted.account.network.response.*
 import com.schibsted.account.network.service.BaseNetworkService
 import okhttp3.OkHttpClient
@@ -13,19 +14,19 @@ import retrofit2.Call
 class UserService(environment: String, okHttpClient: OkHttpClient) : BaseNetworkService(environment, okHttpClient) {
     private val userContract: UserContract = createService(UserContract::class.java)
 
-    fun getUserAgreements(userId: String, userToken: UserTokenResponse): Call<ApiContainer<AgreementsResponse>> {
+    fun getUserAgreements(userId: String, userToken: UserToken): Call<ApiContainer<AgreementsResponse>> {
         return this.userContract.agreements(userToken.bearerAuthHeader(), userId)
     }
 
-    fun acceptUserAgreements(userId: String, userToken: UserTokenResponse): Call<ApiContainer<AcceptAgreementResponse>> {
+    fun acceptUserAgreements(userId: String, userToken: UserToken): Call<ApiContainer<AcceptAgreementResponse>> {
         return this.userContract.agreementAccept(userToken.bearerAuthHeader(), userId)
     }
 
-    fun getMissingRequiredFields(userId: String, userToken: UserTokenResponse): Call<ApiContainer<RequiredFieldsResponse>> {
+    fun getMissingRequiredFields(userId: String, userToken: UserToken): Call<ApiContainer<RequiredFieldsResponse>> {
         return this.userContract.requiredFields(userToken.bearerAuthHeader(), userId)
     }
 
-    fun getSubscriptions(userToken: UserTokenResponse, userId: String): Call<ListContainer<Subscription>> {
+    fun getSubscriptions(userToken: UserToken, userId: String): Call<ListContainer<Subscription>> {
         return this.userContract.subscriptions(userToken.bearerAuthHeader(), userId)
     }
 
@@ -35,7 +36,7 @@ class UserService(environment: String, okHttpClient: OkHttpClient) : BaseNetwork
      * @param userToken The user's access token
      * @return Success if okay, failure otherwise
      */
-    fun updateUserProfile(userId: String, userToken: UserTokenResponse, profileData: Map<String, Any>): Call<Unit> {
+    fun updateUserProfile(userId: String, userToken: UserToken, profileData: Map<String, Any>): Call<Unit> {
         return userContract.updateUserProfile(userToken.bearerAuthHeader(), userId, profileData)
     }
 
@@ -45,7 +46,7 @@ class UserService(environment: String, okHttpClient: OkHttpClient) : BaseNetwork
      * @param userToken The user's access token
      * @return On success it will return the profile data, failure if something went wrong
      */
-    fun getUserProfile(userId: String, userToken: UserTokenResponse): Call<ApiContainer<ProfileData>> {
+    fun getUserProfile(userId: String, userToken: UserToken): Call<ApiContainer<ProfileData>> {
         return this.userContract.getUserProfile(userToken.bearerAuthHeader(), userId)
     }
 
@@ -56,7 +57,7 @@ class UserService(environment: String, okHttpClient: OkHttpClient) : BaseNetwork
      * @param productId The product's ID to check (e.g. specific newspaper)
      * @return On success it will return if the user has access, failure if something went wrong or the user doesn't have access
      */
-    fun getProductAccess(userToken: UserTokenResponse, userId: String, productId: String): Call<ApiContainer<ProductAccess>> {
+    fun getProductAccess(userToken: UserToken, userId: String, productId: String): Call<ApiContainer<ProductAccess>> {
         return this.userContract.getProductAccess(userToken.bearerAuthHeader(), userId, productId)
     }
 
@@ -65,7 +66,7 @@ class UserService(environment: String, okHttpClient: OkHttpClient) : BaseNetwork
      * @param userToken The user's access token
      * @return On Success it will return a new device fingerprint, failure otherwise
      */
-    fun createDeviceFingerprint(userToken: UserTokenResponse, deviceData: Map<String, String>): Call<ApiContainer<DeviceFingerprint>> {
+    fun createDeviceFingerprint(userToken: UserToken, deviceData: Map<String, String>): Call<ApiContainer<DeviceFingerprint>> {
         return this.userContract.createDeviceFingerprint(userToken.bearerAuthHeader(), deviceData)
     }
 }

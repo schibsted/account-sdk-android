@@ -4,9 +4,9 @@
 
 package com.schibsted.account.network.service.session
 
+import com.schibsted.account.model.UserToken
 import com.schibsted.account.network.Environment
 import com.schibsted.account.network.response.TokenExchangeResponse
-import com.schibsted.account.network.response.UserTokenResponse
 import com.schibsted.account.network.service.BaseNetworkService
 import com.schibsted.account.util.Preconditions
 import okhttp3.OkHttpClient
@@ -21,7 +21,7 @@ class SessionService(@Environment environment: String, okHttpClient: OkHttpClien
      * @param clientId The client id of the app.
      * @param accessToken The access token for the user that the code is requested for.
      */
-    fun oneTimeCode(clientId: String, accessToken: UserTokenResponse): Call<TokenExchangeResponse> {
+    fun oneTimeCode(clientId: String, accessToken: UserToken): Call<TokenExchangeResponse> {
         Preconditions.checkNotNull(clientId, accessToken)
         val params = HashMap<String, String>()
         params.put(PARAM_CLIENT_ID_NO_UNDERSCORE, clientId)
@@ -38,7 +38,7 @@ class SessionService(@Environment environment: String, okHttpClient: OkHttpClien
     </onetimecode> */
     fun oneTimeSessionCode(
         clientId: String,
-        accessToken: UserTokenResponse,
+        accessToken: UserToken,
         redirectUri: String
     ): Call<TokenExchangeResponse> {
         Preconditions.checkNotNull(clientId, accessToken, redirectUri)
