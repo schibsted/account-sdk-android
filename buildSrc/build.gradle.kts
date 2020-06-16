@@ -15,7 +15,7 @@ gradlePlugin {
     }
 }
 dependencies {
-    implementation("com.android.tools.build:gradle:3.6.1")
+    implementation("com.android.tools.build:gradle:4.0.0")
     implementation(kotlin("gradle-plugin", "1.3.61"))
     implementation("org.jetbrains.dokka:dokka-android-gradle-plugin:0.9.18")
     implementation("com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.4")
