@@ -4,58 +4,17 @@
 
 package com.schibsted.account.network.response
 
-import android.os.Parcel
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
-import com.schibsted.account.common.lib.Try
-import com.schibsted.account.common.lib.getOrDefault
+import kotlinx.android.parcel.Parcelize
 
+@Parcelize
 data class ClientTokenResponse(
-    @SerializedName("id_token") val idToken: String? = null,
+    @SerializedName("id_token") val idToken: String?,
     @SerializedName("user_id") val userId: String,
     @SerializedName("access_token") val serializedAccessToken: String,
     @SerializedName("refresh_token") val refreshToken: String?,
     @SerializedName("scope") val scope: String,
     @SerializedName("token_type") val tokenType: String,
     @SerializedName("expires_in") val expiresIn: Int
-) : Parcelable {
-
-    fun bearerAuthHeader(): String = "Bearer $serializedAccessToken"
-
-    // This needs to be fail safe form Kotlin's null checks, as parsing done in Java can disregard null checks
-    fun isValidToken(): Boolean = Try {
-        serializedAccessToken.isNotBlank() &&
-                !refreshToken.isNullOrBlank() &&
-                (idToken?.isNotBlank() == true || userId.isNotBlank())
-    }.getOrDefault { false }
-
-    constructor(parcel: Parcel) : this(
-            parcel.readString(),
-            parcel.readString(),
-            parcel.readString(),
-            parcel.readString(),
-            parcel.readString(),
-            parcel.readString(),
-            parcel.readInt())
-
-    override fun writeToParcel(parcel: Parcel, flags: Int) {
-        parcel.writeString(idToken)
-        parcel.writeString(userId)
-        parcel.writeString(serializedAccessToken)
-        parcel.writeString(refreshToken)
-        parcel.writeString(scope)
-        parcel.writeString(tokenType)
-        parcel.writeInt(expiresIn)
-    }
-
-    override fun describeContents(): Int = 0
-
-    companion object {
-        @JvmField
-        val CREATOR = object : Parcelable.Creator<ClientTokenResponse> {
-            override fun createFromParcel(parcel: Parcel): ClientTokenResponse = ClientTokenResponse(parcel)
-
-            override fun newArray(size: Int): Array<ClientTokenResponse?> = arrayOfNulls(size)
-        }
-    }
-}
+) : Parcelable

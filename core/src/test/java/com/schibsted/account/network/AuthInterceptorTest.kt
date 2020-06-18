@@ -126,7 +126,7 @@ class AuthInterceptorTest : WordSpec() {
 
                 val icpt = AuthInterceptor(mockUser, listOf("https://example.com"))
                 val res = icpt.intercept(mockChainWithoutAuthHeader)
-                res.request().header("Authorization") shouldBe userToken.bearerAuthHeader()
+                res.request().header("Authorization") shouldBe "Bearer ${userToken.serializedAccessToken}"
             }
 
             "call refreshToken on a 401 response" {
@@ -203,7 +203,7 @@ class AuthInterceptorTest : WordSpec() {
 
                 verify(mockUser, times(1)).refreshToken()
                 verify(mockChain, times(1)).proceed(argThat {
-                    header("Authorization") == userToken.bearerAuthHeader()
+                    header("Authorization") == "Bearer ${userToken.serializedAccessToken}"
                 })
             }
 
@@ -229,7 +229,7 @@ class AuthInterceptorTest : WordSpec() {
 
                 verify(mockUserWithSlowResponse, times(1)).refreshToken()
                 verify(mockChain, times(3)).proceed(argThat {
-                    header("Authorization") == userToken.bearerAuthHeader()
+                    header("Authorization") == "Bearer ${userToken.serializedAccessToken}"
                 })
             }
 

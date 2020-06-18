@@ -26,8 +26,11 @@ class Agreements(private val user: User, private val userService: UserService = 
             return
         }
 
-        userService.getUserAgreements(user.userId.id, token)
-                .enqueue(NetworkCallback.lambda("Fetching user agreements state",
+        userService
+                .getUserAgreements(
+                        userId = user.userId.id,
+                        bearerAuthHeader = "Bearer ${token.serializedAccessToken}"
+                ).enqueue(NetworkCallback.lambda("Fetching user agreements state",
                         { callback.onError(it.toClientError()) },
                         { callback.onSuccess(it.data.agreements) })
                 )
@@ -61,8 +64,11 @@ class Agreements(private val user: User, private val userService: UserService = 
             return
         }
 
-        userService.acceptUserAgreements(user.userId.id, token)
-                .enqueue(NetworkCallback.lambda("Accepting terms for user",
+        userService
+                .acceptUserAgreements(
+                        userId = user.userId.id,
+                        bearerAuthHeader = "Bearer ${token.serializedAccessToken}"
+                ).enqueue(NetworkCallback.lambda("Accepting terms for user",
                         { callback.onError(it.toClientError()) },
                         { callback.onSuccess(NoValue) })
                 )

@@ -6,18 +6,13 @@ package com.schibsted.account.network.service.client
 
 import com.schibsted.account.ListContainer
 import com.schibsted.account.common.util.encodeBase64
-import com.schibsted.account.model.ClientToken
 import com.schibsted.account.model.Product
 import com.schibsted.account.network.Environment
-import com.schibsted.account.network.response.AccountStatusResponse
-import com.schibsted.account.network.response.AgreementLinksResponse
-import com.schibsted.account.network.response.ApiContainer
-import com.schibsted.account.network.response.ClientInfo
-import com.schibsted.account.network.response.ProfileData
+import com.schibsted.account.network.response.*
 import com.schibsted.account.network.service.BaseNetworkService
 import okhttp3.OkHttpClient
 import retrofit2.Call
-import java.util.HashMap
+import java.util.*
 
 /**
  * This network service is used to perform client token based operations
@@ -30,48 +25,48 @@ class ClientService(@Environment environment: String, okHttpClient: OkHttpClient
      * @param email The e-mail address for the association.
      * @param password Optionally, a password for future authentications.
      */
-    fun signUp(clientToken: ClientToken, email: String, redirectUri: String, inputParams: Map<String, Any>): Call<ApiContainer<ProfileData>> {
-        val params = HashMap<String, Any>()
+    fun signUp(bearerAuthHeader: String, email: String, redirectUri: String, inputParams: Map<String, Any>): Call<ApiContainer<ProfileData>> {
+        val params = HashMap<String, Any>(inputParams.size + 2)
         params.put(PARAM_EMAIL, email)
         params.put(PARAM_REDIRECT_URI_NO_UNDERSCORE, redirectUri)
         params.putAll(inputParams)
 
-        return clientService.signUp(clientToken.bearerAuthHeader(), params)
+        return clientService.signUp(bearerAuthHeader, params)
     }
 
     /**
      * Queries for the signup checkPhoneStatus of a phone number.
      *
-     * @param clientToken The token to authenticate the query with.
+     * @param bearerAuthHeader to authenticate the query with.
      * @param phone The phone number to query for in the format +46736151515
      */
-    fun getPhoneSignUpStatus(clientToken: ClientToken, phone: String): Call<ApiContainer<AccountStatusResponse>> {
-        return clientService.checkPhoneStatus(clientToken.bearerAuthHeader(), encodeBase64(phone))
+    fun getPhoneSignUpStatus(bearerAuthHeader: String, phone: String): Call<ApiContainer<AccountStatusResponse>> {
+        return clientService.checkPhoneStatus(bearerAuthHeader, encodeBase64(phone))
     }
 
     /**
      * Queries for the signup checkPhoneStatus of an e-mail address.
-     * @param clientToken The token to authenticate the query with.
+     * @param bearerAuthHeader to authenticate the query with.
      * @param email The e-mail address to query for.
      */
-    fun getEmailSignUpStatus(clientToken: ClientToken, email: String): Call<ApiContainer<AccountStatusResponse>> {
-        return clientService.checkEmailStatus(clientToken.bearerAuthHeader(), encodeBase64(email))
+    fun getEmailSignUpStatus(bearerAuthHeader: String, email: String): Call<ApiContainer<AccountStatusResponse>> {
+        return clientService.checkEmailStatus(bearerAuthHeader, encodeBase64(email))
     }
 
     fun getClientAgreementsUrls(clientId: String): Call<ApiContainer<AgreementLinksResponse>> {
         return this.clientService.retrieveTermsLinks(clientId)
     }
 
-    fun getClientInfo(clientToken: ClientToken, clientId: String): Call<ApiContainer<ClientInfo>> {
-        return this.clientService.getClientInformation(clientToken.bearerAuthHeader(), clientId)
+    fun getClientInfo(bearerAuthHeader: String, clientId: String): Call<ApiContainer<ClientInfo>> {
+        return this.clientService.getClientInformation(bearerAuthHeader, clientId)
     }
 
-    fun getProduct(clientToken: ClientToken, productId: String): Call<ApiContainer<Product>> {
-        return this.clientService.getProduct(clientToken.bearerAuthHeader(), productId)
+    fun getProduct(bearerAuthHeader: String, productId: String): Call<ApiContainer<Product>> {
+        return this.clientService.getProduct(bearerAuthHeader, productId)
     }
 
-    fun getProducts(clientToken: ClientToken): Call<ListContainer<Product>> {
-        return this.clientService.getProducts(clientToken.bearerAuthHeader())
+    fun getProducts(bearerAuthHeader: String): Call<ListContainer<Product>> {
+        return this.clientService.getProducts(bearerAuthHeader)
     }
 
     companion object {

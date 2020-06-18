@@ -4,7 +4,6 @@
 
 package com.schibsted.account.engine.operation
 
-import com.schibsted.account.model.ClientToken
 import com.schibsted.account.model.error.NetworkError
 import com.schibsted.account.network.NetworkCallback
 import com.schibsted.account.network.ServiceHolder
@@ -16,26 +15,28 @@ import java.net.URI
  * Signs up a new user
  */
 internal class SignUpOperation(
-    email: String,
-    redirectUri: URI,
-    params: Map<String, Any>,
-    resError: (NetworkError) -> Unit,
-    resSuccess: (ProfileData) -> Unit
+        email: String,
+        redirectUri: URI,
+        params: Map<String, Any>,
+        failure: (NetworkError) -> Unit,
+        success: (ProfileData) -> Unit
 ) {
 
     init {
         ClientTokenOperation(
-                { resError(it) },
-                { token: ClientToken ->
-                    ServiceHolder.clientService.signUp(token, email, redirectUri.toString(), params).enqueue(object : NetworkCallback<ApiContainer<ProfileData>>("Signing up user") {
-                        override fun onSuccess(result: ApiContainer<ProfileData>) {
-                            resSuccess(result.data)
-                        }
+                { failure(it) },
+                {
+                    val callback = object : NetworkCallback<ApiContainer<ProfileData>>("Signing up user") {
+                        override fun onSuccess(result: ApiContainer<ProfileData>) = success(result.data)
+                        override fun onError(error: NetworkError) = failure(error)
+                    }
 
-                        override fun onError(error: NetworkError) {
-                            resError(error)
-                        }
-                    })
+                    ServiceHolder.clientService.signUp(
+                            bearerAuthHeader = "Bearer ${it.serializedAccessToken}",
+                            email = email,
+                            redirectUri = redirectUri.toString(),
+                            inputParams = params
+                    ).enqueue(callback)
                 }
         )
     }

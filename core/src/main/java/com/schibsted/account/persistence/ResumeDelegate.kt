@@ -3,6 +3,7 @@ package com.schibsted.account.persistence
 import android.content.Context
 import com.schibsted.account.engine.integration.ResultCallback
 import com.schibsted.account.model.NoValue
+import com.schibsted.account.model.UserId
 import com.schibsted.account.model.UserToken
 import com.schibsted.account.model.error.ClientError
 import com.schibsted.account.session.User
@@ -19,7 +20,8 @@ internal class ResumeDelegate(private val agreementCache: AgreementCache) {
     fun proceed(token: UserToken,
                 success: (user: User) -> Unit,
                 failure: (error: ClientError) -> Unit) {
-        val user = User(token, isPersistable = true)
+        val userId = UserId.fromUserToken(token)
+        val user = User(token, userId, isPersistable = true)
         if (agreementCache.hasValidAgreement(user.userId.id)) {
             success(user)
         } else {

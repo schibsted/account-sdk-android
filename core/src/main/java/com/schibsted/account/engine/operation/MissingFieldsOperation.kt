@@ -11,22 +11,21 @@ import com.schibsted.account.network.response.RequiredFieldsResponse
 import com.schibsted.account.session.User
 
 internal class MissingFieldsOperation(
-    user: User,
-    resError: (NetworkError) -> Unit,
-    resSuccess: (Set<String>) -> Unit
+        user: User,
+        failure: (NetworkError) -> Unit,
+        success: (Set<String>) -> Unit
 ) {
 
     init {
-        val token = requireNotNull(user.token) { "Cannot get missing fields for logged out user" }
-        user.userService.getMissingRequiredFields(user.userId.id, token)
-                .enqueue(object : NetworkCallback<ApiContainer<RequiredFieldsResponse>>("Fetching required fields") {
-                    override fun onError(error: NetworkError) {
-                        resError(error)
-                    }
+        val userToken = requireNotNull(user.token) { "Cannot get missing fields for logged out user" }
+        val callback = object : NetworkCallback<ApiContainer<RequiredFieldsResponse>>("Fetching required fields") {
+            override fun onSuccess(result: ApiContainer<RequiredFieldsResponse>) = success(result.data.fields)
+            override fun onError(error: NetworkError) = failure(error)
+        }
 
-                    override fun onSuccess(result: ApiContainer<RequiredFieldsResponse>) {
-                        resSuccess(result.data.fields)
-                    }
-                })
+        user.userService.getMissingRequiredFields(
+                userId = user.userId.id,
+                bearerAuthHeader = "Bearer ${userToken.serializedAccessToken}"
+        ).enqueue(callback)
     }
 }

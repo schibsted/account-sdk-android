@@ -10,30 +10,29 @@ import com.schibsted.account.model.error.NetworkError
 import com.schibsted.account.network.NetworkCallback
 import com.schibsted.account.network.ServiceHolder
 import com.schibsted.account.network.response.PasswordlessToken
-import java.util.Locale
+import java.util.*
 
 /**
  * Task to request user credentials and signup with Schibsted account using these
  */
 internal class SendValidationCodeOperation(
-    identifier: Identifier,
-    locale: Locale,
-    resError: (NetworkError) -> Unit,
-    resSuccess: (PasswordlessToken) -> Unit
+        identifier: Identifier,
+        locale: Locale,
+        failure: (NetworkError) -> Unit,
+        success: (PasswordlessToken) -> Unit
 ) {
 
     init {
-        ServiceHolder.passwordlessService.sendValidationCode(ClientConfiguration.get().clientId, identifier.identifier,
-                identifier.identifierType.value, locale)
-                .enqueue(
-                        object : NetworkCallback<PasswordlessToken>("Logging in passwordless") {
-                            override fun onError(error: NetworkError) {
-                                resError(error)
-                            }
+        val callback = object : NetworkCallback<PasswordlessToken>("Logging in passwordless") {
+            override fun onError(error: NetworkError) = failure(error)
+            override fun onSuccess(result: PasswordlessToken) = success(result)
+        }
 
-                            override fun onSuccess(result: PasswordlessToken) {
-                                resSuccess(result)
-                            }
-                        })
+        ServiceHolder.passwordlessService.sendValidationCode(
+                ClientConfiguration.get().clientId,
+                identifier.identifier,
+                identifier.identifierType.value,
+                locale
+        ).enqueue(callback)
     }
 }

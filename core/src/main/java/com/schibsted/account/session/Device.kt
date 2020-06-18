@@ -18,19 +18,23 @@ internal class Device(private val applicationName: String, private val applicati
             return
         }
 
-        val deviceData = hashMapOf(
+        val deviceData = mapOf(
                 "deviceId" to androidId,
                 "platform" to PLATFORM_NAME,
                 "applicationName" to applicationName,
                 "applicationVersion" to applicationVersion
         )
-        userService.createDeviceFingerprint(token, deviceData).enqueue(NetworkCallback.lambda("Creating a new device fingerprint",
-                { callback?.onError(it.toClientError()) },
-                { callback?.onSuccess(it.data) })
-        )
+        userService
+                .createDeviceFingerprint(
+                        bearerAuthHeader = "Bearer ${token.serializedAccessToken}",
+                        deviceData = deviceData)
+                .enqueue(NetworkCallback.lambda("Creating a new device fingerprint",
+                        { callback?.onError(it.toClientError()) },
+                        { callback?.onSuccess(it.data) })
+                )
     }
 
     companion object {
-        const val PLATFORM_NAME = "Android"
+        private const val PLATFORM_NAME = "Android"
     }
 }

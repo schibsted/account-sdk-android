@@ -6,7 +6,6 @@ package com.schibsted.account.engine.operation
 
 import com.schibsted.account.ClientConfiguration
 import com.schibsted.account.engine.input.Credentials
-import com.schibsted.account.model.UserToken
 import com.schibsted.account.model.error.NetworkError
 import com.schibsted.account.network.NetworkCallback
 import com.schibsted.account.network.OIDCScope
@@ -17,23 +16,24 @@ import com.schibsted.account.network.response.UserTokenResponse
  * Task to request user credentials and signup with Schibsted account using these
  */
 internal class LoginOperation(
-    credentials: Credentials,
-    @OIDCScope scopes: Array<String>,
-    failure: (NetworkError) -> Unit,
-    success: (UserToken) -> Unit
+        credentials: Credentials,
+        @OIDCScope scopes: Array<String>,
+        failure: (NetworkError) -> Unit,
+        success: (UserTokenResponse) -> Unit
 ) {
 
     init {
-        ServiceHolder.oAuthService.tokenFromPassword(ClientConfiguration.get().clientId,
-                ClientConfiguration.get().clientSecret, credentials.identifier.identifier, credentials.password, *scopes)
-                .enqueue(object : NetworkCallback<UserTokenResponse>("Identifying with username and password in LoginOperation") {
-                    override fun onError(error: NetworkError) {
-                        failure(error)
-                    }
+        val callback = object : NetworkCallback<UserTokenResponse>("Identifying with username and password in LoginOperation") {
+            override fun onError(error: NetworkError) = failure(error)
+            override fun onSuccess(result: UserTokenResponse) = success(result)
+        }
 
-                    override fun onSuccess(result: UserTokenResponse) {
-                        success(result)
-                    }
-                })
+        ServiceHolder.oAuthService.tokenFromPassword(
+                clientId = ClientConfiguration.get().clientId,
+                clientSecret = ClientConfiguration.get().clientSecret,
+                username = credentials.identifier.identifier,
+                password = credentials.password,
+                scopes = *scopes
+        ).enqueue(callback)
     }
 }

@@ -6,16 +6,17 @@ package com.schibsted.account.model
 
 import com.google.gson.Gson
 import com.google.gson.JsonParser
+import com.schibsted.account.network.response.UserTokenResponse
 import com.schibsted.account.test.TestUtil
 import io.kotlintest.shouldBe
 import io.kotlintest.shouldNotBe
 import io.kotlintest.specs.StringSpec
 
 class UserIdTest : StringSpec({
-    val token = Gson().fromJson(TestUtil.readResource("json/user_token.json"), UserToken::class.java)
+    val token = Gson().fromJson(TestUtil.readResource("json/user_token.json"), UserTokenResponse::class.java)
 
     "fromTokenResponse should correctly decode a token response" {
-        val userid = UserId.fromTokenResponse(token)
+        val userid = UserId.fromUserTokenResponse(token)
         userid.id shouldBe "e0616270-2092-5e9d-856b-48e065d4899f"
         userid.legacyId shouldBe "11099464"
     }

@@ -23,10 +23,14 @@ class Profile(val user: User, private val userService: UserService = UserService
             return
         }
 
-        userService.getUserProfile(user.userId.id, token).enqueue(NetworkCallback.lambda("Fetching profile data",
-                { callback.onError(it.toClientError()) },
-                { callback.onSuccess(it.data) })
-        )
+        userService.getUserProfile(
+                userId = user.userId.id,
+                bearerAuthHeader = "Bearer ${token.serializedAccessToken}"
+        ).enqueue(NetworkCallback.lambda(
+                intent = "Fetching profile data",
+                errorFun = { callback.onError(it.toClientError()) },
+                successFun = { callback.onSuccess(it.data) }
+        ))
     }
 
     fun update(data: Map<String, Any>, callback: ResultCallback<NoValue>? = null) {
@@ -36,10 +40,15 @@ class Profile(val user: User, private val userService: UserService = UserService
             return
         }
 
-        userService.updateUserProfile(user.userId.id, token, data).enqueue(NetworkCallback.lambda("Updating profile",
-                { callback?.onError(it.toClientError()) },
-                { callback?.onSuccess(NoValue) })
-        )
+        userService.updateUserProfile(
+                userId = user.userId.id,
+                bearerAuthHeader = "Bearer ${token.serializedAccessToken}",
+                profileData = data
+        ).enqueue(NetworkCallback.lambda(
+                intent = "Updating profile",
+                errorFun = { callback?.onError(it.toClientError()) },
+                successFun = { callback?.onSuccess(NoValue) }
+        ))
     }
 
     fun getMissingFields(callback: ResultCallback<Set<String>>) {
@@ -49,10 +58,14 @@ class Profile(val user: User, private val userService: UserService = UserService
             return
         }
 
-        userService.getMissingRequiredFields(user.userId.id, token).enqueue(NetworkCallback.lambda("Fetching required fields",
-                { callback.onError(it.toClientError()) },
-                { callback.onSuccess(it.data.fields) })
-        )
+        userService.getMissingRequiredFields(
+                userId = user.userId.id,
+                bearerAuthHeader = "Bearer ${token.serializedAccessToken}"
+        ).enqueue(NetworkCallback.lambda(
+                intent = "Fetching required fields",
+                errorFun = { callback.onError(it.toClientError()) },
+                successFun = { callback.onSuccess(it.data.fields) }
+        ))
     }
 
     fun getSubscriptions(callback: ResultCallback<List<Subscription>>) {
@@ -61,11 +74,14 @@ class Profile(val user: User, private val userService: UserService = UserService
             callback.onError(ClientError.USER_LOGGED_OUT_ERROR)
             return
         }
-        userService.getSubscriptions(token, user.userId.id).enqueue(NetworkCallback.lambda("Fetching user subscriptions",
-                { callback.onError(it.toClientError()) },
-                {
-                    callback.onSuccess(it.value)
-                }))
+        userService.getSubscriptions(
+                bearerAuthHeader = "Bearer ${token.serializedAccessToken}",
+                userId = user.userId.id
+        ).enqueue(NetworkCallback.lambda(
+                intent = "Fetching user subscriptions",
+                errorFun = { callback.onError(it.toClientError()) },
+                successFun = { callback.onSuccess(it.value) }
+        ))
     }
 
     fun getProductAccess(productId: String, callback: ResultCallback<ProductAccess>) {
@@ -74,20 +90,23 @@ class Profile(val user: User, private val userService: UserService = UserService
             callback.onError(ClientError.USER_LOGGED_OUT_ERROR)
             return
         }
-        userService.getProductAccess(token, user.userId.id, productId).enqueue(NetworkCallback.lambda("Fetching product access",
-            {
-                if (it.code == 404) {
-                    /* spid-platform returns 404 Not Found when the user doesn't have access to
-                     * the product
-                     */
-                    callback.onSuccess(ProductAccess(productId, false))
-                } else {
-                    callback.onError(it.toClientError())
-                }
-            },
-            {
-                callback.onSuccess(it.data)
-            }
+        userService.getProductAccess(
+                bearerAuthHeader = "Bearer ${token.serializedAccessToken}",
+                userId = user.userId.id,
+                productId = productId
+        ).enqueue(NetworkCallback.lambda(
+                intent = "Fetching product access",
+                errorFun = {
+                    if (it.code == 404) {
+                        /* spid-platform returns 404 Not Found
+                         * when the user doesn't have access to the product
+                         */
+                        callback.onSuccess(ProductAccess(productId, false))
+                    } else {
+                        callback.onError(it.toClientError())
+                    }
+                },
+                successFun = { callback.onSuccess(it.data) }
         ))
     }
 }

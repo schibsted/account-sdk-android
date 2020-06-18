@@ -12,7 +12,7 @@ internal class LegacyKeyValueStore(private val keyValueStore: KeyValueStore) {
 
     fun readToken(): UserToken? {
         val clientSecret = ClientConfiguration.get().clientSecret
-        return keyValueStore.readAccessTokenCompat(clientSecret)
+        return keyValueStore.readAccessTokenCompat(clientSecret)?.let { UserToken(it) }
     }
 
     fun clearToken() {
