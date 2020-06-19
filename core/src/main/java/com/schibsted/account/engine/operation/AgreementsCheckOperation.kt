@@ -11,23 +11,21 @@ import com.schibsted.account.network.response.ApiContainer
 import com.schibsted.account.session.User
 
 internal class AgreementsCheckOperation(
-    user: User,
-    failure: (NetworkError) -> Unit,
-    success: (AgreementsResponse.Agreements) -> Unit
+        user: User,
+        failure: (NetworkError) -> Unit,
+        success: (AgreementsResponse.Agreements) -> Unit
 ) {
 
     init {
         val token = requireNotNull(user.token) { "Cannot get agreements status for logged out user" }
-        user.userService.getUserAgreements(user.userId.id, token)
-                .enqueue(
-                        object : NetworkCallback<ApiContainer<AgreementsResponse>>("Fetching user agreements state") {
-                            override fun onSuccess(result: ApiContainer<AgreementsResponse>) {
-                                success(result.data.agreements)
-                            }
+        val callback = object : NetworkCallback<ApiContainer<AgreementsResponse>>("Fetching user agreements state") {
+            override fun onSuccess(result: ApiContainer<AgreementsResponse>) = success(result.data.agreements)
+            override fun onError(error: NetworkError) = failure(error)
+        }
 
-                            override fun onError(error: NetworkError) {
-                                failure(error)
-                            }
-                        })
+        user.userService.getUserAgreements(
+                userId = user.userId.id,
+                bearerAuthHeader = "Bearer ${token.serializedAccessToken}"
+        ).enqueue(callback)
     }
 }

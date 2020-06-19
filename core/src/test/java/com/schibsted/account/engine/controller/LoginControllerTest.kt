@@ -18,6 +18,7 @@ import com.schibsted.account.engine.integration.contract.LoginContract
 import com.schibsted.account.engine.step.StepLoginIdentify
 import com.schibsted.account.model.LoginResult
 import com.schibsted.account.model.NoValue
+import com.schibsted.account.model.UserId
 import com.schibsted.account.model.UserToken
 import com.schibsted.account.model.error.ClientError
 import com.schibsted.account.network.NetworkCallback
@@ -34,7 +35,7 @@ import retrofit2.Call
 class LoginControllerTest : WordSpec({
     ClientConfiguration.set(ClientConfiguration("https://example.com", "id", "secret"))
     AccountService.localBroadcastManager = null
-    val userToken = Gson().fromJson<UserToken>(TestUtil.readResource("json/user_token.json"), UserToken::class.java)
+    val userTokenResponse = Gson().fromJson(TestUtil.readResource("json/user_token.json"), UserTokenResponse::class.java)
 
     fun getMockContract(callback: ResultCallback<LoginResult>): LoginContract = mock {
         on { onCredentialsRequested(any()) }.then {
@@ -56,7 +57,7 @@ class LoginControllerTest : WordSpec({
     }
 
     val mockCall: Call<UserTokenResponse> = mock {
-        on { enqueue(any()) }.then { it.getArgument<NetworkCallback<UserTokenResponse>>(0).onSuccess(userToken) }
+        on { enqueue(any()) }.then { it.getArgument<NetworkCallback<UserTokenResponse>>(0).onSuccess(userTokenResponse) }
     }
     val mockOAuthService: OAuthService = mock {
         on { tokenFromPassword(any(), any(), any(), any(), any()) }.thenReturn(mockCall)
@@ -76,14 +77,16 @@ class LoginControllerTest : WordSpec({
 
             verify(mockContract).onCredentialsRequested(any())
             verify(mockContract).onFlowReady(any())
-            verify(mockCallback).onSuccess(argWhere { it.user.userId.legacyId == userToken.userId })
+            verify(mockCallback).onSuccess(argWhere { it.user.userId.legacyId == userTokenResponse.userId })
         }
 
         "skip all tasks when all information is available" {
             val controller = LoginController(false, arrayOf(OIDCScope.SCOPE_OPENID))
+            val userToken = UserToken(userTokenResponse)
+            val userId = UserId.fromUserTokenResponse(userTokenResponse)
             controller.navigation.push(StepLoginIdentify(
                     Credentials(Identifier(Identifier.IdentifierType.EMAIL, "some@some.com"), "password", true),
-                    User(userToken, true),
+                    User(userToken, userId, isPersistable = true),
                     true,
                     setOf()
             ))
@@ -93,14 +96,16 @@ class LoginControllerTest : WordSpec({
             controller.evaluate(mockContract)
 
             verify(mockContract, never()).onCredentialsRequested(any())
-            verify(mockCallback).onSuccess(argWhere { it.user.userId.legacyId == userToken.userId })
+            verify(mockCallback).onSuccess(argWhere { it.user.userId.legacyId == userTokenResponse.userId })
         }
 
         "verify the user if specified" {
             val controller = LoginController(true, arrayOf(OIDCScope.SCOPE_OPENID))
+            val userToken = UserToken(userTokenResponse)
+            val userId = UserId.fromUserTokenResponse(userTokenResponse)
             controller.navigation.push(StepLoginIdentify(
                     Credentials(Identifier(Identifier.IdentifierType.EMAIL, "some@some.com"), "password", true),
-                    User(userToken, true),
+                    User(userToken, userId, isPersistable = true),
                     false,
                     setOf(), mock()
             ))

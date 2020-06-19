@@ -14,22 +14,20 @@ import com.schibsted.account.network.response.PasswordlessToken
  * Task to request user credentials and signup with Schibsted account using these
  */
 internal class ResendCodeOperation(
-    passwordlessToken: PasswordlessToken,
-    resError: (NetworkError) -> Unit,
-    resSuccess: (PasswordlessToken) -> Unit
+        passwordlessToken: PasswordlessToken,
+        failure: (NetworkError) -> Unit,
+        success: (PasswordlessToken) -> Unit
 ) {
 
     init {
-        ServiceHolder.passwordlessService.resendCode(ClientConfiguration.get().clientId, passwordlessToken)
-                .enqueue(
-                        object : NetworkCallback<PasswordlessToken>("Resending confirmation code") {
-                            override fun onError(error: NetworkError) {
-                                resError(error)
-                            }
+        val callback = object : NetworkCallback<PasswordlessToken>("Resending confirmation code") {
+            override fun onError(error: NetworkError) = failure(error)
+            override fun onSuccess(result: PasswordlessToken) = success(result)
+        }
 
-                            override fun onSuccess(result: PasswordlessToken) {
-                                resSuccess(result)
-                            }
-                        })
+        ServiceHolder.passwordlessService.resendCode(
+                ClientConfiguration.get().clientId,
+                passwordlessToken
+        ).enqueue(callback)
     }
 }

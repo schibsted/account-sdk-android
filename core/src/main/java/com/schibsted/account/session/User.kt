@@ -6,7 +6,6 @@ package com.schibsted.account.session
 
 import android.content.Context
 import android.content.Intent
-import android.os.Parcel
 import android.os.Parcelable
 import android.support.annotation.WorkerThread
 import com.schibsted.account.AccountService
@@ -19,37 +18,47 @@ import com.schibsted.account.model.UserId
 import com.schibsted.account.model.UserToken
 import com.schibsted.account.model.error.ClientError
 import com.schibsted.account.network.*
-import com.schibsted.account.network.response.UserTokenResponse
 import com.schibsted.account.network.service.user.UserService
 import com.schibsted.account.persistence.UserPersistence
+import kotlinx.android.parcel.IgnoredOnParcel
+import kotlinx.android.parcel.Parcelize
 import okhttp3.OkHttpClient
 
 /**
  * Represents a user and the actions a user can take. Actions are grouped under _auth_, _agreements_ and _profile_,
  */
-class User(token: UserToken, val isPersistable: Boolean) : Parcelable {
-    constructor(parcel: Parcel) : this(parcel.readParcelable<UserTokenResponse>(UserTokenResponse::class.java.classLoader),
-            parcel.readInt() != 0)
+//class User(userTokenResponse: UserTokenResponse, val isPersistable: Boolean) : Parcelable {
+//    constructor(parcel: Parcel) : this(parcel.readParcelable<UserTokenResponse>(UserTokenResponse::class.java.classLoader),
+//            parcel.readInt() != 0)
+//
+//    @Volatile
+//    internal var token: UserToken? = UserToken(userTokenResponse)
+//        private set
+//
+//    val userId: UserId = UserId.fromUserTokenResponse(userTokenResponse)
 
-    @Volatile
-    internal var token: UserToken? = token
-        private set
+@Parcelize
+class User internal constructor(@Volatile var token: UserToken?, val userId: UserId, val isPersistable: Boolean) : Parcelable {
 
-    val userId: UserId = UserId.fromTokenResponse(token)
-
+    @IgnoredOnParcel
     internal var authClient = ServiceHolder.defaultClient.newBuilder()
             .addInterceptor(AuthInterceptor(this, listOf(ClientConfiguration.get().environment))).build()
         private set
 
+    @IgnoredOnParcel
     internal var userService = UserService(ClientConfiguration.get().environment, authClient)
         private set
 
+    @IgnoredOnParcel
     val auth = Auth(this)
 
+    @IgnoredOnParcel
     val agreements = Agreements(this)
 
+    @IgnoredOnParcel
     val profile = Profile(this)
 
+    @IgnoredOnParcel
     internal val device = Device(AccountService.packageName, AccountService.packageVersion, AccountService.androidId, this)
 
     fun isActive(): Boolean = token != null
@@ -123,7 +132,8 @@ class User(token: UserToken, val isPersistable: Boolean) : Parcelable {
                 ClientConfiguration.get().clientSecret, refreshToken).execute()
 
         return if (resp.isSuccessful) {
-            this.token = requireNotNull(resp.body(), { "Unable to parse token from successful response" })
+            val userTokenResponse = checkNotNull(resp.body(), { "Response is successful ut body is null" })
+            this.token = UserToken(userTokenResponse)
             Logger.verbose("Refreshing user token was successful")
             AccountService.localBroadcastManager?.sendBroadcast(Intent(Events.ACTION_USER_TOKEN_REFRESH).putExtra(Events.EXTRA_USER, this))
             true
@@ -131,7 +141,7 @@ class User(token: UserToken, val isPersistable: Boolean) : Parcelable {
             Logger.verbose("User token refreshing failed")
             if (listOf(401, 403).contains(resp.code())) {
                 Logger.verbose("Logging out user")
-                this@User.token = null
+                this.token = null
 
                 AccountService.localBroadcastManager?.sendBroadcast(Intent(Events.ACTION_USER_LOGOUT).putExtra(Events.EXTRA_USER_ID, userId))
             }
@@ -146,21 +156,7 @@ class User(token: UserToken, val isPersistable: Boolean) : Parcelable {
         UserPersistence(context).persist(this)
     }
 
-    override fun writeToParcel(parcel: Parcel, flags: Int) {
-        parcel.writeParcelable(token, flags)
-        parcel.writeInt(if (this.isPersistable) 1 else 0)
-    }
-
-    override fun describeContents(): Int = 0
-
     companion object {
-        @JvmField
-        val CREATOR = object : Parcelable.Creator<User> {
-            override fun createFromParcel(parcel: Parcel): User = User(parcel)
-
-            override fun newArray(size: Int): Array<User?> = arrayOfNulls(size)
-        }
-
         /**
          * @param code The session code to create the user from
          * @param redirectUri The redirect URI. Must be found in self service
@@ -169,13 +165,15 @@ class User(token: UserToken, val isPersistable: Boolean) : Parcelable {
          * @param callback The callback to which we provide the User
          */
         @JvmStatic
-        fun fromSessionCode(code: String, redirectUri: String, isPersistable: Boolean, codeVerifier: String? = null, callback: ResultCallback<User>, @OIDCScope scopes: Array<String>?) {
+        fun fromSessionCode(code: String, redirectUri: String, isPersistable: Boolean, codeVerifier: String?, callback: ResultCallback<User>, @OIDCScope scopes: Array<String>?) {
             val conf = ClientConfiguration.get()
             ServiceHolder.oAuthService.tokenFromAuthCode(conf.clientId, conf.clientSecret, code, redirectUri, scopes, codeVerifier)
                     .enqueue(NetworkCallback.lambda("Resuming session from session code",
                             { callback.onError(it.toClientError()) },
-                            { token ->
-                                val user = User(token, isPersistable)
+                            {
+                                val userToken = UserToken(it)
+                                val userId = UserId.fromUserTokenResponse(it)
+                                val user = User(userToken, userId, isPersistable)
                                 callback.onSuccess(user)
                                 AccountService.localBroadcastManager?.sendBroadcast(Intent(Events.ACTION_USER_LOGIN).putExtra(Events.EXTRA_USER, user))
                             }

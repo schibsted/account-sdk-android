@@ -19,34 +19,37 @@ class SessionService(@Environment environment: String, okHttpClient: OkHttpClien
     /**
      * Requests a one-time code with 30 seconds validity.
      * @param clientId The client id of the app.
-     * @param accessToken The access token for the user that the code is requested for.
+     * @param userToken The access token for the user that the code is requested for.
      */
-    fun oneTimeCode(clientId: String, accessToken: UserToken): Call<TokenExchangeResponse> {
-        Preconditions.checkNotNull(clientId, accessToken)
+    fun oneTimeCode(
+            clientId: String,
+            userToken: UserToken
+    ): Call<TokenExchangeResponse> {
+        Preconditions.checkNotNull(clientId, userToken)
         val params = HashMap<String, String>()
         params.put(PARAM_CLIENT_ID_NO_UNDERSCORE, clientId)
         params.put(PARAM_TYPE, EXCHANGE_TYPE_CODE)
-        return this.sessionContract.exchange(accessToken.bearerAuthHeader(), params)
+        return sessionContract.exchange("Bearer ${userToken.serializedAccessToken}", params)
     }
 
     /**
      * Requests a one-time session code with 60 seconds validity.
      * @param clientId The client id of the app.
-     * @param accessToken The access token for the user that the code is requested for.
+     * @param userToken The access token for the user that the code is requested for.
      * @param redirectUri The desired redirect to receive from /session/<onetimecode> when the
      * session represented by the code received is created.
     </onetimecode> */
     fun oneTimeSessionCode(
-        clientId: String,
-        accessToken: UserToken,
-        redirectUri: String
+            clientId: String,
+            userToken: UserToken,
+            redirectUri: String
     ): Call<TokenExchangeResponse> {
-        Preconditions.checkNotNull(clientId, accessToken, redirectUri)
+        Preconditions.checkNotNull(clientId, userToken, redirectUri)
         val params = HashMap<String, String>()
         params[PARAM_CLIENT_ID_NO_UNDERSCORE] = clientId
         params[PARAM_TYPE] = EXCHANGE_TYPE_SESSION
-        params[BaseNetworkService.PARAM_REDIRECT_URI_NO_UNDERSCORE] = redirectUri
-        return this.sessionContract.exchange(accessToken.bearerAuthHeader(), params)
+        params[PARAM_REDIRECT_URI_NO_UNDERSCORE] = redirectUri
+        return sessionContract.exchange("Bearer ${userToken.serializedAccessToken}", params)
     }
 
     companion object {

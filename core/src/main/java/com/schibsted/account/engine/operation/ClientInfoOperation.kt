@@ -5,7 +5,6 @@
 package com.schibsted.account.engine.operation
 
 import com.schibsted.account.ClientConfiguration
-import com.schibsted.account.model.ClientToken
 import com.schibsted.account.model.error.NetworkError
 import com.schibsted.account.network.NetworkCallback
 import com.schibsted.account.network.ServiceHolder
@@ -15,24 +14,24 @@ import com.schibsted.account.network.response.ClientInfo
 /**
  * A task to get client credentials for a Schibsted account client
  */
-class ClientInfoOperation constructor(
-    private val failure: (error: NetworkError) -> Unit,
-    private val success: (token: ClientInfo) -> Unit
+class ClientInfoOperation(
+        failure: (error: NetworkError) -> Unit,
+        success: (clientInfo: ClientInfo) -> Unit
 ) {
 
     init {
-        ClientTokenOperation({ failure(it) },
-                { token: ClientToken ->
-                    ServiceHolder.clientService.getClientInfo(token, ClientConfiguration.get().clientId)
-                            .enqueue(object : NetworkCallback<ApiContainer<ClientInfo>>("Retrieving client information") {
-                                override fun onSuccess(result: ApiContainer<ClientInfo>) {
-                                    success(result.data)
-                                }
+        ClientTokenOperation(
+                { failure(it) },
+                {
+                    val callback = object : NetworkCallback<ApiContainer<ClientInfo>>("Retrieving client information") {
+                        override fun onSuccess(result: ApiContainer<ClientInfo>) = success(result.data)
+                        override fun onError(error: NetworkError) = failure(error)
+                    }
 
-                                override fun onError(error: NetworkError) {
-                                    failure(error)
-                                }
-                            })
+                    ServiceHolder.clientService.getClientInfo(
+                            bearerAuthHeader = "Bearer ${it.serializedAccessToken}",
+                            clientId = ClientConfiguration.get().clientId
+                    ).enqueue(callback)
                 }
         )
     }

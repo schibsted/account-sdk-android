@@ -94,7 +94,7 @@ class AuthInterceptor constructor(
                 ?: throw AuthException("Cannot perform authenticated request (ReqId:$reqId) when the user is logged out")
         val request = with(originalRequest.newBuilder()) {
             if (urlInWhitelist(originalUrl)) {
-                header("Authorization", token.bearerAuthHeader())
+                header("Authorization", "Bearer ${token.serializedAccessToken}")
             }
             build()
         }
@@ -131,7 +131,9 @@ class AuthInterceptor constructor(
 
                     val resp = if (refreshResult && newToken != null) {
                         Logger.verbose(TAG, "Re-firing request (ReqId:$reqId) after token refreshing")
-                        chain.proceed(failedResponse.request().newBuilder().header("Authorization", newToken.bearerAuthHeader()).build())
+                        chain.proceed(failedResponse.request().newBuilder()
+                                .header("Authorization", "Bearer ${newToken.serializedAccessToken}")
+                                .build())
                     } else {
                         Logger.error(TAG, "Token refresh failed (ReqId:$reqId)")
                         failedResponse
@@ -145,7 +147,9 @@ class AuthInterceptor constructor(
                     val newToken = user.token
                     if (newToken != null) {
                         Logger.verbose(TAG, "Re-firing request (ReqId:$reqId) after waiting for token refreshing")
-                        chain.proceed(failedResponse.request().newBuilder().header("Authorization", newToken.bearerAuthHeader()).build())
+                        chain.proceed(failedResponse.request().newBuilder()
+                                .header("Authorization", "Bearer ${newToken.serializedAccessToken}")
+                                .build())
                     } else {
                         Logger.verbose(TAG, "Auth token was null after waiting for refreshing. This request (ReqId:$reqId) will fail")
                         failedResponse

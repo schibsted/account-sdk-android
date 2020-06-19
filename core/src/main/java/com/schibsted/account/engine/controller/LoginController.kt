@@ -21,6 +21,7 @@ import com.schibsted.account.engine.step.StepLoginIdentify
 import com.schibsted.account.model.LoginResult
 import com.schibsted.account.model.NoValue
 import com.schibsted.account.model.UserId
+import com.schibsted.account.model.UserToken
 import com.schibsted.account.model.error.ClientError
 import com.schibsted.account.network.OIDCScope
 import com.schibsted.account.session.Agreements
@@ -52,8 +53,10 @@ class LoginController @JvmOverloads constructor(
                 } else {
                     callback.onError(it.toClientError())
                 }
-            }) { it ->
-                val user = User(it, credentials.keepLoggedIn)
+            }) {
+                val userToken = UserToken(it)
+                val userId = UserId.fromUserTokenResponse(it)
+                val user = User(userToken, userId, isPersistable = credentials.keepLoggedIn)
                 this.currentUserId = user.userId
                 user.device.createFingerprint()
 

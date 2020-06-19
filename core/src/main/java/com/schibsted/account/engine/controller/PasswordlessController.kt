@@ -15,22 +15,19 @@ import com.schibsted.account.engine.input.VerificationCode
 import com.schibsted.account.engine.integration.CallbackProvider
 import com.schibsted.account.engine.integration.ResultCallback
 import com.schibsted.account.engine.integration.contract.PasswordlessContract
-import com.schibsted.account.engine.operation.AccountStatusOperation
-import com.schibsted.account.engine.operation.AgreementsCheckOperation
-import com.schibsted.account.engine.operation.MissingFieldsOperation
-import com.schibsted.account.engine.operation.ResendCodeOperation
-import com.schibsted.account.engine.operation.SendValidationCodeOperation
-import com.schibsted.account.engine.operation.VerifyCodeOperation
+import com.schibsted.account.engine.operation.*
 import com.schibsted.account.engine.step.StepNoPwIdentify
 import com.schibsted.account.engine.step.StepNoPwValidationCode
 import com.schibsted.account.model.LoginResult
 import com.schibsted.account.model.NoValue
+import com.schibsted.account.model.UserId
+import com.schibsted.account.model.UserToken
 import com.schibsted.account.model.error.ClientError
 import com.schibsted.account.network.OIDCScope
 import com.schibsted.account.network.response.PasswordlessToken
 import com.schibsted.account.session.Agreements
 import com.schibsted.account.session.User
-import java.util.Locale
+import java.util.*
 
 /**
  * Controller which administrates the process of a login flow using passwordless login. This is
@@ -103,8 +100,10 @@ class PasswordlessController @JvmOverloads constructor(
         if (res == null) {
             VerificationCode.request(provider, identifier) { verificationCode, callback ->
                 VerifyCodeOperation(identifier, passwordlessToken, verificationCode, scopes, { callback.onError(it.toClientError()) },
-                        { token ->
-                            val user = User(token, verificationCode.keepLoggedIn)
+                        {
+                            val userToken = UserToken(it)
+                            val userId = UserId.fromUserTokenResponse(it)
+                            val user = User(userToken, userId, isPersistable = verificationCode.keepLoggedIn)
                             user.device.createFingerprint()
 
                             if (this.verifyUser) {

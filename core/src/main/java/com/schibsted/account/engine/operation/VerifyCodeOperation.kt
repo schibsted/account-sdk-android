@@ -18,25 +18,27 @@ import com.schibsted.account.network.response.UserTokenResponse
  * Task to request user credentials and signup with Schibsted account using these
  */
 internal class VerifyCodeOperation(
-    identifier: Identifier,
-    passwordlessToken: PasswordlessToken,
-    verificationCode: VerificationCode,
-    @OIDCScope scopes: Array<String>,
-    resError: (NetworkError) -> Unit,
-    resSuccess: (UserTokenResponse) -> Unit
+        identifier: Identifier,
+        passwordlessToken: PasswordlessToken,
+        verificationCode: VerificationCode,
+        @OIDCScope scopes: Array<String>,
+        failure: (NetworkError) -> Unit,
+        success: (UserTokenResponse) -> Unit
 ) {
 
     init {
-        ServiceHolder.oAuthService.tokenFromPasswordless(ClientConfiguration.get().clientId, ClientConfiguration.get().clientSecret,
-                identifier.identifier, verificationCode.verificationCode, passwordlessToken.value, *scopes)
-                .enqueue(object : NetworkCallback<UserTokenResponse>("Validating passwordless token") {
-                    override fun onError(error: NetworkError) {
-                        resError(error)
-                    }
+        val callback = object : NetworkCallback<UserTokenResponse>("Validating passwordless token") {
+            override fun onError(error: NetworkError) = failure(error)
+            override fun onSuccess(result: UserTokenResponse) = success(result)
+        }
 
-                    override fun onSuccess(result: UserTokenResponse) {
-                        resSuccess(result)
-                    }
-                })
+        ServiceHolder.oAuthService.tokenFromPasswordless(
+                ClientConfiguration.get().clientId,
+                ClientConfiguration.get().clientSecret,
+                identifier.identifier,
+                verificationCode.verificationCode,
+                passwordlessToken.value,
+                *scopes
+        ).enqueue(callback)
     }
 }

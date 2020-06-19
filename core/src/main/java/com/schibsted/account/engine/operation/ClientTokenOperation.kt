@@ -5,7 +5,6 @@
 package com.schibsted.account.engine.operation
 
 import com.schibsted.account.ClientConfiguration
-import com.schibsted.account.model.ClientToken
 import com.schibsted.account.model.error.NetworkError
 import com.schibsted.account.network.NetworkCallback
 import com.schibsted.account.network.ServiceHolder
@@ -14,21 +13,20 @@ import com.schibsted.account.network.response.ClientTokenResponse
 /**
  * A task to get client credentials for a Schibsted account client
  */
-internal class ClientTokenOperation internal constructor(
-    private val failure: (error: NetworkError) -> Unit,
-    private val success: (token: ClientToken) -> Unit
+internal class ClientTokenOperation(
+        failure: (error: NetworkError) -> Unit,
+        success: (clientTokenResponse: ClientTokenResponse) -> Unit
 ) {
 
     init {
-        ServiceHolder.oAuthService.tokenFromClientCredentials(ClientConfiguration.get().clientId, ClientConfiguration.get().clientSecret)
-                .enqueue(object : NetworkCallback<ClientTokenResponse>("Initializing client session") {
-                    override fun onError(error: NetworkError) {
-                        failure(error)
-                    }
+        val callback = object : NetworkCallback<ClientTokenResponse>("Initializing client session") {
+            override fun onError(error: NetworkError) = failure(error)
+            override fun onSuccess(result: ClientTokenResponse) = success(result)
+        }
 
-                    override fun onSuccess(result: ClientTokenResponse) {
-                        success(result)
-                    }
-                })
+        ServiceHolder.oAuthService.tokenFromClientCredentials(
+                clientId = ClientConfiguration.get().clientId,
+                clientSecret = ClientConfiguration.get().clientSecret
+        ).enqueue(callback)
     }
 }
