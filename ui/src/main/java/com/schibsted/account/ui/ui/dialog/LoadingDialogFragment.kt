@@ -11,7 +11,7 @@ import android.view.Window
 import android.view.WindowManager
 import com.schibsted.account.ui.R
 
-class LoadingDialogFragment : androidx.fragment.app.DialogFragment() {
+class LoadingDialogFragment : DialogFragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         super.onCreateView(inflater, container, savedInstanceState)
         dialog?.requestWindowFeature(Window.FEATURE_NO_TITLE)

@@ -27,7 +27,7 @@ interface NavigationListener {
      *
      * @param where the given dialog fragment to display
      */
-    fun onDialogNavigationRequested(where: androidx.fragment.app.DialogFragment)
+    fun onDialogNavigationRequested(where: DialogFragment)
 
     /**
      * Use this method to navigate back to the previous defined screen

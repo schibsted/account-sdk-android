@@ -21,12 +21,12 @@ class KeyboardController(private val activity: AppCompatActivity) : KeyboardList
     val keyboardVisibility = MutableLiveData<Boolean>()
 
     companion object {
-        fun closeKeyboard(activity: androidx.fragment.app.FragmentActivity) {
+        fun closeKeyboard(activity: FragmentActivity) {
             val imm = activity.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
             imm.hideSoftInputFromWindow(activity.window.decorView.windowToken, 0)
         }
 
-        fun showKeyboard(activity: androidx.fragment.app.FragmentActivity) {
+        fun showKeyboard(activity: FragmentActivity) {
             val imm = activity.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
             imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0)
         }

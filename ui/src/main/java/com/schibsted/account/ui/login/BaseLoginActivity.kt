@@ -447,7 +447,7 @@ abstract class BaseLoginActivity : AppCompatActivity(), NavigationListener {
         navigationController.navigateToWebView(where, loginScreen)
     }
 
-    override fun onDialogNavigationRequested(where: androidx.fragment.app.DialogFragment) {
+    override fun onDialogNavigationRequested(where: DialogFragment) {
         navigationController.navigationToDialog(where)
     }
 

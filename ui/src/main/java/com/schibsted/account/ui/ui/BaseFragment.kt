@@ -15,7 +15,7 @@ import com.schibsted.account.ui.login.screen.LoginScreen
 import com.schibsted.account.ui.navigation.NavigationListener
 import com.schibsted.account.ui.ui.dialog.InformationDialogFragment
 
-abstract class BaseFragment : androidx.fragment.app.Fragment(), Animation.AnimationListener {
+abstract class BaseFragment : Fragment(), Animation.AnimationListener {
 
     /**
      * the navigation controller used to request a navigation

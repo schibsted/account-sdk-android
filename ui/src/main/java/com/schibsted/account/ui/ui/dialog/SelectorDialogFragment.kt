@@ -24,7 +24,7 @@ private const val KEY_ITEMS = "ITEMS"
 private const val KEY_POSITION = "POSITION"
 private const val KEY_DIMENSION = "DIMENSION"
 
-class SelectorDialog : androidx.fragment.app.DialogFragment() {
+class SelectorDialog : DialogFragment() {
 
     private var items: ArrayList<Identifier>? = null
     private lateinit var containerView: FrameLayout
