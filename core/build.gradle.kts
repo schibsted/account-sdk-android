@@ -32,7 +32,8 @@ dependencies {
     api("com.squareup.retrofit2:converter-gson:${Constants.Versions.RETROFIT}")
     implementation("com.squareup.retrofit2:retrofit:${Constants.Versions.RETROFIT}")
     implementation("androidx.annotation:annotation:${Constants.Versions.ANDROIDX}")
-    implementation("androidx.legacy:legacy-support-core-utils:${Constants.Versions.ANDROIDX}")
+    implementation("androidx.localbroadcastmanager:localbroadcastmanager:${Constants.Versions.ANDROIDX}")
+    implementation("androidx.lifecycle:lifecycle-extensions:${Constants.Versions.LIFECYCLE}")
 
     testImplementation("junit:junit:${Constants.Versions.JUNIT}")
     testImplementation("io.kotlintest:kotlintest-runner-junit5:${Constants.Versions.KOTLINTEST_RUNNER_JUNIT5}")

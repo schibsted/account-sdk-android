@@ -34,6 +34,7 @@ dependencies {
     implementation("androidx.annotation:annotation:${Constants.Versions.ANDROIDX}")
     implementation("com.google.android.material:material:${Constants.Versions.MATERIAL}")
     implementation("androidx.constraintlayout:constraintlayout:${Constants.Versions.CONSTRAINT_LAYOUT}")
+    implementation("androidx.localbroadcastmanager:localbroadcastmanager:${Constants.Versions.ANDROIDX}")
     implementation("androidx.lifecycle:lifecycle-extensions:${Constants.Versions.LIFECYCLE}")
 
     testImplementation("org.assertj:assertj-core:${Constants.Versions.ASSERTJ_CORE}")
