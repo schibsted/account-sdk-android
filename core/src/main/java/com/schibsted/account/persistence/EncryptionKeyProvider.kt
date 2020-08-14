@@ -10,8 +10,8 @@ import android.os.Build
 import android.security.KeyPairGeneratorSpec
 import android.security.keystore.KeyGenParameterSpec
 import android.security.keystore.KeyProperties
-import android.support.annotation.RequiresApi
-import android.support.annotation.VisibleForTesting
+import androidx.annotation.RequiresApi
+import androidx.annotation.VisibleForTesting
 import java.math.BigInteger
 import java.security.*
 import java.security.spec.AlgorithmParameterSpec

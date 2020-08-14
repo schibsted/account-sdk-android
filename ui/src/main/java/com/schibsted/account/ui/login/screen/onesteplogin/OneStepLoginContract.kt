@@ -4,8 +4,8 @@
 
 package com.schibsted.account.ui.login.screen.onesteplogin
 
-import android.arch.lifecycle.LifecycleOwner
-import android.support.annotation.StringRes
+import androidx.lifecycle.LifecycleOwner
+import androidx.annotation.StringRes
 import com.schibsted.account.engine.input.Identifier
 import com.schibsted.account.ui.ui.ErrorField
 import com.schibsted.account.ui.ui.FlowView

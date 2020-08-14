@@ -4,7 +4,7 @@
 
 package com.schibsted.account.ui.ui
 
-import android.support.v4.app.Fragment
+import androidx.fragment.app.Fragment
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import com.schibsted.account.model.error.ClientError

@@ -4,7 +4,7 @@
 
 package com.schibsted.account.network.service.passwordless;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import com.schibsted.account.network.response.PasswordlessToken;
 

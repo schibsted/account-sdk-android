@@ -19,9 +19,6 @@ before_install:
   - chmod 600 deploy_key
   - eval `ssh-agent -s`
   - ssh-add deploy_key
-before_script:
-  # Since Gradle 5 we need extra memory for some tasks:
-  - echo org.gradle.jvmargs=-Xmx2g > gradle.properties;
 script:
   - ./gradlew build --stacktrace
 before_cache:

@@ -5,7 +5,7 @@
 package com.schibsted.account.network
 
 import android.os.ConditionVariable
-import android.support.annotation.VisibleForTesting
+import androidx.annotation.VisibleForTesting
 import com.schibsted.account.common.util.Logger
 import com.schibsted.account.common.util.safeUrl
 import com.schibsted.account.session.User

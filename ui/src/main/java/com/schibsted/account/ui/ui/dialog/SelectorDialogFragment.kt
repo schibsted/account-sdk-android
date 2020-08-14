@@ -5,7 +5,7 @@
 package com.schibsted.account.ui.ui.dialog
 
 import android.os.Bundle
-import android.support.v4.app.DialogFragment
+import androidx.fragment.app.DialogFragment
 import android.util.TypedValue
 import android.view.Gravity.START
 import android.view.Gravity.TOP
@@ -44,8 +44,8 @@ class SelectorDialog : DialogFragment() {
     }
 
     private fun showDialog(arg: Bundle?) {
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        dialog.window.clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
+        dialog?.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog?.window?.clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
 
         // Calculate ActionBar height
         var actionBarHeight = 0
@@ -57,12 +57,15 @@ class SelectorDialog : DialogFragment() {
         }
 
         // open the dialog where the button we've just clicked is
-        with(dialog.window.attributes) {
-            gravity = TOP or START
-            arg?.getFloatArray(KEY_POSITION)?.let { arrayOfPosition ->
-                arg.getIntArray(KEY_DIMENSION)?.let { arrayOfDimension ->
-                    x = (arrayOfPosition[0] - (arrayOfDimension[0] / 2)).toInt()
-                    y = (actionBarHeight + arrayOfPosition[1] - (arrayOfDimension[1] / 2)).toInt()
+        val attributes = dialog?.window?.attributes
+        if (attributes != null) {
+            with(attributes) {
+                gravity = TOP or START
+                arg?.getFloatArray(KEY_POSITION)?.let { arrayOfPosition ->
+                    arg.getIntArray(KEY_DIMENSION)?.let { arrayOfDimension ->
+                        x = (arrayOfPosition[0] - (arrayOfDimension[0] / 2)).toInt()
+                        y = (actionBarHeight + arrayOfPosition[1] - (arrayOfDimension[1] / 2)).toInt()
+                    }
                 }
             }
         }

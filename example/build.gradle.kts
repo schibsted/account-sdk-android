@@ -18,7 +18,7 @@ android {
         targetSdkVersion(28)
         versionName = project.version.toString()
         versionCode = 1
-        testInstrumentationRunner = "android.support.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
         resValue("string", "schacc_conf_redirect_scheme",
                 findProperty("schacc_redirect_scheme")?.toString() ?: "spid-dummyscheme")
@@ -38,9 +38,9 @@ android {
 }
 
 dependencies {
-    implementation("com.android.support:appcompat-v7:28.0.0")
-    implementation("com.android.support.constraint:constraint-layout:1.0.2")
-    implementation("com.android.support:customtabs:28.0.0")
+    implementation("androidx.appcompat:appcompat:1.0.0")
+    implementation("androidx.constraintlayout:constraintlayout:1.1.3")
+    implementation("androidx.browser:browser:1.0.0")
     implementation(project(":ui"))
     implementation(project(":smartlock"))
 }

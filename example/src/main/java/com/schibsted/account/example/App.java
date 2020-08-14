@@ -1,7 +1,7 @@
 package com.schibsted.account.example;
 
 import android.app.Application;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import com.schibsted.account.common.util.Logger;
 import com.schibsted.account.session.User;

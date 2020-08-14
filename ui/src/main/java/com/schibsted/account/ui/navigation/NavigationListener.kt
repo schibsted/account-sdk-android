@@ -4,7 +4,7 @@
 
 package com.schibsted.account.ui.navigation
 
-import android.support.v4.app.DialogFragment
+import androidx.fragment.app.DialogFragment
 import com.schibsted.account.ui.login.screen.LoginScreen
 import com.schibsted.account.ui.ui.FlowFragment
 import com.schibsted.account.ui.ui.WebFragment

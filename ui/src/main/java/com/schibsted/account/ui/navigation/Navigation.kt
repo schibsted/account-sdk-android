@@ -5,8 +5,8 @@
 package com.schibsted.account.ui.navigation
 
 import android.app.Activity
-import android.support.v4.app.DialogFragment
-import android.support.v4.app.FragmentManager
+import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.FragmentManager
 import com.schibsted.account.common.tracking.TrackingData
 import com.schibsted.account.common.util.Logger
 import com.schibsted.account.engine.controller.Controller

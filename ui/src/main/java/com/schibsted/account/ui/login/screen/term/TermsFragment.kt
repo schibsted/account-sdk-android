@@ -7,9 +7,9 @@ package com.schibsted.account.ui.login.screen.term
 import android.os.Build
 import android.os.Bundle
 import android.os.Parcelable
-import android.support.annotation.ColorInt
-import android.support.v4.app.Fragment
-import android.support.v4.content.ContextCompat
+import androidx.annotation.ColorInt
+import androidx.fragment.app.Fragment
+import androidx.core.content.ContextCompat
 import android.text.SpannableString
 import android.text.TextPaint
 import android.text.TextUtils

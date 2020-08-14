@@ -1,8 +1,8 @@
 package com.schibsted.account.ui.login
 
 import android.app.Activity
-import android.arch.core.executor.ArchTaskExecutor
-import android.arch.core.executor.TaskExecutor
+import androidx.arch.core.executor.ArchTaskExecutor
+import androidx.arch.core.executor.TaskExecutor
 import com.nhaarman.mockitokotlin2.any
 import com.nhaarman.mockitokotlin2.doReturn
 import com.nhaarman.mockitokotlin2.eq

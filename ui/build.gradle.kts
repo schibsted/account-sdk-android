@@ -31,10 +31,11 @@ dependencies {
     api(project(":core"))
     compileOnly(project(":smartlock"))
 
-    implementation("com.android.support:support-annotations:${Constants.Versions.SUPPORT}")
-    implementation("com.android.support:design:${Constants.Versions.SUPPORT}")
-    implementation("com.android.support.constraint:constraint-layout:${Constants.Versions.CONSTRAINT_LAYOUT}")
-    implementation("android.arch.lifecycle:extensions:${Constants.Versions.LIFECYCLE}")
+    implementation("androidx.annotation:annotation:${Constants.Versions.ANDROIDX}")
+    implementation("com.google.android.material:material:${Constants.Versions.MATERIAL}")
+    implementation("androidx.constraintlayout:constraintlayout:${Constants.Versions.CONSTRAINT_LAYOUT}")
+    implementation("androidx.localbroadcastmanager:localbroadcastmanager:${Constants.Versions.ANDROIDX}")
+    implementation("androidx.lifecycle:lifecycle-extensions:${Constants.Versions.LIFECYCLE}")
 
     testImplementation("org.assertj:assertj-core:${Constants.Versions.ASSERTJ_CORE}")
     testImplementation("com.nhaarman.mockitokotlin2:mockito-kotlin:${Constants.Versions.MOCKITO_KOTLIN}")

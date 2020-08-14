@@ -5,7 +5,7 @@
 package com.schibsted.account.ui.smartlock
 
 import android.os.Parcelable
-import android.support.v7.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity
 import com.schibsted.account.common.smartlock.SmartLockCallback
 import com.schibsted.account.engine.input.Credentials
 import com.schibsted.account.smartlock.SmartlockController
