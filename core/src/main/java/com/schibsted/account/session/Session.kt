@@ -4,7 +4,7 @@
 
 package com.schibsted.account.session
 
-import android.support.annotation.WorkerThread
+import androidx.annotation.WorkerThread
 import com.schibsted.account.network.response.TokenResponse
 import okhttp3.OkHttpClient
 

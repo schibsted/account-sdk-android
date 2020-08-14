@@ -5,21 +5,21 @@
 package com.schibsted.account.ui.login
 
 import android.app.Activity
-import android.arch.lifecycle.Observer
-import android.arch.lifecycle.ViewModelProviders
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import android.content.Context
 import android.content.Intent
 import android.content.res.Resources
 import android.graphics.PorterDuff
 import android.graphics.Rect
 import android.os.Bundle
-import android.support.annotation.StringRes
-import android.support.annotation.VisibleForTesting
-import android.support.v4.app.DialogFragment
-import android.support.v4.content.ContextCompat
-import android.support.v7.app.AppCompatActivity
-import android.support.v7.app.AppCompatDelegate
-import android.support.v7.widget.Toolbar
+import androidx.annotation.StringRes
+import androidx.annotation.VisibleForTesting
+import androidx.fragment.app.DialogFragment
+import androidx.core.content.ContextCompat
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
+import androidx.appcompat.widget.Toolbar
 import android.util.Patterns
 import android.view.Menu
 import android.view.MenuItem
@@ -447,7 +447,7 @@ abstract class BaseLoginActivity : AppCompatActivity(), NavigationListener {
         navigationController.navigateToWebView(where, loginScreen)
     }
 
-    override fun onDialogNavigationRequested(where: DialogFragment) {
+    override fun onDialogNavigationRequested(where: androidx.fragment.app.DialogFragment) {
         navigationController.navigationToDialog(where)
     }
 

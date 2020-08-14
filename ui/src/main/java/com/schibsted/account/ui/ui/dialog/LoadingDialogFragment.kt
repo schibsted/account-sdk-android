@@ -2,8 +2,8 @@ package com.schibsted.account.ui.ui.dialog
 
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.support.v4.app.DialogFragment
-import android.support.v4.content.ContextCompat
+import androidx.fragment.app.DialogFragment
+import androidx.core.content.ContextCompat
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,7 +11,7 @@ import android.view.Window
 import android.view.WindowManager
 import com.schibsted.account.ui.R
 
-class LoadingDialogFragment : DialogFragment() {
+class LoadingDialogFragment : androidx.fragment.app.DialogFragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         super.onCreateView(inflater, container, savedInstanceState)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)

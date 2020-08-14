@@ -3,11 +3,11 @@
  */
 package com.schibsted.account.ui
 
-import android.arch.lifecycle.MutableLiveData
+import androidx.lifecycle.MutableLiveData
 import android.content.Context
 import android.graphics.Rect
-import android.support.v4.app.FragmentActivity
-import android.support.v7.app.AppCompatActivity
+import androidx.fragment.app.FragmentActivity
+import androidx.appcompat.app.AppCompatActivity
 import android.view.View
 import android.view.ViewTreeObserver
 import android.view.inputmethod.InputMethodManager
@@ -21,12 +21,12 @@ class KeyboardController(private val activity: AppCompatActivity) : KeyboardList
     val keyboardVisibility = MutableLiveData<Boolean>()
 
     companion object {
-        fun closeKeyboard(activity: FragmentActivity) {
+        fun closeKeyboard(activity: androidx.fragment.app.FragmentActivity) {
             val imm = activity.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
             imm.hideSoftInputFromWindow(activity.window.decorView.windowToken, 0)
         }
 
-        fun showKeyboard(activity: FragmentActivity) {
+        fun showKeyboard(activity: androidx.fragment.app.FragmentActivity) {
             val imm = activity.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
             imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0)
         }

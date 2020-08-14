@@ -4,7 +4,7 @@
 
 package com.schibsted.account.ui.ui
 
-import android.support.annotation.StringRes
+import androidx.annotation.StringRes
 
 interface ErrorField {
 

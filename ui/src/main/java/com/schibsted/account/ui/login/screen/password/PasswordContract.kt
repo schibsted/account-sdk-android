@@ -4,7 +4,7 @@
 
 package com.schibsted.account.ui.login.screen.password
 
-import android.support.annotation.StringRes
+import androidx.annotation.StringRes
 import com.schibsted.account.engine.input.Identifier
 import com.schibsted.account.ui.ui.ErrorField
 import com.schibsted.account.ui.ui.FlowView

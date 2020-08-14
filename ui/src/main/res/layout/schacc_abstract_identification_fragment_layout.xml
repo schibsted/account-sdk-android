@@ -2,7 +2,7 @@
   ~ Copyright (c) 2018 Schibsted Products & Technology AS. Licensed under the terms of the MIT license. See LICENSE in the project root.
   -->
 
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/identification_container"
@@ -10,7 +10,7 @@
     android:layout_height="wrap_content"
     android:layout_width="match_parent">
 
-    <android.support.constraint.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
 
         android:id="@+id/logos_container"
         android:padding="@dimen/schacc_medium_spacing"
@@ -41,7 +41,7 @@
             android:layout_marginEnd="@dimen/schacc_small_spacing"
             android:layout_marginRight="@dimen/schacc_small_spacing"
             app:layout_constraintTop_toTopOf="parent" />
-    </android.support.constraint.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <TextView
         android:id="@+id/schacc_teaser_text"
@@ -72,7 +72,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         tools:layout_height="wrap_content">
 
-        <android.support.constraint.ConstraintLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             style="@style/schacc_container"
             android:focusable="true"
             android:paddingTop="@dimen/schacc_large_spacing">
@@ -109,6 +109,6 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:text="@string/schacc_next_step"
                 android:layout_marginBottom="@dimen/schacc_medium_spacing" />
-        </android.support.constraint.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </FrameLayout>
-</android.support.constraint.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

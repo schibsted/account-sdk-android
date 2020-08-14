@@ -5,21 +5,21 @@
 package com.schibsted.account
 
 import android.annotation.SuppressLint
-import android.arch.lifecycle.Lifecycle
-import android.arch.lifecycle.LifecycleObserver
-import android.arch.lifecycle.OnLifecycleEvent
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleObserver
+import androidx.lifecycle.OnLifecycleEvent
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.provider.Settings
-import android.support.annotation.VisibleForTesting
-import android.support.v4.content.LocalBroadcastManager
+import androidx.annotation.VisibleForTesting
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.schibsted.account.common.util.Logger
 import com.schibsted.account.persistence.UserPersistenceService
 
 class AccountService @JvmOverloads constructor(
     private val appContext: Context,
-    localBroadcastManager: LocalBroadcastManager = LocalBroadcastManager.getInstance(appContext)
+    localBroadcastManager: androidx.localbroadcastmanager.content.LocalBroadcastManager = androidx.localbroadcastmanager.content.LocalBroadcastManager.getInstance(appContext)
 ) : LifecycleObserver {
 
     private val upConnection = UserPersistenceService.Connection()
@@ -66,7 +66,7 @@ class AccountService @JvmOverloads constructor(
 
     companion object {
         private const val TAG = "AccountService"
-        internal var localBroadcastManager: LocalBroadcastManager? = null
+        internal var localBroadcastManager: androidx.localbroadcastmanager.content.LocalBroadcastManager? = null
             @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
             set
         internal var packageName: String = "unknown"

@@ -5,7 +5,7 @@
 package com.schibsted.account.ui.ui.dialog
 
 import android.os.Bundle
-import android.support.v4.app.DialogFragment
+import androidx.fragment.app.DialogFragment
 import android.util.TypedValue
 import android.view.Gravity.START
 import android.view.Gravity.TOP
@@ -24,7 +24,7 @@ private const val KEY_ITEMS = "ITEMS"
 private const val KEY_POSITION = "POSITION"
 private const val KEY_DIMENSION = "DIMENSION"
 
-class SelectorDialog : DialogFragment() {
+class SelectorDialog : androidx.fragment.app.DialogFragment() {
 
     private var items: ArrayList<Identifier>? = null
     private lateinit var containerView: FrameLayout

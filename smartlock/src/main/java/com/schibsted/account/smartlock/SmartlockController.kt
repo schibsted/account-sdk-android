@@ -5,7 +5,7 @@ package com.schibsted.account.smartlock
 
 import android.content.IntentSender
 import android.os.Parcelable
-import android.support.v7.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity
 import android.util.Log
 import com.google.android.gms.auth.api.credentials.*
 import com.google.android.gms.common.api.CommonStatusCodes

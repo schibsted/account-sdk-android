@@ -8,8 +8,8 @@ import android.app.Activity;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.annotation.RequiresApi;
+import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +17,8 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+
+import androidx.fragment.app.Fragment;
 
 import com.schibsted.account.ui.R;
 import com.schibsted.account.util.DeepLink;
@@ -26,7 +28,7 @@ import java.net.URI;
 
 
 /**
- * a {@link android.support.v4.app.Fragment} used to display a website into the application
+ * a {@link Fragment} used to display a website into the application
  */
 public class WebFragment extends BaseFragment {
 

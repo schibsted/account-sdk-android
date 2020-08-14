@@ -5,8 +5,8 @@
 package com.schibsted.account.ui.navigation
 
 import android.app.Activity
-import android.support.v4.app.DialogFragment
-import android.support.v4.app.FragmentManager
+import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.FragmentManager
 import com.schibsted.account.common.tracking.TrackingData
 import com.schibsted.account.common.util.Logger
 import com.schibsted.account.engine.controller.Controller
@@ -37,8 +37,8 @@ const val DIALOG_SCREEN = "DIALOG_SCREEN"
 class Navigation(
     private var activity: BaseLoginActivity,
     private val navigationListener: NavigationListener
-) : FragmentManager.OnBackStackChangedListener {
-    private val fragmentManager: FragmentManager = activity.supportFragmentManager
+) : androidx.fragment.app.FragmentManager.OnBackStackChangedListener {
+    private val fragmentManager: androidx.fragment.app.FragmentManager = activity.supportFragmentManager
 
     init {
         fragmentManager.addOnBackStackChangedListener(this)
@@ -75,8 +75,8 @@ class Navigation(
      *
      * @param dialogFragment the [DialogFragment] to display
      */
-    fun navigationToDialog(dialogFragment: DialogFragment) {
-        if (fragmentManager.findFragmentByTag(DIALOG_SCREEN) as? DialogFragment == null) {
+    fun navigationToDialog(dialogFragment: androidx.fragment.app.DialogFragment) {
+        if (fragmentManager.findFragmentByTag(DIALOG_SCREEN) as? androidx.fragment.app.DialogFragment == null) {
             dialogFragment.showNow(fragmentManager, DIALOG_SCREEN)
         } else {
             Logger.warn(TAG, "a dialog is already shown")
@@ -84,7 +84,7 @@ class Navigation(
     }
 
     fun dismissDialog(allowStateLoss: Boolean = false) {
-        (fragmentManager.findFragmentByTag(DIALOG_SCREEN) as? DialogFragment)?.let {
+        (fragmentManager.findFragmentByTag(DIALOG_SCREEN) as? androidx.fragment.app.DialogFragment)?.let {
             if (allowStateLoss) {
                 it.dismissAllowingStateLoss()
             } else {

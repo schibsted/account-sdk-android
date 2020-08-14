@@ -4,7 +4,7 @@
 
 package com.schibsted.account.ui.login.screen.information
 
-import android.support.annotation.StringRes
+import androidx.annotation.StringRes
 import com.schibsted.account.ui.R
 import com.schibsted.account.ui.ui.rule.BasicValidationRule
 import com.schibsted.account.ui.ui.rule.BirthdayValidationRule

@@ -4,7 +4,7 @@
 
 package com.schibsted.account.ui.ui
 
-import android.support.v4.app.Fragment
+import androidx.fragment.app.Fragment
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import com.schibsted.account.model.error.ClientError
@@ -15,7 +15,7 @@ import com.schibsted.account.ui.login.screen.LoginScreen
 import com.schibsted.account.ui.navigation.NavigationListener
 import com.schibsted.account.ui.ui.dialog.InformationDialogFragment
 
-abstract class BaseFragment : Fragment(), Animation.AnimationListener {
+abstract class BaseFragment : androidx.fragment.app.Fragment(), Animation.AnimationListener {
 
     /**
      * the navigation controller used to request a navigation

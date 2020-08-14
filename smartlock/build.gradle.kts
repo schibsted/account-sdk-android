@@ -23,7 +23,7 @@ dependencies {
 
     implementation(project(":common"))
     implementation(project(":core"))
-    implementation("com.android.support:appcompat-v7:${Constants.Versions.SUPPORT}")
+    implementation("androidx.appcompat:appcompat:1.0.0")
     implementation("com.google.android.gms:play-services-auth:${Constants.Versions.PLAY_SERVICES_AUTH}") {
         exclude(group="com.android.support")
     }
