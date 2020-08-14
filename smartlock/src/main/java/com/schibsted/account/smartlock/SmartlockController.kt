@@ -56,7 +56,7 @@ class SmartlockController(private val activity: AppCompatActivity, private val s
 
         credentialsClient.request(credentialRequest).addOnCompleteListener { task ->
             if (task.isSuccessful) {
-                retrieveCredential(task.result.credential)
+                retrieveCredential(task.result?.credential)
             } else {
                 val exception = task.exception
                 if (exception is ResolvableApiException) {

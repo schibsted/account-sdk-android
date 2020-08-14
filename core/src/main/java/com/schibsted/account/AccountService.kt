@@ -19,7 +19,7 @@ import com.schibsted.account.persistence.UserPersistenceService
 
 class AccountService @JvmOverloads constructor(
     private val appContext: Context,
-    localBroadcastManager: androidx.localbroadcastmanager.content.LocalBroadcastManager = androidx.localbroadcastmanager.content.LocalBroadcastManager.getInstance(appContext)
+    localBroadcastManager: LocalBroadcastManager = LocalBroadcastManager.getInstance(appContext)
 ) : LifecycleObserver {
 
     private val upConnection = UserPersistenceService.Connection()
@@ -28,14 +28,14 @@ class AccountService @JvmOverloads constructor(
 
     init {
         AccountService.localBroadcastManager = localBroadcastManager
-        AccountService.packageName = appContext.packageName
-        AccountService.packageVersion = appContext
+        packageName = appContext.packageName
+        packageVersion = appContext
                 .packageManager
                 .getPackageInfo(appContext.packageName, PackageManager.GET_META_DATA)
                 .versionCode
                 .toString()
         @SuppressLint("HardwareIds")
-        AccountService.androidId = Settings.Secure
+        androidId = Settings.Secure
                 .getString(
                         appContext.contentResolver,
                         Settings.Secure.ANDROID_ID
