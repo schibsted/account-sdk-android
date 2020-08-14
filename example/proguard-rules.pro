@@ -8,8 +8,8 @@
 -dontwarn okio.**
 -dontwarn retrofit2.**
 -dontwarn okhttp3.**
--keep class android.support.** { *; }
--keep interface android.support.** { *; }
+-keep class androidx.** { *; }
+-keep interface androidxt.** { *; }
 
 -keep public class * extends android.app.Activity
 -keep public class * extends android.app.Application
@@ -18,8 +18,8 @@
 -keep public class * extends android.content.ContentProvider
 -keep public class * extends android.app.backup.BackupAgent
 -keep public class * extends android.preference.Preference
--keep public class * extends android.support.v4.app.Fragment
--keep public class * extends android.support.v4.app.DialogFragment
+-keep public class * extends androidx.fragment.app.Fragment
+-keep public class * extends androidx.fragment.app.DialogFragment
 -keep public class * extends com.actionbarsherlock.app.SherlockListFragment
 -keep public class * extends com.actionbarsherlock.app.SherlockFragment
 -keep public class * extends com.actionbarsherlock.app.SherlockFragmentActivity

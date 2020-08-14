@@ -27,6 +27,6 @@
 -keep class com.schibsted.account.util.DeepLinkHandler { *; }
 -keep class com.schibsted.account.util.DeepLink$* { *; }
 
--keepnames class android.support.v4.content.LocalBroadcastManager
+-keepnames class androidx.localbroadcastmanager.content.LocalBroadcastManager
 -keepnames class com.schibsted.account.persistence.UserPersistenceService
 -keepclassmembers class com.schibsted.account.network.response.** { *; }
