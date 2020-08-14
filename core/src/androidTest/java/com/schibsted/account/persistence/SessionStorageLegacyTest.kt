@@ -30,7 +30,7 @@ class SessionStorageLegacyTest {
 
     @Before
     fun setUp() {
-        appContext = InstrumentationRegistry.getTargetContext()
+        appContext = InstrumentationRegistry.getInstrumentation().targetContext
         prefs = appContext.getSharedPreferences(FILENAME, Context.MODE_PRIVATE)
         keyProvider = mock { on { keyPair } doReturn rsaKeys }
         encryptionUtils = spy(EncUtils())

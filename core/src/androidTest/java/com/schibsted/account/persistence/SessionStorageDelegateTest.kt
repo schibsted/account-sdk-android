@@ -30,7 +30,7 @@ class SessionStorageDelegateTest {
 
     @Before
     fun setUp() {
-        appContext = InstrumentationRegistry.getTargetContext()
+        appContext = InstrumentationRegistry.getInstrumentation().targetContext
         prefs = appContext.getSharedPreferences(prefsFileName, MODE_PRIVATE)
         val initialKeyPair = createRsaKeysFromBytes()
         keyProvider = mock {

@@ -26,6 +26,7 @@ dependencies {
     testImplementation("com.nhaarman.mockitokotlin2:mockito-kotlin:${Constants.Versions.MOCKITO_KOTLIN}")
     testImplementation("org.slf4j:slf4j-simple:${Constants.Versions.SLF4J}")
 
+    androidTestImplementation("androidx.test:runner:${Constants.Versions.TEST_RUNNER}")
     androidTestImplementation("androidx.test.ext:junit:1.1.1")
 }
 
