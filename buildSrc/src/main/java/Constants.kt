@@ -16,7 +16,7 @@ object Constants {
         const val KOTLINX_COROUTINES_CORE = "1.3.3"
         const val MOCKITO_ANDROID = "3.3.1"
         const val MOCKITO_KOTLIN = "2.2.0"
-        const val PLAY_SERVICES_AUTH = "15.0.1"
+        const val PLAY_SERVICES_AUTH = "17.0.0"
         const val RETROFIT = "2.3.0"
         const val SLF4J = "1.7.26"
         const val ANDROIDX = "1.0.0"
