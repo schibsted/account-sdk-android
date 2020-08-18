@@ -14,9 +14,6 @@ android:
     - platform-tools
 git:
   depth: 500
-before_script:
-  # Since Gradle 5 we need extra memory for some tasks:
-  - echo org.gradle.jvmargs=-Xmx2g > gradle.properties;
 script:
   - ./gradlew build --stacktrace
 before_cache:
