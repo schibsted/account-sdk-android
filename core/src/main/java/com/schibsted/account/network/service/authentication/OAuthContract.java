@@ -5,9 +5,9 @@
 package com.schibsted.account.network.service.authentication;
 
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 
-import com.schibsted.account.network.response.TokenResponse;
+import com.schibsted.account.network.response.ClientTokenResponse;
+import com.schibsted.account.network.response.UserTokenResponse;
 
 import java.util.Map;
 
@@ -29,15 +29,23 @@ interface OAuthContract {
      */
     @FormUrlEncoded
     @POST("oauth/ro")
-    Call<TokenResponse> resourceOwner(@Header("Authorization") String basicClient, @FieldMap @NonNull Map<String, String> params);
+    Call<UserTokenResponse> resourceOwner(@Header("Authorization") String basicClient, @FieldMap @NonNull Map<String, String> params);
 
     /**
-     * Requests to a token. This overload is meant to be used when authentication is required.
+     * Retrieves user token. This overload is meant to be used when authentication is required.
      *
      * @param params The parameters to send along the request.
      * @return A representation of the request ready for execution.
      */
     @FormUrlEncoded
     @POST("oauth/token")
-    Call<TokenResponse> token(@Header("Authorization") String basicClient, @NonNull @FieldMap Map<String, String> params);
+    Call<UserTokenResponse> token(@Header("Authorization") String basicClient, @NonNull @FieldMap Map<String, String> params);
+
+
+    /**
+     * Retrieves client token.
+     */
+    @FormUrlEncoded
+    @POST("oauth/token")
+    Call<ClientTokenResponse> client(@Header("Authorization") String basicClient, @NonNull @FieldMap Map<String, String> params);
 }

@@ -4,7 +4,8 @@
 
 package com.schibsted.account.model
 
-import com.schibsted.account.network.response.TokenResponse
+import com.schibsted.account.network.response.ClientTokenResponse
+import com.schibsted.account.network.response.UserTokenResponse
 
-typealias ClientToken = TokenResponse
-typealias UserToken = TokenResponse
+typealias ClientToken = ClientTokenResponse
+typealias UserToken = UserTokenResponse

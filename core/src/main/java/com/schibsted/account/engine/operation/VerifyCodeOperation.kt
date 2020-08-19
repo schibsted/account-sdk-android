@@ -12,7 +12,7 @@ import com.schibsted.account.network.NetworkCallback
 import com.schibsted.account.network.OIDCScope
 import com.schibsted.account.network.ServiceHolder
 import com.schibsted.account.network.response.PasswordlessToken
-import com.schibsted.account.network.response.TokenResponse
+import com.schibsted.account.network.response.UserTokenResponse
 
 /**
  * Task to request user credentials and signup with Schibsted account using these
@@ -23,18 +23,18 @@ internal class VerifyCodeOperation(
     verificationCode: VerificationCode,
     @OIDCScope scopes: Array<String>,
     resError: (NetworkError) -> Unit,
-    resSuccess: (TokenResponse) -> Unit
+    resSuccess: (UserTokenResponse) -> Unit
 ) {
 
     init {
         ServiceHolder.oAuthService.tokenFromPasswordless(ClientConfiguration.get().clientId, ClientConfiguration.get().clientSecret,
                 identifier.identifier, verificationCode.verificationCode, passwordlessToken.value, *scopes)
-                .enqueue(object : NetworkCallback<TokenResponse>("Validating passwordless token") {
+                .enqueue(object : NetworkCallback<UserTokenResponse>("Validating passwordless token") {
                     override fun onError(error: NetworkError) {
                         resError(error)
                     }
 
-                    override fun onSuccess(result: TokenResponse) {
+                    override fun onSuccess(result: UserTokenResponse) {
                         resSuccess(result)
                     }
                 })

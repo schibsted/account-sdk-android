@@ -31,6 +31,7 @@ dependencies {
 
     api("com.squareup.retrofit2:converter-gson:${Constants.Versions.RETROFIT}")
     implementation("com.squareup.retrofit2:retrofit:${Constants.Versions.RETROFIT}")
+    implementation("com.squareup.okhttp3:logging-interceptor:3.8.0")
     implementation("com.android.support:support-annotations:${Constants.Versions.SUPPORT}")
     implementation("com.android.support:support-core-utils:${Constants.Versions.SUPPORT}")
 

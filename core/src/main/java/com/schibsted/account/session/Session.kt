@@ -5,11 +5,11 @@
 package com.schibsted.account.session
 
 import android.support.annotation.WorkerThread
-import com.schibsted.account.network.response.TokenResponse
+import com.schibsted.account.network.response.UserTokenResponse
 import okhttp3.OkHttpClient
 
 abstract class Session {
-    internal abstract fun token(): TokenResponse
+    internal abstract fun token(): UserTokenResponse
 
     @WorkerThread
     internal abstract fun refreshToken(): Boolean

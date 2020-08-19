@@ -15,8 +15,9 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.schibsted.account.common.util.Logger;
 import com.schibsted.account.common.util.SecurityUtil;
+import com.schibsted.account.network.response.ClientTokenResponse;
 import com.schibsted.account.network.response.PasswordlessToken;
-import com.schibsted.account.network.response.TokenResponse;
+import com.schibsted.account.network.response.UserTokenResponse;
 import com.schibsted.account.network.service.passwordless.PasswordlessService;
 
 import java.io.UnsupportedEncodingException;
@@ -72,7 +73,7 @@ public class KeyValueStore {
      * @return The stored access token, if any. <code>null</code> otherwise.
      */
     @Nullable
-    public TokenResponse readAccessToken() {
+    public UserTokenResponse readAccessToken() {
         return this.readAccessTokenCompat(null);
     }
 
@@ -86,9 +87,9 @@ public class KeyValueStore {
      */
     @Nullable
     @SuppressWarnings("PMD")
-    public TokenResponse readAccessTokenCompat(final String clientSecret) {
+    public UserTokenResponse readAccessTokenCompat(final String clientSecret) {
         if (clientSecret != null) {
-            @SuppressWarnings("PrivateMemberAccessBetweenOuterAndInnerClass") final TokenResponse oldSdkTokenResponse = OldSdkCompatOperations.decryptAccessTokenFromOldSdkSharedPreferences(this.context, clientSecret);
+            @SuppressWarnings("PrivateMemberAccessBetweenOuterAndInnerClass") final UserTokenResponse oldSdkTokenResponse = OldSdkCompatOperations.decryptAccessTokenFromOldSdkSharedPreferences(this.context, clientSecret);
 
             if (oldSdkTokenResponse != null && oldSdkTokenResponse.isValidToken()) {
                 return oldSdkTokenResponse;
@@ -101,7 +102,7 @@ public class KeyValueStore {
         }
 
         if (jwtJson != null) {
-            final TokenResponse tokenResponse = KeyValueStore.GSON.fromJson(jwtJson, TokenResponse.class);
+            final UserTokenResponse tokenResponse = KeyValueStore.GSON.fromJson(jwtJson, UserTokenResponse.class);
             if (tokenResponse != null && tokenResponse.isValidToken()) {
                 return tokenResponse;
             }
@@ -116,9 +117,9 @@ public class KeyValueStore {
      * @return The stored client token, if any. <code>null</code> otherwise.
      */
     @Nullable
-    public TokenResponse readClientAccessToken() {
+    public ClientTokenResponse readClientAccessToken() {
         String jwtJson = this.readString(KeyValueStore.KEY_CLIENT_CREDENTIALS);
-        return jwtJson != null ? KeyValueStore.GSON.fromJson(jwtJson, TokenResponse.class) : null;
+        return jwtJson != null ? KeyValueStore.GSON.fromJson(jwtJson, ClientTokenResponse.class) : null;
     }
 
     /**
@@ -126,7 +127,7 @@ public class KeyValueStore {
      *
      * @param jsonWebToken The access token to store.
      */
-    public void writeAccessToken(final TokenResponse jsonWebToken) {
+    public void writeAccessToken(final UserTokenResponse jsonWebToken) {
         this.writeString(KeyValueStore.KEY_JWT, jsonWebToken != null
                 ? KeyValueStore.GSON.toJson(jsonWebToken) : null);
     }
@@ -136,7 +137,7 @@ public class KeyValueStore {
      *
      * @param clientCredentials The client credentials to store.
      */
-    public void writeClientToken(final TokenResponse clientCredentials) {
+    public void writeClientToken(final ClientTokenResponse clientCredentials) {
         this.writeString(KeyValueStore.KEY_CLIENT_CREDENTIALS, clientCredentials != null
                 ? KeyValueStore.GSON.toJson(clientCredentials) : null);
     }
@@ -313,7 +314,7 @@ public class KeyValueStore {
          */
         @Nullable
         @SuppressWarnings("PMD")
-        private static TokenResponse decryptAccessTokenFromOldSdkSharedPreferences(
+        private static UserTokenResponse decryptAccessTokenFromOldSdkSharedPreferences(
                 @NonNull final Context context, @NonNull final String clientSecret) {
             final SharedPreferences secure =
                     OldSdkCompatOperations.getOldSdkSecurePreferencesFile(context);
@@ -325,7 +326,7 @@ public class KeyValueStore {
                             SecurityUtil.decryptString(clientSecret, secure.getString(KEY_REFRESH_TOKEN, null)));
                     object.addProperty(OldSdkCompatOperations.KEY_USER_ID,
                             SecurityUtil.decryptString(clientSecret, secure.getString(KEY_USER_ID, null)));
-                    return new Gson().fromJson(object, TokenResponse.class);
+                    return new Gson().fromJson(object, UserTokenResponse.class);
                 } catch (GeneralSecurityException | UnsupportedEncodingException ignored) {
                     // ignored
                 }

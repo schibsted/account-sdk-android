@@ -18,12 +18,8 @@ import com.schibsted.account.model.NoValue
 import com.schibsted.account.model.UserId
 import com.schibsted.account.model.UserToken
 import com.schibsted.account.model.error.ClientError
-import com.schibsted.account.network.AuthInterceptor
-import com.schibsted.account.network.InfoInterceptor
-import com.schibsted.account.network.NetworkCallback
-import com.schibsted.account.network.OIDCScope
-import com.schibsted.account.network.ServiceHolder
-import com.schibsted.account.network.response.TokenResponse
+import com.schibsted.account.network.*
+import com.schibsted.account.network.response.UserTokenResponse
 import com.schibsted.account.network.service.user.UserService
 import com.schibsted.account.persistence.UserPersistence
 import okhttp3.OkHttpClient
@@ -32,7 +28,7 @@ import okhttp3.OkHttpClient
  * Represents a user and the actions a user can take. Actions are grouped under _auth_, _agreements_ and _profile_,
  */
 class User(token: UserToken, val isPersistable: Boolean) : Parcelable {
-    constructor(parcel: Parcel) : this(parcel.readParcelable<TokenResponse>(TokenResponse::class.java.classLoader),
+    constructor(parcel: Parcel) : this(parcel.readParcelable<UserTokenResponse>(UserTokenResponse::class.java.classLoader),
             parcel.readInt() != 0)
 
     @Volatile

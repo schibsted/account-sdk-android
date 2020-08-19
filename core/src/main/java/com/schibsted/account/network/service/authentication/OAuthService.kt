@@ -6,7 +6,8 @@ package com.schibsted.account.network.service.authentication
 
 import com.schibsted.account.common.util.createBasicAuthHeader
 import com.schibsted.account.network.Environment
-import com.schibsted.account.network.response.TokenResponse
+import com.schibsted.account.network.response.ClientTokenResponse
+import com.schibsted.account.network.response.UserTokenResponse
 import com.schibsted.account.network.service.BaseNetworkService
 import okhttp3.OkHttpClient
 import retrofit2.Call
@@ -30,14 +31,14 @@ class OAuthService(@Environment environment: String, okHttpClient: OkHttpClient)
         redirectUri: String,
         scopes: Array<String>?,
         codeVerifier: String? = null
-    ): Call<TokenResponse> {
+    ): Call<UserTokenResponse> {
 
         val params = mutableMapOf(
                 PARAM_GRANT_TYPE to GRANT_TYPE_AUTHORIZATION_CODE,
                 PARAM_CODE to authCode,
                 PARAM_REDIRECT_URI_UNDERSCORE to redirectUri)
-        scopes?.let { params.put(PARAM_SCOPE, scopes.joinToString { " " }) }
-        codeVerifier?.let { params.put(PARAM_CODE_VERIFIER, codeVerifier) }
+        scopes?.let { params.put(PARAM_SCOPE, it.joinToString(" ")) }
+        codeVerifier?.let { params.put(PARAM_CODE_VERIFIER, it) }
 
         return this.oauthContract.token(createBasicAuthHeader(clientId, clientSecret), params)
     }
@@ -47,10 +48,10 @@ class OAuthService(@Environment environment: String, okHttpClient: OkHttpClient)
      * @param clientId The client id to use.
      * @param clientSecret The client secret corresponding to the given id.
      */
-    fun tokenFromClientCredentials(clientId: String, clientSecret: String): Call<TokenResponse> {
+    fun tokenFromClientCredentials(clientId: String, clientSecret: String): Call<ClientTokenResponse> {
         val params = mapOf(PARAM_GRANT_TYPE to GRANT_TYPE_CLIENT_CREDENTIALS)
 
-        return this.oauthContract.token(createBasicAuthHeader(clientId, clientSecret), params)
+        return this.oauthContract.client(createBasicAuthHeader(clientId, clientSecret), params)
     }
 
     /**
@@ -68,7 +69,7 @@ class OAuthService(@Environment environment: String, okHttpClient: OkHttpClient)
         code: String,
         passwordlessToken: String,
         vararg scopes: String
-    ): Call<TokenResponse> {
+    ): Call<UserTokenResponse> {
 
         val params = mapOf(PARAM_GRANT_TYPE to PARAM_PASSWORDLESS,
                 PARAM_SCOPE to scopes.joinToString(" "),
@@ -86,7 +87,7 @@ class OAuthService(@Environment environment: String, okHttpClient: OkHttpClient)
      * @param username The identifier to log in
      * @param password The password of the user
      */
-    fun tokenFromPassword(clientId: String, clientSecret: String, username: String, password: String, vararg scopes: String): Call<TokenResponse> {
+    fun tokenFromPassword(clientId: String, clientSecret: String, username: String, password: String, vararg scopes: String): Call<UserTokenResponse> {
         val params = mapOf(PARAM_GRANT_TYPE to "password",
                 PARAM_USERNAME to username,
                 PARAM_PASSWORD to password,
@@ -100,7 +101,7 @@ class OAuthService(@Environment environment: String, okHttpClient: OkHttpClient)
      * @param refreshToken The refresh token to use during the refresh.
      * successful.
      */
-    fun refreshToken(clientId: String, clientSecret: String, refreshToken: String): Call<TokenResponse> {
+    fun refreshToken(clientId: String, clientSecret: String, refreshToken: String): Call<UserTokenResponse> {
         val params = mapOf(PARAM_GRANT_TYPE to GRANT_TYPE_REFRESH_TOKEN, GRANT_TYPE_REFRESH_TOKEN to refreshToken)
 
         return this.oauthContract.token(createBasicAuthHeader(clientId, clientSecret), params)
@@ -115,9 +116,9 @@ class OAuthService(@Environment environment: String, okHttpClient: OkHttpClient)
         private val GRANT_TYPE_CLIENT_CREDENTIALS = "client_credentials"
         private val PARAM_REDIRECT_URI_UNDERSCORE = "redirect_uri"
         private val PARAM_SCOPE = "scope"
-
         private val PARAM_GRANT_TYPE = "grant_type"
         private val PARAM_USERNAME = "username"
+        private val PARAM_PASSWORD = "password"
         private val PARAM_CODE_VERIFIER = "code_verifier"
     }
 }

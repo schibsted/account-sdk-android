@@ -9,7 +9,7 @@ import com.schibsted.account.model.ClientToken
 import com.schibsted.account.model.error.NetworkError
 import com.schibsted.account.network.NetworkCallback
 import com.schibsted.account.network.ServiceHolder
-import com.schibsted.account.network.response.TokenResponse
+import com.schibsted.account.network.response.ClientTokenResponse
 
 /**
  * A task to get client credentials for a Schibsted account client
@@ -21,12 +21,12 @@ internal class ClientTokenOperation internal constructor(
 
     init {
         ServiceHolder.oAuthService.tokenFromClientCredentials(ClientConfiguration.get().clientId, ClientConfiguration.get().clientSecret)
-                .enqueue(object : NetworkCallback<TokenResponse>("Initializing client session") {
+                .enqueue(object : NetworkCallback<ClientTokenResponse>("Initializing client session") {
                     override fun onError(error: NetworkError) {
                         failure(error)
                     }
 
-                    override fun onSuccess(result: TokenResponse) {
+                    override fun onSuccess(result: ClientTokenResponse) {
                         success(result)
                     }
                 })

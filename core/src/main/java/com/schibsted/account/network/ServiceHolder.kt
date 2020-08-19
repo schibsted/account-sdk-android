@@ -9,6 +9,7 @@ import com.schibsted.account.network.service.authentication.OAuthService
 import com.schibsted.account.network.service.client.ClientService
 import com.schibsted.account.network.service.passwordless.PasswordlessService
 import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import java.util.concurrent.TimeUnit
 
 object ServiceHolder {
@@ -18,6 +19,7 @@ object ServiceHolder {
             .writeTimeout(TIMEOUT_MS, TimeUnit.MILLISECONDS)
             .readTimeout(TIMEOUT_MS, TimeUnit.MILLISECONDS)
             .addInterceptor(InternalInfoInterceptor())
+            .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
             .build()
 
     internal var oAuthService = OAuthService(ClientConfiguration.get().environment, defaultClient)
