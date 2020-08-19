@@ -1,14 +1,13 @@
 #!/bin/bash
 set -e
 
-if [ "$TRAVIS_PULL_REQUEST" = "false" ] && [ ! -z "$TRAVIS_TAG" ]; then
-    echo "We are on tag $TRAVIS_TAG, publishing releases."
-    ./gradlew :common:bintrayUpload
-    ./gradlew :core:bintrayUpload
-    ./gradlew :ui:bintrayUpload
-    ./gradlew :smartlock:bintrayUpload
-    ./deploy_docs.sh
-else
-    echo "Not publishing any releases."
-    echo "Branch is $TRAVIS_BRANCH and tag is $TRAVIS_TAG"
-fi
+openssl aes-256-cbc -K $encrypted_de87219daf1c_key -iv $encrypted_de87219daf1c_iv -in deploy_key.enc -out deploy_key -d
+chmod 600 deploy_key
+eval `ssh-agent -s`
+ssh-add deploy_key
+
+./gradlew :common:bintrayUpload
+./gradlew :core:bintrayUpload
+./gradlew :ui:bintrayUpload
+./gradlew :smartlock:bintrayUpload
+./deploy_docs.sh

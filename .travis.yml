@@ -14,11 +14,6 @@ android:
     - platform-tools
 git:
   depth: 500
-before_install:
-  - openssl aes-256-cbc -K $encrypted_de87219daf1c_key -iv $encrypted_de87219daf1c_iv -in deploy_key.enc -out deploy_key -d
-  - chmod 600 deploy_key
-  - eval `ssh-agent -s`
-  - ssh-add deploy_key
 before_script:
   # Since Gradle 5 we need extra memory for some tasks:
   - echo org.gradle.jvmargs=-Xmx2g > gradle.properties;
@@ -36,4 +31,5 @@ deploy:
     skip_cleanup: true
     script: ./release.sh
     on:
+      repo: schibsted/account-sdk-android
       tags: true
