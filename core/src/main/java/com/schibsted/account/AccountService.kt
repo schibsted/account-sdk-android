@@ -66,7 +66,7 @@ class AccountService @JvmOverloads constructor(
 
     companion object {
         private const val TAG = "AccountService"
-        internal var localBroadcastManager: androidx.localbroadcastmanager.content.LocalBroadcastManager? = null
+        internal var localBroadcastManager: LocalBroadcastManager? = null
             @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
             set
         internal var packageName: String = "unknown"
