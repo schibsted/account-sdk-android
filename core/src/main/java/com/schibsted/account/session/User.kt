@@ -8,7 +8,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Parcel
 import android.os.Parcelable
-import android.support.annotation.WorkerThread
+import androidx.annotation.WorkerThread
 import com.schibsted.account.AccountService
 import com.schibsted.account.ClientConfiguration
 import com.schibsted.account.Events

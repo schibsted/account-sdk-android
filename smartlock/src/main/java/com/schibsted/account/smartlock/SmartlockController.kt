@@ -5,7 +5,7 @@ package com.schibsted.account.smartlock
 
 import android.content.IntentSender
 import android.os.Parcelable
-import android.support.v7.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity
 import android.util.Log
 import com.google.android.gms.auth.api.credentials.*
 import com.google.android.gms.common.api.CommonStatusCodes
@@ -56,7 +56,7 @@ class SmartlockController(private val activity: AppCompatActivity, private val s
 
         credentialsClient.request(credentialRequest).addOnCompleteListener { task ->
             if (task.isSuccessful) {
-                retrieveCredential(task.result.credential)
+                retrieveCredential(task.result?.credential)
             } else {
                 val exception = task.exception
                 if (exception is ResolvableApiException) {

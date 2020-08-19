@@ -7,7 +7,7 @@ package com.schibsted.account.ui
 import android.app.Application
 import android.os.Parcel
 import android.os.Parcelable
-import android.support.annotation.DrawableRes
+import androidx.annotation.DrawableRes
 import com.schibsted.account.engine.input.Identifier
 import java.net.URI
 import java.util.Locale

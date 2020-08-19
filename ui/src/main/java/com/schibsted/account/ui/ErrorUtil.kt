@@ -4,7 +4,7 @@
 
 package com.schibsted.account.ui
 
-import android.support.annotation.StringRes
+import androidx.annotation.StringRes
 import com.schibsted.account.model.error.ClientError
 import com.schibsted.account.ui.login.screen.LoginScreen
 

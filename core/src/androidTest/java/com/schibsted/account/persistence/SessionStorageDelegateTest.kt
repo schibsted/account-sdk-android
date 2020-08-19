@@ -3,8 +3,8 @@ package com.schibsted.account.persistence
 import android.content.Context
 import android.content.Context.MODE_PRIVATE
 import android.content.SharedPreferences
-import android.support.test.InstrumentationRegistry
-import android.support.test.runner.AndroidJUnit4
+import androidx.test.platform.app.InstrumentationRegistry
+import androidx.test.ext.junit.runners.AndroidJUnit4
 import android.util.Base64
 import com.nhaarman.mockitokotlin2.*
 import com.schibsted.account.model.UserToken
@@ -30,7 +30,7 @@ class SessionStorageDelegateTest {
 
     @Before
     fun setUp() {
-        appContext = InstrumentationRegistry.getTargetContext()
+        appContext = InstrumentationRegistry.getInstrumentation().targetContext
         prefs = appContext.getSharedPreferences(prefsFileName, MODE_PRIVATE)
         val initialKeyPair = createRsaKeysFromBytes()
         keyProvider = mock {

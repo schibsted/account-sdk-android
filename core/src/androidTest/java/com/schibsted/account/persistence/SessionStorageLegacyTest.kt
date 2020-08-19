@@ -2,8 +2,8 @@ package com.schibsted.account.persistence
 
 import android.content.Context
 import android.content.SharedPreferences
-import android.support.test.InstrumentationRegistry
-import android.support.test.runner.AndroidJUnit4
+import androidx.test.platform.app.InstrumentationRegistry
+import androidx.test.ext.junit.runners.AndroidJUnit4
 import android.util.Base64
 import com.nhaarman.mockitokotlin2.doReturn
 import com.nhaarman.mockitokotlin2.mock
@@ -30,7 +30,7 @@ class SessionStorageLegacyTest {
 
     @Before
     fun setUp() {
-        appContext = InstrumentationRegistry.getTargetContext()
+        appContext = InstrumentationRegistry.getInstrumentation().targetContext
         prefs = appContext.getSharedPreferences(FILENAME, Context.MODE_PRIVATE)
         keyProvider = mock { on { keyPair } doReturn rsaKeys }
         encryptionUtils = spy(EncUtils())

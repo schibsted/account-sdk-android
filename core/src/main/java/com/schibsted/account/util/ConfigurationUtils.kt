@@ -4,7 +4,7 @@
 
 package com.schibsted.account.util
 
-import android.support.annotation.VisibleForTesting
+import androidx.annotation.VisibleForTesting
 import java.io.InputStream
 
 /**

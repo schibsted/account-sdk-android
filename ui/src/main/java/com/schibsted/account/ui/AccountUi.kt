@@ -9,7 +9,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.os.Parcelable
-import android.support.annotation.DrawableRes
+import androidx.annotation.DrawableRes
 import com.schibsted.account.engine.integration.ResultCallback
 import com.schibsted.account.engine.operation.ClientInfoOperation
 import com.schibsted.account.network.OIDCScope

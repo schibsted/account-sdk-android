@@ -4,9 +4,9 @@
 
 package com.schibsted.account.network.service;
 
-import android.support.annotation.NonNull;
-import android.support.annotation.RestrictTo;
-import android.support.annotation.VisibleForTesting;
+import androidx.annotation.NonNull;
+import androidx.annotation.RestrictTo;
+import androidx.annotation.VisibleForTesting;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;

@@ -4,7 +4,7 @@
 
 package com.schibsted.account.ui.ui;
 
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 import android.text.TextWatcher;
 import android.widget.TextView;
 

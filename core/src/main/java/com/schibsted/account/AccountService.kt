@@ -5,15 +5,15 @@
 package com.schibsted.account
 
 import android.annotation.SuppressLint
-import android.arch.lifecycle.Lifecycle
-import android.arch.lifecycle.LifecycleObserver
-import android.arch.lifecycle.OnLifecycleEvent
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleObserver
+import androidx.lifecycle.OnLifecycleEvent
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.provider.Settings
-import android.support.annotation.VisibleForTesting
-import android.support.v4.content.LocalBroadcastManager
+import androidx.annotation.VisibleForTesting
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.schibsted.account.common.util.Logger
 import com.schibsted.account.persistence.UserPersistenceService
 
@@ -28,14 +28,14 @@ class AccountService @JvmOverloads constructor(
 
     init {
         AccountService.localBroadcastManager = localBroadcastManager
-        AccountService.packageName = appContext.packageName
-        AccountService.packageVersion = appContext
+        packageName = appContext.packageName
+        packageVersion = appContext
                 .packageManager
                 .getPackageInfo(appContext.packageName, PackageManager.GET_META_DATA)
                 .versionCode
                 .toString()
         @SuppressLint("HardwareIds")
-        AccountService.androidId = Settings.Secure
+        androidId = Settings.Secure
                 .getString(
                         appContext.contentResolver,
                         Settings.Secure.ANDROID_ID

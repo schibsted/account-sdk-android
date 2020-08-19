@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
-        <android.support.constraint.ConstraintLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/logos_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -41,7 +41,7 @@
                 app:layout_constraintTop_toTopOf="parent"
                 android:layout_marginEnd="@dimen/schacc_small_spacing"
                 android:layout_marginRight="@dimen/schacc_small_spacing"/>
-        </android.support.constraint.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <TextView
             android:id="@+id/schacc_teaser_text"
@@ -60,7 +60,7 @@
             android:layout_marginStart="@dimen/schacc_medium_spacing"
             tools:visibility="visible" />
 
-        <android.support.constraint.ConstraintLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             style="@style/schacc_container"
             android:focusable="true"
             android:layout_below="@id/schacc_teaser_text"
@@ -151,7 +151,7 @@
                 tools:text="Create account"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent" />
-        </android.support.constraint.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </RelativeLayout>
 

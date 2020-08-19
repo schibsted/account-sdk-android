@@ -8,7 +8,7 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
-import android.support.v4.content.LocalBroadcastManager
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.schibsted.account.Events
 import com.schibsted.account.common.util.Logger
 import com.schibsted.account.model.UserId
@@ -18,7 +18,7 @@ class UserPersistenceReceiver(appContext: Context) : BroadcastReceiver() {
     private val TAG = "UserPersistenceReceiver"
 
     private val userPersistence = UserPersistence(appContext)
-    private val localBroadcastManager = LocalBroadcastManager.getInstance(appContext)
+    private val localBroadcastManager = androidx.localbroadcastmanager.content.LocalBroadcastManager.getInstance(appContext)
 
     override fun onReceive(context: Context, intent: Intent) {
         when (intent.action) {

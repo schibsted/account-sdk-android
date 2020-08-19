@@ -4,7 +4,7 @@
 
 package com.schibsted.account.ui.login.flow.password
 
-import android.arch.lifecycle.Observer
+import androidx.lifecycle.Observer
 import android.os.Bundle
 import com.schibsted.account.common.tracking.TrackingData
 import com.schibsted.account.engine.controller.SignUpController

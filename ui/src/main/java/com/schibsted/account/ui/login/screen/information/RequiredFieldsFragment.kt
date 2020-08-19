@@ -5,8 +5,8 @@
 package com.schibsted.account.ui.login.screen.information
 
 import android.os.Bundle
-import android.support.annotation.ColorInt
-import android.support.v4.content.ContextCompat
+import androidx.annotation.ColorInt
+import androidx.core.content.ContextCompat
 import android.text.SpannableString
 import android.text.TextPaint
 import android.text.method.LinkMovementMethod

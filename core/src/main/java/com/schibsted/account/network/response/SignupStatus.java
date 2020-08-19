@@ -6,9 +6,9 @@ package com.schibsted.account.network.response;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.support.annotation.IntRange;
-import android.support.annotation.NonNull;
-import android.support.annotation.RestrictTo;
+import androidx.annotation.IntRange;
+import androidx.annotation.NonNull;
+import androidx.annotation.RestrictTo;
 
 import com.schibsted.account.util.Preconditions;
 

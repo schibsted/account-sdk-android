@@ -4,9 +4,9 @@
 
 package com.schibsted.account.ui.login.screen.onesteplogin
 
-import android.arch.lifecycle.LifecycleOwner
-import android.arch.lifecycle.MutableLiveData
-import android.arch.lifecycle.Observer
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
 import com.schibsted.account.common.tracking.TrackingData
 import com.schibsted.account.engine.input.Credentials
 import com.schibsted.account.engine.input.Identifier

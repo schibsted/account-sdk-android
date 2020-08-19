@@ -4,7 +4,7 @@
 
 package com.schibsted.account.ui.login
 
-import android.arch.lifecycle.MutableLiveData
+import androidx.lifecycle.MutableLiveData
 import com.schibsted.account.engine.controller.PasswordlessController
 import com.schibsted.account.engine.input.Agreements
 import com.schibsted.account.engine.input.Credentials

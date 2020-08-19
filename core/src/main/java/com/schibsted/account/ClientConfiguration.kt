@@ -5,7 +5,7 @@
 package com.schibsted.account
 
 import android.os.Parcelable
-import android.support.annotation.VisibleForTesting
+import androidx.annotation.VisibleForTesting
 import com.schibsted.account.common.util.Logger
 import com.schibsted.account.network.Environment
 import com.schibsted.account.network.ServiceHolder

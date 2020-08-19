@@ -3,11 +3,11 @@
  */
 package com.schibsted.account.ui
 
-import android.arch.lifecycle.MutableLiveData
+import androidx.lifecycle.MutableLiveData
 import android.content.Context
 import android.graphics.Rect
-import android.support.v4.app.FragmentActivity
-import android.support.v7.app.AppCompatActivity
+import androidx.fragment.app.FragmentActivity
+import androidx.appcompat.app.AppCompatActivity
 import android.view.View
 import android.view.ViewTreeObserver
 import android.view.inputmethod.InputMethodManager

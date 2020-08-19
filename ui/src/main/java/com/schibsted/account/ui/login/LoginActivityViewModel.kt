@@ -3,8 +3,8 @@
  */
 package com.schibsted.account.ui.login
 
-import android.arch.lifecycle.MutableLiveData
-import android.arch.lifecycle.ViewModel
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import android.os.Parcelable
 import com.schibsted.account.common.lib.Try
 import com.schibsted.account.common.lib.getOrNull
