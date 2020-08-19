@@ -1,3 +1,8 @@
+## v1.14.0 (2020-08-19)
+- Migrate account-sdk-android to AndroidX. (#471)
+- Move decryption of deploy_key to deploy step on Travis. (#473)
+- Upgrade Gradle to 6.5 and AGP to 4.0.0. (#466)
+
 ## v1.13.1 (2020-06-04)
 - Don't treat a 400 Bad Request to a refresh request as a logout. (#464)
 
