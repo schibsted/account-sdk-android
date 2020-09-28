@@ -21,7 +21,7 @@ internal abstract class NetworkCallback<T>(val intent: String) : Callback<T> {
 
     override fun onFailure(call: Call<T>, t: Throwable) {
         val description = t.message ?: "Unknown"
-        val endpoint = call.request().url().toString().safeUrl()
+        val endpoint = call.request().url.toString().safeUrl()
 
         Logger.error("A network error occurred: $description", t)
 
@@ -42,7 +42,7 @@ internal abstract class NetworkCallback<T>(val intent: String) : Callback<T> {
         val body = response.body()
         if (response.isSuccessful) {
             if (response is ApiContainer<*> && response.data == null) {
-                onError(NetworkError(-1, "parse_error", "Content of SPiD API container was null", call.request().url().toString().safeUrl()))
+                onError(NetworkError(-1, "parse_error", "Content of SPiD API container was null", call.request().url.toString().safeUrl()))
             } else {
                 if (body == null) {
                     onSuccess(Unit as T)

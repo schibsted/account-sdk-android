@@ -24,8 +24,8 @@ class MockedResponses<T>(val responses: List<T>, val rotating: Boolean = false) 
         return Response.success(next)
     }
 
-    override fun enqueue(callback: Callback<T>?) {
-        callback?.onResponse(this, nextResp())
+    override fun enqueue(callback: Callback<T>) {
+        callback.onResponse(this, nextResp())
     }
 
     override fun execute(): Response<T> = nextResp()

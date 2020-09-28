@@ -22,6 +22,7 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.newFixedThreadPoolContext
 import kotlinx.coroutines.runBlocking
 import okhttp3.*
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
 
 class AuthInterceptorTest : WordSpec() {
     private val userToken = UserToken(null, "userId", "eyJ0eXAiOiJKV1MiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvaWRlbnRpdHktcHJlLnNjaGlic3RlZC5jb21cLyIsImNsYXNzIjoidG9rZW4uT0F1dGhVc2VyQWNjZXNzVG9rZW4iLCJleHAiOjE1MTA5MTgyNTMsImlhdCI6MTUxMDMxMzQ1MywianRpIjoiODI5Mzc2MDYtMjRiZS00OWMxLWJjZTktNzgzOTgwYWUyZDNiIiwic3ViIjoiZTA2MTYyNzAtMjA5Mi01ZTlkLTg1NmItNDhlMDY1ZDQ4OTlmIiwic2NvcGUiOiIiLCJ1c2VyX2lkIjoiMTEwOTk0NjQiLCJhenAiOiI1OGNmZjk4ZjE3ZTU5Njg2MTU4YjQ1NjciLCJjbGllbnRfaWQiOiI1OGNmZjk4ZjE3ZTU5Njg2MTU4YjQ1NjcifQ.gS0h44PX42hwv6P7TYjaR4Dskl3X0lT716-_iW_Wd2E",
@@ -34,7 +35,7 @@ class AuthInterceptorTest : WordSpec() {
             .request(Request.Builder().url("https://example.com")
                     .header("Authorization", "initialHeaderValue")
                     .build())
-            .body(ResponseBody.create(MediaType.parse("application/json"), "{}"))
+            .body(ResponseBody.create("application/json".toMediaTypeOrNull(), "{}"))
 
     private val defaultMockUser: User = mock {
         on { token }.thenReturn(userToken)
@@ -64,7 +65,7 @@ class AuthInterceptorTest : WordSpec() {
             }
 
             val mockRequest: Request = mock {
-                on { url() }.thenReturn(mockUrl)
+                on { url }.thenReturn(mockUrl)
             }
 
             val mockChain: Interceptor.Chain = mock {
@@ -109,7 +110,7 @@ class AuthInterceptorTest : WordSpec() {
 
                 val icpt = AuthInterceptor(mockUser, listOf("https://example.com"))
                 val res = icpt.intercept(mockChainWithAuthHeader)
-                res.request().header("Authorization") shouldNotBe "originalValue"
+                res.request.header("Authorization") shouldNotBe "originalValue"
             }
 
             "add auth header if needed" {
@@ -126,7 +127,7 @@ class AuthInterceptorTest : WordSpec() {
 
                 val icpt = AuthInterceptor(mockUser, listOf("https://example.com"))
                 val res = icpt.intercept(mockChainWithoutAuthHeader)
-                res.request().header("Authorization") shouldBe userToken.bearerAuthHeader()
+                res.request.header("Authorization") shouldBe userToken.bearerAuthHeader()
             }
 
             "call refreshToken on a 401 response" {
@@ -162,8 +163,8 @@ class AuthInterceptorTest : WordSpec() {
 
                 val icpt = AuthInterceptor(mockUser, listOf(), allowNonWhitelistedDomains = true)
                 val res = icpt.intercept(mockChainWithoutAuthHeader)
-                res.request().header("Authorization") shouldBe null
-                res.code() shouldBe 200
+                res.request.header("Authorization") shouldBe null
+                res.code shouldBe 200
             }
 
             "strip the Authorization header for non-whitelisted domains, but allow the request" {
@@ -182,8 +183,8 @@ class AuthInterceptorTest : WordSpec() {
 
                 val icpt = AuthInterceptor(mockUser, listOf(), allowNonWhitelistedDomains = true)
                 val res = icpt.intercept(mockChainWithoutAuthHeader)
-                res.request().header("Authorization") shouldBe null
-                res.code() shouldBe 200
+                res.request.header("Authorization") shouldBe null
+                res.code shouldBe 200
             }
         }
 

@@ -80,7 +80,7 @@ data class NetworkError(val code: Int, val type: String, val description: String
             }
 
             val code = response.code()
-            val endpoint = "${response.raw().request().method()} ${response.raw().request().url()}"
+            val endpoint = "${response.raw().request.method} ${response.raw().request.url}"
 
             return NetworkError(code, type, desc, endpoint)
         }

@@ -10,8 +10,8 @@ import retrofit2.Callback
 import retrofit2.Response
 
 open class MockedCall<T>(private val response: Response<T>) : Call<T> {
-    override fun enqueue(callback: Callback<T>?) {
-        callback?.onResponse(this, response)
+    override fun enqueue(callback: Callback<T>) {
+        callback.onResponse(this, response)
     }
 
     override fun execute(): Response<T> = response

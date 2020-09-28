@@ -31,6 +31,7 @@ dependencies {
 
     api("com.squareup.retrofit2:converter-gson:${Constants.Versions.RETROFIT}")
     implementation("com.squareup.retrofit2:retrofit:${Constants.Versions.RETROFIT}")
+    implementation("com.squareup.okhttp3:okhttp:${Constants.Versions.OKHTTP}")
     implementation("androidx.annotation:annotation:${Constants.Versions.ANDROIDX}")
     implementation("androidx.localbroadcastmanager:localbroadcastmanager:${Constants.Versions.ANDROIDX}")
     implementation("androidx.lifecycle:lifecycle-extensions:${Constants.Versions.LIFECYCLE}")

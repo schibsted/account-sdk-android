@@ -18,6 +18,7 @@ object Constants {
         const val MOCKITO_KOTLIN = "2.2.0"
         const val PLAY_SERVICES_AUTH = "17.0.0"
         const val RETROFIT = "2.3.0"
+        const val OKHTTP = "4.9.0"
         const val SLF4J = "1.7.26"
         const val ANDROIDX = "1.0.0"
         const val MATERIAL = "1.2.0"
