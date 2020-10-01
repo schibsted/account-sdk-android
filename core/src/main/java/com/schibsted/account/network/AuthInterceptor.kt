@@ -132,7 +132,9 @@ class AuthInterceptor constructor(
 
                     val resp = if (refreshResult && newToken != null) {
                         Logger.verbose(TAG, "Re-firing request (ReqId:$reqId) after token refreshing")
-                        chain.proceed(failedResponse.request.newBuilder().header("Authorization", newToken.bearerAuthHeader()).build())
+                        val retryRequest = failedResponse.request.newBuilder().header("Authorization", newToken.bearerAuthHeader()).build()
+                        failedResponse.close()
+                        chain.proceed(retryRequest)
                     } else {
                         Logger.error(TAG, "Token refresh failed (ReqId:$reqId)")
                         failedResponse
@@ -146,7 +148,9 @@ class AuthInterceptor constructor(
                     val newToken = user.token
                     if (newToken != null) {
                         Logger.verbose(TAG, "Re-firing request (ReqId:$reqId) after waiting for token refreshing")
-                        chain.proceed(failedResponse.request.newBuilder().header("Authorization", newToken.bearerAuthHeader()).build())
+                        val retryRequest = failedResponse.request.newBuilder().header("Authorization", newToken.bearerAuthHeader()).build()
+                        failedResponse.close()
+                        chain.proceed(retryRequest)
                     } else {
                         Logger.verbose(TAG, "Auth token was null after waiting for refreshing. This request (ReqId:$reqId) will fail")
                         failedResponse
