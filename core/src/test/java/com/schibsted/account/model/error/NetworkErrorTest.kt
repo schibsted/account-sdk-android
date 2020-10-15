@@ -6,6 +6,7 @@ package com.schibsted.account.model.error
 
 import com.schibsted.account.common.util.Logger
 import okhttp3.MediaType
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.ResponseBody
 import org.junit.Assert.assertEquals
 import org.junit.Test
@@ -18,7 +19,7 @@ class NetworkErrorTest {
 
     @Test
     fun shouldHandleBadUserCredentialsError() {
-        val resp = Response.error<String>(400, ResponseBody.create(MediaType.parse("application/json"), "{\n" +
+        val resp = Response.error<String>(400, ResponseBody.create("application/json".toMediaTypeOrNull(), "{\n" +
                 "    \"error\": \"invalid_user_credentials\",\n" +
                 "    \"error_code\": \"400 Bad Request\",\n" +
                 "    \"type\": \"OAuthException\"\n" +
@@ -31,7 +32,7 @@ class NetworkErrorTest {
 
     @Test
     fun shouldHandleInvalidRequestError() {
-        val resp = Response.error<String>(400, ResponseBody.create(MediaType.parse("application/json"), "{\n" +
+        val resp = Response.error<String>(400, ResponseBody.create("application/json".toMediaTypeOrNull(), "{\n" +
                 "    \"error\": \"invalid_request\",\n" +
                 "    \"error_code\": \"400 Bad Request\",\n" +
                 "    \"type\": \"OAuthException\",\n" +

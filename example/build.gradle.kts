@@ -14,7 +14,7 @@ android {
 
     defaultConfig {
         applicationId = "com.schibsted.account.example"
-        minSdkVersion(15)
+        minSdkVersion(21)
         targetSdkVersion(28)
         versionName = project.version.toString()
         versionCode = 1

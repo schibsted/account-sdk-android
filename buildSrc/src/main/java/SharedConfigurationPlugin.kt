@@ -46,7 +46,7 @@ class SharedConfigurationPlugin: Plugin<Project> {
             compileSdkVersion(28)
 
             defaultConfig {
-                minSdkVersion(14)
+                minSdkVersion(21)
                 targetSdkVersion(28)
                 versionName = project.version.toString()
                 testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"

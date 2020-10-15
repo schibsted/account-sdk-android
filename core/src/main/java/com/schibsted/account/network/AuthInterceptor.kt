@@ -10,6 +10,7 @@ import com.schibsted.account.common.util.Logger
 import com.schibsted.account.common.util.safeUrl
 import com.schibsted.account.session.User
 import okhttp3.HttpUrl
+import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
 import okhttp3.Interceptor
 import okhttp3.Response
 import java.io.IOException
@@ -20,14 +21,14 @@ internal fun checkUrlInWhitelist(whitelist: List<String>, allowNonWhitelistedDom
     if (allowNonWhitelistedDomains) {
         AuthCheck.AuthCheckResult.Passed
     } else {
-        val url = req.url().toString()
+        val url = req.url.toString()
         whitelist.find { url.startsWith(it) }?.let { AuthCheck.AuthCheckResult.Passed }
                 ?: AuthCheck.AuthCheckResult.Failed("Requests can only be done to whitelisted urls, unless this check is specifically disabled")
     }
 }
 
 internal fun protocolCheck(allowNonHttps: Boolean = false) = AuthCheck { req ->
-    if (!allowNonHttps && !req.url().isHttps) {
+    if (!allowNonHttps && !req.url.isHttps) {
         AuthCheck.AuthCheckResult.Failed("Authenticated requests can only be done over HTTPS unless specifically allowed")
     } else {
         AuthCheck.AuthCheckResult.Passed
@@ -63,7 +64,7 @@ class AuthInterceptor constructor(
 
     init {
         val parsedUrls = urlWhitelist.map {
-            HttpUrl.parse(it) ?: throw IllegalArgumentException("Illegal URL format: $it")
+            it.toHttpUrlOrNull() ?: throw IllegalArgumentException("Illegal URL format: $it")
         }
         if (!allowNonHttps) {
             parsedUrls.find { !it.isHttps }?.let {
@@ -77,7 +78,7 @@ class AuthInterceptor constructor(
     @Throws(AuthException::class, IOException::class)
     override fun intercept(chain: Interceptor.Chain): Response {
         val originalRequest = chain.request()
-        val originalUrl = originalRequest.url()
+        val originalUrl = originalRequest.url
         val reqId = requestNo.getAndIncrement()
 
         Logger.verbose(TAG, "Attempting to perform authenticated request (ReqId:$reqId) to ${originalUrl.toString().safeUrl()}")
@@ -103,10 +104,10 @@ class AuthInterceptor constructor(
 
         val response = chain.proceed(request)
 
-        return if (response.code() == 401) {
+        return if (response.code == 401) {
             Logger.verbose(TAG, "Request (ReqId:$reqId) returned 401, checking if token should be refreshed")
 
-            if (urlInWhitelist(response.request().url()) && response.request().url() == originalUrl && user.token != null) {
+            if (urlInWhitelist(response.request.url) && response.request.url == originalUrl && user.token != null) {
                 Logger.verbose(TAG, "Found that token should be refreshed for request (ReqId:$reqId)")
                 refreshToken(response, chain, reqId)
             } else {
@@ -131,7 +132,9 @@ class AuthInterceptor constructor(
 
                     val resp = if (refreshResult && newToken != null) {
                         Logger.verbose(TAG, "Re-firing request (ReqId:$reqId) after token refreshing")
-                        chain.proceed(failedResponse.request().newBuilder().header("Authorization", newToken.bearerAuthHeader()).build())
+                        val retryRequest = failedResponse.request.newBuilder().header("Authorization", newToken.bearerAuthHeader()).build()
+                        failedResponse.close()
+                        chain.proceed(retryRequest)
                     } else {
                         Logger.error(TAG, "Token refresh failed (ReqId:$reqId)")
                         failedResponse
@@ -145,7 +148,9 @@ class AuthInterceptor constructor(
                     val newToken = user.token
                     if (newToken != null) {
                         Logger.verbose(TAG, "Re-firing request (ReqId:$reqId) after waiting for token refreshing")
-                        chain.proceed(failedResponse.request().newBuilder().header("Authorization", newToken.bearerAuthHeader()).build())
+                        val retryRequest = failedResponse.request.newBuilder().header("Authorization", newToken.bearerAuthHeader()).build()
+                        failedResponse.close()
+                        chain.proceed(retryRequest)
                     } else {
                         Logger.verbose(TAG, "Auth token was null after waiting for refreshing. This request (ReqId:$reqId) will fail")
                         failedResponse
