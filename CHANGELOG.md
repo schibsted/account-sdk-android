@@ -1,3 +1,6 @@
+## v2.0.0 (2020-10-15)
+- Upgrade OkHttp dependency and bump minSdkVersion to 21 (#475)
+
 ## v1.14.0 (2020-08-19)
 - Migrate account-sdk-android to AndroidX. (#471)
 - Move decryption of deploy_key to deploy step on Travis. (#473)
