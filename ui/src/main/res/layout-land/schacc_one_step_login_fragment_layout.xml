@@ -39,7 +39,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginEnd="@dimen/schacc_small_spacing"
             android:layout_marginRight="@dimen/schacc_small_spacing"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <TextView
