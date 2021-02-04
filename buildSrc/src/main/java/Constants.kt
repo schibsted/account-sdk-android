@@ -11,6 +11,7 @@ object Constants {
         const val ASSERTJ_CORE = "3.15.0"
         const val CONSTRAINT_LAYOUT = "1.1.3"
         const val LIFECYCLE = "2.0.0"
+        const val FRAGMENT = "1.2.0"
         const val JUNIT = "4.12"
         const val KOTLINTEST_RUNNER_JUNIT5 = "3.4.2"
         const val KOTLINX_COROUTINES_CORE = "1.3.3"

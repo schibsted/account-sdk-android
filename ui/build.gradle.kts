@@ -36,6 +36,7 @@ dependencies {
     implementation("androidx.constraintlayout:constraintlayout:${Constants.Versions.CONSTRAINT_LAYOUT}")
     implementation("androidx.localbroadcastmanager:localbroadcastmanager:${Constants.Versions.ANDROIDX}")
     implementation("androidx.lifecycle:lifecycle-extensions:${Constants.Versions.LIFECYCLE}")
+    implementation("androidx.fragment:fragment:${Constants.Versions.FRAGMENT}")
 
     testImplementation("org.assertj:assertj-core:${Constants.Versions.ASSERTJ_CORE}")
     testImplementation("com.nhaarman.mockitokotlin2:mockito-kotlin:${Constants.Versions.MOCKITO_KOTLIN}")
