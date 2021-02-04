@@ -23,6 +23,5 @@ object Constants {
         const val ANDROIDX = "1.0.0"
         const val MATERIAL = "1.2.0"
         const val TEST_RUNNER = "1.2.0"
-        const val FRAGMENT = "1.3.0-rc02"
     }
 }
