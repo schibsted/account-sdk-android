@@ -29,6 +29,8 @@
                 android:maxHeight="@dimen/schacc_logo_dimension"
                 android:maxWidth="@dimen/schacc_logo_dimension"
                 android:adjustViewBounds="true"
+                tools:layout_height="@dimen/schacc_logo_dimension"
+                tools:layout_width="@dimen/schacc_logo_dimension"
                 tools:src="@drawable/schacc_schibsted_logo_soft_black"/>
 
             <ImageView
