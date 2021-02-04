@@ -127,11 +127,12 @@ public class MainActivity extends AppCompatActivity {
             button.setEnabled(false);
             button.setText(R.string.example_app_loading_info);
 
-            final Intent intent = AccountUi.getCallingIntent(getApplicationContext(), AccountUi.FlowType.ONE_STEP_PASSWORD,
-                    new AccountUi.Params.Builder()
-                            .teaserText(getString(R.string.example_teaser_text))
-                            .smartLockMode(SmartlockMode.DISABLED).build());
-            startActivityForResult(intent, PASSWORD_REQUEST_CODE);
+            Intent passwordActivityIntent = AccountUi.getCallingIntent(
+                    MainActivity.this,
+                    AccountUi.FlowType.PASSWORD,
+                    new AccountUi.Params.Builder().build()
+            );
+            startActivityForResult(passwordActivityIntent, 12);
         }
     };
 
