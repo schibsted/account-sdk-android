@@ -1,3 +1,7 @@
+## v2.0.1 (2021-02-08)
+- Center Schibsted logo with client logo (#477)
+- NestedScrollView must have only one child fix (#478)
+
 ## v2.0.0 (2020-10-15)
 - Upgrade OkHttp dependency and bump minSdkVersion to 21 (#475)
 
