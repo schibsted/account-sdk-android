@@ -48,11 +48,17 @@
         </com.google.android.material.appbar.AppBarLayout>
 
         <androidx.core.widget.NestedScrollView
-            android:id="@+id/fragment_container"
             android:background="@color/schacc_backgroundColor"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:fillViewport="true" />
+            android:fillViewport="true">
+
+            <androidx.fragment.app.FragmentContainerView
+                android:id="@+id/fragment_container"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+
+        </androidx.core.widget.NestedScrollView>
     </LinearLayout>
 
     <ProgressBar
