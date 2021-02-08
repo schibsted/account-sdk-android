@@ -29,6 +29,8 @@
             android:maxHeight="@dimen/schacc_logo_dimension"
             android:maxWidth="@dimen/schacc_logo_dimension"
             android:adjustViewBounds="true"
+            tools:layout_height="@dimen/schacc_logo_dimension"
+            tools:layout_width="@dimen/schacc_logo_dimension"
             tools:src="@drawable/schacc_schibsted_logo_soft_black" />
 
         <ImageView
@@ -40,7 +42,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginEnd="@dimen/schacc_small_spacing"
             android:layout_marginRight="@dimen/schacc_small_spacing"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <TextView
