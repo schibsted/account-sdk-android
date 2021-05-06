@@ -2,8 +2,6 @@ object Constants {
 
     object Names {
         const val PUBLICATION = "mavenJar"
-        const val JAVADOC_TASK = "dokkaJavadoc"
-        const val JAVADOC_JAR_TASK = "javadocJar"
         const val SOURCES_JAR_TASK = "sourcesJar"
     }
 

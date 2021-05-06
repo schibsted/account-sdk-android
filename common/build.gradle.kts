@@ -39,13 +39,4 @@ publishing {
             }
         }
     }
-
-    bintray {
-        pkg.apply {
-            name = "Common"
-            version.apply {
-                desc = "Account SDK Android Common ${project.version}"
-            }
-        }
-    }
 }

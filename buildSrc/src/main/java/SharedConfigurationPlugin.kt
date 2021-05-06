@@ -1,6 +1,4 @@
 import com.android.build.gradle.LibraryExtension
-import com.jfrog.bintray.gradle.BintrayExtension
-import com.jfrog.bintray.gradle.tasks.BintrayUploadTask
 import org.gradle.api.DefaultTask
 import org.gradle.api.JavaVersion
 import org.gradle.api.Plugin
@@ -11,6 +9,7 @@ import org.gradle.api.publish.maven.MavenPublication
 import org.gradle.api.tasks.bundling.Jar
 import org.gradle.api.tasks.testing.Test
 import org.gradle.kotlin.dsl.*
+import org.gradle.plugins.signing.SigningExtension
 import org.jetbrains.dokka.gradle.DokkaAndroidTask
 import java.util.*
 
@@ -22,15 +21,13 @@ import java.util.*
 class SharedConfigurationPlugin: Plugin<Project> {
 
     override fun apply(target: Project): Unit = target.run {
-        project.group = "com.schibsted.account"
-        project.version = gitTag.trim().replace("refs/tags/", "").replace("^v".toRegex(), "")
-
-        apply(plugin="com.github.ben-manes.versions") // adds "dependencyUpdates" task
+        project.group = rootProject.group
+        project.version = rootProject.version
 
         repositories {
             google()
-            jcenter()
             mavenCentral()
+            jcenter()
         }
 
         configureAndroid()
@@ -82,7 +79,7 @@ class SharedConfigurationPlugin: Plugin<Project> {
     private fun Project.configurePublishing() = run {
         apply(plugin="org.jetbrains.dokka-android")
         apply(plugin="maven-publish")
-        apply(plugin="com.jfrog.bintray")
+        apply(plugin="signing")
 
         tasks {
             getByName<DokkaAndroidTask>("dokka") {
@@ -90,24 +87,12 @@ class SharedConfigurationPlugin: Plugin<Project> {
                 outputFormat = "html"
                 outputDirectory = "${rootProject.buildDir}/docs"
             }
-            register<DokkaAndroidTask>(Constants.Names.JAVADOC_TASK) {
-                outputFormat = "javadoc"
-                outputDirectory = "$buildDir/javadoc"
-            }
-            register<Jar>(Constants.Names.JAVADOC_JAR_TASK) {
-                group = "publishing"
-                from(named(Constants.Names.JAVADOC_TASK))
-                archiveClassifier.set("javadoc")
-            }
             register<Jar>(Constants.Names.SOURCES_JAR_TASK) {
                 group = "publishing"
                 from(android.sourceSets["main"].java.srcDirs)
                 archiveClassifier.set("sources")
             }
             getByName<DefaultTask>("publish") {
-                dependsOn("build")
-            }
-            getByName<BintrayUploadTask>("bintrayUpload") {
                 dependsOn("build")
             }
         }
@@ -119,8 +104,6 @@ class SharedConfigurationPlugin: Plugin<Project> {
                     version = project.version.toString()
 
                     artifact(tasks["bundleReleaseAar"])
-                    artifact(tasks[Constants.Names.JAVADOC_JAR_TASK])
-                    artifact(tasks[Constants.Names.SOURCES_JAR_TASK])
 
                     pom {
                         fillGenericDetails(project)
@@ -132,32 +115,9 @@ class SharedConfigurationPlugin: Plugin<Project> {
             }
         }
 
-        bintray {
-            setPublications(Constants.Names.PUBLICATION)
-
-            user = findProperty("bintrayUser")?.toString()
-                    ?: System.getenv("BINTRAY_USER")?.toString()
-            if (user == null) logger.error("BINTRAY_USER is null!")
-
-            key = findProperty("bintrayApiKey")?.toString()
-                    ?: System.getenv("BINTRAY_API_KEY")?.toString()
-            if (key == null) logger.error("BINTRAY_API_KEY is null!")
-
-            pkg.apply {
-                repo = "Account-SDK-Android"
-                userOrg = "schibsted"
-                description = project.description
-                setLicenses("MIT")
-                vcsUrl = "https://github.com/schibsted/account-sdk-android.git"
-                publish = true
-
-                version.apply {
-                    name = project.version.toString()
-                    desc = "${project.description} ${project.version}"
-                    vcsTag = gitTag
-                    released = Date().toString()
-                }
-            }
+        signing {
+            useInMemoryPgpKeys(base64Decode("SIGNING_KEY"), System.getenv("SIGNING_PASSWORD"))
+            sign(extensions.getByType(PublishingExtension::class.java).publications)
         }
     }
 
@@ -170,6 +130,12 @@ class SharedConfigurationPlugin: Plugin<Project> {
     private fun Project.publishing(configure: PublishingExtension.() -> Unit): Unit =
             (this as ExtensionAware).extensions.configure("publishing", configure)
 
-    private fun Project.bintray(configure: BintrayExtension.() -> Unit): Unit =
-            (this as ExtensionAware).extensions.configure("bintray", configure)
+    private fun Project.signing(configure: SigningExtension.() -> Unit): Unit =
+            (this as ExtensionAware).extensions.configure("signing", configure)
+
+    private fun base64Decode(envVar: String): String? {
+        return System.getenv(envVar)?.let {
+            String(Base64.getDecoder().decode(it)).trim()
+        }
+    }
 }

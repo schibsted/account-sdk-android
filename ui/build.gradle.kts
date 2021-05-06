@@ -55,13 +55,4 @@ publishing {
             }
         }
     }
-
-    bintray {
-        pkg.apply {
-            name = "UI"
-            version.apply {
-                desc = "Account SDK Android UI ${project.version}"
-            }
-        }
-    }
 }
