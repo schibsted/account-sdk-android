@@ -1,4 +1,4 @@
 #!/bin/bash
 
-./gradlew publishToSonatype closeAndReleaseSonatypeStagingRepository
+./gradlew publishToSonatype closeSonatypeStagingRepository
 ./deploy_docs.sh
