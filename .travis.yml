@@ -1,9 +1,4 @@
 language: android
-branches:
-  only:
-    - master
-    # We release from tags that follow semantic versioning:
-    - /^v\d+\.\d+\.\d+(?:-rc\d+)?$/
 android:
   components:
     - android-28
