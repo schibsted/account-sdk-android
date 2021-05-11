@@ -11,8 +11,7 @@ import com.schibsted.account.common.lib.Try
 import com.schibsted.account.common.lib.getOrDefault
 
 data class TokenResponse(
-    @SerializedName("id_token") val idToken: String? = null,
-    @SerializedName("user_id") val userId: String,
+    @SerializedName("id_token") val idToken: String,
     @SerializedName("access_token") val serializedAccessToken: String,
     @SerializedName("refresh_token") val refreshToken: String?,
     @SerializedName("scope") val scope: String,
@@ -26,11 +25,10 @@ data class TokenResponse(
     fun isValidToken(): Boolean = Try {
         serializedAccessToken.isNotBlank() &&
                 !refreshToken.isNullOrBlank() &&
-                (idToken?.isNotBlank() == true || userId.isNotBlank())
+                idToken.isNotBlank() == true
     }.getOrDefault { false }
 
     constructor(parcel: Parcel) : this(
-            parcel.readString(),
             parcel.readString(),
             parcel.readString(),
             parcel.readString(),
@@ -40,7 +38,6 @@ data class TokenResponse(
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeString(idToken)
-        parcel.writeString(userId)
         parcel.writeString(serializedAccessToken)
         parcel.writeString(refreshToken)
         parcel.writeString(scope)
