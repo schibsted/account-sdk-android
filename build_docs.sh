@@ -2,26 +2,11 @@
 
 set -ex
 
-REPO="git@github.com:schibsted/account-sdk-android.git"
-DIR=temp
-
-# Delete any existing temporary website clone
-rm -rf ${DIR}
-
 # Generate documentation
 ./gradlew dokka
 
-# Clone the current repo into temp folder
-git clone ${REPO} ${DIR}
-
-# Move working directory into temp folder
-cd ${DIR}
-
-# Checkout the gh-pages branch
-git checkout gh-pages
-
-# Remove old API docs
-rm -rf */docs
+mkdir tmp_docs
+cd tmp_docs
 
 # Copy website files
 cp ../README.md .
@@ -44,15 +29,3 @@ cp -r ../build/docs/style.css ui/
 cp ../smartlock/README.md smartlock/
 cp -r ../build/docs/smartlock smartlock/docs
 cp -r ../build/docs/style.css smartlock/
-
-# Stage all files in git and create a commit
-git add .
-
-git diff-index --quiet HEAD || git commit -m "Docs generated at $(date)"
-
-# Push the new files up to GitHub
-git push origin gh-pages
-
-# Delete our temp folder
-cd ..
-rm -rf ${DIR}

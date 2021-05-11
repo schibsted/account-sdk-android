@@ -18,6 +18,7 @@ cache:
   directories:
     - $HOME/.gradle/caches/
     - $HOME/.gradle/wrapper/
+before_deploy: ./build_docs.sh
 deploy:
   - provider: script
     skip_cleanup: true
@@ -25,3 +26,11 @@ deploy:
     on:
       repo: schibsted/account-sdk-android
       branch: publish-maven-central
+  - provider: pages
+    skip_cleanup: true
+    github_token: $GH_PAGES_TOKEN
+    keep_history: true
+    local_dir: tmp_docs/
+    on:
+      repo: schibsted/account-sdk-android
+      tags: true
