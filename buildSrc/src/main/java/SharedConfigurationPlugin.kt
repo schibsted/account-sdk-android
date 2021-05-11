@@ -87,6 +87,15 @@ class SharedConfigurationPlugin: Plugin<Project> {
                 outputFormat = "html"
                 outputDirectory = "${rootProject.buildDir}/docs"
             }
+            register<DokkaAndroidTask>(Constants.Names.JAVADOC_TASK) {
+                outputFormat = "javadoc"
+                outputDirectory = "$buildDir/javadoc"
+            }
+            register<Jar>(Constants.Names.JAVADOC_JAR_TASK) {
+                group = "publishing"
+                from(named(Constants.Names.JAVADOC_TASK))
+                archiveClassifier.set("javadoc")
+            }
             register<Jar>(Constants.Names.SOURCES_JAR_TASK) {
                 group = "publishing"
                 from(android.sourceSets["main"].java.srcDirs)
@@ -104,6 +113,8 @@ class SharedConfigurationPlugin: Plugin<Project> {
                     version = project.version.toString()
 
                     artifact(tasks["bundleReleaseAar"])
+                    artifact(tasks[Constants.Names.JAVADOC_JAR_TASK])
+                    artifact(tasks[Constants.Names.SOURCES_JAR_TASK])
 
                     pom {
                         fillGenericDetails(project)

@@ -36,6 +36,32 @@ fun PublicationContainer.mavenJar(configure: MavenPublication.() -> Unit): Unit 
         getByName(Constants.Names.PUBLICATION, configure)
 
 /**
+ * Returns "dokkaJavadoc" task added by [SharedConfigurationPlugin].
+ */
+inline val TaskContainer.dokkaJavadoc: DokkaAndroidTask
+    get() = getByName<DokkaAndroidTask>(Constants.Names.JAVADOC_TASK)
+
+
+/**
+ * Configures "dokkaJavadoc" task added by [SharedConfigurationPlugin].
+ */
+fun TaskContainer.dokkaJavadoc(configure: DokkaAndroidTask.() -> Unit): Unit =
+        getByName(Constants.Names.JAVADOC_TASK, configure)
+
+/**
+ * Returns "javadocJar" task added by [SharedConfigurationPlugin].
+ */
+inline val TaskContainer.javadocJar: DokkaTask
+    get() = getByName<DokkaTask>(Constants.Names.JAVADOC_JAR_TASK)
+
+
+/**
+ * Configures "javadocJar" task added by [SharedConfigurationPlugin].
+ */
+fun TaskContainer.javadocJar(configure: DokkaTask.() -> Unit): Unit =
+        getByName(Constants.Names.JAVADOC_JAR_TASK, configure)
+
+/**
  * Returns "sourcesJar" task added by [SharedConfigurationPlugin].
  */
 inline val TaskContainer.sourcesJar: Jar
