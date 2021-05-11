@@ -9,8 +9,7 @@ android:
     - platform-tools
 git:
   depth: 500
-script:
-  - ./gradlew build --stacktrace
+script: skip
 before_cache:
   - rm -f $HOME/.gradle/caches/modules-2/modules-2.lock
   - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
@@ -33,4 +32,4 @@ deploy:
     local_dir: tmp_docs/
     on:
       repo: schibsted/account-sdk-android
-      tags: true
+      branch: publish-maven-central
