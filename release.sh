@@ -1,3 +1,3 @@
 #!/bin/bash
 
-./gradlew publishToSonatype closeSonatypeStagingRepository
+./gradlew publishToSonatype closeAndReleaseSonatypeStagingRepository
