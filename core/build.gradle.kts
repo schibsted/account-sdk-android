@@ -57,13 +57,4 @@ publishing {
             }
         }
     }
-
-    bintray {
-        pkg.apply {
-            name = "Core"
-            version.apply {
-                desc = "Account SDK Android Core ${project.version}"
-            }
-        }
-    }
 }

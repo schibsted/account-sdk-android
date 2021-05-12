@@ -25,14 +25,8 @@ fun MavenPom.fillGenericDetails(project: Project) {
     }
     developers {
         developer {
-            name.set("Håvard Kindem")
-            email.set("havard.kindem@schibsted.com")
-            organization.set("Schibsted")
-            organizationUrl.set("http://www.schibsted.com/")
-        }
-        developer {
-            name.set("Antoine Promerova")
-            email.set("antoine.promerova@schibsted.com")
+            name.set("schibsted-account")
+            email.set("schibstedaccount@schibsted.com")
             organization.set("Schibsted")
             organizationUrl.set("http://www.schibsted.com/")
         }

@@ -38,13 +38,4 @@ publishing {
             }
         }
     }
-
-    bintray {
-        pkg.apply {
-            name = "Smartlock"
-            version.apply {
-                desc = "Account SDK Android Smartlock ${project.version}"
-            }
-        }
-    }
 }
