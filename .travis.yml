@@ -17,7 +17,12 @@ cache:
   directories:
     - $HOME/.gradle/caches/
     - $HOME/.gradle/wrapper/
-before_deploy: ./build_docs.sh
+before_deploy:
+  - >
+    if ! [ "$BEFORE_DEPLOY_RUN" ]; then
+      export BEFORE_DEPLOY_RUN=1;
+      ./build_docs.sh
+    fi
 deploy:
   - provider: script
     skip_cleanup: true
