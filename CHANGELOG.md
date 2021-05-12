@@ -1,3 +1,6 @@
+## v2.0.2 (2021-05-12)
+- Publish to Maven Central (#479) (no code/functionality changes).
+
 ## v2.0.1 (2021-02-08)
 - Center Schibsted logo with client logo (#477)
 - NestedScrollView must have only one child fix (#478)
