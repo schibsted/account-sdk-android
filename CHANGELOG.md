@@ -1,3 +1,6 @@
+## v2.1.0 (2021-06-21)
+- Treat 'invalid_grant' token response as logout signal. (#481)
+
 ## v2.0.2 (2021-05-12)
 - Publish to Maven Central (#479) (no code/functionality changes).
 
