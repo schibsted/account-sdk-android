@@ -133,7 +133,8 @@ class User(token: UserToken, val isPersistable: Boolean) : Parcelable {
             true
         } else {
             Logger.verbose("User token refreshing failed")
-            if (listOf(401, 403).contains(resp.code())) {
+            val invalidRefreshToken = resp.code() == 400 && resp.errorBody()?.string()?.contains("invalid_grant") == true
+            if (invalidRefreshToken || listOf(401, 403).contains(resp.code())) {
                 Logger.verbose("Logging out user")
                 this@User.token = null
 
