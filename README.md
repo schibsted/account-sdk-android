@@ -1,7 +1,7 @@
 # DEPRECATED
 This is no longer supported, please consider using the SDK [Schibsted account Android SDK](https://github.com/schibsted/account-sdk-android-web)
 
-Clients using this old SDK will in the future stop working.
+Clients using this old SDK will stop working in the future
 
 [![No Maintenance Intended](http://unmaintained.tech/badge.svg)](http://unmaintained.tech/)
 
