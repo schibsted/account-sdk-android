@@ -1,3 +1,11 @@
+# DEPRECATED
+This is no longer supported, please consider using the SDK [Schibsted account Android SDK](https://github.com/schibsted/account-sdk-android-web)
+
+Clients using this old SDK will in the future stop working.
+
+[![No Maintenance Intended](http://unmaintained.tech/badge.svg)](http://unmaintained.tech/)
+
+<strike>
 These SDKs allows for connecting to Schibsted Account. The functionality of the modules are described below and exists primarily in two variants; with and without UIs. 
 
 **For support, please contact [schibstedaccount@schibsted.com](mailto:schibstedaccount@schibsted.com)**
@@ -51,3 +59,4 @@ The environment can be one of `DEV|PRE|PRO|PRO_NORWAY|<CUSTOM_URL>`.
 
 #### How can I debug my implementation?
 By default, the SDK will output information about any errors which occurs with detailed information about the exception, network request and the context. To see these, please ensure your log level is set to debug for the errors, and to verbose if you want to know the context of them as well as seeing the operations the SDK is performing. You can filter on the `SCHACC` tag in Logcat. The debug mode of the SDK is taken from the `BuildConfig.DEBUG` fields, but can be overwritten by changing the value of `Logger.loggingEnabled` so that you can enable logging in a release version as well.
+</strike>
